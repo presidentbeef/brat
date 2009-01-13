@@ -1,0 +1,194 @@
+grammar BaseBrat
+
+  rule program
+ 	line+ {
+		def brat
+			"var @brat = $loader.loadmodule('internal', $loader);" <<
+			"var @main_brat  = $new(@brat.base_object);" <<
+			"var @main_brat.@main_tantrum = function() {" <<
+			self.inner_brat <<
+			"}" <<
+			"@main_brat.@main_tantrum();"
+		end
+
+		def inner_brat
+
+			elements.map {|e| e.brat }.join("\n")
+		end
+
+		def init
+			$temp = 0
+			def Object.next_temp
+				"@temp#{$temp += 1}"
+			end
+		end
+	}
+  end
+
+  rule line
+ 	space? e:expression space? (eof / eol)
+	{
+		def brat
+			e.brat
+		end
+	}
+  end
+
+  rule expression
+ 	assignment / number / paren_exp / method_access / method_invocation / string
+  end
+
+  rule assignment
+ 	lhs:method_invocation space? "=" space? rhs:expression {
+		def brat
+			lhs.store_temp <<
+			rhs.store_temp <<
+			"brat.assign(#{lhs.temp_var}, #{rhs.temp_var})"
+		end
+	}
+  end
+
+  rule paren_exp
+  	'(' expression ')' {
+		def brat
+			"(" + expression.brat + ")"
+		end
+	}
+  end
+
+  rule identifier
+  	[a-zA-Z] [a-zA-Z0-9_!?]* {
+		def brat
+			text_value
+		end
+	}
+  end
+
+  rule number
+  	float / integer 
+  end
+
+  rule float
+  	i:integer "." d:integer {
+		def brat
+			"#{i.brat}.#{d.brat}"
+		end
+	}
+  end
+
+  rule integer
+  	digit+ {
+		def brat
+			text_value
+		end
+	}
+  end
+
+  rule digit
+  	[0-9] {
+		def brat
+			text_value
+		end
+	}
+  end
+
+  rule string
+    '"' (!'"' . / '\"')* '"' {
+	    def brat
+		    text_value
+	    end
+    }
+  end
+
+  rule method_invocation
+  	lhs:method_lhs "." m:method_invocation a:arg_list? {
+		def brat
+			lhs_var = "@temp#{$temp += 1}"
+			args_var = "@temp#{$temp += 1}"
+			if a.respond_to? :brat
+				args = a.brat
+			else
+				args = "$amake(0)"
+			end
+			"var #{lhs_var} = $hash(#{lhs.brat})" <<
+			"var #{args_var} = #{args}" <<
+			"brat.call_method(lhs_var, #{lhs_var}, #{args_var})"
+		end
+	}
+	/
+	method_name arg_list? {
+		def brat
+		end
+	}
+  end
+
+  rule method_lhs
+  	identifier !space arg_list?
+  end
+
+  rule method_name
+  	identifier
+  end
+
+  rule method_access
+  	identifier "->" method_name {
+		def brat
+			text_value
+		end
+	}
+  end
+
+  rule arg_list
+	'(' (inner_arg_list / empty_list) ')'
+	/
+  	space inner_arg_list
+  end
+
+  rule inner_arg_list
+  	e:arg_first o:arg_rest? {
+		def brat
+			"#{e.brat}#{o.brat}"
+		end
+	}
+  end
+
+  rule arg_first
+	named_argument / expression
+  end
+
+  rule arg_rest
+  	space? "," space? arg_first r:arg_rest? {
+		def brat
+			output = ", #{arg_first.brat}"
+			if r.respond_to? :brat
+				output << r.brat
+			end
+			output
+		end
+	}
+  end
+
+  rule named_argument
+  	identifier ":" expression
+  end
+
+  rule empty_list
+  	space?
+  end
+
+  rule eol
+	"\n"+ / ";"+ / "\r\n"+ {
+		def brat
+			"\n"
+		end
+	}
+  end
+
+  rule space
+     (" " / "\t")+
+  end
+  
+  rule eof
+  	(eol / space)* !.
+  end
+end

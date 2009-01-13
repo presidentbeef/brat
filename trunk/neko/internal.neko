@@ -1,0 +1,45 @@
+base_object = $new(null);
+
+base_object.new = function(arg_hash) {
+	$print("Called base_object.new", "\n");
+	set_f = function(k,v) {
+		$objset(this, $hash(k), v);
+	}
+
+	$hiter(arg_hash, set_f);
+}
+
+base_object
+
+//Create a new object with either parent_brat or base_object
+//as the parent class.
+new_brat = function(parent_brat, new_args) {
+	var brat = $new(null);
+	if(new_args == null) {
+		new_args = $hnew(0);
+	}
+
+	if(parent_brat == null) {
+		$objsetproto(brat, base_object);
+	}
+	else 
+	{
+		$objsetproto(brat, parent_brat);
+	}
+
+	//Try to call new, if we can
+	if($typeof(brat.new) == $tfunction) {
+		$print("calling new", "\n");
+		if($nargs(brat.new) == 0) {
+			brat.new();
+		}
+		else
+		{
+			brat.new(new_args);
+		}
+	}
+
+	return brat;
+
+$exports.base_object = base_object;
+$exports.new_brat = new_brat;
