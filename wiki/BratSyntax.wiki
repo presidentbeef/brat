@@ -1,0 +1,44 @@
+#summary Notes on Brat syntax
+#labels Phase-Design,syntax
+
+_Semicolons are optional line enders and no one will cry if you don't use them._
+
+*Print something (adds newline)*
+
+`p "hello world"`
+
+*Creating a new object*
+
+`x = new`
+
+`x = y.new`  (This is like subclassing)
+
+`x = y.clone` (This is like prototyping or something)
+
+*Setting 'fields'*
+
+`person = new`
+
+`person.name = "Bob"`
+
+*Defining functions*
+
+`x = { p "hello again, world" }`
+
+`x = {|name| p "oh, hi ", name }`
+
+`add = {|x, y| x + y }`
+
+*Calling a function*
+
+`add 1, 2`
+
+*Getting a function*
+
+`test = new`
+
+`test.method = {|x| p "You gave me: ", x }`
+
+`x = new`
+
+`x.method = test->method`
