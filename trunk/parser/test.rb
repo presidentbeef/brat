@@ -4,33 +4,41 @@ require 'treetop'
 
 Treetop.load 'brat'
 
+class Treetop::Runtime::SyntaxNode
+	attr_reader :result
+	def next_temp
+		@@temp ||= 0
+		@result = "@temp#{@@temp += 1}"
+	end
+end
+
 class BratParserTest < Test::Unit::TestCase
 	def setup
 		@parser = BaseBratParser.new
 	end
 
 	def test_little_program
-		test = 'h = "Hello!!!"
-			print h'
-		p parse(test).inner_brat
+		test = 'a.b = 1
+			p a.b'
+		puts parse(test).brat
 	end
 
 	def test_simple_identifier
-		assert_equal "a", parse("a").inner_brat
+		parse("a")
 	end
 
 	def test_mixed_identifier
-		assert_equal "h1h4h3", parse("h1h4h3").inner_brat
-		assert_equal "what??", parse("what??").inner_brat
+		parse("h1h4h3")
+		parse("what??")
 	end
 
 	def test_method
-		parse("hello").inner_brat
-		parse("what.what?").inner_brat
+		parse("hello")
+		parse("what.what?")
 	end
 
 	def test_chained_method
-		parse("what.what.what").inner_brat
+		parse("what.what.what")
 	end
 
 	def test_simple_args
@@ -54,7 +62,7 @@ class BratParserTest < Test::Unit::TestCase
 		parse("hi(man, girl, sister, brother, 1, 2, 3, 4, 5)")
 		parse("monkey_butt(first:scratch, then:poke.it(1))")
 	end
-	
+
 	def test_method_access
 		parse("hi->there")
 	end
@@ -67,21 +75,23 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_integer
-		assert_equal "1", parse("1").inner_brat
-		assert_equal "12312490", parse("12312490").inner_brat
-		assert_equal "001293213", parse("001293213").inner_brat
+		parse("1")
+		parse("12312490")
+		parse("001293213")
 	end
 
 	def test_float
-		assert_equal "1.1", parse("1.1").inner_brat
+		parse("1.1")
 	end
 
 	def test_digit
-		assert_equal "1", parse("1").inner_brat
+		parse("1")
 	end
 
 	def test_string
 		parse("\"Hello, there\"")
+		#parse("'what is up'")
+		#parse("'what\'s up?'")
 	end
 
 	def test_assignment

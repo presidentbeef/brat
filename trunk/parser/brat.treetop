@@ -3,24 +3,16 @@ grammar BaseBrat
   rule program
  	line+ {
 		def brat
-			"var @brat = $loader.loadmodule('internal', $loader);" <<
-			"var @main_brat  = $new(@brat.base_object);" <<
-			"var @main_brat.@main_tantrum = function() {" <<
-			self.inner_brat <<
-			"}" <<
-			"@main_brat.@main_tantrum();"
+			"var @brat = $loader.loadmodule(\"internal\", $loader);\n" <<
+			"var @main_brat  = $new(@brat.base_object);\n" <<
+			"@main_brat.@main_tantrum = function() {\n" <<
+			self.inner_brat << ";\n" <<
+			"}\n" <<
+			"@main_brat.@main_tantrum();\n"
 		end
 
 		def inner_brat
-
-			elements.map {|e| e.brat }.join("\n")
-		end
-
-		def init
-			$temp = 0
-			def Object.next_temp
-				"@temp#{$temp += 1}"
-			end
+			elements.map {|e| e.brat }.compact.join(";").gsub(";", ";\n")
 		end
 	}
   end
@@ -29,7 +21,7 @@ grammar BaseBrat
  	space? e:expression space? (eof / eol)
 	{
 		def brat
-			e.brat
+			e.brat if e.respond_to? :brat
 		end
 	}
   end
@@ -39,19 +31,57 @@ grammar BaseBrat
   end
 
   rule assignment
- 	lhs:method_invocation space? "=" space? rhs:expression {
+ 	lhs:field_access space? "=" space? rhs:expression {
 		def brat
-			lhs.store_temp <<
-			rhs.store_temp <<
-			"brat.assign(#{lhs.temp_var}, #{rhs.temp_var})"
+			output = lhs.brat << 
+			rhs.brat <<
+			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result})"
+			@result = rhs.result
+			output
+		end
+	}
+	/
+	lhs:identifier space? "=" space? rhs:expression {
+		def brat
+			output = rhs.brat <<
+			"#{lhs.brat} = #{rhs.result}"
+			@result = rhs.result
+			output
+		end
+	}
+  end
+
+  rule field_access
+  	lhs:method_lhs m:method_chain? "." i:identifier {
+		def brat
+			output =""
+		        output << lhs.brat
+			last = nil
+			if m.respond_to? :chain
+				last = lhs.result
+				m.chain.each do |e|
+					output << e.arg_list.brat
+					next_temp
+					output << "var #@result = $objcall(#{last}, $hash(\"#{e.identifier.brat}\"), #{e.arg_list.result});"
+					last = @result
+				end
+			end
+			if last
+				@result = last
+			else
+				@result = lhs.result
+			end
+			output
 		end
 	}
   end
 
   rule paren_exp
   	'(' expression ')' {
+		attr_reader :result
 		def brat
-			"(" + expression.brat + ")"
+			next_temp
+			"var #@result = (" + expression.brat + ");"
 		end
 	}
   end
@@ -71,15 +101,17 @@ grammar BaseBrat
   rule float
   	i:integer "." d:integer {
 		def brat
-			"#{i.brat}.#{d.brat}"
+			next_temp
+			"var #@result = #{i.text_value}.#{d.text_value};"
 		end
 	}
   end
 
   rule integer
-  	digit+ {
+	[0-9]+ {
 		def brat
-			text_value
+			next_temp
+			"var #@result = #{text_value};"
 		end
 	}
   end
@@ -95,59 +127,135 @@ grammar BaseBrat
   rule string
     '"' (!'"' . / '\"')* '"' {
 	    def brat
-		    text_value
+		    next_temp
+		    "var #@result = #{text_value};"
 	    end
     }
   end
 
   rule method_invocation
-  	lhs:method_lhs "." m:method_invocation a:arg_list? {
+  	lhs:method_lhs m:method_chain a:arg_list {
 		def brat
-			lhs_var = "@temp#{$temp += 1}"
-			args_var = "@temp#{$temp += 1}"
-			if a.respond_to? :brat
-				args = a.brat
-			else
-				args = "$amake(0)"
+			output =""
+		        output << lhs.brat
+			last = lhs.result
+			m.chain.each do |e|
+				output << e.arg_list.brat
+				next_temp
+				output << "var #@result = $objcall(#{last}, $hash(\"#{e.identifier.brat}\"), #{e.arg_list.result});"
+				last = @result
 			end
-			"var #{lhs_var} = $hash(#{lhs.brat})" <<
-			"var #{args_var} = #{args}" <<
-			"brat.call_method(lhs_var, #{lhs_var}, #{args_var})"
+			output
 		end
 	}
 	/
-	method_name arg_list? {
+	m:identifier a:arg_list {
 		def brat
+			next_temp
+			a.brat <<
+			"var #@result;
+			if($typeof(#{m.brat}) == $tnull) {
+				if(@brat.has_field(this, \"#{m.brat}\")) {
+			 		#@result = $objcall(this, $hash(\"#{m.brat}\"), #{a.result});
+				}
+				else
+				{
+					$print(\"SET IT TO NULL\");
+				}
+			} else {
+				if($typeof(#{m.brat}) == $tfunction) {
+					#@result = $call(#{m.brat}, this, #{a.result});
+				}
+				else { #@result = #{m.brat} }
+			};"
+
 		end
+
 	}
   end
 
-  rule method_lhs
-  	identifier !space arg_list?
+  rule method_chain
+ 	("." e:method_lhs)+ {
+		def chain
+			elements.map do |e|
+				e.e
+			end
+		end
+	}	
   end
 
-  rule method_name
-  	identifier
+  rule method_lhs
+  	identifier !space arg_list {
+		def brat
+			next_temp
+			arg_list.brat <<
+			"var #@result;" <<
+			"if(@brat.has_field(this, \"#{identifier.brat}\")) {" <<
+			" #@result = $objcall(this, $hash(\"#{identifier.brat}\"), #{arg_list.result});" <<
+			"}" <<
+			"else {" <<
+			" if($typeof(#{identifier.brat}) == $tfunction) {" <<
+			" #@result = $call(#{identifier.brat}, this, #{arg_list.result});" <<
+			" } else { #@result = #{identifier.brat} }" <<
+			"};"
+		end	
+	}
   end
 
   rule method_access
-  	identifier "->" method_name {
+  	o:identifier "->" m:identifier {
 		def brat
-			text_value
+			next_temp
+			"var #@result = $objget(#{o}, $hash(\"#{m}\"));"
 		end
 	}
   end
 
   rule arg_list
-	'(' (inner_arg_list / empty_list) ')'
+	'(' inner_arg_list ')' {
+		def brat
+			output = inner_arg_list.brat
+			@result = inner_arg_list.result
+			output
+		end
+	}
 	/
-  	space inner_arg_list
+	'(' empty_list ')' {
+		def brat
+			next_temp
+			"var #@result = $amake(0);"
+		end
+	}
+	/
+  	space inner_arg_list {
+		def brat
+			output = inner_arg_list.brat
+			@result = inner_arg_list.result
+			output
+		end
+	}
+	/
+	![\(] space? {
+		def brat
+			next_temp
+			"var #@result = $amake(0);"
+		end
+	}
   end
 
   rule inner_arg_list
-  	e:arg_first o:arg_rest? {
+  	e:arg_first o:arg_next* {
 		def brat
-			"#{e.brat}#{o.brat}"
+			output = e.brat
+			args = [e.result]
+			o.elements.each do |elem|
+				if elem.respond_to? :brat
+					output << elem.brat
+					args << elem.result
+				end
+			end
+			next_temp
+			output << "var #@result = $array(#{args.join(',')});"
 		end
 	}
   end
@@ -156,24 +264,26 @@ grammar BaseBrat
 	named_argument / expression
   end
 
-  rule arg_rest
-  	space? "," space? arg_first r:arg_rest? {
+  rule arg_next
+  	space? "," space? arg_first {
 		def brat
-			output = ", #{arg_first.brat}"
-			if r.respond_to? :brat
-				output << r.brat
-			end
+			output = arg_first.brat
+			@result = arg_first.result
 			output
 		end
 	}
   end
 
   rule named_argument
-  	identifier ":" expression
+  	identifier space? ":" space? expression
   end
 
   rule empty_list
-  	space?
+  	space? {
+		def brat
+			nil
+		end
+	}
   end
 
   rule eol
@@ -185,10 +295,18 @@ grammar BaseBrat
   end
 
   rule space
-     (" " / "\t")+
+     (" " / "\t")+ {
+		def brat
+			text_value
+		end
+	}
   end
   
   rule eof
-  	(eol / space)* !.
+  	(eol / space)* !. {
+		def brat
+			nil
+		end
+	}
   end
 end
