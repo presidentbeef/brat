@@ -8,7 +8,7 @@ grammar BaseBrat
 			"@main_brat.@main_tantrum = function() {\n" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
-			"@main_brat.@main_tantrum();\n"
+			"@exit_value = @main_brat.@main_tantrum();\n"
 		end
 
 		def inner_brat
@@ -18,24 +18,55 @@ grammar BaseBrat
   end
 
   rule line
- 	space? e:expression space? (eof / eol)
-	{
+ 	space? e:expression space? ( eof / eol / eob) {
 		def brat
 			e.brat if e.respond_to? :brat
 		end
 	}
+	/
+	empty_line
+  end
+
+  rule empty_line
+  	space? eol {
+		def brat
+			""
+		end
+	}
+	/
+	space
   end
 
   rule expression
- 	assignment / number / paren_exp / method_access / method_invocation / string
+ 	assignment / paren_exp / number / method_access / method_invocation / string / method_definition
   end
 
   rule assignment
+ 	lhs:field_access space? "=" space? rhs:method_definition {
+		def brat
+			output = lhs.brat <<
+			rhs.brat(lhs.result) <<
+			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});"
+			@result = rhs.result
+			output
+		end
+	}
+	/
+ 	lhs:field_access space? "=" space? rhs:method_access {
+		def brat
+			output = lhs.brat << 
+			rhs.brat <<
+			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});"
+			@result = rhs.result
+			output
+		end
+	}
+	/
  	lhs:field_access space? "=" space? rhs:expression {
 		def brat
 			output = lhs.brat << 
 			rhs.brat <<
-			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result})"
+			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), function() {#{rhs.result}});"
 			@result = rhs.result
 			output
 		end
@@ -44,7 +75,11 @@ grammar BaseBrat
 	lhs:identifier space? "=" space? rhs:expression {
 		def brat
 			output = rhs.brat <<
-			"#{lhs.brat} = #{rhs.result}"
+			if var_exist? lhs.brat
+				"#{lhs.brat} = #{rhs.result}"
+			else
+				"var #{lhs.brat} = #{rhs.result}"
+			end
 			@result = rhs.result
 			output
 		end
@@ -52,25 +87,10 @@ grammar BaseBrat
   end
 
   rule field_access
-  	lhs:method_lhs m:method_chain? "." i:identifier {
+  	m:method_chain i:identifier {
 		def brat
-			output =""
-		        output << lhs.brat
-			last = nil
-			if m.respond_to? :chain
-				last = lhs.result
-				m.chain.each do |e|
-					output << e.arg_list.brat
-					next_temp
-					output << "var #@result = $objcall(#{last}, $hash(\"#{e.identifier.brat}\"), #{e.arg_list.result});"
-					last = @result
-				end
-			end
-			if last
-				@result = last
-			else
-				@result = lhs.result
-			end
+			output = m.brat
+			@result = m.result
 			output
 		end
 	}
@@ -133,19 +153,58 @@ grammar BaseBrat
     }
   end
 
-  rule method_invocation
-  	lhs:method_lhs m:method_chain a:arg_list {
-		def brat
-			output =""
-		        output << lhs.brat
-			last = lhs.result
-			m.chain.each do |e|
-				output << e.arg_list.brat
-				next_temp
-				output << "var #@result = $objcall(#{last}, $hash(\"#{e.identifier.brat}\"), #{e.arg_list.result});"
-				last = @result
+  rule method_definition
+	"{" space? fa:formal_args space? l:line* "}" {
+		def brat(this = "this")
+			new_scope
+			if fa.respond_to? :brat
+				args = fa.brat
+			else
+				args = ""
 			end
+			next_temp
+			output = "var #@result = function(#{args}) { this = #{this}; #{l.elements.map {|e| e.brat}.join(";")} };"
+			pop_scope
 			output
+		end
+	}
+  end
+
+  rule formal_args
+  	"|" space? i:identifier? rest_formal "|" {
+		def brat
+			if i.respond_to? :brat
+				args = [i.brat] + rest_formal.brat
+			else
+				args = []
+			end.join(", ")
+		end
+	}
+	/
+	!"|" 
+  end
+
+  rule rest_formal
+  	(space? "," space? identifier)* {
+		def brat
+			if elements.length > 0
+				elements.map do |e|
+					e.identifier.brat
+				end
+			else
+				[]
+			end
+		end
+	}
+  end
+
+  rule method_invocation
+  	lhs:method_chain i:identifier a:arg_list {
+		def brat
+			output = lhs.brat
+			output << a.brat
+			next_temp
+			output << "var #@result = @brat.call_method(#{lhs.result}, \"#{i.brat}\", #{a.result});"
 		end
 	}
 	/
@@ -156,11 +215,11 @@ grammar BaseBrat
 			"var #@result;
 			if($typeof(#{m.brat}) == $tnull) {
 				if(@brat.has_field(this, \"#{m.brat}\")) {
-			 		#@result = $objcall(this, $hash(\"#{m.brat}\"), #{a.result});
+			 		#@result = @brat.call_method(this, \"#{m.brat}\", #{a.result});
 				}
 				else
 				{
-					$print(\"SET IT TO NULL\");
+					#@result = null;
 				}
 			} else {
 				if($typeof(#{m.brat}) == $tfunction) {
@@ -175,11 +234,21 @@ grammar BaseBrat
   end
 
   rule method_chain
- 	("." e:method_lhs)+ {
-		def chain
-			elements.map do |e|
-				e.e
+ 	(e:method_lhs ".")+ {
+		def brat
+			output = elements.first.e.brat
+			last = elements.first.e.result
+			@result = last
+			meth = args = nil
+			elements[1..-1].each do |elem|
+				meth = elem.e.identifier.brat
+				args = elem.e.arg_list
+				output << args.brat
+				next_temp
+				"var #@result = @brat.call_method(#{last}, \"#{meth}\", #{args.result});"
+				last = @result
 			end
+			output
 		end
 	}	
   end
@@ -191,7 +260,7 @@ grammar BaseBrat
 			arg_list.brat <<
 			"var #@result;" <<
 			"if(@brat.has_field(this, \"#{identifier.brat}\")) {" <<
-			" #@result = $objcall(this, $hash(\"#{identifier.brat}\"), #{arg_list.result});" <<
+			" #@result = @brat.call_method(this, \"#{identifier.brat}\", #{arg_list.result});" <<
 			"}" <<
 			"else {" <<
 			" if($typeof(#{identifier.brat}) == $tfunction) {" <<
@@ -203,10 +272,11 @@ grammar BaseBrat
   end
 
   rule method_access
-  	o:identifier "->" m:identifier {
+  	o:method_invocation "->" m:identifier {
 		def brat
 			next_temp
-			"var #@result = $objget(#{o}, $hash(\"#{m}\"));"
+			o.brat <<
+			"var #@result = $objget(#{o.result}, $hash(\"#{m.brat}\"));"
 		end
 	}
   end
@@ -303,7 +373,15 @@ grammar BaseBrat
   end
   
   rule eof
-  	(eol / space)* !. {
+  	(eol / space)? !. {
+		def brat
+			nil
+		end
+	}
+  end
+
+  rule eob
+  	space? &"}" space? {
 		def brat
 			nil
 		end

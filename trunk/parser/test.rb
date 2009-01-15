@@ -6,6 +6,30 @@ Treetop.load 'brat'
 
 class Treetop::Runtime::SyntaxNode
 	attr_reader :result
+	def var_exist? v
+		variables[-1].include? v
+	end
+
+	def var_add v
+		variables[-1] << v
+	end
+
+	def new_scope
+		variables << Set.new
+	end
+
+	def pop_scope
+		variables.pop
+	end
+
+	def top_scope?
+		variables.length == 1
+	end
+
+	def variables
+		require 'set'
+		@variables ||= [Set.new]
+	end
 	def next_temp
 		@@temp ||= 0
 		@result = "@temp#{@@temp += 1}"
@@ -17,93 +41,124 @@ class BratParserTest < Test::Unit::TestCase
 		@parser = BaseBratParser.new
 	end
 
-	def test_little_program
-		test = 'a.b = 1
-			p a.b'
-		puts parse(test).brat
+	def test_little_program_parse
+		test = 'x.x = 1'
+		parse(test).brat
 	end
 
-	def test_simple_identifier
+	def test_simple_identifier_parse
 		parse("a")
 	end
 
-	def test_mixed_identifier
+	def test_mixed_identifier_parse
 		parse("h1h4h3")
 		parse("what??")
+		parse("HhH1?1!")
 	end
 
-	def test_method
+	def test_method_parse
 		parse("hello")
 		parse("what.what?")
+		parse("hello()")
 	end
 
-	def test_chained_method
+	def test_chained_method_parse
 		parse("what.what.what")
+		parse("hello().something.what()")
+		parse("hello.something()")
 	end
 
-	def test_simple_args
+	def test_simple_args_parse
 		parse("sup dawg")
 		parse("sup 1, 2, 3")
 		parse("sup b, a, 3, sup")
 	end
 
-	def test_simple_named_args
+	def test_simple_named_args_parse
 		parse("sup I:1, bob:b1")
 	end
 
-	def test_weird_args
+	def test_weird_args_parse
 		parse("sup dog.bark")
 		parse("call_this wacky:method, then:this.one, 1, 2         ,3, 4")
 	end
 
-	def test_method_parens
+	def test_method_parens_parse
 		parse("to_be?()")
 		parse("sup(dawg)")
 		parse("hi(man, girl, sister, brother, 1, 2, 3, 4, 5)")
 		parse("monkey_butt(first:scratch, then:poke.it(1))")
+		parse("hi().hi.hi(1,2).hi(a,b,c).hi(a.a)")
 	end
 
-	def test_method_access
+	def test_method_access_parse
 		parse("hi->there")
 	end
 
-	def test_paren_exp
+	def test_paren_exp_parse
 		parse("(hi)")
 		parse("what().what()")
 		parse("((((((((((a))))))))))")
 		parse("(this.thing.is?(really).driving.me.crazy)")
 	end
 
-	def test_integer
+	def test_integer_parse
 		parse("1")
 		parse("12312490")
 		parse("001293213")
 	end
 
-	def test_float
+	def test_float_parse
 		parse("1.1")
 	end
 
-	def test_digit
+	def test_digit_parse
 		parse("1")
 	end
 
-	def test_string
+	def test_string_parse
 		parse("\"Hello, there\"")
 		#parse("'what is up'")
 		#parse("'what\'s up?'")
 	end
 
-	def test_assignment
+	def test_assignment_parse
 		parse("pi = 3.123123")
 	end
 
-	def parse(input)
+	def test_method_definition_parse
+		parse("{ p hi }")
+		parse("{|x,y| p x, y} ").brat
+		parse("x = { p hi }").brat
+		parse("x= {|a, b| \"a + b\"}").brat
+	end
+
+	def test_multiline_method_parse
+		parse("{
+		     a = 1
+		}")
+	end
+
+	def test_method_call
+		assert_equal("1", brat("t = new; t.test = { 1 }; t.test"))
+	end
+
+
+
+	def parse input
 		result = @parser.parse(input)
 		unless result
 			puts @parser.terminal_failures.join("\n")
 		end
 		assert !result.nil?
 		result
+	end
+
+	def brat input
+		out = @parser.parse(input).brat
+		File.open('../neko/test.neko.tmp', 'w') {|f| f.puts out << "$print(@exit_value);"}
+		result = `cd ../neko && nekoc internal.neko && nekoc test.neko.tmp && neko test.neko.n`
+		assert_equal($?, 0);
+		result.split("\n").last.strip
 	end
 end

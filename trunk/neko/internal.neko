@@ -13,6 +13,13 @@ base_object.new = $varargs(function(args) {
 	return new_brat(this, arg_hash);
 })
 
+base_object.clone = function() {
+	$print("Called base_object.clone", "\n");
+	var brat = $new(this);
+	$objsetproto(brat, $objgetproto(this));
+	brat;
+}
+
 base_object.my = function() {
 	return this;
 }
@@ -24,6 +31,9 @@ base_object.p = $varargs(function(args) {
 
 
 has_field = function(object, field_name) {
+	if(object == null) {
+		return null;
+	}
         if($objfield(object, $hash(field_name))) {
                 return true;
         }
@@ -33,7 +43,7 @@ has_field = function(object, field_name) {
                         return false;
                 }
                 else {
-                        return check(proto, field_name);
+                        return has_field(proto, field_name);
                 }
         }
 }
@@ -64,7 +74,12 @@ new_brat = function(parent_brat, arg_hash) {
 }
 
 $exports.call_method = function(object, method, args) {
-	$objcall(object, $hash(method), args);
+	if(object == null) {
+		$throw("Method invoked on null object.");
+	}
+	else {
+		$objcall(object, $hash(method), args);
+	}
 }
 
 $exports.base_object = base_object;
