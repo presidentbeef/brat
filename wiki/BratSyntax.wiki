@@ -44,3 +44,17 @@ _Parentheses optional_
 `x = new`
 
 `x.method = test->method`
+
+*Accessing current object*
+
+`test = new`
+
+`test.y = { my.z = { p "hi" } }`
+
+`test.y = { my.z = { p "hi" } }`
+
+`test.z`
+
+*Keywords*
+
+Brat currently does not have any keywords (and hopefully never will!)
