@@ -1,9 +1,13 @@
 #summary Notes on Brat syntax
 #labels Phase-Design,syntax
 
-_Semicolons are optional line enders and no one will cry if you don't use them._
+_Note: This should all be working syntax_
 
-*Print something (adds newline)*
+==Syntax==
+
+*Print something* 
+
+_Adds newline, too_
 
 `p "hello world"`
 
@@ -25,21 +29,19 @@ _Semicolons are optional line enders and no one will cry if you don't use them._
 
 _Functions return their last value_
 
-`x = { p "hello again, world" }`
+`hello = { p "hello again, world" }`
 
-`x = {|name| p "oh, hi ", name }`
-
-`add = {|x, y|`
-
-`    x + y`
-
-`}`
+`greet = {|first, last| p "oh, hi ", first, " ", last }`
 
 *Calling a function*
-_Parentheses optional_
 
-`add 1, 2`
-`add(1,2)`
+_Parentheses are optional_
+
+`greet "justin", "collins"`
+
+`greet("john", "doe")`
+
+`p "hello", " ", "world"`
 
 *Getting a function*
 
@@ -57,10 +59,12 @@ _Parentheses optional_
 
 `test.y = { my.z = { p "hi" } }`
 
-`test.y = { my.z = { p "hi" } }`
-
 `test.z`
 
 *Keywords*
 
 Brat currently does not have any keywords (and hopefully never will!)
+
+*Semicolons*
+
+Semicolons are optional line enders and no one will cry if you don't use them.
