@@ -4,37 +4,7 @@ require 'treetop'
 
 Treetop.load 'brat'
 
-class Treetop::Runtime::SyntaxNode
-	attr_reader :result
-	def var_exist? v
-		variables[-1].include? v
-	end
-
-	def var_add v
-		variables[-1] << v
-	end
-
-	def new_scope
-		variables << Set.new
-	end
-
-	def pop_scope
-		variables.pop
-	end
-
-	def top_scope?
-		variables.length == 1
-	end
-
-	def variables
-		require 'set'
-		@variables ||= [Set.new]
-	end
-	def next_temp
-		@@temp ||= 0
-		@result = "@temp#{@@temp += 1}"
-	end
-end
+require 'brat-extension'
 
 class BratParserTest < Test::Unit::TestCase
 	def setup
@@ -139,11 +109,17 @@ class BratParserTest < Test::Unit::TestCase
 		}")
 	end
 
-	def test_method_call
-		assert_equal("1", brat("t = new; t.test = { 1 }; t.test"))
+	def test_simple_method_call
+		assert_equal("1", brat("test = { 1 }; test"))
 	end
 
+	def test_object_method_call
+		assert_equal("1", brat("test = new; test.test = { 1 }; test.test"))
+	end
 
+	def test_variable_scope
+		assert_equal("4", brat("t = new; t.test = { n = 3}; n = 4; t.test; n"))
+	end
 
 	def parse input
 		result = @parser.parse(input)

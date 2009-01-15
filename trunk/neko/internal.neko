@@ -1,7 +1,6 @@
 var base_object = $new(null);
 
 base_object.new = $varargs(function(args) {
-	$print("Called base_object.new", "\n");
 	var arg_hash;
 	if($asize(args) > 0) {
 		arg_hash = args[0];
@@ -14,7 +13,6 @@ base_object.new = $varargs(function(args) {
 })
 
 base_object.clone = function() {
-	$print("Called base_object.clone", "\n");
 	var brat = $new(this);
 	$objsetproto(brat, $objgetproto(this));
 	brat;
@@ -84,4 +82,3 @@ $exports.call_method = function(object, method, args) {
 
 $exports.base_object = base_object;
 $exports.has_field = has_field;
-$exports.test = function() { $print("test");}

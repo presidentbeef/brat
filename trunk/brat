@@ -1,0 +1,53 @@
+#!/bin/env ruby
+
+def compile_parser(force = false)
+	if force or not File.exist? "parser/brat.rb"
+		system("cd parser && tt brat.treetop")
+	end
+end
+
+def compile_brat_internal(force = false)
+	if force or not File.exist? "neko/internal.n"
+		system("cd neko && nekoc internal.neko")
+	end
+end
+
+def brat_to_neko input
+	require 'rubygems'
+	require 'treetop'
+	require 'parser/brat'
+	require 'parser/brat-extension'
+
+	BaseBratParser.new.parse(input).brat
+end
+
+def newer? file1, file2
+	File.mtime(file1) > File.mtime(file2)
+end
+
+def brat file_name, force = false
+	compile_parser
+	compile_brat_internal
+
+	if not File.exist?(file_name + ".neko") or newer?(file_name, file_name + ".neko")
+		brat_input = File.read file_name
+		neko = brat_to_neko brat_input
+		File.open(file_name + ".neko", "w") {|f| f.puts neko }
+	end
+	if not File.exist?(file_name + ".n") or newer?(file_name, file_name + ".n")
+		system("nekoc #{ARGV[0]}.neko") or abort "Error while compiling program"
+	end
+	if not system("neko #{ARGV[0]}.n")
+		abort "Error while running program."
+	end
+end
+
+if ARGV[0]
+	require 'benchmark'
+	time = Benchmark.realtime do
+		brat ARGV[0]
+	end
+	puts "Ran in: #{time} seconds"
+else
+	abort "Please supply brat file name"
+end

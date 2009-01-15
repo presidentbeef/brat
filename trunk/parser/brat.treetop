@@ -3,7 +3,7 @@ grammar BaseBrat
   rule program
  	line+ {
 		def brat
-			"var @brat = $loader.loadmodule(\"internal\", $loader);\n" <<
+			"var @brat = $loader.loadmodule(\"neko/internal\", $loader);\n" <<
 			"var @main_brat  = $new(@brat.base_object);\n" <<
 			"@main_brat.@main_tantrum = function() {\n" <<
 			self.inner_brat << ";\n" <<
