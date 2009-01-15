@@ -30,7 +30,9 @@ _Functions return their last value_
 `x = {|name| p "oh, hi ", name }`
 
 `add = {|x, y|`
+
 `    x + y`
+
 `}`
 
 *Calling a function*
