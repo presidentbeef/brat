@@ -1,5 +1,5 @@
 #summary Notes on Brat syntax
-#labels Phase-Design,syntax
+#labels Phase-Design,syntax,Featured
 
 _Note: This should all be working syntax_
 
