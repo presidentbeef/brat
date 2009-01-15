@@ -23,11 +23,15 @@ _Semicolons are optional line enders and no one will cry if you don't use them._
 
 *Defining functions*
 
+_Functions return their last value_
+
 `x = { p "hello again, world" }`
 
 `x = {|name| p "oh, hi ", name }`
 
-`add = {|x, y| x + y }`
+`add = {|x, y|
+     x + y
+ }`
 
 *Calling a function*
 _Parentheses optional_
