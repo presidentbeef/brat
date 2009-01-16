@@ -1,17 +1,17 @@
-#summary Notes on Brat syntax
 #labels Phase-Design,syntax,Featured
+<wiki:toc max_depth="3" />
+
+#summary Notes on Brat syntax
 
 _Note: This should all be working syntax_
 
-==Syntax==
-
-*Print something* 
+===Print something===
 
 _Adds newline, too_
 
 `p "hello world"`
 
-*Creating a new object*
+===Creating a new object===
 
 `x = new`
 
@@ -19,13 +19,13 @@ _Adds newline, too_
 
 `x = y.clone` (This is like prototyping or something)
 
-*Setting 'fields'*
+===Setting 'fields'===
 
 `person = new`
 
 `person.name = "Bob"`
 
-*Defining functions*
+===Defining functions===
 
 _Functions return their last value_
 
@@ -33,7 +33,7 @@ _Functions return their last value_
 
 `greet = {|first, last| p "oh, hi ", first, " ", last }`
 
-*Calling a function*
+===Calling a function===
 
 _Parentheses are optional_
 
@@ -43,7 +43,7 @@ _Parentheses are optional_
 
 `p "hello", " ", "world"`
 
-*Getting a function*
+===Getting a function===
 
 `test = new`
 
@@ -53,7 +53,11 @@ _Parentheses are optional_
 
 `x.method = test->method`
 
-*Accessing current object*
+`another = {|m| p "This is ", m }`
+
+`x.another = ->another`
+
+===Accessing current object===
 
 `test = new`
 
@@ -61,10 +65,10 @@ _Parentheses are optional_
 
 `test.z`
 
-*Keywords*
+===Keywords===
 
 Brat currently does not have any keywords (and hopefully never will!)
 
-*Semicolons*
+===Semicolons===
 
 Semicolons are optional line enders and no one will cry if you don't use them.
