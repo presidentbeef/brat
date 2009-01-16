@@ -22,7 +22,7 @@ class Treetop::Runtime::SyntaxNode
 
 	def variables
 		require 'set'
-		@variables ||= [Set.new]
+		@@variables ||= [Set.new]
 	end
 
 	def next_temp

@@ -2,9 +2,9 @@ require 'test/unit'
 require 'rubygems'
 require 'treetop'
 
-Treetop.load 'brat'
+Treetop.load 'parser/brat'
 
-require 'brat-extension'
+require 'parser/brat-extension'
 
 class BratParserTest < Test::Unit::TestCase
 	def setup
@@ -26,6 +26,12 @@ class BratParserTest < Test::Unit::TestCase
 		parse("HhH1?1!")
 	end
 
+	def test_mixed_identifer
+		assert_result "1", "h1 = 1; h2 = 2; h3h3h3h3h3h3 = 4; h1"
+		#assert_result "1", "h! = 1; h!"
+		#assert_result "1", "h? = 1; h?"
+	end
+
 	def test_method_parse
 		parse("hello")
 		parse("what.what?")
@@ -44,6 +50,11 @@ class BratParserTest < Test::Unit::TestCase
 		parse("sup b, a, 3, sup")
 	end
 
+	def test_simple_args
+		assert_result "1", "t = {|x, y, z| z}; t 3, 2, 1"
+		assert_result "hello", "t = {|x, y, z| z}; a = 1; b = 2; c = \"hello\"; t a, b, c"
+	end
+
 	def test_simple_named_args_parse
 		parse("sup I:1, bob:b1")
 	end
@@ -51,6 +62,11 @@ class BratParserTest < Test::Unit::TestCase
 	def test_weird_args_parse
 		parse("sup dog.bark")
 		parse("call_this wacky:method, then:this.one, 1, 2         ,3, 4")
+	end
+
+	def test_wierd_args
+		assert_result "1", "a = new; a.a = {|x| x }; b = { 1 }; a.a b"
+		assert_result "1", "a = {|x| x}; a { 1 }"
 	end
 
 	def test_method_parens_parse
@@ -63,6 +79,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_method_access_parse
 		parse("hi->there")
+		parse("->there")
 	end
 
 	def test_paren_exp_parse
@@ -110,15 +127,86 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_simple_method_call
-		assert_equal("1", brat("test = { 1 }; test"))
+		assert_result "1", "test = { 1 }; test"
+	end
+
+	def test_array_parse
+		parse("[1,2,3]")
+		parse("[1, a, b, b.m, c.d(1,2,3)]")
+		parse("[[[1,a], [2,b], [3,c]]]")
+	end
+
+	def test_hash_parse
+		parse("[a:1, b:2]")
+	end
+
+	def test_list_access_parse
+		parse("a[1]")
+		parse("a[x.y]")
+	end
+
+	def test_list_set_parse
+		parse("a[1] = 2")
+		parse("a[x] = m.m")
+		parse("a[z] = {|x, y| x }")
 	end
 
 	def test_object_method_call
-		assert_equal("1", brat("test = new; test.test = { 1 }; test.test"))
+		assert_result "1", "test = new; test.test = { 1 }; test.test"
 	end
 
 	def test_variable_scope
-		assert_equal("4", brat("t = new; t.test = { n = 3}; n = 4; t.test; n"))
+		assert_result "4", "t = new; t.test = { n = 3}; n = 4; t.test; n"
+		assert_result "null", "x = new; x.y = { v }; v = 1; x.y"
+	end
+
+	def test_variable_set
+		assert_result "x", "t = \"x\"; t"
+	end
+
+	def test_assignment_return
+		assert_result "5", "x = 5"
+	end
+
+	def test_new
+		assert_result "{}", "new"
+	end
+
+	def test_new_object
+		assert_result "{ y => #function:0 }", "x = new; x.y = 1; x"
+	end
+
+	def test_method
+		assert_result "#function:0", "{ p hi }"
+		assert_result "#function:1", "{|x| p x }"
+		assert_result "#function:2", "{|x, y| p x, y }"
+		assert_result "5", "x = {|y| y }; x 5"
+	end
+
+	def test_chained_method
+		assert_result "4", "x = new; x.y = new; x.y.z = new; x.y.z.z = {|r| r}; x.y.z.z 4"
+	end
+
+	def test_method_access
+		assert_result "#function:0", "x = new;x.x = { 1 }; x->x"
+		assert_result "1", "x = new; y = new; x.y = { 1 }; y.x = x->y; y.x"
+	end
+
+	def test_my
+		assert_result "1", "x = new; x.v = 1; x.y = { my.v}; x.y"
+		assert_result "3", "x = new; x.y = 3; x.z = {|y| my.y}; x.z 4"
+	end
+
+	def test_parameter_scope
+		assert_result "4", "x = { |y, z| z }; z = 2; x 3, 4;"
+		assert_result "2", "x = { |y, z| z }; z = 2; x 3, 4; z"
+		assert_result "2", "y = 1; z = 2; x = { z = 3 }; x; z"
+		assert_result "2", "y = 1; z = 2; x = { |z| z = 3 }; x z; z"
+	end
+
+	def test_object_field
+		assert_result "5", "x = new; x.y = 5; x.y"
+		assert_result "6", "x = new; x.y = {|n| n}; x.y 6"
 	end
 
 	def parse input
@@ -132,9 +220,15 @@ class BratParserTest < Test::Unit::TestCase
 
 	def brat input
 		out = @parser.parse(input).brat
-		File.open('../neko/test.neko.tmp', 'w') {|f| f.puts out << "$print(@exit_value);"}
-		result = `cd ../neko && nekoc internal.neko && nekoc test.neko.tmp && neko test.neko.n`
-		assert_equal($?, 0);
+		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "$print(@exit_value);"}
+		result = `cd neko && nekoc internal.neko && cd .. && nekoc .test.neko.tmp && neko .test.neko.n`
+		File.delete(".test.neko.n")
+		File.delete(".test.neko.tmp")
+		assert_equal $?, 0
 		result.split("\n").last.strip
+	end
+
+	def assert_result result, code
+		assert_equal result, brat(code)
 	end
 end

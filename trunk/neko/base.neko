@@ -1,5 +1,1 @@
-var internal = $loader.load_module('internal', $loader); 
-var hash = $new(null);
-$objsetproto(internal.base_object);
-
-//make nice hash thing
+var stdin = $loader.loadprim("std@file_stdin", 0);

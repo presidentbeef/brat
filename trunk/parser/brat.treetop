@@ -38,7 +38,28 @@ grammar BaseBrat
   end
 
   rule expression
- 	assignment / paren_exp / number / method_access / method_invocation / string / method_definition
+ 	index_set / index_access / assignment / paren_exp / number / method_access / method_invocation / string / method_definition / list
+  end
+
+  rule index_set
+  	a:identifier "[" i:expression "]" space? "=" space? expression {
+		def brat
+		end
+	}
+  end
+
+  rule index_access
+ 	a:identifier "[" i:expression "]" {
+		def brat
+		end
+	}
+  end
+
+  rule list
+  	"[" inner_arg_list "]" {
+		def brat
+		end
+	}
   end
 
   rule assignment
@@ -78,6 +99,7 @@ grammar BaseBrat
 			if var_exist? lhs.brat
 				"#{lhs.brat} = #{rhs.result}"
 			else
+				var_add lhs.brat
 				"var #{lhs.brat} = #{rhs.result}"
 			end
 			@result = rhs.result
@@ -245,7 +267,7 @@ grammar BaseBrat
 				args = elem.e.arg_list
 				output << args.brat
 				next_temp
-				"var #@result = @brat.call_method(#{last}, \"#{meth}\", #{args.result});"
+				output << "var #@result = @brat.call_method(#{last}, \"#{meth}\", #{args.result});"
 				last = @result
 			end
 			output
@@ -272,6 +294,24 @@ grammar BaseBrat
   end
 
   rule method_access
+  	"->" m:identifier {
+		def brat
+			next_temp
+			if var_exist? m.brat
+				"var #@result;
+				if($typeof(#{m.brat}) == $tfunction) {
+					#@result = #{m.brat};
+				}
+				else
+				{
+					throw(\"Not a function: #{m.brat}\");
+				};"
+			else	
+				"var #@result = $objget(this, $hash(\"#{m.brat}\"));"
+			end
+		end
+	}
+	/
   	o:method_invocation "->" m:identifier {
 		def brat
 			next_temp

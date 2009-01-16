@@ -21,7 +21,6 @@ base_object.clone = function() {
 base_object.my = function() {
 	return this;
 }
-
 base_object.p = $varargs(function(args) {
 	$call($print, null, args);
 	$print("\n");
@@ -60,7 +59,7 @@ new_brat = function(parent_brat, arg_hash) {
 	}
 
 
-	if($hsize(arg_hash) > 0) {
+	if(arg_hash != null && $hsize(arg_hash) > 0) {
 		var set_f = function(k,v) {
 			$objset(this, $hash(k), v);
 		}
@@ -69,6 +68,25 @@ new_brat = function(parent_brat, arg_hash) {
 	}
 
 	return brat;
+}
+
+base_array = new_brat(null, null);
+
+base_array.new = $varargs(function(args) {
+	var ary = new_brat(base_array, null);
+	new_brat.@internal_array = $acopy(args);
+	ary;
+})
+
+base_array.get = $varargs(function(args) {
+	if($asize(args) == 0) {
+		throw("Invalid array access: null");
+	}
+	//TODO: Finish this method :)
+})
+
+base_array.set = function(index, value) {
+	this.@internal_array[index] = value;
 }
 
 $exports.call_method = function(object, method, args) {
