@@ -1,9 +1,7 @@
-#labels Phase-Design,syntax,Featured
-<wiki:toc max_depth="3" />
-
 #summary Notes on Brat syntax
+#labels Phase-Design,syntax,Featured
 
-_Note: This should all be working syntax_
+<wiki:toc max_depth="3" />
 
 ===Print something===
 
