@@ -6,6 +6,7 @@ grammar BaseBrat
 			"var @brat = $loader.loadmodule(\"neko/internal\", $loader);\n" <<
 			"var @main_brat  = $new(@brat.base_object);\n" <<
 			"@main_brat.@main_tantrum = function() {\n" <<
+			"var array = $new(@brat.base_array);" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
 			"@exit_value = @main_brat.@main_tantrum();\n"
@@ -38,28 +39,87 @@ grammar BaseBrat
   end
 
   rule expression
- 	index_set / index_access / assignment / paren_exp / number / method_access / method_invocation / string / method_definition / list
+ 	index_set / index_get / assignment / paren_exp / method_access / method_invocation / number / string / method_definition / hash / array 
+  end
+
+  rule expression2
+ 	hash / array / paren_exp / method_invocation / string
+  end
+
+  rule expression3
+ 	hash / array / paren_exp / number / string
+  end
+
+  rule hash
+  	"[" hash_inner "]" {
+		def brat
+			output = hash_inner.brat
+			@result = hash_inner.result
+			output
+		end
+	}
+  end
+
+  rule array
+  	"[" inner_arg_list "]" {
+		def brat
+			output = inner_arg_list.brat
+			next_temp
+			output << "var #@result = @brat.make_array(#{inner_arg_list.result});"
+		end
+	}
+  end
+
+  rule hash_inner
+	first:hash_argument rest:(space? "," space? n:hash_argument)* {
+		def brat
+			next_temp
+			hash_temp = @result
+			output = "var #{hash_temp} = $hnew(#{rest.elements.length + 1});"
+			output << first.brat
+			output << "$hset(#{hash_temp}, #{first.index}, #{first.value}, null);"
+			rest.elements.each do |e|
+				elem = e.n
+				output << elem.brat
+				output << "$hset(#{hash_temp}, #{elem.index}, #{elem.value}, null);"
+			end
+			next_temp
+			output << "var #@result = @brat.make_hash(#{hash_temp});"
+		end
+	}
+
+  end
+
+  rule hash_argument
+  	i:expression space? ":" space? v:expression {
+		attr_reader :index, :value
+		def brat
+			output = i.brat
+			output << v.brat
+			@index = i.result
+			@value = v.result
+			output
+		end
+	}
   end
 
   rule index_set
-  	a:identifier "[" i:expression "]" space? "=" space? expression {
+  	a:expression2 "[" i:expression "]" space? "=" space? v:expression {
 		def brat
+			output = a.brat
+			output << i.brat
+			output << v.brat
+			next_temp
+			args = @result
+			output << "var #{args} = $array(#{i.result}, #{v.result});"
+			next_temp
+			output << "var #@result = $objcall(#{a.result}, $hash(\"__set\"), #{args});"
 		end
 	}
   end
 
-  rule index_access
- 	a:identifier "[" i:expression "]" {
-		def brat
-		end
-	}
-  end
-
-  rule list
-  	"[" inner_arg_list "]" {
-		def brat
-		end
-	}
+  rule index_get
+  	e:(expression2) array+
   end
 
   rule assignment
@@ -251,7 +311,6 @@ grammar BaseBrat
 			};"
 
 		end
-
 	}
   end
 
@@ -272,11 +331,13 @@ grammar BaseBrat
 			end
 			output
 		end
-	}	
+	}
+	/
+	expression3 "." method_chain
   end
 
   rule method_lhs
-  	identifier !space arg_list {
+  	identifier !space arg_list (array)* {
 		def brat
 			next_temp
 			arg_list.brat <<
@@ -356,13 +417,39 @@ grammar BaseBrat
   rule inner_arg_list
   	e:arg_first o:arg_next* {
 		def brat
-			output = e.brat
-			args = [e.result]
+			output = ""
+			args = []
+			named_args = []
+
+			if e.respond_to? :named_argument?
+				output << e.brat
+				named_args << e
+			else
+				output << e.brat
+				args << e.result
+			end
+
 			o.elements.each do |elem|
 				if elem.respond_to? :brat
-					output << elem.brat
-					args << elem.result
+					if elem.arg_first.respond_to? :named_argument?
+						output << elem.arg_first.brat
+						named_args << elem.arg_first
+					else
+						output << elem.brat
+						args << elem.result
+					end
 				end
+			end
+			unless named_args.empty?
+				next_temp
+				hash_temp = @result
+				output << "var #{hash_temp} = $hnew(#{named_args.length});"
+				named_args.map do |e|
+					output << "$hset(#{hash_temp}, \"#{e.i.brat}\", #{e.result}, null);"
+				end
+				next_temp
+				output << "var #@result = @brat.make_hash(#{hash_temp});"
+				args << @result
 			end
 			next_temp
 			output << "var #@result = $array(#{args.join(',')});"
@@ -385,7 +472,17 @@ grammar BaseBrat
   end
 
   rule named_argument
-  	identifier space? ":" space? expression
+  	i:identifier space? ":" space? e:expression {
+		def brat
+			output = e.brat
+			@result = e.result
+			output
+		end
+
+		def named_argument?
+			true
+		end
+	}
   end
 
   rule empty_list

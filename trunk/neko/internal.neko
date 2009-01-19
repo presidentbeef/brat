@@ -74,19 +74,108 @@ base_array = new_brat(null, null);
 
 base_array.new = $varargs(function(args) {
 	var ary = new_brat(base_array, null);
-	new_brat.@internal_array = $acopy(args);
+	ary.@internal_array = $acopy(args);
+	ary.length = function() { 0 };
 	ary;
-})
+});
 
 base_array.get = $varargs(function(args) {
+	if($asize(this.@internal_array) == 0) {
+		return null;
+	}
 	if($asize(args) == 0) {
 		throw("Invalid array access: null");
 	}
-	//TODO: Finish this method :)
-})
+	if($asize(args) == 1) {
+		if(args[0] >= this.length()) {
+			null;
+		}
+		else {
+			this.@internal_array[args[0]];
+		}
+	}
+	else if($asize(args) == 2) {
+		var len = $asize(this.@internal_array);
+		var start = args[0];
+		var stop = args[1];
+		if(start < 0) {
+			args[0] = len + args[0];
+		}
+		if(stop < 0) {
+			args[0] = len + args[0];
+		}
+		if(stop >= len) {
+			stop = len - 1;
+		}
+		if(start >= len) {
+			start = len -1;
+		}
+		if(args[0] < args[1]) {
+			$asub(this.@internal_array, start, (stop - start + 1));
+		}
+		else {
+			$asub(this.@internal_array, stop, (start - stop + 1));
+		}
+		this;
+	}
+});
 
 base_array.set = function(index, value) {
+	if(index >= this.length()) {
+		var new_array = $amake(index - this.length() + 1);
+		this.@internal_array = $aconcat($array(this.@internal_array, new_array));
+		this.length = function() { index + 1 };
+	}
 	this.@internal_array[index] = value;
+	this;
+}
+
+base_array.__set = base_array.set;
+base_array.__get = base_array.get;
+
+base_hash = new_brat(null, null);
+
+base_hash.new = $varargs(function(args) {
+	var hsh = new_brat(base_hash, null);
+	if($asize(args) == 0) {
+		hsh.@internal_hash = $hnew(1);
+	}
+	else if($typeof(args[0]) == $tabstract) {
+		hsh.@internal_hash = args[0];
+	}
+	else {
+		throw("Invalid hash initialization:" + $string(args));
+	}
+	hsh.length = function() { $hcount(this.@internal_hash); };
+	hsh;
+});
+
+base_hash.get = function(index) {
+	$hget(this.@internal_hash, index, null);
+}
+
+base_hash.set = function(index, value) {
+	$hset(this.@internal_hash, index, value, null);
+	this;
+}
+
+base_hash.__set = base_hash.set;
+base_hash.__get = base_hash.get;
+
+
+
+$exports.make_hash = function(neko_hash) {
+	var hsh = base_hash.new();
+	hsh.@internal_hash = neko_hash;
+	hsh;
+}
+
+$exports.make_array = function(neko_array) {
+	var ary = base_array.new();
+	ary.@internal_array = neko_array;
+	var len = $asize(neko_array);
+	ary.length = function() { len };
+	ary;
 }
 
 $exports.call_method = function(object, method, args) {
@@ -100,3 +189,4 @@ $exports.call_method = function(object, method, args) {
 
 $exports.base_object = base_object;
 $exports.has_field = has_field;
+$exports.base_array = base_array;

@@ -42,6 +42,25 @@ class BratParserTest < Test::Unit::TestCase
 		parse("what.what.what")
 		parse("hello().something.what()")
 		parse("hello.something()")
+		parse("[1].test.test")
+		parse("[a:1].test.test 3")
+		parse("\"a\".test.test(1).test")
+		parse("a[1].test")
+		parse("1.test[3].test(1)[3][3].test")
+		#parse('("hi").test')
+		#parse("\"hi\".test")
+	end
+
+	def test_big_combo_parse
+		parse("a[1].test(1,2,3)[1].o(a,b,c,3).b(a:1)[1][2][3].test")
+		parse("a[1].test(1,2,3)[1].o(a,b,c,3).b(a:1)[1][2][3].test [1,2,3]")
+	end
+
+	def test_array_parse
+		parse("[1,2,3]")
+		parse("[a,1,b]")
+		parse("[1][0][2]")
+		parse("[a][b][c][d,2].test")
 	end
 
 	def test_simple_args_parse
@@ -67,6 +86,10 @@ class BratParserTest < Test::Unit::TestCase
 	def test_wierd_args
 		assert_result "1", "a = new; a.a = {|x| x }; b = { 1 }; a.a b"
 		assert_result "1", "a = {|x| x}; a { 1 }"
+	end
+
+	def test_named_args
+		assert_result "1", "a =  {|x| x.length}; a f:1"
 	end
 
 	def test_method_parens_parse
@@ -207,6 +230,22 @@ class BratParserTest < Test::Unit::TestCase
 	def test_object_field
 		assert_result "5", "x = new; x.y = 5; x.y"
 		assert_result "6", "x = new; x.y = {|n| n}; x.y 6"
+	end
+
+	def test_array
+		assert_result "1", "x = array.new; x[0] = 1; x[0]"
+		assert_result "3", "x = [1,2,3]; x.length"
+		assert_result "a", "y = { 3}; x = [1, \"a\", y]; x[1]"
+		assert_result "b", '["a", "b", "c"][1]'
+	end
+
+	def test_array_method
+		assert_result "1", "y = {|x| x}; z = [y]; z[0] 1"
+	end
+
+	def test_hash
+		assert_result "a", "x = [1:\"a\"]; x[1];"
+		assert_result "1", "y = [0]; x = [1:y]; x[1][0]"
 	end
 
 	def parse input
