@@ -7,6 +7,7 @@ grammar BaseBrat
 			"var @main_brat  = $new(@brat.base_object);\n" <<
 			"@main_brat.@main_tantrum = function() {\n" <<
 			"var array = $new(@brat.base_array);" <<
+			"var hash = $new(@brat.base_hash);" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
 			"@exit_value = @main_brat.@main_tantrum();\n"

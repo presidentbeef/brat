@@ -190,3 +190,4 @@ $exports.call_method = function(object, method, args) {
 $exports.base_object = base_object;
 $exports.has_field = has_field;
 $exports.base_array = base_array;
+$exports.base_hash = base_hash;
