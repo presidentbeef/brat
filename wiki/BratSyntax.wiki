@@ -70,6 +70,20 @@ You can also use a hash-like notation to automatically pass in a hashtable of va
 
 `x.another "me"`
 
+_For ease of use, -> actually returns the 'value' in a variable, it just happens to usually be a method._
+
+`w = 1`
+
+`x = {|z| ->z}`
+
+`y = { 2 }`
+
+`p x w`
+
+`p x y`
+
+`p x ->y`
+
 ===Accessing current object===
 
 `test = new`
@@ -79,6 +93,28 @@ You can also use a hash-like notation to automatically pass in a hashtable of va
 `test.y`
 
 `test.z`
+
+===Booleans===
+
+False and null are false, true and everything else are true.
+
+false?, true?, and null? can each take 0 to 3 parameters. If a parameter is a function, it will be called with no arguments.
+
+`true.true?`
+
+`true? true`
+
+_This returns second parameter if first is true, otherwise returns false._
+
+`true? true, 1`
+
+_This returns second parameter if first is true, otherwise returns second parameter._
+
+`true? true, 1, 0`
+
+`a = null`
+
+`false? { null? a }, { p "a is not null" }, { p "a is null" }
 
 ===Arrays===
 
@@ -113,6 +149,20 @@ Hashtables, associative arrays, maps, dictionaries...whatever you want to call t
 `b["c"] = ->c`
 
 `p b["c"] 5`
+
+===Binary Operators===
+
+You can define certain binary operators. These should always take one parameters. They can then be used as 'infix' notation.
+
+`array.@ = {|i| my[i]}`
+
+`a = [1,2,3,4]`
+
+`p a @ 3`
+
+`p a.@ 3`
+
+`p a.@(3)`
 
 ===Comments===
 
