@@ -6,8 +6,8 @@ grammar BaseBrat
 			"var @brat = $loader.loadmodule(\"neko/internal\", $loader);\n" <<
 			"var @main_brat  = $new(@brat.base_object);\n" <<
 			"@main_brat.@main_tantrum = function() {\n" <<
-			"var array = $new(@brat.base_array);" <<
-			"var hash = $new(@brat.base_hash);" <<
+			"var array = @brat.base_array;" <<
+			"var hash = @brat.base_hash;" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
 			"@exit_value = @main_brat.@main_tantrum();\n"
@@ -42,7 +42,7 @@ grammar BaseBrat
   end
 
   rule expression
- 	index_set / index_get / assignment / paren_exp / method_access / method_invocation / number / string / method_definition / hash / array 
+ 	binary_operation / index_set / index_get / assignment / paren_exp / method_access / method_invocation / number / string / method_definition / hash / array
   end
 
   rule expression2
@@ -51,6 +51,10 @@ grammar BaseBrat
 
   rule expression3
  	hash / array / paren_exp / number / string
+  end
+
+  rule expression4
+ 	index_get / paren_exp / number / string / hash / array / method_invocation2
   end
 
   rule comment
@@ -157,7 +161,7 @@ grammar BaseBrat
  	lhs:field_access space? "=" space? rhs:method_definition {
 		def brat
 			output = lhs.brat <<
-			rhs.brat(lhs.result) <<
+			rhs.brat  <<
 			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});"
 			@result = rhs.result
 			output
@@ -200,7 +204,7 @@ grammar BaseBrat
   end
 
   rule field_access
-  	m:method_chain i:identifier {
+  	m:method_chain i:(identifier / operator) {
 		def brat
 			output = m.brat
 			@result = m.result
@@ -220,16 +224,44 @@ grammar BaseBrat
   end
 
   rule identifier
-  	[a-zA-Z] (!"->" [a-zA-Z0-9_!?\-])* {
+  	[a-zA-Z] (!"->" !space [a-zA-Z0-9_!?\-*+^&@~/\\><$_%])* {
 		def brat
-			text_value.gsub(/[!?\-]/) do |e|
+			text_value.gsub(/([!?\-*+^&@~\/\\><$_%])/) do |e|
 				case $1
 				when "!"	
 					"@bang"
+				when "*"
+					"@star"
+				when "-"
+					"@minus"
+				when "+"
+					"@plus"
+				when "&"
+					"@and"
+				when "@"
+					"@at"
+				when "~"
+					"@tilde"
+				when "^"
+					"@up"
+				when "/"
+					"@forward"
+				when "\\"
+					"@back"
 				when "?"
 					"@question"
-				when "-"
-					"@dash"
+				when "<"
+					"@less"
+				when ">"
+					"@greater"
+				when "$"
+					"@dollar"
+				when "_"
+					"@under"
+				when "%"
+					"@percent"
+				else
+					nil	
 				end
 			end
 		end
@@ -277,7 +309,7 @@ grammar BaseBrat
 
   rule method_definition
 	"{" space? fa:formal_args space? l:line* space? "}" {
-		def brat(this = "this")
+		def brat
 			new_scope
 			if fa.respond_to? :brat
 				args = fa.brat
@@ -285,7 +317,7 @@ grammar BaseBrat
 				args = ""
 			end
 			next_temp
-			output = "var #@result = function(#{args}) { this = #{this}; #{l.elements.map {|e| e.brat}.join(";")} };"
+			output = "var #@result = function(#{args}) { #{l.elements.map {|e| e.brat}.join(";")} };"
 			pop_scope
 			output
 		end
@@ -320,8 +352,80 @@ grammar BaseBrat
 	}
   end
 
+  rule binary_operation
+	lhs:binary_operation_chain rhs:expression
+	 {
+		def brat
+			output = lhs.brat
+			output << rhs.brat
+			next_temp
+			output << "var #@result = @brat.call_method(#{lhs.result}, \"#{lhs.last_operator}\", $array(#{rhs.result}));"
+		end
+	}
+  end
+
+  rule binary_operation_chain
+	(e:expression4 ~space op:operator ~space)+ {
+		attr_reader :last_operator
+		def brat
+			first = elements.pop
+			output = first.e.brat
+			last = first.e.result
+			@result = last
+			last_operator = first.op.brat
+				
+			elements.each do |elem|
+				output << elem.e.brat
+				next_temp
+				output << "var #@result = @brat.call_method(#{last}, \"#{last_operator}\", #{elem.e.result});"
+				last = @result
+				last_operator = elem.op.brat
+			end
+
+			@last_operator = last_operator
+			output
+		end
+	}
+  end
+
+  rule method_invocation2
+  	lhs:method_chain i:(identifier / operator) a:simple_arg_list {
+		def brat
+			output = lhs.brat
+			output << a.brat
+			next_temp
+			output << "var #@result = @brat.call_method(#{lhs.result}, \"#{i.brat}\", #{a.result});"
+		end
+	}
+	/
+	m:identifier a:simple_arg_list {
+		def brat
+			next_temp
+			a.brat <<
+			"var #@result;
+			//being called as (identifier arg_list)
+			if($typeof(#{m.brat}) == $tnull) {
+				if(@brat.has_field(this, \"#{m.brat}\")) {
+			 		#@result = @brat.call_method(this, \"#{m.brat}\", #{a.result});
+				}
+				else
+				{
+					$throw(\"Trying to invoke null method #{m.brat}.\");
+				}
+			} else {
+				if($typeof(#{m.brat}) == $tfunction) {
+					#@result = @brat.invoke(#{m.brat}, #{a.result}, this);
+				}
+				else { #@result = #{m.brat} }
+			};"
+
+		end
+	}
+  end
+
+
   rule method_invocation
-  	lhs:method_chain i:identifier a:arg_list {
+  	lhs:method_chain i:(identifier / operator) a:arg_list {
 		def brat
 			output = lhs.brat
 			output << a.brat
@@ -407,7 +511,7 @@ grammar BaseBrat
   end
 
   rule method_access
-  	"->" m:identifier {
+  	"->" m:(identifier / operator) {
 		def brat
 			next_temp
 			if var_exist? m.brat
@@ -458,7 +562,7 @@ grammar BaseBrat
 		end
 	}
 	/
-	![\(] space? {
+	![(] space? {
 		def brat
 			next_temp
 			"var #@result = $amake(0);"
@@ -469,6 +573,35 @@ grammar BaseBrat
 		end
 	}
   end
+
+  rule simple_arg_list
+	'(' inner_arg_list ')' {
+		def brat
+			output = inner_arg_list.brat
+			@result = inner_arg_list.result
+			output
+		end
+	}
+	/
+	'(' empty_list ')' {
+		def brat
+			next_temp
+			"var #@result = $amake(0);"
+		end
+	}
+	/
+	![(] &(space) {
+		def brat
+			next_temp
+			"var #@result = $amake(0);"
+		end
+
+		def nothing?
+			true
+		end
+	}
+  end
+
 
   rule inner_arg_list
   	e:arg_first o:arg_next* {
@@ -538,6 +671,53 @@ grammar BaseBrat
 
 		def named_argument?
 			true
+		end
+	}
+  end
+
+  rule operator
+	[!?\-*+^&@~/\\><$_%] {
+		def brat
+			case text_value
+			when "*"
+				"@star"
+			when "-"
+				"@minus"
+			when "+"
+				"@plus"
+			when "||"
+				"@oror"
+			when "|"
+				"@or"
+			when "&&"
+				"@andand"
+			when "&"
+				"@and"
+			when "@"
+				"@at"
+			when "~"
+				"@tilde"
+			when "^"
+				"@up"
+			when "/"
+				"@forward"
+			when "\\"
+				"@back"
+			when "?"
+				"@question"
+			when "<"
+				"@less"
+			when ">"
+				"@greater"
+			when "!="
+				"@notequal"
+			when "=="
+				"@equal"
+			when "%"
+				"@percent"
+			else
+				nil	
+			end
 		end
 	}
   end

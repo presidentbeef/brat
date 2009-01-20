@@ -71,6 +71,7 @@ new_brat = function(parent_brat, arg_hash) {
 }
 
 base_array = new_brat(null, null);
+base_array.@internal_array = $amake(0);
 
 base_array.new = $varargs(function(args) {
 	var ary = new_brat(base_array, null);
@@ -134,6 +135,7 @@ base_array.__set = base_array.set;
 base_array.__get = base_array.get;
 
 base_hash = new_brat(null, null);
+base_hash.@internal_hash = $hnew(0);
 
 base_hash.new = $varargs(function(args) {
 	var hsh = new_brat(base_hash, null);

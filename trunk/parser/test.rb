@@ -26,6 +26,8 @@ class BratParserTest < Test::Unit::TestCase
 		parse("h1h4h3")
 		parse("what??")
 		parse("HhH1?1!")
+		parse("h-h!l2Al102913l??a")
+		parse('a123_!?-*+^&@~#\\><$')
 	end
 
 	def test_mixed_identifer
@@ -85,9 +87,17 @@ class BratParserTest < Test::Unit::TestCase
 		parse("call_this wacky:method, then:this.one, 1, 2         ,3, 4")
 	end
 
+	def test_operation_parse
+		parse("a.@ = 1")
+		parse "a + b"
+		parse "1 + a.b"
+		parse "1 + 2 ! 3 @ b"
+	end
+
 	def test_wierd_args
 		assert_result "1", "a = new; a.a = {|x| x }; b = { 1 }; a.a b"
 		assert_result "1", "a = {|x| x}; a { 1 }"
+		assert_result "1", 'a123_!?-*+^&@~\\><$ = new; a123_!?-*+^&@~\\><$.y = 1; a123_!?-*+^&@~\\><$.y'
 	end
 
 	def test_named_args
@@ -257,7 +267,7 @@ class BratParserTest < Test::Unit::TestCase
 	def parse input
 		result = @parser.parse(input)
 		unless result
-			puts @parser.terminal_failures.join("\n")
+			$stderr.puts @parser.terminal_failures.join("\n")
 		end
 		assert !result.nil?
 		result

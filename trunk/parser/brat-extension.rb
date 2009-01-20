@@ -30,4 +30,3 @@ class Treetop::Runtime::SyntaxNode
 		@result = "@temp#{@@temp += 1}"
 	end
 end
-
