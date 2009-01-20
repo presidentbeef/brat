@@ -186,13 +186,13 @@ $exports.call_method = function(object, method, args) {
 	}
 }
 
-$exports.invoke = function(method, args) {
+$exports.invoke = function(method, args, context) {
 	//$print("Calling ", method, " with (", args, ")\n");
 	if(method == null) {
 		$throw("Could not invoke null method.");
 	}
 	else {
-		$call(method, this, args);
+		$call(method, context, args);
 	}
 }
 

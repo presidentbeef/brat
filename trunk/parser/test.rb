@@ -89,7 +89,9 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_named_args
-		assert_result "1", "a =  {|x| x.length}; a f:1"
+		assert_result "1", "a = {|x| x.length}; a \"f\":1"
+		assert_result "1", "a = {|x| x[\"f\"] }; a \"f\":1"
+		assert_result "1", "a = {|x, y, z| z[\"f\"] }; a 1, \"f\":1, 2"
 	end
 
 	def test_method_parens_parse
@@ -144,9 +146,9 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_multiline_method_parse
-		parse("{
-		     a = 1
-		}")
+		parse("b = {
+		     a = 1 
+			}")
 	end
 
 	def test_simple_method_call
@@ -180,7 +182,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_variable_scope
 		assert_result "4", "t = new; t.test = { n = 3}; n = 4; t.test; n"
-		assert_result "null", "x = new; x.y = { v }; v = 1; x.y"
+		assert_fail "x = new; x.y = { v }; v = 1; x.y"
 	end
 
 	def test_variable_set
@@ -262,14 +264,24 @@ class BratParserTest < Test::Unit::TestCase
 	def brat input
 		out = @parser.parse(input).brat
 		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "$print(@exit_value);"}
-		result = `cd neko && nekoc internal.neko && cd .. && nekoc .test.neko.tmp && neko .test.neko.n`
+		result = `cd neko && nekoc internal.neko && cd .. && nekoc .test.neko.tmp && neko .test.neko.n `
 		File.delete(".test.neko.n")
 		File.delete(".test.neko.tmp")
-		assert_equal $?, 0
 		result.split("\n").last.strip
 	end
 
+	def assert_fail code
+		out = @parser.parse(code).brat
+		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "$print(@exit_value);"}
+		`cd neko && nekoc internal.neko && cd .. && nekoc .test.neko.tmp 2> /dev/null && neko .test.neko.n 2> /dev/null`
+		File.delete(".test.neko.n")
+		File.delete(".test.neko.tmp")
+		assert_not_equal $?, 0
+	end
+
 	def assert_result result, code
-		assert_equal result, brat(code)
+		brat_result = brat(code)
+		assert_equal $?, 0
+		assert_equal result, brat_result
 	end
 end

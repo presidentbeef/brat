@@ -1,0 +1,22 @@
+#p hi
+p "hello, world" #what
+p "sup" //nothing
+
+/* 
+
+
+
+blah 
+
+
+
+*/
+
+a = {
+x = 1
+p "what is uppppppp?"
+y = 3
+l = [1,2,3,4]
+}
+
+a

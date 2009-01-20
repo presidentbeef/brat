@@ -22,7 +22,13 @@ grammar BaseBrat
   end
 
   rule line
- 	space? e:expression space? ( eof / eol / eob) {
+	comment {
+		def brat
+			""
+		end
+	}
+	/
+ 	space? e:expression space? comment? ( eof / eol / eob)  {
 		def brat
 			e.brat if e.respond_to? :brat
 		end
@@ -37,8 +43,6 @@ grammar BaseBrat
 			""
 		end
 	}
-	/
-	space
   end
 
   rule expression
@@ -51,6 +55,16 @@ grammar BaseBrat
 
   rule expression3
  	hash / array / paren_exp / number / string
+  end
+
+  rule comment
+	space? ("//" / "#") (!(eol/eof) .)+ {
+		def brat
+			""
+		end
+	}
+	/
+	space? "/*" (!"*/" .)+ "*/"
   end
 
   rule hash
@@ -136,7 +150,7 @@ grammar BaseBrat
 			unless args.respond_to? :nothing?
 				output << args.brat
 				next_temp
-				output << "var #@result = @brat.invoke(#{last}, #{args.result});"
+				output << "var #@result = @brat.invoke(#{last}, #{args.result}, this);"
 			end
 			output
 		end
@@ -257,7 +271,7 @@ grammar BaseBrat
   end
 
   rule method_definition
-	"{" space? fa:formal_args space? l:line* "}" {
+	"{" space? fa:formal_args space? l:line* space? "}" {
 		def brat(this = "this")
 			new_scope
 			if fa.respond_to? :brat
@@ -323,11 +337,11 @@ grammar BaseBrat
 				}
 				else
 				{
-					#@result = null;
+					$throw(\"Trying to invoke null method #{m.brat}.\");
 				}
 			} else {
 				if($typeof(#{m.brat}) == $tfunction) {
-					#@result = @brat.invoke(#{m.brat}, #{a.result});
+					#@result = @brat.invoke(#{m.brat}, #{a.result}, this);
 				}
 				else { #@result = #{m.brat} }
 			};"
@@ -369,7 +383,7 @@ grammar BaseBrat
 			"}" <<
 			"else " <<
 			" if($typeof(#{identifier.brat}) == $tfunction) {" <<
-			" #@result = @brat.invoke(#{identifier.brat}, #{arg_list.result});" <<
+			" #@result = @brat.invoke(#{identifier.brat}, #{arg_list.result}, null);" <<
 			" } else if($typeof(#{identifier.brat}) == $tobject) { " <<
 			"  #@result = #{identifier.brat}}" <<
 			"else { throw \"Tried to invoke method on #{identifier.brat}\" };"
@@ -482,7 +496,8 @@ grammar BaseBrat
 				hash_temp = @result
 				output << "var #{hash_temp} = $hnew(#{named_args.length});"
 				named_args.map do |e|
-					output << "$hset(#{hash_temp}, \"#{e.i.brat}\", #{e.result}, null);"
+					output << e.i.brat
+					output << "$hset(#{hash_temp}, #{e.i.result}, #{e.result}, null);"
 				end
 				next_temp
 				output << "var #@result = @brat.make_hash(#{hash_temp});"
@@ -509,7 +524,7 @@ grammar BaseBrat
   end
 
   rule named_argument
-  	i:identifier space? ":" space? e:expression {
+  	i:expression space? ":" space? e:expression {
 		def brat
 			output = e.brat
 			@result = e.result
