@@ -76,6 +76,8 @@ You can also use a hash-like notation to automatically pass in a hashtable of va
 
 `test.y = { my.z = { p "hi" } }`
 
+`test.y`
+
 `test.z`
 
 ===Arrays===
