@@ -42,7 +42,8 @@ grammar BaseBrat
   end
 
   rule expression
- 	binary_operation / index_set / index_get / assignment / paren_exp / method_access / method_invocation / number / string / method_definition / hash / array
+ 	binary_operation / index_set / index_get / 
+	assignment / paren_exp / method_access / method_invocation / number / string / method_definition / hash / array
   end
 
   rule expression2
@@ -217,14 +218,16 @@ grammar BaseBrat
   	'(' expression ')' {
 		attr_reader :result
 		def brat
-			next_temp
-			"var #@result = (" + expression.brat + ");"
+			output = expression.brat
+			@result = expression.result
+			output
 		end
 	}
   end
 
   rule identifier
-  	[a-zA-Z] (!"->" !space [a-zA-Z0-9_!?\-*+^&@~/\\><$_%])* {
+	
+	[a-zA-Z] (!"->" !space [a-zA-Z0-9_!?\-*+^&@~/\\><$_%])* {
 		def brat
 			text_value.gsub(/([!?\-*+^&@~\/\\><$_%])/) do |e|
 				case $1
@@ -263,7 +266,8 @@ grammar BaseBrat
 				else
 					nil	
 				end
-			end
+			end.gsub(/(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)/i) {|m| "@" + $1 }
+
 		end
 	}
   end
@@ -328,6 +332,7 @@ grammar BaseBrat
   	"|" space? i:identifier? rest_formal "|" {
 		def brat
 			if i.respond_to? :brat
+				var_add i.brat
 				args = [i.brat] + rest_formal.brat
 			else
 				args = []
@@ -343,6 +348,7 @@ grammar BaseBrat
 		def brat
 			if elements.length > 0
 				elements.map do |e|
+					var_add e.identifier.brat
 					e.identifier.brat
 				end
 			else
@@ -403,7 +409,6 @@ grammar BaseBrat
 			next_temp
 			a.brat <<
 			"var #@result;
-			//being called as (identifier arg_list)
 			if($typeof(#{m.brat}) == $tnull) {
 				if(@brat.has_field(this, \"#{m.brat}\")) {
 			 		#@result = @brat.call_method(this, \"#{m.brat}\", #{a.result});
@@ -495,7 +500,7 @@ grammar BaseBrat
 			" #@result = @brat.invoke(#{identifier.brat}, #{arg_list.result}, null);" <<
 			" } else if($typeof(#{identifier.brat}) == $tobject) { " <<
 			"  #@result = #{identifier.brat}}" <<
-			"else { throw \"Tried to invoke method on #{identifier.brat}\" };"
+			"else { $throw \"Tried to invoke method on #{identifier.brat}\" };"
 			last = @result
 			if not a.elements.empty?
 				a.elements.each do |elem|
@@ -521,7 +526,7 @@ grammar BaseBrat
 				}
 				else
 				{
-					throw(\"Not a function: #{m.brat}\");
+					#@result = #{m.brat};
 				};"
 			else	
 				"var #@result = $objget(this, $hash(\"#{m.brat}\"));"
@@ -652,7 +657,7 @@ grammar BaseBrat
   end
 
   rule arg_next
-  	space? "," space? arg_first {
+  	~((space / eol)*) "," ~((space / eol)*) arg_first {
 		def brat
 			output = arg_first.brat
 			@result = arg_first.result
@@ -676,7 +681,7 @@ grammar BaseBrat
   end
 
   rule operator
-	[!?\-*+^&@~/\\><$_%] {
+	([!?\-*+^@~/\\><$_%] / "||" / "|" / "&&" / "&") {
 		def brat
 			case text_value
 			when "*"

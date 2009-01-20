@@ -12,39 +12,6 @@ base_object.new = $varargs(function(args) {
 	return new_brat(this, arg_hash);
 })
 
-base_object.clone = function() {
-	var brat = $new(this);
-	$objsetproto(brat, $objgetproto(this));
-	brat;
-}
-
-base_object.my = function() {
-	return this;
-}
-base_object.p = $varargs(function(args) {
-	$call($print, null, args);
-	$print("\n");
-})
-
-
-has_field = function(object, field_name) {
-	if(object == null) {
-		return null;
-	}
-        if($objfield(object, $hash(field_name))) {
-                return true;
-        }
-        else {
-                var proto = $objgetproto(object);
-                if(proto == null) {
-                        return false;
-                }
-                else {
-                        return has_field(proto, field_name);
-                }
-        }
-}
-
 //Create a new object with either parent_brat or base_object
 //as the parent class.
 new_brat = function(parent_brat, arg_hash) {
@@ -69,6 +36,241 @@ new_brat = function(parent_brat, arg_hash) {
 
 	return brat;
 }
+
+
+base_object.clone = function() {
+	var brat = $new(this);
+	$objsetproto(brat, $objgetproto(this));
+	brat;
+}
+
+base_object.my = function() {
+	return this;
+}
+base_object.p = $varargs(function(args) {
+	$call($print, null, args);
+	$print("\n");
+})
+
+var @false_value = new_brat(null, null);
+var @true_value = new_brat(null, null);
+var @null_value = new_brat(null, null);
+base_object.@false = function() { @false_value }
+base_object.@true = function() { @true_value }
+base_object.@null = function() { @null_value}
+
+var istrue = function(arg) {
+	if(arg == base_object.@null() || arg == base_object.@false()) {
+		false;
+	}
+	else {
+		true;
+	}
+}
+
+base_object.@true@question = $varargs(function(args) {
+	var first;
+	if($typeof(args[0]) == $tfunction) {
+		first = $exports.invoke(args[0], $array(), this);
+	}
+	else {
+		first = args[0]
+	}
+
+	if($asize(args) == 0) {
+		if(istrue(this))
+			base_object.@true();
+		else
+			base_object.@false();
+	}
+	else if($asize(args) == 1) {
+		if(istrue(first))
+			base_object.@true();
+		else
+			base_object.@false();
+	}
+	else if($asize(args) == 2) {
+		if(istrue(first)) {
+			if($typeof(args[1]) == $tfunction) {
+				$exports.invoke(args[1], $array(), this);
+			}
+			else {
+				args[1];
+			}
+		}
+		else {
+			first;
+		}
+	}
+	else if($asize(args) == 3) {
+		if(istrue(first)) {
+			if($typeof(args[1]) == $tfunction) {
+				$exports.invoke(args[1], $array(), this);
+			}
+			else {
+				args[1];
+			}
+		}
+		else {
+			if($typeof(args[2]) == $tfunction) {
+				$exports.invoke(args[2], $array(), this);
+			}
+			else {
+				args[2];
+			}
+		}
+	}
+	else {
+		$throw("Wrong number of arguments. Should be 0 - 3 arguments.");
+	}
+
+})
+
+base_object.@false@question = $varargs(function(args) {
+	var first;
+	if($typeof(args[0]) == $tfunction) {
+		first = $exports.invoke(args[0], $array(), this);
+	}
+	else {
+		first = args[0]
+	}
+	if($asize(args) == 0) {
+		if($not(istrue(this)))
+			base_object.@true();
+		else
+			base_object.@false();
+	}
+	else if($asize(args) == 1) {
+		if($not(istrue(first)))
+			base_object.@true();
+		else
+			base_object.@false();
+	}
+	else if($asize(args) == 2) {
+		if($not(istrue(first))) {
+			if($typeof(args[1]) == $tfunction) {
+				$exports.invoke(args[1], $array(), this);
+			}
+			else {
+				args[1];
+			}
+		}
+		else {
+			first;
+		}
+	}
+	else if($asize(args) == 3) {
+		if($not(istrue(first))) {
+			if($typeof(args[1]) == $tfunction) {
+				$exports.invoke(args[1], $array(), this);
+			}
+			else {
+				args[1];
+			}
+		}
+		else {
+			if($typeof(args[2]) == $tfunction) {
+				$exports.invoke(args[2], $array(), this);
+			}
+			else {
+				args[2];
+			}
+
+		}
+	}
+	else {
+		$throw("Wrong number of arguments. Should be 0 - 3 arguments.");
+	}
+
+})
+
+base_object.@null@question = $varargs(function(args) {
+	var first;
+	if($typeof(args[0]) == $tfunction) {
+		first = $exports.invoke(args[0], $array(), this);
+	}
+	else {
+		first = args[0]
+	}
+
+	if($asize(args) == 0) {
+		if(this == base_object.@null())
+			base_object.@true();
+		else
+			base_object.@false();
+	}
+	else if($asize(args) == 1) {
+		if(first == null || first == base_object.@null())
+			base_object.@true();
+		else 
+			base_object.@false();
+	}
+	else if($asize(args) == 2) {
+		if(first == null || first == base_object.@null()) {
+			if($typeof(args[1]) == $tfunction) {
+				$exports.invoke(args[1], $array(), this);
+			}
+			else {
+				args[1];
+			}
+		}
+		else {
+			first;
+		}
+	}
+	else if($asize(args) == 3) {
+		if(first == null || first == base_object.@null()) {
+			if($typeof(args[1]) == $tfunction) {
+				$exports.invoke(args[1], $array(), this);
+			}
+			else {
+				args[1];
+			}
+		}
+		else {
+			if($typeof(args[2]) == $tfunction) {
+				$exports.invoke(args[2], $array(), this);
+			}
+			else {
+				args[2];
+			}
+
+		}
+	}
+	else {
+		$throw("Wrong number of arguments. Should be 0 - 3 arguments.");
+	}
+})
+
+base_object.not = function(arg) {
+	if(istrue(arg)) {
+		base_object.@false();
+	}
+	else
+	{
+		base_object.@true();
+	}
+}
+
+
+has_field = function(object, field_name) {
+	if(object == null) {
+		return null;
+	}
+        if($objfield(object, $hash(field_name))) {
+                return true;
+        }
+        else {
+                var proto = $objgetproto(object);
+                if(proto == null) {
+                        return false;
+                }
+                else {
+                        return has_field(proto, field_name);
+                }
+        }
+}
+
 
 base_array = new_brat(null, null);
 base_array.@internal_array = $amake(0);
@@ -119,6 +321,10 @@ base_array.get = $varargs(function(args) {
 		}
 		this;
 	}
+	else {
+		$throw("Wrong number of arguments. Should be 1 or 2 arguments.");
+	}
+
 });
 
 base_array.set = function(index, value) {

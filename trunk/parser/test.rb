@@ -84,7 +84,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_weird_args_parse
 		parse("sup dog.bark")
-		parse("call_this wacky:method, then:this.one, 1, 2         ,3, 4")
+		parse("call_this wacky:method, then:this.one, 1, 2    \n     ,3, 4")
 	end
 
 	def test_operation_parse
@@ -92,6 +92,51 @@ class BratParserTest < Test::Unit::TestCase
 		parse "a + b"
 		parse "1 + a.b"
 		parse "1 + 2 ! 3 @ b"
+	end
+
+	def test_operation
+		assert_result "1", "a = new; a.! = {|b| b }; a ! 1"
+		assert_result "2", "a = new; a.? = {|b| 2}; a ? \"hello\""
+	end
+
+	def test_true
+		assert_result "1", "true? false, 0, 1"
+		assert_result "1", "true? {false}, 0, {1}"
+		assert_result "2", "true? {true}, {2}, {1}"
+		assert_result "{}", "true? 0"
+		assert_result "{}", "true?"
+		assert_result "0", "true? (true? 1), 0"
+		assert_result "0", "true? {true? 1}, {0}"
+		assert_result "0", "true? true?, 0, 1"
+		assert_result "0", "true? true.true?, 0, 1"
+		assert_result "1", "true? false.true?, 0, 1"
+		assert_result "1", "true? null.true?, 0, 1"
+	end
+
+	def test_false
+		assert_result "0", "false? false, 0, 1"
+		assert_result "0", "false? {false}, 0, {1}"
+		assert_result "1", "false? {true}, {2}, {1}"
+		assert_result "{}", "false? 0"
+		assert_result "{}", "false?"
+		assert_result "0", "false? (false? 1), 0"
+		assert_result "0", "false? {false? 1}, {0}"
+		assert_result "0", "false? false?, 0, 1"
+		assert_result "0", "false? true.false?, 0, 1"
+		assert_result "0", "true? false.false?, 0, 1"
+		assert_result "0", "true? null.false?, 0, 1"
+	end
+
+	def test_null
+		assert_result "0", "null? null, 0, 1"
+		assert_result "0", "null? {null}, 0, {1}"
+		assert_result "1", "null? {true}, {2}, {1}"
+		assert_result "{}", "null? 0"
+		assert_result "{}", "(null? null)"
+		assert_result "0", "true? (null? null), 0"
+		assert_result "{}", "null? {true? 1}, {0}"
+		assert_result "0", "false? null?, 0, 1"
+		assert_result "0", "true? null.null?, 0, 1"
 	end
 
 	def test_wierd_args

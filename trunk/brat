@@ -1,4 +1,4 @@
-#!/bin/env ruby
+#!/bin/env ruby1.9
 
 def compile_parser(force = false)
 	if force or not File.exist? "parser/brat.rb" or newer? "parser/brat.treetop", "parser/brat.rb"

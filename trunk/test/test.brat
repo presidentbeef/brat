@@ -1,3 +1,3 @@
-array.@ = {|x| my[x]}
-a = [1,2,3]
-p a @ 1
+p null? {true? 1}, 0
+p true? true?, 0, 1
+p null? {true? 1}, {0}
