@@ -240,13 +240,14 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_array_method
-		assert_result "1", "y = {|x| x}; z = [y]; z[0] 1"
+		assert_result "2", "z = new; z.test = { [1,2,3] }; z.test[1]"
+		assert_result "1", "y = {|x| x}; z = [->y]; z[0] 1"
 	end
 
 	def test_hash
 		assert_result "1", "x = hash.new; x[\"y\"] = 1; x[\"y\"]"
 		assert_result "a", "x = [1:\"a\"]; x[1];"
-		assert_result "1", "y = [0]; x = [1:y]; x[1][0]"
+		assert_result "2", "y = [2]; x = [1:y]; x[1][0]"
 	end
 
 	def parse input

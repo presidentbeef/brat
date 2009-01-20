@@ -162,8 +162,6 @@ base_hash.set = function(index, value) {
 base_hash.__set = base_hash.set;
 base_hash.__get = base_hash.get;
 
-
-
 $exports.make_hash = function(neko_hash) {
 	var hsh = base_hash.new();
 	hsh.@internal_hash = neko_hash;
@@ -179,11 +177,22 @@ $exports.make_array = function(neko_array) {
 }
 
 $exports.call_method = function(object, method, args) {
+	//$print("Calling ", method, " on ", object, " with (", args, ")\n");
 	if(object == null) {
 		$throw("Method invoked on null object.");
 	}
 	else {
 		$objcall(object, $hash(method), args);
+	}
+}
+
+$exports.invoke = function(method, args) {
+	//$print("Calling ", method, " with (", args, ")\n");
+	if(method == null) {
+		$throw("Could not invoke null method.");
+	}
+	else {
+		$call(method, this, args);
 	}
 }
 
