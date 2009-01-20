@@ -41,6 +41,12 @@ _Parentheses are optional_
 
 `p "hello", " ", "world"`
 
+You can also use a hash-like notation to automatically pass in a hashtable of values. This hashtable will always be assigned to the _last_ parameter in the function.
+
+`a = {|x,y,z| p x, y, z["a"]}`
+
+`a 1, "a":3, 2`
+
 ===Getting a function===
 
 `test = new`
@@ -62,6 +68,40 @@ _Parentheses are optional_
 `test.y = { my.z = { p "hi" } }`
 
 `test.z`
+
+===Arrays===
+
+Arrays are zero-based, dynamically lists which can contain anything.
+
+`a = array.new`
+
+`a[0] = 3`
+
+`p a[0]`
+
+`b = [1, 2, 3, a, "b", {|c| c}]`
+
+`p b[5] "hello world"`
+
+===Hashes===
+
+Hashtables, associative arrays, maps, dictionaries...whatever you want to call them, these are lists which can be indexed by an arbitrary value.
+
+`a = hash.new`
+
+`a["a"] = 1`
+
+`p a["a"]`
+
+`b = ["a":1]`
+
+`p b["a"]`
+
+`c = {|x| x}`
+
+`b["c"] = ->c`
+
+`p b["c"] 5`
 
 ===Keywords===
 
