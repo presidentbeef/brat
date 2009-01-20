@@ -6,6 +6,8 @@ Treetop.load 'parser/brat'
 
 require 'parser/brat-extension'
 
+system "cd neko && nekoc internal.neko"
+
 class BratParserTest < Test::Unit::TestCase
 	def setup
 		@parser = BaseBratParser.new
@@ -28,8 +30,8 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_mixed_identifer
 		assert_result "1", "h1 = 1; h2 = 2; h3h3h3h3h3h3 = 4; h1"
-		#assert_result "1", "h! = 1; h!"
-		#assert_result "1", "h? = 1; h?"
+		assert_result "1", "h! = 1; h!"
+		assert_result "1", "h? = 1; h?"
 	end
 
 	def test_method_parse
@@ -264,7 +266,7 @@ class BratParserTest < Test::Unit::TestCase
 	def brat input
 		out = @parser.parse(input).brat
 		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "$print(@exit_value);"}
-		result = `cd neko && nekoc internal.neko && cd .. && nekoc .test.neko.tmp && neko .test.neko.n `
+		result = `nekoc .test.neko.tmp && neko .test.neko.n `
 		File.delete(".test.neko.n")
 		File.delete(".test.neko.tmp")
 		result.split("\n").last.strip
@@ -273,7 +275,7 @@ class BratParserTest < Test::Unit::TestCase
 	def assert_fail code
 		out = @parser.parse(code).brat
 		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "$print(@exit_value);"}
-		`cd neko && nekoc internal.neko && cd .. && nekoc .test.neko.tmp 2> /dev/null && neko .test.neko.n 2> /dev/null`
+		`nekoc .test.neko.tmp 2> /dev/null && neko .test.neko.n 2> /dev/null`
 		File.delete(".test.neko.n")
 		File.delete(".test.neko.tmp")
 		assert_not_equal $?, 0

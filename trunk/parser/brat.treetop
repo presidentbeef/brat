@@ -22,11 +22,7 @@ grammar BaseBrat
   end
 
   rule line
-	comment {
-		def brat
-			""
-		end
-	}
+	~comment 
 	/
  	space? e:expression space? comment? ( eof / eol / eob)  {
 		def brat
@@ -34,11 +30,11 @@ grammar BaseBrat
 		end
 	}
 	/
-	empty_line
+	~empty_line
   end
 
   rule empty_line
-  	space? eol {
+  	space? ~eol {
 		def brat
 			""
 		end
@@ -224,9 +220,18 @@ grammar BaseBrat
   end
 
   rule identifier
-  	[a-zA-Z] [a-zA-Z0-9_!?]* {
+  	[a-zA-Z] (!"->" [a-zA-Z0-9_!?\-])* {
 		def brat
-			text_value
+			text_value.gsub(/[!?\-]/) do |e|
+				case $1
+				when "!"	
+					"@bang"
+				when "?"
+					"@question"
+				when "-"
+					"@dash"
+				end
+			end
 		end
 	}
   end
@@ -538,11 +543,7 @@ grammar BaseBrat
   end
 
   rule empty_list
-  	space? {
-		def brat
-			nil
-		end
-	}
+  	~(space?)
   end
 
   rule eol
@@ -562,18 +563,10 @@ grammar BaseBrat
   end
   
   rule eof
-  	(eol / space)? !. {
-		def brat
-			""
-		end
-	}
+  	~((eol / space)? !.)
   end
 
   rule eob
-  	space? &"}" space? {
-		def brat
-			nil
-		end
-	}
+  	~(space? &"}" space?)
   end
 end
