@@ -114,6 +114,14 @@ Hashtables, associative arrays, maps, dictionaries...whatever you want to call t
 
 `p b["c"] 5`
 
+===Comments===
+
+`#this is a comment`
+
+`//p "this will never print"`
+
+`/*  use this for multiple line comments */`
+
 ===Keywords===
 
 Brat currently does not have any keywords (and hopefully never will!)
