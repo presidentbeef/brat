@@ -11,7 +11,7 @@ _Adds newline, too_
 
 ===Creating a new object===
 
-`x = new`
+`y = new`
 
 `x = y.new`  (This is like subclassing)
 
