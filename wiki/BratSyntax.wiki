@@ -13,15 +13,20 @@ _Adds newline, too_
 
 `y = new`
 
-`x = y.new`  (This is like subclassing)
+Subclassing:
 
-`x = y.clone` (This is like prototyping or something)
+`x = y.new`
+
+Cloning (does _not_ set superclass):
+`x = y.clone`
 
 ===Setting 'fields'===
 
 `person = new`
 
 `person.name = "Bob"`
+
+`p person.name`
 
 ===Defining functions===
 
@@ -35,7 +40,7 @@ _Functions return their last value_
 
 _Parentheses are optional_
 
-`greet "justin", "collins"`
+`greet "justin", "collins"` 
 
 `greet("john", "doe")`
 
@@ -57,9 +62,13 @@ You can also use a hash-like notation to automatically pass in a hashtable of va
 
 `x.method = test->method`
 
+`x.method 123`
+
 `another = {|m| p "This is ", m }`
 
 `x.another = ->another`
+
+`x.another "me"`
 
 ===Accessing current object===
 
