@@ -1,5 +1,4 @@
-#summary Examples of Brat Code
-
+#labels Featured
 = Factorial =
 {{{
 my.fact = {|x|
