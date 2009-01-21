@@ -17,7 +17,8 @@ Subclassing:
 
 `x = y.new`
 
-Cloning (does _not_ set superclass):
+Cloning (does _not_ set superclass, but copies methods):
+
 `x = y.clone`
 
 ===Setting 'fields'===
