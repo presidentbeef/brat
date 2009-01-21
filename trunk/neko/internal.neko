@@ -51,8 +51,8 @@ base_object.p = $varargs(function(args) {
 	var i = 0;
 	var len = $asize(args);
 	while i < len {
-		if(has_field(args[i], "to_s")) {
-			args[i] = args[i].to_s();
+		if(has_field(args[i], "to@unders")) {
+			args[i] = args[i].to@unders();
 		};
 		i += 1;
 	};
@@ -61,11 +61,11 @@ base_object.p = $varargs(function(args) {
 })
 
 var @false_value = new_brat(null, null);
-@false_value.to_s = function() { "false" };
+@false_value.to@unders = function() { "false" };
 var @true_value = new_brat(null, null);
-@true_value.to_s = function() { "true" };
+@true_value.to@unders = function() { "true" };
 var @null_value = new_brat(null, null);
-@null_value.to_s = function() { "null" };
+@null_value.to@unders = function() { "null" };
 base_object.@false = function() { @false_value }
 base_object.@true = function() { @true_value }
 base_object.@null = function() { @null_value}
@@ -289,7 +289,7 @@ base_array.@internal_array = $amake(0);
 base_array.new = $varargs(function(args) {
 	var ary = new_brat(base_array, null);
 	ary.@internal_array = $acopy(args);
-	ary.length = function() { 0 };
+	ary.length = function() { $asize(ary.@internal_array) };
 	ary;
 });
 
@@ -329,10 +329,10 @@ base_array.get = $varargs(function(args) {
 			start = len -1;
 		}
 		if(start < stop) {
-			base_array.new($asub(this.@internal_array, start, (stop - start + 1)));
+			$exports.make_array($asub(this.@internal_array, start, (stop - start + 1)));
 		}
 		else {
-			base_array.new($asub(this.@internal_array, stop, (start - stop + 1)));
+			$exports.make_array($asub(this.@internal_array, stop, (start - stop + 1)));
 		}
 	}
 	else {
@@ -352,13 +352,13 @@ base_array.set = function(index, value) {
 	this;
 }
 
-base_array.to_s = function() {
+base_array.to@unders = function() {
 	var i = 0;
 	var len = $asize(this.@internal_array);
 	var temp = $amake(len);
 	while i < len {
-		if(has_field(this.@internal_array[i], "to_s"))
-			temp[i] = this.@internal_array[i].to_s();
+		if(has_field(this.@internal_array[i], "to@unders"))
+			temp[i] = this.@internal_array[i].to@unders();
 		else if(hasfield(this.@internal_array[i], "@value"))
 			temp[i] = this.@internal_array[i].@value;
 		else
@@ -424,14 +424,13 @@ $exports.hset = function(hashtable, index, value) {
 $exports.make_array = function(neko_array) {
 	var ary = base_array.new();
 	ary.@internal_array = neko_array;
-	var len = $asize(neko_array);
-	ary.length = function() { len };
+	ary.length = function() { $asize(ary.@internal_array) };
 	ary;
 }
 
 base_number = new_brat(null, null);
 base_number.@value = 0;
-base_number.to_s = function() {
+base_number.to@unders = function() {
 	$string(this.@value);
 }
 
@@ -446,7 +445,7 @@ base_number.new = function(num) {
 
 base_string = new_brat(null, null);
 base_string.@value = "";
-base_string.to_s = function() {
+base_string.to@unders = function() {
 	this.@value;
 }
 base_string.new = $varargs(function(args) {

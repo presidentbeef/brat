@@ -17,7 +17,7 @@ grammar BaseBrat
 		end
 
 		def inner_brat
-			elements.map {|e| "   " << e.brat }.compact.join(";").gsub(";", ";\n")
+			elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";").gsub(";", ";\n")
 		end
 	}
 	/
@@ -46,7 +46,8 @@ grammar BaseBrat
 
   rule expression
  	binary_operation / index_set / index_get / 
-	assignment / paren_exp / method_access / method_invocation / number / string / method_definition / hash / array
+	assignment / paren_exp ~(!".") { def brat; output = paren_exp.brat; @result = paren_exp.result; output;  end } / 
+	method_access / method_invocation / number / string / method_definition / hash / array
   end
 
   rule expression2
@@ -140,7 +141,7 @@ grammar BaseBrat
   end
 
   rule index_get
-  	e:expression2 a:("[" inner_arg_list "]")+ args:arg_list {
+  	e:expression2 a:("[" inner_arg_list "]")+ !"." args:arg_list {
 
 		def brat
 			output = e.brat
@@ -219,7 +220,6 @@ grammar BaseBrat
 
   rule paren_exp
   	'(' expression ')' {
-		attr_reader :result
 		def brat
 			output = expression.brat
 			@result = expression.result
@@ -426,6 +426,15 @@ grammar BaseBrat
 			"var #@result = @brat.get_value(#{m.brat}, \"#{m.brat}\", #{a.result}, this);"
 		end
 	}
+	/
+	m:paren_exp a:arg_list {
+		def brat
+			output = m.brat
+			output << a.brat
+			next_temp
+			output << "var #@result = @brat.invoke(#{m.result}, #{a.result}, this);"
+		end
+	}
   end
 
   rule method_chain
@@ -446,8 +455,7 @@ grammar BaseBrat
 			output
 		end
 	}
-	/
-	expression3 "." method_chain
+	
   end
 
   rule method_lhs
@@ -477,6 +485,23 @@ grammar BaseBrat
 			output
 		end	
 	}
+	/
+	a:array a_rest:(array+) {
+		def brat
+			output = a.brat
+			last = a.result
+			a_rest.elements.each do |elem|
+				output << elem.inner_arg_list.brat
+				next_temp
+				output << "var #@result = @brat.call_method(#{last}, \"__get\", #{elem.inner_arg_list.result});" 
+				last = @result
+			end
+			@result = last
+			output
+		end
+	}
+	/
+	expression3
   end
 
   rule method_access

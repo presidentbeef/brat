@@ -51,8 +51,8 @@ class BratParserTest < Test::Unit::TestCase
 		parse("\"a\".test.test(1).test")
 		parse("a[1].test")
 		parse("1.test[3].test(1)[3][3].test")
-		#parse('("hi").test')
-		#parse("\"hi\".test")
+		parse('"hi".test')
+		parse('(a).test')
 	end
 
 	def test_big_combo_parse
@@ -66,7 +66,9 @@ class BratParserTest < Test::Unit::TestCase
 		parse("[1, a, b, b.m, c.d(1,2,3)]")
 		parse("[[[1,a], [2,b], [3,c]]]")
 		parse("[1][0][2]")
-		#parse("[a][b][c][d,2].test")
+		parse("[1,2,3].test")
+		parse("[1].test")
+		parse("[a][b][c][d,2].test")
 	end
 
 	def test_simple_args_parse
@@ -231,6 +233,14 @@ class BratParserTest < Test::Unit::TestCase
 		parse("a[z] = {|x, y| x }")
 	end
 
+	def test_comment_parse
+		parse "x = 1; #x = 6 \n x"
+		parse  "x = 1; //x = 6 \n x"
+		parse "x = 1; /* x = 6 */ \n x"
+		parse "x = 1; /* \n x = 6 \n */ \n x"
+	end
+
+
 	def test_object_method_call
 		assert_result "1", "test = new; test.test = { 1 }; test.test"
 	end
@@ -277,6 +287,13 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "3", "x = new; x.y = 3; x.z = {|y| my.y}; x.z 4"
 	end
 
+	def test_comments
+		assert_result "1", "x = 1; #x = 6 \n x"
+		assert_result "1", "x = 1; //x = 6 \n x"
+		assert_result "1", "x = 1; /* x = 6 */ \n x"
+		assert_result "1", "x = 1; /* \n x = 6 \n */ \n x"
+	end
+
 	def test_parameter_scope
 		assert_result "4", "x = { |y, z| z }; z = 2; x 3, 4;"
 		assert_result "2", "x = { |y, z| z }; z = 2; x 3, 4; z"
@@ -294,7 +311,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "3", "x = [1,2,3]; x.length"
 		assert_result "a", "y = { 3}; x = [1, \"a\", y]; x[1]"
 		assert_result "b", '["a", "b", "c"][1]'
-		assert_result "3", "[1,2,3,4][2,3].length"
+		assert_result "2", "[1,2,3,4][2,3].length"
 	end
 
 	def test_array_method
