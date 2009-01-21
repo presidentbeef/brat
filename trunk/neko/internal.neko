@@ -70,6 +70,19 @@ base_object.@false = function() { @false_value }
 base_object.@true = function() { @true_value }
 base_object.@null = function() { @null_value}
 
+base_object.@equal = function(rhs) {
+	var lhs = this;
+	if(has_field(rhs, "@value") && has_field(lhs, "@value")) {
+		rhs = rhs.@value;
+		lhs = lhs.@value;
+	}
+
+	if(lhs == rhs)
+		this.@true();
+	else
+		this.@false();
+}
+
 var istrue = function(arg) {
 	if(arg == base_object.@null() || arg == base_object.@false()) {
 		false;
@@ -441,6 +454,43 @@ base_number.new = function(num) {
 	else
 		n.@value = num;
 	n;
+}
+
+base_number.@plus = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+
+	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
+		base_number.new($iadd(lhs, rhs));
+	else
+		base_number.new(lhs + rhs);
+}
+
+base_number.@minus = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+
+	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
+		base_number.new($isub(lhs, rhs));
+	else
+		base_number.new(lhs - rhs);
+}
+
+base_number.@forward = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+
+	base_number.new(lhs / rhs);
+}
+
+base_number.@star = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+
+	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
+		base_number.new($imult(lhs, rhs));
+	else
+		base_number.new(lhs * rhs);
 }
 
 base_string = new_brat(null, null);

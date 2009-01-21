@@ -1,3 +1,5 @@
-x = new
-x.z = {|y| p y }
-(x).z 1
+my.fact = {|x|
+	true? x == 0, 1, { x * my.fact(x - 1)}
+}
+
+p fact 5

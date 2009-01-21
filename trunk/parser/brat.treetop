@@ -663,9 +663,10 @@ grammar BaseBrat
   end
 
   rule operator
-	([!?\-*+^@~/\\><$_%] / "||" / "|" / "&&" / "&") {
+	("!=" / [!?\-*+^@~/\\><$_%] / "||" / "|" / "&&" / "&" / "==" )+ {
 		def brat
-			case text_value
+			elements.map {|e| e.text_value}.join.gsub(/(!=|[!?\-*+^@~\/\\><$_%|&]|==)/) do
+			case $1
 			when "*"
 				"@star"
 			when "-"
@@ -703,9 +704,10 @@ grammar BaseBrat
 			when "%"
 				"@percent"
 			else
-				nil	
+				"---something unmatched---"
 			end
 		end
+	end
 	}
   end
 
