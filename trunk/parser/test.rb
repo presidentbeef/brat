@@ -97,6 +97,8 @@ class BratParserTest < Test::Unit::TestCase
 	def test_operation
 		assert_result "1", "a = new; a.! = {|b| b }; a ! 1"
 		assert_result "2", "a = new; a.? = {|b| 2}; a ? \"hello\""
+		assert_result "2", "array.@ = {|i|\nmy[i]\n}\na = [[[1,2,3]]]; a @ 0 @ 0 @ 1"
+		assert_result "2", "array.@ = {|i|\nmy[i]\n}\na = [[[1,2,3]]]; c = new;c.a = 0; c.b = 1; a @ c.a @ c.a @ c.b"
 	end
 
 	def test_true

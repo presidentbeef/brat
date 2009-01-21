@@ -374,16 +374,16 @@ grammar BaseBrat
 	(e:expression4 ~space op:operator ~space)+ {
 		attr_reader :last_operator
 		def brat
-			first = elements.pop
+			first = elements.shift
 			output = first.e.brat
 			last = first.e.result
 			@result = last
 			last_operator = first.op.brat
-				
+
 			elements.each do |elem|
 				output << elem.e.brat
 				next_temp
-				output << "var #@result = @brat.call_method(#{last}, \"#{last_operator}\", #{elem.e.result});"
+				output << "var #@result = @brat.call_method(#{last}, \"#{last_operator}\", $array(#{elem.e.result}));"
 				last = @result
 				last_operator = elem.op.brat
 			end
@@ -423,7 +423,6 @@ grammar BaseBrat
 				}
 				else { #@result = #{m.brat} }
 			};"
-
 		end
 	}
   end
