@@ -8,13 +8,16 @@ grammar BaseBrat
 			"@main_brat.@main_tantrum = function() {\n" <<
 			"var array = @brat.base_array;" <<
 			"var hash = @brat.base_hash;" <<
+			"var number = @brat.base_number;" <<
+			"var string = @brat.base_string;" <<
+			"\n" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
 			"@exit_value = @main_brat.@main_tantrum();\n"
 		end
 
 		def inner_brat
-			elements.map {|e| e.brat }.compact.join(";").gsub(";", ";\n")
+			elements.map {|e| "   " << e.brat }.compact.join(";").gsub(";", ";\n")
 		end
 	}
 	/
@@ -95,11 +98,11 @@ grammar BaseBrat
 			hash_temp = @result
 			output = "var #{hash_temp} = $hnew(#{rest.elements.length + 1});"
 			output << first.brat
-			output << "$hset(#{hash_temp}, #{first.index}, #{first.value}, null);"
+			output << "@brat.hset(#{hash_temp}, #{first.index}, #{first.value});"
 			rest.elements.each do |e|
 				elem = e.n
 				output << elem.brat
-				output << "$hset(#{hash_temp}, #{elem.index}, #{elem.value}, null);"
+				output << "@brat.hset(#{hash_temp}, #{elem.index}, #{elem.value});"
 			end
 			next_temp
 			output << "var #@result = @brat.make_hash(#{hash_temp});"
@@ -280,24 +283,16 @@ grammar BaseBrat
   	i:integer "." d:integer {
 		def brat
 			next_temp
-			"var #@result = #{i.text_value}.#{d.text_value};"
+			"var #@result = number.new(#{i.text_value}.#{d.text_value});"
 		end
 	}
   end
 
   rule integer
-	[0-9]+ {
+	"-"? [0-9]+ {
 		def brat
 			next_temp
-			"var #@result = #{text_value};"
-		end
-	}
-  end
-
-  rule digit
-  	[0-9] {
-		def brat
-			text_value
+			"var #@result = number.new(#{text_value});"
 		end
 	}
   end
@@ -306,7 +301,7 @@ grammar BaseBrat
     '"' (!'"' . / '\"')* '"' {
 	    def brat
 		    next_temp
-		    "var #@result = #{text_value};"
+		    "var #@result = string.new(#{text_value});"
 	    end
     }
   end
@@ -489,14 +484,7 @@ grammar BaseBrat
 		def brat
 			next_temp
 			if var_exist? m.brat
-				"var #@result;
-				if($typeof(#{m.brat}) == $tfunction) {
-					#@result = #{m.brat};
-				}
-				else
-				{
-					#@result = #{m.brat};
-				};"
+				"var #@result = #{m.brat};"
 			else	
 				"var #@result = $objget(this, $hash(\"#{m.brat}\"));"
 			end
@@ -609,7 +597,7 @@ grammar BaseBrat
 				output << "var #{hash_temp} = $hnew(#{named_args.length});"
 				named_args.map do |e|
 					output << e.i.brat
-					output << "$hset(#{hash_temp}, #{e.i.result}, #{e.result}, null);"
+					output << "@brat.hset(#{hash_temp}, #{e.i.result}, #{e.result});"
 				end
 				next_temp
 				output << "var #@result = @brat.make_hash(#{hash_temp});"

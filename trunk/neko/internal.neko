@@ -48,13 +48,24 @@ base_object.my = function() {
 	return this;
 }
 base_object.p = $varargs(function(args) {
+	var i = 0;
+	var len = $asize(args);
+	while i < len {
+		if(has_field(args[i], "to_s")) {
+			args[i] = args[i].to_s();
+		};
+		i += 1;
+	};
 	$call($print, null, args);
 	$print("\n");
 })
 
 var @false_value = new_brat(null, null);
+@false_value.to_s = function() { "false" };
 var @true_value = new_brat(null, null);
+@true_value.to_s = function() { "true" };
 var @null_value = new_brat(null, null);
+@null_value.to_s = function() { "null" };
 base_object.@false = function() { @false_value }
 base_object.@true = function() { @true_value }
 base_object.@null = function() { @null_value}
@@ -215,7 +226,7 @@ base_object.@null@question = $varargs(function(args) {
 			}
 		}
 		else {
-			first;
+			false;
 		}
 	}
 	else if($asize(args) == 3) {
@@ -254,8 +265,8 @@ base_object.not = function(arg) {
 
 
 has_field = function(object, field_name) {
-	if(object == null) {
-		return null;
+	if(object == null || $typeof(object) != $tobject) {
+		return false;
 	}
         if($objfield(object, $hash(field_name))) {
                 return true;
@@ -284,28 +295,32 @@ base_array.new = $varargs(function(args) {
 
 base_array.get = $varargs(function(args) {
 	if($asize(this.@internal_array) == 0) {
-		return null;
+		return @base_object.@null();
 	}
 	if($asize(args) == 0) {
 		throw("Invalid array access: null");
 	}
 	if($asize(args) == 1) {
 		if(args[0] >= this.length()) {
-			null;
+			base_object.@null();
 		}
 		else {
-			this.@internal_array[args[0]];
+			var res = this.@internal_array[args[0].@value];
+			if(res == null)
+				base_object.@null();
+			else
+				res;
 		}
 	}
 	else if($asize(args) == 2) {
 		var len = $asize(this.@internal_array);
-		var start = args[0];
-		var stop = args[1];
+		var start = args[0].@value;
+		var stop = args[1].@value;
 		if(start < 0) {
-			args[0] = len + args[0];
+			start = len + start;
 		}
 		if(stop < 0) {
-			args[0] = len + args[0];
+			stop = len + stop;
 		}
 		if(stop >= len) {
 			stop = len - 1;
@@ -313,13 +328,12 @@ base_array.get = $varargs(function(args) {
 		if(start >= len) {
 			start = len -1;
 		}
-		if(args[0] < args[1]) {
-			$asub(this.@internal_array, start, (stop - start + 1));
+		if(start < stop) {
+			base_array.new($asub(this.@internal_array, start, (stop - start + 1)));
 		}
 		else {
-			$asub(this.@internal_array, stop, (start - stop + 1));
+			base_array.new($asub(this.@internal_array, stop, (start - stop + 1)));
 		}
-		this;
 	}
 	else {
 		$throw("Wrong number of arguments. Should be 1 or 2 arguments.");
@@ -328,6 +342,7 @@ base_array.get = $varargs(function(args) {
 });
 
 base_array.set = function(index, value) {
+	index = index.@value;
 	if(index >= this.length()) {
 		var new_array = $amake(index - this.length() + 1);
 		this.@internal_array = $aconcat($array(this.@internal_array, new_array));
@@ -335,6 +350,23 @@ base_array.set = function(index, value) {
 	}
 	this.@internal_array[index] = value;
 	this;
+}
+
+base_array.to_s = function() {
+	var i = 0;
+	var len = $asize(this.@internal_array);
+	var temp = $amake(len);
+	while i < len {
+		if(has_field(this.@internal_array[i], "to_s"))
+			temp[i] = this.@internal_array[i].to_s();
+		else if(hasfield(this.@internal_array[i], "@value"))
+			temp[i] = this.@internal_array[i].@value;
+		else
+			temp[i] = this.@internal_array[i];
+
+		i += 1;
+	}
+	temp;
 }
 
 base_array.__set = base_array.set;
@@ -359,10 +391,17 @@ base_hash.new = $varargs(function(args) {
 });
 
 base_hash.get = function(index) {
-	$hget(this.@internal_hash, index, null);
+	if(has_field(index, "@value"))
+		index = index.@value;
+	if($hmem(this.@internal_hash, index, null))
+		$hget(this.@internal_hash, index, null);
+	else
+		base_object.@null();
 }
 
 base_hash.set = function(index, value) {
+	if(has_field(index, "@value"))
+		index = index.@value;
 	$hset(this.@internal_hash, index, value, null);
 	this;
 }
@@ -376,6 +415,12 @@ $exports.make_hash = function(neko_hash) {
 	hsh;
 }
 
+$exports.hset = function(hashtable, index, value) {
+	if(has_field(index, "@value"))
+		index = index.@value;
+	$hset(hashtable, index, value, null)
+}
+
 $exports.make_array = function(neko_array) {
 	var ary = base_array.new();
 	ary.@internal_array = neko_array;
@@ -383,6 +428,40 @@ $exports.make_array = function(neko_array) {
 	ary.length = function() { len };
 	ary;
 }
+
+base_number = new_brat(null, null);
+base_number.@value = 0;
+base_number.to_s = function() {
+	$string(this.@value);
+}
+
+base_number.new = function(num) {
+	var n =  new_brat(base_number, null);
+	if($typeof(num) == $tobject)
+		n.@value = num.@value;
+	else
+		n.@value = num;
+	n;
+}
+
+base_string = new_brat(null, null);
+base_string.@value = "";
+base_string.to_s = function() {
+	this.@value;
+}
+base_string.new = $varargs(function(args) {
+	var s = new_brat(base_string, null);
+	if($asize(args) == 0) {
+		s.@value = "";
+	}
+	else if($asize(args) == 1) {
+		s.@value = $string(args[0]);
+	}
+	else {
+		$throw("Too many arguments to string.new(). Only takes 0 or 1.");
+	}
+	s;
+})
 
 $exports.call_method = function(object, method, args) {
 	//$print("Calling ", method, " on ", object, " with (", args, ")\n");
@@ -427,3 +506,5 @@ $exports.base_object = base_object;
 $exports.has_field = has_field;
 $exports.base_array = base_array;
 $exports.base_hash = base_hash;
+$exports.base_number = base_number;
+$exports.base_string = base_string;

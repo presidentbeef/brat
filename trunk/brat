@@ -30,11 +30,11 @@ def newer? file1, file2
 end
 
 def brat file_name, keep_intermediate = false, force = false
-	new_parser = compile_parser
-	new_internal = compile_brat_internal
+	new_parser = compile_parser force
+	new_internal = compile_brat_internal force
 
-	if not File.exist?(file_name + ".n") or newer? file_name, file_name + ".n" or new_parser or new_internal
-		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or new_parser or new_internal
+	if not File.exist?(file_name + ".n") or newer? file_name, file_name + ".n" or new_parser or new_internal or force
+		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or new_parser or new_internal or force
 			brat_input = File.read file_name
 			neko = brat_to_neko brat_input
 			File.open(file_name + ".neko", "w") {|f| f.puts neko }
@@ -51,11 +51,12 @@ def brat file_name, keep_intermediate = false, force = false
 end
 
 if ARGV[0]
+	force = ARGV[1] == "-force"
 	require 'benchmark'
-	time = Benchmark.realtime do
-		brat ARGV[0], true
+	time = Benchmark.measure do
+		brat ARGV[0], true, force
 	end
-	puts "Ran in: #{time} seconds"
+	puts "Ran in: #{time.format('%t')} seconds"
 else
 	abort "Please supply brat file name"
 end

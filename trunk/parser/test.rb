@@ -63,8 +63,10 @@ class BratParserTest < Test::Unit::TestCase
 	def test_array_parse
 		parse("[1,2,3]")
 		parse("[a,1,b]")
+		parse("[1, a, b, b.m, c.d(1,2,3)]")
+		parse("[[[1,a], [2,b], [3,c]]]")
 		parse("[1][0][2]")
-		parse("[a][b][c][d,2].test")
+		#parse("[a][b][c][d,2].test")
 	end
 
 	def test_simple_args_parse
@@ -105,8 +107,8 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", "true? false, 0, 1"
 		assert_result "1", "true? {false}, 0, {1}"
 		assert_result "2", "true? {true}, {2}, {1}"
-		assert_result "{}", "true? 0"
-		assert_result "{}", "true?"
+		assert_result "true", "true? 0"
+		assert_result "true", "true?"
 		assert_result "0", "true? (true? 1), 0"
 		assert_result "0", "true? {true? 1}, {0}"
 		assert_result "0", "true? true?, 0, 1"
@@ -119,8 +121,8 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "0", "false? false, 0, 1"
 		assert_result "0", "false? {false}, 0, {1}"
 		assert_result "1", "false? {true}, {2}, {1}"
-		assert_result "{}", "false? 0"
-		assert_result "{}", "false?"
+		assert_result "false", "false? 0"
+		assert_result "false", "false?"
 		assert_result "0", "false? (false? 1), 0"
 		assert_result "0", "false? {false? 1}, {0}"
 		assert_result "0", "false? false?, 0, 1"
@@ -133,10 +135,10 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "0", "null? null, 0, 1"
 		assert_result "0", "null? {null}, 0, {1}"
 		assert_result "1", "null? {true}, {2}, {1}"
-		assert_result "{}", "null? 0"
-		assert_result "{}", "(null? null)"
+		assert_result "false", "null? 0"
+		assert_result "true", "(null? null)"
 		assert_result "0", "true? (null? null), 0"
-		assert_result "{}", "null? {true? 1}, {0}"
+		assert_result "false", "null? {true? 1}, {0}"
 		assert_result "0", "false? null?, 0, 1"
 		assert_result "0", "true? null.null?, 0, 1"
 	end
@@ -212,12 +214,6 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_simple_method_call
 		assert_result "1", "test = { 1 }; test"
-	end
-
-	def test_array_parse
-		parse("[1,2,3]")
-		parse("[1, a, b, b.m, c.d(1,2,3)]")
-		parse("[[[1,a], [2,b], [3,c]]]")
 	end
 
 	def test_hash_parse
@@ -298,6 +294,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "3", "x = [1,2,3]; x.length"
 		assert_result "a", "y = { 3}; x = [1, \"a\", y]; x[1]"
 		assert_result "b", '["a", "b", "c"][1]'
+		assert_result "3", "[1,2,3,4][2,3].length"
 	end
 
 	def test_array_method
@@ -311,6 +308,12 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "2", "y = [2]; x = [1:y]; x[1][0]"
 	end
 
+	def test_string
+		assert_result "a", '"a"'
+		assert_result "1", 'a = "a"; b = [a:1]; b["a"]'
+		assert_result "b", 'b = ["a", "b", "c"]; b[1]'
+	end
+
 	def parse input
 		result = @parser.parse(input)
 		unless result
@@ -322,7 +325,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def brat input
 		out = @parser.parse(input).brat
-		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "$print(@exit_value);"}
+		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@main_brat.p(@exit_value);"}
 		result = `nekoc .test.neko.tmp && neko .test.neko.n `
 		File.delete(".test.neko.n")
 		File.delete(".test.neko.tmp")
@@ -331,7 +334,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def assert_fail code
 		out = @parser.parse(code).brat
-		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "$print(@exit_value);"}
+		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@main_brat.p(@exit_value);"}
 		`nekoc .test.neko.tmp 2> /dev/null && neko .test.neko.n 2> /dev/null`
 		File.delete(".test.neko.n")
 		File.delete(".test.neko.tmp")
