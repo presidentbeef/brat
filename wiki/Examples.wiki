@@ -1,9 +1,14 @@
 #labels Featured
 = The Usual Suspects =
 
-_Note: recursive functions require 'my' (at the moment)._
+== Hello, World ==
+
+p "Hello, world"
 
 == Factorial ==
+
+_Note: recursive functions require 'my' (at the moment)._
+
 {{{
 my.fact = {|x|
         true? x == 0, 1, { x * my.fact(x - 1)}
