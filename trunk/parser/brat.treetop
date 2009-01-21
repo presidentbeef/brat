@@ -408,21 +408,7 @@ grammar BaseBrat
 		def brat
 			next_temp
 			a.brat <<
-			"var #@result;
-			if($typeof(#{m.brat}) == $tnull) {
-				if(@brat.has_field(this, \"#{m.brat}\")) {
-			 		#@result = @brat.call_method(this, \"#{m.brat}\", #{a.result});
-				}
-				else
-				{
-					$throw(\"Trying to invoke null method #{m.brat}.\");
-				}
-			} else {
-				if($typeof(#{m.brat}) == $tfunction) {
-					#@result = @brat.invoke(#{m.brat}, #{a.result}, this);
-				}
-				else { #@result = #{m.brat} }
-			};"
+			"var #@result = @brat.get_value(#{m.brat}, \"#{m.brat}\", #{a.result}, this);"
 		end
 	}
   end
@@ -442,23 +428,7 @@ grammar BaseBrat
 		def brat
 			next_temp
 			a.brat <<
-			"var #@result;
-			//being called as (identifier arg_list)
-			if($typeof(#{m.brat}) == $tnull) {
-				if(@brat.has_field(this, \"#{m.brat}\")) {
-			 		#@result = @brat.call_method(this, \"#{m.brat}\", #{a.result});
-				}
-				else
-				{
-					$throw(\"Trying to invoke null method #{m.brat}.\");
-				}
-			} else {
-				if($typeof(#{m.brat}) == $tfunction) {
-					#@result = @brat.invoke(#{m.brat}, #{a.result}, this);
-				}
-				else { #@result = #{m.brat} }
-			};"
-
+			"var #@result = @brat.get_value(#{m.brat}, \"#{m.brat}\", #{a.result}, this);"
 		end
 	}
   end
