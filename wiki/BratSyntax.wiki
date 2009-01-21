@@ -114,7 +114,7 @@ _This returns second parameter if first is true, otherwise returns second parame
 
 `a = null`
 
-`false? { null? a }, { p "a is not null" }, { p "a is null" }
+`false? { null? a }, { p "a is not null" }, { p "a is null" }`
 
 ===Arrays===
 
