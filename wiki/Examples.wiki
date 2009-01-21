@@ -1,9 +1,28 @@
 #labels Featured
-= Factorial =
+= The Usual Suspects =
+
+_Note: recursive functions require 'my' (at the moment)._
+
+== Factorial ==
 {{{
 my.fact = {|x|
         true? x == 0, 1, { x * my.fact(x - 1)}
 }
 
 p fact 5
+}}}
+
+== Fibonacci ==
+
+{{{
+my.fibonacci = { |x|
+        true? x == 0,
+                0,
+                { true? x == 1,
+                        1,
+                        {
+                                fibonacci(x - 1) + fibonacci(x - 2)}};
+                        }
+
+p fibonacci 10
 }}}
