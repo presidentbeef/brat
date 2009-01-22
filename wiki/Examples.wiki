@@ -1,5 +1,4 @@
 #labels Featured
-
 = The Usual Suspects =
 
 == Hello, World ==
@@ -38,12 +37,25 @@ p fibonacci 10
 
 = Extending Objects =
 
-== Let's get Lispy (sort of) == 
+== Convenience == 
 
 {{{
-array.rest = { my[1,-1] }
 array.first = { my[0] }
+array.rest = { my[1,-1] }
 
 p [1,2,3].first
 p [1,2,3].rest
+}}}
+
+== Let's get functional? ==
+
+{{{
+#Assume first and rest defined as above
+array.map = {|f|
+        true? my.length <= 0,
+                {[]},
+                { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
+}
+
+p [1,2,3].map({|x| x + 1})
 }}}
