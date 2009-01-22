@@ -178,7 +178,7 @@ Hashtables, associative arrays, maps, dictionaries...whatever you want to call t
 
 ===Binary Operators===
 
-You can define certain binary operators. These should always take one parameters. They can then be used as 'infix' notation.
+You can define certain binary operators. These should always take one parameter. They can then be used as 'infix' notation.
 
 `array.@ = {|i| my[i]}`
 
