@@ -1,4 +1,5 @@
 #labels Featured
+
 = The Usual Suspects =
 
 == Hello, World ==
@@ -32,4 +33,17 @@ my.fibonacci = { |x|
                         }
 
 p fibonacci 10
+}}}
+
+
+= Extending Objects =
+
+== Let's get Lispy (sort of) == 
+
+{{{
+array.rest = { my[1,-1] }
+array.first = { my[0] }
+
+p [1,2,3].first
+p [1,2,3].rest
 }}}
