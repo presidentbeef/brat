@@ -391,7 +391,7 @@ class BratParserTest < Test::Unit::TestCase
 	def test_parameter_scope
 		assert_result "4", "x = { |y, z| z }; z = 2; x 3, 4;"
 		assert_result "2", "x = { |y, z| z }; z = 2; x 3, 4; z"
-		assert_result "2", "y = 1; z = 2; x = { z = 3 }; x; z"
+		assert_result "2", "y = 1; z = 2; x = {|z| z = 3 }; x 0; z"
 		assert_result "2", "y = 1; z = 2; x = { |z| z = 3 }; x z; z"
 	end
 
@@ -458,6 +458,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "true", "true? 1 >= 1"
 		assert_result "true", "a = 300; b = 200; b + 100 == a"
 		assert_result "true", "a = 300; b = 200; (b + 300) == (a + 200)"
+		assert_result "false", "[1,2,3].length <= 1" #problem
 	end
 
 	def parse input

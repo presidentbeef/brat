@@ -295,6 +295,24 @@ has_field = function(object, field_name) {
         }
 }
 
+num_args = function(object, method) {
+	if(object == null || $typeof(object) != $tobject) {
+		$throw("Not an object:" + $string(object));
+	}
+        if($objfield(object, $hash(method))) {
+                $nargs($objget(object, $hash(method)));
+        }
+        else {
+                var proto = $objgetproto(object);
+                if(proto == null) {
+			$throw("No method:" + method + " for " + $string(object));
+                }
+                else {
+                        return num_args(proto, method);
+                }
+        }
+
+}
 
 base_array = new_brat(null, null);
 base_array.@internal_array = $amake(0);
@@ -302,9 +320,12 @@ base_array.@internal_array = $amake(0);
 base_array.new = $varargs(function(args) {
 	var ary = new_brat(base_array, null);
 	ary.@internal_array = $acopy(args);
-	ary.length = function() { $asize(ary.@internal_array) };
 	ary;
 });
+
+base_array.length = function() {
+	base_number.new($asize(this.@internal_array));
+}
 
 base_array.get = $varargs(function(args) {
 	if($asize(this.@internal_array) == 0) {
@@ -314,7 +335,7 @@ base_array.get = $varargs(function(args) {
 		throw("Invalid array access: null");
 	}
 	if($asize(args) == 1) {
-		if(args[0] >= this.length()) {
+		if(args[0] >= this.length().@value) {
 			base_object.@null();
 		}
 		else {
@@ -356,12 +377,25 @@ base_array.get = $varargs(function(args) {
 
 base_array.set = function(index, value) {
 	index = index.@value;
-	if(index >= this.length()) {
-		var new_array = $amake(index - this.length() + 1);
+	if(index >= this.length().@value) {
+		var new_array = $amake(index - this.length().@value + 1);
 		this.@internal_array = $aconcat($array(this.@internal_array, new_array));
-		this.length = function() { index + 1 };
 	}
 	this.@internal_array[index] = value;
+	this;
+}
+
+base_array.@less@less = function(value) {
+	var old_len = $asize(this.@internal_array);
+	var new_array = $amake(old_len + 1);
+	$ablit(new_array, 0, this.@internal_array, 0, old_len);
+	new_array[old_len] = value;
+	this.@internal_array = new_array;
+	this;
+}
+
+base_array.@plus = function(ary) {
+	this.@internal_array = $aconcat($array(this.@internal_array, ary.@internal_array));
 	this;
 }
 
@@ -372,7 +406,7 @@ base_array.to@unders = function() {
 	while i < len {
 		if(has_field(this.@internal_array[i], "to@unders"))
 			temp[i] = this.@internal_array[i].to@unders();
-		else if(hasfield(this.@internal_array[i], "@value"))
+		else if(has_field(this.@internal_array[i], "@value"))
 			temp[i] = this.@internal_array[i].@value;
 		else
 			temp[i] = this.@internal_array[i];
@@ -437,7 +471,6 @@ $exports.hset = function(hashtable, index, value) {
 $exports.make_array = function(neko_array) {
 	var ary = base_array.new();
 	ary.@internal_array = neko_array;
-	ary.length = function() { $asize(ary.@internal_array) };
 	ary;
 }
 
@@ -554,7 +587,16 @@ $exports.call_method = function(object, method, args) {
 		$throw("Method invoked on null object.");
 	}
 	else {
-		$objcall(object, $hash(method), args);
+		if(has_field(object, method)) {
+			var arg_len = num_args(object, method);
+			if(arg_len == -1 || arg_len == $asize(args))
+				$objcall(object, $hash(method), args);
+			else
+				$throw("Wrong number of arguments for " + $string(object) + "." + method + ": should be " + $string(arg_len) + " but given " + $string($asize(args)));
+		}
+		else {
+			$throw("Invoking undefined method " + method + " on " + $string(object) + "\n");
+		}
 	}
 }
 
@@ -564,7 +606,11 @@ $exports.invoke = function(method, args, context) {
 		$throw("Could not invoke null method.");
 	}
 	else {
-		$call(method, context, args);
+		var arg_len = $nargs(method);
+		if(arg_len == -1 || arg_len == $asize(args))
+			$call(method, context, args);
+		else
+			$throw("Wrong number of arguments for " + $string(method) + ". Expected " + $string(arg_len) + " but given " + $string($asize(args)));
 	}
 }
 

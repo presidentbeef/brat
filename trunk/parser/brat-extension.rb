@@ -1,7 +1,7 @@
 class Treetop::Runtime::SyntaxNode
 	attr_reader :result
 	def var_exist? v
-		variables[-1].include? v
+		variables.inject {|allvars, scope| allvars.merge scope}.include? v
 	end
 
 	def var_add v

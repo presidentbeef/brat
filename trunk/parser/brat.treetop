@@ -59,7 +59,7 @@ grammar BaseBrat
   end
 
   rule expression4
- 	index_get / paren_exp / number / string / hash / array / method_invocation2
+ 	index_get / paren_exp / number / string / hash / bare_array / method_invocation2
   end
 
   rule comment
@@ -84,6 +84,23 @@ grammar BaseBrat
 
   rule array
   	"[" inner_arg_list "]" {
+		def brat
+			output = inner_arg_list.brat
+			next_temp
+			output << "var #@result = @brat.make_array(#{inner_arg_list.result});"
+		end
+	}
+	/
+	"[" space? "]" {
+		def brat
+			next_temp
+			"var #@result = @brat.make_array($amake(0));"
+		end
+	}
+  end
+
+  rule bare_array
+  	"[" inner_arg_list "]" ~(&(space / eol)) {
 		def brat
 			output = inner_arg_list.brat
 			next_temp
@@ -405,7 +422,16 @@ grammar BaseBrat
 			a.brat <<
 			"var #@result = @brat.get_value(#{m.brat}, \"#{m.brat}\", #{a.result}, this);"
 		end
+	}/
+	m:paren_exp a:simple_arg_list {
+		def brat
+			output = m.brat
+			output << a.brat
+			next_temp
+			output << "var #@result = @brat.invoke(#{m.result}, #{a.result}, this);"
+		end
 	}
+
   end
 
 

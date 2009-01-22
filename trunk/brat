@@ -22,7 +22,13 @@ def brat_to_neko input
 	require 'parser/brat'
 	require 'parser/brat-extension'
 
-	BaseBratParser.new.parse(input).brat
+	parser = BaseBratParser.new
+	tree = parser.parse(input)
+	if tree.nil? or not tree.respond_to? :brat
+		raise "Error during parsing:\n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}"
+	else
+		tree.brat
+	end
 end
 
 def newer? file1, file2
@@ -36,7 +42,12 @@ def brat file_name, keep_intermediate = false, force = false
 	if not File.exist?(file_name + ".n") or newer? file_name, file_name + ".n" or new_parser or new_internal or force
 		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or new_parser or new_internal or force
 			brat_input = File.read file_name
-			neko = brat_to_neko brat_input
+			begin
+				neko = brat_to_neko brat_input
+			rescue RuntimeError => e
+				puts e
+				exit
+			end
 			File.open(file_name + ".neko", "w") {|f| f.puts neko }
 		end
 
