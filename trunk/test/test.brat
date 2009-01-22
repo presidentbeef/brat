@@ -1,3 +1,4 @@
+base_object.name = {"hi"}
 array.first = { my[0] }
 array.rest = { my[1,-1] }
 

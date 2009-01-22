@@ -10,6 +10,7 @@ grammar BaseBrat
 			"var hash = @brat.base_hash;" <<
 			"var number = @brat.base_number;" <<
 			"var string = @brat.base_string;" <<
+			"var base@underobject = @brat.base_object;" <<
 			"\n" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
