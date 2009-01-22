@@ -7,6 +7,7 @@ Treetop.load 'parser/brat'
 require 'parser/brat-extension'
 
 system "cd neko && nekoc internal.neko"
+system "cd parser && tt brat.treetop"
 
 class BratParserTest < Test::Unit::TestCase
 	def setup
@@ -14,7 +15,7 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_little_program_parse
-		test = 'x.x = 1'
+		test = "a = new;a.! = {|x| x + 1};\na.? = {|x| x + 1};\na.\\ = {|x| x + 1};\na.- = {|x| x + 1};\na.* = {|x| x + 1};\na.+ = {|x| x + 1};\na.^ = {|x| x + 1};\na.@ = {|x| x + 1};\na.~ = {|x| x + 1};\na./ = {|x| x + 1};\na.> = {|x| x + 1};\na.< = {|x| x + 1};\na.$ = {|x| x + 1};\na._ = {|x| x + 1};\na.% = {|x| x + 1};\na.!= = {|x| x + 1};\na.>= = {|x| x + 1};\na.<= = {|x| x + 1};\na.|| = {|x| x + 1};\na.| = {|x| x + 1};\na.&& = {|x| x + 1};\na.& = {|x| x + 1};\na.== = {|x| x + 1};"
 		parse(test).brat
 	end
 
@@ -104,6 +105,99 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "2", "array.@ = {|i|\nmy[i]\n}\na = [[[1,2,3]]]; a @ 0 @ 0 @ 1"
 		assert_result "2", "array.@ = {|i|\nmy[i]\n}\na = [[[1,2,3]]]; c = new;c.a = 0; c.b = 1; a @ c.a @ c.a @ c.b"
 	end
+
+	def test_operation1
+		assert_result '1', 'a = new;a.! = {|x| x + 1}; a ! 0'
+	end
+
+	def test_operation2
+		assert_result '1', 'a = new;a.? = {|x| x + 1}; a ? 0'
+	end
+
+	def test_operation3
+		assert_result '1', 'a = new;a.\ = {|x| x + 1}; a \ 0'
+	end
+
+	def test_operation4
+		assert_result '1', 'a = new;a.- = {|x| x + 1}; a - 0'
+	end
+
+	def test_operation5
+		assert_result '1', 'a = new;a.* = {|x| x + 1}; a * 0'
+	end
+
+	def test_operation6
+		assert_result '1', 'a = new;a.+ = {|x| x + 1}; a + 0'
+	end
+
+	def test_operation7
+		assert_result '1', 'a = new;a.^ = {|x| x + 1}; a ^ 0'
+	end
+
+	def test_operation8
+		assert_result '1', 'a = new;a.@ = {|x| x + 1}; a @ 0'
+	end
+
+	def test_operation9
+		assert_result '1', 'a = new;a.~ = {|x| x + 1}; a ~ 0'
+	end
+
+	def test_operation10
+		assert_result '1', 'a = new;a./ = {|x| x + 1}; a / 0'
+	end
+
+	def test_operation11
+		assert_result '1', 'a = new;a.> = {|x| x + 1}; a > 0'
+	end
+
+	def test_operation12
+		assert_result '1', 'a = new;a.< = {|x| x + 1}; a < 0'
+	end
+
+	def test_operation13
+		assert_result '1', 'a = new;a.$ = {|x| x + 1}; a $ 0'
+	end
+
+	def test_operation14
+		assert_result '1', 'a = new;a._ = {|x| x + 1}; a _ 0'
+	end
+
+	def test_operation15
+		assert_result '1', 'a = new;a.% = {|x| x + 1}; a % 0'
+	end
+
+	def test_operation16
+		assert_result '1', 'a = new;a.!= = {|x| x + 1}; a != 0'
+	end
+
+	def test_operation17
+		assert_result '1', 'a = new;a.>= = {|x| x + 1}; a >= 0'
+	end
+
+	def test_operation18
+		assert_result '1', 'a = new;a.<= = {|x| x + 1}; a <= 0'
+	end
+
+	def test_operation19
+		assert_result '1', 'a = new;a.|| = {|x| x + 1}; a || 0'
+	end
+
+	def test_operation20
+		assert_result '1', 'a = new;a.| = {|x| x + 1}; a | 0'
+	end
+
+	def test_operation21
+		assert_result '1', 'a = new;a.&& = {|x| x + 1}; a && 0'
+	end
+
+	def test_operation22
+		assert_result '1', 'a = new;a.& = {|x| x + 1}; a & 0'
+	end
+
+	def test_operation23
+		assert_result '1', 'a = new;a.== = {|x| x + 1}; a == 0'
+	end
+
 
 	def test_true
 		assert_result "1", "true? false, 0, 1"
@@ -331,6 +425,41 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "b", 'b = ["a", "b", "c"]; b[1]'
 	end
 
+	def test_addition_subtraction
+		assert_result "0", "1 - 1"
+		assert_result "0", "1 + -1"
+		assert_result "2", "1 + 1"
+		assert_result "3", "1 + 1 + 1"
+		assert_result "-2", "1 - 1 - 1 - 1"
+		assert_result "0", "a = 1; b = 2; c = 3; c - a - b"
+		assert_result "0", "1 + 3 - 4 + 10 - 5 - 5"
+		assert_result "1", "0.5 + 0.5"
+	end
+
+	def test_division
+		assert_result "0", "0 / 100"
+		assert_result "1", "100 / 100"
+		assert_result "5", "100 / 20"
+		assert_result "1", "100 / 2 / 2 / 5 / 5"
+		assert_result "0.5", "1 / 2"
+	end
+
+	def test_multiply
+		assert_result "1", "1 * 1"
+		assert_result "-2", "1 * -2"
+		assert_result "1", "2 * 0.5 * 2 * 0.5 * 1"
+		assert_result "1.5", "a = 6; b = 0.25; a * b"
+	end
+
+	def test_number_compare
+		assert_result "true", "true? 1 < 2"
+		assert_result "false", "true? 1 > 2"
+		assert_result "true", "true? 1 <= 1"
+		assert_result "true", "true? 1 >= 1"
+		assert_result "true", "a = 300; b = 200; b + 100 == a"
+		assert_result "true", "a = 300; b = 200; (b + 300) == (a + 200)"
+	end
+
 	def parse input
 		result = @parser.parse(input)
 		unless result
@@ -343,7 +472,8 @@ class BratParserTest < Test::Unit::TestCase
 	def brat input
 		out = @parser.parse(input).brat
 		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@main_brat.p(@exit_value);"}
-		result = `nekoc .test.neko.tmp && neko .test.neko.n `
+		result = `nekoc .test.neko.tmp && neko .test.neko.n`
+		`cp .test.neko.tmp .test.neko.last_error` unless $? == 0
 		File.delete(".test.neko.n")
 		File.delete(".test.neko.tmp")
 		result.split("\n").last.strip

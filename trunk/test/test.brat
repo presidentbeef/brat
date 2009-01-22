@@ -1,5 +1,1 @@
-my.fact = {|x|
-	true? x == 0, 1, { x * my.fact(x - 1)}
-}
-
-p fact 5
+a = new;a.~ = {|x| x + 1}; p a ~ 0

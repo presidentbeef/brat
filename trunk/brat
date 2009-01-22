@@ -56,7 +56,7 @@ if ARGV[0]
 	time = Benchmark.measure do
 		brat ARGV[0], true, force
 	end
-	puts "Ran in: #{time.format('%t')} seconds"
+	puts "Ran in: #{time.format('%r')} seconds"
 else
 	abort "Please supply brat file name"
 end

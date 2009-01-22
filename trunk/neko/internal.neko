@@ -493,6 +493,42 @@ base_number.@star = function(num) {
 		base_number.new(lhs * rhs);
 }
 
+base_number.@greater = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+	if(lhs > rhs)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_number.@less = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+	if(lhs < rhs)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_number.@less@equal = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+	if(lhs <= rhs)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_number.@greater@equal = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+	if(lhs >= rhs)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
 base_string = new_brat(null, null);
 base_string.@value = "";
 base_string.to@unders = function() {

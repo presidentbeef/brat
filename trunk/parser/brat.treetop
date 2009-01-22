@@ -197,10 +197,10 @@ grammar BaseBrat
 		def brat
 			output = rhs.brat <<
 			if var_exist? lhs.brat
-				"#{lhs.brat} = #{rhs.result}"
+				"#{lhs.brat} = #{rhs.result};"
 			else
 				var_add lhs.brat
-				"var #{lhs.brat} = #{rhs.result}"
+				"var #{lhs.brat} = #{rhs.result};"
 			end
 			@result = rhs.result
 			output
@@ -663,9 +663,9 @@ grammar BaseBrat
   end
 
   rule operator
-	("!=" / [!?\-*+^@~/\\><$_%] / "||" / "|" / "&&" / "&" / "==" )+ {
+	("!=" / ">=" / "<=" / [!?\-*+^@~/\\><$_%] / "||" / "|" / "&&" / "&" / "==" )+ {
 		def brat
-			elements.map {|e| e.text_value}.join.gsub(/(!=|[!?\-*+^@~\/\\><$_%|&]|==)/) do
+			elements.map {|e| e.text_value}.join.gsub(/(!=|>=|<=|[!?\-*+^@~\/\\><$_%|&]|==)/) do
 			case $1
 			when "*"
 				"@star"
@@ -701,6 +701,10 @@ grammar BaseBrat
 				"@notequal"
 			when "=="
 				"@equal"
+			when ">="
+				"@greater@equal"
+			when "<="
+				"@less@equal"
 			when "%"
 				"@percent"
 			else
