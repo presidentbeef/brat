@@ -1,0 +1,70 @@
+#summary Objects built into Brat
+
+Brat comes with several "built in" objects that are always available to your program. The only thing special about these is that they are written in Neko and not Brat. Otherwise, they are the same as any other Brat object.
+
+== base_object ==
+
+base_object is the mother of all objects. Every Brat object is a subclass of base_object. Therefore, any methods defined on base_object are available anywhere in your program, and on any object (unless, for some reason, it was removed or modified).
+
+base_object methods:
+
+  * `new` - returns a new object, which is a subclass of base_object
+  * `clone` - returns a new object, which is a clone of base_object (_not_ a subclass)
+  * `p(x)` - print out a value x
+  * `my` - returns the current object
+  * `false` - false value
+  * `true` - true value
+  * `null` - null value
+  * `not(x)`
+  * `false?`
+  * `true?`
+  * `null?`
+  * `==` - checks if two objects are the same
+
+== array ==
+
+array is an object which holds a list of objects.
+
+There is a literal array syntax: `[1,2,3]`
+
+array methods:
+
+  * `new(a = [])` - returns a new array or a copy of one
+  * `get(i)`, `[i]` - returns element x in list
+  * `get(start, stop)`, `[start,stop]` - returns a slice of the array
+  * `set(i)`, `[i] = y` - sets element i to y
+  * `<< y` - appends y to the array
+  * `+ a` - concatenates array a to the array
+  * `to_s` - nicer string representation of array
+
+== hash ==
+
+hash is an object which associates keys with values.
+
+It also has a literal syntax: `[1:"a", 2:"b"]`
+
+hash methods:
+
+  * `new(hash = [])` - returns a new hash 
+  * `get(k)`, `[k]` - returns value associated with key
+  * `set(k,v)`, `[k] = v` - sets key to value
+
+== number ==
+
+Numbers are also objects in Brat, subclasses of the number object.
+
+number methods:
+
+(TODO)
+
+== string ==
+
+Strings of characters ("hello!") are objects, too, subclasses of the string object.
+
+string methods:
+
+(TODO)
+
+=== Functions ===
+
+Functions are the only non-object values in Brat. They can only be invoked. You cannot associate functions with functions. At the moment. This may change.
