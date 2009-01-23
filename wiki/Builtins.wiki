@@ -2,14 +2,14 @@
 
 Brat comes with several "built in" objects that are always available to your program. The only thing special about these is that they are written in Neko and not Brat. Otherwise, they are the same as any other Brat object.
 
-== base_object ==
+== Object ==
 
-base_object is the mother of all objects. Every Brat object is a subclass of base_object. Therefore, any methods defined on base_object are available anywhere in your program, and on any object (unless, for some reason, it was removed or modified).
+There is one object which is the mother of all objects. There is no need to access it directly, though, because the entire program is defined within the context of this object. Using `my` outside of any methods will refer to this base object.
 
-base_object methods:
+Object methods:
 
-  * `new` - returns a new object, which is a subclass of base_object
-  * `clone` - returns a new object, which is a clone of base_object (_not_ a subclass)
+  * `new` - returns a new object, which is a subclass of object
+  * `clone` - returns a new object, which is a clone of object (_not_ a subclass)
   * `p(x)` - print out a value x
   * `my` - returns the current object
   * `false` - false value
