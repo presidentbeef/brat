@@ -9,7 +9,7 @@ p "Hello, world"
 
 == Factorial ==
 
-_Note: recursive functions require 'my' (at the moment)._
+_Note: recursive functions require 'my'._
 
 {{{
 my.fact = {|x|
