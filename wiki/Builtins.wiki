@@ -35,7 +35,6 @@ array methods:
   * `set(i)`, `[i] = y` - sets element i to y
   * `<< y` - appends y to the array
   * `+ a` - concatenates array a to the array
-  * `to_s` - nicer string representation of array
 
 == hash ==
 
@@ -55,7 +54,15 @@ Numbers are also objects in Brat, subclasses of the number object.
 
 number methods:
 
-(TODO)
+ * `new(n)` - returns a new number
+ * `+` - addition
+ * `-` - subtraction
+ * `*` - multiplication
+ * `/` - division
+ * `>` - greater than
+ * `<` - less than
+ * `<=` - less than or equal to
+ * `>=` - greater than or equal to
 
 == string ==
 
@@ -63,7 +70,7 @@ Strings of characters ("hello!") are objects, too, subclasses of the string obje
 
 string methods:
 
-(TODO)
+ * `new` - returns a new string
 
 === Functions ===
 
