@@ -1,11 +1,2 @@
-base_object.name = {"hi"}
-array.first = { my[0] }
-array.rest = { my[1,-1] }
-
-array.map = {|f|
-	true? my.length <= 0,
-		{[]}, 
-		{ true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
-}
-
-p [1,2,3].map({|x| x + 1})
+a = { new }
+a

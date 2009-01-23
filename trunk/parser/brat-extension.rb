@@ -1,3 +1,5 @@
+require 'set'
+
 class Treetop::Runtime::SyntaxNode
 	attr_reader :result
 	def var_exist? v
@@ -23,6 +25,10 @@ class Treetop::Runtime::SyntaxNode
 	def variables
 		require 'set'
 		@@variables ||= [Set.new]
+	end
+
+	def self.clear_variables
+		@@variables = [Set.new]
 	end
 
 	def next_temp

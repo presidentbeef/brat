@@ -1,4 +1,4 @@
-var base_object = $new(null);
+base_object = $new(null);
 
 base_object.new = $varargs(function(args) {
 	var arg_hash;
@@ -9,7 +9,7 @@ base_object.new = $varargs(function(args) {
 	{
 		arg_hash = $hnew(0);
 	}
-	return new_brat(this, arg_hash);
+	new_brat(this, arg_hash);
 })
 
 //Create a new object with either parent_brat or base_object
@@ -34,9 +34,8 @@ new_brat = function(parent_brat, arg_hash) {
 		$hiter(arg_hash, set_f);
 	}
 
-	return brat;
+	brat;
 }
-
 
 base_object.clone = function() {
 	var brat = $new(this);
@@ -300,7 +299,11 @@ num_args = function(object, method) {
 		$throw("Not an object:" + $string(object));
 	}
         if($objfield(object, $hash(method))) {
-                $nargs($objget(object, $hash(method)));
+		var meth = $objget(object, $hash(method));
+		if($typeof(meth) != $tfunction)
+			$throw("Tried to get argument length for non-method: " + method);
+
+                $nargs(meth);
         }
         else {
                 var proto = $objgetproto(object);
@@ -314,11 +317,12 @@ num_args = function(object, method) {
 
 }
 
+
 base_array = new_brat(null, null);
 base_array.@internal_array = $amake(0);
 
 base_array.new = $varargs(function(args) {
-	var ary = new_brat(base_array, null);
+	var ary = new_brat(this, null);
 	ary.@internal_array = $acopy(args);
 	ary;
 });
@@ -423,7 +427,7 @@ base_hash = new_brat(null, null);
 base_hash.@internal_hash = $hnew(0);
 
 base_hash.new = $varargs(function(args) {
-	var hsh = new_brat(base_hash, null);
+	var hsh = new_brat(this, null);
 	if($asize(args) == 0) {
 		hsh.@internal_hash = $hnew(1);
 	}
@@ -481,7 +485,7 @@ base_number.to@unders = function() {
 }
 
 base_number.new = function(num) {
-	var n =  new_brat(base_number, null);
+	var n =  new_brat(this, null);
 	if($typeof(num) == $tobject)
 		n.@value = num.@value;
 	else
@@ -568,7 +572,7 @@ base_string.to@unders = function() {
 	this.@value;
 }
 base_string.new = $varargs(function(args) {
-	var s = new_brat(base_string, null);
+	var s = new_brat(this, null);
 	if($asize(args) == 0) {
 		s.@value = "";
 	}
@@ -605,13 +609,13 @@ $exports.invoke = function(method, args, context) {
 	if(method == null) {
 		$throw("Could not invoke null method.");
 	}
-	else {
-		var arg_len = $nargs(method);
-		if(arg_len == -1 || arg_len == $asize(args))
-			$call(method, context, args);
-		else
-			$throw("Wrong number of arguments for " + $string(method) + ". Expected " + $string(arg_len) + " but given " + $string($asize(args)));
-	}
+	
+	var arg_len = $nargs(method);
+	if(arg_len == -1 || arg_len == $asize(args))
+		$call(method, context, args);
+	else
+		$throw("Wrong number of arguments for " + $string(method) + ". Expected " + $string(arg_len) + " but given " + $string($asize(args)));
+	
 }
 
 $exports.get_value = function(object, object_name, arguments, context) {
@@ -627,15 +631,21 @@ $exports.get_value = function(object, object_name, arguments, context) {
 		if($typeof(object) == $tfunction) {
 			$exports.invoke(object, arguments, context);
 		}
+		else if($asize(arguments) > 0) {
+			$throw("Tried to invoke non-method:" + object_name);
+		}
 		else { 
 			object; 
 		}
 	}
 }
 
-$exports.base_object = base_object;
+
+
+
 $exports.has_field = has_field;
 $exports.base_array = base_array;
 $exports.base_hash = base_hash;
 $exports.base_number = base_number;
 $exports.base_string = base_string;
+$exports.base_object = base_object;

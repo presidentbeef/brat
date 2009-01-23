@@ -4,17 +4,15 @@ grammar BaseBrat
  	line+ {
 		def brat
 			"var @brat = $loader.loadmodule(\"neko/internal\", $loader);\n" <<
-			"var @main_brat  = $new(@brat.base_object);\n" <<
-			"@main_brat.@main_tantrum = function() {\n" <<
+			"@brat.base_object.@main_tantrum = function() {\n" <<
 			"var array = @brat.base_array;" <<
 			"var hash = @brat.base_hash;" <<
 			"var number = @brat.base_number;" <<
 			"var string = @brat.base_string;" <<
-			"var base@underobject = @brat.base_object;" <<
 			"\n" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
-			"@exit_value = @main_brat.@main_tantrum();\n"
+			"@exit_value = @brat.base_object.@main_tantrum();\n"
 		end
 
 		def inner_brat

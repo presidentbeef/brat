@@ -11,6 +11,7 @@ system "cd parser && tt brat.treetop"
 
 class BratParserTest < Test::Unit::TestCase
 	def setup
+		Treetop::Runtime::SyntaxNode.clear_variables
 		@parser = BaseBratParser.new
 	end
 
@@ -472,7 +473,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def brat input
 		out = @parser.parse(input).brat
-		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@main_brat.p(@exit_value);"}
+		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@brat.base_object.p(@exit_value);"}
 		result = `nekoc .test.neko.tmp && neko .test.neko.n`
 		`cp .test.neko.tmp .test.neko.last_error` unless $? == 0
 		File.delete(".test.neko.n")
@@ -482,7 +483,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def assert_fail code
 		out = @parser.parse(code).brat
-		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@main_brat.p(@exit_value);"}
+		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@brat.main_object.p(@exit_value);"}
 		`nekoc .test.neko.tmp 2> /dev/null && neko .test.neko.n 2> /dev/null`
 		File.delete(".test.neko.n")
 		File.delete(".test.neko.tmp")
