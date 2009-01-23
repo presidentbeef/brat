@@ -67,4 +67,4 @@ string methods:
 
 === Functions ===
 
-Functions are the only non-object values in Brat. They can only be invoked. You cannot associate functions with functions. At the moment. This may change.
+Functions are the only non-objects in Brat. But they don't mind being special.
