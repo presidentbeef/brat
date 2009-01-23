@@ -1,0 +1,65 @@
+#labels Featured
+Brat is a toy language. A little one. Everything in Brat is either an object or a function (or a method, we don't judge.) Sometimes what something actually is is a little hard to determine, but basically things work how you would expect, even if really they are doing something odd.
+
+For example, consider this code:
+{{{
+a = 1
+}}}
+This _looks_ like it is creating a variable 'a' and assigning the integer '1' to it. However, in reality, it is first creating a number object and then putting it inside a function, which gets assigned to the variable 'a'. So that when you do:
+{{{
+a
+}}}
+It actually calls the function in 'a', which returns the number object.
+
+=== Variables ===
+
+Variables spring into existence as you need them. Just assign something to them and `*`poof`*`, they will be there. Variables have no types. They are very care-free that way and enjoy running through open fields and hugging sequoia.
+
+=== Objects ===
+
+As was said above, most things in Brat are objects. In fact, a whole Brat program is actually a function defined on an object, which then gets invoked. Whee!
+
+There are no classes in Brat, because Brat doesn't need them. It takes a prototyping approach instead. There are two ways to create new objects: either by creating a 'subclass' of an object (the new object will lookup methods in the old one) or by cloning an object (the new object will have the same superclass as the old one.)
+
+Objects can have fields (or slots or instance variables or whatever you would like to call them). These also are created as you need them.
+
+The example illustrates defining fields and the difference between `new` and `clone`:
+{{{
+a = new   #a is now a subclass of the base object
+b = a.new   #b is a subclass of a
+a.hello = { p "Hello!" }
+b.hello  #b can reference methods in its superclasses
+
+c = b.clone  #methods from b (none) copied but still uses a as superclass
+b.hello = { p "I'm not c!"}
+c.hello   #this calls a.hello still
+}}}
+
+=== Functions ===
+
+Functions are the only things in Brat which are not objects. Functions take arguments and always return the last value in their body. Functions are also closures, they will take a snapshot of the environment when they are created. Functions do not have names. Names are for variables. By the way, functions are the only way to delay execution of code.
+
+Functions look like this:
+{{{
+{ p "this method has no arguments"}
+{|arg1, arg2, arg3| p "this method has three!"}
+}}}
+
+Functions cannot be called directly, they have to be assigned to a variable first. You can give a function its arguments by using a comma separated list. This might need to be within parentheses. If you do put them in parentheses, make sure they are snuggled up tight to the variable, or else they won't know they go together. They are shy that way.
+
+{{{
+a = {|x, y, z| p x, y, z}
+a 1, 2, 3
+}}}
+
+By the way, you can also chain method calls. Did you know object fields are actually functions, too? Are they functions or methods? Actually, are they really objects, or is everything actually a function? Or is it the other way around??
+
+{{{
+a = new
+a.b = new
+a.b.c = new
+a.b.c.d = {|x| x}
+p a.b.c.d(a).b.c.d "hi" #parentheses required in the middle there
+}}}
+
+Functions can span multiple lines. So can argument lists, if you want.
