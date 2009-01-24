@@ -9,6 +9,7 @@ grammar BaseBrat
 			"var hash = @brat.base_hash;" <<
 			"var number = @brat.base_number;" <<
 			"var string = @brat.base_string;" <<
+			"var regex = @brat.base_regex;" <<
 			"\n" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
@@ -46,7 +47,7 @@ grammar BaseBrat
   rule expression
  	binary_operation / index_set / index_get / 
 	assignment / paren_exp ~(!".") { def brat; output = paren_exp.brat; @result = paren_exp.result; output;  end } / 
-	method_access / method_invocation / number / string / method_definition / hash / array
+	method_access / method_invocation / number / string / method_definition / hash / array / regex
   end
 
   rule expression2
@@ -54,11 +55,20 @@ grammar BaseBrat
   end
 
   rule expression3
- 	hash / array / paren_exp / number / string
+ 	hash / array / paren_exp / number / string / regex
   end
 
   rule expression4
- 	index_get / paren_exp / number / string / hash / bare_array / method_invocation2
+ 	index_get / paren_exp / number / string / hash / bare_array / method_invocation2 / regex
+  end
+
+  rule regex
+	"/" r:(!"/" . / "\\/")* "/" {
+		def brat
+			next_temp
+			"var #@result = regex.new(\"#{r.text_value}\")"
+		end
+	}
   end
 
   rule comment

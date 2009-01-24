@@ -605,6 +605,7 @@ base_string.@value = "";
 base_string.to@unders = function() {
 	this.@value;
 }
+
 base_string.new = $varargs(function(args) {
 	var s = new_brat(this, null);
 	if($asize(args) == 0) {
@@ -618,6 +619,35 @@ base_string.new = $varargs(function(args) {
 	}
 	s;
 })
+
+
+var regexp_new = $loader.loadprim("regexp@regexp_new", 1);
+base_regex = new_brat(null, null);
+base_regex.@internal_regex = base_object.@null();
+base_regex.new = function(regx_string) {
+	if($typeof(regx_string) == $tobject && has_field(regx_string, "@value"))
+		regx_string = regx_string.@value;
+	else if($typeof(regx_string) != $tstring)
+		$throw("Must create new regex with a string, not " + $string(regx_string));
+
+	var reg = new_brat(this, null);
+	reg.@internal_regex = regexp_new(regx_string);
+	reg; 
+}
+
+var regexp_match = $loader.loadprim("regexp@regexp_match", 4);
+base_regex.match = function(val) {
+	if($typeof(val) == $tobject && has_field(val, "@value"))
+		val = val.@value;
+	else
+		$throw("Wrong, wrong, wrong!");
+
+	if(regexp_match(this.@internal_regex, val, 0, $ssize(val)))
+		base_object.@true();
+	else
+		base_object.@false();
+}
+base_regex.@tilde = base_regex.match;
 
 $exports.call_method = function(object, method, args) {
 	//$print("Calling ", method, " on ", object, " with (", args, ")\n");
@@ -683,3 +713,4 @@ $exports.base_hash = base_hash;
 $exports.base_number = base_number;
 $exports.base_string = base_string;
 $exports.base_object = base_object;
+$exports.base_regex = base_regex;
