@@ -10,7 +10,9 @@ Object methods:
 
   * `new` - returns a new object, which is a subclass of object
   * `clone` - returns a new object, which is a clone of object (_not_ a subclass)
-  * `p(x)` - print out a value x
+  * `p(...)` - print out values, followed by newline
+  * `print(...)` - print out values, no newline
+  * `g(b = "\n")` - gets line from stdin, does not include EOL character
   * `my` - returns the current object
   * `false` - false value
   * `true` - true value
