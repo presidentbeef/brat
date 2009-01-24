@@ -73,7 +73,3 @@ Strings of characters ("hello!") are objects, too, subclasses of the string obje
 string methods:
 
  * `new` - returns a new string
-
-=== Functions ===
-
-Functions are the only non-objects in Brat. But they don't mind being special.
