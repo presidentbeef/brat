@@ -7,93 +7,112 @@
 
 _Adds newline, too_
 
-`p "hello world"`
+{{{
+p "hello world"
+}}}
 
 ===Creating a new object===
 
-`y = new`
+{{{
+y = new
+}}}
 
 Subclassing:
 
-`x = y.new`
+{{{
+x = y.new
+}}}
 
-Cloning (does _not_ set superclass, but copies methods):
-
-`x = y.clone`
+Cloning (sets superclass to y's superclass and copies methods):
+{{{
+x = y.clone
+}}}
 
 ===Setting 'fields'===
 
-`person = new`
-
-`person.name = "Bob"`
-
-`p person.name`
+{{{
+person = new
+person.name = "Bob"
+p person.name
+}}}
 
 ===Defining functions===
 
 _Functions return their last value_
 
-`hello = { p "hello again, world" }`
+{{{
+hello = { p "hello again, world" }
 
-`greet = {|first, last| p "oh, hi ", first, " ", last }`
+greet = {|first, last| p "oh, hi ", first, " ", last }
+}}}
 
 ===Calling a function===
 
 _Parentheses are optional_
 
-`greet "justin", "collins"` 
+{{{
+greet "justin", "collins"
 
-`greet("john", "doe")`
+greet("john", "doe")
 
-`p "hello", " ", "world"`
+p "hello", " ", "world"
+}}}
 
 You can also use a hash-like notation to automatically pass in a hashtable of values. This hashtable will always be assigned to the _last_ parameter in the function.
 
-`a = {|x,y,z| p x, y, z["a"]}`
+{{{
+a = {|x,y,z| p x, y, z["a"]}
 
-`a 1, "a":3, 2`
+a 1, "a":3, 2
+}}}
 
 ===Getting a function===
 
-`test = new`
+{{{
+test = new
 
-`test.method = {|x| p "You gave me: ", x }`
+test.method = {|x| p "You gave me: ", x }
 
-`x = new`
+x = new
 
-`x.method = test->method`
+x.method = test->method
 
-`x.method 123`
+x.method 123
 
-`another = {|m| p "This is ", m }`
+another = {|m| p "This is ", m }
 
-`x.another = ->another`
+x.another = ->another
 
-`x.another "me"`
+x.another "me"
+}}}
 
 _For ease of use, -> actually returns the 'value' in a variable, it just happens to usually be a method._
 
-`w = 1`
+{{{
+w = 1
 
-`x = {|z| ->z}`
+x = {|z| ->z}
 
-`y = { 2 }`
+y = { 2 }
 
-`p x w`
+p x w
 
-`p x y`
+p x y
 
-`p x ->y`
+p x ->y
+}}}
 
 ===Accessing current object===
 
-`test = new`
+{{{
+test = new
 
-`test.y = { my.z = { p "hi" } }`
+test.y = { my.z = { p "hi" } }
 
-`test.y`
+test.y
 
-`test.z`
+test.z
+}}}
 
 ===Booleans===
 
@@ -101,21 +120,27 @@ False and null are false, true and everything else are true.
 
 false?, true?, and null? can each take 0 to 3 parameters. If a parameter is a function, it will be called with no arguments.
 
-`true.true?`
+{{{
+true.true?
 
-`true? true`
+true? true
+}}}
 
 _This returns second parameter if first is true, otherwise returns false._
 
-`true? true, 1`
+{{{
+true? true, 1
+}}}
 
 _This returns second parameter if first is true, otherwise returns second parameter._
 
-`true? true, 1, 0`
+{{{
+true? true, 1, 0
 
-`a = null`
+a = null
 
-`false? { null? a }, { p "a is not null" }, { p "a is null" }`
+false? { null? a }, { p "a is not null" }, { p "a is null" }
+}}}
 
 ===Numbers===
 
@@ -123,80 +148,100 @@ Numbers are numbers. There are some operators defined for them, too. *BUT* bewar
 
 This is _true_:
 
-`p true? 1 - 1 * 3 == 0`
+{{{
+p true? 1 - 1 * 3 == 0
+}}}
 
 
 This gives an error:
 
-`p true? 1 - 1 * 3 == -1 + 1`
-
+{{{
+p true? 1 - 1 * 3 == -1 + 1
+}}}
 
 If you want something special, use parentheses. Otherwise, everyone gets treated the same.
+{{{
+a = 1
 
-`a = 1`
+b = number.new 2
 
-`b = number.new 2`
+p a - b + c - d
 
-`p a - b + c - d`
-
-`p a - (b * a)`
-
+p a - (b * a)
+}}}
 
 ===Arrays===
 
 Arrays are zero-based, dynamically resized lists which can contain anything.
+{{{
+a = array.new
 
-`a = array.new`
+a[0] = 3
 
-`a[0] = 3`
+p a[0]
 
-`p a[0]`
+b = [1, 2, 3, a, "b", {|c| c}]
 
-`b = [1, 2, 3, a, "b", {|c| c}]`
-
-`p b[5] "hello world"`
+p b[5] "hello world"
+}}}
 
 ===Hashes===
 
 Hashtables, associative arrays, maps, dictionaries...whatever you want to call them, these are lists which can be indexed by an arbitrary value.
+{{{
+a = hash.new
 
-`a = hash.new`
+a["a"] = 1
 
-`a["a"] = 1`
+p a["a"]
 
-`p a["a"]`
+b = ["a":1]
 
-`b = ["a":1]`
+p b["a"]
 
-`p b["a"]`
+c = {|x| x}
 
-`c = {|x| x}`
+b["c"] = ->c
 
-`b["c"] = ->c`
-
-`p b["c"] 5`
+p b["c"] 5
+}}}
 
 ===Binary Operators===
 
 You can define certain binary operators. These should always take one parameter. They can then be used as 'infix' notation.
+{{{
+array.@ = {|i| my[i]}
 
-`array.@ = {|i| my[i]}`
+a = [1,2,3,4]
 
-`a = [1,2,3,4]`
+p a @ 3
 
-`p a @ 3`
+p a.@ 3
 
-`p a.@ 3`
+p a.@(3)
+}}}
 
-`p a.@(3)`
+=== Regular Expressions ===
+
+Regular expressions use the PCRE library. They live in between `/` and another `/`.
+
+{{{
+a = /hel+o/
+
+p a.match "helllllo"
+}}}
 
 ===Comments===
 
-`#this is a comment`
+{{{
+#this is a comment
 
-`//p "this will never print"`
+//p "this will never print"
 
-`/*  use this for multiple line comments */`
+/*  
+  use this for multiple line comments 
+*/
+}}}
 
 ===Keywords===
 
