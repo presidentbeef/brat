@@ -428,8 +428,9 @@ grammar BaseBrat
 	m:identifier a:simple_arg_list {
 		def brat
 			next_temp
+			name = m.brat
 			a.brat <<
-			"var #@result = @brat.get_value(#{m.brat}, \"#{m.brat}\", #{a.result}, this);"
+			"var #@result = @brat.get_value(#{name}, \"#{name}\", #{a.result}, this);"
 		end
 	}/
 	m:paren_exp a:simple_arg_list {
@@ -457,8 +458,9 @@ grammar BaseBrat
 	m:identifier a:arg_list {
 		def brat
 			next_temp
+			name = m.brat
 			a.brat <<
-			"var #@result = @brat.get_value(#{m.brat}, \"#{m.brat}\", #{a.result}, this);"
+			"var #@result = @brat.get_value(#{name}, \"#{name}\", #{a.result}, this);"
 		end
 	}
 	/
@@ -497,17 +499,19 @@ grammar BaseBrat
   	identifier !space arg_list a:("[" inner_arg_list "]")* {
 		def brat
 			next_temp
-			output = arg_list.brat <<
+			output = arg_list.brat
+			name = identifier.brat
+			output <<
 			"var #@result;" <<
-			"if(@brat.has_field(this, \"#{identifier.brat}\")) {" <<
-			" #@result = @brat.call_method(this, \"#{identifier.brat}\", #{arg_list.result});" <<
+			"if(@brat.has_field(this, \"#{name}\")) {" <<
+			" #@result = @brat.call_method(this, \"#{name}\", #{arg_list.result});" <<
 			"}" <<
 			"else " <<
-			" if($typeof(#{identifier.brat}) == $tfunction) {" <<
-			" #@result = @brat.invoke(#{identifier.brat}, #{arg_list.result}, null);" <<
-			" } else if($typeof(#{identifier.brat}) == $tobject) { " <<
-			"  #@result = #{identifier.brat}}" <<
-			"else { $throw \"Tried to invoke method on #{identifier.brat}\" };"
+			" if($typeof(#{name}) == $tfunction) {" <<
+			" #@result = @brat.invoke(#{name}, #{arg_list.result}, null);" <<
+			" } else if($typeof(#{name}) == $tobject) { " <<
+			"  #@result = #{name}}" <<
+			"else { $throw \"Tried to invoke method on #{name}\" };"
 			last = @result
 			if not a.elements.empty?
 				a.elements.each do |elem|
@@ -543,10 +547,11 @@ grammar BaseBrat
   	"->" m:(identifier / operator) {
 		def brat
 			next_temp
-			if var_exist? m.brat
-				"var #@result = #{m.brat};"
+			name = m.brat
+			if var_exist? name
+				"var #@result = #{name};"
 			else	
-				"var #@result = $objget(this, $hash(\"#{m.brat}\"));"
+				"var #@result = $objget(this, $hash(\"#{name}\"));"
 			end
 		end
 	}
