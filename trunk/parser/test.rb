@@ -409,6 +409,23 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "2", "[1,2,3,4][2,3].length"
 	end
 
+	def test_array_indexing
+		assert_result "b", 'b = ["a", "b", "c"]; b[1]'
+		assert_result "null",'b = ["a", "b", "c"]; b[-5]' 
+		assert_result "[a,b,c]", '["z", "a", "b", "c", "d", "e", "f"][1,3]'
+		assert_result "[a,b,c]", '["z", "a", "b", "c", "d", "e", "f"][-6,-4]'
+		assert_result "[]", '["z", "a", "b", "c", "d", "e", "f"][10,15]'
+		assert_result "null", "[][1]"
+		assert_result "[e,f]", '["z", "a", "b", "c", "d", "e", "f"][10,5]'
+	end
+
+	def test_array_set
+		assert_result "b", 'a = [1,2,3]; a[1] = "b"; a[1]'
+		assert_fail 'a = [1,2,3]; a[-4] = 4'
+		assert_result 'null', 'a = [1,2,3]; a[7] = 5; a[5]'
+		assert_result "b", 'a = [1,2,3]; a[-1] = "b"; a[2]'
+	end
+
 	def test_array_method
 		assert_result "2", "z = new; z.test = { [1,2,3] }; z.test[1]"
 		assert_result "1", "y = {|x| x}; z = [->y]; z[0] 1"
@@ -423,7 +440,20 @@ class BratParserTest < Test::Unit::TestCase
 	def test_string
 		assert_result "a", '"a"'
 		assert_result "1", 'a = "a"; b = [a:1]; b["a"]'
-		assert_result "b", 'b = ["a", "b", "c"]; b[1]'
+	end
+
+	def test_string_indexing
+		assert_result "b", 'b = "abc"; b[1]'
+		assert_result "abc", '"zabcdef"[1,3]'
+		assert_result "abc", '"zabcdef"[-6,-4]'
+		assert_result "ef", '"zabcdef"[10,5]'
+	end
+
+	def test_string_set
+		assert_result 'b', 'a = "abcde"; a[3] = "b"; a[3]'
+		assert_fail 'a = "abcde"; a[6] = "b"; a[3]'
+		assert_result 'b', 'a = "abcde"; a[-3] = "b"; a[2]'
+		assert_fail 'a = "abcde"; a[-6] = "b"; a[3]'
 	end
 
 	def test_addition_subtraction

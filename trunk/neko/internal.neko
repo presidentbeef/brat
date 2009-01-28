@@ -361,64 +361,114 @@ base_array.new = $varargs(function(args) {
 	ary;
 });
 
+base_array.clone = $varargs(function(args) {
+	if($asize(args) > 1)
+		$throw("Too many arguments to array.clone(). Only takes 0 or 1.");
+
+	var new_array = $new(this);
+	$objsetproto(new_array, $objgetproto(this));
+
+	if($asize(args) == 1) {
+		if($typeof(args[0]) == $tobject)
+			new_array.@value = $string(args[0].@internal_array);
+		else if($typeof(args[0]) == $tarray)
+			new_array.@internal_array = args[0];
+		else
+			$throw("Need an array argument for array.clone()");
+	}
+
+	new_array;
+})
+
+
 base_array.length = function() {
 	base_number.new($asize(this.@internal_array));
 }
 
-base_array.get = $varargs(function(args) {
-	if($asize(this.@internal_array) == 0) {
-		return @base_object.@null();
-	}
-	if($asize(args) == 0) {
-		throw("Invalid array access: null");
-	}
-	if($asize(args) == 1) {
-		if(args[0] >= this.length().@value) {
-			base_object.@null();
+base_array.__get = $varargs(function(args) {
+	var len = $asize(this.@internal_array);
+	if($asize(args) == 0 || $asize(args) > 2)
+		$throw("Invalid number of arguments to array.get(), should be 1 or 2.");
+	else if($asize(args) == 1) {
+		var index = args[0].@value;
+		if(index > len || index < -len) {
+			return base_object.@null();
 		}
-		else {
-			var res = this.@internal_array[args[0].@value];
-			if(res == null)
-				base_object.@null();
-			else
-				res;
+		else if(index >= 0) {
+			return this.@internal_array[index];
 		}
-	}
-	else if($asize(args) == 2) {
-		var len = $asize(this.@internal_array);
-		var start = args[0].@value;
-		var stop = args[1].@value;
-		if(start < 0) {
-			start = len + start;
-		}
-		if(stop < 0) {
-			stop = len + stop;
-		}
-		if(stop >= len) {
-			stop = len - 1;
-		}
-		if(start >= len) {
-			start = len -1;
-		}
-		if(start < stop) {
-			$exports.make_array($asub(this.@internal_array, start, (stop - start + 1)));
-		}
-		else {
-			$exports.make_array($asub(this.@internal_array, stop, (start - stop + 1)));
+		else { //index  < 0
+			index = len + index;
+			if(index < 0 || index >= len) {
+				return base_object.@null();
+			}
+			else {
+				return this.@internal_array[index];
+			}
 		}
 	}
 	else {
-		$throw("Wrong number of arguments. Should be 1 or 2 arguments.");
+		if(len == 0) {
+			this.clone($amake(0));
+		}
+		else {
+			var start = args[0].@value;
+			var stop = args[1].@value;
+	
+			if(start < 0)
+				start = len + start;
+			if(stop < 0)
+				stop = len + stop;
+
+			if(start < 0)
+				start = 0;
+			if(stop < 0)
+				stop = 0;
+
+			if(start > stop) {
+				var temp = stop;
+				stop = start;
+				start = temp;
+			}
+
+			if(start >= len)
+				return this.clone($amake(0));
+
+			if(stop >= len)
+				stop = len - 1;
+
+			$print("Start: ", start, " Stop: ", stop, "\n");
+			var new_array = $asub(this.@internal_array, start, stop - start + 1);
+			this.clone(new_array);
+		}		
 	}
 
 });
 
-base_array.set = function(index, value) {
-	index = index.@value;
-	if(index >= this.length().@value) {
-		var new_array = $amake(index - this.length().@value + 1);
+base_array.__set = function(index, value) {
+	if($typeof(index) == $tobject && has_field(index, "@value"))
+		index = index.@value;
+	if($typeof(index) != $tint)
+		$throw("Cannot use non-integer index for array.");
+
+	var len = this.length().@value;
+	if(index < 0)
+		index = len + index;
+
+	if(index < 0)
+		$throw("Invalid array index: " + $string(index));
+
+	if(index >= len) {
+		var new_array = $amake(index - len + 1);
+		var i = 0;
+		var n = base_object.@null();
+		while( i < (index - len + 1)) {
+			new_array[i] = n;
+			i += 1;
+		}	
 		this.@internal_array = $aconcat($array(this.@internal_array, new_array));
 	}
+
 	this.@internal_array[index] = value;
 	this;
 }
@@ -454,8 +504,8 @@ base_array.to@unders = function() {
 	temp;
 }
 
-base_array.__set = base_array.set;
-base_array.__get = base_array.get;
+base_array.set = base_array.__set;
+base_array.get = base_array.__get;
 
 base_hash = new_brat(null, null);
 base_hash.@internal_hash = $hnew(0);
@@ -605,6 +655,9 @@ base_string.@value = "";
 base_string.to@unders = function() {
 	this.@value;
 }
+base_string.length = function() {
+	base_number.new($ssize(this.@value));
+}
 
 base_string.new = $varargs(function(args) {
 	var s = new_brat(this, null);
@@ -619,6 +672,108 @@ base_string.new = $varargs(function(args) {
 	}
 	s;
 })
+
+base_string.clone = $varargs(function(args) {
+	if($asize(args) > 1)
+		$throw("Too many arguments to string.clone(). Only takes 0 or 1.");
+
+	var new_string = $new(this);
+	$objsetproto(new_string, $objgetproto(this));
+
+	if($asize(args) == 1) {
+		if($typeof(args[0]) == $tobject)
+			new_string.@value = $string(args[0].@value);
+		else if($typeof(args[0]) == $tstring)
+			new_string.@value = args[0];
+		else
+			$throw("Need a string argument for string.clone()");
+	}
+
+	new_string;
+})
+
+base_string.__get = $varargs(function(args) {
+	var len = $ssize(this.@value);
+	if($asize(args) == 0 || $asize(args) > 2)
+		$throw("Invalid number of arguments to string.get(), should be 1 or 2.");
+	else if($asize(args) == 1) {
+		var index = args[0].@value;
+		if(index > len || index < -len) {
+			this.clone("");
+		}
+		else if(index >= 0) {
+			var new_string = $ssub(this.@value, index, 1);
+			return this.clone(new_string);
+		}
+		else { //index  < 0
+			index = len + index;
+			if(index < 0 || index >= len) {
+				this.clone("");
+			}
+			else {
+				var new_string = $ssub(this.@value, index, 1);
+				this.clone(new_string);
+			}
+		}
+	}
+	else {
+		if(len == 0) {
+			this.clone("");
+		}
+		else {
+			var start = args[0].@value;
+			var stop = args[1].@value;
+	
+			if(start < 0)
+				start = len + start;
+			if(stop < 0)
+				stop = len + stop;
+
+			if(start < 0)
+				start = 0;
+			if(stop < 0)
+				stop = 0;
+
+			if(start > stop) {
+				var temp = stop;
+				stop = start;
+				start = temp;
+			}
+
+			if(start >= len)
+				return this.clone("");
+
+			if(stop >= len)
+				stop = len - 1;
+
+			$print("Start: ", start, " Stop: ", stop, "\n");
+			var new_string = $ssub(this.@value, start, stop - start + 1);
+			this.clone(new_string);
+		}		
+	}
+})
+
+base_string.__set = function(index, value) {
+	if($typeof(value) == $tobject && has_field(value, "@value"))
+		value = $string(value.@value);
+	if($typeof(value) != $tstring)
+		$throw("Cannot set string to non-string value.");
+
+	if($typeof(index) == $tobject && has_field(index, "@value"))
+		index = index.@value;
+	if($typeof(index) != $tint)
+		$throw("Cannot use non-integer index for string.");
+
+
+	if(index < 0)
+		index = $ssize(this.@value) + index;
+
+	if(index < 0 || index >= $ssize(this.@value))
+		$throw("Invalid string index: " + $string(index) + " when string is " + $string($ssize(this.@value)) + " long.")
+
+	$sblit(this.@value, index, value, 0, $ssize(value));
+	this;
+}
 
 
 var regexp_new = $loader.loadprim("regexp@regexp_new", 1);
