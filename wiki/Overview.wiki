@@ -21,6 +21,8 @@ As was said above, most things in Brat are objects. In fact, a whole Brat progra
 
 There are no classes in Brat, because Brat doesn't need them. It takes a prototyping approach instead. There are two ways to create new objects: either by creating a 'subclass' of an object (the new object will lookup methods in the old one) or by cloning an object (the new object will have the same superclass as the old one.)
 
+You can think of the difference between `new` and `clone` as being extending the class hierarchy vertically or horizontally, respectively.
+
 Objects can have fields (or slots or instance variables or whatever you would like to call them). These also are created as you need them.
 
 The example illustrates defining fields and the difference between `new` and `clone`:
