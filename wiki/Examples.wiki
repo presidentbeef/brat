@@ -66,3 +66,75 @@ array.map = {|f|
 
 p [1,2,3].map({|x| x + 1})
 }}}
+
+= For Fun =
+
+== How are you? ==
+
+{{{
+how = {|x| print "How"; x }
+are = {|x| {print " are "; x}}
+you? = {{p "you?"}}
+
+how are you?
+}}}
+
+== How are you? (Two) ==
+
+{{{
+how = {|x| p "you?" }
+are = {|x| print " are " }
+you? = { print "how" }
+
+how are you?
+}}}
+
+== How are you? (Three) ==
+
+{{{
+how = {|x| p "how" + x }
+are = {|x| " are " + x }
+you? = { "you?" }
+
+how are you?
+}}}
+
+== How are you? (Easy) ==
+
+{{{
+how = {|x| p "how are you?" }
+are = {|x|}
+you? = null
+
+how are you?
+}}}
+
+== How are you? (Auto-reply) ==
+
+{{{
+How = {|x| p "How", x[0], x[1] }
+are = {|x| [" are "] + x }
+you? = ["you?"]
+I = {|x| p "I" , x[0], x[1], x[2] }
+am = {|x, y| x + y }
+fine = [" fine, "]
+thank = {|x| ["thank"] + x }
+you! = [" you!"]
+
+How are you?
+I am fine, thank you!
+}}}
+
+== How are you? (User reply) ==
+
+{{{
+How = { |x|
+        x
+        mood = g
+        p mood, "? Hmm..."
+}
+are = {|x| { print x } }
+you? = "How are you? "
+
+How are you?
+}}}
