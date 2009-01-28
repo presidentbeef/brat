@@ -92,3 +92,7 @@ Example:
 {{{
 p 1 + 3 * 4  # 16, not 12
 }}}
+
+=== Associativity ===
+
+Operators are left-associative, while functions are right-associative (I think). Mix and match for optimal enjoyment!
