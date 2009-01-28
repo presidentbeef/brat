@@ -1,6 +1,7 @@
 require 'test/unit'
 require 'rubygems'
 require 'treetop'
+require 'parser/test-examples'
 
 Treetop.load 'parser/brat'
 
@@ -431,6 +432,14 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", "y = {|x| x}; z = [->y]; z[0] 1"
 	end
 
+	def test_array_concat
+		assert_result "[a,b,c,d]", '["a"] + ["b"] + ["c"] + ["d"]'
+	end
+
+	def test_array_push
+		assert_result "[a,b,c,d]", '["a"] << "b" << "c" << "d"'
+	end
+
 	def test_hash
 		assert_result "1", "x = hash.new; x[\"y\"] = 1; x[\"y\"]"
 		assert_result "a", "x = [1:\"a\"]; x[1];"
@@ -454,6 +463,10 @@ class BratParserTest < Test::Unit::TestCase
 		assert_fail 'a = "abcde"; a[6] = "b"; a[3]'
 		assert_result 'b', 'a = "abcde"; a[-3] = "b"; a[2]'
 		assert_fail 'a = "abcde"; a[-6] = "b"; a[3]'
+	end
+
+	def test_string_concat
+		assert_result "abcd", '"a" + "b" + "c" + "d"'
 	end
 
 	def test_addition_subtraction

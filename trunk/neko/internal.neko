@@ -437,7 +437,6 @@ base_array.__get = $varargs(function(args) {
 			if(stop >= len)
 				stop = len - 1;
 
-			$print("Start: ", start, " Stop: ", stop, "\n");
 			var new_array = $asub(this.@internal_array, start, stop - start + 1);
 			this.clone(new_array);
 		}		
@@ -746,7 +745,6 @@ base_string.__get = $varargs(function(args) {
 			if(stop >= len)
 				stop = len - 1;
 
-			$print("Start: ", start, " Stop: ", stop, "\n");
 			var new_string = $ssub(this.@value, start, stop - start + 1);
 			this.clone(new_string);
 		}		
@@ -773,6 +771,19 @@ base_string.__set = function(index, value) {
 
 	$sblit(this.@value, index, value, 0, $ssize(value));
 	this;
+}
+
+base_string.@plus = function(value) {
+	if($typeof(value) == $tobject && has_field(value, "@value"))
+		value = $string(value.@value);
+	if($typeof(value) != $tstring)
+		$throw("Cannot add string to non-string value.");
+
+	var new_string = $smake($ssize(this.@value) + $ssize(value));
+	$sblit(new_string, 0, this.@value, 0, $ssize(this.@value));
+	$sblit(new_string, $ssize(this.@value), value, 0, $ssize(value));
+	new_string;
+	this.clone(new_string);
 }
 
 
