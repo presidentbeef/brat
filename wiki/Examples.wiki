@@ -109,6 +109,16 @@ you? = null
 how are you?
 }}}
 
+== How are you? (With array.map) ==
+
+{{{
+how = {|x| x << "\n"; x.map ->print }
+are = {|x| x}
+you? = ["How", " are ", "you?"]
+
+how are you?
+}}}
+
 == How are you? (Auto-reply) ==
 
 {{{
