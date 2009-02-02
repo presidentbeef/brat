@@ -125,8 +125,8 @@ how are you?
 How = {|x| p "How", x[0], x[1] }
 are = {|x| [" are "] + x }
 you? = ["you?"]
-I = {|x| p "I" , x[0], x[1], x[2] }
-am = {|x, y| x + y }
+I = {|x| p "I" , x[0], x[1], x[2], x[3] }
+am = {|x, y| [" am"] + x + y }
 fine = [" fine, "]
 thank = {|x| ["thank"] + x }
 you! = [" you!"]
