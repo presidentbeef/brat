@@ -68,8 +68,8 @@ class BratExamplesTest < Test::Unit::TestCase
 		assert_result "I am fine, thank you!", 'How = {|x| p "How", x[0], x[1] }
 						are = {|x| [" are "] + x }
 						you? = ["you?"]
-						I = {|x| "I" + x[0] + x[1] + x[2] }
-						am = {|x, y| x + y }
+						I = {|x| "I" + x[0] + x[1] + x[2] + x[3] }
+						am = {|x, y| [" am"] + x + y }
 						fine = [" fine, "]
 						thank = {|x| ["thank"] + x }
 						you! = [" you!"]
@@ -79,7 +79,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_greet
-		assert_result "oh, hi john doe", 'greet = {|first, last| "oh, hi ", first, " ", last }
+		assert_result "oh, hi john doe", 'greet = {|first, last| "oh, hi " + first + " " + last }
 						greet "john", "doe"'
 	end
 
@@ -88,6 +88,12 @@ class BratExamplesTest < Test::Unit::TestCase
 					test.y = { my.z = { "hi" } }
 					test.y
 					test.z'
+	end
+
+	def test_add_not
+		assert_result "false", "my.! = {|x| not x }
+		a = [1,2,3]
+		a[1] ! true"
 	end
 
 	def test_null?

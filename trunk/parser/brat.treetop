@@ -589,7 +589,7 @@ grammar BaseBrat
 		end
 	}
 	/
-	![(] space? {
+	![(] ~(&(space?)) {
 		def brat
 			next_temp
 			"var #@result = $amake(0);"
@@ -707,6 +707,8 @@ grammar BaseBrat
 		def brat
 			elements.map {|e| e.text_value}.join.gsub(/(!=|>=|<=|[!?\-*+^@~\/\\><$_%|&]|==)/) do
 			case $1
+			when "!"	
+				"@bang"
 			when "*"
 				"@star"
 			when "-"

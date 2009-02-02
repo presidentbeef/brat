@@ -108,6 +108,10 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "2", "array.@ = {|i|\nmy[i]\n}\na = [[[1,2,3]]]; c = new;c.a = 0; c.b = 1; a @ c.a @ c.a @ c.b"
 	end
 
+	def test_index_operation
+		assert_result "6", "number.^ = {|x| my + 1 + x }; a = [1,2,3]; a[1] ^ a[2]"
+	end
+
 	def test_operation1
 		assert_result '1', 'a = new;a.! = {|x| x + 1}; a ! 0'
 	end
