@@ -27,7 +27,7 @@ grammar BaseBrat
   rule line
 	~comment 
 	/
- 	space? e:expression space? comment? ( eof / eol / eob)  {
+ 	~(space?) e:expression ~(space?) ~(comment?) ~( eof / eol / eob)  {
 		def brat
 			e.brat if e.respond_to? :brat
 		end
@@ -45,7 +45,7 @@ grammar BaseBrat
   end
 
   rule expression
- 	unary_operation / binary_operation / index_set / index_get / 
+	unary_operation / binary_operation / index_set / index_get /
 	assignment / paren_exp ~(!".") { def brat; output = paren_exp.brat; @result = paren_exp.result; output;  end } / 
 	method_access / method_invocation / number / string / method_definition / hash / array / regex
   end
