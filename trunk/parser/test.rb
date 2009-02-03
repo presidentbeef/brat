@@ -436,6 +436,14 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", "y = {|x| x}; z = [->y]; z[0] 1"
 	end
 
+	def test_unary_operators
+		assert_result "A", "z = new; z.-? = {\"A\"}; -?z"
+		assert_result "B", "z = new; z.->> = {\"B\"}; ->>z"
+		assert_result "C", "b = new;b.? = {3};c = [1,2,3,\"C\"]; c[?b]" 
+		assert_result "7", "b = new;b.? = {3};c = 4; c + ?b" 
+		assert_result "7", "b = new;b.? = {3};c = {|x| x + 4 }; c ?b"
+	end
+
 	def test_array_concat
 		assert_result "[a,b,c,d]", '["a"] + ["b"] + ["c"] + ["d"]'
 	end

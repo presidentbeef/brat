@@ -586,15 +586,20 @@ base_number.@plus = function(num) {
 		base_number.new(lhs + rhs);
 }
 
-base_number.@minus = function(num) {
+base_number.@minus = $varargs(function(args) {
+	if($asize(args) == 0)
+		return base_number.new(-this.@value);
+	else if($asize(args) > 1)
+		$throw("Too many arguments for number.- Should be 0 or 1, given " + $string(args));
+		
 	var lhs = this.@value;
-	var rhs = num.@value;
+	var rhs = args[0].@value;
 
 	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
 		base_number.new($isub(lhs, rhs));
 	else
 		base_number.new(lhs - rhs);
-}
+})
 
 base_number.@forward = function(num) {
 	var lhs = this.@value;

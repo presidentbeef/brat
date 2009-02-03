@@ -45,7 +45,7 @@ grammar BaseBrat
   end
 
   rule expression
- 	binary_operation / index_set / index_get / 
+ 	unary_operation / binary_operation / index_set / index_get / 
 	assignment / paren_exp ~(!".") { def brat; output = paren_exp.brat; @result = paren_exp.result; output;  end } / 
 	method_access / method_invocation / number / string / method_definition / hash / array / regex
   end
@@ -315,7 +315,7 @@ grammar BaseBrat
   end
 
   rule integer
-	"-"? [0-9]+ {
+	[0-9]+ {
 		def brat
 			next_temp
 			"var #@result = number.new(#{text_value});"
@@ -376,6 +376,16 @@ grammar BaseBrat
 				[]
 			end
 		end
+	}
+  end
+
+  rule unary_operation
+	op:operator !space rhs:expression {
+		def brat
+			next_temp
+			rhs.brat <<
+			"var #@result = @brat.call_method(#{rhs.result}, \"#{op.brat}\", $amake(0));"
+		end		
 	}
   end
 
@@ -703,7 +713,7 @@ grammar BaseBrat
   end
 
   rule operator
-	("!=" / ">=" / "<=" / [!?\-*+^@~/\\><$_%] / "||" / "|" / "&&" / "&" / "==" )+ {
+	!("->" !operator) ("!=" / ">=" / "<=" / [!?\-*+^@~/\\><$_%] / "||" / "|" / "&&" / "&" / "==" )+ {
 		def brat
 			elements.map {|e| e.text_value}.join.gsub(/(!=|>=|<=|[!?\-*+^@~\/\\><$_%|&]|==)/) do
 			case $1
