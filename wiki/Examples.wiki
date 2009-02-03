@@ -14,9 +14,22 @@ print "Hello! What is your name? "
 p "Nice to meet you, ", g, "."
 }}}
 
-== Factorial ==
+== Print numbers 1 to 10 ==
 
 _Note: recursive functions require 'my'._
+{{{
+my.while = {|block|
+        true? block, { while ->block }
+}
+
+n = 1
+while {
+        p n
+        n = n + 1
+        true? n <= 10
+}
+}}}
+== Factorial ==
 
 {{{
 my.fact = {|x|
