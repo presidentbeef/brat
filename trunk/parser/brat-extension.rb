@@ -36,11 +36,32 @@ class Treetop::Runtime::SyntaxNode
 		@result = "@temp#{@@temp += 1}"
 	end
 
+	def call_method object, method, arguments = "$amake(0)"
+		<<-NEKO
+		//$print("Calling ", method, " on ", #{object}, " with (", #{arguments}, ")\\n");
+		if(#{object} == null) {
+			$throw("Method invoked on null object.");
+		}
+		else {
+			if(@brat.has_field(#{object}, "#{method}")) {
+				var arg_len = @brat.num_args(#{object}, "#{method}");
+				if(arg_len == -1 || arg_len == $asize(#{arguments}))
+					$objcall(#{object}, $hash("#{method}"), #{arguments});
+				else
+					$throw("Wrong number of arguments for " + $string(#{object}) + ".#{method}: should be " + $string(arg_len) + " but given " + $string($asize(#{arguments})));
+			}
+			else {
+				$throw("Invoking undefined method " + method + " on " + $string(#{object}) + "\\n");
+			}
+		}
+		NEKO
+	end
+
 	def get_value object, arguments
 		<<-NEKO
 		if($typeof(#{object}) == $tnull) {
 			if(@brat.has_field(this, "#{object}")) {
-		 		@brat.call_method(this, "#{object}", #{arguments});
+		 		#{call_method("this", object, arguments)}
 			}
 			else
 			{

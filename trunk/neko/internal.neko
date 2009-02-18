@@ -820,25 +820,6 @@ base_regex.match = function(val) {
 }
 base_regex.@tilde = base_regex.match;
 
-$exports.call_method = function(object, method, args) {
-	//$print("Calling ", method, " on ", object, " with (", args, ")\n");
-	if(object == null) {
-		$throw("Method invoked on null object.");
-	}
-	else {
-		if(has_field(object, method)) {
-			var arg_len = num_args(object, method);
-			if(arg_len == -1 || arg_len == $asize(args))
-				$objcall(object, $hash(method), args);
-			else
-				$throw("Wrong number of arguments for " + $string(object) + "." + method + ": should be " + $string(arg_len) + " but given " + $string($asize(args)));
-		}
-		else {
-			$throw("Invoking undefined method " + method + " on " + $string(object) + "\n");
-		}
-	}
-}
-
 $exports.invoke = function(method, args, context) {
 	//$print("Calling ", method, " with (", args, ")\n");
 	if(method == null) {
@@ -861,3 +842,4 @@ $exports.base_number = base_number;
 $exports.base_string = base_string;
 $exports.base_object = base_object;
 $exports.base_regex = base_regex;
+$exports.num_args = num_args;

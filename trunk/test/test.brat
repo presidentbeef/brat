@@ -1,3 +1,4 @@
-while = {
-	while
-}
+a = new
+a.a = {|x| p x}
+b = 1
+a.a b
