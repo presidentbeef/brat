@@ -19,14 +19,14 @@ p "Nice to meet you, ", g, "."
 _Note: recursive functions require 'my'._
 {{{
 my.while = {|block|
-        true? block, { while ->block }
+        true? block, { while ->block }, null
 }
 
 n = 1
 while {
         p n
         n = n + 1
-        true? n <= 10
+        true? n <= 10, true, false
 }
 }}}
 == Factorial ==
