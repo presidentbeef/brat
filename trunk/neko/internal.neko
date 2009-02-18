@@ -125,15 +125,16 @@ var istrue = function(arg) {
 	}
 }
 
-base_object.@true@question = $varargs(function(args) {
+base_object.@true@question = function(condition, true_branch, false_branch) {
 	var first;
-	if($typeof(args[0]) == $tfunction) {
-		first = $exports.invoke(args[0], $array(), this);
+	if($typeof(condition) == $tfunction) {
+		first = condition();
 	}
 	else {
-		first = args[0]
+		first = condition
 	}
 
+/*
 	if($asize(args) == 0) {
 		if(istrue(this))
 			base_object.@true();
@@ -149,7 +150,7 @@ base_object.@true@question = $varargs(function(args) {
 	else if($asize(args) == 2) {
 		if(istrue(first)) {
 			if($typeof(args[1]) == $tfunction) {
-				$exports.invoke(args[1], $array(), this);
+				args[1]();
 			}
 			else {
 				args[1];
@@ -160,37 +161,41 @@ base_object.@true@question = $varargs(function(args) {
 		}
 	}
 	else if($asize(args) == 3) {
+*/
 		if(istrue(first)) {
-			if($typeof(args[1]) == $tfunction) {
-				$exports.invoke(args[1], $array(), this);
+			if($typeof(true_branch) == $tfunction) {
+				true_branch();
 			}
 			else {
-				args[1];
+				true_branch;
 			}
 		}
 		else {
-			if($typeof(args[2]) == $tfunction) {
-				$exports.invoke(args[2], $array(), this);
+			if($typeof(false_branch) == $tfunction) {
+				false_branch();
 			}
 			else {
-				args[2];
+				false_branch;
 			}
 		}
+/*
 	}
 	else {
 		$throw("Wrong number of arguments. Should be 0 - 3 arguments.");
 	}
+*/
+}
 
-})
-
-base_object.@false@question = $varargs(function(args) {
+base_object.@false@question = function(condition, false_branch, true_branch) {
 	var first;
-	if($typeof(args[0]) == $tfunction) {
-		first = $exports.invoke(args[0], $array(), this);
+	if($typeof(condition) == $tfunction) {
+		first = condition();
 	}
 	else {
-		first = args[0]
+		first = condition
 	}
+
+/*
 	if($asize(args) == 0) {
 		if($not(istrue(this)))
 			base_object.@true();
@@ -206,7 +211,7 @@ base_object.@false@question = $varargs(function(args) {
 	else if($asize(args) == 2) {
 		if($not(istrue(first))) {
 			if($typeof(args[1]) == $tfunction) {
-				$exports.invoke(args[1], $array(), this);
+				args[1]();
 			}
 			else {
 				args[1];
@@ -217,39 +222,42 @@ base_object.@false@question = $varargs(function(args) {
 		}
 	}
 	else if($asize(args) == 3) {
+*/
 		if($not(istrue(first))) {
-			if($typeof(args[1]) == $tfunction) {
-				$exports.invoke(args[1], $array(), this);
+			if($typeof(false_branch) == $tfunction) {
+				false_branch();
 			}
 			else {
-				args[1];
+				false_branch;
 			}
 		}
 		else {
-			if($typeof(args[2]) == $tfunction) {
-				$exports.invoke(args[2], $array(), this);
+			if($typeof(true_branch) == $tfunction) {
+				true_branch();
 			}
 			else {
-				args[2];
+				true_branch;
 			}
 
 		}
+/*
 	}
 	else {
 		$throw("Wrong number of arguments. Should be 0 - 3 arguments.");
 	}
+*/
 
-})
+}
 
-base_object.@null@question = $varargs(function(args) {
+base_object.@null@question = function(condition, null_branch, else_branch) {
 	var first;
-	if($typeof(args[0]) == $tfunction) {
-		first = $exports.invoke(args[0], $array(), this);
+	if($typeof(condition) == $tfunction) {
+		first = condition();
 	}
 	else {
-		first = args[0]
+		first = condition
 	}
-
+/*
 	if($asize(args) == 0) {
 		if(this == base_object.@null())
 			base_object.@true();
@@ -265,7 +273,7 @@ base_object.@null@question = $varargs(function(args) {
 	else if($asize(args) == 2) {
 		if(first == null || first == base_object.@null()) {
 			if($typeof(args[1]) == $tfunction) {
-				$exports.invoke(args[1], $array(), this);
+				args[1]();
 			}
 			else {
 				args[1];
@@ -276,28 +284,31 @@ base_object.@null@question = $varargs(function(args) {
 		}
 	}
 	else if($asize(args) == 3) {
+*/
 		if(first == null || first == base_object.@null()) {
-			if($typeof(args[1]) == $tfunction) {
-				$exports.invoke(args[1], $array(), this);
+			if($typeof(null_branch) == $tfunction) {
+				null_branch();
 			}
 			else {
-				args[1];
+				null_branch;
 			}
 		}
 		else {
-			if($typeof(args[2]) == $tfunction) {
-				$exports.invoke(args[2], $array(), this);
+			if($typeof(else_branch) == $tfunction) {
+				else_branch();
 			}
 			else {
-				args[2];
+				else_branch;
 			}
 
 		}
+/*
 	}
 	else {
 		$throw("Wrong number of arguments. Should be 0 - 3 arguments.");
 	}
-})
+*/
+}
 
 base_object.not = function(arg) {
 	if(istrue(arg)) {
@@ -819,21 +830,6 @@ base_regex.match = function(val) {
 		base_object.@false();
 }
 base_regex.@tilde = base_regex.match;
-
-$exports.invoke = function(method, args, context) {
-	//$print("Calling ", method, " with (", args, ")\n");
-	if(method == null) {
-		$throw("Could not invoke null method.");
-	}
-	
-	var arg_len = $nargs(method);
-	if(arg_len == -1 || arg_len == $asize(args))
-		$call(method, context, args);
-	else
-		$throw("Wrong number of arguments for " + $string(method) + ". Expected " + $string(arg_len) + " but given " + $string($asize(args)));
-	
-}
-
 
 $exports.has_field = has_field;
 $exports.base_array = base_array;

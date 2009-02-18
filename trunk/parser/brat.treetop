@@ -29,7 +29,11 @@ grammar BaseBrat
 	/
  	~(space?) e:expression ~(space?) ~(comment?) ~( eof / eol / eob)  {
 		def brat
-			e.brat if e.respond_to? :brat
+			if e.respond_to? :no_result_brat
+				e.no_result_brat
+			elsif e.respond_to? :brat
+				e.brat
+			end
 		end
 	}
 	/
@@ -178,7 +182,7 @@ grammar BaseBrat
 			unless args.respond_to? :nothing?
 				output << args.brat
 				next_temp
-				output << "var #@result = @brat.invoke(#{last}, #{args.array}, this);"
+				output << "var #@result = " << invoke(last, args.list, args.length) << ";"
 			end
 			output
 		end
@@ -445,7 +449,7 @@ grammar BaseBrat
 			output = m.brat
 			output << a.brat
 			next_temp
-			output << "var #@result = @brat.invoke(#{m.result}, #{a.array}, this);"
+			output << "var #@result = " << invoke(m.result, a.list, a.length) << ";"
 		end
 	}
 
@@ -460,6 +464,22 @@ grammar BaseBrat
 			next_temp
 			output << "var #@result = " << call_method(lhs.result, i.brat, a.array) << ";"
 		end
+
+		#if lhs refers to 'this', we can just call it as though
+		#there were no lhs, possibly doing tail-recursion optimization
+		def no_result_brat
+			return self.brat
+			output = lhs.brat
+			output << a.brat
+			next_temp
+			output <<
+			"if(this == #{lhs.result}) {" << 
+				get_value_clean(i.brat, a.list, a.length) << 
+			"} else {" <<
+				call_method(lhs.result, i.brat, a.array) << 
+			"};"
+		end
+
 	}
 	/
 	m:identifier a:arg_list {
@@ -469,6 +489,13 @@ grammar BaseBrat
 			a.brat <<
 			"var #@result = " << get_value(name, a.array) << ";"
 		end
+
+		def no_result_brat
+			next_temp
+			name = m.brat
+			a.brat <<
+			get_value_clean(name, a.list, a.length) << ";"
+		end
 	}
 	/
 	m:paren_exp a:arg_list {
@@ -476,7 +503,7 @@ grammar BaseBrat
 			output = m.brat
 			output << a.brat
 			next_temp
-			output << "var #@result = @brat.invoke(#{m.result}, #{a.array}, this);"
+			output << "var #@result = " << invoke(m.result, a.list, a.length) << ";"
 		end
 	}
   end
@@ -509,13 +536,13 @@ grammar BaseBrat
 			output = arg_list.brat
 			name = identifier.brat
 			output <<
-			"var #@result;" <<
+			"var #@result;//exceellent\n" <<
 			"if(@brat.has_field(this, \"#{name}\")) {" <<
 			" #@result = " << call_method("this", name, arg_list.array) <<
 			"}" <<
 			"else " <<
 			" if($typeof(#{name}) == $tfunction) {" <<
-			" #@result = @brat.invoke(#{name}, #{arg_list.array}, null);" <<
+			" #@result = " << invoke(name, arg_list.list, arg_list.length) << ";" <<
 			" } else if($typeof(#{name}) == $tobject) { " <<
 			"  #@result = #{name}}" <<
 			"else { $throw \"Tried to invoke method on #{name}\" };"

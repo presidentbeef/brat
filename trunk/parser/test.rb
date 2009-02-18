@@ -252,7 +252,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "0", "true? null.null?, 0, 1"
 	end
 
-	def test_wierd_args
+	def test_weird_args
 		assert_result "1", "a = new; a.a = {|x| x }; b = { 1 }; a.a b"
 		assert_result "1", "a = {|x| x}; a { 1 }"
 		assert_result "1", 'a123_!?-*+^&@~\\><$ = new; a123_!?-*+^&@~\\><$.y = 1; a123_!?-*+^&@~\\><$.y'
