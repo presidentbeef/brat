@@ -7,6 +7,13 @@ Treetop.load 'parser/brat'
 
 require 'parser/brat-extension'
 
+ENV['LD_LIBRARY_PATH'] ||= "" 
+ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#{Dir.pwd}/lib/"
+ENV['NEKOPATH'] ||= ""
+ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/"
+ENV['PATH'] ||= ""
+ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
+
 system "cd neko && nekoc internal.neko"
 system "cd parser && tt brat.treetop"
 

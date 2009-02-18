@@ -51,23 +51,64 @@ def brat file_name, keep_intermediate = false, force = false
 			File.open(file_name + ".neko", "w") {|f| f.puts neko }
 		end
 
-		system "nekoc #{ARGV[0]}.neko" or abort "Error while compiling program"
+		system "nekoc #{file_name}.neko" or abort "Error while compiling program"
 	end
 	if not keep_intermediate and File.exist? file_name + ".neko"
 		File.delete file_name + ".neko"
 	end
-	if not system "neko #{ARGV[0]}.n"
+
+	if not system "neko #{file_name}.n"
 		abort "Error while running program."
 	end
 end
 
-if ARGV[0]
-	force = ARGV[1] == "-force"
-	require 'benchmark'
-	time = Benchmark.measure do
-		brat ARGV[0], true, force
+def brat_standalone file_name, keep_intermediate = false, force = false
+	new_parser = compile_parser force
+	new_internal = compile_brat_internal force
+
+	if not File.exist?(file_name + ".n") or newer? file_name, file_name + ".n" or new_parser or new_internal or force
+		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or new_parser or new_internal or force
+			brat_input = File.read file_name
+			begin
+				neko = brat_to_neko brat_input
+			rescue RuntimeError => e
+				puts e
+				exit
+			end
+			File.open(file_name + ".neko", "w") {|f| f.puts neko }
+		end
+
+		system "echo $PATH;nekoc #{ARGV[0]}.neko" or abort "Error while compiling program"
 	end
-	puts "Ran in: #{time.format('%r')} seconds"
+
+	system "cp #{ARGV[0]}.n #{ARGV[0]}.bin.n; nekoc -link #{ARGV[0]}.bin neko/internal; nekotools boot #{ARGV[0]}.bin.n"
+
+	if not keep_intermediate and File.exist? file_name + ".neko"
+		File.delete file_name + ".neko"
+		File.delete file_name + ".n"
+	end
+end
+
+if ARGV[0]
+	ENV['LD_LIBRARY_PATH'] ||= "" 
+	ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#{Dir.pwd}/lib/"
+	ENV['NEKOPATH'] ||= ""
+	ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/"
+	ENV['PATH'] ||= ""
+	ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
+
+	force = ARGV.include?("-f") || ARGV.include?("-force")
+
+	if ARGV.include? "-sa"
+		brat_standalone ARGV[0], true, force
+	else
+		require 'benchmark'
+		time = Benchmark.measure do
+			brat ARGV[0], true, force
+		end
+		puts "Ran in: #{time.format('%r')} seconds"
+	end
+
 else
 	abort "Please supply brat file name"
 end
