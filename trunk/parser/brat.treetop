@@ -440,7 +440,7 @@ grammar BaseBrat
 			next_temp
 			name = m.brat
 			a.brat <<
-			"var #@result = @brat.get_value(#{name}, \"#{name}\", #{a.array}, this);"
+			"var #@result = " << get_value(name, a.array) << ";"
 		end
 	}/
 	m:paren_exp a:simple_arg_list {
@@ -470,7 +470,7 @@ grammar BaseBrat
 			next_temp
 			name = m.brat
 			a.brat <<
-			"var #@result = @brat.get_value(#{name}, \"#{name}\", #{a.array}, this);"
+			"var #@result = " << get_value(name, a.array) << ";"
 		end
 	}
 	/

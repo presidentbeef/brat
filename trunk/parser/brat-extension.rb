@@ -35,4 +35,28 @@ class Treetop::Runtime::SyntaxNode
 		@@temp ||= 0
 		@result = "@temp#{@@temp += 1}"
 	end
+
+	def get_value object, arguments
+		<<-NEKO
+		if($typeof(#{object}) == $tnull) {
+			if(@brat.has_field(this, "#{object}")) {
+		 		@brat.call_method(this, "#{object}", #{arguments});
+			}
+			else
+			{
+				$throw("Trying to invoke null method: #{object}\\n");
+			}
+		} else {
+			if($typeof(#{object}) == $tfunction) {
+				@brat.invoke(#{object}, #{arguments}, this);
+			}
+			else if($asize(#{arguments}) > 0) {
+				$throw("Tried to invoke non-method: #{object}\\n");
+			}
+			else { 
+				#{object}; 
+			}
+		}
+		NEKO
+	end
 end

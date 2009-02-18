@@ -853,30 +853,6 @@ $exports.invoke = function(method, args, context) {
 	
 }
 
-$exports.get_value = function(object, object_name, arguments, context) {
-	if($typeof(object) == $tnull) {
-		if($exports.has_field(context, object_name)) {
-	 		$exports.call_method(context, object_name, arguments);
-		}
-		else
-		{
-			$throw("Trying to invoke null method:" + object_name + "\n");
-		}
-	} else {
-		if($typeof(object) == $tfunction) {
-			$exports.invoke(object, arguments, context);
-		}
-		else if($asize(arguments) > 0) {
-			$throw("Tried to invoke non-method:" + object_name);
-		}
-		else { 
-			object; 
-		}
-	}
-}
-
-
-
 
 $exports.has_field = has_field;
 $exports.base_array = base_array;
