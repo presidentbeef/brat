@@ -96,7 +96,7 @@ grammar BaseBrat
 		def brat
 			output = inner_arg_list.brat
 			next_temp
-			output << "var #@result = @brat.make_array(#{inner_arg_list.result});"
+			output << "var #@result = @brat.make_array(#{inner_arg_list.array});"
 		end
 	}
 	/
@@ -113,7 +113,7 @@ grammar BaseBrat
 		def brat
 			output = inner_arg_list.brat
 			next_temp
-			output << "var #@result = @brat.make_array(#{inner_arg_list.result});"
+			output << "var #@result = @brat.make_array(#{inner_arg_list.array});"
 		end
 	}
   end
@@ -175,13 +175,13 @@ grammar BaseBrat
 			a.elements.each do |elem|
 				output << elem.inner_arg_list.brat
 				next_temp
-				output << "var #@result = @brat.call_method(#{last}, \"__get\", #{elem.inner_arg_list.result});" 
+				output << "var #@result = @brat.call_method(#{last}, \"__get\", #{elem.inner_arg_list.array});" 
 				last = @result
 			end
 			unless args.respond_to? :nothing?
 				output << args.brat
 				next_temp
-				output << "var #@result = @brat.invoke(#{last}, #{args.result}, this);"
+				output << "var #@result = @brat.invoke(#{last}, #{args.array}, this);"
 			end
 			output
 		end
@@ -431,7 +431,7 @@ grammar BaseBrat
 			output = lhs.brat
 			output << a.brat
 			next_temp
-			output << "var #@result = @brat.call_method(#{lhs.result}, \"#{i.brat}\", #{a.result});"
+			output << "var #@result = @brat.call_method(#{lhs.result}, \"#{i.brat}\", #{a.array;});"
 		end
 	}
 	/
@@ -440,7 +440,7 @@ grammar BaseBrat
 			next_temp
 			name = m.brat
 			a.brat <<
-			"var #@result = @brat.get_value(#{name}, \"#{name}\", #{a.result}, this);"
+			"var #@result = @brat.get_value(#{name}, \"#{name}\", #{a.array}, this);"
 		end
 	}/
 	m:paren_exp a:simple_arg_list {
@@ -448,7 +448,7 @@ grammar BaseBrat
 			output = m.brat
 			output << a.brat
 			next_temp
-			output << "var #@result = @brat.invoke(#{m.result}, #{a.result}, this);"
+			output << "var #@result = @brat.invoke(#{m.result}, #{a.array}, this);"
 		end
 	}
 
@@ -461,7 +461,7 @@ grammar BaseBrat
 			output = lhs.brat
 			output << a.brat
 			next_temp
-			output << "var #@result = @brat.call_method(#{lhs.result}, \"#{i.brat}\", #{a.result});"
+			output << "var #@result = @brat.call_method(#{lhs.result}, \"#{i.brat}\", #{a.array});"
 		end
 	}
 	/
@@ -470,7 +470,7 @@ grammar BaseBrat
 			next_temp
 			name = m.brat
 			a.brat <<
-			"var #@result = @brat.get_value(#{name}, \"#{name}\", #{a.result}, this);"
+			"var #@result = @brat.get_value(#{name}, \"#{name}\", #{a.array}, this);"
 		end
 	}
 	/
@@ -479,7 +479,7 @@ grammar BaseBrat
 			output = m.brat
 			output << a.brat
 			next_temp
-			output << "var #@result = @brat.invoke(#{m.result}, #{a.result}, this);"
+			output << "var #@result = @brat.invoke(#{m.result}, #{a.array}, this);"
 		end
 	}
   end
@@ -496,7 +496,7 @@ grammar BaseBrat
 				args = elem.e.arg_list
 				output << args.brat
 				next_temp
-				output << "var #@result = @brat.call_method(#{last}, \"#{meth}\", #{args.result});"
+				output << "var #@result = @brat.call_method(#{last}, \"#{meth}\", #{args.array});"
 				last = @result
 			end
 			output
@@ -514,11 +514,11 @@ grammar BaseBrat
 			output <<
 			"var #@result;" <<
 			"if(@brat.has_field(this, \"#{name}\")) {" <<
-			" #@result = @brat.call_method(this, \"#{name}\", #{arg_list.result});" <<
+			" #@result = @brat.call_method(this, \"#{name}\", #{arg_list.array});" <<
 			"}" <<
 			"else " <<
 			" if($typeof(#{name}) == $tfunction) {" <<
-			" #@result = @brat.invoke(#{name}, #{arg_list.result}, null);" <<
+			" #@result = @brat.invoke(#{name}, #{arg_list.array}, null);" <<
 			" } else if($typeof(#{name}) == $tobject) { " <<
 			"  #@result = #{name}}" <<
 			"else { $throw \"Tried to invoke method on #{name}\" };"
@@ -527,7 +527,7 @@ grammar BaseBrat
 				a.elements.each do |elem|
 					output << elem.inner_arg_list.brat
 					next_temp
-					output << "var #@result = @brat.call_method(#{last}, \"__get\", #{elem.inner_arg_list.result});"
+					output << "var #@result = @brat.call_method(#{last}, \"__get\", #{elem.inner_arg_list.array});"
 					last = @result
 				end
 			end
@@ -542,7 +542,7 @@ grammar BaseBrat
 			a_rest.elements.each do |elem|
 				output << elem.inner_arg_list.brat
 				next_temp
-				output << "var #@result = @brat.call_method(#{last}, \"__get\", #{elem.inner_arg_list.result});" 
+				output << "var #@result = @brat.call_method(#{last}, \"__get\", #{elem.inner_arg_list.array});" 
 				last = @result
 			end
 			@result = last
@@ -578,31 +578,74 @@ grammar BaseBrat
   rule arg_list
 	'(' inner_arg_list ')' {
 		def brat
-			output = inner_arg_list.brat
-			@result = inner_arg_list.result
-			output
+			inner_arg_list.brat
+		end
+
+		def array
+			inner_arg_list.array
+		end
+
+		def length
+			inner_arg_list.length
+		end
+
+		def list
+			inner_arg_list.list
 		end
 	}
 	/
 	'(' empty_list ')' {
 		def brat
-			next_temp
-			"var #@result = $amake(0);"
+			""
+		end
+
+		def array
+			"$amake(0)"
+		end
+
+		def length
+			0
+		end
+
+		def list
+			""
 		end
 	}
 	/
   	space inner_arg_list {
 		def brat
-			output = inner_arg_list.brat
-			@result = inner_arg_list.result
-			output
+			inner_arg_list.brat
 		end
+
+		def array
+			inner_arg_list.array
+		end
+
+		def length
+			inner_arg_list.length
+		end
+
+		def list
+			inner_arg_list.list
+		end
+
 	}
 	/
 	![(] ~(&(space?)) {
 		def brat
-			next_temp
-			"var #@result = $amake(0);"
+			""
+		end
+
+		def array
+			"$amake(0)"
+		end
+
+		def length
+			0
+		end
+
+		def list
+			""
 		end
 
 		def nothing?
@@ -614,23 +657,55 @@ grammar BaseBrat
   rule simple_arg_list
 	'(' inner_arg_list ')' {
 		def brat
-			output = inner_arg_list.brat
-			@result = inner_arg_list.result
-			output
+			inner_arg_list.brat
+		end
+
+		def array
+			inner_arg_list.array
+		end
+
+		def length
+			inner_arg_list.length
+		end
+
+		def list
+			inner_arg_list.list
 		end
 	}
 	/
 	'(' empty_list ')' {
 		def brat
-			next_temp
-			"var #@result = $amake(0);"
+			""
+		end
+
+		def array
+			"$amake(0)"
+		end
+
+		def length
+			0
+		end
+
+		def list
+			""
 		end
 	}
 	/
 	![(] &(space) {
 		def brat
-			next_temp
-			"var #@result = $amake(0);"
+			""
+		end
+
+		def array
+			"$amake(0)"
+		end
+
+		def length
+			0
+		end
+
+		def list
+			""
 		end
 
 		def nothing?
@@ -642,6 +717,7 @@ grammar BaseBrat
 
   rule inner_arg_list
   	e:arg_first o:arg_next* {
+		attr_reader :length, :list
 		def brat
 			output = ""
 			args = []
@@ -678,8 +754,18 @@ grammar BaseBrat
 				output << "var #@result = @brat.make_hash(#{hash_temp});"
 				args << @result
 			end
-			next_temp
-			output << "var #@result = $array(#{args.join(',')});"
+
+			@list = args.join(',')
+			@length = args.length
+			output
+		end
+
+		def array
+			if length > 0
+				"$array(#{self.list})"
+			else
+				"$amake(0)"
+			end
 		end
 	}
   end
