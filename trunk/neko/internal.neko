@@ -65,6 +65,22 @@ base_object.p =  $varargs(function(args) {
 	$call(this.print, null, pargs);
 })
 
+
+var random = $loader.loadprim("std@random_new", 0);
+var random_int = $loader.loadprim("std@random_int", 2);
+base_object.random = function(x) {
+	var max ;
+	if($typeof(x) == $tobject && has_field(x, "@value")) {
+		max = x.@value;
+		if($typeof(max) == $tint)
+			base_number.new(random_int(random(), max));
+		else
+			$throw("Expected integer, got " + $string(max));
+	}
+	else
+		$throw("Expected number, got " + $string(x));
+}
+
 var stdin = $loader.loadprim("std@file_stdin", 0);
 var read_char = $loader.loadprim("std@file_read_char", 1);
 var buffer_new = $loader.loadprim("std@buffer_new", 0);
@@ -84,12 +100,17 @@ base_object.g = $varargs(function(args) {
 
         var b = buffer_new();
 	var in = stdin();
-        do {
-        	var c = read_char(in);
-                if(c == break_char)
-                        break;
-	        buffer_add_char(b,c);
-        } while(true);
+	try {
+        	do {
+        		var c = read_char(in);
+	                if(c == break_char)
+	                        break;
+		        buffer_add_char(b,c);
+	        } while(true);
+	}
+	catch e {
+		return base_object.@null();
+	}
         base_string.new(buffer_string(b));
 })
 

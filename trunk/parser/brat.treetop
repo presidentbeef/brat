@@ -296,7 +296,7 @@ grammar BaseBrat
 				else
 					nil	
 				end
-			end.gsub(/(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)/i) {|m| "@" + $1 }
+			end.gsub(/\b(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)\b/i) {|m| "@" + $1 }
 
 		end
 	}

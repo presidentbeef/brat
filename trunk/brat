@@ -97,16 +97,19 @@ if ARGV[0]
 	ENV['PATH'] ||= ""
 	ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 
-	force = ARGV.include?("-f") || ARGV.include?("-force")
+	force = ARGV.include?("-f")
 
-	if ARGV.include? "-sa"
+	if ARGV.include? "-s"
 		brat_standalone ARGV[0], true, force
-	else
+	elsif ARGV.include? "-t"
 		require 'benchmark'
 		time = Benchmark.measure do
 			brat ARGV[0], true, force
 		end
 		puts "Ran in: #{time.format('%r')} seconds"
+
+	else
+		brat ARGV[0], true, force
 	end
 
 else
