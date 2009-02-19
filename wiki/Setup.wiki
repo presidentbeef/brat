@@ -1,0 +1,32 @@
+#summary How you might like to try things out, maybe.
+#labels Featured,Phase-Deploy
+
+== Requirements ==
+
+Please have on hand:
+
+  * Linux (for now)
+  * [http://subversion.tigris.org/ Subversion] (`sudo urpmi subversion`)
+  * A relatively modern [http://ruby-lang.org/ Ruby] (let's say 1.8.5 and up)
+  * [http://rubyforge.org/frs/?group_id=126&release_id=27655 RubyGems] so you may get the next requirement
+  * [http://treetop.rubyforge.org/ Treetop] (`gem install treetop`)
+
+== Installation ==
+
+Please follow the following steps, in the order in which they are ordered:
+
+  # Checkout latest Brat version following instructions [http://code.google.com/p/brat-language/source/checkout here]
+
+== Testing ==
+
+Try out your newly discovered power thusly:
+
+  # Type `cd brat-language` (or wherever you tucked it away)
+  # Create a new file, perhaps called `test.brat`
+  # In that file, type something like: `p "OK COMPUTER"`
+  # Save and close it
+  # Return to the comfort of your command line
+  # Type `./brat test.brat`
+  # Cross fingers
+  # Press enter
+  # Marvel or weep, as appropriate
