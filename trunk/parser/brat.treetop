@@ -86,7 +86,7 @@ grammar BaseBrat
   end
 
   rule hash
-  	"[" hash_inner "]" {
+  	"[" spaceorbreak hash_inner spaceorbreak "]" {
 		def brat
 			output = hash_inner.brat
 			@result = hash_inner.result
@@ -96,7 +96,7 @@ grammar BaseBrat
   end
 
   rule array
-  	"[" inner_arg_list "]" {
+  	"[" spaceorbreak inner_arg_list spaceorbreak "]" {
 		def brat
 			output = inner_arg_list.brat
 			next_temp
@@ -104,7 +104,7 @@ grammar BaseBrat
 		end
 	}
 	/
-	"[" space? "]" {
+	"[" spaceorbreak "]" {
 		def brat
 			next_temp
 			"var #@result = @brat.make_array($amake(0));"
@@ -113,7 +113,7 @@ grammar BaseBrat
   end
 
   rule bare_array
-  	"[" inner_arg_list "]" ~(&(space / eol)) {
+  	"[" spaceorbreak inner_arg_list spaceorbreak "]" ~(&(space / eol)) {
 		def brat
 			output = inner_arg_list.brat
 			next_temp
@@ -123,7 +123,7 @@ grammar BaseBrat
   end
 
   rule hash_inner
-	first:hash_argument rest:(space? "," space? n:hash_argument)* {
+	first:hash_argument rest:(spaceorbreak "," spaceorbreak n:hash_argument spaceorbreak)* {
 		def brat
 			next_temp
 			hash_temp = @result
@@ -143,7 +143,7 @@ grammar BaseBrat
   end
 
   rule hash_argument
-  	i:expression space? ":" space? v:expression {
+  	i:expression spaceorbreak ":" spaceorbreak v:expression {
 		attr_reader :index, :value
 		def brat
 			output = i.brat
@@ -156,7 +156,7 @@ grammar BaseBrat
   end
 
   rule index_set
-  	a:expression2 "[" i:expression "]" space? "=" space? v:expression {
+  	a:expression2 "[" i:expression "]" space? "=" spaceorbreak v:expression {
 		def brat
 			output = a.brat
 			output << i.brat
@@ -190,7 +190,7 @@ grammar BaseBrat
   end
 
   rule assignment
- 	lhs:field_access space? "=" space? rhs:method_definition {
+ 	lhs:field_access space? "=" spaceorbreak rhs:method_definition {
 		def brat
 			output = lhs.brat <<
 			rhs.brat  <<
@@ -200,7 +200,7 @@ grammar BaseBrat
 		end
 	}
 	/
- 	lhs:field_access space? "=" space? rhs:method_access {
+ 	lhs:field_access space? "=" spaceorbreak rhs:method_access {
 		def brat
 			output = lhs.brat << 
 			rhs.brat <<
@@ -210,7 +210,7 @@ grammar BaseBrat
 		end
 	}
 	/
- 	lhs:field_access space? "=" space? rhs:expression {
+ 	lhs:field_access space? "=" spaceorbreak rhs:expression {
 		def brat
 			output = lhs.brat << 
 			rhs.brat <<
@@ -220,7 +220,7 @@ grammar BaseBrat
 		end
 	}
 	/
-	lhs:identifier space? "=" space? rhs:expression {
+	lhs:identifier space? "=" spaceorbreak rhs:expression {
 		def brat
 			output = rhs.brat <<
 			if var_exist? lhs.brat
@@ -809,7 +809,7 @@ grammar BaseBrat
   end
 
   rule named_argument
-  	i:expression space? ":" space? e:expression {
+  	i:expression spaceorbreak ":" spaceorbreak e:expression {
 		def brat
 			output = e.brat
 			@result = e.result
@@ -882,7 +882,7 @@ grammar BaseBrat
   end
 
   rule eol
-	"\n"+ / ";"+ / "\r\n"+ {
+	("\n" / ";" / "\r\n")+ {
 		def brat
 			"\n"
 		end
@@ -903,5 +903,9 @@ grammar BaseBrat
 
   rule eob
   	~(space? &"}" space?)
+  end
+
+  rule spaceorbreak
+	space? eol? space?
   end
 end

@@ -560,6 +560,19 @@ $exports.make_hash = function(neko_hash) {
 	hsh;
 }
 
+base_hash.to@unders = function() {
+	output = "";
+	var st = function(k,v) {
+		output = $string(output + $string(k) + " : " + $string(v) + ", ");
+	}
+
+	$hiter(this.@internal_hash, st);
+	
+	var out = output;
+	output = null;
+	out;
+}
+
 $exports.hset = function(hashtable, index, value) {
 	if(has_field(index, "@value"))
 		index = index.@value;
