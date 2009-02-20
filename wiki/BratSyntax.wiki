@@ -43,7 +43,7 @@ _Functions return their last value_
 {{{
 hello = { p "hello again, world" }
 
-greet = {|first, last| p "oh, hi ", first, " ", last }
+greet = { first, last | p "oh, hi ", first, " ", last }
 }}}
 
 ===Calling a function===
@@ -61,7 +61,7 @@ p "hello", " ", "world"
 You can also use a hash-like notation to automatically pass in a hashtable of values. This hashtable will always be assigned to the _last_ parameter in the function.
 
 {{{
-a = {|x,y,z| p x, y, z["a"]}
+a = { x,y,z | p x, y, z["a"]}
 
 a 1, "a":3, 2
 }}}
@@ -71,7 +71,7 @@ a 1, "a":3, 2
 {{{
 test = new
 
-test.method = {|x| p "You gave me: ", x }
+test.method = { x | p "You gave me: ", x }
 
 x = new
 
@@ -79,7 +79,7 @@ x.method = test->method
 
 x.method 123
 
-another = {|m| p "This is ", m }
+another = { m | p "This is ", m }
 
 x.another = ->another
 
@@ -91,7 +91,7 @@ _For ease of use, -> actually returns the 'value' in a variable, it just happens
 {{{
 w = 1
 
-x = {|z| ->z}
+x = { z | ->z}
 
 y = { 2 }
 
@@ -115,6 +115,8 @@ test.z
 }}}
 
 ===Booleans===
+
+_BIG NOTE: This is not true right now, because variable argument functions needed some revision_
 
 False and null are false, true and everything else are true.
 
@@ -180,7 +182,7 @@ a[0] = 3
 
 p a[0]
 
-b = [1, 2, 3, a, "b", {|c| c}]
+b = [1, 2, 3, a, "b", { c | c}]
 
 p b[5] "hello world"
 }}}
@@ -199,7 +201,7 @@ b = ["a":1]
 
 p b["a"]
 
-c = {|x| x}
+c = { x | x}
 
 b["c"] = ->c
 
@@ -210,7 +212,7 @@ p b["c"] 5
 
 You can define certain binary operators. These should always take one parameter. They can then be used as 'infix' notation.
 {{{
-array.@ = {|i| my[i]}
+array.@ = { i | my[i]}
 
 a = [1,2,3,4]
 
