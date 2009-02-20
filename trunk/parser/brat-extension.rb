@@ -36,7 +36,7 @@ class Treetop::Runtime::SyntaxNode
 		@result = "@temp#{@@temp += 1}"
 	end
 
-	def call_method object, method, arguments = "$amake(0)"
+	def call_method object, method, arguments, arg_length
 		<<-NEKO
 		\n//$print("Calling ", method, " on ", #{object}, " with (", #{arguments}, ")\\n");
 		if(#{object} == null) {
@@ -45,11 +45,14 @@ class Treetop::Runtime::SyntaxNode
 		else {
 			if(@brat.has_field(#{object}, "#{method}")) {
 				var arg_len = @brat.num_args(#{object}, "#{method}");
-				if(arg_len == -1 || arg_len == $asize(#{arguments})) {
+				if(arg_len == -1 || arg_len == #{arg_length}) {
 					$objcall(#{object}, $hash("#{method}"), #{arguments});
-					}
+				}	
 				else
-					$throw("Wrong number of arguments for " + $string(#{object}) + ".#{method}: should be " + $string(arg_len) + " but given " + $string($asize(#{arguments})));
+					$throw("Wrong number of arguments for " + $string(#{object}) + ".#{method}: should be " + $string(arg_len) + " but given #{arg_length}");
+			}
+			else if(@brat.has_field(#{object}, "@#{arg_length}_#{method}")) {
+				$objcall(#{object}, $hash("@#{arg_length}_#{method}"), #{arguments});
 			}
 			else {
 				$throw("Invoking undefined method  #{method} on " + $string(#{object}) + "\\n");
@@ -58,12 +61,14 @@ class Treetop::Runtime::SyntaxNode
 		NEKO
 	end
 
-	def get_value object, arguments
-		<<-NEKO
+	def get_value object, arguments, arg_length
+		output = <<-NEKO
 		if($typeof(#{object}) == $tnull) {
 			if(@brat.has_field(this, "#{object}")) {
-		 		#{call_method("this", object, arguments)}
+		 		#{call_method("this", object, arguments, arg_length)}
 			}
+			else if(@brat.has_field(this, "@#{arg_length}_#{object}"))
+		 		#{call_method("this", "@#{arg_length}_#{object}", arguments, arg_length)}
 			else
 			{
 				$throw("Trying to invoke null method: #{object}\\n");
@@ -76,19 +81,17 @@ class Treetop::Runtime::SyntaxNode
 				}
 			
 				var arg_len = $nargs(#{object});
-				if(arg_len == -1 || arg_len == $asize(#{arguments}))
+				if(arg_len == -1 || arg_len == #{arg_length})
 					$call(#{object}, this, #{arguments});
 				else
 					$throw("Wrong number of arguments for " + $string(#{object}) + ". Expected " + $string(arg_len) + " but given " + $string(arg_len));
 			}
-			else if($asize(#{arguments}) > 0) {
-				$throw("Tried to invoke non-method: #{object}\\n");
-			}
-			else { 
-				#{object}; 
-			}
-		}
 		NEKO
+		if arg_length > 0
+			output << "else { $throw(\"Tried to invoke non-method: #{object}\\n\"); }}"
+		else
+			output << "else { #{object}; }}"
+		end
 	end
 
 	def get_value_clean object, arguments, arg_length
@@ -102,6 +105,10 @@ class Treetop::Runtime::SyntaxNode
 					#@result(#{arguments});
 				else
 					$throw("Wrong number of arguments for #{object}. Expected " + $string(arg_len) + " but given #{arg_length}");
+			}
+			else if(@brat.has_field(this, "@#{arg_length}_#{object}")) {
+				#@result = $objget(this, $hash("@#{arg_length}_#{object}"));
+				#@result(#{arguments});
 			}
 			else
 			{

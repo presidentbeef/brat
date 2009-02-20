@@ -146,68 +146,15 @@ var istrue = function(arg) {
 	}
 }
 
-base_object.@true@question = function(condition, true_branch, false_branch) {
-	var first;
-	if($typeof(condition) == $tfunction) {
-		first = condition();
-	}
-	else {
-		first = condition
-	}
-
-/*
-	if($asize(args) == 0) {
-		if(istrue(this))
-			base_object.@true();
-		else
-			base_object.@false();
-	}
-	else if($asize(args) == 1) {
-		if(istrue(first))
-			base_object.@true();
-		else
-			base_object.@false();
-	}
-	else if($asize(args) == 2) {
-		if(istrue(first)) {
-			if($typeof(args[1]) == $tfunction) {
-				args[1]();
-			}
-			else {
-				args[1];
-			}
-		}
-		else {
-			first;
-		}
-	}
-	else if($asize(args) == 3) {
-*/
-		if(istrue(first)) {
-			if($typeof(true_branch) == $tfunction) {
-				true_branch();
-			}
-			else {
-				true_branch;
-			}
-		}
-		else {
-			if($typeof(false_branch) == $tfunction) {
-				false_branch();
-			}
-			else {
-				false_branch;
-			}
-		}
-/*
-	}
-	else {
-		$throw("Wrong number of arguments. Should be 0 - 3 arguments.");
-	}
-*/
+base_object.@0_@true@question = function() {
+	if(istrue(this))
+		base_object.@true();
+	else
+		base_object.@false();
+	
 }
 
-base_object.@false@question = function(condition, false_branch, true_branch) {
+base_object.@1_@true@question = function(condition) {
 	var first;
 	if($typeof(condition) == $tfunction) {
 		first = condition();
@@ -216,61 +163,14 @@ base_object.@false@question = function(condition, false_branch, true_branch) {
 		first = condition
 	}
 
-/*
-	if($asize(args) == 0) {
-		if($not(istrue(this)))
-			base_object.@true();
-		else
-			base_object.@false();
-	}
-	else if($asize(args) == 1) {
-		if($not(istrue(first)))
-			base_object.@true();
-		else
-			base_object.@false();
-	}
-	else if($asize(args) == 2) {
-		if($not(istrue(first))) {
-			if($typeof(args[1]) == $tfunction) {
-				args[1]();
-			}
-			else {
-				args[1];
-			}
-		}
-		else {
-			first;
-		}
-	}
-	else if($asize(args) == 3) {
-*/
-		if($not(istrue(first))) {
-			if($typeof(false_branch) == $tfunction) {
-				false_branch();
-			}
-			else {
-				false_branch;
-			}
-		}
-		else {
-			if($typeof(true_branch) == $tfunction) {
-				true_branch();
-			}
-			else {
-				true_branch;
-			}
-
-		}
-/*
-	}
-	else {
-		$throw("Wrong number of arguments. Should be 0 - 3 arguments.");
-	}
-*/
-
+	if(istrue(first))
+		base_object.@true();
+	else
+		base_object.@false();
 }
 
-base_object.@null@question = function(condition, null_branch, else_branch) {
+
+base_object.@2_@true@question = function(condition, true_branch) {
 	var first;
 	if($typeof(condition) == $tfunction) {
 		first = condition();
@@ -278,57 +178,188 @@ base_object.@null@question = function(condition, null_branch, else_branch) {
 	else {
 		first = condition
 	}
-/*
-	if($asize(args) == 0) {
-		if(this == base_object.@null())
-			base_object.@true();
-		else
-			base_object.@false();
-	}
-	else if($asize(args) == 1) {
-		if(first == null || first == base_object.@null())
-			base_object.@true();
-		else 
-			base_object.@false();
-	}
-	else if($asize(args) == 2) {
-		if(first == null || first == base_object.@null()) {
-			if($typeof(args[1]) == $tfunction) {
-				args[1]();
-			}
-			else {
-				args[1];
-			}
-		}
-		else {
-			false;
-		}
-	}
-	else if($asize(args) == 3) {
-*/
-		if(first == null || first == base_object.@null()) {
-			if($typeof(null_branch) == $tfunction) {
-				null_branch();
-			}
-			else {
-				null_branch;
-			}
-		}
-		else {
-			if($typeof(else_branch) == $tfunction) {
-				else_branch();
-			}
-			else {
-				else_branch;
-			}
 
+	if(istrue(first)) {
+		if($typeof(true_branch) == $tfunction) {
+			true_branch();
 		}
-/*
+		else {
+			true_branch;
+		}
 	}
 	else {
-		$throw("Wrong number of arguments. Should be 0 - 3 arguments.");
+		first;
 	}
-*/
+}
+
+
+base_object.@3_@true@question = function(condition, true_branch, false_branch) {
+	var first;
+	if($typeof(condition) == $tfunction) {
+		first = condition();
+	}
+	else {
+		first = condition
+	}
+
+	if(istrue(first)) {
+		if($typeof(true_branch) == $tfunction) {
+			true_branch();
+		}
+		else {
+			true_branch;
+		}
+	}
+	else {
+		if($typeof(false_branch) == $tfunction) {
+			false_branch();
+		}
+		else {
+			false_branch;
+		}
+	}
+}
+
+base_object.@0_@false@question = function() {
+	if($not(istrue(this)))
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_object.@1_@false@question = function(condition) {
+	var first;
+	if($typeof(condition) == $tfunction) {
+		first = condition();
+	}
+	else {
+		first = condition
+	}
+
+	if($not(istrue(first)))
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+
+base_object.@2_@false@question = function(condition, false_branch) {
+	var first;
+	if($typeof(condition) == $tfunction) {
+		first = condition();
+	}
+	else {
+		first = condition
+	}
+
+	if($not(istrue(first))) {
+		if($typeof(false_branch) == $tfunction) {
+			false_branch();
+		}
+		else {
+			false_branch;
+		}
+	}
+	else {
+		first;
+	}
+}
+
+base_object.@3_@false@question = function(condition, false_branch, true_branch) {
+	var first;
+	if($typeof(condition) == $tfunction) {
+		first = condition();
+	}
+	else {
+		first = condition
+	}
+
+	if($not(istrue(first))) {
+		if($typeof(false_branch) == $tfunction) {
+			false_branch();
+		}
+		else {
+			false_branch;
+		}
+	}
+	else {
+		if($typeof(true_branch) == $tfunction) {
+			true_branch();
+		}
+		else {
+			true_branch;
+		}
+
+	}
+}
+
+base_object.@0_@null@question = function() {
+	if(this == base_object.@null())
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_object.@1_@null@question = function(condition) {
+	var first;
+	if($typeof(condition) == $tfunction) {
+		first = condition();
+	}
+	else {
+		first = condition
+	}
+	
+	if(first == null || first == base_object.@null())
+		base_object.@true();
+	else 
+		base_object.@false();
+}
+
+base_object.@2_@null@question = function(condition, null_branch) {
+	var first;
+	if($typeof(condition) == $tfunction) {
+		first = condition();
+	}
+	else {
+		first = condition
+	}
+
+	if(first == null || first == base_object.@null()) {
+		if($typeof(null_branch) == $tfunction) {
+			null_branch();
+		}
+		else {
+			null_branch;
+		}
+	}
+	else {
+		base_object.@false();
+	}
+}
+
+base_object.@3_@null@question = function(condition, null_branch, else_branch) {
+	var first;
+	if($typeof(condition) == $tfunction) {
+		first = condition();
+	}
+	else {
+		first = condition
+	}
+
+	if(first == null || first == base_object.@null()) {
+		if($typeof(null_branch) == $tfunction) {
+			null_branch();
+		}
+		else {
+			null_branch;
+		}
+	}
+	else {
+		if($typeof(else_branch) == $tfunction) 
+			else_branch();
+		else
+			else_branch;
+	}
 }
 
 base_object.not = function(arg) {

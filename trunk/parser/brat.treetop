@@ -371,7 +371,7 @@ grammar BaseBrat
 				args = ""
 			end
 			next_temp
-			output = "var #@result = function(#{args}) { #{l.elements.map {|e| e.brat}.join(";")} };"
+			output = "var #@result = function(#{args}) { \n#{l.elements.map {|e| e.brat}.join(";")} };"
 			pop_scope
 			output
 		end
@@ -416,8 +416,11 @@ grammar BaseBrat
 	op:operator !space rhs:expression {
 		def brat
 			next_temp
+			args = @result
+			next_temp
+			"var #{args} = $amake(0);" <<
 			rhs.brat <<
-			"var #@result = " << call_method(rhs.result, op.brat) << ";"
+			"var #@result = " << call_method(rhs.result, op.brat, args, 0) << ";"
 		end
 	}
   end
@@ -430,7 +433,7 @@ grammar BaseBrat
 			output = lhs.brat
 			output << rhs.brat
 			next_temp
-			output << "var #@result = " << call_method(lhs.result, lhs.last_operator, "$array(#{rhs.result})") << ";"
+			output << "var #@result = " << call_method(lhs.result, lhs.last_operator, "$array(#{rhs.result})", 1) << ";"
 		end
 	}
   end
@@ -449,7 +452,7 @@ grammar BaseBrat
 			elements.each do |elem|
 				output << elem.e.brat
 				next_temp
-				output << "var #@result = " << call_method(last, last_operator, "$array(#{elem.e.result})") << ";"
+				output << "var #@result = " << call_method(last, last_operator, "$array(#{elem.e.result})", 1) << ";"
 				last = @result
 				last_operator = elem.op.brat
 			end
@@ -467,7 +470,7 @@ grammar BaseBrat
 			output = lhs.brat
 			output << a.brat
 			next_temp
-			output << "var #@result = " << call_method(lhs.result, i.brat, a.array) << ";"
+			output << "var #@result = " << call_method(lhs.result, i.brat, a.array, a.length) << ";"
 		end
 	}
 	/
@@ -476,7 +479,7 @@ grammar BaseBrat
 			next_temp
 			name = m.brat
 			a.brat <<
-			"var #@result = " << get_value(name, a.array) << ";"
+			"var #@result = " << get_value(name, a.array, a.length) << ";"
 		end
 	}/
 	m:paren_exp a:simple_arg_list {
@@ -497,7 +500,7 @@ grammar BaseBrat
 			output = lhs.brat
 			output << a.brat
 			next_temp
-			output << "var #@result = " << call_method(lhs.result, i.brat, a.array) << ";"
+			output << "var #@result = " << call_method(lhs.result, i.brat, a.array, a.length) << ";"
 		end
 
 		#if lhs refers to 'this', we can just call it as though
@@ -511,7 +514,7 @@ grammar BaseBrat
 			"if(this == #{lhs.result}) {" << 
 				get_value_clean(i.brat, a.list, a.length) << 
 			"} else {" <<
-				call_method(lhs.result, i.brat, a.array) << 
+				call_method(lhs.result, i.brat, a.array, a.length) << 
 			"};"
 		end
 
@@ -522,7 +525,7 @@ grammar BaseBrat
 			next_temp
 			name = m.brat
 			a.brat <<
-			"var #@result = " << get_value(name, a.array) << ";"
+			"var #@result = " << get_value(name, a.array, a.length) << ";"
 		end
 
 		def no_result_brat
@@ -556,7 +559,7 @@ grammar BaseBrat
 				args = elem.e.arg_list
 				output << args.brat
 				next_temp
-				output << "var #@result = " << call_method(last, meth, args.array) << ";"
+				output << "var #@result = " << call_method(last, meth, args.array, args.length) << ";"
 				last = @result
 			end
 			output
@@ -575,7 +578,7 @@ grammar BaseBrat
 			output <<
 			"var #@result;//exceellent\n" <<
 			"if(@brat.has_field(this, \"#{name}\")) {" <<
-			" #@result = " << call_method("this", name, arg_list.array) <<
+			" #@result = " << call_method("this", name, arg_list.array, arg_list.length) <<
 			"}" <<
 			"else " <<
 			" if($typeof(#{name}) == $tfunction) {" <<
