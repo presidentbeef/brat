@@ -10,7 +10,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_factorial
-		assert_result "720", "my.fact = {|x|
+		assert_result "720", "my.fact = {x|
 		        true? x == 0, 1, { x * fact(x - 1)}
 			}
 
@@ -18,7 +18,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_fibonacci
-		assert_result "55", "my.fibonacci = { |x|
+		assert_result "55", "my.fibonacci = { x|
 				        true? x == 0,
 				                0,
 				                { true? x == 1,
@@ -33,18 +33,18 @@ class BratExamplesTest < Test::Unit::TestCase
 	def test_array_map
 		assert_result "[2,3,4]", "array.first = { my[0] }
 					array.rest = { my[1,-1] }
-					array.map = {|f|
+					array.map = {f|
 					        true? my.length <= 0,
 					                {[]},
 					                { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
 					}
-					[1,2,3].map({|x| x + 1})"
+					[1,2,3].map({x| x + 1})"
 
 	end
 
 	def test_how_are_you_easy
-		assert_result "How are you?", 'how = {|x| "How are you?" }
-						are = {|x|}
+		assert_result "How are you?", 'how = {x| "How are you?" }
+						are = {x|}
 						you? = null
 						how are you?'
 	end
@@ -52,26 +52,26 @@ class BratExamplesTest < Test::Unit::TestCase
 	def test_how_are_you_map
 		assert_result '[How, are ,you?]', 'array.first = { my[0] }
 					array.rest = { my[1,-1] }
-					array.map = {|f|
+					array.map = {f|
 					        true? my.length <= 0,
 					                {[]},
 					                { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
 					}
-					how = {|x| x.map {|y| y }}
-					are = {|x| x}
+					how = {x| x.map {y| y }}
+					are = {x| x}
 					you? = ["How", " are ", "you?"]
 
 					how are you?'
 	end
 
 	def test_how_are_you_auto_reply
-		assert_result "I am fine, thank you!", 'How = {|x| p "How", x[0], x[1] }
-						are = {|x| [" are "] + x }
+		assert_result "I am fine, thank you!", 'How = {x| p "How", x[0], x[1] }
+						are = {x| [" are "] + x }
 						you? = ["you?"]
-						I = {|x| "I" + x[0] + x[1] + x[2] + x[3] }
-						am = {|x, y| [" am"] + x + y }
+						I = {x| "I" + x[0] + x[1] + x[2] + x[3] }
+						am = {x, y| [" am"] + x + y }
 						fine = [" fine, "]
-						thank = {|x| ["thank"] + x }
+						thank = {x| ["thank"] + x }
 						you! = [" you!"]
 
 						How are you?
@@ -79,7 +79,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_greet
-		assert_result "oh, hi john doe", 'greet = {|first, last| "oh, hi " + first + " " + last }
+		assert_result "oh, hi john doe", 'greet = {first, last| "oh, hi " + first + " " + last }
 						greet "john", "doe"'
 	end
 
@@ -91,7 +91,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_add_not
-		assert_result "false", "my.! = {|x| not x }
+		assert_result "false", "my.! = {x| not x }
 		a = [1,2,3]
 		a[1] ! true"
 	end

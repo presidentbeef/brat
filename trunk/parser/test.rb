@@ -24,7 +24,7 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_little_program_parse
-		test = "a = new;a.! = {|x| x + 1};\na.? = {|x| x + 1};\na.\\ = {|x| x + 1};\na.- = {|x| x + 1};\na.* = {|x| x + 1};\na.+ = {|x| x + 1};\na.^ = {|x| x + 1};\na.@ = {|x| x + 1};\na.~ = {|x| x + 1};\na./ = {|x| x + 1};\na.> = {|x| x + 1};\na.< = {|x| x + 1};\na.$ = {|x| x + 1};\na._ = {|x| x + 1};\na.% = {|x| x + 1};\na.!= = {|x| x + 1};\na.>= = {|x| x + 1};\na.<= = {|x| x + 1};\na.|| = {|x| x + 1};\na.| = {|x| x + 1};\na.&& = {|x| x + 1};\na.& = {|x| x + 1};\na.== = {|x| x + 1};"
+		test = "a = new;a.! = {x| x + 1};\na.? = {x| x + 1};\na.\\ = {x| x + 1};\na.- = {x| x + 1};\na.* = {x| x + 1};\na.+ = {x| x + 1};\na.^ = {x| x + 1};\na.@ = {x| x + 1};\na.~ = {x| x + 1};\na./ = {x| x + 1};\na.> = {x| x + 1};\na.< = {x| x + 1};\na.$ = {x| x + 1};\na._ = {x| x + 1};\na.% = {x| x + 1};\na.!= = {x| x + 1};\na.>= = {x| x + 1};\na.<= = {x| x + 1};\na.|| = {x| x + 1};\na.| = {x| x + 1};\na.&& = {x| x + 1};\na.& = {x| x + 1};\na.== = {x| x + 1};"
 		parse(test).brat
 	end
 
@@ -88,8 +88,8 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_simple_args
-		assert_result "1", "t = {|x, y, z| z}; t 3, 2, 1"
-		assert_result "hello", "t = {|x, y, z| z}; a = 1; b = 2; c = \"hello\"; t a, b, c"
+		assert_result "1", "t = {x, y, z| z}; t 3, 2, 1"
+		assert_result "hello", "t = {x, y, z| z}; a = 1; b = 2; c = \"hello\"; t a, b, c"
 	end
 
 	def test_simple_named_args_parse
@@ -109,106 +109,106 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_operation
-		assert_result "1", "a = new; a.! = {|b| b }; a ! 1"
-		assert_result "2", "a = new; a.? = {|b| 2}; a ? \"hello\""
-		assert_result "2", "array.@ = {|i|\nmy[i]\n}\na = [[[1,2,3]]]; a @ 0 @ 0 @ 1"
-		assert_result "2", "array.@ = {|i|\nmy[i]\n}\na = [[[1,2,3]]]; c = new;c.a = 0; c.b = 1; a @ c.a @ c.a @ c.b"
+		assert_result "1", "a = new; a.! = {b| b }; a ! 1"
+		assert_result "2", "a = new; a.? = {b| 2}; a ? \"hello\""
+		assert_result "2", "array.@ = {i|\nmy[i]\n}\na = [[[1,2,3]]]; a @ 0 @ 0 @ 1"
+		assert_result "2", "array.@ = {i|\nmy[i]\n}\na = [[[1,2,3]]]; c = new;c.a = 0; c.b = 1; a @ c.a @ c.a @ c.b"
 	end
 
 	def test_index_operation
-		assert_result "6", "number.^ = {|x| my + 1 + x }; a = [1,2,3]; a[1] ^ a[2]"
+		assert_result "6", "number.^ = {x| my + 1 + x }; a = [1,2,3]; a[1] ^ a[2]"
 	end
 
 	def test_operation1
-		assert_result '1', 'a = new;a.! = {|x| x + 1}; a ! 0'
+		assert_result '1', 'a = new;a.! = {x| x + 1}; a ! 0'
 	end
 
 	def test_operation2
-		assert_result '1', 'a = new;a.? = {|x| x + 1}; a ? 0'
+		assert_result '1', 'a = new;a.? = {x| x + 1}; a ? 0'
 	end
 
 	def test_operation3
-		assert_result '1', 'a = new;a.\ = {|x| x + 1}; a \ 0'
+		assert_result '1', 'a = new;a.\ = {x| x + 1}; a \ 0'
 	end
 
 	def test_operation4
-		assert_result '1', 'a = new;a.- = {|x| x + 1}; a - 0'
+		assert_result '1', 'a = new;a.- = {x| x + 1}; a - 0'
 	end
 
 	def test_operation5
-		assert_result '1', 'a = new;a.* = {|x| x + 1}; a * 0'
+		assert_result '1', 'a = new;a.* = {x| x + 1}; a * 0'
 	end
 
 	def test_operation6
-		assert_result '1', 'a = new;a.+ = {|x| x + 1}; a + 0'
+		assert_result '1', 'a = new;a.+ = {x| x + 1}; a + 0'
 	end
 
 	def test_operation7
-		assert_result '1', 'a = new;a.^ = {|x| x + 1}; a ^ 0'
+		assert_result '1', 'a = new;a.^ = {x| x + 1}; a ^ 0'
 	end
 
 	def test_operation8
-		assert_result '1', 'a = new;a.@ = {|x| x + 1}; a @ 0'
+		assert_result '1', 'a = new;a.@ = {x| x + 1}; a @ 0'
 	end
 
 	def test_operation9
-		assert_result '1', 'a = new;a.~ = {|x| x + 1}; a ~ 0'
+		assert_result '1', 'a = new;a.~ = {x| x + 1}; a ~ 0'
 	end
 
 	def test_operation10
-		assert_result '1', 'a = new;a./ = {|x| x + 1}; a / 0'
+		assert_result '1', 'a = new;a./ = {x| x + 1}; a / 0'
 	end
 
 	def test_operation11
-		assert_result '1', 'a = new;a.> = {|x| x + 1}; a > 0'
+		assert_result '1', 'a = new;a.> = {x| x + 1}; a > 0'
 	end
 
 	def test_operation12
-		assert_result '1', 'a = new;a.< = {|x| x + 1}; a < 0'
+		assert_result '1', 'a = new;a.< = {x| x + 1}; a < 0'
 	end
 
 	def test_operation13
-		assert_result '1', 'a = new;a.$ = {|x| x + 1}; a $ 0'
+		assert_result '1', 'a = new;a.$ = {x| x + 1}; a $ 0'
 	end
 
 	def test_operation14
-		assert_result '1', 'a = new;a._ = {|x| x + 1}; a _ 0'
+		assert_result '1', 'a = new;a._ = {x| x + 1}; a _ 0'
 	end
 
 	def test_operation15
-		assert_result '1', 'a = new;a.% = {|x| x + 1}; a % 0'
+		assert_result '1', 'a = new;a.% = {x| x + 1}; a % 0'
 	end
 
 	def test_operation16
-		assert_result '1', 'a = new;a.!= = {|x| x + 1}; a != 0'
+		assert_result '1', 'a = new;a.!= = {x| x + 1}; a != 0'
 	end
 
 	def test_operation17
-		assert_result '1', 'a = new;a.>= = {|x| x + 1}; a >= 0'
+		assert_result '1', 'a = new;a.>= = {x| x + 1}; a >= 0'
 	end
 
 	def test_operation18
-		assert_result '1', 'a = new;a.<= = {|x| x + 1}; a <= 0'
+		assert_result '1', 'a = new;a.<= = {x| x + 1}; a <= 0'
 	end
 
 	def test_operation19
-		assert_result '1', 'a = new;a.|| = {|x| x + 1}; a || 0'
+		assert_result '1', 'a = new;a.|| = {x| x + 1}; a || 0'
 	end
 
 	def test_operation20
-		assert_result '1', 'a = new;a.| = {|x| x + 1}; a | 0'
+		assert_result '1', 'a = new;a.| = {x| x + 1}; a | 0'
 	end
 
 	def test_operation21
-		assert_result '1', 'a = new;a.&& = {|x| x + 1}; a && 0'
+		assert_result '1', 'a = new;a.&& = {x| x + 1}; a && 0'
 	end
 
 	def test_operation22
-		assert_result '1', 'a = new;a.& = {|x| x + 1}; a & 0'
+		assert_result '1', 'a = new;a.& = {x| x + 1}; a & 0'
 	end
 
 	def test_operation23
-		assert_result '1', 'a = new;a.== = {|x| x + 1}; a == 0'
+		assert_result '1', 'a = new;a.== = {x| x + 1}; a == 0'
 	end
 
 
@@ -253,15 +253,15 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_weird_args
-		assert_result "1", "a = new; a.a = {|x| x }; b = { 1 }; a.a b"
-		assert_result "1", "a = {|x| x}; a { 1 }"
+		assert_result "1", "a = new; a.a = {x| x }; b = { 1 }; a.a b"
+		assert_result "1", "a = {x| x}; a { 1 }"
 		assert_result "1", 'a123_!?-*+^&@~\\><$ = new; a123_!?-*+^&@~\\><$.y = 1; a123_!?-*+^&@~\\><$.y'
 	end
 
 	def test_named_args
-		assert_result "1", "a = {|x| x.length}; a \"f\":1"
-		assert_result "1", "a = {|x| x[\"f\"] }; a \"f\":1"
-		assert_result "1", "a = {|x, y, z| z[\"f\"] }; a 1, \"f\":1, 2"
+		assert_result "1", "a = {x| x.length}; a \"f\":1"
+		assert_result "1", "a = {x| x[\"f\"] }; a \"f\":1"
+		assert_result "1", "a = {x, y, z| z[\"f\"] }; a 1, \"f\":1, 2"
 	end
 
 	def test_method_parens_parse
@@ -310,9 +310,9 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_method_definition_parse
 		parse("{ p hi }")
-		parse("{|x,y| p x, y} ").brat
+		parse("{x,y| p x, y} ").brat
 		parse("x = { p hi }").brat
-		parse("x= {|a, b| \"a + b\"}").brat
+		parse("x= {a, b| \"a + b\"}").brat
 	end
 
 	def test_multiline_method_parse
@@ -337,7 +337,7 @@ class BratParserTest < Test::Unit::TestCase
 	def test_list_set_parse
 		parse("a[1] = 2")
 		parse("a[x] = m.m")
-		parse("a[z] = {|x, y| x }")
+		parse("a[z] = {x, y| x }")
 	end
 
 	def test_comment_parse
@@ -375,13 +375,13 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_method
 		assert_result "#function:0", "{ p hi }"
-		assert_result "#function:1", "{|x| p x }"
-		assert_result "#function:2", "{|x, y| p x, y }"
-		assert_result "5", "x = {|y| y }; x 5"
+		assert_result "#function:1", "{x| p x }"
+		assert_result "#function:2", "{x, y| p x, y }"
+		assert_result "5", "x = {y| y }; x 5"
 	end
 
 	def test_chained_method
-		assert_result "4", "x = new; x.y = new; x.y.z = new; x.y.z.z = {|r| r}; x.y.z.z 4"
+		assert_result "4", "x = new; x.y = new; x.y.z = new; x.y.z.z = {r| r}; x.y.z.z 4"
 	end
 
 	def test_method_access
@@ -391,7 +391,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_my
 		assert_result "1", "x = new; x.v = 1; x.y = { my.v}; x.y"
-		assert_result "3", "x = new; x.y = 3; x.z = {|y| my.y}; x.z 4"
+		assert_result "3", "x = new; x.y = 3; x.z = {y| my.y}; x.z 4"
 	end
 
 	def test_comments
@@ -402,15 +402,15 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_parameter_scope
-		assert_result "4", "x = { |y, z| z }; z = 2; x 3, 4;"
-		assert_result "2", "x = { |y, z| z }; z = 2; x 3, 4; z"
-		assert_result "2", "y = 1; z = 2; x = {|z| z = 3 }; x 0; z"
-		assert_result "2", "y = 1; z = 2; x = { |z| z = 3 }; x z; z"
+		assert_result "4", "x = { y, z| z }; z = 2; x 3, 4;"
+		assert_result "2", "x = { y, z| z }; z = 2; x 3, 4; z"
+		assert_result "2", "y = 1; z = 2; x = {z| z = 3 }; x 0; z"
+		assert_result "2", "y = 1; z = 2; x = {z| z = 3 }; x z; z"
 	end
 
 	def test_object_field
 		assert_result "5", "x = new; x.y = 5; x.y"
-		assert_result "6", "x = new; x.y = {|n| n}; x.y 6"
+		assert_result "6", "x = new; x.y = {n| n}; x.y 6"
 	end
 
 	def test_array
@@ -440,7 +440,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_array_method
 		assert_result "2", "z = new; z.test = { [1,2,3] }; z.test[1]"
-		assert_result "1", "y = {|x| x}; z = [->y]; z[0] 1"
+		assert_result "1", "y = {x| x}; z = [->y]; z[0] 1"
 	end
 
 	def test_unary_operators
@@ -448,7 +448,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "B", "z = new; z.->> = {\"B\"}; ->>z"
 		assert_result "C", "b = new;b.? = {3};c = [1,2,3,\"C\"]; c[?b]" 
 		assert_result "7", "b = new;b.? = {3};c = 4; c + ?b" 
-		assert_result "7", "b = new;b.? = {3};c = {|x| x + 4 }; c ?b"
+		assert_result "7", "b = new;b.? = {3};c = {x| x + 4 }; c ?b"
 	end
 
 	def test_array_concat

@@ -4,7 +4,7 @@ grammar BaseBrat
   rule program
  	line+ {
 		def brat
-			"var @brat = $loader.loadmodule(\"internal\", $loader);\n" <<
+			"var @brat = $loader.loadmodule(\"neko/internal\", $loader);\n" <<
 			"@brat.base_object.@main_tantrum = function() {\n" <<
 			"var array = @brat.base_array;" <<
 			"var hash = @brat.base_hash;" <<
@@ -380,7 +380,7 @@ grammar BaseBrat
 
   #Matches formal arguments in a function definition
   rule formal_args
-  	"|" space? i:identifier? rest_formal "|" {
+  	space? i:identifier? rest_formal "|" {
 		def brat
 			if i.respond_to? :brat
 				var_add i.brat
