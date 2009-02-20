@@ -116,8 +116,6 @@ test.z
 
 ===Booleans===
 
-_BIG NOTE: This is not true right now, because variable argument functions needed some revision_
-
 False and null are false, true and everything else are true.
 
 false?, true?, and null? can each take 0 to 3 parameters. If a parameter is a function, it will be called with no arguments.
