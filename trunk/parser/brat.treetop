@@ -380,7 +380,7 @@ grammar BaseBrat
 
   #Matches formal arguments in a function definition
   rule formal_args
-  	space? i:identifier? rest_formal "|" {
+  	space? i:identifier? rest_formal space? "|" {
 		def brat
 			if i.respond_to? :brat
 				var_add i.brat
