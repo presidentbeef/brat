@@ -26,7 +26,7 @@ n = 1
 while {
         p n
         n = n + 1
-        true? n <= 10, true, false
+        n <= 10
 }
 }}}
 == Factorial ==
