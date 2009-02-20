@@ -31,6 +31,10 @@ Try out your newly discovered power thusly:
   # Press enter
   # Marvel or weep, as appropriate
 
+== More Testing ==
+
+Run `ruby parser/test.rb` to run the test suite. SWEET.
+
 == Problems ==
 
 Sometimes there are problems. Everyone has issues. That is why the Google has provided us the 'Issues' tab above, via which you may share your problems with everyone else.
