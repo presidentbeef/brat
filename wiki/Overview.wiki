@@ -44,13 +44,13 @@ Functions are the only things in Brat which are not objects. Functions take argu
 Functions look like this:
 {{{
 { p "this method has no arguments"}
-{|arg1, arg2, arg3| p "this method has three!"}
+{ arg1, arg2, arg3 | p "this method has three!"}
 }}}
 
 Functions cannot be called directly, they have to be assigned to a variable first. You can give a function its arguments by using a comma separated list. This might need to be within parentheses. If you do put them in parentheses, make sure they are snuggled up tight to the variable, or else they won't know they go together. They are shy that way.
 
 {{{
-a = {|x, y, z| p x, y, z}
+a = { x, y, z | p x, y, z}
 a 1, 2, 3
 }}}
 
@@ -60,7 +60,7 @@ By the way, you can also chain method calls. Did you know object fields are actu
 a = new
 a.b = new
 a.b.c = new
-a.b.c.d = {|x| x}
+a.b.c.d = { x | x}
 p a.b.c.d(a).b.c.d "hi" # parentheses required in the middle there
 }}}
 
@@ -73,7 +73,7 @@ Operators are basically just special functions that take a single argument. Oper
 Operators can be defined like any other function:
 {{{
 a = new
-a.? = {|x| p "What ", x, "?"}
+a.? = { x | p "What ", x, "?"}
 }}}
 
 They can also be invoked like regular functions:
