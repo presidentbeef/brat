@@ -47,12 +47,19 @@ base_object.my = function() {
 	return this;
 }
 
+base_object.to@unders = function() {
+	if(has_field(this, "@to@unders"))
+		base_string.new(this.@to@unders);
+	else
+		base_string.new($string(this));
+}
+
 base_object.print = $varargs(function(args) {
 	var i = 0;
 	var len = $asize(args);
 	while i < len {
-		if(has_field(args[i], "to@unders")) {
-			args[i] = args[i].to@unders();
+		if(has_field(args[i], "@to@unders")) {
+			args[i] = args[i].@to@unders();
 		};
 		i += 1;
 	};
@@ -65,6 +72,23 @@ base_object.p =  $varargs(function(args) {
 	$call(this.print, null, pargs);
 })
 
+base_object.@equal@equal = function(rhs) {
+	if(has_field(rhs, "@value"))
+		rhs = rhs.@value;
+	var lhs;
+	if(has_field(this, "@value"))
+		lhs = this.@value;
+	else
+		lhs = this;
+
+	if($typeof(lhs) != $typeof(rhs))
+		$throw("Invalid comparison of " + $string(lhs) + " and " + $string(rhs));
+
+	if(lhs == rhs)
+		base_object.@true();
+	else
+		base_object.@false();
+}
 
 var random = $loader.loadprim("std@random_new", 0);
 var random_int = $loader.loadprim("std@random_int", 2);
@@ -115,16 +139,16 @@ base_object.g = $varargs(function(args) {
 })
 
 var @false_value = new_brat(null, null);
-@false_value.to@unders = function() { "false" };
+@false_value.@to@unders = function() { "false" };
 var @true_value = new_brat(null, null);
-@true_value.to@unders = function() { "true" };
+@true_value.@to@unders = function() { "true" };
 var @null_value = new_brat(null, null);
-@null_value.to@unders = function() { "null" };
+@null_value.@to@unders = function() { "null" };
 base_object.@false = function() { @false_value }
 base_object.@true = function() { @true_value }
 base_object.@null = function() { @null_value}
 
-base_object.@equal = function(rhs) {
+base_object.@equal@equal = function(rhs) {
 	var lhs = this;
 	if(has_field(rhs, "@value") && has_field(lhs, "@value")) {
 		rhs = rhs.@value;
@@ -411,7 +435,6 @@ num_args = function(object, method) {
                         return num_args(proto, method);
                 }
         }
-
 }
 
 
@@ -549,13 +572,36 @@ base_array.@plus = function(ary) {
 	this;
 }
 
-base_array.to@unders = function() {
+base_array.@equal@equal = function(rhs) {
+	if(lhs == rhs)
+		return base_object.@true();
+	else if($typeof(rhs) == $tobject || has_field(rhs, "@internal_array"))
+		rhs = rhs.@internal_array;
+	else
+		$throw("Cannot compare array to " + $string(rhs));
+
+	var lhs = this.@internal_array;
+	if($asize(lhs) != $asize(rhs))
+		return base_object.@false();
+
+	var index = 0;
+	var length = $asize(lhs);
+	while(index < length) {
+		if($not(istrue(lhs[index].@equal@equal(rhs[index]))))
+			return base_object.@false()
+		else
+			index = index + 1;
+	}
+	base_object.@true();
+}
+
+base_array.@to@unders = function() {
 	var i = 0;
 	var len = $asize(this.@internal_array);
 	var temp = $amake(len);
 	while i < len {
-		if(has_field(this.@internal_array[i], "to@unders"))
-			temp[i] = this.@internal_array[i].to@unders();
+		if(has_field(this.@internal_array[i], "@to@unders"))
+			temp[i] = this.@internal_array[i].@to@unders();
 		else if(has_field(this.@internal_array[i], "@value"))
 			temp[i] = this.@internal_array[i].@value;
 		else
@@ -612,7 +658,7 @@ $exports.make_hash = function(neko_hash) {
 	hsh;
 }
 
-base_hash.to@unders = function() {
+base_hash.@to@unders = function() {
 	output = "";
 	var st = function(k,v) {
 		output = $string(output + $string(k) + " : " + $string(v) + ", ");
@@ -639,7 +685,7 @@ $exports.make_array = function(neko_array) {
 
 base_number = new_brat(null, null);
 base_number.@value = 0;
-base_number.to@unders = function() {
+base_number.@to@unders = function() {
 	$string(this.@value);
 }
 
@@ -732,7 +778,7 @@ base_number.@greater@equal = function(num) {
 
 base_string = new_brat(null, null);
 base_string.@value = "";
-base_string.to@unders = function() {
+base_string.@to@unders = function() {
 	this.@value;
 }
 base_string.length = function() {
@@ -874,7 +920,7 @@ base_regex.@internal_regex = base_object.@null();
 base_regex.new = function(regx_string) {
 	if($typeof(regx_string) == $tobject && has_field(regx_string, "@value"))
 		regx_string = regx_string.@value;
-	else if($typeof(regx_string) != $tstring)
+	if($typeof(regx_string) != $tstring)
 		$throw("Must create new regex with a string, not " + $string(regx_string));
 
 	var reg = new_brat(this, null);
@@ -896,6 +942,33 @@ base_regex.match = function(val) {
 }
 base_regex.@tilde = base_regex.match;
 
+base_symbol = new_brat(null, null);
+base_symbol.new = function(sym_string) {
+	if($typeof(sym_string) == $tobject && has_field(sym_string, "@value"))
+		sym_string = sym_string.@value;
+	if($typeof(sym_string) == $tstring)
+		sym_string = $hash(sym_string);
+	else
+		$throw("Must create new symbol with using a string or a symbol, not " + $string(sym_string));
+
+	var sym = new_brat(this, null);
+	sym.@value = sym_string;
+	sym; 
+}
+
+base_symbol.@equal@equal = function(rhs) {
+	if($typeof(rhs) == $tobject && has_field(rhs, "@value"))
+		rhs = rhs.@value;
+	if($typeof(rhs) != $tint)
+		$throw("Cannot compare symbol to " + $string(rhs));
+
+	this.@value == rhs;
+}
+
+base_symbol.@to@unders = function() {
+	$field(this.@value);	
+}
+
 $exports.has_field = has_field;
 $exports.base_array = base_array;
 $exports.base_hash = base_hash;
@@ -903,4 +976,5 @@ $exports.base_number = base_number;
 $exports.base_string = base_string;
 $exports.base_object = base_object;
 $exports.base_regex = base_regex;
+$exports.base_symbol = base_symbol;
 $exports.num_args = num_args;

@@ -93,7 +93,7 @@ if ARGV[0]
 	ENV['LD_LIBRARY_PATH'] ||= "" 
 	ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#{Dir.pwd}/lib/"
 	ENV['NEKOPATH'] ||= ""
-	ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/"
+	ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/lib/:#{Dir.pwd}/neko/"
 	ENV['PATH'] ||= ""
 	ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 

@@ -1,8 +1,14 @@
-my.while = { block | true? block, { while ->block }, null }
-
-n = 1
-while {
-	p n
-	n = n + 1
-	n <= 10
+my.while = { block |
+    true? block, { while ->block }
 }
+
+number.times = { block |
+	n = 0
+	while {
+		block
+		n = n + 1
+		n < my
+	}	
+}
+
+5.times { p "hi" }

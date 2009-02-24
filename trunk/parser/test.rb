@@ -10,7 +10,7 @@ require 'parser/brat-extension'
 ENV['LD_LIBRARY_PATH'] ||= "" 
 ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#{Dir.pwd}/lib/"
 ENV['NEKOPATH'] ||= ""
-ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/"
+ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/:#{Dir.pwd}/neko/"
 ENV['PATH'] ||= ""
 ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 
@@ -347,6 +347,11 @@ class BratParserTest < Test::Unit::TestCase
 		parse "x = 1; /* \n x = 6 \n */ \n x"
 	end
 
+	def test_symbol_parse
+		parse "x = 'x"
+		parse "x = 'sdifhsd123123!"
+		parse "x 'a.hello(1, 2, 3)"
+	end
 
 	def test_object_method_call
 		assert_result "1", "test = new; test.test = { 1 }; test.test"
@@ -522,6 +527,25 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "true", "a = 300; b = 200; b + 100 == a"
 		assert_result "true", "a = 300; b = 200; (b + 300) == (a + 200)"
 		assert_result "false", "[1,2,3].length <= 1"
+	end
+
+	def test_string_compare
+		assert_result "true", 'a = "hello!"; b = "hello!"; a == b'
+		assert_result "false", '"\'ello, mate" == "sup?"'
+	end
+
+	def test_symbol_compare
+		assert_result "true", "a = 'a; b = 'a; a == b"
+		assert_result "false", "'b == 'a"
+	end
+
+	def test_array_compare
+		assert_result "true", "[1,2,3] == [1,2,3]"
+		assert_result "false", "[1,3,2] == [1,2,3]"
+		assert_result "true", 'a = ["a"]; b = ["a"]; a == b'
+		assert_result "false", 'a = ["a"]; b = ["b"]; a == b'
+		assert_result "false", 'a = ["a"]; b = ["b", "c"]; a == b'
+		assert_result "true", "a = new; b = new; c = [a,b]; d = [a,b]; c == d"
 	end
 
 	def parse input

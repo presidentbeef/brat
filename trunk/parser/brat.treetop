@@ -4,13 +4,14 @@ grammar BaseBrat
   rule program
  	line+ {
 		def brat
-			"var @brat = $loader.loadmodule(\"neko/internal\", $loader);\n" <<
+			"var @brat = $loader.loadmodule(\"internal\", $loader);\n" <<
 			"@brat.base_object.@main_tantrum = function() {\n" <<
 			"var array = @brat.base_array;" <<
 			"var hash = @brat.base_hash;" <<
 			"var number = @brat.base_number;" <<
 			"var string = @brat.base_string;" <<
 			"var regex = @brat.base_regex;" <<
+			"var symbol = @brat.base_symbol;" <<
 			"\n" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
@@ -55,7 +56,7 @@ grammar BaseBrat
   rule expression
 	unary_operation / binary_operation / index_set / index_get /
 	assignment / paren_exp ~(!".") { def brat; output = paren_exp.brat; @result = paren_exp.result; output;  end } / 
-	method_access / method_invocation / number / string / function_definition / hash / array / regex
+	method_access / method_invocation / number / string / symbol / function_definition / hash / array / regex
   end
 
   #Expressions which can be followed by []
@@ -65,13 +66,13 @@ grammar BaseBrat
 
   #Expressions which can be used as lhs of "." method calls
   rule method_target_expression
- 	hash / array / paren_exp / number / string / regex
+ 	hash / array / paren_exp / number / string / regex / symbol
   end
 
  
   #Expressions which can be used as the lhs of a binary expression 
   rule binary_lhs_expression
- 	index_get / paren_exp / number / string / hash / bare_array / method_with_parens / regex
+ 	index_get / paren_exp / number / string / hash / bare_array / method_with_parens / regex / symbol
   end
 
   #Matches regular expression literals
@@ -358,6 +359,16 @@ grammar BaseBrat
 		    "var #@result = string.new(#{text_value});"
 	    end
     }
+  end
+
+  #Like symbols in Scheme or Ruby
+  rule symbol
+	"'" id:(identifier / operator / number)+ {
+		def brat
+			next_temp
+			"var #@result = symbol.new(\"#{id.text_value}\");"
+		end
+	} 
   end
 
   #Matches function definitions
@@ -871,9 +882,9 @@ grammar BaseBrat
 
   #Matches allowable operators and converts them to mangled method names
   rule operator
-	!("->" !operator) ("!=" / ">=" / "<=" / [!?\-*+^@~/\\><$_%] / "||" / "|" / "&&" / "&" / "==" )+ {
+	~(!("->" !operator) !("=" !(operator / "="))) ("!=" / ">=" / "<=" / [!?\-*+^@~/\\><$_%\=] / "||" / "|" / "&&" / "&")+ {
 		def brat
-			elements.map {|e| e.text_value}.join.gsub(/(!=|>=|<=|[!?\-*+^@~\/\\><$_%|&]|==)/) do
+			elements.map {|e| e.text_value}.join.gsub(/(!=|>=|<=|\|\||[!?\-*+^@~\/\\><$_%|&=])/) do
 			case $1
 			when "!"	
 				"@bang"
@@ -909,7 +920,7 @@ grammar BaseBrat
 				"@greater"
 			when "!="
 				"@notequal"
-			when "=="
+			when "="
 				"@equal"
 			when ">="
 				"@greater@equal"
