@@ -28,19 +28,14 @@ class Treetop::Runtime::SyntaxNode
 		@@variables ||= [Set.new]
 	end
 
-	def self.set_prefix prefix
-		@@prefix = prefix
-	end
-
 	def self.clear_variables
 		@@variables = [Set.new]
 		@@temp = 0
 	end
 
 	def next_temp
-		@@prefix ||= "temp"
 		@@temp ||= 0
-		@result = "@#@@prefix#{@@temp += 1}"
+		@result = "@temp#{@@temp += 1}"
 	end
 
 	def call_method object, method, arguments, arg_length
@@ -91,7 +86,7 @@ class Treetop::Runtime::SyntaxNode
 				if(arg_len == -1 || arg_len == #{arg_length})
 					$call(#{object}, this, #{arguments});
 				else
-					$throw("Wrong number of arguments for " + $string(#{object}) + ". Expected " + $string(arg_len) + " but given " + $string(arg_len));
+					$throw("Wrong number of arguments for #{object}. Expected " + $string(arg_len) + " but given #{arg_length}");
 			}
 		NEKO
 		if arg_length > 0

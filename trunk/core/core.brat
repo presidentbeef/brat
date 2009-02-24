@@ -1,14 +1,91 @@
-my.while = { block |
+object.while = { block |
     true? block, { while ->block }
 }
 
 array.first = { my[0] }
 array.rest = { my[1,-1] }
 
-array.map = { f |
-        true? my.length <= 0,
-                {[]},
-                { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
+array.map = { block |
+	index = 0
+	length = my.length
+	new_ary = []
+	while {
+		new_ary << block(my[index])
+		index = index + 1
+		index < length
+	}
+	new_ary
+}
+
+array.map_with_index = { block |
+	index = 0
+	length = my.length
+	new_ary = []
+	while {
+		new_ary << block(my[index], index)
+		index = index + 1
+		index < length
+	}
+	new_ary
+}
+
+array.each = { block |
+	index = 0
+	length = my.length
+	while {
+		block my[index]
+		index = index + 1
+		index < length
+	}
+	my
+}
+
+array.each_with_index = { block |
+	index = 0
+	length = my.length
+	while {
+		block my[index], index
+		index = index + 1
+		index < length
+	}
+	my
+}
+
+
+array.empty? = { my.length == 0 }
+
+array.select = { block |
+	new_ary = []
+	my.each { i |
+		true? block(i), { new_ary << i }
+	}
+	new_ary
+}
+
+array.include? = { item |
+	flag = new
+	flag.found = false
+	index = 0
+	length = my.length
+	while {
+		flag.found = (my[index] == item)
+		index = index + 1
+		not(flag.found) && { index < length }
+	}
+	flag.found
+}
+
+array.index_of = { item |
+	flag = new
+	flag.found = false
+	flag.index = 0
+	length = my.length
+	while {
+		flag.found = (my[flag.index] == item)
+		flag.index = flag.index + 1
+		not(flag.found) && { flag.index < length }
+	}
+	true? flag.found, flag.index, null
 }
 
 number.times = { block |
@@ -18,16 +95,18 @@ number.times = { block |
 		n = n + 1
 		n < my
 	}	
+	my
 }
 
-my.&& = { rhs |
+object.&& = { rhs |
         true? my,
                 { rhs },
                 { false }
 }
 
-my.|| = { rhs |
+object.|| = { rhs |
 	true? my,
 		{ true },
 		{ true? rhs }
 }
+

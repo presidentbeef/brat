@@ -72,24 +72,6 @@ base_object.p =  $varargs(function(args) {
 	$call(this.print, null, pargs);
 })
 
-base_object.@equal@equal = function(rhs) {
-	if(has_field(rhs, "@value"))
-		rhs = rhs.@value;
-	var lhs;
-	if(has_field(this, "@value"))
-		lhs = this.@value;
-	else
-		lhs = this;
-
-	if($typeof(lhs) != $typeof(rhs))
-		$throw("Invalid comparison of " + $string(lhs) + " and " + $string(rhs));
-
-	if(lhs == rhs)
-		base_object.@true();
-	else
-		base_object.@false();
-}
-
 var random = $loader.loadprim("std@random_new", 0);
 var random_int = $loader.loadprim("std@random_int", 2);
 base_object.random = function(x) {
@@ -155,7 +137,7 @@ base_object.@equal@equal = function(rhs) {
 		lhs = lhs.@value;
 	}
 
-	if(lhs == rhs)
+	if($compare(lhs,rhs) == 0)
 		this.@true();
 	else
 		this.@false();
@@ -652,7 +634,7 @@ base_hash.set = function(index, value) {
 base_hash.__set = base_hash.set;
 base_hash.__get = base_hash.get;
 
-$exports.make_hash = function(neko_hash) {
+make_hash = function(neko_hash) {
 	var hsh = base_hash.new();
 	hsh.@internal_hash = neko_hash;
 	hsh;
@@ -671,13 +653,13 @@ base_hash.@to@unders = function() {
 	out;
 }
 
-$exports.hset = function(hashtable, index, value) {
+hset = function(hashtable, index, value) {
 	if(has_field(index, "@value"))
 		index = index.@value;
 	$hset(hashtable, index, value, null)
 }
 
-$exports.make_array = function(neko_array) {
+make_array = function(neko_array) {
 	var ary = base_array.new();
 	ary.@internal_array = neko_array;
 	ary;
@@ -774,6 +756,21 @@ base_number.@greater@equal = function(num) {
 		base_object.@true();
 	else
 		base_object.@false();
+}
+
+base_number.@equal@equal = function(rhs) {
+	var lhs = this;
+	if(has_field(rhs, "@value") && has_field(lhs, "@value")) {
+		rhs = rhs.@value;
+		lhs = lhs.@value;
+	}
+	else
+		return this.@false();
+
+	if($pcompare(lhs,rhs) == 0)
+		this.@true();
+	else
+		this.@false();
 }
 
 base_string = new_brat(null, null);
@@ -969,6 +966,9 @@ base_symbol.@to@unders = function() {
 	$field(this.@value);	
 }
 
+$exports.hset = hset;
+$exports.make_array = make_array;
+$exports.make_hash = make_hash;
 $exports.has_field = has_field;
 $exports.base_array = base_array;
 $exports.base_hash = base_hash;

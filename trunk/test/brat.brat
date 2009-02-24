@@ -1,14 +1,3 @@
-my.while = { block |
-    true? block, { while ->block }
+10000.times {
+        1 + 1
 }
-
-number.times = { block |
-	n = 0
-	while {
-		block
-		n = n + 1
-		n < my
-	}	
-}
-
-5.times { p "hi" }

@@ -17,21 +17,24 @@ def compile_brat_internal force = false
 end
 
 def compile_core force = false
-	if force or not File.exist? "#$program_path/core/core.brat.neko" or newer? "#$program_path/core/core.brat", "#$program_path/core/core.brat.neko"
+	if force or not File.exist? "#$program_path/core/core.n" or newer? "#$program_path/core/core.brat", "#$program_path/core/core.n"
 		require 'rubygems'
 		require 'treetop'
 		require "#$program_path/parser/brat"
 		require "#$program_path/parser/parser-extension"
 
-		File.open "core/core.brat.neko", "w" do |f|
-			f.puts BaseBratParser.new.parse(File.read("core/core.brat")).core_brat
+		File.open "#$program_path/core/core.brat.neko", "w" do |f|
+			f.puts BaseBratParser.new.parse(File.read("#$program_path/core/core.brat")).core_brat
 		end
+
+		system "nekoc #$program_path/core/core.brat.neko" or abort "Error while compiling program"
+		system "mv #$program_path/core/core.brat.n #$program_path/core/core.n"
 	else
 		false
 	end
 end
 
-def brat_to_neko input, core = true, inner = false
+def brat_to_neko input
 	require 'rubygems'
 	require 'treetop'
 	require "#$program_path/parser/brat"
@@ -41,10 +44,6 @@ def brat_to_neko input, core = true, inner = false
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
 		raise "Error during parsing:\n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}"
-	elsif inner
-		tree.inner_brat
-	elsif core
-		tree.brat File.read("#$program_path/core/core.brat.neko")
 	else
 		tree.brat
 	end
@@ -54,7 +53,7 @@ def newer? file1, file2
 	File.mtime(file1) > File.mtime(file2)
 end
 
-def brat file_name, keep_intermediate = false, force = false, core = true
+def brat file_name, keep_intermediate = false, force = false
 	new_parser = compile_parser(force)
 	new_internal =compile_brat_internal(force) 
 	new_core = compile_core(force)
@@ -64,7 +63,7 @@ def brat file_name, keep_intermediate = false, force = false, core = true
 		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or force
 			brat_input = File.read file_name
 			begin
-				neko = brat_to_neko brat_input, core
+				neko = brat_to_neko brat_input
 			rescue RuntimeError => e
 				puts e
 				exit
@@ -74,6 +73,7 @@ def brat file_name, keep_intermediate = false, force = false, core = true
 
 		system "nekoc #{file_name}.neko" or abort "Error while compiling program"
 	end
+
 	if not keep_intermediate and File.exist? file_name + ".neko"
 		File.delete file_name + ".neko"
 	end
@@ -83,7 +83,7 @@ def brat file_name, keep_intermediate = false, force = false, core = true
 	end
 end
 
-def brat_standalone file_name, keep_intermediate = false, force = false, core = true
+def brat_standalone file_name, keep_intermediate = false, force = false
 	abort "Not working yet."
 	new_parser = compile_parser force
 	new_internal = compile_brat_internal force
@@ -92,7 +92,7 @@ def brat_standalone file_name, keep_intermediate = false, force = false, core = 
 		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or new_parser or new_internal or force
 			brat_input = File.read file_name
 			begin
-				neko = brat_to_neko brat_input, core
+				neko = brat_to_neko brat_input
 			rescue RuntimeError => e
 				puts e
 				exit
@@ -117,7 +117,6 @@ def show_help
 Usage: brat [options] [file_name]
 Possible options:
 -a    Force recompilation of parser
--c    Don't include Brat core (requires -f if bytecode is cached)
 -f    Ignore existing .n file
 -h    Show this help
 -k    Don't erase intermediate files
@@ -151,18 +150,17 @@ if ARGV[0]
 
 	force = options.include? "-a"
 	keep_intermediate = options.include? "-k"
-	core = !options.include?("-c")
 
 	if options.include? '-f'
 		File.delete(file_name + ".n") rescue nil
 	end
 
 	if ARGV.include? "-s"
-		brat_standalone file_name, keep_intermediate, force, core
+		brat_standalone file_name, keep_intermediate, force
 	elsif ARGV.include? "-t"
 		require 'benchmark'
 		time = Benchmark.measure do
-			brat file_name, keep_intermediate, force, core
+			brat file_name, keep_intermediate, force
 		end
 		puts "Ran in: #{time.format('%r')} seconds"
 

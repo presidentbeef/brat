@@ -19,6 +19,13 @@ ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 system "cd core && nekoc internal.neko"
 system "cd parser && tt brat.treetop"
 
+File.open "core/core.brat.neko", "w" do |f|
+	f.puts BaseBratParser.new.parse(File.read("core/core.brat")).core_brat
+end
+
+system "nekoc core/core.brat.neko" or abort "Error while compiling program"
+system "mv core/core.brat.n core/core.n"
+
 class BratParserTest < Test::Unit::TestCase
 	include BratTestExt
 
