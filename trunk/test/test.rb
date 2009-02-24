@@ -1,20 +1,20 @@
 require 'test/unit'
 require 'rubygems'
 require 'treetop'
-require 'parser/test-examples'
+require 'test/test-examples'
 
 Treetop.load 'parser/brat'
 
-require 'parser/brat-extension'
+require 'parser/parser-extension'
 
 ENV['LD_LIBRARY_PATH'] ||= "" 
 ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#{Dir.pwd}/lib/"
 ENV['NEKOPATH'] ||= ""
-ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/:#{Dir.pwd}/neko/"
+ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/:#{Dir.pwd}/core/"
 ENV['PATH'] ||= ""
 ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 
-system "cd neko && nekoc internal.neko"
+system "cd core && nekoc internal.neko"
 system "cd parser && tt brat.treetop"
 
 class BratParserTest < Test::Unit::TestCase

@@ -9,8 +9,8 @@ def compile_parser(force = false)
 end
 
 def compile_brat_internal(force = false)
-	if force or not File.exist? "neko/internal.n" or newer? "neko/internal.neko", "neko/internal.n"
-		system "cd neko && nekoc internal.neko"
+	if force or not File.exist? "core/internal.n" or newer? "core/internal.neko", "core/internal.n"
+		system "cd core && nekoc internal.neko"
 	else
 		false
 	end
@@ -20,7 +20,7 @@ def brat_to_neko input
 	require 'rubygems'
 	require 'treetop'
 	require 'parser/brat'
-	require 'parser/brat-extension'
+	require 'parser/parser-extension'
 
 	parser = BaseBratParser.new
 	tree = parser.parse(input)
@@ -93,7 +93,7 @@ if ARGV[0]
 	ENV['LD_LIBRARY_PATH'] ||= "" 
 	ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#{Dir.pwd}/lib/"
 	ENV['NEKOPATH'] ||= ""
-	ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/lib/:#{Dir.pwd}/neko/"
+	ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/lib/:#{Dir.pwd}/core/"
 	ENV['PATH'] ||= ""
 	ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 

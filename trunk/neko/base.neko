@@ -1,1 +1,0 @@
-var stdin = $loader.loadprim("std@file_stdin", 0);
