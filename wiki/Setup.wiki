@@ -26,6 +26,7 @@ Try out your newly discovered power thusly:
   # In that file, type something like: `p "OK COMPUTER"`
   # Save and close it
   # Return to the comfort of your command line
+  # Make brat executable with `chmod +x brat`
   # Type `./brat test.brat`
   # Cross fingers
   # Press enter
