@@ -33,7 +33,7 @@ Try out your newly discovered power thusly:
 
 == More Testing ==
 
-Run `ruby parser/test.rb` to run the test suite. SWEET.
+Run `ruby test/test.rb` to run the test suite. SWEET.
 
 == Problems ==
 
