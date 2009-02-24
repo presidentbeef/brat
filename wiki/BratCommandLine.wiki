@@ -11,7 +11,6 @@ All you really need to do is give Brat the name of the file you want to run:
 However, Brat comes with several command line options with which to confuse you.
 
   * `-a` -  Forces recompilation of parser, internal code, core code, and your code.
-  * `-c` -  This option makes Brat skip including the core code
   * `-f` -  Ignores any existing bytecode for you file and compiles it from scratch
   * `-h` -  Shows help, much like this
   * `-k` -  Keeps the intermediate '.neko' file which is generated
@@ -20,6 +19,6 @@ However, Brat comes with several command line options with which to confuse you.
 
 = Notes =
 
-Note that `-k` and `-c` may be ignored if you do not use `-f`
+Note that `-k` may be ignored if you do not use `-f`
 
 `-s` is not working (yet).
