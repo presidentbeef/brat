@@ -31,6 +31,11 @@ Try out your newly discovered power thusly:
   # Press enter
   # Marvel or weep, as appropriate
 
+== For Convenience ==
+
+If you want to be able to run Brat from anywhere, you can add to your path.
+For example, if you had put Brat in `/home/bob/brat-language/` you would do `export PATH=$PATH:/home/bob/brat-language/`
+
 == More Testing ==
 
 Run `ruby test/test.rb` to run the test suite. SWEET.
