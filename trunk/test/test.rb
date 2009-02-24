@@ -561,7 +561,7 @@ class BratParserTest < Test::Unit::TestCase
 		out = @parser.parse(input).brat
 		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@brat.base_object.p(@exit_value);"}
 		result = `nekoc .test.neko.tmp && neko .test.neko.n`
-		`cp .test.neko.tmp .test.neko.last_error` unless $? == 0
+		`cp .test.neko.tmp test.neko.last_error` unless $? == 0
 		File.delete(".test.neko.n")
 		File.delete(".test.neko.tmp")
 		result.split("\n").last.strip
