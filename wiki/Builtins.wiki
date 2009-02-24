@@ -1,6 +1,6 @@
 #summary Objects built into Brat
 
-Brat comes with several "built in" objects that are always available to your program. The only thing special about these is that they are written in Neko and not Brat. Otherwise, they are the same as any other Brat object.
+Brat comes with several "built in" objects that are always available to your program. Otherwise, they are the same as any other Brat object.
 
 == Object ==
 
@@ -21,7 +21,10 @@ Object methods:
   * `false?`
   * `true?`
   * `null?`
-  * `==` - checks if two objects are the same
+  * `==` - equality
+  * `&&`
+  * `||`
+  * `while`
 
 == array ==
 
@@ -37,6 +40,17 @@ array methods:
   * `set(i)`, `[i] = y` - sets element i to y
   * `<< y` - appends y to the array
   * `+ a` - concatenates array a to the array
+  * `map`
+  * `first`
+  * `rest`
+  * `map_with_index`
+  * `each`
+  * `each_with_index`
+  * `empty?`
+  * `select`
+  * `index_of`
+  * `include?`
+  * `length`
 
 == hash ==
 
@@ -65,6 +79,7 @@ number methods:
  * `<` - less than
  * `<=` - less than or equal to
  * `>=` - greater than or equal to
+ * `times`
 
 == string ==
 
@@ -73,3 +88,6 @@ Strings of characters ("hello!") are objects, too, subclasses of the string obje
 string methods:
 
  * `new` - returns a new string
+ * `length`
+ * `+`
+ * `[]`
