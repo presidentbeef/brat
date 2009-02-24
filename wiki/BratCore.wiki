@@ -10,8 +10,20 @@ Anyhow, this page is to document the available core functions.
 
 = Functions =
 
-  * `array.map`
-  * `number.times`
-  * `object.&&`
-  * `object.||`
-  * `object.while`
+  * `array`
+    * `map`
+    * `first`
+    * `rest`
+    * `map_with_index`
+    * `each`
+    * `each_with_index`
+    * `empty?`
+    * `select`
+    * `index_of`
+    * `include?`
+  * `number`
+    * `times`
+  * `object`
+    * `&&`
+    * `||`
+    * `while`
