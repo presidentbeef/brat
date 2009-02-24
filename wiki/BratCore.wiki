@@ -1,29 +1,5 @@
-#summary Methods included in the Brat core
+#summary What.
 
 = The Core =
 
-First of all, a slight digression: some parts of Brat which are exposed are written in Neko. These are always available (like object.print). Others are written in Brat. These are call the "core". They are not really _necessary_, though, so you can include them or not as you would like (using the `-c` [BratCommandLine command line option]).
-
-Whether these "core" functions are written in Neko or in Brat is mostly determined by the ambient temperature and how easily it is done in one or the other. In some cases, they _must_ be written in Neko.
-
-Anyhow, this page is to document the available core functions.
-
-= Functions =
-
-  * `array`
-    * `map`
-    * `first`
-    * `rest`
-    * `map_with_index`
-    * `each`
-    * `each_with_index`
-    * `empty?`
-    * `select`
-    * `index_of`
-    * `include?`
-  * `number`
-    * `times`
-  * `object`
-    * `&&`
-    * `||`
-    * `while`
+A set of objects and methods are linked into your Brat programs automatically. These are the core, and are found in `core/core.brat` and `core/internal.neko`.
