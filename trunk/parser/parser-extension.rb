@@ -2,6 +2,7 @@ require 'set'
 
 class Treetop::Runtime::SyntaxNode
 	attr_reader :result
+
 	def var_exist? v
 		variables.inject {|allvars, scope| allvars.merge scope}.include? v
 	end
@@ -27,18 +28,24 @@ class Treetop::Runtime::SyntaxNode
 		@@variables ||= [Set.new]
 	end
 
+	def self.set_prefix prefix
+		@@prefix = prefix
+	end
+
 	def self.clear_variables
 		@@variables = [Set.new]
+		@@temp = 0
 	end
 
 	def next_temp
+		@@prefix ||= "temp"
 		@@temp ||= 0
-		@result = "@temp#{@@temp += 1}"
+		@result = "@#@@prefix#{@@temp += 1}"
 	end
 
 	def call_method object, method, arguments, arg_length
+		#"\n$print("Calling ", method, " on ", #{object}, " with (", #{arguments}, ")\\n");"
 		<<-NEKO
-		\n//$print("Calling ", method, " on ", #{object}, " with (", #{arguments}, ")\\n");
 		if(#{object} == null) {
 			$throw("Method invoked on null object.");
 		}
@@ -139,8 +146,8 @@ class Treetop::Runtime::SyntaxNode
 
 
 	def invoke method, arguments, arg_length
+		#\n$print("Calling ", #{method}, " with (", #{arguments}, ")\\n");
 		<<-NEKO
-		\n//$print("Calling ", #{method}, " with (", #{arguments}, ")\\n");
 		if(#{method} == null) {
 			$throw("Could not invoke null method.");
 		}

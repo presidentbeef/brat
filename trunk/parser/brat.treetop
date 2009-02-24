@@ -3,7 +3,8 @@ grammar BaseBrat
   #Wrap up program
   rule program
  	line+ {
-		def brat
+		def brat core = ""
+			Treetop::Runtime::SyntaxNode.clear_variables
 			"var @brat = $loader.loadmodule(\"internal\", $loader);\n" <<
 			"@brat.base_object.@main_tantrum = function() {\n" <<
 			"var array = @brat.base_array;" <<
@@ -12,14 +13,22 @@ grammar BaseBrat
 			"var string = @brat.base_string;" <<
 			"var regex = @brat.base_regex;" <<
 			"var symbol = @brat.base_symbol;" <<
-			"\n" <<
+			"\n//CORE\n" <<
+			core <<
+			"\n//END CORE\n" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
 			"@exit_value = @brat.base_object.@main_tantrum();\n"
 		end
 
 		def inner_brat
+			Treetop::Runtime::SyntaxNode.clear_variables
 			elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";").gsub(";", ";\n")
+		end
+
+		def core_brat
+			Treetop::Runtime::SyntaxNode.set_prefix("coretemp")
+			inner_brat
 		end
 	}
 	/
@@ -587,7 +596,7 @@ grammar BaseBrat
 			output = arg_list.brat
 			name = identifier.brat
 			output <<
-			"var #@result;//exceellent\n" <<
+			"var #@result;" <<
 			"if(@brat.has_field(this, \"#{name}\")) {" <<
 			" #@result = " << call_method("this", name, arg_list.array, arg_list.length) <<
 			"}" <<

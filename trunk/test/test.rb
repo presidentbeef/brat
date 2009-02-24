@@ -1,7 +1,9 @@
 require 'test/unit'
 require 'rubygems'
 require 'treetop'
+require 'test/test-ext'
 require 'test/test-examples'
+require 'test/test-core'
 
 Treetop.load 'parser/brat'
 
@@ -18,6 +20,8 @@ system "cd core && nekoc internal.neko"
 system "cd parser && tt brat.treetop"
 
 class BratParserTest < Test::Unit::TestCase
+	include BratTestExt
+
 	def setup
 		Treetop::Runtime::SyntaxNode.clear_variables
 		@parser = BaseBratParser.new
@@ -546,39 +550,5 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "false", 'a = ["a"]; b = ["b"]; a == b'
 		assert_result "false", 'a = ["a"]; b = ["b", "c"]; a == b'
 		assert_result "true", "a = new; b = new; c = [a,b]; d = [a,b]; c == d"
-	end
-
-	def parse input
-		result = @parser.parse(input)
-		unless result
-			$stderr.puts @parser.terminal_failures.join("\n")
-		end
-		assert !result.nil?
-		result
-	end
-
-	def brat input
-		out = @parser.parse(input).brat
-		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@brat.base_object.p(@exit_value);"}
-		result = `nekoc .test.neko.tmp && neko .test.neko.n`
-		`cp .test.neko.tmp test.neko.last_error` unless $? == 0
-		File.delete(".test.neko.n")
-		File.delete(".test.neko.tmp")
-		result.split("\n").last.strip
-	end
-
-	def assert_fail code
-		out = @parser.parse(code).brat
-		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@brat.main_object.p(@exit_value);"}
-		`nekoc .test.neko.tmp 2> /dev/null && neko .test.neko.n 2> /dev/null`
-		File.delete(".test.neko.n")
-		File.delete(".test.neko.tmp")
-		assert_not_equal $?, 0
-	end
-
-	def assert_result result, code
-		brat_result = brat(code)
-		assert_equal $?, 0
-		assert_equal result, brat_result
 	end
 end

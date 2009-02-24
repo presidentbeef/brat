@@ -1,0 +1,33 @@
+my.while = { block |
+    true? block, { while ->block }
+}
+
+array.first = { my[0] }
+array.rest = { my[1,-1] }
+
+array.map = { f |
+        true? my.length <= 0,
+                {[]},
+                { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
+}
+
+number.times = { block |
+	n = 0
+	while {
+		block
+		n = n + 1
+		n < my
+	}	
+}
+
+my.&& = { rhs |
+        true? my,
+                { rhs },
+                { false }
+}
+
+my.|| = { rhs |
+	true? my,
+		{ true },
+		{ true? rhs }
+}

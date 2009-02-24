@@ -1,14 +1,14 @@
 #!/bin/env ruby
 
-def compile_parser(force = false)
+def compile_parser force = false
 	if force or not File.exist? "#$program_path/parser/brat.rb" or newer? "#$program_path/parser/brat.treetop", "#$program_path/parser/brat.rb"
-		system "cd parser && tt brat.treetop"
+		system "cd #$program_path/parser && tt brat.treetop"
 	else
 		false
 	end
 end
 
-def compile_brat_internal(force = false)
+def compile_brat_internal force = false
 	if force or not File.exist? "#$program_path/core/internal.n" or newer? "#$program_path/core/internal.neko", "#$program_path/core/internal.n"
 		system "cd #$program_path/core && nekoc internal.neko"
 	else
@@ -16,7 +16,22 @@ def compile_brat_internal(force = false)
 	end
 end
 
-def brat_to_neko input
+def compile_core force = false
+	if force or not File.exist? "#$program_path/core/core.brat.neko" or newer? "#$program_path/core/core.brat", "#$program_path/core/core.brat.neko"
+		require 'rubygems'
+		require 'treetop'
+		require "#$program_path/parser/brat"
+		require "#$program_path/parser/parser-extension"
+
+		File.open "core/core.brat.neko", "w" do |f|
+			f.puts BaseBratParser.new.parse(File.read("core/core.brat")).core_brat
+		end
+	else
+		false
+	end
+end
+
+def brat_to_neko input, core = true, inner = false
 	require 'rubygems'
 	require 'treetop'
 	require "#$program_path/parser/brat"
@@ -26,6 +41,10 @@ def brat_to_neko input
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
 		raise "Error during parsing:\n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}"
+	elsif inner
+		tree.inner_brat
+	elsif core
+		tree.brat File.read("#$program_path/core/core.brat.neko")
 	else
 		tree.brat
 	end
@@ -35,15 +54,17 @@ def newer? file1, file2
 	File.mtime(file1) > File.mtime(file2)
 end
 
-def brat file_name, keep_intermediate = false, force = false
-	new_parser = compile_parser force
-	new_internal = compile_brat_internal force
+def brat file_name, keep_intermediate = false, force = false, core = true
+	new_parser = compile_parser(force)
+	new_internal =compile_brat_internal(force) 
+	new_core = compile_core(force)
+	force = force || new_parser || new_internal || new_core
 
-	if not File.exist?(file_name + ".n") or newer? file_name, file_name + ".n" or new_parser or new_internal or force
-		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or new_parser or new_internal or force
+	if not File.exist?(file_name + ".n") or newer? file_name, file_name + ".n" or force
+		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or force
 			brat_input = File.read file_name
 			begin
-				neko = brat_to_neko brat_input
+				neko = brat_to_neko brat_input, core
 			rescue RuntimeError => e
 				puts e
 				exit
@@ -62,7 +83,7 @@ def brat file_name, keep_intermediate = false, force = false
 	end
 end
 
-def brat_standalone file_name, keep_intermediate = false, force = false
+def brat_standalone file_name, keep_intermediate = false, force = false, core = true
 	abort "Not working yet."
 	new_parser = compile_parser force
 	new_internal = compile_brat_internal force
@@ -71,7 +92,7 @@ def brat_standalone file_name, keep_intermediate = false, force = false
 		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or new_parser or new_internal or force
 			brat_input = File.read file_name
 			begin
-				neko = brat_to_neko brat_input
+				neko = brat_to_neko brat_input, core
 			rescue RuntimeError => e
 				puts e
 				exit
@@ -91,9 +112,33 @@ def brat_standalone file_name, keep_intermediate = false, force = false
 	end
 end
 
+def show_help
+	puts <<-END
+Usage: brat [options] [file_name]
+Possible options:
+-a    Force recompilation of parser
+-c    Don't include Brat core (requires -f if bytecode is cached)
+-f    Ignore existing .n file
+-h    Show this help
+-k    Don't erase intermediate files
+-s    Create standalone executable
+-t    Benchmark code
+	END
+end
+
 if ARGV[0]
+	if ARGV.include? '-h'
+		show_help
+		exit
+	end
+
 	$program_path = File.dirname(File.expand_path(__FILE__))
-	filename = Dir.pwd + "/" + ARGV[0]
+	file_name = Dir.pwd + "/" + ARGV[-1]
+
+	if not File.exist? file_name
+		abort "No such file: #{ARGV[-1]}"
+	end
+
 	ENV['LD_LIBRARY_PATH'] ||= "" 
 	ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#$program_path/lib/"
 	ENV['NEKOPATH'] ||= ""
@@ -101,19 +146,28 @@ if ARGV[0]
 	ENV['PATH'] ||= ""
 	ENV['PATH'] = ENV['PATH'] + ":#$program_path/bin/"
 
-	force = ARGV.include?("-f")
+	require 'set'
+	options = Set.new(ARGV[0..-2])
+
+	force = options.include? "-a"
+	keep_intermediate = options.include? "-k"
+	core = !options.include?("-c")
+
+	if options.include? '-f'
+		File.delete(file_name + ".n") rescue nil
+	end
 
 	if ARGV.include? "-s"
-		brat_standalone filename, true, force
+		brat_standalone file_name, keep_intermediate, force, core
 	elsif ARGV.include? "-t"
 		require 'benchmark'
 		time = Benchmark.measure do
-			brat filename, true, force
+			brat file_name, keep_intermediate, force, core
 		end
 		puts "Ran in: #{time.format('%r')} seconds"
 
 	else
-		brat filename, true, force
+		brat file_name, keep_intermediate, force
 	end
 
 else
