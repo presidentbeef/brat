@@ -83,32 +83,95 @@ def brat file_name, keep_intermediate = false, force = false
 	end
 end
 
-def brat_standalone file_name, keep_intermediate = false, force = false
-	abort "Not working yet."
-	new_parser = compile_parser force
-	new_internal = compile_brat_internal force
+def output_brat
+	puts brat_stdin.gsub(/^var ([^@]([^;\s])*)/, '\1')
+end
 
-	if not File.exist?(file_name + ".n") or newer? file_name, file_name + ".n" or new_parser or new_internal or force
-		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or new_parser or new_internal or force
-			brat_input = File.read file_name
-			begin
-				neko = brat_to_neko brat_input
-			rescue RuntimeError => e
-				puts e
-				exit
-			end
-			File.open(file_name + ".neko", "w") {|f| f.puts neko }
+def brat_stdin
+	input = ""
+	loop do
+		line = $stdin.gets
+		if line.nil?
+			break
+		else
+			input << line
+		end
+	end
+	
+	require 'rubygems'
+	require 'treetop'
+	require "#$program_path/parser/brat"
+	require "#$program_path/parser/parser-extension"
+
+	parser = BaseBratParser.new
+	tree = parser.parse(input)
+	if tree.nil? or not tree.respond_to? :brat
+		raise "Error during parsing:\n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}"
+	else
+		tree.inner_brat
+	end
+end
+
+def brat_interactive
+	brat_console = IO.popen "#$program_path/bin/neko_console", "r+"
+	brat_console.gets
+
+	current = 0
+	prompt = ">"
+	line = ""
+	loop do
+		current += 1
+		print "#{current}#{prompt} "
+		line << $stdin.gets
+
+		stripped = line.strip
+
+		if stripped.empty?
+			next
+		elsif not line_closed? line
+			prompt = "?"
+			next
+		elsif stripped == "quit" or stripped == "exit"
+			brat_console.print "!quit\n\1"
+			exit
 		end
 
-		system "nekoc #{file_name}.neko" or abort "Error while compiling program"
+		neko = `echo '#{line}' | ruby #{$program_path}/brat -z`
+
+		brat_console.print neko
+		brat_console.print "\1"
+
+		begin
+			loop do
+				response = brat_console.read_nonblock(12024)
+				print response.gsub("\1", "")
+				break if response.include? "\1" or response.nil?
+			end
+		rescue Errno::EAGAIN
+			retry
+		rescue Exception => e
+			p e
+		end	       
+
+
+		prompt = ">"
+		line = ""
+	end
+end
+
+def line_closed? line
+	
+	items = line.scan(/\{|\}|"|\/|\(|\)|\[|\]/)
+
+	count = Hash.new(0)
+	items.each do |i|
+		count[i] += 1
 	end
 
-	#Doesn't -quite- work
-	#system "cp #{file_name}.n #{file_name}.bin.n; nekoc -link #{file_name}.bin neko/internal; nekotools boot #{file_name}.bin.n"
-
-	if not keep_intermediate and File.exist? file_name + ".neko"
-		File.delete file_name + ".neko"
-		File.delete file_name + ".n"
+	if not count['"'].even? or not count["/"].even? or count["{"] != count["}"] or count["("] != count[")"] or count["["] != count["]"]
+		false
+	else
+		true
 	end
 end
 
@@ -119,24 +182,17 @@ Possible options:
 -a    Force recompilation of parser
 -f    Ignore existing .n file
 -h    Show this help
+-i    Interactive Brat
 -k    Don't erase intermediate files
 -s    Create standalone executable
 -t    Benchmark code
+-z    Read Brat code from standard input and emit Neko code
 	END
 end
 
+
 if ARGV[0]
-	if ARGV.include? '-h'
-		show_help
-		exit
-	end
-
 	$program_path = File.dirname(File.expand_path(__FILE__))
-	file_name = Dir.pwd + "/" + ARGV[-1]
-
-	if not File.exist? file_name
-		abort "No such file: #{ARGV[-1]}"
-	end
 
 	ENV['LD_LIBRARY_PATH'] ||= "" 
 	ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#$program_path/lib/"
@@ -146,7 +202,26 @@ if ARGV[0]
 	ENV['PATH'] = ENV['PATH'] + ":#$program_path/bin/"
 
 	require 'set'
-	options = Set.new(ARGV[0..-2])
+	options = Set.new(ARGV)
+
+	if options.include? '-h'
+		show_help
+		exit
+	elsif options.include? '-z'
+		output_brat
+		exit
+	elsif options.include? '-i'
+		brat_interactive
+
+	end
+
+	file_name = Dir.pwd + "/" + ARGV[-1]
+
+	if not File.exist? file_name
+		abort "No such file: #{ARGV[-1]}"
+	end
+
+
 
 	force = options.include? "-a"
 	keep_intermediate = options.include? "-k"
@@ -155,15 +230,14 @@ if ARGV[0]
 		File.delete(file_name + ".n") rescue nil
 	end
 
-	if ARGV.include? "-s"
+	if options.include? "-s"
 		brat_standalone file_name, keep_intermediate, force
-	elsif ARGV.include? "-t"
+	elsif options.include? "-t"
 		require 'benchmark'
 		time = Benchmark.measure do
 			brat file_name, keep_intermediate, force
 		end
 		puts "Ran in: #{time.format('%r')} seconds"
-
 	else
 		brat file_name, keep_intermediate, force
 	end

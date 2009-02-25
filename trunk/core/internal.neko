@@ -67,7 +67,7 @@ base_object.print = $varargs(function(args) {
 	base_object.@null();
 })
 
-base_object.p =  $varargs(function(args) {
+base_object.p = $varargs(function(args) {
 	var pargs = $aconcat($array(args, $array("\n")));
 	$call(this.print, null, pargs);
 })

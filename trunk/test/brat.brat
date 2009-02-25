@@ -1,3 +1,5 @@
-10000.times {
-        1 + 1
-}
+a = new
+a.b = new
+a.b.c = new
+a.b.c.d = { x | x}
+p a.b.c.d(a).b.c.d "hi" # parentheses required in the middle there
