@@ -13,9 +13,11 @@ However, Brat comes with several command line options with which to confuse you.
   * `-a` -  Forces recompilation of parser, internal code, core code, and your code.
   * `-f` -  Ignores any existing bytecode for you file and compiles it from scratch
   * `-h` -  Shows help, much like this
+  * `-i` -  Interactive Brat shell
   * `-k` -  Keeps the intermediate '.neko' file which is generated
   * `-s` -  Create a standalone executable
   * `-t` -  Show how much time is taken to do all this
+  * `-z` -  Reads in Brat code from the standard input and then spits out Neko code (this is for interactive mode, I doubt you need it otherwise).
 
 = Notes =
 
