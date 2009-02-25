@@ -1,3 +1,25 @@
 #summary should I care?
 
-Man, whatever.
+===Why You Should Use Brat===
+
+An arbitrary number of reasons to use Brat:
+  
+  # [http://groups.google.com/group/comp.lang.ruby/msg/f005724cd8961f4b? Sharp knives]
+  # [http://java.sun.com/javase/6/docs/api/ No rigid class hierarchies]
+  # No classes at all
+  # No pointless restrictions
+  # [http://www.cppreference.com/wiki/keywords/start No keywords to learn]
+  # No one is going to tell you 'no'
+  # No one else is
+
+===People Who Should Use Brat===
+
+You should use Brat if:
+
+  * No one is the boss of you
+  * You do what you wanna
+  * You don't have a thing to prove
+  * You eat your candy with your pork and beans
+  * You want to be 1337
+  * You want to be 3V1L
+  * You just don't care
