@@ -121,8 +121,23 @@ def brat_interactive
 	line = ""
 	loop do
 		current += 1
-		print "#{current}#{prompt} "
-		line << $stdin.gets
+
+		begin
+			next_line = read_line("#{current}#{prompt} ") 
+		rescue Interrupt
+			puts "Interrupted - exiting"
+			unless brat_console.closed?
+				brat_console.print "!quit\n\1"
+			end
+			exit
+		end
+
+		if next_line.nil?
+			puts
+			next
+		end
+
+		line << next_line
 
 		stripped = line.strip
 
@@ -136,10 +151,20 @@ def brat_interactive
 			exit
 		end
 
-		neko = `echo '#{line}' | ruby #{$program_path}/brat -z`
+		begin
+			neko = `echo '#{line}' | ruby #{$program_path}/brat -z`
+		rescue
+			puts "Error converting to Neko."
+			next
+		end
 
-		brat_console.print neko
-		brat_console.print "\1"
+		begin
+			brat_console.print neko
+			brat_console.print "\1"
+		rescue
+			puts "Communication error with Neko."
+			next
+		end
 
 		begin
 			loop do
@@ -147,15 +172,29 @@ def brat_interactive
 				print response.gsub("\1", "")
 				break if response.include? "\1" or response.nil?
 			end
+		rescue Interrupt
+			puts "Interrupted by user"
+			next
 		rescue Errno::EAGAIN
 			retry
 		rescue Exception => e
 			p e
 		end	       
 
-
 		prompt = ">"
 		line = ""
+	end
+end
+
+def read_line prompt
+	require 'readline' rescue nil
+
+	if defined? Readline
+		line = Readline::readline(prompt)
+		Readline::HISTORY.push(line) unless line.nil?
+		line
+	else
+		$stdin.gets
 	end
 end
 
