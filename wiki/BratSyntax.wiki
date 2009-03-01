@@ -36,6 +36,20 @@ person.name = "Bob"
 p person.name
 }}}
 
+A (possibly) easier way is to pass in a hash table of symbols or strings, which are converted to fields:
+{{{
+person = new    'first_name : "Bob",
+                'last_name : "Johnson",
+                'adddress : [ 'street : "Sycamore St.",
+                                'number : 7777,
+                                'city : "Baltimore",
+                                'state : "MD",
+                                'zip : 21075 ],
+                'display : { p my.first_name, " ", my.last_name }
+
+person.display
+}}}
+
 ===Defining functions===
 
 _Functions return their last value_
@@ -112,6 +126,24 @@ test.y = { my.z = { p "hi" } }
 test.y
 
 test.z
+}}}
+
+===Strings===
+
+Go in the double "quotes."
+
+{{{
+a = "hello"
+p a
+}}}
+
+===Symbols===
+
+Symbols are interned strings. Whatever that means. They begin with a single quote.
+
+{{{
+a = 'a
+p a
 }}}
 
 ===Booleans===
