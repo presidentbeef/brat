@@ -2,13 +2,20 @@ base_object = $new(null);
 
 base_object.new = $varargs(function(args) {
 	var arg_hash;
-	if($asize(args) > 0) {
+	if($asize(args) > 0 ) {
 		arg_hash = args[0];
+
+		if($typeof(arg_hash) == $tobject && has_field(arg_hash, "@internal_hash")) {
+			arg_hash = arg_hash.@internal_hash; 
+		}
 	}
 	else
-	{
 		arg_hash = $hnew(0);
-	}
+
+
+	if($typeof(arg_hash) != $tabstract)
+		$throw("Expecting hash table for initialization.");
+
 	new_brat(this, arg_hash);
 })
 
@@ -25,10 +32,16 @@ new_brat = function(parent_brat, arg_hash) {
 		$objsetproto(brat, parent_brat);
 	}
 
-
-	if(arg_hash != null && $hsize(arg_hash) > 0) {
+	if(arg_hash != null && $hcount(arg_hash) > 0) {
 		var set_f = function(k,v) {
-			$objset(this, $hash(k), v);
+			if($typeof(v) != $tfunction)
+				v = function() { v };
+			if($typeof(k) == $tint)
+				$objset(brat, k, v);
+			else if($typeof(k) == $tstring)
+				$objset(brat, $hash(k), v);
+			else
+				$throw("Expecting symbol or string for field name.");
 		}
 
 		$hiter(arg_hash, set_f);
@@ -788,7 +801,16 @@ base_string.new = $varargs(function(args) {
 		s.@value = "";
 	}
 	else if($asize(args) == 1) {
-		s.@value = $string(args[0]);
+		if($typeof(args[0]) == $tstring) {
+			s.@value = args[0];
+		}
+		else if($typeof(args[0]) == $tobject && has_field(args[0], "@value") && $typeof(args[0].@value) == $tstring) {
+			s.@value = $scopy(args[0].@value);
+		}
+		else if($typeof(args[0]) != $tobject) 
+			s.@value = $string(args[0]);
+		else
+			$throw("Invalid argument to string.new(): " + $string(args[0]));
 	}
 	else {
 		$throw("Too many arguments to string.new(). Only takes 0 or 1.");

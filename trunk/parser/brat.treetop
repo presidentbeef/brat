@@ -393,9 +393,21 @@ grammar BaseBrat
 	"'" id:(identifier / operator / number)+ {
 		def brat
 			next_temp
-			"var #@result = symbol.new(\"#{id.text_value}\");"
+			"var #@result = symbol.new(\"#{id.elements.map { |m| m.brat }.join}\");"
 		end
 	} 
+  end
+
+  rule symbol_convert
+	identifier
+	/
+	operator
+	/
+	number {
+		def brat
+			n.text_value
+		end
+	}
   end
 
   #Matches function definitions

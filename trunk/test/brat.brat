@@ -1,5 +1,10 @@
-a = new
-a.b = new
-a.b.c = new
-a.b.c.d = { x | x}
-p a.b.c.d(a).b.c.d "hi" # parentheses required in the middle there
+person = new 'first_name : "Bob",
+		'last_name : "Johnson",
+		'adddress : [ 'street : "Sycamore St.",
+				'number : 7777,
+				'city : "Baltimore",
+				'state : "MD",
+				'zip : 21075 ],
+		'display : { my.first_name + " " + my.last_name }
+
+person.display

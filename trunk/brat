@@ -55,7 +55,7 @@ end
 
 def brat file_name, keep_intermediate = false, force = false
 	new_parser = compile_parser(force)
-	new_internal =compile_brat_internal(force) 
+	new_internal = compile_brat_internal(force) 
 	new_core = compile_core(force)
 	force = force || new_parser || new_internal || new_core
 
@@ -97,7 +97,7 @@ def brat_stdin
 			input << line
 		end
 	end
-	
+
 	require 'rubygems'
 	require 'treetop'
 	require "#$program_path/parser/brat"
@@ -113,6 +113,10 @@ def brat_stdin
 end
 
 def brat_interactive
+	compile_parser
+	compile_brat_internal
+	compile_core
+
 	brat_console = IO.popen "#$program_path/bin/neko_console", "r+"
 	brat_console.gets
 
@@ -127,7 +131,7 @@ def brat_interactive
 		rescue Interrupt
 			puts "Interrupted - exiting"
 			unless brat_console.closed?
-				brat_console.print "!quit\n\1"
+				brat_console.print "!quit\n\1" rescue nil
 			end
 			exit
 		end
@@ -161,25 +165,32 @@ def brat_interactive
 		begin
 			brat_console.print neko
 			brat_console.print "\1"
+		rescue Errno::EPIPE
+			puts "Error - Neko interpreter crashed. Restarting."
+			brat_console = IO.popen "#$program_path/bin/neko_console", "r+"
+			brat_console.gets
+			current = 0
+			prompt = ">"
+			line = ""
+			next
 		rescue
 			puts "Communication error with Neko."
 			next
 		end
 
-		begin
-			loop do
+		loop do
+			begin
 				response = brat_console.read_nonblock(12024)
 				print response.gsub("\1", "")
 				break if response.include? "\1" or response.nil?
+			rescue Interrupt => e
+				puts "Interrupted by user"
+			rescue Errno::EAGAIN
+				retry
+			rescue Exception => e
+				p e
 			end
-		rescue Interrupt
-			puts "Interrupted by user"
-			next
-		rescue Errno::EAGAIN
-			retry
-		rescue Exception => e
-			p e
-		end	       
+		end
 
 		prompt = ">"
 		line = ""
@@ -199,7 +210,7 @@ def read_line prompt
 end
 
 def line_closed? line
-	
+
 	items = line.scan(/\{|\}|"|\/|\(|\)|\[|\]/)
 
 	count = Hash.new(0)

@@ -97,4 +97,16 @@ class BratExamplesTest < Test::Unit::TestCase
 		assert_result "a is null", 'a = null
 				false? { null? a }, { "a is not null" }, { "a is null" }'
 	end
+
+	def test_hash_fields_set
+		assert_result "Bob Johnson", 'person = new \'first_name : "Bob",
+							\'last_name : "Johnson",
+							\'adddress : [ \'street : "Sycamore St.",
+									\'number : 7777,
+									\'city : "Baltimore",
+									\'state : "MD",
+									\'zip : 21075 ],
+									\'display : { my.first_name + " " + my.last_name }
+						person.display'
+	end
 end
