@@ -1,4 +1,6 @@
 #labels Featured
+<wiki:toc max_depth="3" />
+
 = The Usual Suspects =
 
 == Hello, World ==
