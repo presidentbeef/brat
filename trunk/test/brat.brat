@@ -1,10 +1,1 @@
-person = new 'first_name : "Bob",
-		'last_name : "Johnson",
-		'adddress : [ 'street : "Sycamore St.",
-				'number : 7777,
-				'city : "Baltimore",
-				'state : "MD",
-				'zip : 21075 ],
-		'display : { my.first_name + " " + my.last_name }
-
-person.display
+p true

@@ -382,11 +382,11 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_new
-		assert_result "{}", "new"
+		assert_result "#object { }", "new"
 	end
 
 	def test_new_object
-		assert_result "{ y => #function:0 }", "x = new; x.y = 1; x"
+		assert_result "#object { y }", "x = new; x.y = 1; x"
 	end
 
 	def test_method
@@ -491,6 +491,42 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "abc", '"zabcdef"[1,3]'
 		assert_result "abc", '"zabcdef"[-6,-4]'
 		assert_result "ef", '"zabcdef"[10,5]'
+	end
+
+	def test_string_sub
+		assert_result "b", '"a".sub /a/, "b"'
+		assert_result "axdx", '"acdc".sub /c/, "x"'
+		assert_result "hewo worwd", '"hello world".sub /l+/, "w"'
+		assert_result "hewo worwd", 'a = "hello world"; a.sub /l+/, "w"'
+		assert_result "hecko world", 'a = "hello world"; a.sub /hell/, { m | "heck" }'
+		assert_result "chaaxa", 'a = "cheese"; a.sub /(e|s)/, { m | true? m == "s", "x", "a" }'
+		assert_result "cheese", 'a = "cheese"; a.sub /(e|s)/, { m | true? m == "s", "x", "a" }; a'
+	end
+
+	def test_string_sub!
+		assert_result "b", '"a".sub! /a/, "b"'
+		assert_result "axdx", 'a = "acdc"; a.sub! /c/, "x"; a'
+		assert_result "hewo worwd", '"hello world".sub! /l+/, "w"'
+		assert_result "hewo worwd", 'a = "hello world"; a.sub! /l+/, "w"; a'
+		assert_result "hecko world", 'a = "hello world"; a.sub! /hell/, { m | "heck" }'
+		assert_result "chaaxa", 'a = "cheese"; a.sub! /(e|s)/, { m | true? m == "s", "x", "a" }'
+		assert_result "chaaxa", 'a = "cheese"; a.sub! /(e|s)/, { m | true? m == "s", "x", "a" }; a'
+	end
+
+	def test_string_sub_first
+		assert_result "b", '"a".sub_first /a/, "b"'
+		assert_result "axdc", '"acdc".sub_first /c/, "x"'
+		assert_result "hewo world", '"hello world".sub_first /l+/, "w"'
+		assert_result "hewo world", 'a = "hello world"; a.sub_first /l+/, "w"'
+		assert_result "hello world", 'a = "hello world"; a.sub_first /l+/, "w"; a'
+	end
+
+	def test_string_sub_first!
+		assert_result "b", '"a".sub_first! /a/, "b"'
+		assert_result "axdc", '"acdc".sub_first! /c/, "x"'
+		assert_result "hewo world", '"hello world".sub_first! /l+/, "w"'
+		assert_result "hewo world", 'a = "hello world"; a.sub_first! /l+/, "w"'
+		assert_result "hewo world", 'a = "hello world"; a.sub_first! /l+/, "w"; a'
 	end
 
 	def test_string_set

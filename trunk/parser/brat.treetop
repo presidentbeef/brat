@@ -81,9 +81,9 @@ grammar BaseBrat
 
   #Expressions! Which is basically everything
   rule expression
-	unary_operation / binary_operation / index_set / index_get /
+	regex / unary_operation / binary_operation / index_set / index_get /
 	assignment / paren_exp ~(!".") { def brat; output = paren_exp.brat; @result = paren_exp.result; output;  end } / 
-	method_access / method_invocation / number / string / symbol / function_definition / hash / array / regex
+	method_access / method_invocation / number / string / symbol / function_definition / hash / array
   end
 
   #Expressions which can be followed by []
@@ -107,7 +107,7 @@ grammar BaseBrat
 	"/" r:(!"/" . / "\\/")* "/" {
 		def brat
 			next_temp
-			"var #@result = regex.new(\"#{r.text_value}\")"
+			"var #@result = regex.new(\"#{r.text_value}\");"
 		end
 	}
   end
@@ -967,6 +967,8 @@ grammar BaseBrat
 				"@less@equal"
 			when "%"
 				"@percent"
+			when "_"
+				"@under"
 			else
 				"---something unmatched---"
 			end

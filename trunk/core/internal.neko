@@ -61,18 +61,34 @@ base_object.my = function() {
 }
 
 base_object.to@unders = function() {
-	if(has_field(this, "@to@unders"))
-		base_string.new(this.@to@unders);
-	else
-		base_string.new($string(this));
+	var fields = $objfields(this);
+	var index = 0;
+	var length = $asize(fields);
+	var vals = $hnew(length);
+	var cur_field;
+	var output = "#object {"
+	while index < length {
+		cur_field = fields[index];
+		output = output + " " + $field(cur_field);
+		index = index + 1;
+	} 
+	base_string.new(output + " }");
 }
+
+base_object.@to_s = function() {
+	this.to@unders().@value;
+}
+
+base_object.__string = function() {
+	this.@to_s();
+};
 
 base_object.print = $varargs(function(args) {
 	var i = 0;
 	var len = $asize(args);
 	while i < len {
-		if(has_field(args[i], "@to@unders")) {
-			args[i] = args[i].@to@unders();
+		if(has_field(args[i], "@to_s")) {
+			args[i] = args[i].@to_s();
 		};
 		i += 1;
 	};
@@ -134,11 +150,11 @@ base_object.g = $varargs(function(args) {
 })
 
 var @false_value = new_brat(null, null);
-@false_value.@to@unders = function() { "false" };
+@false_value.to@unders = function() { base_string.new("false") };
 var @true_value = new_brat(null, null);
-@true_value.@to@unders = function() { "true" };
+@true_value.to@unders = function() { base_string.new("true") };
 var @null_value = new_brat(null, null);
-@null_value.@to@unders = function() { "null" };
+@null_value.to@unders = function() { base_string.new("null") };
 base_object.@false = function() { @false_value }
 base_object.@true = function() { @true_value }
 base_object.@null = function() { @null_value}
@@ -590,13 +606,13 @@ base_array.@equal@equal = function(rhs) {
 	base_object.@true();
 }
 
-base_array.@to@unders = function() {
+base_array.@to_s = function() {
 	var i = 0;
 	var len = $asize(this.@internal_array);
 	var temp = $amake(len);
 	while i < len {
-		if(has_field(this.@internal_array[i], "@to@unders"))
-			temp[i] = this.@internal_array[i].@to@unders();
+		if(has_field(this.@internal_array[i], "@to_s"))
+			temp[i] = this.@internal_array[i].@to_s();
 		else if(has_field(this.@internal_array[i], "@value"))
 			temp[i] = this.@internal_array[i].@value;
 		else
@@ -653,7 +669,7 @@ make_hash = function(neko_hash) {
 	hsh;
 }
 
-base_hash.@to@unders = function() {
+base_hash.@to_s = function() {
 	output = "";
 	var st = function(k,v) {
 		output = $string(output + $string(k) + " : " + $string(v) + ", ");
@@ -680,7 +696,7 @@ make_array = function(neko_array) {
 
 base_number = new_brat(null, null);
 base_number.@value = 0;
-base_number.@to@unders = function() {
+base_number.@to_s = function() {
 	$string(this.@value);
 }
 
@@ -788,9 +804,10 @@ base_number.@equal@equal = function(rhs) {
 
 base_string = new_brat(null, null);
 base_string.@value = "";
-base_string.@to@unders = function() {
+base_string.@to_s = function() {
 	this.@value;
 }
+
 base_string.length = function() {
 	base_number.new($ssize(this.@value));
 }
@@ -932,6 +949,77 @@ base_string.@plus = function(value) {
 	this.clone(new_string);
 }
 
+var reg_rep_first = $loader.loadprim("regexp@regexp_replace", 3);
+var reg_rep = $loader.loadprim("regexp@regexp_replace_all", 3);
+var reg_rep_fun = $loader.loadprim("regexp@regexp_replace_fun", 3);
+var reg_match = $loader.loadprim("regexp@regexp_matched", 2);
+var reg_matched = function(regex) { reg_match(regex, 0) }
+base_string.sub = function(regexp, replacement) {
+	if($typeof(regexp) == $tobject && has_field(regexp, "@internal_regex"))
+		regexp = regexp.@internal_regex;
+	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
+		replacement = replacement.@value;
+	if($typeof(regexp) != $tabstract)
+		$throw("Need to provide a regular expression for string.sub()");
+	var new_string;
+	if($typeof(replacement) == $tstring) {
+		new_string = reg_rep(regexp, this.@value, replacement);
+	}
+	else if($typeof(replacement) == $tfunction) {
+		var f = function(m) { replacement(base_string.new(reg_matched(m))) };
+		new_string = reg_rep_fun(regexp, this.@value, f);
+	}
+	else $throw("Need to provide a string or function for string.sub()");
+
+	base_string.new(new_string);
+}
+
+base_string.sub@bang = function(regexp, replacement) {
+	if($typeof(regexp) == $tobject && has_field(regexp, "@internal_regex"))
+		regexp = regexp.@internal_regex;
+	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
+		replacement = replacement.@value;
+	if($typeof(regexp) != $tabstract)
+		$throw("Need to provide a regular expression for string.sub()");
+	if($typeof(replacement) == $tstring) {
+		this.@value = reg_rep(regexp, this.@value, replacement);
+	}
+	else if($typeof(replacement) == $tfunction) {
+		var f = function(m) { replacement(base_string.new(reg_matched(m))) };
+		this.@value = reg_rep_fun(regexp, this.@value, f);
+	}
+	else $throw("Need to provide a string or function for string.sub()");
+
+	this;
+}
+
+base_string.sub@underfirst@bang = function(regexp, replacement) {
+	if($typeof(regexp) == $tobject && has_field(regexp, "@internal_regex"))
+		regexp = regexp.@internal_regex;
+	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
+		replacement = replacement.@value;
+	if($typeof(regexp) != $tabstract)
+		$throw("Need to provide a regular expression for string.sub()");
+	if($typeof(replacement) == $tstring)
+		this.@value = reg_rep_first(regexp, this.@value, replacement);
+	else $throw("Need to provide a string for string.sub_first()");
+
+	this;
+}
+
+base_string.sub@underfirst = function(regexp, replacement) {
+	if($typeof(regexp) == $tobject && has_field(regexp, "@internal_regex"))
+		regexp = regexp.@internal_regex;
+	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
+		replacement = replacement.@value;
+	if($typeof(regexp) != $tabstract)
+		$throw("Need to provide a regular expression for string.sub()");
+	if($typeof(replacement) == $tstring) {
+		base_string.new(reg_rep_first(regexp, this.@value, replacement));
+	}
+	else $throw("Need to provide a string for string.sub_first()");
+}
+
 
 var regexp_new = $loader.loadprim("regexp@regexp_new", 1);
 base_regex = new_brat(null, null);
@@ -984,7 +1072,7 @@ base_symbol.@equal@equal = function(rhs) {
 	this.@value == rhs;
 }
 
-base_symbol.@to@unders = function() {
+base_symbol.@to_s = function() {
 	$field(this.@value);	
 }
 
