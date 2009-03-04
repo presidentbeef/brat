@@ -16,6 +16,7 @@ Please have on hand:
 Please follow the following steps, in the order in which they are ordered:
 
   # Checkout latest Brat version following instructions [http://code.google.com/p/brat-language/source/checkout here]
+(I know there are packaged downloads, but they are usually out of date two minutes after being uploaded.)
 
 == Testing ==
 
