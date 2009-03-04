@@ -239,7 +239,7 @@ Possible options:
 -f    Ignore existing .n file
 -h    Show this help
 -i    Interactive Brat
--k    Don't erase intermediate files
+-k    Don't erase intermediate files (imples -k)
 -s    Create standalone executable
 -t    Benchmark code
 -z    Read Brat code from standard input and emit Neko code
@@ -268,7 +268,6 @@ if ARGV[0]
 		exit
 	elsif options.include? '-i'
 		brat_interactive
-
 	end
 
 	file_name = Dir.pwd + "/" + ARGV[-1]
@@ -280,7 +279,12 @@ if ARGV[0]
 
 
 	force = options.include? "-a"
-	keep_intermediate = options.include? "-k"
+	if options.include? '-k'
+		keep_intermediate = true
+		force = true
+	else
+		keep_intermetidate = false
+	end
 
 	if options.include? '-f'
 		File.delete(file_name + ".n") rescue nil
