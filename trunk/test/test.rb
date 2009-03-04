@@ -381,6 +381,10 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "5", "x = 5"
 	end
 
+	def test_method_invocation_assignment
+		assert_result "5", "a = { x | x }; b = [->a]; c = b[0] 5; c"
+	end
+
 	def test_new
 		assert_result "#object { }", "new"
 	end

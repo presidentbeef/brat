@@ -57,7 +57,7 @@ class Treetop::Runtime::SyntaxNode
 				$objcall(#{object}, $hash("@#{arg_length}_#{method}"), #{arguments});
 			}
 			else {
-				$throw("Invoking undefined method  #{method} on " + $string(#{object}) + "\\n");
+				$throw("Invoking undefined method #{method} on " + $string(#{object}) + "\\n");
 			}
 		}
 		NEKO
@@ -146,12 +146,13 @@ class Treetop::Runtime::SyntaxNode
 		if(#{method} == null) {
 			$throw("Could not invoke null method.");
 		}
-		
-		var arg_len = $nargs(#{method});
-		if(arg_len == -1 || arg_len == #{arg_length})
-			#{method}(#{arguments});
-		else
-			$throw("Wrong number of arguments for " + $string(#{method}) + ". Expected " + $string(arg_len) + " but given #{arg_length}\\n");
+		else {
+			var arg_len = $nargs(#{method});
+			if(arg_len == -1 || arg_len == #{arg_length})
+				#{method}(#{arguments});
+			else
+				$throw("Wrong number of arguments for " + $string(#{method}) + ". Expected " + $string(arg_len) + " but given #{arg_length}\\n");
+		}
 		NEKO
 	end
 end
