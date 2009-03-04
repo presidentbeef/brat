@@ -162,6 +162,7 @@ def brat_interactive
 			next
 		end
 
+		#Send to neko console
 		begin
 			brat_console.print neko
 			brat_console.print "\1"
@@ -178,17 +179,22 @@ def brat_interactive
 			next
 		end
 
+		#read back from console
 		loop do
 			begin
 				response = brat_console.read_nonblock(12024)
-				print response.gsub("\1", "")
+				print response.gsub("\1", "").gsub("\2", "")
 				break if response.include? "\1" or response.nil?
+				if response.include? "\2"
+					brat_console.puts read_line("")
+				end
 			rescue Interrupt => e
 				puts "Interrupted by user"
 			rescue Errno::EAGAIN
 				retry
 			rescue Exception => e
 				p e
+				exit
 			end
 		end
 
