@@ -677,7 +677,10 @@ grammar BaseBrat
 			if var_exist? name
 				"var #@result = #{name};"
 			else	
-				"var #@result = $objget(this, $hash(\"#{name}\"));"
+				"var #@result;" <<
+				"if (#{name} == null)" <<
+					"#@result = $objget(this, $hash(\"#{name}\"));" <<
+				"else #@result = #{name};"
 			end
 		end
 	}

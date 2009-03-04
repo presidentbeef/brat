@@ -742,13 +742,17 @@ base_number.@forward = function(num) {
 }
 
 base_number.@star = function(num) {
+	if($typeof(num) == $tobject && has_field(num, "@value"))
+		num = num.@value;
+
 	var lhs = this.@value;
-	var rhs = num.@value;
+	var rhs = num;
 
 	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
 		base_number.new($imult(lhs, rhs));
-	else
+	else if($typeof(rhs) == $tfloat)
 		base_number.new(lhs * rhs);
+	else $throw("Cannot multiply " + $string(lhs) + " with " + $string(rhs));
 }
 
 base_number.@greater = function(num) {
