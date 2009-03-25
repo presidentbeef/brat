@@ -755,6 +755,19 @@ base_number.@star = function(num) {
 	else $throw("Cannot multiply " + $string(lhs) + " with " + $string(rhs));
 }
 
+base_number.@percent = function(num) {
+	if($typeof(num) == $tobject && has_field(num, "@value"))
+		num = num.@value;
+
+	var lhs = this.@value;
+	var rhs = num;
+
+
+	if($typeof(rhs) == $tint || $typeof(rhs) == $tfloat)
+		base_number.new(lhs % rhs);
+	else $throw("Expected numbers for modulo, not " + $string(lhs) + " and " + $string(rhs));
+}
+
 base_number.@greater = function(num) {
 	var lhs = this.@value;
 	var rhs = num.@value;

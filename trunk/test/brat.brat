@@ -1,3 +1,6 @@
-a = { x | x }
-c = a 1
-p c
+hi = 1
+while {
+hi = hi + 1
+hi < 5
+}
+p hi

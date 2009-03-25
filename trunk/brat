@@ -239,7 +239,7 @@ Possible options:
 -f    Ignore existing .n file
 -h    Show this help
 -i    Interactive Brat
--k    Don't erase intermediate files (imples -k)
+-k    Don't erase intermediate files (implies -k)
 -s    Create standalone executable
 -t    Benchmark code
 -z    Read Brat code from standard input and emit Neko code
