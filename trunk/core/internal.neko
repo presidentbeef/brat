@@ -750,7 +750,7 @@ base_number.@star = function(num) {
 
 	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
 		base_number.new($imult(lhs, rhs));
-	else if($typeof(rhs) == $tfloat)
+	else if($typeof(lhs) == $tfloat || $typeof(rhs) == $tfloat) //could be a better check here
 		base_number.new(lhs * rhs);
 	else $throw("Cannot multiply " + $string(lhs) + " with " + $string(rhs));
 }
