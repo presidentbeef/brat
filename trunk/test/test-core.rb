@@ -49,7 +49,7 @@ class BratCoreTests < Test::Unit::TestCase
 	end
 
 	def test_core_while
-		assert_result "0", "n = 0; while { n = n + 1; n < 3 }; n"
+		assert_result "3", "n = 0; while { n = n + 1; n < 3 }; n"
 	end
 
 	def test_core_number_times

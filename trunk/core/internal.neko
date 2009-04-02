@@ -1093,6 +1093,15 @@ base_symbol.@to_s = function() {
 	$field(this.@value);	
 }
 
+var run_gc = $loader.loadprim("std@run_gc", 1);
+var gc_stats = $loader.loadprim("std@gc_stats", 0);
+
+base_object.memstats = function() {
+	$print("Before running gc:", gc_stats(), "\n");
+	run_gc(true);
+	$print("After running gc:", gc_stats(), "\n");
+}
+
 $exports.hset = hset;
 $exports.make_array = make_array;
 $exports.make_hash = make_hash;
@@ -1105,3 +1114,4 @@ $exports.base_object = base_object;
 $exports.base_regex = base_regex;
 $exports.base_symbol = base_symbol;
 $exports.num_args = num_args;
+$exports.memstats = memstats;

@@ -269,13 +269,16 @@ grammar BaseBrat
 	/
 	lhs:identifier space? "=" spaceorbreak rhs:expression {
 		def brat
-			output = rhs.brat <<
-			if var_exist? lhs.brat
-				"#{lhs.brat} = #{rhs.result};"
-			else
-				var_add lhs.brat
-				"var #{lhs.brat} = #{rhs.result};"
-			end
+			output = rhs.brat
+			var = lhs.brat
+			temp = var_exist? var
+			output <<
+				if temp
+					"#{temp} = #{rhs.result};"
+				else
+					var_add var, next_temp
+					"#@result = #{rhs.result};"
+				end
 			@result = rhs.result
 			output
 		end
@@ -433,8 +436,8 @@ grammar BaseBrat
   	space? i:identifier? rest_formal space? "|" {
 		def brat
 			if i.respond_to? :brat
-				var_add i.brat
-				args = [i.brat] + rest_formal.brat
+				var_add i.brat, next_temp
+				args = [@result] + rest_formal.brat
 			else
 				args = []
 			end.join(", ")
@@ -450,8 +453,8 @@ grammar BaseBrat
 		def brat
 			if elements.length > 0
 				elements.map do |e|
-					var_add e.identifier.brat
-					e.identifier.brat
+					var_add e.identifier.brat, next_temp
+					@result
 				end
 			else
 				[]
@@ -625,16 +628,17 @@ grammar BaseBrat
 			next_temp
 			output = arg_list.brat
 			name = identifier.brat
+			temp = var_exist?(name) || name
 			output <<
 			"var #@result;" <<
 			"if(@brat.has_field(this, \"#{name}\")) {" <<
 			" #@result = " << call_method("this", name, arg_list.array, arg_list.length) <<
 			"}" <<
 			"else " <<
-			" if($typeof(#{name}) == $tfunction) {" <<
-			" #@result = " << invoke(name, arg_list.list, arg_list.length) << ";" <<
-			" } else if($typeof(#{name}) == $tobject) { " <<
-			"  #@result = #{name}}" <<
+			" if($typeof(#{temp}) == $tfunction) {" <<
+			" #@result = " << invoke(temp, arg_list.list, arg_list.length) << ";" <<
+			" } else if($typeof(#{temp}) == $tobject) { " <<
+			"  #@result = #{temp}}" <<
 			"else { $throw \"Tried to invoke method on #{name}\" };"
 			last = @result
 			if not a.elements.empty?
@@ -674,8 +678,9 @@ grammar BaseBrat
 		def brat
 			next_temp
 			name = m.brat
-			if var_exist? name
-				"var #@result = #{name};"
+			temp = var_exist? name
+			if temp
+				"var #@result = #{temp};"
 			else	
 				"var #@result;" <<
 				"if (#{name} == null)" <<
