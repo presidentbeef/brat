@@ -269,16 +269,16 @@ grammar BaseBrat
 	/
 	lhs:identifier space? "=" spaceorbreak rhs:expression {
 		def brat
-			output = rhs.brat
 			var = lhs.brat
 			temp = var_exist? var
-			output <<
-				if temp
+			if temp
+				output = rhs.brat <<
 					"#{temp} = #{rhs.result};"
-				else
-					var_add var, next_temp
+			else
+				var_add var, next_temp
+				output = rhs.brat <<
 					"#@result = #{rhs.result};"
-				end
+			end
 			@result = rhs.result
 			output
 		end

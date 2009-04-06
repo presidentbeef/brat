@@ -7,7 +7,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_factorial
-		assert_result "720", "my.fact = {x|
+		assert_result "720", "fact = {x|
 		        true? x == 0, 1, { x * fact(x - 1)}
 			}
 
@@ -15,7 +15,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_fibonacci
-		assert_result "55", "my.fibonacci = { x|
+		assert_result "55", "fibonacci = { x|
 				        true? x == 0,
 				                0,
 				                { true? x == 1,
