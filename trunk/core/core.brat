@@ -51,7 +51,6 @@ array.each_with_index = { block |
 	my
 }
 
-
 array.empty? = { my.length == 0 }
 
 array.select = { block |
@@ -63,29 +62,27 @@ array.select = { block |
 }
 
 array.include? = { item |
-	flag = new
-	flag.found = false
+	found = false
 	index = 0
 	length = my.length
 	while {
-		flag.found = (my[index] == item)
+		found = (my[index] == item)
 		index = index + 1
-		not(flag.found) && { index < length }
+		not(found) && { index < length }
 	}
-	flag.found
+	found
 }
 
 array.index_of = { item |
-	flag = new
-	flag.found = false
-	flag.index = 0
+	found = false
+	index = 0
 	length = my.length
 	while {
-		flag.found = (my[flag.index] == item)
-		flag.index = flag.index + 1
-		not(flag.found) && { flag.index < length }
+		found = (my[index] == item)
+		index = index + 1
+		not(found) && { index < length }
 	}
-	true? flag.found, flag.index, null
+	true? found, index, null
 }
 
 number.times = { block |
