@@ -34,7 +34,7 @@ Try out your newly discovered power thusly:
 
 == For Convenience ==
 
-If you want to be able to run Brat from anywhere, you can add to your path.
+If you want to be able to run Brat from anywhere, you can add it to your path.
 For example, if you had put Brat in your home director under `brat-language/` you would do `export PATH=$PATH:$HOME/brat-language/`
 
 == More Testing ==
