@@ -54,10 +54,10 @@ end
 def brat file_name, keep_intermediate = false, force = false
 	require 'rubygems'
 	require 'treetop'
+	new_parser = compile_parser(force)
 	require "#$program_path/parser/brat"
 	require "#$program_path/parser/parser-extension"
 
-	new_parser = compile_parser(force)
 	new_internal = compile_brat_internal(force) 
 	new_core = compile_core(force)
 	force = force || new_parser || new_internal || new_core
