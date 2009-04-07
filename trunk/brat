@@ -103,11 +103,12 @@ def brat_interactive
 
 	compile_parser
 	compile_brat_internal
-	compile_core
-	$interactive = true
-
+	
 	require "#$program_path/parser/brat"
 	require "#$program_path/parser/parser-extension"
+	
+	compile_core
+	$interactive = true
 
 	brat_console = IO.popen "#$program_path/bin/neko_console", "r+"
 	brat_console.gets
