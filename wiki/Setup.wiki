@@ -7,7 +7,7 @@ Please have on hand:
 
   * Linux (for now)
   * [http://subversion.tigris.org/ Subversion] (`sudo urpmi subversion`)
-  * A relatively modern [http://ruby-lang.org/ Ruby] (let's say 1.8.5 and up)
+  * A relatively modern [http://ruby-lang.org/ Ruby] (let's say 1.8.6 and up)
   * [http://rubyforge.org/frs/?group_id=126&release_id=27655 RubyGems] so you may get the next requirement
   * [http://treetop.rubyforge.org/ Treetop] (`gem install treetop`)
 
