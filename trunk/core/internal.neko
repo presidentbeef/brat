@@ -669,6 +669,15 @@ make_hash = function(neko_hash) {
 	hsh;
 }
 
+base_hash.key@question = function(index) {
+	if(has_field(index, "@value"))
+		index = index.@value;
+	if($hmem(this.@internal_hash, index, null))
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
 base_hash.@to_s = function() {
 	output = "";
 	var st = function(k,v) {
@@ -698,6 +707,10 @@ base_number = new_brat(null, null);
 base_number.@value = 0;
 base_number.@to_s = function() {
 	$string(this.@value);
+}
+
+base_number.to@unders = function() {
+	base_string.new($string(this.@value));
 }
 
 base_number.new = function(num) {

@@ -379,6 +379,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_assignment_return
 		assert_result "5", "x = 5"
+		assert_result "5", "x = []; x[5] = 5"
 	end
 
 	def test_method_invocation_assignment

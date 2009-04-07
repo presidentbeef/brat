@@ -208,6 +208,8 @@ grammar BaseBrat
 			output << v.brat
 			next_temp
 			output << "var #@result = #{a.result}.__set(#{i.result}, #{v.result});"
+			@result = v.result
+			output << "#{@result};"
 		end
 	}
   end
@@ -274,6 +276,10 @@ grammar BaseBrat
 			if temp
 				output = rhs.brat <<
 					"#{temp} = #{rhs.result};"
+			elsif $interactive
+				var_add var
+				output = rhs.brat <<
+					"#{var} = #{rhs.result};"
 			else
 				var_add var, next_temp
 				output = rhs.brat <<
@@ -437,7 +443,11 @@ grammar BaseBrat
 		def brat
 			if i.respond_to? :brat
 				var_add i.brat, next_temp
-				args = [@result] + rest_formal.brat
+				if $interactive
+					args = [i.brat] + rest_formal.brat
+				else
+					args = [@result] + rest_formal.brat
+				end
 			else
 				args = []
 			end.join(", ")
@@ -454,7 +464,11 @@ grammar BaseBrat
 			if elements.length > 0
 				elements.map do |e|
 					var_add e.identifier.brat, next_temp
-					@result
+					if $interactive
+						e.identifier.brat
+					else
+						@result
+					end
 				end
 			else
 				[]

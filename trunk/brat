@@ -1,5 +1,13 @@
 #!/bin/env ruby
 
+unless 0.respond_to? :even?
+	class Fixnum
+		def even?
+			self % 2 == 0
+		end
+	end
+end
+
 def compile_parser force = false
 	if force or not File.exist? "#$program_path/parser/brat.rb" or newer? "#$program_path/parser/brat.treetop", "#$program_path/parser/brat.rb"
 		system "cd #$program_path/parser && tt brat.treetop"
@@ -18,11 +26,6 @@ end
 
 def compile_core force = false
 	if force or not File.exist? "#$program_path/core/core.n" or newer? "#$program_path/core/core.brat", "#$program_path/core/core.n"
-		require 'rubygems'
-		require 'treetop'
-		require "#$program_path/parser/brat"
-		require "#$program_path/parser/parser-extension"
-
 		File.open "#$program_path/core/core.brat.neko", "w" do |f|
 			f.puts BaseBratParser.new.parse(File.read("#$program_path/core/core.brat")).core_brat
 		end
@@ -35,11 +38,6 @@ def compile_core force = false
 end
 
 def brat_to_neko input
-	require 'rubygems'
-	require 'treetop'
-	require "#$program_path/parser/brat"
-	require "#$program_path/parser/parser-extension"
-
 	parser = BaseBratParser.new
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
@@ -54,6 +52,11 @@ def newer? file1, file2
 end
 
 def brat file_name, keep_intermediate = false, force = false
+	require 'rubygems'
+	require 'treetop'
+	require "#$program_path/parser/brat"
+	require "#$program_path/parser/parser-extension"
+
 	new_parser = compile_parser(force)
 	new_internal = compile_brat_internal(force) 
 	new_core = compile_core(force)
@@ -83,26 +86,8 @@ def brat file_name, keep_intermediate = false, force = false
 	end
 end
 
-def output_brat
-	puts brat_stdin.gsub(/^var ([^@]([^;\s])*)/, '\1')
-end
-
-def brat_stdin
-	input = ""
-	loop do
-		line = $stdin.gets
-		if line.nil?
-			break
-		else
-			input << line
-		end
-	end
-
-	require 'rubygems'
-	require 'treetop'
-	require "#$program_path/parser/brat"
-	require "#$program_path/parser/parser-extension"
-
+def inner_brat input
+	
 	parser = BaseBratParser.new
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
@@ -113,9 +98,15 @@ def brat_stdin
 end
 
 def brat_interactive
+	require 'rubygems'
+	require 'treetop'
+	require "#$program_path/parser/brat"
+	require "#$program_path/parser/parser-extension"
+
 	compile_parser
 	compile_brat_internal
 	compile_core
+	$interactive = true
 
 	brat_console = IO.popen "#$program_path/bin/neko_console", "r+"
 	brat_console.gets
@@ -156,9 +147,10 @@ def brat_interactive
 		end
 
 		begin
-			neko = `echo '#{line}' | ruby #{$program_path}/brat -z`
+			neko = inner_brat line
 		rescue
 			puts "Error converting to Neko."
+			line = ""
 			next
 		end
 
@@ -242,7 +234,6 @@ Possible options:
 -k    Don't erase intermediate files (implies -k)
 -s    Create standalone executable
 -t    Benchmark code
--z    Read Brat code from standard input and emit Neko code
 	END
 end
 
@@ -263,9 +254,6 @@ if ARGV[0]
 	if options.include? '-h'
 		show_help
 		exit
-	elsif options.include? '-z'
-		output_brat
-		exit
 	elsif options.include? '-i'
 		brat_interactive
 	end
@@ -276,14 +264,13 @@ if ARGV[0]
 		abort "No such file: #{ARGV[-1]}"
 	end
 
-
-
 	force = options.include? "-a"
+
 	if options.include? '-k'
 		keep_intermediate = true
 		force = true
 	else
-		keep_intermetidate = false
+		keep_intermediate = false
 	end
 
 	if options.include? '-f'

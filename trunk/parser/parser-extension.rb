@@ -9,7 +9,11 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def var_add v, temp = nil
-		variables[-1][v] = temp
+		if $interactive
+			variables[-1][v] = v
+		else
+			variables[-1][v] = temp
+		end
 	end
 
 	def new_scope

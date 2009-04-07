@@ -98,6 +98,10 @@ class BratExamplesTest < Test::Unit::TestCase
 				false? { null? a }, { "a is not null" }, { "a is null" }'
 	end
 
+	def test_tak
+		assert_result "7", "tak = { x, y, z | false? y < x, { z } , { tak tak(x - 1, y, z), tak(y - 1, z, x), tak(z - 1, x, y) } }; tak 18, 12, 6"
+	end
+
 	def test_hash_fields_set
 		assert_result "Bob Johnson", 'person = new \'first_name : "Bob",
 							\'last_name : "Johnson",
