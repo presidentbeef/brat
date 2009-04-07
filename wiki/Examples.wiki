@@ -83,7 +83,7 @@ array.map = { f |
                 { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
 }
 
-p [1,2,3].map({ x | x + 1})
+p [1,2,3].map { x | x + 1}
 }}}
 
 == Reverse Complement FASTA ==
