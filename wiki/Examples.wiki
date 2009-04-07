@@ -60,6 +60,7 @@ tak = { x, y, z |
 }
 
 tak 18, 12, 6
+}}}
 
 = Extending Objects =
 
