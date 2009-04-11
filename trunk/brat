@@ -1,4 +1,5 @@
 #!/bin/env ruby
+BRAT_VERSON = 20090410
 
 unless 0.respond_to? :even?
 	class Fixnum
@@ -120,7 +121,7 @@ def brat_interactive
 		current += 1
 
 		begin
-			next_line = read_line("#{current}#{prompt} ") 
+			next_line = read_line("brat:#{current}#{prompt} ") 
 		rescue Interrupt
 			puts "Interrupted - exiting"
 			unless brat_console.closed?
@@ -232,24 +233,24 @@ Possible options:
 -a    Force recompilation of parser
 -f    Ignore existing .n file
 -h    Show this help
--i    Interactive Brat
--k    Don't erase intermediate files (implies -k)
+-k    Don't erase intermediate files (implies -f)
 -s    Create standalone executable
 -t    Benchmark code
 	END
 end
 
 
+$program_path = File.dirname(File.expand_path(__FILE__))
+
+ENV['LD_LIBRARY_PATH'] ||= "" 
+ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#$program_path/lib/"
+ENV['NEKOPATH'] ||= ""
+ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#$program_path/lib/:#$program_path/core/"
+ENV['PATH'] ||= ""
+ENV['PATH'] = ENV['PATH'] + ":#$program_path/bin/"
+
+
 if ARGV[0]
-	$program_path = File.dirname(File.expand_path(__FILE__))
-
-	ENV['LD_LIBRARY_PATH'] ||= "" 
-	ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#$program_path/lib/"
-	ENV['NEKOPATH'] ||= ""
-	ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#$program_path/lib/:#$program_path/core/"
-	ENV['PATH'] ||= ""
-	ENV['PATH'] = ENV['PATH'] + ":#$program_path/bin/"
-
 	require 'set'
 	options = Set.new(ARGV)
 
@@ -258,6 +259,7 @@ if ARGV[0]
 		exit
 	elsif options.include? '-i'
 		brat_interactive
+		exit
 	end
 
 	file_name = Dir.pwd + "/" + ARGV[-1]
@@ -292,5 +294,5 @@ if ARGV[0]
 	end
 
 else
-	abort "Please supply Brat file name"
+	brat_interactive
 end
