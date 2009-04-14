@@ -40,6 +40,17 @@ array.each = { block |
 	my
 }
 
+array.reverse_each = { block |
+	index = my.length
+	length = my.length
+	while {
+		index = index - 1
+		block my[index]
+		index > 0
+	}
+	my
+}
+
 array.each_with_index = { block |
 	index = 0
 	length = my.length
@@ -78,9 +89,20 @@ array.index_of = { item |
 	index = 0
 	length = my.length
 	while {
-		found = (my[index] == item)
+		found = my[index] == item
 		index = index + 1
 		not(found) && { index < length }
+	}
+	true? found, index, null
+}
+
+array.rindex_of = { item |
+	found = false
+	index = my.length
+	while {
+		index = index - 1
+		found = my[index] == item
+		not(found) && { index > 0 }
 	}
 	true? found, index, null
 }

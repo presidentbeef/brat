@@ -464,6 +464,12 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", "y = {x| x}; z = [->y]; z[0] 1"
 	end
 
+	def test_array_reverse
+		assert_result "[1,2,3]", "[3,2,1].reverse"
+		assert_result "[1,2,3]", "a = [1,2,3];a.reverse;a"
+		assert_result "[3,2,1]", "a = [1,2,3];a.reverse!;a"
+	end
+
 	def test_unary_operators
 		assert_result "A", "z = new; z.-? = {\"A\"}; -?z"
 		assert_result "B", "z = new; z.->> = {\"B\"}; ->>z"

@@ -623,6 +623,34 @@ base_array.@to_s = function() {
 	temp;
 }
 
+
+base_array.reverse = function() {
+	var index = 0;
+	var length = $asize(this.@internal_array);
+	var new_array = $amake(length);
+
+	while index < length + 1 {
+		new_array[index] = this.@internal_array[length - index - 1];
+		index = index + 1;
+	}
+	make_array(new_array);
+}
+
+base_array.reverse@bang = function() {
+	var index = 0;
+	var length = $asize(this.@internal_array);
+	var new_array = $amake(length);
+
+	while index < length + 1 {
+		new_array[index] = this.@internal_array[length - index - 1];
+		index = index + 1;
+	}
+
+	this.@internal_array = new_array;
+	this;
+}
+
+
 base_array.set = base_array.__set;
 base_array.get = base_array.__get;
 

@@ -1,2 +1,2 @@
-rec = { x | false? x < 1, { p x; rec x - 1 } }
-rec 10
+a = 1
+p a
