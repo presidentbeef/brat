@@ -1,5 +1,0 @@
-#summary What.
-
-= The Core =
-
-A set of objects and methods are linked into your Brat programs automatically. These are the core, and are found in `core/core.brat` and `core/internal.neko`.
