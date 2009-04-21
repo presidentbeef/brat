@@ -2,6 +2,44 @@ object.while = { block |
     true? block, { while ->block }
 }
 
+object.enumerable = object.new
+object.enumerable.any? = { block |
+	flag = false
+	my.each { o |
+		false? flag, 
+			{ true? block(o), { flag = true } }
+	}
+	flag
+}
+
+object.enumerable.all? = { block |
+	flag = true
+	my.each { o |
+		true? flag, 
+			{ false? block(o), { flag = false } }
+	}
+	flag
+}
+
+object.enumerable.find = { block |
+	found = null
+	my.each { o |
+		null? found,
+			{ true? block(o), { found = o } }
+	}
+	found
+}
+
+object.enumerable.select = { block |
+	new_ary = []
+	my.each { i |
+		true? block(i), { new_ary << i }
+	}
+	new_ary
+}
+
+array.squish object.enumerable
+
 array.first = { my[0] }
 array.rest = { my[1,-1] }
 
@@ -64,13 +102,6 @@ array.each_with_index = { block |
 
 array.empty? = { my.length == 0 }
 
-array.select = { block |
-	new_ary = []
-	my.each { i |
-		true? block(i), { new_ary << i }
-	}
-	new_ary
-}
 
 array.include? = { item |
 	found = false
