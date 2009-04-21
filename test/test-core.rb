@@ -48,6 +48,21 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "false", "a = 1; b = [a]; b.include? 2"
 	end
 
+	def test_core_array_any?
+		assert_result "true", "[1,2,3].any? { x | x > 2 }"
+		assert_result "false", "[1,2,3].any? { x | x > 4 }"
+	end
+
+	def test_core_array_any?
+		assert_result "false", "[1,2,3].all? { x | x > 2 }"
+		assert_result "true", "[1,2,3].all? { x | x < 4 }"
+	end
+
+	def test_core_array_find
+		assert_result "3", "[1,2,3].find { x | x > 2 }"
+		assert_result "null", "[1,2,3].find { x | x > 4 }"
+	end
+
 	def test_core_while
 		assert_result "3", "n = 0; while { n = n + 1; n < 3 }; n"
 	end
@@ -69,5 +84,11 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "true", "true || false"
 		assert_result "true", "2 || 1"
 		assert_result "2", "true? false || false, 1, 2"
+	end
+
+	def test_core_squish
+		assert_result "a", 'a = new; b = new; a.a = "a"; b.squish a; b.a'
+		assert_result "2", 'a = new; b = new; a.a = { x | x + 1}; b.squish a;a.a = "hi";b.a 1'
+		assert_result "[2,1]", 'a = new; b = new; a.a = [1,2]; b.squish a; a.a.reverse!;b.a'
 	end
 end
