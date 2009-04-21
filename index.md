@@ -66,7 +66,7 @@ Try using Brat interactively with `./brat -i`
 
 # Even more fun
 
-Take a look at [some examples](/examples) of Brat code.
+Take a look at [some examples](/brat/examples.html) of Brat code.
 
 # Problems
 
