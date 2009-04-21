@@ -6,7 +6,7 @@ It won't admit it, but it is not even out of infancy. Not even a toddler yet. Bu
 
 Brat uses a PEG parser written using (TreeTop)[http://treetop.rubyforge.org/index.html], a (Ruby)[http://ruby-lang.org] parser generator. The Brat code is then converted into (Neko)[http://treetop.rubyforge.org/index.html], compiled to Neko bytecode, and then run on the Neko VM.
 
-Brat is flexible enough that you can get by with a very small core and write any functionality that most languages use keywords for. For example, you can write and use a while loop like this:
+Brat is flexible enough that you can get by with a very small core and write any functionality that most languages use keywords for. For example, you can write and use a while loop like so:
 
     my.while = { block |
         true? block, { while ->block }
