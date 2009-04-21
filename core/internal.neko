@@ -101,6 +101,26 @@ base_object.p = $varargs(function(args) {
 	$call(this.print, null, pargs);
 })
 
+base_object.squish = function(object) {
+	if($typeof(object) != $tobject)
+		$throw("Can only squish in objects.");
+
+	var fields = $objfields(object);
+	var num_fields = $asize(fields);
+	var i = 0;
+	while( i < num_fields) {
+		$print(i, " of ", num_fields, "\n");
+		var fval = $objget(object, fields[i]);
+		if($typeof(fval) == $tfunction) {
+			$objset(this, fields[i], fval);
+		}
+		$print("finished loop #", i, "\n");
+		i = i + 1;
+	}
+	$print("Done");
+	this;
+}
+
 var random = $loader.loadprim("std@random_new", 0);
 var random_int = $loader.loadprim("std@random_int", 2);
 base_object.random = function(x) {
