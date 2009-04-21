@@ -109,15 +109,12 @@ base_object.squish = function(object) {
 	var num_fields = $asize(fields);
 	var i = 0;
 	while( i < num_fields) {
-		$print(i, " of ", num_fields, "\n");
 		var fval = $objget(object, fields[i]);
 		if($typeof(fval) == $tfunction) {
 			$objset(this, fields[i], fval);
 		}
-		$print("finished loop #", i, "\n");
 		i = i + 1;
 	}
-	$print("Done");
 	this;
 }
 
