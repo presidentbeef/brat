@@ -1,0 +1,9 @@
+How = { x |
+        x
+        mood = g
+        p mood, "? Hmm..."
+}
+are = { x | { print x } }
+you? = "How are you? "
+
+How are you?

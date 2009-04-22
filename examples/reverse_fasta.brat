@@ -1,0 +1,27 @@
+#From here: http://shootout.alioth.debian.org/u32q/benchmark.php?test=revcomp&lang=all
+
+translate = [
+"A":"T", "C":"G", "G":"C", "T":"A", "U":"A", "M":"K", "R":"Y", "W":"W", "S":"S", "Y":"R", "K":"M", "V":"B", "H":"D", "D":"H", "B":"V", "N":"N",
+"a":"T", "c":"G", "g":"C", "t":"A", "u":"A", "m":"K", "r":"Y", "w":"W", "s":"S", "y":"R", "k":"M", "v":"B", "h":"D", "d":"H", "b":"V", "n":"N"
+]
+
+process_line = { line, index |
+        true? line.length > 0 && (index < line.length),
+                {
+                true? line[0] == ">",
+                        { p line },
+                        { print translate[line[index]]
+                          process_line line, index + 1 }
+                },
+                { p }
+}
+
+reverse_complement = {
+        input = g
+        null? input,
+                null,
+                { process_line input, 0
+                  reverse_complement }
+}
+
+reverse_complement
