@@ -118,6 +118,20 @@ base_object.squish = function(object) {
 	this;
 }
 
+base_object.function@question = function(object) {
+	if($typeof(object) == $tfunction)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_object.object@question = function(object) {
+	if($typeof(object) == $tobject)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
 var random = $loader.loadprim("std@random_new", 0);
 var random_int = $loader.loadprim("std@random_int", 2);
 base_object.random = function(x) {
@@ -758,6 +772,22 @@ base_number.to@unders = function() {
 	base_string.new($string(this.@value));
 }
 
+base_number.to@underi = function() {
+	var int_num = $int(this.@value);
+	if(int_num == null)
+		base_object.@null();
+	else
+		base_number.new(int_num);
+}
+
+base_number.to@underf = function() {
+	var flt_num = $float(this.@value);
+	if(flt_num == null)
+		base_object.@null();
+	else
+		base_number.new(flt_num);
+}
+
 base_number.new = function(num) {
 	var n =  new_brat(this, null);
 	if($typeof(num) == $tobject)
@@ -881,6 +911,22 @@ base_string = new_brat(null, null);
 base_string.@value = "";
 base_string.@to_s = function() {
 	this.@value;
+}
+
+base_string.to@underi = function() {
+	var int_num = $int(this.@value);
+	if(int_num == null)
+		base_object.@null();
+	else
+		base_number.new(int_num);
+}
+
+base_string.to@underf = function() {
+	var flt_num = $float(this.@value);
+	if(flt_num == null)
+		base_object.@null();
+	else
+		base_number.new(flt_num);
 }
 
 base_string.length = function() {
