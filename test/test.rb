@@ -551,6 +551,16 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "abcd", '"a" + "b" + "c" + "d"'
 	end
 
+	def test_string_to_f
+		assert_result "0.5", '"0.5".to_f'
+		assert_result "1.5", '1 + "0.5".to_f'
+	end
+
+	def test_string_to_i
+		assert_result "0", '"0.5".to_i'
+		assert_result "2", '1 + "1.5".to_i'
+	end
+
 	def test_addition_subtraction
 		assert_result "0", "1 - 1"
 		assert_result "0", "1 + -1"
@@ -585,6 +595,15 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "true", "a = 300; b = 200; b + 100 == a"
 		assert_result "true", "a = 300; b = 200; (b + 300) == (a + 200)"
 		assert_result "false", "[1,2,3].length <= 1"
+	end
+
+	def test_number_to_f
+		assert_result "5.5", "5.5.to_f"
+	end
+
+	def test_number_to_i
+		assert_result "5", "5.5.to_f"
+		assert_result "0", "(1 / 2).to_i"
 	end
 
 	def test_string_compare
