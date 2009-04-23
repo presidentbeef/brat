@@ -289,10 +289,10 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_paren_exp_parse
-		parse("(hi)")
+		parse("( hi )")
 		parse("what().what()")
-		parse("((((((((((a))))))))))")
-		parse("(this.thing.is?(really).driving.me.crazy)")
+		parse("(( ((((((((a))) )))))))")
+		parse("(this.thing.is?( really ).driving.me.crazy)")
 	end
 
 	def test_integer_parse
@@ -602,7 +602,7 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_number_to_i
-		assert_result "5", "5.5.to_f"
+		assert_result "5", "5.5.to_i"
 		assert_result "0", "(1 / 2).to_i"
 	end
 
