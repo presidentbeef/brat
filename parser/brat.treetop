@@ -304,7 +304,7 @@ grammar BaseBrat
 
   #Matches a parenthesized expression
   rule paren_exp
-  	'(' expression ')' {
+  	'(' ~(space?) expression ~(space?) ')' {
 		def brat
 			output = expression.brat
 			@result = expression.result
@@ -715,7 +715,7 @@ grammar BaseBrat
 
   #Matches an argument list, including no arguments at all
   rule arg_list
-	'(' inner_arg_list ')' {
+	'(' ~(space?) inner_arg_list ~(space?) ')' {
 		def brat
 			inner_arg_list.brat
 		end
@@ -795,7 +795,7 @@ grammar BaseBrat
 
   #Matches an argument list which must be in parentheses, or no arguments at all
   rule simple_arg_list
-	'(' inner_arg_list ')' {
+	'(' ~(space?) inner_arg_list ~(space?) ')' {
 		def brat
 			inner_arg_list.brat
 		end
