@@ -19,6 +19,19 @@ Brat is flexible enough that you can get by with a very small core and write any
         n < 10
     }
 
+# Features
+
+* Compiles to the [Neko VM](http://nekovm.org/) the way Python compiles to its bytecode
+* Parser is in Ruby
+* Typeless, and pretty much classless
+* Everything is object, except functions
+* And functions are closures, which can be attached to objects to make methods
+* Objects use a prototyping system and are completely open (plus, you can clone or inherit, your choice)
+* Tail calls are optimized to make infinite loops faster (and more inifinite)
+* Interactive shell just like the big boys
+* Built in hash tables and dynamic arrays
+* Very flexible unary and binary operators
+
 # Requirements
 
 Please have on hand:
@@ -26,8 +39,8 @@ Please have on hand:
 * Linux (for now)
 * A relatively modern Ruby (let's say 1.8.6 and up)
 * [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
-* [Treetop](http://treetop.rubyforge.org/) `gem install treetop`
-* Git if you want to check it out of the repository directly `sudo urpmi git`
+* [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
+* Git if you want to check it out of the repository directly - `sudo urpmi git`
 
 # Installation
 
@@ -59,7 +72,7 @@ Run `ruby test/test.rb` to run the test suite. SWEET.
 
 # More Fun
 
-Try using Brat interactively with `./brat -i`
+Try using Brat interactively by starting it without passing in a file name: `./brat`
 
 # Even more fun
 
