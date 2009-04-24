@@ -8,8 +8,8 @@ void free_int(value intval) {
 	mpz_clear(val_data(intval));
 }
 
-void print_integer(value intval) {
-	gmp_printf("%Zd\n", val_data(intval));
+void free_float(value floatval) { 
+	mpf_clear(val_data(floatval));
 }
 
 value integer_from_string(value string_val) {
@@ -27,6 +27,15 @@ value new_integer() {
 	mpz_init(*new_int); 
 	value store = alloc_abstract(k_mint, new_int);
 	val_gc(store, free_int);
+	return store;
+}
+
+value new_float() {
+	mpf_t * new_float;
+	new_float = (mpf_t*)alloc(sizeof(mpf_t));
+	mpf_init(*new_float); 
+	value store = alloc_abstract(k_mfloat, new_float);
+	val_gc(store, free_float);
 	return store;
 }
 
@@ -48,34 +57,34 @@ value int_mul(value int1, value int2) {
 	return result;
 }
 
+value int_div(value num1, value num2) {
+	value result;
+	if(mpz_divisible_p(val_data(num1), val_data(num2))) {
+		result = new_integer();
+		mpz_divexact(val_data(result), val_data(num1), val_data(num2));
+		return result;
+	}
+	else {
+		result = new_float();
+		mpf_div(val_data(result), val_data(num1), val_data(num2));
+		return result;
+	}
+}
+
 value int_abs(value int1) {
 	value result = new_integer();
 	mpz_abs(val_data(result), val_data(int1));
 	return result;
 }
 
-
-void free_float(value floatval) { 
-	mpf_clear(val_data(floatval));
-}
-
-void print_float(value floatval) {
-	gmp_printf("%Ff\n", val_data(floatval));
+int int_cmp(value int1, value int2) {
+	return mpz_cmp(val_data(int1), val_data(int2));
 }
 
 value float_from_string(value string_val) {
 	mpf_t * new_float;
 	new_float = (mpf_t*)alloc(sizeof(mpf_t));
 	mpf_init_set_str(*new_float, val_string(string_val), 10); 
-	value store = alloc_abstract(k_mfloat, new_float);
-	val_gc(store, free_float);
-	return store;
-}
-
-value new_float() {
-	mpf_t * new_float;
-	new_float = (mpf_t*)alloc(sizeof(mpf_t));
-	mpf_init(*new_float); 
 	value store = alloc_abstract(k_mfloat, new_float);
 	val_gc(store, free_float);
 	return store;
@@ -99,10 +108,20 @@ value float_mul(value float1, value float2) {
 	return result;
 }
 
+value float_div(value num1, value num2) {
+	value result = new_float();
+	mpf_div(val_data(result), val_data(num1), val_data(num2));
+	return result;
+}
+
 value float_abs(value float1) {
 	value result = new_float();
 	mpf_abs(val_data(result), val_data(float1));
 	return result;
+}
+
+int float_cmp(value float1, value float2) {
+	return mpf_cmp(val_data(float1), val_data(float2));
 }
 
 value float_to_int(value float1) {
@@ -123,6 +142,29 @@ value int_to_float(value int1) {
 	return result;
 }
 
+value integer_to_string(value num) {
+	char *str;
+	gmp_asprintf(&str, "%Zd", val_data(num));
+	buffer b = alloc_buffer(str);
+	return buffer_to_string(b);
+}
+
+value float_to_string(value num) {
+	char *str;
+	gmp_asprintf(&str, "%Ff", val_data(num));
+	buffer b = alloc_buffer(str);
+	return buffer_to_string(b);
+}
+
+value num_to_string(value num) {
+	if(val_is_kind(num, k_mfloat))
+		return float_to_string(num);
+	else if(val_is_kind(num, k_mint))
+		return integer_to_string(num);
+	else
+		neko_error();
+}
+
 value num_add(value num1, value num2) {
 	if(val_is_kind(num1, k_mint) && val_is_kind(num2, k_mint))
 		return int_add(num1, num2);
@@ -132,15 +174,43 @@ value num_add(value num1, value num2) {
 		return float_add(int_to_float(num1), int_to_float(num2));
 }
 
-void print_num(value num) {
-	if(val_is_kind(num, k_mfloat))
-		print_float(num);
+value num_sub(value num1, value num2) {
+	if(val_is_kind(num1, k_mint) && val_is_kind(num2, k_mint))
+		return int_sub(num1, num2);
+	else if(val_is_kind(num1, k_mfloat) && val_is_kind(num2, k_mfloat))
+		return float_sub(num1, num2);
 	else
-		print_integer(num);
+		return float_sub(int_to_float(num1), int_to_float(num2));
+}
 
+value num_mul(value num1, value num2) {
+	if(val_is_kind(num1, k_mint) && val_is_kind(num2, k_mint))
+		return int_mul(num1, num2);
+	else if(val_is_kind(num1, k_mfloat) && val_is_kind(num2, k_mfloat))
+		return float_mul(num1, num2);
+	else
+		return float_mul(int_to_float(num1), int_to_float(num2));
+}
+
+value num_div(value num1, value num2) {
+	if(val_is_kind(num1, k_mint) && val_is_kind(num2, k_mint))
+		return int_div(num1, num2);
+	else
+		return float_div(int_to_float(num1), int_to_float(num2));
+}
+
+int num_cmp(value num1, value num2) {
+	if(val_is_kind(num1, k_mint) && val_is_kind(num2, k_mint))
+		return int_cmp(num1, num2);
+	else
+		return float_cmp(int_to_float(num1), int_to_float(num2));
 }
 
 DEFINE_PRIM(float_from_string, 1);
 DEFINE_PRIM(integer_from_string, 1);
 DEFINE_PRIM(num_add, 2);
-DEFINE_PRIM(print_num, 1);
+DEFINE_PRIM(num_sub, 2);
+DEFINE_PRIM(num_mul, 2);
+DEFINE_PRIM(num_div, 2);
+DEFINE_PRIM(num_cmp, 2);
+DEFINE_PRIM(num_to_string, 1);
