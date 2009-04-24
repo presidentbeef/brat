@@ -81,6 +81,12 @@ int int_cmp(value int1, value int2) {
 	return mpz_cmp(val_data(int1), val_data(int2));
 }
 
+value int_mod(value int1, value int2) {
+	value result = new_integer();
+	mpz_mod(val_data(result), val_data(int1), val_data(int2));
+	return result;
+}
+
 value float_from_string(value string_val) {
 	mpf_t * new_float;
 	new_float = (mpf_t*)alloc(sizeof(mpf_t));
