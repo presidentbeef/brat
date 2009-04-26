@@ -212,6 +212,18 @@ int num_cmp(value num1, value num2) {
 		return float_cmp(int_to_float(num1), int_to_float(num2));
 }
 
+int is_num(value num) {
+	return (val_is_kind(num, k_mint) || val_is_kind(num, k_mfloat) ? 1 : 0);
+}
+
+int is_float(value num) {
+	return (val_is_kind(num, k_mfloat) ? 1 : 0);
+}
+
+int is_int(value num) {
+	return (val_is_kind(num, k_mint) ? 1 : 0);
+}
+
 DEFINE_PRIM(float_from_string, 1);
 DEFINE_PRIM(integer_from_string, 1);
 DEFINE_PRIM(num_add, 2);
@@ -220,3 +232,6 @@ DEFINE_PRIM(num_mul, 2);
 DEFINE_PRIM(num_div, 2);
 DEFINE_PRIM(num_cmp, 2);
 DEFINE_PRIM(num_to_string, 1);
+DEFINE_PRIM(is_num, 1);
+DEFINE_PRIM(is_int, 1);
+DEFINE_PRIM(is_float, 1);
