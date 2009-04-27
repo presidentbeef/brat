@@ -30,6 +30,15 @@ value new_integer() {
 	return store;
 }
 
+value integer_from_int(value num_int) {
+	mpz_t * new_int;
+	new_int = (mpz_t*)alloc(sizeof(mpz_t));
+	mpz_init_set_si(*new_int, val_int(num_int)); 
+	value store = alloc_abstract(k_mint, new_int);
+	val_gc(store, free_int);
+	return store;
+}
+
 value new_float() {
 	mpf_t * new_float;
 	new_float = (mpf_t*)alloc(sizeof(mpf_t));
@@ -57,6 +66,17 @@ value int_mul(value int1, value int2) {
 	return result;
 }
 
+value int_to_float(value int1) {
+	if(val_is_kind(int1, k_mfloat))
+		return int1;
+
+	value result = new_float();
+	mpf_set_z(val_data(result), val_data(int1));
+	return result;
+}
+
+value float_div();
+
 value int_div(value num1, value num2) {
 	value result;
 	if(mpz_divisible_p(val_data(num1), val_data(num2))) {
@@ -65,9 +85,7 @@ value int_div(value num1, value num2) {
 		return result;
 	}
 	else {
-		result = new_float();
-		mpf_div(val_data(result), val_data(num1), val_data(num2));
-		return result;
+		return float_div(int_to_float(num1), int_to_float(num2));
 	}
 }
 
@@ -139,15 +157,6 @@ value float_to_int(value float1) {
 	return result;
 }
 
-value int_to_float(value int1) {
-	if(val_is_kind(int1, k_mfloat))
-		return int1;
-
-	value result = new_float();
-	mpf_set_z(val_data(result), val_data(int1));
-	return result;
-}
-
 value integer_to_string(value num) {
 	char *str;
 	gmp_asprintf(&str, "%Zd", val_data(num));
@@ -205,33 +214,73 @@ value num_div(value num1, value num2) {
 		return float_div(int_to_float(num1), int_to_float(num2));
 }
 
-int num_cmp(value num1, value num2) {
+value num_cmp(value num1, value num2) {
 	if(val_is_kind(num1, k_mint) && val_is_kind(num2, k_mint))
-		return int_cmp(num1, num2);
+		return alloc_int(int_cmp(num1, num2));
 	else
-		return float_cmp(int_to_float(num1), int_to_float(num2));
+		return alloc_int(float_cmp(int_to_float(num1), int_to_float(num2)));
 }
 
-int is_num(value num) {
-	return (val_is_kind(num, k_mint) || val_is_kind(num, k_mfloat) ? 1 : 0);
+value is_num(value num) {
+	int d = val_is_kind(num, k_mint) || val_is_kind(num, k_mfloat);
+	return alloc_bool(d);
 }
 
-int is_float(value num) {
-	return (val_is_kind(num, k_mfloat) ? 1 : 0);
+value is_float(value num) {
+	return alloc_bool((val_is_abstract(num) && val_is_kind(num, k_mfloat)) ? 1 : 0);
 }
 
-int is_int(value num) {
-	return (val_is_kind(num, k_mint) ? 1 : 0);
+value is_int(value num) {
+	return alloc_bool((val_is_abstract(num) && val_is_kind(num, k_mint)) ? 1 : 0);
+}
+
+value num_neg(value num) {
+	if(val_is_kind(num, k_mint)) {
+		value result = new_integer();
+		mpz_neg(val_data(result), val_data(num));
+		return result;
+	}
+	else if(val_is_kind(num, k_mfloat)) {
+		value result = new_float();
+		mpf_neg(val_data(result), val_data(num));
+		return result;
+	}
+	else {
+		neko_error();
+	}	
+}
+
+value to_neko_num(value num) {
+	if(val_is_kind(num, k_mint)) {
+		if(mpz_fits_sint_p(val_data(num)))
+			return alloc_int(mpz_get_si(val_data(num)));
+		else
+			failure("Cannot convert number to signed long, too big.");
+	}
+	else if(val_is_kind(num, k_mint)) {
+
+		return alloc_float(mpf_get_d(val_data(num)));
+	}
+	else {
+		neko_error();
+	}	
 }
 
 DEFINE_PRIM(float_from_string, 1);
 DEFINE_PRIM(integer_from_string, 1);
+DEFINE_PRIM(integer_from_int, 1);
 DEFINE_PRIM(num_add, 2);
 DEFINE_PRIM(num_sub, 2);
 DEFINE_PRIM(num_mul, 2);
 DEFINE_PRIM(num_div, 2);
+DEFINE_PRIM(int_div, 2);
 DEFINE_PRIM(num_cmp, 2);
-DEFINE_PRIM(num_to_string, 1);
+DEFINE_PRIM(int_mod, 2);
 DEFINE_PRIM(is_num, 1);
 DEFINE_PRIM(is_int, 1);
 DEFINE_PRIM(is_float, 1);
+DEFINE_PRIM(num_to_string, 1);
+DEFINE_PRIM(int_to_float, 1);
+DEFINE_PRIM(float_to_int, 1);
+DEFINE_PRIM(num_neg, 1);
+DEFINE_PRIM(to_neko_num, 1);

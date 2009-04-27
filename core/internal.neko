@@ -1,3 +1,4 @@
+//base_object is _the_ base object for all objects
 base_object = $new(null);
 
 base_object.new = $varargs(function(args) {
@@ -137,7 +138,7 @@ var random_int = $loader.loadprim("std@random_int", 2);
 base_object.random = function(x) {
 	var max ;
 	if($typeof(x) == $tobject && has_field(x, "@value")) {
-		max = x.@value;
+		max = x.@nvalue();
 		if($typeof(max) == $tint)
 			base_number.new(random_int(random(), max));
 		else
@@ -156,7 +157,7 @@ base_object.g = $varargs(function(args) {
 	var break_char = 10;
 	if($asize(args) == 1) {
 		if($typeof(args[0]) == $tobject && has_field(args[0], "@value") && $ssize(args[0].@value) == 1)
-			break_char = $sget(args[0].@value, 0)
+			break_char = $sget(args[0].@nvalue(), 0)
 		else
 			$throw("g expects to get a single character. Not " + $string(args[0]));
 	}
@@ -180,6 +181,7 @@ base_object.g = $varargs(function(args) {
         base_string.new(buffer_string(b));
 })
 
+//True, false, and null values
 var @false_value = new_brat(null, null);
 @false_value.to@unders = function() { base_string.new("false") };
 var @true_value = new_brat(null, null);
@@ -479,7 +481,182 @@ num_args = function(object, method) {
         }
 }
 
+//Number functions
+var f_from_s = $loader.loadprim("number@float_from_string", 1);
+var i_from_s = $loader.loadprim("number@integer_from_string", 1);
+var num_add = $loader.loadprim("number@num_add", 2);
+var num_sub = $loader.loadprim("number@num_sub", 2);
+var num_mul = $loader.loadprim("number@num_mul", 2);
+var num_div = $loader.loadprim("number@num_div", 2);
+var num_cmp = $loader.loadprim("number@num_cmp", 2);
+var is_num = $loader.loadprim("number@is_num", 1);
+var is_int = $loader.loadprim("number@is_int", 1);
+var is_float = $loader.loadprim("number@is_float", 1);
+var num_to_string = $loader.loadprim("number@num_to_string", 1);
+var num_to_float = $loader.loadprim("number@int_to_float", 1);
+var num_to_int = $loader.loadprim("number@float_to_int", 1);
+var integer_from_int = $loader.loadprim("number@integer_from_int", 1);
+var num_neg = $loader.loadprim("number@num_neg", 1);
+var num_to_neko = $loader.loadprim("number@to_neko_num", 1);
+base_number = new_brat(null, null);
+base_number.@value = i_from_s("0");
+base_number.@to_s = function() {
+	this.to@unders().@value;
+}
 
+base_number.to@unders = function() {
+	var s = num_to_string(this.@value);
+	var str = base_string.new(s);
+	if($sfind(str.@value, 0, ".") != null) {
+		var r = base_regex.new("\\.?0+$");
+		str.sub@underfirst@bang(r, "");
+	}
+	str;
+}
+
+base_number.to@underi = function() {
+	base_number.new(num_to_int(this.@value));
+}
+
+base_number.to@underf = function() {
+	base_number.new(num_to_float(this.@value));
+}
+
+base_number.@nvalue = function() {
+	num_to_neko(this.@value);
+}
+
+base_number.new = function(num) {
+	var n = new_brat(this, null);
+	if($typeof(num) == $tint)
+		n.@value = integer_from_int(num);
+	else if($typeof(num) == $tobject && is_num(num.@value))
+		n.@value = num.@value;
+	else if(is_num(num))
+		n.@value = num;
+	else
+		$throw("Expected number, not " + $string(num));
+	n;
+}
+
+base_number.@stoi = function(str) {
+	base_number.new(i_from_s(str));
+}
+
+base_number.@stof = function(str) {
+	base_number.new(f_from_s(str));
+}
+
+base_number.@plus = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+
+	if(is_num(rhs) && is_num(lhs))
+		base_number.new(num_add(lhs, rhs));
+	else
+		$throw("Expected numbers to add, not " + $string(num) + " and " + $string(this));
+}
+
+base_number.@minus = $varargs(function(args) {
+	if($asize(args) == 0)
+		return base_number.new(num_neg(this.@value));
+	else if($asize(args) > 1)
+		$throw("Too many arguments for number.- Should be 0 or 1, given " + $string(args));
+		
+	var lhs = this.@value;
+	var rhs = args[0].@value;
+
+	if(is_num(rhs) && is_num(lhs))
+		base_number.new(num_sub(lhs, rhs));
+	else
+		$throw("Expected numbers to subtract, not " + $string(num) + " and " + $string(this));
+})
+
+base_number.@forward = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+
+	if(is_num(rhs) && is_num(lhs))
+		base_number.new(num_div(lhs, rhs));
+	else
+		$throw("Expected numbers to divide, not " + $string(num) + " and " + $string(this));
+}
+
+base_number.@star = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+
+	if(is_num(rhs) && is_num(lhs))
+		base_number.new(num_mul(lhs, rhs));
+	else
+		$throw("Expected numbers to multiply, not " + $string(num) + " and " + $string(this));
+}
+
+base_number.@percent = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+
+	if(is_int(rhs) && is_int(lhs))
+		base_number.new(int_mod(lhs, rhs));
+	else
+		$throw("Expected integers for modulo, not " + $string(num) + " and " + $string(this));
+
+}
+
+base_number.@greater = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+	if(num_cmp(lhs, rhs) == 1)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_number.@less = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+	if(num_cmp(lhs, rhs) == -1)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_number.@less@equal = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+	if(num_cmp(lhs, rhs) <= 0)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_number.@greater@equal = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+	if(num_cmp(lhs, rhs) >= 0)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_number.@equal@equal = function(rhs) {
+	var lhs = this;
+	if(has_field(rhs, "@value") && has_field(lhs, "@value")) {
+		rhs = rhs.@value;
+		lhs = lhs.@value;
+	}
+	else
+		return this.@false();
+
+	if(num_cmp(lhs,rhs) == 0)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+
+
+//Array object
 base_array = new_brat(null, null);
 base_array.@internal_array = $amake(0);
 
@@ -518,7 +695,10 @@ base_array.__get = $varargs(function(args) {
 	if($asize(args) == 0 || $asize(args) > 2)
 		$throw("Invalid number of arguments to array.get(), should be 1 or 2.");
 	else if($asize(args) == 1) {
-		var index = args[0].@value;
+		if($not(has_field(args[0], "@nvalue")))
+			$throw("Cannot access array with non-number value.");
+
+		var index = args[0].@nvalue();
 		if(index > len || index < -len) {
 			return base_object.@null();
 		}
@@ -536,12 +716,16 @@ base_array.__get = $varargs(function(args) {
 		}
 	}
 	else {
+		if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
+			$throw("Cannot access array with non-number value.");
+
 		if(len == 0) {
 			this.clone($amake(0));
 		}
 		else {
-			var start = args[0].@value;
-			var stop = args[1].@value;
+
+			var start = args[0].@nvalue();
+			var stop = args[1].@nvalue();
 	
 			if(start < 0)
 				start = len + start;
@@ -573,12 +757,12 @@ base_array.__get = $varargs(function(args) {
 });
 
 base_array.__set = function(index, value) {
-	if($typeof(index) == $tobject && has_field(index, "@value"))
-		index = index.@value;
+	if($typeof(index) == $tobject && has_field(index, "@nvalue"))
+		index = index.@nvalue();
 	if($typeof(index) != $tint)
 		$throw("Cannot use non-integer index for array.");
 
-	var len = this.length().@value;
+	var len = this.length().@nvalue();
 	if(index < 0)
 		index = len + index;
 
@@ -685,6 +869,7 @@ base_array.reverse@bang = function() {
 base_array.set = base_array.__set;
 base_array.get = base_array.__get;
 
+//Hash table object
 base_hash = new_brat(null, null);
 base_hash.@internal_hash = $hnew(0);
 
@@ -704,8 +889,12 @@ base_hash.new = $varargs(function(args) {
 });
 
 base_hash.get = function(index) {
-	if(has_field(index, "@value"))
-		index = index.@value;
+	if(has_field(index, "@value")) {
+		if($typeof(index.@value) == $tabstract && is_num(index.@value))
+			index = index.@to_s();
+		else
+			index = index.@value;
+	}
 	if($hmem(this.@internal_hash, index, null))
 		$hget(this.@internal_hash, index, null);
 	else
@@ -713,8 +902,14 @@ base_hash.get = function(index) {
 }
 
 base_hash.set = function(index, value) {
-	if(has_field(index, "@value"))
-		index = index.@value;
+	if(has_field(index, "@value")) {
+		if($typeof(index.@value) == $tabstract) {
+			var tr = is_num(index.@value);
+			index = index.@to_s();
+		}
+		else
+			index = index.@value;
+	}
 	$hset(this.@internal_hash, index, value, null);
 	this;
 }
@@ -751,8 +946,14 @@ base_hash.@to_s = function() {
 }
 
 hset = function(hashtable, index, value) {
-	if(has_field(index, "@value"))
-		index = index.@value;
+	if(has_field(index, "@value")) {
+		if($typeof(index.@value) == $tabstract && is_num(index.@value)) {
+			index = index.@to_s();
+		}
+		else
+			index = index.@value;
+	}
+
 	$hset(hashtable, index, value, null)
 }
 
@@ -762,150 +963,7 @@ make_array = function(neko_array) {
 	ary;
 }
 
-base_number = new_brat(null, null);
-base_number.@value = 0;
-base_number.@to_s = function() {
-	$string(this.@value);
-}
 
-base_number.to@unders = function() {
-	base_string.new($string(this.@value));
-}
-
-base_number.to@underi = function() {
-	var int_num = $int(this.@value);
-	if(int_num == null)
-		base_object.@null();
-	else
-		base_number.new(int_num);
-}
-
-base_number.to@underf = function() {
-	var flt_num = $float(this.@value);
-	if(flt_num == null)
-		base_object.@null();
-	else
-		base_number.new(flt_num);
-}
-
-base_number.new = function(num) {
-	var n =  new_brat(this, null);
-	if($typeof(num) == $tobject)
-		n.@value = num.@value;
-	else
-		n.@value = num;
-	n;
-}
-
-base_number.@plus = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-
-	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
-		base_number.new($iadd(lhs, rhs));
-	else
-		base_number.new(lhs + rhs);
-}
-
-base_number.@minus = $varargs(function(args) {
-	if($asize(args) == 0)
-		return base_number.new(-this.@value);
-	else if($asize(args) > 1)
-		$throw("Too many arguments for number.- Should be 0 or 1, given " + $string(args));
-		
-	var lhs = this.@value;
-	var rhs = args[0].@value;
-
-	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
-		base_number.new($isub(lhs, rhs));
-	else
-		base_number.new(lhs - rhs);
-})
-
-base_number.@forward = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-
-	base_number.new(lhs / rhs);
-}
-
-base_number.@star = function(num) {
-	if($typeof(num) == $tobject && has_field(num, "@value"))
-		num = num.@value;
-
-	var lhs = this.@value;
-	var rhs = num;
-
-	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
-		base_number.new($imult(lhs, rhs));
-	else if($typeof(lhs) == $tfloat || $typeof(rhs) == $tfloat) //could be a better check here
-		base_number.new(lhs * rhs);
-	else $throw("Cannot multiply " + $string(lhs) + " with " + $string(rhs));
-}
-
-base_number.@percent = function(num) {
-	if($typeof(num) == $tobject && has_field(num, "@value"))
-		num = num.@value;
-
-	var lhs = this.@value;
-	var rhs = num;
-
-
-	if($typeof(rhs) == $tint || $typeof(rhs) == $tfloat)
-		base_number.new(lhs % rhs);
-	else $throw("Expected numbers for modulo, not " + $string(lhs) + " and " + $string(rhs));
-}
-
-base_number.@greater = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-	if(lhs > rhs)
-		base_object.@true();
-	else
-		base_object.@false();
-}
-
-base_number.@less = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-	if(lhs < rhs)
-		base_object.@true();
-	else
-		base_object.@false();
-}
-
-base_number.@less@equal = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-	if(lhs <= rhs)
-		base_object.@true();
-	else
-		base_object.@false();
-}
-
-base_number.@greater@equal = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-	if(lhs >= rhs)
-		base_object.@true();
-	else
-		base_object.@false();
-}
-
-base_number.@equal@equal = function(rhs) {
-	var lhs = this;
-	if(has_field(rhs, "@value") && has_field(lhs, "@value")) {
-		rhs = rhs.@value;
-		lhs = lhs.@value;
-	}
-	else
-		return this.@false();
-
-	if($pcompare(lhs,rhs) == 0)
-		this.@true();
-	else
-		this.@false();
-}
 
 base_string = new_brat(null, null);
 base_string.@value = "";
@@ -914,19 +972,12 @@ base_string.@to_s = function() {
 }
 
 base_string.to@underi = function() {
-	var int_num = $int(this.@value);
-	if(int_num == null)
-		base_object.@null();
-	else
-		base_number.new(int_num);
+	var ts = this.sub(base_regex.new("\\.\\d*$"), "");
+	base_number.new(i_from_s(ts.@value));
 }
 
 base_string.to@underf = function() {
-	var flt_num = $float(this.@value);
-	if(flt_num == null)
-		base_object.@null();
-	else
-		base_number.new(flt_num);
+	base_number.new(f_from_s(this.@value));
 }
 
 base_string.length = function() {
@@ -980,7 +1031,10 @@ base_string.__get = $varargs(function(args) {
 	if($asize(args) == 0 || $asize(args) > 2)
 		$throw("Invalid number of arguments to string.get(), should be 1 or 2.");
 	else if($asize(args) == 1) {
-		var index = args[0].@value;
+		if($not(has_field(args[0], "@nvalue")))
+			$throw("Cannot index string with non-number value.");
+
+		var index = args[0].@nvalue();
 		if(index > len || index < -len) {
 			this.clone("");
 		}
@@ -1000,12 +1054,15 @@ base_string.__get = $varargs(function(args) {
 		}
 	}
 	else {
+		if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
+			$throw("Cannot index string with non-number value.");
+
 		if(len == 0) {
 			this.clone("");
 		}
 		else {
-			var start = args[0].@value;
-			var stop = args[1].@value;
+			var start = args[0].@nvalue();
+			var stop = args[1].@nvalue();
 	
 			if(start < 0)
 				start = len + start;
@@ -1041,11 +1098,14 @@ base_string.__set = function(index, value) {
 	if($typeof(value) != $tstring)
 		$throw("Cannot set string to non-string value.");
 
-	if($typeof(index) == $tobject && has_field(index, "@value"))
+
+	if($typeof(index) == $tobject && has_field(index, "@nvalue"))
+		index = index.@nvalue();
+	else if($typeof(index) == $tobject && has_field(index, "@value"))
 		index = index.@value;
+
 	if($typeof(index) != $tint)
 		$throw("Cannot use non-integer index for string.");
-
 
 	if(index < 0)
 		index = $ssize(this.@value) + index;
@@ -1120,7 +1180,7 @@ base_string.sub@underfirst@bang = function(regexp, replacement) {
 	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
-		$throw("Need to provide a regular expression for string.sub()");
+		$throw("Need to provide a regular expression for string.sub_first()");
 	if($typeof(replacement) == $tstring)
 		this.@value = reg_rep_first(regexp, this.@value, replacement);
 	else $throw("Need to provide a string for string.sub_first()");
@@ -1134,7 +1194,7 @@ base_string.sub@underfirst = function(regexp, replacement) {
 	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
-		$throw("Need to provide a regular expression for string.sub()");
+		$throw("Need to provide a regular expression for string.sub_first()");
 	if($typeof(replacement) == $tstring) {
 		base_string.new(reg_rep_first(regexp, this.@value, replacement));
 	}
