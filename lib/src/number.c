@@ -222,16 +222,15 @@ value num_cmp(value num1, value num2) {
 }
 
 value is_num(value num) {
-	int d = val_is_kind(num, k_mint) || val_is_kind(num, k_mfloat);
-	return alloc_bool(d);
+	return alloc_bool(val_is_kind(num, k_mint) || val_is_kind(num, k_mfloat));
 }
 
 value is_float(value num) {
-	return alloc_bool((val_is_abstract(num) && val_is_kind(num, k_mfloat)) ? 1 : 0);
+	return alloc_bool(val_is_kind(num, k_mfloat));
 }
 
 value is_int(value num) {
-	return alloc_bool((val_is_abstract(num) && val_is_kind(num, k_mint)) ? 1 : 0);
+	return alloc_bool(val_is_kind(num, k_mint));
 }
 
 value num_neg(value num) {
