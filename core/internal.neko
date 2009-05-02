@@ -496,15 +496,19 @@ var num_to_string = $loader.loadprim("number@num_to_string", 1);
 var num_to_float = $loader.loadprim("number@int_to_float", 1);
 var num_to_int = $loader.loadprim("number@float_to_int", 1);
 var integer_from_int = $loader.loadprim("number@integer_from_int", 1);
+var float_from_float = $loader.loadprim("number@float_from_float", 1);
 var num_neg = $loader.loadprim("number@num_neg", 1);
 var num_to_neko = $loader.loadprim("number@to_neko_num", 1);
 base_number = new_brat(null, null);
-base_number.@value = i_from_s("0");
+base_number.@value = 0;
+base_number.@native = true;
 base_number.@to_s = function() {
 	this.to@unders().@value;
 }
 
 base_number.to@unders = function() {
+	if(this.@native)
+		return base_string.new($string(this.@value));
 	var s = num_to_string(this.@value);
 	var str = base_string.new(s);
 	if($sfind(str.@value, 0, ".") != null) {
@@ -515,43 +519,79 @@ base_number.to@unders = function() {
 }
 
 base_number.to@underi = function() {
-	base_number.new(num_to_int(this.@value));
+	if(this.@native)
+		base_number.new($int(this.@value));
+	else
+		base_number.new(num_to_int(this.@value));
 }
 
 base_number.to@underf = function() {
-	base_number.new(num_to_float(this.@value));
+	if(this.@native)
+		base_number.new($floatt(this.@value));
+	else
+		base_number.new(num_to_float(this.@value));
 }
 
 base_number.@nvalue = function() {
-	num_to_neko(this.@value);
+	if(this.@native)
+		this.@valute;
+	else
+		num_to_neko(this.@value);
 }
 
 base_number.new = function(num) {
 	var n = new_brat(this, null);
-	if($typeof(num) == $tint)
-		n.@value = integer_from_int(num);
-	else if($typeof(num) == $tobject && is_num(num.@value))
-		n.@value = num.@value;
+	if($typeof(num) == $tint || $typeof(num) == $tfloat) {
+		n.@value = num;
+		n.@native = true
+	}
+	else if($typeof(num) == $tobject)
+		if($typeof(num.@value) == $tint || $typeof(num.@value) == $tfloat) {
+			n.@value = num;
+			n.@native = true
+		}
+		else if(is_num(num.@value) {
+			n.@value = num.@value;
+			n.@native = false
+		}
+		else
+			$throw("Expected number, not " + $string(num));
 	else if(is_num(num))
 		n.@value = num;
+		n.@native = false
 	else
 		$throw("Expected number, not " + $string(num));
 	n;
 }
 
 base_number.@stoi = function(str) {
-	base_number.new(i_from_s(str));
+	if(this.@native)
+		base_number.new($int(str));
+	else
+		base_number.new(i_from_s(str));
 }
 
 base_number.@stof = function(str) {
-	base_number.new(f_from_s(str));
+	if(this.@native)
+		base_number.new($float(str));
+	else
+		base_number.new(f_from_s(str));
 }
 
 base_number.@plus = function(num) {
 	var lhs = this.@value;
 	var rhs = num.@value;
 
-	if(is_num(rhs) && is_num(lhs))
+	if(this.@native && num.@native) {
+		var res = lhs + rhs;
+		if(lhs != res - rhs)
+			lhs = to_bignum(lhs);
+			rhs = to_bignum(rhs);
+			num_add(lhs, rhs);
+		else
+			res;
+	}
+	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_add(lhs, rhs));
 	else
 		$throw("Expected numbers to add, not " + $string(num) + " and " + $string(this));

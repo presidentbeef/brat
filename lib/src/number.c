@@ -114,6 +114,15 @@ value float_from_string(value string_val) {
 	return store;
 }
 
+value float_from_float(value num_flt) {
+	mpz_t * new_float;
+	new_float = (mpf_t*)alloc(sizeof(mpf_t));
+	mpf_init_set_d(*new_float, val_int(num_flt)); 
+	value store = alloc_abstract(k_mfloat, new_float);
+	val_gc(store, free_float);
+	return store;
+}
+
 value float_add(value float1, value float2) {
 	value result = new_float();
 	mpf_add(val_data(result), val_data(float1), val_data(float2));
@@ -266,9 +275,20 @@ value to_neko_num(value num) {
 	}	
 }
 
+value to_bignum(value num) {
+	if(val_is_int(num))
+		return integer_from_int(num);
+	else if(val_is_float(num))
+		return float_from_float(num);
+	else
+		failure("Could not convert to bignum");
+}
+
 DEFINE_PRIM(float_from_string, 1);
 DEFINE_PRIM(integer_from_string, 1);
 DEFINE_PRIM(integer_from_int, 1);
+DEFINE_PRIM(float_from_float, 1);
+DEFINE_PRIM(to_bignum, 1);
 DEFINE_PRIM(num_add, 2);
 DEFINE_PRIM(num_sub, 2);
 DEFINE_PRIM(num_mul, 2);
