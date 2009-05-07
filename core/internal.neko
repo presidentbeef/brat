@@ -498,7 +498,8 @@ var num_to_int = $loader.loadprim("number@float_to_int", 1);
 var integer_from_int = $loader.loadprim("number@integer_from_int", 1);
 var float_from_float = $loader.loadprim("number@float_from_float", 1);
 var num_neg = $loader.loadprim("number@num_neg", 1);
-var num_to_neko = $loader.loadprim("number@to_neko_num", 1);
+var to_neko_num = $loader.loadprim("number@to_neko_num", 1);
+var to_bignum = $loader.loadprim("number@to_bignum", 1);
 base_number = new_brat(null, null);
 base_number.@value = 0;
 base_number.@native = true;
@@ -527,7 +528,7 @@ base_number.to@underi = function() {
 
 base_number.to@underf = function() {
 	if(this.@native)
-		base_number.new($floatt(this.@value));
+		base_number.new($float(this.@value));
 	else
 		base_number.new(num_to_float(this.@value));
 }
@@ -536,7 +537,7 @@ base_number.@nvalue = function() {
 	if(this.@native)
 		this.@valute;
 	else
-		num_to_neko(this.@value);
+		to_neko_num(this.@value);
 }
 
 base_number.new = function(num) {
@@ -545,20 +546,22 @@ base_number.new = function(num) {
 		n.@value = num;
 		n.@native = true
 	}
-	else if($typeof(num) == $tobject)
+	else if($typeof(num) == $tobject) {
 		if($typeof(num.@value) == $tint || $typeof(num.@value) == $tfloat) {
 			n.@value = num;
 			n.@native = true
 		}
-		else if(is_num(num.@value) {
+		else if(is_num(num.@value)) {
 			n.@value = num.@value;
 			n.@native = false
 		}
 		else
 			$throw("Expected number, not " + $string(num));
-	else if(is_num(num))
+	}
+	else if(is_num(num)) {
 		n.@value = num;
 		n.@native = false
+	}
 	else
 		$throw("Expected number, not " + $string(num));
 	n;
@@ -584,10 +587,11 @@ base_number.@plus = function(num) {
 
 	if(this.@native && num.@native) {
 		var res = lhs + rhs;
-		if(lhs != res - rhs)
+		if(lhs != res - rhs) {
 			lhs = to_bignum(lhs);
 			rhs = to_bignum(rhs);
 			num_add(lhs, rhs);
+		}
 		else
 			res;
 	}

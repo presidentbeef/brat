@@ -115,7 +115,7 @@ value float_from_string(value string_val) {
 }
 
 value float_from_float(value num_flt) {
-	mpz_t * new_float;
+	mpf_t * new_float;
 	new_float = (mpf_t*)alloc(sizeof(mpf_t));
 	mpf_init_set_d(*new_float, val_int(num_flt)); 
 	value store = alloc_abstract(k_mfloat, new_float);
