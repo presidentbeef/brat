@@ -3,6 +3,7 @@
 #include <gmp.h>
 DEFINE_KIND(k_mint);
 DEFINE_KIND(k_mfloat);
+#define MAX_NEKO_INT 1073741823 
 
 void free_int(value intval) { 
 	mpz_clear(val_data(intval));
@@ -19,6 +20,13 @@ value integer_from_string(value string_val) {
 	value store = alloc_abstract(k_mint, new_int);
 	val_gc(store, free_int);
 	return store;
+}
+
+value integer_fits_native(value num_int) {
+	if(!val_is_kind(num_int, k_mint))
+		return alloc_bool(0);
+	if(mpz_cmpabs_ui(val_data(num_int), MAX_NEKO_INT) < 1)
+		return alloc_bool(1);
 }
 
 value new_integer() {
@@ -260,22 +268,23 @@ value num_neg(value num) {
 
 value to_neko_num(value num) {
 	if(val_is_kind(num, k_mint)) {
-		if(mpz_fits_sint_p(val_data(num)))
+		if(mpz_cmpabs_ui(val_data(num), MAX_NEKO_INT) < 1)
 			return alloc_int(mpz_get_si(val_data(num)));
 		else
 			failure("Cannot convert number to signed long, too big.");
 	}
-	else if(val_is_kind(num, k_mint)) {
-
-		return alloc_float(mpf_get_d(val_data(num)));
+	else if(val_is_kind(num, k_mfloat)) {
+		failure("Cannot convert float to Neko native.");
 	}
 	else {
-		neko_error();
+		failure("Cannot convert abstract to Neko native.");
 	}	
 }
 
 value to_bignum(value num) {
-	if(val_is_int(num))
+	if(val_is_kind(num, k_mint) || val_is_kind(num, k_mfloat))
+		return num;
+	else if(val_is_int(num))
 		return integer_from_int(num);
 	else if(val_is_float(num))
 		return float_from_float(num);
@@ -286,6 +295,7 @@ value to_bignum(value num) {
 DEFINE_PRIM(float_from_string, 1);
 DEFINE_PRIM(integer_from_string, 1);
 DEFINE_PRIM(integer_from_int, 1);
+DEFINE_PRIM(integer_fits_native, 1);
 DEFINE_PRIM(float_from_float, 1);
 DEFINE_PRIM(to_bignum, 1);
 DEFINE_PRIM(num_add, 2);
