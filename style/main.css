@@ -38,6 +38,12 @@ body {
   font-size: 1.4em;
 }
 
+#header img a {
+	border: none;
+	text-decoration: none;
+	color: white;
+}
+
 #nav {
   float: right;
   padding: 10px;
