@@ -248,15 +248,15 @@ p b["c"] 5
 You can define certain binary operators. These should always take one parameter. They can then be used as 'infix' notation.
 
 {% highlight js %}
-array.@ = { i | my[i]}
+array.% = { i | my[i]}
 
 a = [1,2,3,4]
 
-p a @ 3
+p a % 3
 
-p a.@ 3
+p a.% 3
 
-p a.@(3)
+p a.%(3)
 {% endhighlight %}
 
 ##  Regular Expressions 
