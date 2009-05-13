@@ -300,7 +300,7 @@ if ARGV[0]
 		time = Benchmark.measure do
 			brat file_name, keep_intermediate, force
 		end
-		puts "Ran in: #{time.format('%r')} seconds"
+		puts "Ran in: #{time.format('User: %u System: %y Real: %r')} seconds"
 	else
 		brat file_name, keep_intermediate, force
 	end
