@@ -65,7 +65,7 @@ h2 {
   margin-top: 15px;
 }
 
-ul, p {
+ol, ul, p {
   padding: 0 0 10px 10px;
   line-height: 17px;
   font-family: verdana, arial, sans-serif;
@@ -80,7 +80,7 @@ a:hover {
   text-decoration: none;
 }
 
-ul {
+ul, ol {
   margin-left: 20px;
 }
 
@@ -104,3 +104,34 @@ pre {
   text-align: center;
   margin-top: 15px;
 }
+
+.ruby .string {
+  color: #ff0000;
+}
+.ruby .brackets {	
+  color: #777;
+}
+
+.ruby .regex { 
+  color: #37ffff;
+}
+
+.normal {}
+.comment { color: #9900FF; }
+.keywords, .expression { color: #C71585; font-weight: bold; }
+.method { color: #077; }
+.class { color: #074; }
+.module { color: #050; }
+.punct { color: #447; font-weight: bold; }
+.symbol { color: #099; }
+.string { color: #6600CC; background: #FFE; }
+.char { color: #F07; }
+.ident { color: #004; }
+.constant { color: #07F; }
+.regex { color: #B66; background: #FEF; }
+.number { color: blue; }
+.attribute { color: #7BB; }
+.global { color: #7FB; }
+.expr { color: #227; } 
+.escape { color: #277; }
+
