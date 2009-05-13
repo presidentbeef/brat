@@ -500,6 +500,7 @@ var float_from_float = $loader.loadprim("number@float_from_float", 1);
 var num_neg = $loader.loadprim("number@num_neg", 1);
 var to_neko_num = $loader.loadprim("number@to_neko_num", 1);
 var to_bignum = $loader.loadprim("number@to_bignum", 1);
+var integer_fits = $loader.loadprim("number@integer_fits_native", 1);
 base_number = new_brat(null, null);
 base_number.@value = 0;
 base_number.@native = true;
@@ -519,6 +520,13 @@ base_number.to@unders = function() {
 	str;
 }
 
+base_number.native@question = function() {
+	if(this.@native)
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
 base_number.to@underi = function() {
 	if(this.@native)
 		base_number.new($int(this.@value));
@@ -535,7 +543,7 @@ base_number.to@underf = function() {
 
 base_number.@nvalue = function() {
 	if(this.@native)
-		this.@valute;
+		this.@value;
 	else
 		to_neko_num(this.@value);
 }
@@ -559,26 +567,27 @@ base_number.new = function(num) {
 			$throw("Expected number, not " + $string(num));
 	}
 	else if(is_num(num)) {
-		n.@value = num;
-		n.@native = false
+		if(integer_fits(num)) {
+			n.@value = to_neko_num(num);
+			n.@native = true; 
+		}
+		else {
+			n.@value = num;
+			n.@native = false
+		}
 	}
 	else
 		$throw("Expected number, not " + $string(num));
+
 	n;
 }
 
 base_number.@stoi = function(str) {
-	if(this.@native)
-		base_number.new($int(str));
-	else
-		base_number.new(i_from_s(str));
+	base_number.new(i_from_s(str));
 }
 
 base_number.@stof = function(str) {
-	if(this.@native)
-		base_number.new($float(str));
-	else
-		base_number.new(f_from_s(str));
+	base_number.new(f_from_s(str));
 }
 
 base_number.@plus = function(num) {
@@ -587,51 +596,99 @@ base_number.@plus = function(num) {
 
 	if(this.@native && num.@native) {
 		var res = lhs + rhs;
-		if(lhs != res - rhs) {
+		if(lhs > 0 && rhs > 0 && res >= lhs)
+			base_number.new(res);
+		else {
 			lhs = to_bignum(lhs);
-			rhs = to_bignum(rhs);
-			num_add(lhs, rhs);
+			rhs = to_bignum(rhs); 
+			base_number.new(num_add(lhs, rhs));
 		}
-		else
-			res;
 	}
 	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_add(lhs, rhs));
+	else if((is_num(rhs) && this.@native) || (is_num(lhs) && num.@native)) {
+		lhs = to_bignum(lhs);
+		rhs = to_bignum(rhs);
+		base_number.new(num_add(lhs, rhs));
+	}
 	else
 		$throw("Expected numbers to add, not " + $string(num) + " and " + $string(this));
 }
 
 base_number.@minus = $varargs(function(args) {
-	if($asize(args) == 0)
-		return base_number.new(num_neg(this.@value));
+	if($asize(args) == 0) {
+		if(this.@native)
+			return base_number.new(-this.@value);
+		else
+			return base_number.new(num_neg(this.@value));
+	}
 	else if($asize(args) > 1)
 		$throw("Too many arguments for number.- Should be 0 or 1, given " + $string(args));
 		
 	var lhs = this.@value;
 	var rhs = args[0].@value;
 
-	if(is_num(rhs) && is_num(lhs))
+	if(this.@native && args[0].@native) {
+		var res = lhs - rhs;
+		if(lhs >= 0 && rhs >= 0 && res < lhs)
+			base_number.new(res);
+		else if(lhs < 0 && rhs < 0 && res > lhs)
+			base_number.new(res);
+		else {
+			lhs = to_bignum(lhs);
+			rhs = to_bignum(rhs); 
+			base_number.new(num_sub(lhs, rhs));
+		}
+	}
+	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_sub(lhs, rhs));
+	else if((is_num(rhs) && this.@native) || (is_num(lhs) && args[0].@native)) {
+		lhs = to_bignum(lhs);
+		rhs = to_bignum(rhs);
+		base_number.new(num_sub(lhs, rhs));
+	}
 	else
-		$throw("Expected numbers to subtract, not " + $string(num) + " and " + $string(this));
+		$throw("Expected numbers to subtract, not " + $string(args[0]) + " and " + $string(this));
 })
 
 base_number.@forward = function(num) {
 	var lhs = this.@value;
 	var rhs = num.@value;
 
-	if(is_num(rhs) && is_num(lhs))
+	if(this.@native && num.@native) {
+		lhs = to_bignum(lhs);
+		rhs = to_bignum(rhs); 
 		base_number.new(num_div(lhs, rhs));
+	}
+	else if(is_num(rhs) && is_num(lhs))
+		base_number.new(num_div(lhs, rhs));
+	else if((is_num(rhs) && this.@native) || (is_num(lhs) && num.@native)) {
+		lhs = to_bignum(lhs);
+		rhs = to_bignum(rhs);
+		base_number.new(num_div(lhs, rhs));
+	}
 	else
 		$throw("Expected numbers to divide, not " + $string(num) + " and " + $string(this));
+
 }
 
 base_number.@star = function(num) {
 	var lhs = this.@value;
 	var rhs = num.@value;
 
-	if(is_num(rhs) && is_num(lhs))
+	if(this.@native && num.@native) {
+		lhs = to_bignum(lhs);
+		rhs = to_bignum(rhs); 
 		base_number.new(num_mul(lhs, rhs));
+	}
+	else if(is_num(rhs) && is_num(lhs)) {
+		base_number.new(num_mul(lhs, rhs));
+	}
+	else if((is_num(rhs) && this.@native) || (is_num(lhs) && num.@native)) {
+		lhs = to_bignum(lhs);
+		rhs = to_bignum(rhs);
+		base_number.new(num_mul(lhs, rhs));
+	}
 	else
 		$throw("Expected numbers to multiply, not " + $string(num) + " and " + $string(this));
 }
@@ -640,7 +697,10 @@ base_number.@percent = function(num) {
 	var lhs = this.@value;
 	var rhs = num.@value;
 
-	if(is_int(rhs) && is_int(lhs))
+	if(this.@native && num.@native) {
+		base_number.new(lhs, rhs);
+	}
+	else if(is_int(rhs) && is_int(lhs))
 		base_number.new(int_mod(lhs, rhs));
 	else
 		$throw("Expected integers for modulo, not " + $string(num) + " and " + $string(this));
@@ -648,57 +708,145 @@ base_number.@percent = function(num) {
 }
 
 base_number.@greater = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-	if(num_cmp(lhs, rhs) == 1)
-		base_object.@true();
+	if(has_field(num, "@native")) {
+		var rhs = num.@value;
+		var lhs = this.@value;
+
+		if(this.@native && num.@native) {
+			if(lhs > rhs)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else if(is_num(lhs) && is_num(rhs)) {
+			if(num_cmp(lhs, rhs) == 1)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else {
+			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) == 1)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+	}
 	else
-		base_object.@false();
+		$throw("Unable to compare number to " + $string(num));
 }
 
 base_number.@less = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-	if(num_cmp(lhs, rhs) == -1)
-		base_object.@true();
+	if(has_field(num, "@native")) {
+		var rhs = num.@value;
+		var lhs = this.@value;
+
+		if(this.@native && num.@native) {
+			if(lhs < rhs)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else if(is_num(lhs) && is_num(rhs)) {
+			if(num_cmp(lhs, rhs) == -1)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else {
+			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) == -1)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+	}
 	else
-		base_object.@false();
+		$throw("Unable to compare number to " + $string(num));
 }
 
 base_number.@less@equal = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-	if(num_cmp(lhs, rhs) <= 0)
-		base_object.@true();
+	if(has_field(num, "@native")) {
+		var rhs = num.@value;
+		var lhs = this.@value;
+
+		if(this.@native && num.@native) {
+			if(lhs <= rhs)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else if(is_num(lhs) && is_num(rhs)) {
+			if(num_cmp(lhs, rhs) <= 0)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else {
+			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) <= 0)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+	}
 	else
-		base_object.@false();
+		$throw("Unable to compare number to " + $string(num));
 }
 
 base_number.@greater@equal = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-	if(num_cmp(lhs, rhs) >= 0)
-		base_object.@true();
-	else
-		base_object.@false();
-}
+	if(has_field(num, "@native")) {
+		var rhs = num.@value;
+		var lhs = this.@value;
 
-base_number.@equal@equal = function(rhs) {
-	var lhs = this;
-	if(has_field(rhs, "@value") && has_field(lhs, "@value")) {
-		rhs = rhs.@value;
-		lhs = lhs.@value;
+		if(this.@native && num.@native) {
+			if(lhs >= rhs)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else if(is_num(lhs) && is_num(rhs)) {
+			if(num_cmp(lhs, rhs) >= 0)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else {
+			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) >= 0)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
 	}
 	else
-		return this.@false();
+		$throw("Unable to compare number to " + $string(num));
 
-	if(num_cmp(lhs,rhs) == 0)
-		base_object.@true();
-	else
-		base_object.@false();
 }
 
+base_number.@equal@equal = function(num) {
+	if(has_field(num, "@native")) {
+		var rhs = num.@value;
+		var lhs = this.@value;
 
+		if(this.@native && num.@native) {
+			if(lhs == rhs)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else if(is_num(lhs) && is_num(rhs)) {
+			if(num_cmp(lhs, rhs) == 0)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+		else {
+			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) == 0)
+				base_object.@true();
+			else
+				base_object.@false();
+		}
+	}
+	else
+		$throw("Unable to compare number to " + $string(num));
+}
 
 //Array object
 base_array = new_brat(null, null);
