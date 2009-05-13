@@ -10,7 +10,7 @@ Brat is a little toy language that _just doesn't care_.
 
 Brat may be obtained using any of the following methods:
 
-* Fork with [Git](http://git-scm.com)  `git clone git://github.com/presidentbeef/brat`
+* Fork with [Git](http://git-scm.com):  `git clone git://github.com/presidentbeef/brat`
 * Download in [zip](http://github.com/presidentbeef/brat/zipball/master) or [tar](http://github.com/presidentbeef/brat/tarball/master) format
 * [Browse](http://github.com/presidentbeef/brat/tree/master) around the source
 
