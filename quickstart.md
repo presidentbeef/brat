@@ -24,6 +24,7 @@ x = y.new
 {% endhighlight %}
 
 Cloning (sets superclass to y's superclass and copies methods):
+
 {% highlight ruby %}
 x = y.clone
 {% endhighlight %}
@@ -37,6 +38,7 @@ p person.name
 {% endhighlight %}
 
 A (possibly) easier way is to pass in a hash table of symbols or strings, which are converted to fields:
+
 {% highlight ruby %}
 person = new    'first_name : "Bob",
                 'last_name : "Johnson",
@@ -192,6 +194,7 @@ p true? 1 - 1 * 3 == -1 + 1
 {% endhighlight %}
 
 If you want something special, use parentheses. Otherwise, everyone gets treated the same.
+
 {% highlight ruby %}
 a = 1
 
@@ -205,6 +208,7 @@ p a - (b * a)
 ## Arrays
 
 Arrays are zero-based, dynamically resized lists which can contain anything.
+
 {% highlight ruby %}
 a = array.new
 
@@ -220,6 +224,7 @@ p b[5] "hello world"
 ## Hashes
 
 Hashtables, associative arrays, maps, dictionaries...whatever you want to call them, these are lists which can be indexed by an arbitrary value.
+
 {% highlight ruby %}
 a = hash.new
 
@@ -241,6 +246,7 @@ p b["c"] 5
 ## Binary Operators
 
 You can define certain binary operators. These should always take one parameter. They can then be used as 'infix' notation.
+
 {% highlight ruby %}
 array.@ = { i | my[i]}
 
