@@ -6,6 +6,7 @@ layout: default
 Brat is a toy language. A very little one. Everything in Brat is either an object or a function (or a method, we don't judge.) Sometimes what something actually is is a little hard to determine, but basically things work how you would expect, even if really they are doing something odd.
 
 For example, consider this code:
+
 {% highlight ruby %}
 a.number = 1
 {% endhighlight %}
@@ -32,6 +33,7 @@ You can think of the difference between `new` and `clone` as being extending the
 Objects can have fields (or slots or instance variables or whatever you would like to call them). These also are created as you need them.
 
 The example illustrates defining fields and the difference between `new` and `clone`:
+
 {% highlight ruby %}
 a = new   # a is now a subclass of the base object
 b = a.new   # b is a subclass of a
@@ -48,6 +50,7 @@ c.hello   #this calls a.hello still
 Functions are the only things in Brat which are not objects. Functions take arguments and always return the last value in their body. Functions are also closures, they will take a snapshot of the environment when they are created. Functions do not have names. Names are for variables. By the way, functions are the only way to delay execution of code.
 
 Functions look like this:
+
 {% highlight ruby %}
 { p "this method has no arguments"}
 { arg1, arg2, arg3 | p "this method has three!"}
@@ -77,17 +80,20 @@ Functions can span multiple lines. So can argument lists, if you want.
 Binary operators are basically just special functions that take a single argument. Operators can only contain a mixture of these symbols: ! > < ? - `*` + ^ ~ @ $ _ % | & = / \
 
 Operators can be defined like any other function:
+
 {% highlight ruby %}
 a = new
 a.? = { x | p "What ", x, "?"}
 {% endhighlight %}
 
 They can also be invoked like regular functions:
+
 {% highlight ruby %}
 a.? "is up"
 {% endhighlight %}
 
 But they can also (and more usefully) be used as binary operators:
+
 {% highlight ruby %}
 a ? "is up"
 {% endhighlight %}
@@ -95,6 +101,7 @@ a ? "is up"
 **Important note**: ALL operators are treated equally (except '=', which is part of the syntax and not an operator) and evaluated left to right. This means there is *no* such thing as operator precedence, because how would I know what precedence '@' should have for you? _However_, this means that normal mathematical operators are also evaluated left to right and My Dear Aunt Sally is, sadly, left out in the cold.
 
 Example:
+
 {% highlight ruby %}
 p 1 + 3 * 4  # 16, not 12
 {% endhighlight %}
@@ -104,6 +111,7 @@ p 1 + 3 * 4  # 16, not 12
 Unary operators are like binary operators, except they take no arguments and need to be cuddled up to an expression. Otherwise, they are pretty much the same. Still working on limiting their rightward reach, however.
 
 Example:
+
 {% highlight ruby %}
 string.! = { my + "!" }
 

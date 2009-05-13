@@ -98,8 +98,10 @@ From the [language shootout](http://shootout.alioth.debian.org/u32q/benchmark.ph
 
 {% highlight ruby %}
 translate = [
-"A":"T", "C":"G", "G":"C", "T":"A", "U":"A", "M":"K", "R":"Y", "W":"W", "S":"S", "Y":"R", "K":"M", "V":"B", "H":"D", "D":"H", "B":"V", "N":"N",
-"a":"T", "c":"G", "g":"C", "t":"A", "u":"A", "m":"K", "r":"Y", "w":"W", "s":"S", "y":"R", "k":"M", "v":"B", "h":"D", "d":"H", "b":"V", "n":"N"
+"A":"T", "C":"G", "G":"C", "T":"A", "U":"A", "M":"K", "R":"Y", "W":"W", "S":"S", "Y":"R", 
+"K":"M", "V":"B", "H":"D", "D":"H", "B":"V", "N":"N", "a":"T", "c":"G", "g":"C", "t":"A", 
+"u":"A", "m":"K", "r":"Y", "w":"W", "s":"S", "y":"R", "k":"M", "v":"B", "h":"D", "d":"H", 
+"b":"V", "n":"N"
 ]
 
 process_line = { line, index |
