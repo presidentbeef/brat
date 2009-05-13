@@ -1,23 +1,22 @@
 <html>
 	<head>
 		<title>{{title}}</title>
-		  <link href="_stylesheets/prettify.css" media="all" rel="Stylesheet" type="text/css" />
-		<script src="_javascript/prettify/prettify.js" type="text/javascript"></script>
+		<link href="_style/main.css" media="all" rel="stylesheet" type="text/css" />
 	</head>
 
-	<body onLoad="prettyPrint()">
-		<div class="main">
-			<div class="top">
-				<img src="_images/brat-logo.png">
-			</div>
-			<div class="navigation">
+	<body>
+		<div id="main">
+			<div id="header">
+				<img src="/brat/images/brat-logo.png">
+				<div id="nav">
 				<a href="/brat">Home</a>
 				<a href="/brat/overview.html">Overview</a>
 				<a href="/brat/examples.html">Examples</a>
 				<a href="http://github.com/presidentbeef/brat/tree/master">Download</a>
 				<a href="/brat/notes.html">Notes</a>
+				</div>	
 			</div>
-			<div class="content">
+			<div id="body">
 				{{content}}
 			</div>
 		</div>
