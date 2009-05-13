@@ -3,6 +3,8 @@ title: Brat Overview
 layout: default
 ---
 
+## Overview
+
 Brat is a toy language. A very little one. Everything in Brat is either an object or a function (or a method, we don't judge.) Sometimes what something actually is is a little hard to determine, but basically things work how you would expect, even if really they are doing something odd.
 
 For example, consider this code:

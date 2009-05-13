@@ -2,8 +2,17 @@
 title: The Brat Language
 layout: default
 ---
+## What It Is
 
 Brat is a little toy language that _just doesn't care_.
+
+## Where It Is
+
+Brat may be obtained using any of the following methods:
+
+* Fork with [Git](http://git-scm.com): `$ git clone git://github.com/presidentbeef/brat`
+* Download in [zip](http://github.com/presidentbeef/brat/zipball/master) or [tar](http://github.com/presidentbeef/brat/tarball/master) format
+* [Browse](http://github.com/presidentbeef/brat/tree/master) around the source
 
 ## Why You Should Use Brat
 

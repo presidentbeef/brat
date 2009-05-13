@@ -3,6 +3,10 @@ title: Brat Quick Start
 layout: default
 ---
 
+## Quickstart
+
+Just want to jump in? Well, plug your nose and in you go!
+
 ## Print something
 
 _Adds newline, too_
