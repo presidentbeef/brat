@@ -107,6 +107,7 @@ pre {
 
 #footer a {
   text-decoration: none;
+  padding-right: 2px;
 }
 
 #footer a:hover {
