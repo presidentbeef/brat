@@ -286,6 +286,7 @@ class BratParserTest < Test::Unit::TestCase
 	def test_method_access_parse
 		parse("hi->there")
 		parse("->there")
+		parse("a->->>")
 	end
 
 	def test_paren_exp_parse
@@ -408,6 +409,7 @@ class BratParserTest < Test::Unit::TestCase
 	def test_method_access
 		assert_result "#function:0", "x = new;x.x = { 1 }; x->x"
 		assert_result "1", "x = new; y = new; x.y = { 1 }; y.x = x->y; y.x"
+		assert_result "#function:0", "x = new; x.->> = {}; x->->>"
 	end
 
 	def test_my
@@ -554,11 +556,13 @@ class BratParserTest < Test::Unit::TestCase
 	def test_string_to_f
 		assert_result "0.5", '"0.5".to_f'
 		assert_result "1.5", '1 + "0.5".to_f'
+		assert_result "10000000000000", '"10000000000000".to_f'
 	end
 
 	def test_string_to_i
 		assert_result "0", '"0.5".to_i'
 		assert_result "2", '1 + "1.5".to_i'
+		assert_result "10000000000000", '"10000000000000".to_i'
 	end
 
 	def test_addition_subtraction
@@ -572,6 +576,21 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", "0.5 + 0.5"
 	end
 
+	def test_bignum_addition
+		assert_result "1073741824", "1073741823 + 1"
+		assert_result "1073741824", "1 + 1073741823"
+		assert_result "2147483646", "1073741823 + 1073741823"
+		assert_result "0", "1073741823 + -1073741823"
+		assert_result "0", "-1073741823 + 1073741823"
+	end
+
+	def test_bignum_subtraction
+		assert_result "1073741823", "1073741824 - 1"
+		assert_result "0", "1073741823 - 1073741823"
+		assert_result "0", "-1073741823 - -1073741823"
+		assert_result "1073741824", "1 - -1073741823"
+	end
+
 	def test_division
 		assert_result "0", "0 / 100"
 		assert_result "1", "100 / 100"
@@ -580,11 +599,24 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "0.5", "1 / 2"
 	end
 
+	def test_bignum_division
+		assert_result "1", "1.1 / 1.1"
+		assert_result "1", "1000000000000 / 1000000000000"
+		assert "0.1", "1000000000000 / 10000000000000"
+	end
+
 	def test_multiply
 		assert_result "1", "1 * 1"
 		assert_result "-2", "1 * -2"
 		assert_result "1", "2 * 0.5 * 2 * 0.5 * 1"
 		assert_result "1.5", "a = 6; b = 0.25; a * b"
+	end
+
+	def test_bignum_multiply
+		assert_result "10000000", "10000000 * 1"
+		assert_result "20000000", "10000000 * 2"
+		assert_result "20000000", "2 * 10000000"
+		assert_result "213971023970000000000", "10000000000 * 21397102397"
 	end
 
 	def test_number_compare
@@ -595,6 +627,25 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "true", "a = 300; b = 200; b + 100 == a"
 		assert_result "true", "a = 300; b = 200; (b + 300) == (a + 200)"
 		assert_result "false", "[1,2,3].length <= 1"
+	end
+
+	def test_bignum_compare
+		assert_result "true", "100000000 > 1"
+		assert_result "true", "100000000 >= 1"
+		assert_result "false", "100000000 < 1"
+		assert_result "false", "100000000 <= 1"
+		assert_result "false", "100000000 == 1"
+		assert_result "false", "1 > 1000000000"
+		assert_result "false", "1 >= 1000000000"
+		assert_result "false", "1 == 1000000000"
+		assert_result "true", "1 <= 1000000000"
+		assert_result "true", "1 < 1000000000"
+		assert_result "true", "1000000000 == 1000000000"
+		assert_result "false", "10000000 > 1000000000"
+		assert_result "false", "10000000 >= 1000000000"
+		assert_result "false", "10000000 == 1000000000"
+		assert_result "true", "10000000 <= 1000000000"
+		assert_result "true", "10000000 < 1000000000"
 	end
 
 	def test_number_to_f
