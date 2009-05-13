@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<title>{{title}}</title>
+		<title>{{page.title}}</title>
 		<link href="style/main.css" media="all" rel="stylesheet" type="text/css" />
 	</head>
 
@@ -10,17 +10,19 @@
 			<div id="header">
 				<img src="/brat/images/brat-logo.png">
 				<div id="nav">
-					<a href="/brat">Home</a>&nbsp;
-					<a href="/brat/overview.html">Overview</a>&nbsp;
-					<a href="/brat/examples.html">Examples</a>&nbsp;
-					<a href="http://github.com/presidentbeef/brat/tree/master">Download</a>&nbsp;
-					<a href="/brat/notes.html">Notes</a>
+					<a href="/brat">Home</a>
+					<a href="/brat/overview.html">Overview</a>
+					<a href="/brat/quickstart.html">Quickstart</a>
+					<a href="/brat/examples.html">Examples</a>
+					<a href="http://github.com/presidentbeef/brat/tree/master">Download</a>
 				</div>	
 			</div>
 			<div id="body">
 				{{content}}
 			</div>
 			<div id="footer">
+				<a href="http://github.com/presidentbeef/brat/issues">Issues</a>
+				<a href="http://groups.google.com/group/brat-lang">Google Group</a>
 			</div>
 		</div>
 	</body>
