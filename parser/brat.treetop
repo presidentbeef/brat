@@ -81,25 +81,28 @@ grammar BaseBrat
 
   #Expressions! Which is basically everything
   rule expression
-	regex / unary_operation / binary_operation / index_set / index_get /
+	regex / binary_operation / index_set / index_get / 
 	assignment / paren_exp ~(!".") { def brat; output = paren_exp.brat; @result = paren_exp.result; output;  end } / 
-	method_access / method_invocation / number / string / symbol / function_definition / hash / array
+	method_access / method_invocation / number / unary_operation / string / symbol / function_definition / hash / array
   end
 
   #Expressions which can be followed by []
   rule indexed_expression
- 	hash / array / paren_exp / method_invocation / string
+ 	hash / array / paren_exp / unary_operation / method_invocation / string
   end
 
   #Expressions which can be used as lhs of "." method calls
   rule method_target_expression
- 	hash / array / paren_exp / number / string / regex / symbol
+ 	hash / array / paren_exp / number / string / regex / symbol / unary_operation
   end
-
  
   #Expressions which can be used as the lhs of a binary expression 
   rule binary_lhs_expression
- 	index_get / paren_exp / number / string / hash / bare_array / method_with_parens / regex / symbol
+ 	index_get / paren_exp / number / string / hash / bare_array / method_with_parens / regex / symbol / unary_operation
+  end
+
+  rule unary_rhs_expression
+ 	index_get / paren_exp / number / string / hash / bare_array / method_invocation / regex / symbol
   end
 
   #Matches regular expression literals
@@ -369,7 +372,14 @@ grammar BaseBrat
 
   #Matches floats
   rule float
-  	i:integer "." d:integer {
+	'-' i:pos_integer "." d:pos_integer {
+		def brat
+			next_temp
+			"var #@result = number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
+		end
+	}
+	/
+  	i:pos_integer "." d:pos_integer {
 		def brat
 			next_temp
 			"var #@result = number.@stof(\"#{i.text_value}.#{d.text_value}\");"
@@ -378,7 +388,20 @@ grammar BaseBrat
   end
 
   #Matches integers
+
   rule integer
+	pos_integer
+	/
+	'-' [0-9]+ {
+		def brat
+			next_temp
+			"var #@result = number.@stoi(\"#{text_value}\");"
+		end
+	}
+  end
+
+
+  rule pos_integer
 	[0-9]+ {
 		def brat
 			next_temp
@@ -480,7 +503,7 @@ grammar BaseBrat
   #Matches a unary operation, which requires a symbol to be
   #immediately followed by an expression.
   rule unary_operation
-	op:operator !space rhs:expression {
+	op:operator !space rhs:unary_rhs_expression {
 		def brat
 			next_temp
 			args = @result
@@ -688,7 +711,7 @@ grammar BaseBrat
   #Matches the "don't execute this" operator ("->") which just returns the method
   #instead of executing/calling it.
   rule method_access
-  	"->" m:(identifier / operator) {
+  	"->" m:identifier {
 		def brat
 			next_temp
 			name = m.brat
@@ -704,7 +727,7 @@ grammar BaseBrat
 		end
 	}
 	/
-  	o:method_invocation "->" m:identifier {
+  	o:method_invocation "->" m:(identifier / operator) {
 		def brat
 			next_temp
 			o.brat <<
