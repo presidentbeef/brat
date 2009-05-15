@@ -256,11 +256,11 @@ $program_path = File.dirname(File.expand_path(__FILE__))
 
 #Set up paths for Neko
 ENV['LD_LIBRARY_PATH'] ||= ""
-ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#$program_path/lib/"
+ENV['LD_LIBRARY_PATH'] += ":#$program_path/lib/:" << Dir.pwd
 ENV['NEKOPATH'] ||= ""
-ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#$program_path/lib/:#$program_path/core/"
+ENV['NEKOPATH'] += ":#$program_path/lib/:#$program_path/core/:" << Dir.pwd
 ENV['PATH'] ||= ""
-ENV['PATH'] = ENV['PATH'] + ":#$program_path/bin/"
+ENV['PATH'] += ":#$program_path/bin/:" << Dir.pwd
 
 if ARGV[0]
 	require 'set'
