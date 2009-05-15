@@ -430,14 +430,6 @@ base_object.@3_@null@question = function(condition, null_branch, else_branch) {
 	}
 }
 
-base_object.@1_@while = function(block) {
-	while(istrue(block())) {}
-}
-
-base_object.@2_@while = function(condition, block) {
-	while(istrue(condition())) { block(); $print(condition(), "\n"); }
-}
-
 base_object.not = function(arg) {
 	if(istrue(arg)) {
 		base_object.@false();
@@ -448,6 +440,64 @@ base_object.not = function(arg) {
 	}
 }
 
+base_object.@1_@while = function(block) {
+	while(istrue(block())) {}
+}
+
+base_object.@2_@while = function(condition, block) {
+	while(istrue(condition())) { block(); $print(condition(), "\n"); }
+}
+
+base_object.import = $varargs(function(args) {
+	if($asize(args) == 1) {
+		if(has_field(args[0], "@value")) {
+			var m = $loader.loadmodule(args[0].@value, $loader);
+			var imp = base_object.new();
+			var f = $objfields(m);
+			var fs = $asize(f);
+			var index = 0;
+			var field;
+			while(index < fs) {
+				field = $objget(m, f[index]);
+				if($typeof(field) == $tobject)
+					$objset(imp, f[index], function() { field });
+				else if($typeof(field) == $tfunction)
+					$objset(imp, f[index], field);
+				else if($field(f[index]) == "__module") {}
+				else
+					$throw("Cannot import: " + $string($field(f[index])));
+
+				index = index + 1;
+			}
+			imp;
+		}
+		else
+			$throw("Import expects a string, not " + $string(args[0]));
+	}
+	else if($asize(args) == 2) {
+		if(has_field(args[0], "@value") && has_field(args[1], "@value")) {
+			var m = $loader.loadmodule(args[0].@value, $loader);
+
+			if($objfield(m, $hash(args[1].@value))) {
+				$objget(m, $hash(args[1].@value));
+			}
+			else
+				$throw("Module " + args[0].@value + " does not have an export named " + args[1].@value);
+		}
+		else
+			$throw("Import expects two string arguments.");
+	}
+	else
+		$throw("Import requires either 1 or 2 parameters.");
+})
+
+base_object.export = function(object, name) {
+	if(has_field(name, "@value")) {
+		$objset($exports, $hash(name.@value), object);
+	}
+	else
+		$throw("Import expects a string, not " + $string(name));
+}
 
 has_field = function(object, field_name) {
 	if(object == null || $typeof(object) != $tobject) {
@@ -1454,7 +1504,7 @@ base_symbol.@equal@equal = function(rhs) {
 }
 
 base_symbol.@to_s = function() {
-	$field(this.@value);	
+	$field(this.@value);
 }
 
 var run_gc = $loader.loadprim("std@run_gc", 1);

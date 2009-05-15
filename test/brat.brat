@@ -1,0 +1,4 @@
+a = new
+a.something = { "something" }
+
+export(a, "a")
