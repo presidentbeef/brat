@@ -1,7 +1,3 @@
-object.while = { block |
-    true? block, { while ->block }
-}
-
 object.enumerable = object.new
 object.enumerable.any? = { block |
 	flag = false

@@ -430,6 +430,14 @@ base_object.@3_@null@question = function(condition, null_branch, else_branch) {
 	}
 }
 
+base_object.@1_@while = function(block) {
+	while(istrue(block())) {}
+}
+
+base_object.@2_@while = function(condition, block) {
+	while(istrue(condition())) { block(); $print(condition(), "\n"); }
+}
+
 base_object.not = function(arg) {
 	if(istrue(arg)) {
 		base_object.@false();
