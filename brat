@@ -1,7 +1,7 @@
-#!/bin/env ruby
+#!/usr/bin/env ruby
 BRAT_VERSON = 20090410
 
-#This is for 1.8.6 compatibility
+#This is for Ruby 1.8.6 compatibility
 unless 0.respond_to? :even?
 	class Fixnum
 		def even?
