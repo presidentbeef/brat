@@ -6,6 +6,7 @@ layout: default
 ## Quickstart
 
 Just want to jump in? Well, plug your nose and in you go!
+All of these examples are complete and valid Brat programs.
 
 ## Print something
 

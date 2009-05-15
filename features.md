@@ -22,3 +22,6 @@ layout: default
 * Limited built-in objects and methods
 * Programs limited to single file
 * Mixins limited to squish-ins
+* Native Brat methods cannot be overloaded
+* Native Brat methods cannot have variable argument lengths
+* There is a workaround for overloading and variable arguments if the method is written in Neko, though

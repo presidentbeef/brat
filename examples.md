@@ -30,6 +30,18 @@ while {
         n <= 10
 }
 {% endhighlight %}
+
+Or, more traditionally:
+
+{% highlight ruby %}
+n = 1
+while { n <= 1 }, 
+	{
+        	p n
+	        n = n + 1
+	}
+{% endhighlight %}
+
 ## Factorial 
 
 {% highlight ruby %}
