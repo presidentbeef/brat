@@ -8,7 +8,8 @@ Brat uses a [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) parse
 
 Brat is flexible enough that you can get by with a very small core and write any functionality that most languages use keywords for. For example, you can write and use a while loop like so:
 
-    my.while = { block |
+    #Loops until the block returns false
+    while = { block |
         true? block, { while ->block }
     }
 
@@ -18,6 +19,17 @@ Brat is flexible enough that you can get by with a very small core and write any
         n = n + 1
         n < 10
     }
+
+If you would rather have your conditions be separated out, you could define it this way instead:
+
+    #Loops until condition is false
+    while = { condition, block |
+        true? condition, { block; while ->condition, ->block }
+    }   
+
+    n = 1 
+    while { n < 10 }, { p n; n = n + 1 }
+
 
 # Features
 
