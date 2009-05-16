@@ -248,6 +248,7 @@ Possible options:
 -k    Don't erase intermediate files (implies -f)
 -s    Create standalone executable
 -t    Benchmark code
+-w    Start Neko web server in current directory
 	END
 end
 
@@ -262,7 +263,9 @@ ENV['NEKOPATH'] += ":#$program_path/lib/:#$program_path/core/:" << Dir.pwd
 ENV['PATH'] ||= ""
 ENV['PATH'] += ":#$program_path/bin/:" << Dir.pwd
 
-if ARGV[0]
+if ARGV[0] == '-w'
+	exec "nekotools server #{ARGV[1..-1].join(" ")}"
+elsif ARGV[0]
 	require 'set'
 	options = Set.new(ARGV)
 
