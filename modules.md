@@ -1,3 +1,8 @@
+---
+title: Modules in Brat
+layout: default
+---
+
 ## Modules
 
 Modules allow one to access code written in other files.

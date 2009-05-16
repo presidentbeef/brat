@@ -1,3 +1,8 @@
+---
+title: Brat Setup and Installation
+layout: default
+---
+
 # Requirements
 
 Please have on hand:
