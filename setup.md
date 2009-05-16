@@ -13,7 +13,7 @@ Please have on hand:
 * [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
 * Git if you want to check it out of the repository directly - `sudo urpmi git`
 
-# Installation
+## Installation
 
 Please follow the following steps, in the order in which they are ordered:
 
