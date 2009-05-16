@@ -16,24 +16,24 @@ Here is an silly example. Let's say you have a file named `awesome.brat` and you
 
 {% highlight ruby %}
 dude = new
-dude.awesome? = true
-dude.surf = { p "~~~~\o/~~~~~^~~ NOooooOoo! SHARKS!" }
+dude.awesome = true
+dude.surf = { p "~~~~\\o/~~~~~^~~ NOooooOoo! SHARKS!" }
 
-do_it! = { p "WHOA THIS IS AWESOME DUDES!" }
+doit = { p "WHOA THIS IS AWESOME DUDES!" }
 
-export ->do_it!, "do_it!"
-export dude, "a_dude"
+export ->doit, "doit"
+export dude, "dude"
 {% endhighlight %}
 
 Now, in another file, you can do the following:
 
 {% highlight ruby %}
-awesome = import "awesome.brat"  #dude will now have everything exported in awesome.brat
+awesome = import "test/brat2.brat"  #dude will now have everything exported in awesome.brat
 a_dude = awesome.dude
 
-awesome.do_it!
+awesome.doit
 
-true? a_dude.awesome?, { a_dude.surf }
+true? a_dude.awesome, { a_dude.surf }
 {% endhighlight %}
 
 Now, first run Brat on the `awesome.brat` file to compile it, then on the second file to run that. (Sorry, no automatic compiling (yet)).
@@ -41,7 +41,7 @@ Now, first run Brat on the `awesome.brat` file to compile it, then on the second
 I told you it was a silly example. I hope it shows the basic idea, though. But what if you only wanted one thing out of the file? You can do that, too!
  
 {% highlight ruby %}
-just_do_it = import "awesome.brat", "do_it!"
+just_do_it = import "awesome.brat", "doit"
 
 just_do_it
 {% endhighlight %}
