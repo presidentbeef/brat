@@ -3,7 +3,7 @@ title: Brat Setup and Installation
 layout: default
 ---
 
-# Requirements
+## Requirements
 
 Please have on hand:
 
@@ -19,7 +19,7 @@ Please follow the following steps, in the order in which they are ordered:
 
    1. [Clone or download](http://github.com/presidentbeef/brat/tree/master) the latest Brat version.
 
-# Testing
+## Testing
 
 Try out your newly discovered power thusly:
 
@@ -33,14 +33,14 @@ Try out your newly discovered power thusly:
    8. Press enter
    9. Marvel or weep, as appropriate 
 
-# For Convenience
+## For Convenience
 
 If you want to be able to run Brat from anywhere, you can add it to your path. For example, if you had put Brat in your home directory under `brat/` you would do `export PATH=$PATH:$HOME/brat/`
 
-# More Testing
+## More Testing
 
 Run `ruby test/test.rb` to run the test suite. SWEET.
 
-# More Fun
+## More Fun
 
 Try using Brat interactively by starting it without passing in a file name: `./brat`
