@@ -20,7 +20,6 @@ layout: default
 
 * Only running on Linux at the moment
 * Limited built-in objects and methods
-* Programs limited to single file
 * Mixins limited to squish-ins
 * Native Brat methods cannot be overloaded
 * Native Brat methods cannot have variable argument lengths
