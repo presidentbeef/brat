@@ -13,6 +13,7 @@ grammar BaseBrat
 			"var string = @brat.base_string;" <<
 			"var regex = @brat.base_regex;" <<
 			"var symbol = @brat.base_symbol;" <<
+			"var object = this;" <<
 			"this.export = function(object, name) {
 				if(@brat.has_field(name, \"@value\")) {
 					$objset($exports, $hash(name.@value), object);
