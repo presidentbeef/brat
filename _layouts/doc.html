@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<title>Brat Documentation - {{page.object}}</title>
-		<link href="style/main.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="style/doc.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="/brat/style/main.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="/brat/style/doc.css" media="all" rel="stylesheet" type="text/css" />
 	</head>
 
 	<body>
@@ -23,7 +23,7 @@
 					{{page.desc}}
 				</div>
 				<div id="methodlist">
-					{% for meth in page.methlist.sort %}
+					{% for meth in page.methlist %}
 					<a href="#{{meth}}">{{meth}}</a>&nbsp;&nbsp;
 					{% endfor %}
 				</div>
