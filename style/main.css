@@ -88,6 +88,7 @@ a:hover {
 
 ul, ol {
   margin-left: 20px;
+  padding-bottom: 1px;
 }
 
 code {
