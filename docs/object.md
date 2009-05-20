@@ -65,42 +65,42 @@ not _expression_
 Logical not.
 
 ### null?
-null?
-null? _condition_
-null? _condition_, _branch_
-null? _condition_, _nullbranch_, _elsebranch_
+>null?
+>null? _condition_
+>null? _condition_, _branch_
+>null? _condition_, _nullbranch_, _elsebranch_
 
 Checks if the current object is null or if the condition given is null.
 
 ### p
-p ...
+>p ...
 
 Prints out any number of arguments, followed by a new line.
 
 ### print
-print ...
+>print ...
 
 Prints out any number of arguments, but with no new line.
 
 ### squish
-squish _object_
+>squish _object_
 
 Squishes the methods of the given object into the current object.
 
-### to_s
+### to\_s
 
 Returns a string representation of the object.
 
-### true?
-true?
-true? _condition_
-true? _condition_, _branch_
-true? _condition_, _truebranch_, _elsebranch_
+>### true?
+>true?
+>true? _condition_
+>true? _condition_, _branch_
+>true? _condition_, _truebranch_, _elsebranch_
 
 Checks if the current object is true (and anything but null or false will be true) or if the condition given is true.
 
 ### while
-while _block_
-while _condition_, _block_
+>while _block_
+>while _condition_, _block_
 
 In the first form, while will loop the block until the block itself returns false. The second version will loop the block while the condition remains true.
