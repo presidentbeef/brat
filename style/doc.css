@@ -11,6 +11,11 @@ h3 {
   margin-top: 15px;
 }
 
+
+blockquote {
+	background-color: #e0e0e0;
+}
+
 blockquote p {
 	font-family: monospace;
 }
