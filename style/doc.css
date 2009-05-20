@@ -1,0 +1,12 @@
+#methodlist {
+	border: 1px solid #aaa;
+	background-color: #ccc;
+	margin: 10px 0px 10px 0px;
+	padding: 10px;
+}
+
+h3 {
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
