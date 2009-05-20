@@ -30,15 +30,15 @@ Compare two objects.
 Make a clone of an object. This will copy methods from the object into the clone and make the parent of the clone the same as the parent of the cloned object. This is like 'new' in a lot of languages. I think of it as expanding the inheritance tree horizontally.
 
 ### export
-export _item_, _name_
+>export _item_, _name_
 
 Exports the item for use in other modules, accessible via the given name (should be a string). The item can be either an object or a function by itself.
 
 ### false?  
-false?  
-false? _condition_  
-false? _condition_, _branch_  
-false? _condition_, _falsebranch_, _elsebranch_  
+>false?  
+>false? _condition_  
+>false? _condition_, _branch_  
+>false? _condition_, _falsebranch_, _elsebranch_  
 
 ### g
 
@@ -59,7 +59,7 @@ Returns the current object.
 Creates a new object and sets the old object as the new object's parent.
 
 ### not
-not _expression_
+>not _expression_
 
 Logical not.
 
@@ -90,7 +90,7 @@ Squishes the methods of the given object into the current object.
 
 Returns a string representation of the object.
 
->### true?
+### true?
 >true?  
 >true? _condition_  
 >true? _condition_, _branch_  
