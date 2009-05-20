@@ -23,8 +23,7 @@
 					{{page.desc}}
 				</div>
 				<div id="methodlist">
-					{% assign methods = page.methlist.sort %}
-					{% for meth in methods %}
+					{% for meth in page.methlist %}
 					<a href="#{{meth}}">{{meth}}</a>&nbsp;&nbsp;
 					{% endfor %}
 				</div>
