@@ -1,5 +1,6 @@
 ---
 layout: doc
+lib: core
 object: object
 desc: Object is not only the base object for every other object in Brat, it is also the top-level object. These two ideas put together mean you can use any of object's methods anywhere.
 methlist:
@@ -38,7 +39,9 @@ Exports the item for use in other modules, accessible via the given name (should
 >false?  
 >false? _condition_  
 >false? _condition_, _branch_  
->false? _condition_, _falsebranch_, _elsebranch_  
+>false? _condition_, _falsebranch_, _elsebranch_
+
+Checks if the current object is false (null or false will be false) or if the condition given is false.
 
 ### g
 
@@ -46,7 +49,7 @@ Gets a string from standard input, minus the end-of-line character.
 
 ### import
 import _file_  
-import _file_, _name_  
+import _file_, _name_
 
 Imports the exports from a given file. If the name of an object or function is given as a parameter, it will import just the item matching that name.
 
@@ -67,7 +70,7 @@ Logical not.
 >null?  
 >null? _condition_  
 >null? _condition_, _branch_  
->null? _condition_, _nullbranch_, _elsebranch_  
+>null? _condition_, _nullbranch_, _elsebranch_
 
 Checks if the current object is null or if the condition given is null.
 
@@ -94,12 +97,12 @@ Returns a string representation of the object.
 >true?  
 >true? _condition_  
 >true? _condition_, _branch_  
->true? _condition_, _truebranch_, _elsebranch_  
+>true? _condition_, _truebranch_, _elsebranch_
 
 Checks if the current object is true (and anything but null or false will be true) or if the condition given is true.
 
 ### while
 >while _block_  
->while _condition_, _block_  
+>while _condition_, _block_
 
 In the first form, while will loop the block until the block itself returns false. The second version will loop the block while the condition remains true.

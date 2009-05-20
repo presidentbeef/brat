@@ -14,8 +14,14 @@ h3 {
 
 blockquote {
 	background-color: #e0e0e0;
+	margin-bottom: 5px;
 }
 
 blockquote p {
 	font-family: monospace;
+}
+
+#libs {
+	border-top: 1px solid #ccc;
+	padding-top: 5px;
 }
