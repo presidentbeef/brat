@@ -2,10 +2,9 @@
 title: Brat Examples
 layout: default
 ---
+## Examples
 
 Some examples of Brat code.
-
-= The Usual Suspects =
 
 ## Hello, World 
 
@@ -78,9 +77,9 @@ tak = { x, y, z |
 tak 18, 12, 6
 {% endhighlight %}
 
-= Extending Objects =
+## Extending Objects
 
-## Convenience == 
+## Convenience 
 
 {% highlight ruby %}
 array.second = { my[1] }
@@ -138,7 +137,7 @@ reverse_complement = {
 reverse_complement
 {% endhighlight %}
 
-= For Fun =
+## For Fun
 
 ## How are you? 
 
