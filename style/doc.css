@@ -19,6 +19,7 @@ blockquote {
 
 blockquote p {
 	font-family: monospace;
+	padding: 1px;
 }
 
 #libs {

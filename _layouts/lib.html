@@ -20,10 +20,11 @@
 			<div id="body">
 				<h2>{{page.lib}}</h2>
 				<div id="classdesc">
-					{{content}}
+					<p>
+						{{content}}
+					</p>
 				</div>
 				<div id="libs">
-					In this library:
 					<ul>
 						{% for obj in page.objlist %}
 						<li><a href="/brat/docs/{{obj}}.html">{{obj}}</a></li>
