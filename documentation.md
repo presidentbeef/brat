@@ -4,6 +4,12 @@ layout: default
 ---
 ## Documentation
 
+### Information
+
 * [Quickstart](quickstart.html)
 * [Examples](examples.html)
 * [Modules](modules.html)
+
+### Libraries
+
+* [Core](docs/core.html)
