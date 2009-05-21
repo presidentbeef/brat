@@ -20,6 +20,7 @@ methlist:
 - map
 - map_with_index
 - new
+- rest
 - reverse
 - reverse!
 - reverse_each
@@ -64,18 +65,18 @@ Concatenate two arrays.
 Append an object to the array.
 
 ### clone
-clone
-clone _array_
+>clone  
+>clone _array_
 
 Creates a new array object. If given an array as an argument, however, it will create a new array object which shares the same internal array. I have no idea why this might be useful.
 
 ### each
-each { _item_ | _block_ }
+>each { _item_ | _block_ }
 
 Invokes the block for each item in the array.
 
 ### each_with_index
-each { _item_, _index_ | _block_ }
+>each { _item_, _index_ | _block_ }
 
 Invokes the block for each item in the array, passing in the current index as well.
 
@@ -88,18 +89,18 @@ Checks if the array is of length 0.
 Returns the first item in the array.
 
 ### get
-get _index_
-get _startindex_, _endindex_
+>get _index_  
+>get _startindex_, _endindex_
 
 Retrieves values from the array. Indices may be negative, in which case they begin from the end of the array and go backwards.
 
 ### include?
-include? _item_
+>include? _item_
 
 Checks if the array contains the given item.
 
 ### index_of
-index_of _item_
+>index_of _item_
 
 Returns the index of the first item found in the array. If the item is not in the array, returns null.
 
@@ -108,18 +109,22 @@ Returns the index of the first item found in the array. If the item is not in th
 Returns the last item in the array.
 
 ### map
-map { _item_ | _block_ }
+>map { _item_ | _block_ }
 
 Invokes the block for each element in the array and returns a new array containing the results.
 
 ### map_with_index
-map { _item_, _index_ | _block_ }
+>map { _item_, _index_ | _block_ }
 
 Invokes the block for each element in the array, passing in the index as well, and returns a new array containing the results.
 
 ### new
 
 Creates a new array object.
+
+### rest
+
+Returns a copy of the array, minus the first element.
 
 ### reverse
 
@@ -130,16 +135,16 @@ Reverses the array and returns it as a new array (non-destructive).
 The destructive version of reverse.
 
 ### reverse_each
-reverse_each { _item_ | _block_ }
+>reverse_each { _item_ | _block_ }
 
 Invokes block for each item in the array, but starts at the end.
 
 ### rindex_of
-rindex_of _item_
+>rindex_of _item_
 
 Returns the last index of the item found in the array, or null if there is no such item.
 
 ### set
-set _index_, _item_
+>set _index_, _item_
 
 Sets the given index in the array to the given item.
