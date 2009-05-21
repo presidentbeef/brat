@@ -903,7 +903,7 @@ base_number.@equal@equal = function(num) {
 		}
 	}
 	else
-		$throw("Unable to compare number to " + $string(num));
+		base_object.@false();
 }
 
 //Array object
@@ -1123,6 +1123,29 @@ base_array.get = base_array.__get;
 base_hash = new_brat(null, null);
 base_hash.@internal_hash = $hnew(0);
 
+base_hash.@key_value = function(key) {
+	var t = $typeof(key);
+	if(t == $tobject)
+		key;
+	else if(t == $tint || t == $tfloat)
+		base_number.new(key);
+	else if(t == $tstring)
+		base_string.new(key);
+	else if(t == $tbool) {
+		if(key)
+			base_object.@true();
+		else
+			base_object.@false();
+	}
+	else if(t == $tnull)
+		base_object.@null();
+	else if(t == $tarray)
+		make_array(key);
+	else {
+		key;
+	}
+}
+
 base_hash.new = $varargs(function(args) {
 	var hsh = new_brat(this, null);
 	if($asize(args) == 0) {
@@ -1134,7 +1157,6 @@ base_hash.new = $varargs(function(args) {
 	else {
 		throw("Invalid hash initialization:" + $string(args));
 	}
-	hsh.length = function() { $hcount(this.@internal_hash); };
 	hsh;
 });
 
@@ -1177,6 +1199,62 @@ base_hash.key@question = function(index) {
 	if(has_field(index, "@value"))
 		index = index.@value;
 	if($hmem(this.@internal_hash, index, null))
+		base_object.@true();
+	else
+		base_object.@false();
+}
+
+base_hash.each = function(block) {
+	var fun = function(key, value) {
+		block(this.@key_value(key), value);
+	}
+	$hiter(this.@internal_hash, fun);
+	this;
+}
+
+base_hash.delete = function(key) {
+	if(has_field(key, "@value"))
+		key = key.@value;
+
+	$hremove(this.@internal_hash, key, null);
+	this;
+}
+
+base_hash.length = function() {
+	base_number.new($hcount(this.@internal_hash));
+}
+
+base_hash.select = function(block) {
+	var res = $hnew(5);
+	var test = function(key, value) { 
+		if(istrue(block(this.@key_value(key), value)))
+			$hset(res, key, value, null);
+	}
+	$hiter(this.@internal_hash, test);
+	make_hash(res);
+}
+
+base_hash.map = function(block) {
+	var res = $amake($hcount(this.@internal_hash));
+	var i = 0;
+	var fun = function(key, value) {
+		var tk = this.@key_value(key)l
+		res[i] = block(tk, value);
+		i = i + 1;
+	}
+	$hiter(this.@internal_hash, fun);
+	make_array(res);
+}
+
+base_hash.keys = function() {
+	var fun = function(key, value) {
+		base_hash.@key_value(key);
+	}
+	this.map(fun);
+}
+
+base_hash.empty@question = function() {
+	if($hcount(this.@internal_hash) == 0)
 		base_object.@true();
 	else
 		base_object.@false();

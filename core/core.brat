@@ -114,7 +114,6 @@ array.each_with_index = { block |
 
 array.empty? = { my.length == 0 }
 
-
 array.include? = { item |
 	true? my.empty?, 
 		{ false },

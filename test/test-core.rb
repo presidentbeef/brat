@@ -101,4 +101,39 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "2", 'a = new; b = new; a.a = { x | x + 1}; b.squish a;a.a = "hi";b.a 1'
 		assert_result "[2,1]", 'a = new; b = new; a.a = [1,2]; b.squish a; a.a.reverse!;b.a'
 	end
+
+	def test_hash_key?
+		assert_result "true", 'a = ["a" : 1]; a.key? "a"'
+		assert_result "false", 'a = ["a" : 1]; a.key? 1'
+	end
+
+	def test_hash_each
+		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each { key, val | b << val << key }; b.length == 6 && (b.include? 4) && (b.include? 2) && (b.include? 1)'
+	end
+
+	def test_hash_map
+		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = []; b = a.map { key, val | val}; b.length == 3 && (b.include? 4) && (b.include? 2) && (b.include? 1)'
+	end
+
+	def test_hash_delete
+		assert_result 'false', 'a = ["a" : 1, "b" : 2, 3 : 4]; a.delete "a"; a.key? "a"'
+	end
+
+	def test_hash_length
+		assert_result '3', 'a = ["a" : 1, "b" : 2, 3 : 4]; a.length'
+	end
+
+	def test_hash_select
+		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select { key, val | val > 1 }; b.key?("b") && (b.length == 2)'
+	end
+
+	def test_hash_keys
+		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; a.keys.include?("a") && (a.keys.length == 3)'
+	end
+
+	def test_hash_empty?
+		assert_result 'false', 'a = ["a" : 1, "b" : 2, 3 : 4]; a.empty?'
+		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select {k,v| v == 5 }; b.empty?'
+	end
+
 end
