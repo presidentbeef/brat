@@ -4,9 +4,8 @@ lib: core
 object: array
 desc: Array is an ordered list which will resize dynamically. They can be as heterogenous as you would like. Arrays in Brat are zero-based. Arrays also squish in methods from enumerable.
 methlist:
-- ==
-- +
-- <<
+- "=="
+- "+"
 - clone
 - each
 - each_with_index
