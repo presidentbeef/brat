@@ -52,8 +52,8 @@ Note that negative indices are allowed, and that ranges are inclusive.
 
 Compare two arrays.
 
-### +
->+ _array_
+### \+
+>\+ _array_
 
 Concatenate two arrays.
 
@@ -73,8 +73,8 @@ Creates a new array object. If given an array as an argument, however, it will c
 
 Invokes the block for each item in the array.
 
-### each_with_index
->each { _item_, _index_ | _block_ }
+### each\_with\_index
+>each\_\with\_index { _item_, _index_ | _block_ }
 
 Invokes the block for each item in the array, passing in the current index as well.
 
@@ -97,8 +97,8 @@ Retrieves values from the array. Indices may be negative, in which case they beg
 
 Checks if the array contains the given item.
 
-### index_of
->index_of _item_
+### index\_of
+>index\_of _item_
 
 Returns the index of the first item found in the array. If the item is not in the array, returns null.
 
@@ -111,8 +111,8 @@ Returns the last item in the array.
 
 Invokes the block for each element in the array and returns a new array containing the results.
 
-### map_with_index
->map { _item_, _index_ | _block_ }
+### map\_with\_index
+>map\_with\_index { _item_, _index_ | _block_ }
 
 Invokes the block for each element in the array, passing in the index as well, and returns a new array containing the results.
 
@@ -132,13 +132,13 @@ Reverses the array and returns it as a new array (non-destructive).
 
 The destructive version of reverse.
 
-### reverse_each
->reverse_each { _item_ | _block_ }
+### reverse\_each
+>reverse\_each { _item_ | _block_ }
 
 Invokes block for each item in the array, but starts at the end.
 
-### rindex_of
->rindex_of _item_
+### rindex\_of
+>rindex\_of _item_
 
 Returns the last index of the item found in the array, or null if there is no such item.
 
