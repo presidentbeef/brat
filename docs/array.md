@@ -49,7 +49,6 @@ a[5] = 4  #a is now [1,2,3,null,4]
 Note that negative indices are allowed, and that ranges are inclusive.
 
 ### ==
->== _array_
 
 Compare two arrays.
 
