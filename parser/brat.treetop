@@ -138,6 +138,7 @@ grammar BaseBrat
   rule hash
   	"[" spaceorbreak hash_inner spaceorbreak "]" {
 		def brat
+
 			output = hash_inner.brat
 			@result = hash_inner.result
 			output
@@ -228,7 +229,6 @@ grammar BaseBrat
   #Retrieving value via index (e.g., "a[1]")
   rule index_get
   	e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
-
 		def brat
 			output = e.brat
 			last = e.result
@@ -659,6 +659,14 @@ grammar BaseBrat
 				next_temp
 				output << "var #@result = " << call_method(last, meth, args.array, args.length) << ";"
 				last = @result
+				if not elem.e.a.elements.empty?
+					elem.e.a.elements.each do |ele|
+						output << ele.inner_arg_list.brat
+						next_temp
+						output << "var #@result = #{last}.__get(#{ele.inner_arg_list.list});"
+						last = @result
+					end
+				end
 			end
 			output
 		end
@@ -699,7 +707,7 @@ grammar BaseBrat
 	}
 	/
 	a:array a_rest:(array+) {
-		def brat
+		def brat 
 			output = a.brat
 			last = a.result
 			a_rest.elements.each do |elem|
@@ -713,7 +721,11 @@ grammar BaseBrat
 		end
 	}
 	/
-	method_target_expression
+	method_target_expression {
+		def brat
+			super
+		end
+	}
   end
 
   #Matches the "don't execute this" operator ("->") which just returns the method

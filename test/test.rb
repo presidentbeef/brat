@@ -404,6 +404,8 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_chained_method
 		assert_result "4", "x = new; x.y = new; x.y.z = new; x.y.z.z = {r| r}; x.y.z.z 4"
+		assert_result "4", "x = new; x.y = new; x.y.z = [1,2,3]; x.y.z[1].+ 2"
+		assert_result "2", "x = new; x.y = new; x.y.z = [1,2,3]; x.y.z[1]"
 	end
 
 	def test_method_access
