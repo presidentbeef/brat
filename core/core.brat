@@ -38,61 +38,77 @@ array.squish object.enumerable
 
 array.first = { my[0] }
 array.rest = { my[1,-1] }
+array.last = { my[-1] }
 
 array.map = { block |
-	index = 0
-	length = my.length
 	new_ary = []
-	while {
-		new_ary << block(my[index])
-		index = index + 1
-		index < length
-	}
+	false? my.empty?, 
+		{
+			index = 0
+			length = my.length
+			while {
+				new_ary << block(my[index])
+				index = index + 1
+				index < length
+			}
+		}
 	new_ary
 }
 
 array.map_with_index = { block |
-	index = 0
-	length = my.length
 	new_ary = []
-	while {
-		new_ary << block(my[index], index)
-		index = index + 1
-		index < length
-	}
+	false? my.empty?, 
+		{ 
+			index = 0
+			length = my.length
+			while {
+				new_ary << block(my[index], index)
+				index = index + 1
+				index < length
+			}
+		}
 	new_ary
 }
 
 array.each = { block |
-	index = 0
-	length = my.length
-	while {
-		block my[index]
-		index = index + 1
-		index < length
-	}
+	false? my.empty?, 
+		{
+			index = 0
+			length = my.length
+			while {
+				block my[index]
+				index = index + 1
+				index < length
+			}
+		}
 	my
 }
 
 array.reverse_each = { block |
-	index = my.length
-	length = my.length
-	while {
-		index = index - 1
-		block my[index]
-		index > 0
-	}
+	false? my.empty?, 
+		{
+			index = my.length
+			length = my.length
+			while {
+				index = index - 1
+				block my[index]
+				index > 0
+			}
+		}
 	my
 }
 
 array.each_with_index = { block |
-	index = 0
-	length = my.length
-	while {
-		block my[index], index
-		index = index + 1
-		index < length
-	}
+	false? my.empty?, 
+		{
+			index = 0
+			length = my.length
+			while {
+				block my[index], index
+				index = index + 1
+				index < length
+			}
+		}
 	my
 }
 
@@ -100,47 +116,62 @@ array.empty? = { my.length == 0 }
 
 
 array.include? = { item |
-	found = false
-	index = 0
-	length = my.length
-	while {
-		found = (my[index] == item)
-		index = index + 1
-		not(found) && { index < length }
-	}
-	found
+	true? my.empty?, 
+		{ false },
+		{ 
+			found = false
+			index = 0
+			length = my.length
+			while {
+				found = (my[index] == item)
+				index = index + 1
+				not(found) && { index < length }
+			}
+			found
+		}
 }
 
 array.index_of = { item |
-	found = false
-	index = 0
-	length = my.length
-	while {
-		found = my[index] == item
-		index = index + 1
-		not(found) && { index < length }
-	}
-	true? found, index, null
+	true? my.empty?, 
+		{ null },
+		{ 
+			found = false
+			index = 0
+			length = my.length
+			while {
+				found = my[index] == item
+				index = index + 1
+				not(found) && { index < length }
+			}
+			true? found, index, null
+		}
 }
 
 array.rindex_of = { item |
-	found = false
-	index = my.length
-	while {
-		index = index - 1
-		found = my[index] == item
-		not(found) && { index > 0 }
-	}
-	true? found, index, null
+	true? my.empty?, 
+		{ null },
+		{ 
+			found = false
+			index = my.length
+			while {
+				index = index - 1
+				found = my[index] == item
+				not(found) && { index > 0 }
+			}
+			true? found, index, null
+		}
 }
 
 number.times = { block |
-	n = 0
-	while {
-		block
-		n = n + 1
-		n < my
-	}	
+	true? my > 0,
+		{
+			n = 0
+			while {
+				block
+				n = n + 1
+				n < my
+			}	
+		}
 	my
 }
 
