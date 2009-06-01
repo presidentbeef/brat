@@ -74,7 +74,7 @@ Creates a new array object. If given an array as an argument, however, it will c
 Invokes the block for each item in the array.
 
 ### each\_with\_index
->each\_\with\_index { _item_, _index_ | _block_ }
+>each\_with\_index { _item_, _index_ | _block_ }
 
 Invokes the block for each item in the array, passing in the current index as well.
 
