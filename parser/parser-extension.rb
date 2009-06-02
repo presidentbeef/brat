@@ -60,13 +60,13 @@ class Treetop::Runtime::SyntaxNode
 					$objcall(#{temp}, $hash("#{method}"), #{arguments});
 				}	
 				else
-					$throw("Wrong number of arguments for " + $string(#{object}) + ".#{method}: should be " + $string(arg_len) + " but given #{arg_length}");
+					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ".#{method}: should be " + $string(arg_len) + " but given #{arg_length}");
 			}
 			else if(@brat.has_field(#{temp}, "@#{arg_length}_#{method}")) {
 				$objcall(#{temp}, $hash("@#{arg_length}_#{method}"), #{arguments});
 			}
 			else {
-				$throw("Invoking undefined method #{method} on " + $string(#{object}) + "\\n");
+				$throw("Invoking undefined method #{method} on " + @brat.nice_identifier("#{object}"));
 			}
 		}
 		NEKO
@@ -83,24 +83,24 @@ class Treetop::Runtime::SyntaxNode
 		 		#{call_method("this", "@#{arg_length}_#{object}", arguments, arg_length)}
 			else
 			{
-				$throw("Trying to invoke null method: #{object}\\n");
+				$throw("Trying to invoke null method: " + @brat.nice_identifier("#{object}"));
 			}
 		} else {
 			if($typeof(#{temp}) == $tfunction) {
 
 				if(#{temp} == null) {
-					$throw("Could not invoke null method.");
+					$throw("Could not invoke null method: " + @brat.nice_identifier("#{object}"));
 				}
 			
 				var arg_len = $nargs(#{temp});
 				if(arg_len == -1 || arg_len == #{arg_length})
 					$call(#{temp}, this, #{arguments});
 				else
-					$throw("Wrong number of arguments for #{object}. Expected " + $string(arg_len) + " but given #{arg_length}");
+					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ". Expected " + $string(arg_len) + " but given #{arg_length}");
 			}
 		NEKO
 		if arg_length > 0
-			output << "else { $throw(\"Tried to invoke non-method: #{object}\\n\"); }}"
+			output << "else { $throw(\"Tried to invoke non-method: \" + @brat.nice_identifier(\"#{object}\")); }}"
 		else
 			output << "else { #{temp}; }}"
 		end
@@ -117,7 +117,7 @@ class Treetop::Runtime::SyntaxNode
 				if(arg_len == -1 || arg_len == #{arg_length})
 					#@result(#{arguments});
 				else
-					$throw("Wrong number of arguments for #{object}. Expected " + $string(arg_len) + " but given #{arg_length}");
+					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ". Expected " + $string(arg_len) + " but given #{arg_length}");
 			}
 			else if(@brat.has_field(this, "@#{arg_length}_#{object}")) {
 				#@result = $objget(this, $hash("@#{arg_length}_#{object}"));
@@ -125,23 +125,23 @@ class Treetop::Runtime::SyntaxNode
 			}
 			else
 			{
-				$throw("Trying to invoke null method: #{object}\\n");
+				$throw("Trying to invoke null method: " + @brat.nice_identifier("#{object}"));
 			}
 		} else {
 			if($typeof(#{temp}) == $tfunction) {
 
 				if(#{temp} == null) {
-					$throw("Could not invoke null method.");
+					$throw("Could not invoke null method:" + @brat.nice_identifier("#{object}"));
 				}
 			
 				var arg_len = $nargs(#{temp});
 				if(arg_len == -1 || arg_len == #{arg_length})
 					#{temp}(#{arguments});
 				else
-					$throw("Wrong number of arguments for #{object}. Expected " + $string(arg_len) + " but given #{arg_length}");
+					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ". Expected " + $string(arg_len) + " but given #{arg_length}");
 			}
 			else if(#{arg_length != 0 ? "true" : "false"}) {
-				$throw("Tried to invoke non-method: #{object}\\n");
+				$throw("Tried to invoke non-method: " + @brat.nice_identifier("#{object}"));
 			}
 			else { 
 				#{temp}; 
@@ -156,14 +156,14 @@ class Treetop::Runtime::SyntaxNode
 		temp = var_exist?(method) || method
 		<<-NEKO
 		if(#{temp} == null) {
-			$throw("Could not invoke null method.");
+			$throw("Could not invoke null method:" + @brat.nice_identifier("#{method}"));
 		}
 		else {
 			var arg_len = $nargs(#{temp});
 			if(arg_len == -1 || arg_len == #{arg_length})
 				#{temp}(#{arguments});
 			else
-				$throw("Wrong number of arguments for " + $string(#{method}) + ". Expected " + $string(arg_len) + " but given #{arg_length}\\n");
+				$throw("Wrong number of arguments for " + @brat.nice_identifier("#{method}") + ". Expected " + $string(arg_len) + " but given #{arg_length}.");
 		}
 		NEKO
 	end
