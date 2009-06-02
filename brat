@@ -261,7 +261,7 @@ $program_path = File.dirname(File.expand_path(__FILE__))
 ENV['LD_LIBRARY_PATH'] ||= ""
 ENV['LD_LIBRARY_PATH'] += ":#$program_path/lib/:" << Dir.pwd
 ENV['NEKOPATH'] ||= ""
-ENV['NEKOPATH'] += ":#$program_path/lib/:#$program_path/core/:" << Dir.pwd
+ENV['NEKOPATH'] += ":#$program_path/lib/:#$program_path/core/:#$program_path/stdlib/:" << Dir.pwd
 ENV['PATH'] ||= ""
 ENV['PATH'] += ":#$program_path/bin/:" << Dir.pwd
 
