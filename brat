@@ -156,6 +156,9 @@ def brat_interactive
 		elsif stripped == "quit" or stripped == "exit"
 			brat_console.print "!quit\n\1"
 			exit
+		elsif stripped == "restart"
+			brat_console.print "!quit\n\1"
+			exec "brat"
 		end
 
 		begin
@@ -246,7 +249,6 @@ Possible options:
 -f    Ignore existing .n file
 -h    Show this help
 -k    Don't erase intermediate files (implies -f)
--s    Create standalone executable
 -t    Benchmark code
 -w    Start Neko web server in current directory
 	END
