@@ -10,6 +10,15 @@ methlist:
 - select
 ---
 
+## Usage
+
+Because enumerable needs to be used in the core, but is not generally going to be used everywhere,
+it needs to be imported via
+
+{% highlight ruby %}
+enumerable = import "core", "enumerable"
+{% endhighlight %}
+
 ### any?
 >any? { _obj_ | _block_ }
 

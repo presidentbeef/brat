@@ -7,11 +7,16 @@ methlist:
 - "=="
 - "&&"
 - "||"
+- add_method
 - clone
+- del_method
 - export
 - false?
 - g
+- get_method
 - import
+- local_methods
+- methods
 - my
 - new
 - not
@@ -36,9 +41,19 @@ Logical 'and'.
 
 Logical 'or'.
 
+### add\_method
+>add\_method _name_, _block_
+
+Adds a new method to the object. Name can be a symbol or a string.
+
 ### clone
 
 Make a clone of an object. This will copy methods from the object into the clone and make the parent of the clone the same as the parent of the cloned object. This is like 'new' in a lot of languages. I think of it as expanding the inheritance tree horizontally.
+
+### del\_method
+>del\_method _name_
+
+Deletes the method with the given name, if it exists. Note that this only deletes methods on this _exact_ object - not parent objects.
 
 ### export
 >export _item_, _name_
@@ -57,11 +72,24 @@ Checks if the current object is false (null or false will be false) or if the co
 
 Gets a string from standard input, minus the end-of-line character.
 
+### get\_method
+>get\_method _name_
+
+Returns the method with the given name (can be a string or a symbol).
+
 ### import
 import _file_  
 import _file_, _name_
 
 Imports the exports from a given file. If the name of an object or function is given as a parameter, it will import just the item matching that name.
+
+### local\_methods
+
+Returns an array containing the names of the methods available on the object, not including those inherited from parent objects.
+
+### methods
+
+Returns an array containing the names of the methods available on the object, including those inherited from parent objects.
 
 ### my
 
