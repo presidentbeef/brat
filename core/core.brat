@@ -1,5 +1,6 @@
-object.enumerable = object.new
-object.enumerable.any? = { block |
+enumerable = new
+
+enumerable.any? = { block |
 	flag = false
 	my.each { o |
 		false? flag, 
@@ -8,7 +9,7 @@ object.enumerable.any? = { block |
 	flag
 }
 
-object.enumerable.all? = { block |
+enumerable.all? = { block |
 	flag = true
 	my.each { o |
 		true? flag, 
@@ -17,7 +18,7 @@ object.enumerable.all? = { block |
 	flag
 }
 
-object.enumerable.find = { block |
+enumerable.find = { block |
 	found = null
 	my.each { o |
 		null? found,
@@ -26,7 +27,7 @@ object.enumerable.find = { block |
 	found
 }
 
-object.enumerable.select = { block |
+enumerable.select = { block |
 	new_ary = []
 	my.each { i |
 		true? block(i), { new_ary << i }
@@ -34,7 +35,9 @@ object.enumerable.select = { block |
 	new_ary
 }
 
-array.squish object.enumerable
+export enumerable, "enumerable"
+
+array.squish enumerable
 
 array.first = { my[0] }
 array.rest = { my[1,-1] }

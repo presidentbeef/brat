@@ -1,12 +1,1 @@
-a = ["a" : 1, "b" : 2, 3 : 4]
-b = a.select { key, val | p val; val > 1 }
-b.key?("b")
-p b
-b.length == 2
-
-/*
-a = ["a" : 1, "b" : 2, 3 : 4]; 
-b = []; 
-a.each { key, val | b << val << key };
-b.length == 6 && (b.include? 4) && (b.include? 2) && (b.include? 1)
-*/
+a

@@ -1752,4 +1752,4 @@ $exports.base_regex = base_regex;
 $exports.base_symbol = base_symbol;
 $exports.num_args = num_args;
 $exports.memstats = memstats;
-$exports.from_identifier = from_identifier;
+$exports.nice_identifier = from_identifier;

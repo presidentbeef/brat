@@ -41,6 +41,14 @@ grammar BaseBrat
 			var regex = @brat.base_regex;
 			var symbol = @brat.base_symbol;
 			var object = @brat.base_object;
+			this = @brat.base_object;
+			export = function(object, name) {
+				if(@brat.has_field(name, "@value")) {
+					$objset($exports, $hash(name.@value), object);
+				}
+			else
+				$throw("Import expects a string, not " + $string(name));
+			}
 			#{inner_brat}
 			$exports.has_field = @brat.has_field;
 			$exports.hset = @brat.hset;
@@ -54,7 +62,7 @@ grammar BaseBrat
 			$exports.base_regex = regex;
 			$exports.base_symbol = symbol;
 			$exports.num_args = @brat.num_args;
-			$exports.nice_identifier = @brat.from_identifier;
+			$exports.nice_identifier = @brat.nice_identifier;
 			NEKO
 		end
 	}
