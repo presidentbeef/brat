@@ -10,7 +10,7 @@ methlist:
 - select
 ---
 
-## Usage
+### Usage
 
 Because enumerable needs to be used in the core, but is not generally going to be used everywhere,
 it needs to be imported via
