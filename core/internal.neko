@@ -531,11 +531,10 @@ base_object.del@undermethod = function(name) {
 }
 
 base_object.get@undermethod = function(name) {
-	name = to_identifier(name);
-	var m = $objget(this, $hash(name));
+	var m = $objget(this, $hash(to_identifier(name)));
 
 	if(m == null) {
-		var proto = $objgetproto(object);
+		var proto = $objgetproto(this);
         	if(proto == null) {
 			base_object.@null();
         	}
@@ -1631,7 +1630,7 @@ base_symbol.new = function(sym_string) {
 	if($typeof(sym_string) == $tobject && has_field(sym_string, "@value"))
 		sym_string = sym_string.@value;
 	if($typeof(sym_string) == $tstring)
-		sym_string = $hash(sym_string);
+		sym_string = $hash(to_identifier(sym_string));
 	else
 		$throw("Must create new symbol with using a string or a symbol, not " + $string(sym_string));
 
@@ -1703,8 +1702,9 @@ to_identifier = function(string) {
 	if($typeof(string) == $tobject && has_field(string, "@value")) {
 		string = string.@value;
 	}
+	//String was a symbol, already escaped
 	if($typeof(string) == $tint) {
-		string = $field(this.@value);
+		return $field(string);
 	}
 	if($typeof(string) != $tstring)
 		$throw("Cannot convert " + $string(string) + " to an identifier.");

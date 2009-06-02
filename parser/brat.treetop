@@ -442,7 +442,7 @@ grammar BaseBrat
 	"'" id:(identifier / operator / number)+ {
 		def brat
 			next_temp
-			"var #@result = symbol.new(\"#{id.elements.map { |m| m.brat }.join}\");"
+			"var #@result = symbol.new(\"#{id.elements.map { |m| m.text_value }.join}\");"
 		end
 	} 
   end
