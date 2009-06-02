@@ -67,10 +67,15 @@ base_object.to@unders = function() {
 	var length = $asize(fields);
 	var vals = $hnew(length);
 	var cur_field;
+	var name;
+	var first;
 	var output = "#object {"
 	while index < length {
 		cur_field = fields[index];
-		output = output + " " + $field(cur_field);
+		name = from_identifier($field(cur_field))
+		first = $ssub(name, 0, 1);
+		if(first != "@" && first != "_")
+			output = output + " " + name;
 		index = index + 1;
 	} 
 	base_string.new(output + " }");
