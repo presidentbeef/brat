@@ -13,3 +13,4 @@ layout: default
 ### Libraries
 
 * [Core](docs/core.html)
+* [File](docs/file.html)
