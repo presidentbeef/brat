@@ -1433,7 +1433,7 @@ base_string.__get = $varargs(function(args) {
 			$throw("Cannot index string with non-number value.");
 
 		var index = args[0].@nvalue();
-		if(index > len || index < -len) {
+		if(index >= len || index < -len) {
 			this.clone("");
 		}
 		else if(index >= 0) {
