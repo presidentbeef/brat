@@ -1155,9 +1155,12 @@ base_array.@to_s = function() {
 
 		i += 1;
 	}
-	temp;
+	$string(temp);
 }
 
+base_array.to@unders = function() {
+	base_string.new(this.@to_s());
+}
 
 base_array.reverse = function() {
 	var index = 0;
