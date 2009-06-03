@@ -15,11 +15,11 @@ h3 {
 blockquote {
 	background-color: #e0e0e0;
 	margin-bottom: 5px;
+	padding: 2px;
 }
 
 blockquote p {
 	font-family: monospace;
-	padding: 1px;
 }
 
 #libs {
