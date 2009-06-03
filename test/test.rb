@@ -4,6 +4,7 @@ require 'treetop'
 require 'test/test-ext'
 require 'test/test-examples'
 require 'test/test-core'
+require 'test/test-stdlib'
 
 Treetop.load 'parser/brat'
 
@@ -12,7 +13,7 @@ require 'parser/parser-extension'
 ENV['LD_LIBRARY_PATH'] ||= "" 
 ENV['LD_LIBRARY_PATH'] = ENV['LD_LIBRARY_PATH'] + ":#{Dir.pwd}/lib/"
 ENV['NEKOPATH'] ||= ""
-ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/:#{Dir.pwd}/core/"
+ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/:#{Dir.pwd}/core/:#{Dir.pwd}/stdlib/"
 ENV['PATH'] ||= ""
 ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 
