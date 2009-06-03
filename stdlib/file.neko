@@ -1,0 +1,28 @@
+var @brat = $loader.loadmodule("internal", $loader);
+
+var file_exists = $loader.loadprim("std@sys_exists", 1);
+file@underexists@question = function(path) {
+	if(@brat.has_field(path, "@value"))
+		path = path.@value;
+	if($typeof(path) != $tstring)
+		$throw("Expected string for file_exists?, was given " + $string(path));
+
+	if(file_exists(path))
+		@brat.base_object.@true();
+	else
+		@brat.base_object.@false();
+}
+
+var file_delete = $loader.loadprim("std@file_delete", 1);
+file@underdelete = function(path) {
+	if(file@underexists@question(path) == @brat.base_object.@true()) {
+		file_delete(path.@value);
+		@brat.base_object.@true();
+	}
+	else {
+		@brat.base_object.@false();
+	}
+}
+
+$exports.file@underexists@question = file@underexists@question;
+$exports.file@underdelete = file@underdelete;

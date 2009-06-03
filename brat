@@ -42,6 +42,23 @@ def compile_core force = false
 	end
 end
 
+#Compiles stdlibs if needed. Returns false if compilation does not occur.
+#Note: Unlike the other compile methods, this method does not check freshness.
+def compile_stdlib force = false
+	neko_files = Dir.glob "#$program_path/stdlib/*.neko"
+	compiled_files = Dir.glob "#$program_path/stdlib/*.n"
+
+	if neko_files.length != compiled_files.length
+		neko_files.each do |f|
+			if not File.exist? f[0..-4]
+				system "nekoc #{f}"
+			end
+		end
+	else
+		false
+	end
+end
+
 #Parses Brat input and returns Neko code from the parser.
 def brat_to_neko input
 	parser = BaseBratParser.new
@@ -59,7 +76,7 @@ def newer? file1, file2
 end
 
 #Compiles and runs code from a single Brat file
-def brat file_name, keep_intermediate = false, force = false
+def brat orig_file_name, keep_intermediate = false, force = false
 	require 'rubygems'
 	require 'treetop'
 	new_parser = compile_parser(force)
@@ -68,17 +85,25 @@ def brat file_name, keep_intermediate = false, force = false
 
 	new_internal = compile_brat_internal(force) 
 	new_core = compile_core(force)
-	force = force || new_parser || new_internal || new_core
+	new_stdlib = compile_stdlib(force)
+	force = force || new_parser || new_internal || new_core || new_stdlib
 
-	if not File.exist?(file_name + ".n") or newer? file_name, file_name + ".n" or force
-		if not File.exist? file_name + ".neko" or newer? file_name, file_name + ".neko" or force
-			brat_input = File.read file_name
+	if orig_file_name.match /\.brat$/i
+		file_name = orig_file_name[0..-6]
+	else
+		file_name = orig_file_name
+	end
+
+	if not File.exist?(file_name + ".n") or newer? orig_file_name, file_name + ".n" or force
+		if not File.exist? file_name + ".neko" or newer? orig_file_name, file_name + ".neko" or force
+			brat_input = File.read orig_file_name
 			begin
 				neko = brat_to_neko brat_input
 			rescue RuntimeError => e
 				puts e
 				exit
 			end
+
 			File.open(file_name + ".neko", "w") {|f| f.puts neko }
 		end
 
@@ -118,6 +143,7 @@ def brat_interactive
 	require "#$program_path/parser/parser-extension"
 	
 	compile_core
+	compile_stdlib
 	$interactive = true
 
 	brat_console = IO.popen "#$program_path/bin/neko_console", "r+"
