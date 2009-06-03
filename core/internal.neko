@@ -469,7 +469,7 @@ base_object.when = $varargs(function(args) {
 base_object.import = $varargs(function(args) {
 	if($asize(args) == 1) {
 		if(has_field(args[0], "@value")) {
-			var m = $loader.loadmodule(args[0].@value, $loader);
+			var m = $loader.loadmodule(to_identifier(args[0].@value), $loader);
 			var imp = base_object.new();
 			var f = $objfields(m);
 			var fs = $asize(f);
@@ -495,9 +495,9 @@ base_object.import = $varargs(function(args) {
 	else if($asize(args) == 2) {
 		if(has_field(args[0], "@value") && has_field(args[1], "@value")) {
 			var m = $loader.loadmodule(args[0].@value, $loader);
-
-			if($objfield(m, $hash(args[1].@value))) {
-				$objget(m, $hash(args[1].@value));
+			var name = $hash(to_identifier(args[1].@value));
+			if($objfield(m, name)) {
+				$objget(m, name);
 			}
 			else
 				$throw("Module " + args[0].@value + " does not have an export named " + args[1].@value);
@@ -511,7 +511,7 @@ base_object.import = $varargs(function(args) {
 
 base_object.export = function(object, name) {
 	if(has_field(name, "@value")) {
-		$objset($exports, $hash(name.@value), object);
+		$objset($exports, $hash(to_identifier(name.@value)), object);
 	}
 	else
 		$throw("Import expects a string, not " + $string(name));
@@ -1753,3 +1753,4 @@ $exports.base_symbol = base_symbol;
 $exports.num_args = num_args;
 $exports.memstats = memstats;
 $exports.nice_identifier = from_identifier;
+$exports.to_identifier = to_identifier;
