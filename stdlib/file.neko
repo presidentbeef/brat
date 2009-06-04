@@ -1,0 +1,80 @@
+var @brat = $loader.loadmodule("internal", $loader);
+
+var file_exists = $loader.loadprim("std@sys_exists", 1);
+file@underexists@question = function(path) {
+	if(@brat.has_field(path, "@value"))
+		path = path.@value;
+	if($typeof(path) != $tstring)
+		$throw("Expected string for file_exists?, was given " + $string(path));
+
+	if(file_exists(path))
+		@brat.base_object.@true();
+	else
+		@brat.base_object.@false();
+}
+
+var file_delete = $loader.loadprim("std@file_delete", 1);
+file@underdelete = function(path) {
+	if(file@underexists@question(path) == @brat.base_object.@true()) {
+		file_delete(path.@value);
+		@brat.base_object.@true();
+	}
+	else {
+		@brat.base_object.@false();
+	}
+}
+
+var file_rename = $loader.loadprim("std@sys_rename", 2);
+file@underrename = function(opath, npath) {
+	if(file@underexists@question(opath) == @brat.base_object.@true()) {
+		file_rename(opath.@value, npath.@value);
+		@brat.base_object.@true();
+	}
+	else {
+		@brat.base_object.@false();
+	}
+}
+
+var create_dir = $loader.loadprim("std@sys_create_dir", 2);
+make@underdir = function(path) {
+	if(@brat.has_field(path, "@value"))
+		path = path.@value;
+	if($typeof(path) != $tstring)
+		$throw("Expected string for make_dir, was given " + $string(path));
+
+	create_dir(path, 755);
+	@brat.base_object.@null();
+}
+
+var delete_dir = $loader.loadprim("std@sys_remove_dir", 1);
+delete@underdir = function(path) {
+	if(file@underexists@question(path) == @brat.base_object.@true()) {
+		delete_dir(path.@value);
+		@brat.base_object.@true();
+	}
+	else {
+		@brat.base_object.@false();
+	}
+}
+
+var file_type = $loader.loadprim("std@sys_file_type", 1);
+file@undertype = function(path) {
+	if(@brat.has_field(path, "@value"))
+		path = path.@value;
+	if($typeof(path) != $tstring)
+		$throw("Expected string for file_type, was given " + $string(path));
+
+	if(file_exists(path)) {
+		@brat.base_string.new(file_type(path));
+	}
+	else {
+		@brat.base_object.@null();
+	}
+}
+
+$exports.file@underexists@question = file@underexists@question;
+$exports.file@underdelete = file@underdelete;
+$exports.file@underrename = file@underrename;
+$exports.make@underdir = make@underdir;
+$exports.delete@underdir = delete@underdir;
+$exports.file@undertype = file@undertype;

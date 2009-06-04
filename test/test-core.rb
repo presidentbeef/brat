@@ -136,4 +136,20 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select {k,v| v == 5 }; b.empty?'
 	end
 
+	def test_object_get_method
+		assert_result "that", 'a = new; a.what?! = { "that" }; c = a.get_method \'what?!; c'
+		assert_result "that", 'a = new; a.what?! = { "that" }; c = a.get_method "what?!"; c'
+		assert_result "that", 'a = new; a.what?! = { "that" }; w = \'what?!; c = a.get_method w; c'
+		assert_result "that", 'a = new; a.what?! = { "that" }; b = a.new; w = \'what?!; c = b.get_method w; c'
+	end
+
+	def test_object_add_method
+		assert_result "that", 'a = new; a.add_method "what?!", { "that" }; a.what?!'
+		assert_result "that", 'a = new; a.add_method \'what?!, { "that" }; b = a.new; b.what?!'
+	end
+
+	def test_object_del_method
+		assert_result "null", 'a = new; a.what?! = { "what" }; a.del_method "what?!";a.get_method "what?!"'
+		assert_result "what", 'a = new; a.what?! = { "what" }; b = a.new; b.del_method "what?!";b.what?!'
+	end
 end

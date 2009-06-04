@@ -15,8 +15,8 @@ grammar BaseBrat
 			"var symbol = @brat.base_symbol;" <<
 			"var object = this;" <<
 			"this.export = function(object, name) {
-				if(@brat.has_field(name, \"@value\")) {
-					$objset($exports, $hash(name.@value), object);
+				if(@brat.has_field(name, \"@value\")) { 
+					$objset($exports, $hash(@brat.to_identifier(name.@value)), object);
 				}
 			else
 				$throw(\"Import expects a string, not \" + $string(name));
@@ -41,6 +41,14 @@ grammar BaseBrat
 			var regex = @brat.base_regex;
 			var symbol = @brat.base_symbol;
 			var object = @brat.base_object;
+			this = @brat.base_object;
+			export = function(object, name) {
+				if(@brat.has_field(name, "@value")) {
+					$objset($exports, $hash(@brat.nice_identifier(name.@value)), object);
+				}
+			else
+				$throw("Import expects a string, not " + $string(name));
+			}
 			#{inner_brat}
 			$exports.has_field = @brat.has_field;
 			$exports.hset = @brat.hset;
@@ -54,6 +62,8 @@ grammar BaseBrat
 			$exports.base_regex = regex;
 			$exports.base_symbol = symbol;
 			$exports.num_args = @brat.num_args;
+			$exports.nice_identifier = @brat.nice_identifier;
+			$exports.to_identifier = @brat.to_identifier;
 			NEKO
 		end
 	}
@@ -433,7 +443,7 @@ grammar BaseBrat
 	"'" id:(identifier / operator / number)+ {
 		def brat
 			next_temp
-			"var #@result = symbol.new(\"#{id.elements.map { |m| m.brat }.join}\");"
+			"var #@result = symbol.new(\"#{id.elements.map { |m| m.text_value }.join}\");"
 		end
 	} 
   end
