@@ -27,6 +27,14 @@ end
 system "nekoc core/core.brat.neko" or abort "Error while compiling program"
 system "mv core/core.brat.n core/core.n"
 
+stdlib_files = Dir.glob "#{Dir.pwd}/stdlib/*.neko"
+stdlib_files.each do |f|
+	if not File.exist? f[0..-4]
+		system "nekoc #{f}"
+	end
+end
+
+
 class BratParserTest < Test::Unit::TestCase
 	include BratTestExt
 
