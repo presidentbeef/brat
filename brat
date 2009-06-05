@@ -295,7 +295,7 @@ if ARGV[0] == '-w'
 	exec "nekotools server #{ARGV[1..-1].join(" ")}"
 elsif ARGV[0]
 	require 'set'
-	options = Set.new(ARGV)
+	options = Set.new(ARGV.select {|o| o[0,1] == '-' })
 
 	if options.include? '-h'
 		show_help
@@ -303,6 +303,10 @@ elsif ARGV[0]
 	elsif options.include? '-i'
 		brat_interactive
 		exit
+	end
+
+	if options.include? ARGV[-1]
+		abort "Please supply a file name to run."
 	end
 
 	file_name = Dir.pwd + "/" + ARGV[-1]
