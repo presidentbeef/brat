@@ -72,6 +72,65 @@ file@undertype = function(path) {
 	}
 }
 
+var file = @brat.base_object.new();
+file.@file = null;
+var file_open = $loader.loadprim("std@file_open", 2);
+file.new = function(path) {
+	var f = @brat.new_brat(this, null);
+	if(@brat.has_field(path, "@value"))
+		path = path.@value;
+	if($typeof(path) != $tstring)
+		$throw("Expected string for file.new, was given " + $string(path));
+
+	f.@file = file_open(path, "w+");
+
+	f;
+}
+
+file.open = $varargs(function(args) {
+	var arglen = $asize(args);
+
+	if(arglen < 1)
+		$throw("File.open expects at least one argument.");
+	else if(arglen == 1)
+		file.new(args[0]);
+	else if(arglen == 2) {
+		var path = args[0];
+		if($typeof(path) == $tobject && @brat.has_field(path, "@value"))
+			path = path.@value;
+
+		if($typeof(path) != $tstring)
+			$throw("File.open expects string for path.");
+
+		if($typeof(args[1]) != $tfunction)
+			$throw("File.open expects function for second argument.");
+
+		var f = file.new(path);
+		var res = args[1](f);
+		f.close();
+		res;
+	}
+	else
+		$throw("Wrong number of arguments for file.open. Expects 1 or 2.");
+});
+
+var file_close = $loader.loadprim("std@file_close", 1);
+file.close = function() {
+	if($not(this.@file == null)) {
+		file_close(this.@file);
+		this.@file = null;
+	}
+	@brat.base_object.@null();
+}
+
+file.closed@question = function() {
+	if(this.@file == null)
+		@brat.base_object.@true();
+	else
+		@brat.base_object.@false();
+}
+
+$exports.file = file;
 $exports.file@underexists@question = file@underexists@question;
 $exports.file@underdelete = file@underdelete;
 $exports.file@underrename = file@underrename;
