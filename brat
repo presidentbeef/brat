@@ -49,9 +49,15 @@ def compile_stdlib force = false
 	compiled_files = Dir.glob "#$program_path/stdlib/*.n"
 
 	if neko_files.length != compiled_files.length
-		neko_files.each do |f|
-			if not File.exist? f[0..-4]
+		if force
+			neko_files.each do |f|
 				system "nekoc #{f}"
+			end
+		else
+			neko_files.each do |f|
+				if not File.exist? f[0..-4]
+					system "nekoc #{f}"
+				end
 			end
 		end
 	else
