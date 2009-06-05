@@ -43,25 +43,24 @@ def compile_core force = false
 end
 
 #Compiles stdlibs if needed. Returns false if compilation does not occur.
-#Note: Unlike the other compile methods, this method does not check freshness.
 def compile_stdlib force = false
 	neko_files = Dir.glob "#$program_path/stdlib/*.neko"
-	compiled_files = Dir.glob "#$program_path/stdlib/*.n"
 
-	if neko_files.length != compiled_files.length
-		if force
-			neko_files.each do |f|
+	if force
+		neko_files.each do |f|
+			system "nekoc #{f}"
+		end
+		true
+	else
+		compiled = false
+		neko_files.each do |f|
+			fcomp = f[0..-4]
+			if not File.exist? fcomp or newer? f, fcomp
+				compiled = true
 				system "nekoc #{f}"
 			end
-		else
-			neko_files.each do |f|
-				if not File.exist? f[0..-4]
-					system "nekoc #{f}"
-				end
-			end
 		end
-	else
-		false
+		compiled
 	end
 end
 
@@ -127,7 +126,7 @@ end
 
 #Returns Neko code for Brat input, but without the Neko code it is usually wrapped in.
 def inner_brat input
-	
+
 	parser = BaseBratParser.new
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
@@ -144,10 +143,10 @@ def brat_interactive force = false
 
 	compile_parser force
 	compile_brat_internal force
-	
+
 	require "#$program_path/parser/brat"
 	require "#$program_path/parser/parser-extension"
-	
+
 	compile_core force
 	compile_stdlib force
 	$interactive = true
