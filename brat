@@ -324,9 +324,8 @@ elsif ARGV[0]
 		keep_intermediate = false
 	end
 
-	if options.include? '-f'
+	if options.include? '-f' or force
 		File.delete(file_name + ".n") rescue nil
-		force = true
 	end
 
 	if options.include? "-s"
