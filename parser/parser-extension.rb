@@ -1,5 +1,8 @@
 class Treetop::Runtime::SyntaxNode
 	attr_reader :result
+	@variables = [Hash.new]
+	@replacements = Hash.new
+	@temp = 0
 
 	def var_exist? v
 		variables.reverse_each do |vars|
@@ -29,11 +32,11 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def variables
-		@@variables ||= [Hash.new]
+		@@variables
 	end
 
 	def replacements
-		@@replacements ||= Hash.new
+		@@replacements
 	end
 
 	def self.clear_variables
@@ -42,7 +45,6 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def next_temp
-		@@temp ||= 0
 		@result = "@temp#{@@temp += 1}"
 	end
 
