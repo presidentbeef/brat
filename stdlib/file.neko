@@ -82,7 +82,10 @@ file.new = function(path) {
 	if($typeof(path) != $tstring)
 		$throw("Expected string for file.new, was given " + $string(path));
 
-	f.@file = file_open(path, "w+");
+	if(file_exists(path))
+		f.@file = file_open(path, "r+");
+	else
+		f.@file = file_open(path, "w+");
 
 	f;
 }
@@ -128,6 +131,13 @@ file.closed@question = function() {
 		@brat.base_object.@true();
 	else
 		@brat.base_object.@false();
+}
+
+file.open@question = function() {
+	if(this.@file == null)
+		@brat.base_object.@false();
+	else
+		@brat.base_object.@true();
 }
 
 $exports.file = file;
