@@ -569,6 +569,25 @@ base_object.methods = function() {
 	}
 }
 
+var sys_exit = $loader.loadprim("std@sys_exit", 1);
+base_object.exit = $varargs(function(exit_code) {
+	if($asize(exit_code) == 0)
+		sys_exit(0);
+	else if($asize(exit_code) == 1) {
+		exit_code = exit_code[0];
+		if($typeof(exit_code) == $tobject && has_field(exit_code, "@nvalue"))
+			sys_exit(exit_code.@nvalue());
+		else if($typeof(exit_code) == $tint)
+			sys_exit(exit_code);
+		else
+			$throw("Argument for exit should be an integer.");
+	}
+	else {
+		$throw("Wrong number of arguments for exit. Expects 0 or 1.");
+	}
+
+});
+
 has_field = function(object, field_name) {
 	if(object == null || $typeof(object) != $tobject) {
 		return false;
