@@ -1745,6 +1745,7 @@ base_object.memstats = function() {
 $exports.hset = hset;
 $exports.make_array = make_array;
 $exports.make_hash = make_hash;
+$exports.new_brat = new_brat;
 $exports.has_field = has_field;
 $exports.base_array = base_array;
 $exports.base_hash = base_hash;
