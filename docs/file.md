@@ -4,7 +4,7 @@ lib: file
 objlist: []
 ---
 
-File (currently) contains utility methods for manipulating files and directories.
+The file module contains utility methods for manipulating files and directories. For documentation of the file object, see [here](file_obj.html).
 
 ### make\_dir
 >make\_dir _path_
