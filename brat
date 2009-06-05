@@ -132,18 +132,18 @@ def inner_brat input
 end
 
 #Runs the interactice Brat shell.
-def brat_interactive
+def brat_interactive force = false
 	require 'rubygems'
 	require 'treetop'
 
-	compile_parser
-	compile_brat_internal
+	compile_parser force
+	compile_brat_internal force
 	
 	require "#$program_path/parser/brat"
 	require "#$program_path/parser/parser-extension"
 	
-	compile_core
-	compile_stdlib
+	compile_core force
+	compile_stdlib force
 	$interactive = true
 
 	brat_console = IO.popen "#$program_path/bin/neko_console", "r+"
@@ -291,22 +291,26 @@ ENV['NEKOPATH'] += ":#$program_path/lib/:#$program_path/core/:#$program_path/std
 ENV['PATH'] ||= ""
 ENV['PATH'] += ":#$program_path/bin/:" << Dir.pwd
 
+$interactive = false
+
 if ARGV[0] == '-w'
 	exec "nekotools server #{ARGV[1..-1].join(" ")}"
 elsif ARGV[0]
 	require 'set'
 	options = Set.new(ARGV.select {|o| o[0,1] == '-' })
 
+	force = options.include? "-a"
+
 	if options.include? '-h'
 		show_help
 		exit
 	elsif options.include? '-i'
-		brat_interactive
+		brat_interactive force
 		exit
 	end
 
 	if options.include? ARGV[-1]
-		abort "Please supply a file name to run."
+		brat_interactive force
 	end
 
 	file_name = Dir.pwd + "/" + ARGV[-1]
@@ -314,8 +318,6 @@ elsif ARGV[0]
 	if not File.exist? file_name
 		abort "No such file: #{ARGV[-1]}"
 	end
-
-	force = options.include? "-a"
 
 	if options.include? '-k'
 		keep_intermediate = true
