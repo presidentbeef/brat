@@ -100,17 +100,9 @@ But they can also (and more usefully) be used as binary operators:
 a ? "is up"
 {% endhighlight %}
 
-**Important note**: ALL operators are treated equally (except '=', which is part of the syntax and not an operator) and evaluated left to right. This means there is *no* such thing as operator precedence, because how would I know what precedence '@' should have for you? _However_, this means that normal mathematical operators are also evaluated left to right and My Dear Aunt Sally is, sadly, left out in the cold.
-
-Example:
-
-{% highlight ruby %}
-p 1 + 3 * 4  # 16, not 12
-{% endhighlight %}
-
 ##  Unary Operators 
 
-Unary operators are like binary operators, except they take no arguments and need to be cuddled up to an expression. Otherwise, they are pretty much the same. Still working on limiting their rightward reach, however.
+Unary operators are like binary operators, except they take no arguments and need to be cuddled up to an expression. Otherwise, they are pretty much the same.
 
 Example:
 
@@ -120,6 +112,16 @@ string.! = { my + "!" }
 p !"hi"
 {% endhighlight %}
 
-##  Associativity 
+##  Precedence
 
-Operators are left-associative, while functions are right-associative (I think). Mix and match for optimal enjoyment!
+For binary operators, the order of precedence from highest to lowest is:
+
+* \*\*
+* % / *
+* \+ \-
+* >> <<
+* > < >= <=
+* \!~ ~ != == <=>
+* &&
+* ||
+* Everything else
