@@ -169,4 +169,98 @@ class Treetop::Runtime::SyntaxNode
 		}
 		NEKO
 	end
+
+	def escape_identifier identifier
+		identifier.gsub(/([!?\-*+^&@~\/\\><$_%])/) do |e|
+			case $1
+			when "!"	
+				"@bang"
+			when "*"
+				"@star"
+			when "-"
+				"@minus"
+			when "+"
+				"@plus"
+			when "&"
+				"@and"
+			when "@"
+				"@at"
+			when "~"
+				"@tilde"
+			when "^"
+				"@up"
+			when "/"
+				"@forward"
+			when "\\"
+				"@back"
+			when "?"
+				"@question"
+			when "<"
+				"@less"
+			when ">"
+				"@greater"
+			when "$"
+				"@dollar"
+			when "_"
+				"@under"
+			when "%"
+				"@percent"
+			else
+				nil	
+			end
+		end.gsub(/\b(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)\b/i) {|m| "@" + $1 }
+	end
+
+	def escape_operator op
+		op.gsub(/(!=|>=|<=|\|\||[!?\-*+^@~\/\\><$_%|&=])/) do
+			case $1
+			when "!"	
+				"@bang"
+			when "*"
+				"@star"
+			when "-"
+				"@minus"
+			when "+"
+				"@plus"
+			when "||"
+				"@oror"
+			when "|"
+				"@or"
+			when "&&"
+				"@andand"
+			when "&"
+				"@and"
+			when "@"
+				"@at"
+			when "~"
+				"@tilde"
+			when "^"
+				"@up"
+			when "/"
+				"@forward"
+			when "\\"
+				"@back"
+			when "?"
+				"@question"
+			when "<"
+				"@less"
+			when ">"
+				"@greater"
+			when "!="
+				"@notequal"
+			when "="
+				"@equal"
+			when ">="
+				"@greater@equal"
+			when "<="
+				"@less@equal"
+			when "%"
+				"@percent"
+			when "_"
+				"@under"
+			else
+				"---something unmatched---"
+			end
+		end
+	end
 end
