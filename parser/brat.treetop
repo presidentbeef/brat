@@ -502,32 +502,60 @@ grammar BaseBrat
 		def brat
 			output = lhs.brat
 			output << rhs.brat
+			in_stack = lhs.stack
+			in_stack << rhs.result
+			out_stack = []
+			op_stack = []
+			res_stack = []
+			val = true
+			in_stack.each do |e|
+				if val
+					out_stack.push e
+					val = false
+				else
+					prec = precedence(e)
+					while op_stack.length > 0 && prec <= precedence(op_stack.last) do
+						out_stack.push op_stack.pop
+					end
+					op_stack.push e
+					val = true
+				end
+			end
+
+			while not op_stack.empty?
+				out_stack.push op_stack.pop
+			end
+
+			out_stack.each do |e|
+				if e[0,5] == "@temp"
+					res_stack.push e
+				else
+					r = res_stack.pop
+					l = res_stack.pop
+					next_temp
+					output << "var #@result = " << call_method(l, e, "$array(#{r})", 1) << ";"
+					res_stack.push @result
+				end
+			end
+	
 			next_temp
-			output << "var #@result = " << call_method(lhs.result, lhs.last_operator, "$array(#{rhs.result})", 1) << ";"
+			output << "var #@result = #{res_stack.pop};"
 		end
 	}
   end
 
   #Matches several binary operations
   rule binary_operation_chain
-	(e:binary_lhs_expression ~space op:operator ~space)+ {
-		attr_reader :last_operator
-		def brat
-			first = elements.shift
-			output = first.e.brat
-			last = first.e.result
-			@result = last
-			last_operator = first.op.brat
-
-			elements.each do |elem|
-				output << elem.e.brat
-				next_temp
-				output << "var #@result = " << call_method(last, last_operator, "$array(#{elem.e.result})", 1) << ";"
-				last = @result
-				last_operator = elem.op.brat
+	(lhs:binary_lhs_expression ~space op:operator ~space)+ {
+		attr_reader :stack
+		def brat	
+			@stack = []
+			output = ""
+			elements.each do |e|
+				output << e.lhs.brat
+				@stack << e.lhs.result
+				@stack << e.op.brat	
 			end
-
-			@last_operator = last_operator
 			output
 		end
 	}

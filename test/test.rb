@@ -234,8 +234,8 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_true
 		assert_result "1", "true? false, 0, 1"
-		assert_result "1", "true? {false}, 0, {1}"
-		assert_result "2", "true? {true}, {2}, {1}"
+		assert_result "1", "true? false, 0, {1}"
+		assert_result "2", "true? true, {2}, {1}"
 		assert_result "true", "true? 0"
 		assert_result "true", "true?"
 		assert_result "0", "true? (true? 1), 0"
@@ -331,9 +331,9 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_method_definition_parse
 		parse("{ p hi }")
-		parse("{x,y| p x, y} ").brat
+		parse("{x, y | p x, y} ").brat
 		parse("x = { p hi }").brat
-		parse("x= {a, b| \"a + b\"}").brat
+		parse("x= {a, b | \"a + b\"}").brat
 	end
 
 	def test_multiline_method_parse
@@ -602,6 +602,11 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1073741824", "1 - -1073741823"
 	end
 
+	def test_precedence
+		assert_result "0", "(1 + 3 * 4 - 10 / 2) / 8 - 1"
+		assert_result "0", "(3 * 5 + 5 * 1 + 1 * 40 / 2) - 40"
+	end
+
 	def test_division
 		assert_result "0", "0 / 100"
 		assert_result "1", "100 / 100"
@@ -636,7 +641,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "true", "true? 1 <= 1"
 		assert_result "true", "true? 1 >= 1"
 		assert_result "true", "a = 300; b = 200; b + 100 == a"
-		assert_result "true", "a = 300; b = 200; (b + 300) == (a + 200)"
+		assert_result "true", "a = 300; b = 200; b + 300 == a + 200"
 		assert_result "false", "[1,2,3].length <= 1"
 	end
 

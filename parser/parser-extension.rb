@@ -3,6 +3,26 @@ class Treetop::Runtime::SyntaxNode
 	@variables = [Hash.new]
 	@replacements = Hash.new
 	@temp = 0
+	Precedence = {"@oror"=>1, 
+			"@and@and"=>2, 
+			"@less@equal@greater"=>3, 
+			"@equal@equal"=>3, 
+			"@notequal"=>3, 
+			"@tilde"=>3, 
+			"@bang@tilde"=>3, 
+			"@less@equal"=>4, 
+			"@equal@greater"=>4, 
+			"@less"=>4, 
+			"@greater"=>4, 
+			"@less@less"=>5, 
+			"@greater@greater"=>6, 
+			"@plus"=>7, 
+			"@minus"=>8, 
+			"@star"=>9, 
+			"@forward"=>9, 
+			"@percent"=>9, 
+			"@star@star"=>10
+	}
 
 	def var_exist? v
 		variables.reverse_each do |vars|
@@ -262,5 +282,9 @@ class Treetop::Runtime::SyntaxNode
 				"---something unmatched---"
 			end
 		end
+	end
+
+	def precedence op
+		Precedence[op] || 0
 	end
 end
