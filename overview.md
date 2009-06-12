@@ -116,12 +116,12 @@ p !"hi"
 
 For binary operators, the order of precedence from highest to lowest is:
 
-* \*\*
-* % / *
-* \+ \-
-* >> <<
-* > < >= <=
-* \!~ ~ != == <=>
-* &&
-* ||
-* Everything else
++ \*\*
++ % / \*
++ \+ \-
++ >> <<
++ > < >= <=
++ \!~ ~ != == <=>
++ &&
++ ||
++ Everything else
