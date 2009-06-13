@@ -84,9 +84,6 @@ class Treetop::Runtime::SyntaxNode
 				else
 					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ".#{method}: should be " + $string(arg_len) + " but given #{arg_length}");
 			}
-			else if(@brat.has_field(#{temp}, "@#{arg_length}_#{method}")) {
-				$objcall(#{temp}, $hash("@#{arg_length}_#{method}"), #{arguments});
-			}
 			else {
 				$throw("Invoking undefined method #{method} on " + @brat.nice_identifier("#{object}"));
 			}
@@ -101,8 +98,6 @@ class Treetop::Runtime::SyntaxNode
 			if(@brat.has_field(this, "#{object}")) {
 		 		#{call_method("this", object, arguments, arg_length)}
 			}
-			else if(@brat.has_field(this, "@#{arg_length}_#{object}"))
-		 		#{call_method("this", "@#{arg_length}_#{object}", arguments, arg_length)}
 			else
 			{
 				$throw("Trying to invoke null method: " + @brat.nice_identifier("#{object}"));
@@ -140,10 +135,6 @@ class Treetop::Runtime::SyntaxNode
 					#@result(#{arguments});
 				else
 					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ". Expected " + $string(arg_len) + " but given #{arg_length}");
-			}
-			else if(@brat.has_field(this, "@#{arg_length}_#{object}")) {
-				#@result = $objget(this, $hash("@#{arg_length}_#{object}"));
-				#@result(#{arguments});
 			}
 			else
 			{

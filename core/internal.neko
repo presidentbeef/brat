@@ -219,6 +219,16 @@ var istrue = function(arg) {
 	}
 }
 
+base_object.@true@question = $varargs(function(args) {
+	switch $asize(args) {
+		0 => this.@0_@true@question()
+		1 => this.@1_@true@question(args[0])
+		2 => this.@2_@true@question(args[0], args[1])
+		3 => this.@3_@true@question(args[0], args[1], args[2])
+		default => $throw("Wrong number of arguments for true? Expected 0 - 3.")
+	}
+})
+
 base_object.@0_@true@question = function() {
 	if(istrue(this))
 		base_object.@true();
@@ -293,6 +303,17 @@ base_object.@3_@true@question = function(condition, true_branch, false_branch) {
 	}
 }
 
+base_object.@false@question = $varargs(function(args) {
+	switch $asize(args) {
+		0 => this.@0_@false@question()
+		1 => this.@1_@false@question(args[0])
+		2 => this.@2_@false@question(args[0], args[1])
+		3 => this.@3_@false@question(args[0], args[1], args[2])
+		default => $throw("Wrong number of arguments for false? Expected 0 - 3.")
+	}
+})
+
+
 base_object.@0_@false@question = function() {
 	if($not(istrue(this)))
 		base_object.@true();
@@ -365,6 +386,16 @@ base_object.@3_@false@question = function(condition, false_branch, true_branch) 
 
 	}
 }
+
+base_object.@null@question = $varargs(function(args) {
+	switch $asize(args) {
+		0 => this.@0_@null@question()
+		1 => this.@1_@null@question(args[0])
+		2 => this.@2_@null@question(args[0], args[1])
+		3 => this.@3_@null@question(args[0], args[1], args[2])
+		default => $throw("Wrong number of arguments for null? Expected 0 - 3.")
+	}
+})
 
 base_object.@0_@null@question = function() {
 	if(this == base_object.@null())
@@ -444,6 +475,14 @@ base_object.not = function(arg) {
 		base_object.@true();
 	}
 }
+
+base_object.@while = $varargs(function(args) {
+	switch $asize(args) {
+		1 => this.@1_@while(args[0])
+		2 => this.@2_@while(args[0], args[1])
+		default => $throw("While expects 1 or 2 arguments.")
+	}
+})
 
 base_object.@1_@while = function(block) {
 	while(istrue(block())) {}
