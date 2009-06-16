@@ -20,6 +20,7 @@ blockquote {
 
 blockquote p {
 	font-family: monospace;
+	margin-bottom: 1px;
 }
 
 #libs {
