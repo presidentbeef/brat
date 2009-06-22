@@ -269,6 +269,8 @@ class Treetop::Runtime::SyntaxNode
 				"@percent"
 			when "_"
 				"@under"
+			when "$"
+				"@dollar"
 			else
 				"---something unmatched---"
 			end

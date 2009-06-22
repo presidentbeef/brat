@@ -1736,6 +1736,7 @@ $hset(to_id_list, ">=", "@greater@equal", null)
 $hset(to_id_list, "<=", "@less@equal", null)
 $hset(to_id_list, "%", "@percent", null)
 $hset(to_id_list, "_", "@under", null)
+$hset(to_id_list, "$", "@dollar", null)
 
 var from_id_list = $hnew(22);
 $hset(from_id_list, "@bang", "!", null)
@@ -1758,6 +1759,7 @@ $hset(from_id_list, "!=","@notequal", null)
 $hset(from_id_list, "@equal", "=", null)
 $hset(from_id_list, "@percent", "%", null)
 $hset(from_id_list, "@under", "_", null)
+$hset(from_id_list, "@dollar", "$", null)
 
 to_identifier = function(string) {
 	if($typeof(string) == $tobject && has_field(string, "@value")) {
