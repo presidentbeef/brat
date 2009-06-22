@@ -6,6 +6,10 @@ require 'test/test-examples'
 require 'test/test-core'
 require 'test/test-stdlib'
 
+$stderr.puts "Compiling parser..."
+system "cd parser && tt brat.treetop"
+
+$stderr.puts "Loading parser..."
 Treetop.load 'parser/brat'
 
 require 'parser/parser-extension'
@@ -17,9 +21,10 @@ ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/:#{Dir.pwd}/core/:#{Dir.pwd
 ENV['PATH'] ||= ""
 ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 
+$stderr.puts "Compiling internals..."
 system "cd core && nekoc internal.neko"
-system "cd parser && tt brat.treetop"
 
+$stderr.puts "Compiling core..."
 File.open "core/core.brat.neko", "w" do |f|
 	f.puts BaseBratParser.new.parse(File.read("core/core.brat")).core_brat
 end
@@ -27,13 +32,13 @@ end
 system "nekoc core/core.brat.neko" or abort "Error while compiling program"
 system "mv core/core.brat.n core/core.n"
 
+$stderr.puts "Compiling standard libraries..."
 stdlib_files = Dir.glob "#{Dir.pwd}/stdlib/*.neko"
 stdlib_files.each do |f|
 	if not File.exist? f[0..-4]
 		system "nekoc #{f}"
 	end
 end
-
 
 class BratParserTest < Test::Unit::TestCase
 	include BratTestExt
