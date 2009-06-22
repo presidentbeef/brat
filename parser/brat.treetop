@@ -100,7 +100,19 @@ grammar BaseBrat
   #Expressions! Which is basically everything
   rule expression
 	regex / binary_operation / index_set / index_get / 
-	assignment / paren_exp ~(!".") { def brat; output = paren_exp.brat; @result = paren_exp.result; output;  end } / 
+	assignment / 
+	paren_exp ~(!("." / "(")) { 
+		def brat
+			output = paren_exp.brat
+			@result = paren_exp.result
+			output
+		end 
+
+		def no_result_brat
+			paren_exp.no_result_brat
+		end
+	}
+	/ 
 	method_access / method_invocation / number / unary_operation / string / symbol / function_definition / hash / array
   end
 
@@ -330,6 +342,14 @@ grammar BaseBrat
 			output = expression.brat
 			@result = expression.result
 			output
+		end
+
+		def no_result_brat
+			if expression.respond_to? :no_result_brat
+				expression.no_result_brat
+			else
+				expression.brat
+			end
 		end
 	}
   end
