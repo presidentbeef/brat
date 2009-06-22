@@ -596,7 +596,8 @@ grammar BaseBrat
 			a.brat <<
 			"var #@result = " << get_value(name, a.list, a.length) << ";"
 		end
-	}/
+	}
+	/
 	m:paren_exp a:simple_arg_list {
 		def brat
 			output = m.brat
@@ -605,7 +606,15 @@ grammar BaseBrat
 			output << "var #@result = " << invoke(m.result, a.list, a.length) << ";"
 		end
 	}
-
+	/
+	f:function_definition !space a:simple_arg_list {
+		def brat
+			output = f.brat
+			output << a.brat
+			next_temp
+			output << "var #@result = " << invoke(f.result, a.list, a.length) << ";"
+		end
+	}
   end
 
   #Matches method/function invocations
@@ -650,6 +659,16 @@ grammar BaseBrat
 			output << "var #@result = " << invoke(m.result, a.list, a.length) << ";"
 		end
 	}
+	/
+	f:function_definition !space a:simple_arg_list {
+		def brat
+			output = f.brat
+			output << a.brat
+			next_temp
+			output << "var #@result = " << invoke(f.result, a.list, a.length) << ";"
+		end
+	}
+
   end
 
   #Matches a method chain, up to the last "."
@@ -726,6 +745,15 @@ grammar BaseBrat
 			end
 			@result = last
 			output
+		end
+	}
+	/
+	f:function_definition !space a:simple_arg_list {
+		def brat
+			output = f.brat
+			output << a.brat
+			next_temp
+			output << "var #@result = " << invoke(f.result, a.list, a.length) << ";"
 		end
 	}
 	/
