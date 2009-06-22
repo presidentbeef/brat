@@ -598,19 +598,10 @@ grammar BaseBrat
 			output << "var #@result = " << call_method(lhs.result, i.brat, a.list, a.length) << ";"
 		end
 
-		#if lhs refers to 'this', we can just call it as though
-		#there were no lhs, possibly doing tail-recursion optimization
 		def no_result_brat
-			return self.brat
-			output = lhs.brat
-			output << a.brat
-			next_temp
-			output <<
-			"if(this == #{lhs.result}) {" << 
-				get_value_clean(i.brat, a.list, a.length) << 
-			"} else {" <<
-				call_method(lhs.result, i.brat, a.list, a.length) << 
-			"};"
+			lhs.brat << 
+			a.brat <<
+			call_method(lhs.result, i.brat, a.list, a.length) 
 		end
 
 	}
