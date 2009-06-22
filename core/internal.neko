@@ -585,6 +585,26 @@ base_object.get@undermethod = function(name) {
 		m;
 }
 
+base_object.call@undermethod = $varargs(function(args) {
+	var arglen = $asize(args);
+	if(arglen < 1)
+		$throw("Call_method requires at least one argument.")
+
+	var m = this.get@undermethod(args[0]);
+
+	if(m == base_object.@null())
+		$throw("No such method " + $string(args[0]) + " for " + $string(this) + "."); 
+
+	var nargs = $nargs(m);
+	if(nargs != -1 && nargs != arglen - 1)
+		$throw($string(args[0]) + " requires " + $string(nargs) + " argument(s).");
+
+	if(arglen > 1)
+		$call(m, this, $asub(args, 1, arglen - 1));
+	else
+		$call(m, this, $array(0));
+});
+
 base_object.methods = function() {
 	var meths = $objfields(this);
 	var i = 0; 
