@@ -79,7 +79,7 @@ class Treetop::Runtime::SyntaxNode
 			if(@brat.has_field(#{temp}, "#{method}")) {
 				var arg_len = @brat.num_args(#{temp}, "#{method}");
 				if(arg_len == -1 || arg_len == #{arg_length}) {
-					$objcall(#{temp}, $hash("#{method}"), #{arguments});
+					#{temp}.#{method}(#{arguments});
 				}	
 				else
 					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ".#{method}: should be " + $string(arg_len) + " but given #{arg_length}");
@@ -111,7 +111,7 @@ class Treetop::Runtime::SyntaxNode
 			
 				var arg_len = $nargs(#{temp});
 				if(arg_len == -1 || arg_len == #{arg_length})
-					$call(#{temp}, this, #{arguments});
+					#{temp}(#{arguments});
 				else
 					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ". Expected " + $string(arg_len) + " but given #{arg_length}");
 			}
