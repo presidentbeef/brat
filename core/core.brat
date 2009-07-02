@@ -177,6 +177,20 @@ number.times = { block |
 	my
 }
 
+number.to = { stop, block |
+	n = my
+	true? n < stop,
+		{
+			while { n <= stop },
+				{ block n; n = n + 1 }
+		},
+		{
+			while { n >= stop },
+				{ block n; n = n - 1 }
+		}
+	stop
+}
+
 object.&& = { rhs |
         true? my,
                 { rhs },
