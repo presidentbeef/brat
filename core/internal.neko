@@ -489,7 +489,7 @@ base_object.@1_@while = function(block) {
 }
 
 base_object.@2_@while = function(condition, block) {
-	while(istrue(condition())) { block(); $print(condition(), "\n"); }
+	while(istrue(condition())) { block() }
 }
 
 base_object.when = $varargs(function(args) {
