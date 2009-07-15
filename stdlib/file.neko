@@ -140,6 +140,40 @@ file.open@question = function() {
 		@brat.base_object.@true();
 }
 
+var fslurp = $loadprim("std@file_contents", 1);
+var fname = $loadprim("std@file_name", 1);
+file.slurp = $varargs(function(args) {
+	var arglen = $asize(args);
+	if(arglen == 0) {
+		if(this.@file == null)
+			$throw("No file to read. Open one first.");
+		else {
+			@brat.base_string.new(fslurp(fname(this.@file)));
+		}	
+	}
+	else if(arglen == 1) {
+		if(@brat.has_field(args[0], "@value"))
+			var path = args[0].@value;
+		else
+			var path = args[0];
+
+		if($typeof(path == $tstring)) {
+			@brat.base_string.new(fslurp(path));
+		}
+		else
+			$throw("File name should be a string.");
+	}
+	else
+		$throw("Expected file name for file.slurp().");
+})
+
+file.path = function() {
+	if(this.@file == null)
+		$throw("No file opened.");
+	else
+		@brat.base_string.new($fname(this.@file));
+}
+
 $exports.file = file;
 $exports.file@underexists@question = file@underexists@question;
 $exports.file@underdelete = file@underdelete;
