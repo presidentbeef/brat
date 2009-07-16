@@ -88,6 +88,7 @@ file@underslurp = function(path) {
 var file = @brat.base_object.new();
 file.@file = null;
 var file_open = $loader.loadprim("std@file_open", 2);
+
 file.new = function(path) {
 	var f = @brat.new_brat(this, null);
 	if(@brat.has_field(path, "@value"))
@@ -103,7 +104,7 @@ file.new = function(path) {
 	f;
 }
 
-file.open = $varargs(function(args) {
+file@underopen = $varargs(function(args) {
 	var arglen = $asize(args);
 
 	if(arglen < 1)
@@ -201,3 +202,4 @@ $exports.make@underdir = make@underdir;
 $exports.delete@underdir = delete@underdir;
 $exports.file@undertype = file@undertype;
 $exports.file@underslurp = file@underslurp;
+$exports.file@underopen = file@underopen;
