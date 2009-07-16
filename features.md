@@ -24,3 +24,4 @@ layout: default
 * Native Brat methods cannot be overloaded
 * Native Brat methods cannot have variable argument lengths
 * There is a workaround for overloading and variable arguments if the method is written in Neko, though
+* No install/compile scripts

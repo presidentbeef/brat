@@ -19,6 +19,8 @@ Please follow the following steps, in the order in which they are ordered:
 
    1. [Clone or download](http://github.com/presidentbeef/brat/tree/master) the latest Brat version.
 
+This may be all you need to do if you are using a 32-bit Linux. Unfortunately, at this time, there is not yet an installation script to compile everything up.
+
 ## Testing
 
 Try out your newly discovered power thusly:
