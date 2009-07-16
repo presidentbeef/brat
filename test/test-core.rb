@@ -152,4 +152,14 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "null", 'a = new; a.what?! = { "what" }; a.del_method "what?!";a.get_method "what?!"'
 		assert_result "what", 'a = new; a.what?! = { "what" }; b = a.new; b.del_method "what?!";b.what?!'
 	end
+
+	def test_string_split
+		assert_result "[he,,o]", '"hello".split "l"'
+		assert_result "[h,llo]", '"hello".split "e"'
+		assert_result "[hello]", '"hello".split "z"'
+		assert_result "[hello]", '"hello".split'
+		assert_result "[]", '"hello".split "hello"'
+		assert_result "[]", '"".split "hello"'
+		assert_result "[h,e,l,l,o]", '"hello".split ""'
+	end
 end

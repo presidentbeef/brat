@@ -1,3 +1,7 @@
-file = import "file"
+squish import "file"
 
-file.file_exists? "brat"
+file_open "README.md", { f |
+	p "Open? ", f.open?
+	p "EOF? ", f.eof?
+	p "Line: ", f.read_line
+}

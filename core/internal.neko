@@ -1677,6 +1677,72 @@ base_string.sub@underfirst = function(regexp, replacement) {
 	else $throw("Need to provide a string for string.sub_first()");
 }
 
+var string_split = $loader.loadprim("std@string_split", 2);
+
+base_string.split = $varargs(function(args) {
+	var sep;
+	var arglen = $asize(args);
+	if(arglen == 0)
+		sep = " ";
+	else if(arglen == 1) {
+		sep = args[0];
+		if($typeof(sep) == $tobject && has_field(sep, "@value"))
+			sep = sep.@value;
+		if($typeof(sep) != $tstring)
+			$throw("Separator for split() must be a string, not " + $string(sep));
+	}
+	else
+		$throw("Expected 0 or 1 arguments for string.split.");
+
+	if($ssize(sep) == 0)
+		return this.dice();
+
+	var first = $new(null);
+	var list = first;
+	var pos = 0;
+	var strlen = $ssize(this.@value);
+	var temp = this.@value;
+	var match_pos = 0;
+	var sep_len = $ssize(sep);
+	var matches = 0;
+	while(pos < strlen) {
+		match_pos = $sfind(temp, pos, sep);
+		if(match_pos != null) {
+			list.data = base_string.new($ssub(temp, pos, match_pos - pos));
+			pos = match_pos + sep_len;
+		}
+		else {
+			list.data = base_string.new($ssub(temp, pos, strlen - pos));
+			pos = strlen;
+		}
+		matches = matches + 1;
+		list.next = $new(null);	
+		list = list.next;
+	}
+
+	var i = 0;
+	var res = $amake(matches);
+	list = first;
+	while(i < matches) {
+		res[i] = list.data;
+		list = list.next;
+		i = i + 1;
+	}
+
+	make_array(res);
+})
+
+base_string.dice = function() {
+	var i = 0;
+	var strlen = $ssize(this.@value);
+	var res = $amake(strlen);
+	while(i < strlen) {
+		res[i] = this.__get(base_number.new(i));
+		i = i + 1;
+	}
+
+	make_array(res);
+}
 
 var regexp_new = $loader.loadprim("regexp@regexp_new", 1);
 base_regex = new_brat(null, null);
@@ -1704,6 +1770,7 @@ base_regex.match = function(val) {
 	else
 		base_object.@false();
 }
+
 base_regex.@tilde = base_regex.match;
 
 base_symbol = new_brat(null, null);
