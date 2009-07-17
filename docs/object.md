@@ -49,8 +49,8 @@ Logical 'or'.
 Adds a new method to the object. Name can be a symbol or a string.
 
 ### call\_method
->call_method _name_
->call_method _name_, _arg1_, _arg2_, ...
+>call\_method _name_
+>call\_method _name_, _arg1_, _arg2_, ...
 
 Calls the given method with the given arguments.
 
