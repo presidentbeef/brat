@@ -6,9 +6,12 @@ desc: "The file object can be used to open and manipulate files."
 methlist:
 - close
 - closed?
+- each_line
+- eof?
 - new
-- open
+- path
 - open?
+- read_line
 ---
 
 ### Using File
@@ -16,10 +19,10 @@ methlist:
 {% highlight ruby %}
 squish import "file"
 
-file.open "something"
-file.closed?  #false
-file.close
-file.closed?  #true
+f = file.new "something"
+f.closed?  #false
+f.close
+f.closed?  #true
 {% endhighlight %}
 
 ### close
@@ -30,19 +33,28 @@ Closes the file.
 
 Returns true if the file is closed.
 
+### each\_line
+>each\_line { _line_ | _block_ }
+
+Calls the block, passing in each line of the file as an argument.
+
+### eof?
+
+Returns true if the end of the file has been reached.
+
 ### new
 >new _path_
 
 Opens the given file (or creates it) and returns a file object.
 
-### open
->open _path_  
->open _path_, { _file_ | _block_ }
-
-If called with a single argument, this is the same as *open*.
-
-When called with a block, the file object will be passed in as an argument. The file will be closed after the block returns.
-
 ### open?
 
 Returns true if the file is open.
+
+### path
+
+Returns the name of the file which was opened.
+
+### read\_line
+
+Reads a single line from the file and returns it as a string.

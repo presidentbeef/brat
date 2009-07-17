@@ -5,9 +5,11 @@ object: string
 desc: "String literals live between double quotes."
 methlist:
 - "+"
+- dice
 - get
 - length
 - set
+- split
 - sub
 - sub!
 - sub_first
@@ -21,13 +23,22 @@ methlist:
 
 Concatentates two strings.
 
+### dice
+
+Returns an array with each letter as an element.
+
+{% highlight javascript %}
+a = "hello"
+a.dice   #["h", "e", "l", "l", "o"]
+{% endhighlight %}
+
 ### get
 > get _index_  
 > get _startindex_, _endindex_
 
 Strings can be indexed just like arrays, including the use of negative indices.
 
-{% highlight ruby %}
+{% highlight javascript %}
 a = "hello"
 a[2]       #"l"
 a[3,4]     #"lo"
@@ -39,6 +50,19 @@ a[-4, 3]   #"ell"
 > set _index_, _character_
 
 A single character in the string can be set via this method.
+
+### split
+>split
+>split _separator_
+
+Splits the string into an array based on the given separator, which should be a string. If no separator is given, `" "` is assumed.
+
+{% highlight javascript %}
+a = "hello, there"
+a.split       #["hello,", "there"]
+a.split ", "  #["hello", "there"]
+a.split "z"   #["hello, there"]
+{% endhighlight %}
 
 ### sub
 >sub _regex_, _string_  

@@ -16,6 +16,7 @@ methlist:
 - "%"
 - "native?"
 - "times"
+- to
 ---
 
 ### ==
@@ -64,3 +65,13 @@ Returns true if the number is being represented as a native Neko number.
 >_number_.times { _block_ }
 
 Perform the given block _number_ times.
+
+### to
+>_number_.to { _end_ | _block_ }
+
+Calls _block_ for each number from _number_ to _end_ in steps of 1. If _end_ is less than _number_, proceeds backwards.
+
+{% highlight javascript %}
+1.to 10, { n | p n }
+10.to 1, { n | p n }
+{% endhighlight %}

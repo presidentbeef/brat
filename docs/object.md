@@ -8,9 +8,11 @@ methlist:
 - "&&"
 - "||"
 - add_method
+- call_method
 - clone
 - del_method
 - export
+- exit
 - false?
 - g
 - get_method
@@ -46,6 +48,12 @@ Logical 'or'.
 
 Adds a new method to the object. Name can be a symbol or a string.
 
+### call\_method
+>call_method _name_
+>call_method _name_, _arg1_, _arg2_, ...
+
+Calls the given method with the given arguments.
+
 ### clone
 
 Make a clone of an object. This will copy methods from the object into the clone and make the parent of the clone the same as the parent of the cloned object. This is like 'new' in a lot of languages. I think of it as expanding the inheritance tree horizontally.
@@ -59,6 +67,10 @@ Deletes the method with the given name, if it exists. Note that this only delete
 >export _item_, _name_
 
 Exports the item for use in other modules, accessible via the given name (should be a string). The item can be either an object or a function by itself.
+
+### exit
+
+Exits the program immediately.
 
 ### false?  
 >false?  
