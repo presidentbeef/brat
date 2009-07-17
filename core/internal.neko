@@ -602,7 +602,7 @@ base_object.call@undermethod = $varargs(function(args) {
 	if(arglen > 1)
 		$call(m, this, $asub(args, 1, arglen - 1));
 	else
-		$call(m, this, $array(0));
+		$call(m, this, $amake(0));
 });
 
 base_object.methods = function() {
