@@ -26,15 +26,15 @@ This may be all you need to do if you are using a 32-bit Linux. Unfortunately, a
 
 Try out your newly discovered power thusly:
 
-    1. Type `cd brat` (or wherever you tucked it away)
-    2. Create a new file, perhaps called `test.brat`
-    3. In that file, type something like: `p "OK COMPUTER"`
-    4. Save and close it
-    5. Return to the comfort of your command line
-    6. Type `./brat test.brat`
-    7. Cross fingers
-    8. Press enter
-    9. Marvel or weep, as appropriate 
+1. Type `cd brat` (or wherever you tucked it away)
+2. Create a new file, perhaps called `test.brat`
+3. In that file, type something like: `p "OK COMPUTER"`
+4. Save and close it
+5. Return to the comfort of your command line
+6. Type `./brat test.brat`
+7. Cross fingers
+8. Press enter
+9. Marvel or weep, as appropriate 
 
 ## For Convenience
 

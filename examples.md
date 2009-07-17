@@ -143,8 +143,8 @@ reverse_complement
 
 {% highlight ruby %}
 how = { x | print "How"; x }
-are = { x | {print " are "; x}}
-you? = {{p "you?"}}
+are = { x | {print " are "; x} }
+you? = { { p "you?" } }
 
 how are you?
 {% endhighlight %}
