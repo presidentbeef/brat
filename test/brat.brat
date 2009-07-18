@@ -1,7 +1,3 @@
-squish import "file"
-
-file_open "README.md", { f |
-	p "Open? ", f.open?
-	p "EOF? ", f.eof?
-	p "Line: ", f.read_line
-}
+a = new
+a.b = { x | p x }
+a.call_method "b", "sup", 1
