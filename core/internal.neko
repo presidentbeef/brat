@@ -648,13 +648,13 @@ base_object.exit = $varargs(function(exit_code) {
 });
 
 var sys_sleep = $loader.loadprim("std@sys_sleep", 1);
-var sleep = function(seconds) {
-	if($typeof(seconds) == $tobject && @brat.has_field(seconds, "@nvalue"))
+base_object.sleep = function(seconds) {
+	if($typeof(seconds) == $tobject && has_field(seconds, "@nvalue"))
 		seconds = seconds.@nvalue();
 	else if($typeof(seconds) != $tint && $typeof(seconds) != $tfloat)
 		$throw("Expected a number for sleep(), got " + $string(seconds));
 
-	sys_sleep(seconds);	
+	sys_sleep(seconds);
 }
 
 has_field = function(object, field_name) {
