@@ -25,6 +25,7 @@ methlist:
 - null?
 - p
 - print
+- sleep
 - squish
 - to_s
 - true?
@@ -133,6 +134,11 @@ Prints out any number of arguments, followed by a new line.
 >print ...
 
 Prints out any number of arguments, but with no new line.
+
+### sleep
+>sleep _seconds_
+
+Causes the current thread to sleep for the given number of seconds.
 
 ### squish
 >squish _object_

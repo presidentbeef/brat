@@ -1,7 +1,7 @@
 ---
 layout: doc
-lib: core
-object: symbol
+lib: thread
+object: thread
 desc: "Symbols are like strings, except they are immutable and are stored as integers. So, not much like strings at all."
 methlist:
 - new
