@@ -12,13 +12,14 @@ thread.@all = @brat.base_array.new();
 thread.new = function(block) {
 	if($typeof(block) != $tfunction)
 		$throw("Thread.new requires a function as its argument.");
+	else if($nargs(block) != 0)
+		$throw("Thread.new requires a function with zero arguments.");
 
 	var t = @brat.new_brat(this, null);
 	t.@lock = lock_create();
-	t.@func = block;
 	var wrap = function(dummy) {
 		try {
-			t.@result = t.@func();
+			t.@result = $call(block, @brat.base_object, $amake(0));
 		}
 		catch e {
 			$print(e, "\n");
@@ -42,15 +43,4 @@ thread.result = function() {
 	this.@result();
 }
 
-var sys_sleep = $loader.loadprim("std@sys_sleep", 1);
-var sleep = function(seconds) {
-	if($typeof(seconds) == $tobject && @brat.has_field(seconds, "@nvalue"))
-		seconds = seconds.@nvalue();
-	else if($typeof(seconds) != $tint && $typeof(seconds) != $tfloat)
-		$throw("Expected a number for sleep(), got " + $string(seconds));
-
-	$print("Sleeping for ", seconds, "\n");
-	sys_sleep(seconds);	
-}
 $exports.thread = thread;
-$exports.sleep = sleep;
