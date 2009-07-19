@@ -8,6 +8,7 @@ var @brat = $loader.loadmodule("internal", $loader);
 var thread = @brat.base_object.new();
 thread.@lock = null;
 thread.@result = null;
+thread.@finished = false;
 thread.@all = @brat.base_array.new();
 thread.new = function(block) {
 	if($typeof(block) != $tfunction)
@@ -25,6 +26,7 @@ thread.new = function(block) {
 			$print(e, "\n");
 		}
 		lock_release(t.@lock);
+		t.@finished = true;
 	}
 	t.@thread = tcreate(wrap, null);
 	t;
@@ -41,6 +43,13 @@ thread.join = function() {
 
 thread.result = function() {
 	this.@result();
+}
+
+thread.finished@question = function() {
+	if(this.@finished || this.@thread == null)
+		@brat.base_object.@true();
+	else
+		@brat.base_object.@false();
 }
 
 $exports.thread = thread;
