@@ -1,0 +1,56 @@
+var tcreate = $loader.loadprim("std@thread_create", 2);
+var lock_create = $loader.loadprim("std@lock_create", 0);
+var lock_release = $loader.loadprim("std@lock_release", 1);
+var lock_wait = $loader.loadprim("std@lock_wait", 2);
+
+var @brat = $loader.loadmodule("internal", $loader);
+
+var thread = @brat.base_object.new();
+thread.@lock = null;
+thread.@result = null;
+thread.@all = @brat.base_array.new();
+thread.new = function(block) {
+	if($typeof(block) != $tfunction)
+		$throw("Thread.new requires a function as its argument.");
+
+	var t = @brat.new_brat(this, null);
+	t.@lock = lock_create();
+	t.@func = block;
+	var wrap = function(dummy) {
+		try {
+			t.@result = t.@func();
+		}
+		catch e {
+			$print(e, "\n");
+		}
+		lock_release(t.@lock);
+	}
+	t.@thread = tcreate(wrap, null);
+	t;
+}
+
+thread.join = function() {
+	if(this.@lock == null)
+		return null;
+	
+	lock_wait(this.@lock, null);
+	lock_release(this.@lock);
+	this.@result;
+}
+
+thread.result = function() {
+	this.@result();
+}
+
+var sys_sleep = $loader.loadprim("std@sys_sleep", 1);
+var sleep = function(seconds) {
+	if($typeof(seconds) == $tobject && @brat.has_field(seconds, "@nvalue"))
+		seconds = seconds.@nvalue();
+	else if($typeof(seconds) != $tint && $typeof(seconds) != $tfloat)
+		$throw("Expected a number for sleep(), got " + $string(seconds));
+
+	$print("Sleeping for ", seconds, "\n");
+	sys_sleep(seconds);	
+}
+$exports.thread = thread;
+$exports.sleep = sleep;
