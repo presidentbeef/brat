@@ -164,6 +164,8 @@ array.rindex_of = { item |
 		}
 }
 
+number.squish import "comparable"
+
 number.times = { block |
 	true? my > 0,
 		{

@@ -198,23 +198,26 @@ base_object.@true = function() { @true_value }
 base_object.@null = function() { @null_value}
 
 base_object.@equal@equal = function(rhs) {
-	if(this.@compare(rhs) == 0)
-		this.@true();
+	if(this.@less@equal@greater(rhs).@value == 0)
+		base_object.@true();
 	else
-		this.@false();
+		base_object.@false();
 }
 
-base_object.@compare = function(rhs) {
+base_object.@notequal = function(rhs) {
+	base_object.not(this.@equal@equal(rhs));
+}
+
+base_object.@less@equal@greater = function(rhs) {
 	var lhs = this;
 	if(has_field(rhs, "@value") && has_field(lhs, "@value")) {
 		rhs = rhs.@value;
 		lhs = lhs.@value;
 	}
-	$compare(lhs, rhs);
-}
-
-base_object.@less@equal@greater = function(rhs) {
-	base_number.new(this.@compare(rhs));
+	var res = $compare(lhs, rhs);
+	if(res == null)
+		res = -1;
+	base_number.new(res);
 }
 
 var istrue = function(arg) {
@@ -281,7 +284,6 @@ base_object.@2_@true@question = function(condition, true_branch) {
 		first;
 	}
 }
-
 
 base_object.@3_@true@question = function(condition, true_branch, false_branch) {
 	var first;
@@ -930,59 +932,26 @@ base_number.@percent = function(num) {
 
 }
 
-base_number.@compare = function(num) {
+base_number.@less@equal@greater = function(num) {
 	if(has_field(num, "@native")) {
 		var rhs = num.@value;
 		var lhs = this.@value;
 
 		if(this.@native && num.@native)
-			$compare(lhs,rhs);
+			base_number.new($compare(lhs,rhs));
 		else if(is_num(lhs) && is_num(rhs)) 
-			num_cmp(lhs, rhs);
+			base_number.new(num_cmp(lhs, rhs));
 		else 
-			num_cmp(to_bignum(lhs), to_bignum(rhs));
+			base_number.new(num_cmp(to_bignum(lhs), to_bignum(rhs)));
 	}
 	else
 		$throw("Unable to compare number to " + $string(num));
-
-}
-
-base_number.@less@equal@greater = function(num) {
-	base_number.new(this.@compare(num));
-}
-
-base_number.@greater = function(num) {
-	if(this.@compare(num) == 1)
-		base_object.@true();
-	else
-		base_object.@false();
-}
-
-base_number.@less = function(num) {
-	if(this.@compare(num) == -1)
-		base_object.@true();
-	else
-		base_object.@false();
-}
-
-base_number.@less@equal = function(num) {
-	if(this.@compare(num) < 1)
-		base_object.@true();
-	else
-		base_object.@false();
-}
-
-base_number.@greater@equal = function(num) {
-	if(this.@compare(num) > -1)
-		base_object.@true();
-	else
-		base_object.@false();
 }
 
 base_number.@equal@equal = function(num) {
 	if($not(has_field(num, "@native")))
 		base_object.@false();
-	else if(this.@compare(num) == 0)
+	else if(this.@less@equal@greater(num).@value == 0)
 		base_object.@true();
 	else
 		base_object.@false();
