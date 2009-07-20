@@ -198,16 +198,23 @@ base_object.@true = function() { @true_value }
 base_object.@null = function() { @null_value}
 
 base_object.@equal@equal = function(rhs) {
+	if(this.@compare(rhs) == 0)
+		this.@true();
+	else
+		this.@false();
+}
+
+base_object.@compare = function(rhs) {
 	var lhs = this;
 	if(has_field(rhs, "@value") && has_field(lhs, "@value")) {
 		rhs = rhs.@value;
 		lhs = lhs.@value;
 	}
+	$compare(lhs, rhs);
+}
 
-	if($compare(lhs,rhs) == 0)
-		this.@true();
-	else
-		this.@false();
+base_object.@less@equal@greater = function(rhs) {
+	base_number.new(this.@compare(rhs));
 }
 
 var istrue = function(arg) {
@@ -923,143 +930,60 @@ base_number.@percent = function(num) {
 
 }
 
-base_number.@greater = function(num) {
+base_number.@compare = function(num) {
 	if(has_field(num, "@native")) {
 		var rhs = num.@value;
 		var lhs = this.@value;
 
-		if(this.@native && num.@native) {
-			if(lhs > rhs)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else if(is_num(lhs) && is_num(rhs)) {
-			if(num_cmp(lhs, rhs) == 1)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else {
-			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) == 1)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
+		if(this.@native && num.@native)
+			$compare(lhs,rhs);
+		else if(is_num(lhs) && is_num(rhs)) 
+			num_cmp(lhs, rhs);
+		else 
+			num_cmp(to_bignum(lhs), to_bignum(rhs));
 	}
 	else
 		$throw("Unable to compare number to " + $string(num));
+
+}
+
+base_number.@less@equal@greater = function(num) {
+	base_number.new(this.@compare(num));
+}
+
+base_number.@greater = function(num) {
+	if(this.@compare(num) == 1)
+		base_object.@true();
+	else
+		base_object.@false();
 }
 
 base_number.@less = function(num) {
-	if(has_field(num, "@native")) {
-		var rhs = num.@value;
-		var lhs = this.@value;
-
-		if(this.@native && num.@native) {
-			if(lhs < rhs)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else if(is_num(lhs) && is_num(rhs)) {
-			if(num_cmp(lhs, rhs) == -1)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else {
-			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) == -1)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-	}
+	if(this.@compare(num) == -1)
+		base_object.@true();
 	else
-		$throw("Unable to compare number to " + $string(num));
+		base_object.@false();
 }
 
 base_number.@less@equal = function(num) {
-	if(has_field(num, "@native")) {
-		var rhs = num.@value;
-		var lhs = this.@value;
-
-		if(this.@native && num.@native) {
-			if(lhs <= rhs)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else if(is_num(lhs) && is_num(rhs)) {
-			if(num_cmp(lhs, rhs) <= 0)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else {
-			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) <= 0)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-	}
+	if(this.@compare(num) < 1)
+		base_object.@true();
 	else
-		$throw("Unable to compare number to " + $string(num));
+		base_object.@false();
 }
 
 base_number.@greater@equal = function(num) {
-	if(has_field(num, "@native")) {
-		var rhs = num.@value;
-		var lhs = this.@value;
-
-		if(this.@native && num.@native) {
-			if(lhs >= rhs)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else if(is_num(lhs) && is_num(rhs)) {
-			if(num_cmp(lhs, rhs) >= 0)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else {
-			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) >= 0)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-	}
+	if(this.@compare(num) > -1)
+		base_object.@true();
 	else
-		$throw("Unable to compare number to " + $string(num));
-
+		base_object.@false();
 }
 
 base_number.@equal@equal = function(num) {
-	if(has_field(num, "@native")) {
-		var rhs = num.@value;
-		var lhs = this.@value;
-
-		if(this.@native && num.@native) {
-			if(lhs == rhs)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else if(is_num(lhs) && is_num(rhs)) {
-			if(num_cmp(lhs, rhs) == 0)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-		else {
-			if(num_cmp(to_bignum(lhs), to_bignum(rhs)) == 0)
-				base_object.@true();
-			else
-				base_object.@false();
-		}
-	}
+	if($not(has_field(num, "@native")))
+		base_object.@false();
+	else if(this.@compare(num) == 0)
+		base_object.@true();
 	else
 		base_object.@false();
 }
@@ -1069,29 +993,29 @@ base_array = new_brat(null, null);
 base_array.@internal_array = $amake(0);
 
 base_array.new = $varargs(function(args) {
-	var ary = new_brat(this, null);
-	ary.@internal_array = $acopy(args);
-	ary;
-});
+		var ary = new_brat(this, null);
+		ary.@internal_array = $acopy(args);
+		ary;
+		});
 
-base_array.clone = $varargs(function(args) {
-	if($asize(args) > 1)
-		$throw("Too many arguments to array.clone(). Only takes 0 or 1.");
+	base_array.clone = $varargs(function(args) {
+			if($asize(args) > 1)
+			$throw("Too many arguments to array.clone(). Only takes 0 or 1.");
 
-	var new_array = $new(this);
-	$objsetproto(new_array, $objgetproto(this));
+			var new_array = $new(this);
+			$objsetproto(new_array, $objgetproto(this));
 
-	if($asize(args) == 1) {
-		if($typeof(args[0]) == $tobject)
+			if($asize(args) == 1) {
+			if($typeof(args[0]) == $tobject)
 			new_array.@value = $string(args[0].@internal_array);
-		else if($typeof(args[0]) == $tarray)
+			else if($typeof(args[0]) == $tarray)
 			new_array.@internal_array = args[0];
-		else
+			else
 			$throw("Need an array argument for array.clone()");
-	}
+			}
 
-	new_array;
-})
+			new_array;
+			})
 
 
 base_array.length = function() {
@@ -1099,68 +1023,68 @@ base_array.length = function() {
 }
 
 base_array.__get = $varargs(function(args) {
-	var len = $asize(this.@internal_array);
-	if($asize(args) == 0 || $asize(args) > 2)
+		var len = $asize(this.@internal_array);
+		if($asize(args) == 0 || $asize(args) > 2)
 		$throw("Invalid number of arguments to array.get(), should be 1 or 2.");
-	else if($asize(args) == 1) {
+		else if($asize(args) == 1) {
 		if($not(has_field(args[0], "@nvalue")))
-			$throw("Cannot access array with non-number value.");
+		$throw("Cannot access array with non-number value.");
 
 		var index = args[0].@nvalue();
 		if(index > len || index < -len) {
-			return base_object.@null();
+		return base_object.@null();
 		}
 		else if(index >= 0) {
-			return this.@internal_array[index];
+		return this.@internal_array[index];
 		}
 		else { //index  < 0
-			index = len + index;
-			if(index < 0 || index >= len) {
-				return base_object.@null();
-			}
-			else {
-				return this.@internal_array[index];
-			}
-		}
-	}
-	else {
-		if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
-			$throw("Cannot access array with non-number value.");
-
-		if(len == 0) {
-			this.clone($amake(0));
+		index = len + index;
+		if(index < 0 || index >= len) {
+		return base_object.@null();
 		}
 		else {
+			return this.@internal_array[index];
+		}
+		}
+		}
+		else {
+			if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
+				$throw("Cannot access array with non-number value.");
 
-			var start = args[0].@nvalue();
-			var stop = args[1].@nvalue();
-	
-			if(start < 0)
-				start = len + start;
-			if(stop < 0)
-				stop = len + stop;
-
-			if(start < 0)
-				start = 0;
-			if(stop < 0)
-				stop = 0;
-
-			if(start > stop) {
-				var temp = stop;
-				stop = start;
-				start = temp;
+			if(len == 0) {
+				this.clone($amake(0));
 			}
+			else {
 
-			if(start >= len)
-				return this.clone($amake(0));
+				var start = args[0].@nvalue();
+				var stop = args[1].@nvalue();
 
-			if(stop >= len)
-				stop = len - 1;
+				if(start < 0)
+					start = len + start;
+				if(stop < 0)
+					stop = len + stop;
 
-			var new_array = $asub(this.@internal_array, start, stop - start + 1);
-			this.clone(new_array);
-		}		
-	}
+				if(start < 0)
+					start = 0;
+				if(stop < 0)
+					stop = 0;
+
+				if(start > stop) {
+					var temp = stop;
+					stop = start;
+					start = temp;
+				}
+
+				if(start >= len)
+					return this.clone($amake(0));
+
+				if(stop >= len)
+					stop = len - 1;
+
+				var new_array = $asub(this.@internal_array, start, stop - start + 1);
+				this.clone(new_array);
+			}		
+		}
 
 });
 
@@ -1206,28 +1130,28 @@ base_array.@plus = function(ary) {
 	this;
 }
 
-base_array.@equal@equal = function(rhs) {
-	if(lhs == rhs)
-		return base_object.@true();
-	else if($typeof(rhs) == $tobject || has_field(rhs, "@internal_array"))
-		rhs = rhs.@internal_array;
-	else
-		$throw("Cannot compare array to " + $string(rhs));
-
-	var lhs = this.@internal_array;
-	if($asize(lhs) != $asize(rhs))
-		return base_object.@false();
-
-	var index = 0;
-	var length = $asize(lhs);
-	while(index < length) {
-		if($not(istrue(lhs[index].@equal@equal(rhs[index]))))
-			return base_object.@false()
+	base_array.@equal@equal = function(rhs) {
+		if(lhs == rhs)
+			return base_object.@true();
+		else if($typeof(rhs) == $tobject || has_field(rhs, "@internal_array"))
+			rhs = rhs.@internal_array;
 		else
-			index = index + 1;
+			$throw("Cannot compare array to " + $string(rhs));
+
+		var lhs = this.@internal_array;
+		if($asize(lhs) != $asize(rhs))
+			return base_object.@false();
+
+		var index = 0;
+		var length = $asize(lhs);
+		while(index < length) {
+			if($not(istrue(lhs[index].@equal@equal(rhs[index]))))
+				return base_object.@false()
+			else
+				index = index + 1;
+		}
+		base_object.@true();
 	}
-	base_object.@true();
-}
 
 base_array.@to_s = function() {
 	var i = 0;
@@ -1308,18 +1232,18 @@ base_hash.@key_value = function(key) {
 }
 
 base_hash.new = $varargs(function(args) {
-	var hsh = new_brat(this, null);
-	if($asize(args) == 0) {
+		var hsh = new_brat(this, null);
+		if($asize(args) == 0) {
 		hsh.@internal_hash = $hnew(1);
-	}
-	else if($typeof(args[0]) == $tabstract) {
+		}
+		else if($typeof(args[0]) == $tabstract) {
 		hsh.@internal_hash = args[0];
-	}
-	else {
+		}
+		else {
 		throw("Invalid hash initialization:" + $string(args));
-	}
-	hsh;
-});
+		}
+		hsh;
+		});
 
 base_hash.get = function(index) {
 	if(has_field(index, "@value")) {
@@ -1399,7 +1323,7 @@ base_hash.map = function(block) {
 	var i = 0;
 	var fun = function(key, value) {
 		var tk = this.@key_value(key)l
-		res[i] = block(tk, value);
+			res[i] = block(tk, value);
 		i = i + 1;
 	}
 	$hiter(this.@internal_hash, fun);
@@ -1413,12 +1337,12 @@ base_hash.keys = function() {
 	this.map(fun);
 }
 
-base_hash.empty@question = function() {
-	if($hcount(this.@internal_hash) == 0)
-		base_object.@true();
-	else
-		base_object.@false();
-}
+	base_hash.empty@question = function() {
+		if($hcount(this.@internal_hash) == 0)
+			base_object.@true();
+		else
+			base_object.@false();
+	}
 
 base_hash.@to_s = function() {
 	output = "";
@@ -1427,7 +1351,7 @@ base_hash.@to_s = function() {
 	}
 
 	$hiter(this.@internal_hash, st);
-	
+
 	var out = output;
 	output = null;
 	out;
@@ -1471,27 +1395,27 @@ base_string.length = function() {
 }
 
 base_string.new = $varargs(function(args) {
-	var s = new_brat(this, null);
-	if($asize(args) == 0) {
+		var s = new_brat(this, null);
+		if($asize(args) == 0) {
 		s.@value = "";
-	}
-	else if($asize(args) == 1) {
+		}
+		else if($asize(args) == 1) {
 		if($typeof(args[0]) == $tstring) {
-			s.@value = args[0];
+		s.@value = args[0];
 		}
 		else if($typeof(args[0]) == $tobject && has_field(args[0], "@value") && $typeof(args[0].@value) == $tstring) {
-			s.@value = $scopy(args[0].@value);
+		s.@value = $scopy(args[0].@value);
 		}
 		else if($typeof(args[0]) != $tobject) 
-			s.@value = $string(args[0]);
+		s.@value = $string(args[0]);
 		else
-			$throw("Invalid argument to string.new(): " + $string(args[0]));
-	}
-	else {
+		$throw("Invalid argument to string.new(): " + $string(args[0]));
+		}
+		else {
 		$throw("Too many arguments to string.new(). Only takes 0 or 1.");
-	}
-	s;
-})
+		}
+		s;
+});
 
 base_string.clone = $varargs(function(args) {
 	if($asize(args) > 1)
@@ -1542,14 +1466,12 @@ base_string.__get = $varargs(function(args) {
 	else {
 		if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
 			$throw("Cannot index string with non-number value.");
-
 		if(len == 0) {
 			this.clone("");
 		}
 		else {
 			var start = args[0].@nvalue();
 			var stop = args[1].@nvalue();
-	
 			if(start < 0)
 				start = len + start;
 			if(stop < 0)
@@ -1599,7 +1521,7 @@ base_string.__set = function(index, value) {
 	if(index < 0 || index >= $ssize(this.@value))
 		$throw("Invalid string index: " + $string(index) + " when string is " + $string($ssize(this.@value)) + " long.")
 
-	$sblit(this.@value, index, value, 0, $ssize(value));
+			$sblit(this.@value, index, value, 0, $ssize(value));
 	this;
 }
 
@@ -1690,56 +1612,56 @@ base_string.sub@underfirst = function(regexp, replacement) {
 var string_split = $loader.loadprim("std@string_split", 2);
 
 base_string.split = $varargs(function(args) {
-	var sep;
-	var arglen = $asize(args);
-	if(arglen == 0)
+		var sep;
+		var arglen = $asize(args);
+		if(arglen == 0)
 		sep = " ";
-	else if(arglen == 1) {
+		else if(arglen == 1) {
 		sep = args[0];
 		if($typeof(sep) == $tobject && has_field(sep, "@value"))
-			sep = sep.@value;
+		sep = sep.@value;
 		if($typeof(sep) != $tstring)
-			$throw("Separator for split() must be a string, not " + $string(sep));
-	}
-	else
+		$throw("Separator for split() must be a string, not " + $string(sep));
+		}
+		else
 		$throw("Expected 0 or 1 arguments for string.split.");
 
-	if($ssize(sep) == 0)
+		if($ssize(sep) == 0)
 		return this.dice();
 
-	var first = $new(null);
-	var list = first;
-	var pos = 0;
-	var strlen = $ssize(this.@value);
-	var temp = this.@value;
-	var match_pos = 0;
-	var sep_len = $ssize(sep);
-	var matches = 0;
-	while(pos < strlen) {
-		match_pos = $sfind(temp, pos, sep);
-		if(match_pos != null) {
-			list.data = base_string.new($ssub(temp, pos, match_pos - pos));
-			pos = match_pos + sep_len;
+		var first = $new(null);
+		var list = first;
+		var pos = 0;
+		var strlen = $ssize(this.@value);
+		var temp = this.@value;
+		var match_pos = 0;
+		var sep_len = $ssize(sep);
+		var matches = 0;
+		while(pos < strlen) {
+			match_pos = $sfind(temp, pos, sep);
+			if(match_pos != null) {
+				list.data = base_string.new($ssub(temp, pos, match_pos - pos));
+				pos = match_pos + sep_len;
+			}
+			else {
+				list.data = base_string.new($ssub(temp, pos, strlen - pos));
+				pos = strlen;
+			}
+			matches = matches + 1;
+			list.next = $new(null);	
+			list = list.next;
 		}
-		else {
-			list.data = base_string.new($ssub(temp, pos, strlen - pos));
-			pos = strlen;
+
+		var i = 0;
+		var res = $amake(matches);
+		list = first;
+		while(i < matches) {
+			res[i] = list.data;
+			list = list.next;
+			i = i + 1;
 		}
-		matches = matches + 1;
-		list.next = $new(null);	
-		list = list.next;
-	}
 
-	var i = 0;
-	var res = $amake(matches);
-	list = first;
-	while(i < matches) {
-		res[i] = list.data;
-		list = list.next;
-		i = i + 1;
-	}
-
-	make_array(res);
+		make_array(res);
 })
 
 base_string.dice = function() {
@@ -1877,18 +1799,18 @@ to_identifier = function(string) {
 	reg_rep_fun(regexp2, string, f2);
 }
 
-from_identifier = function(string) {
-	if($typeof(string) != $tstring)
-		$throw("Cannot convert " + $string(string) + " to an identifier.");
+	from_identifier = function(string) {
+		if($typeof(string) != $tstring)
+			$throw("Cannot convert " + $string(string) + " to an identifier.");
 
-	var regexp1 = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under)")
-	
-	var f1 = function(m) { $hget(from_id_list, reg_matched(m), null) };
-	string = reg_rep_fun(regexp1, string, f1);
-	var regexp2 = regexp_new("@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)");
-	var f2 = function(m) { var s = reg_matched(m); $ssub(s, 1, $ssize(s) - 1); }
-	reg_rep_fun(regexp2, string, f2);
-}
+		var regexp1 = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under)")
+
+		var f1 = function(m) { $hget(from_id_list, reg_matched(m), null) };
+		string = reg_rep_fun(regexp1, string, f1);
+		var regexp2 = regexp_new("@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)");
+		var f2 = function(m) { var s = reg_matched(m); $ssub(s, 1, $ssize(s) - 1); }
+		reg_rep_fun(regexp2, string, f2);
+	}
 
 var run_gc = $loader.loadprim("std@run_gc", 1);
 var gc_stats = $loader.loadprim("std@gc_stats", 0);
