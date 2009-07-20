@@ -178,13 +178,29 @@ file.read@underline = function() {
 	var c = 0;
 	var f = this.@file;
 	while($not(file_eof(f))) {
-		c = read_char(f);
+		try {
+			c = read_char(f);
+		}
+		catch e {
+			c = break_char;
+		}
+
 		if(c == break_char)
 			break;
 		buffer_add_char(buff, c);
 	};
 
 	@brat.base_string.new(buffer_string(buff));
+}
+
+file.each@underline = function(block) {
+	if($typeof(block) != $tfunction || $nargs(block) != 1)
+		$throw("File.each_line takes a block with a single argument.");
+
+	var line;
+	while($not(file_eof(this.@file))) {
+		block(this.read@underline());
+	}
 }
 
 file.eof@question = function() {
