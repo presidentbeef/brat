@@ -962,29 +962,29 @@ base_array = new_brat(null, null);
 base_array.@internal_array = $amake(0);
 
 base_array.new = $varargs(function(args) {
-		var ary = new_brat(this, null);
-		ary.@internal_array = $acopy(args);
-		ary;
-		});
+	var ary = new_brat(this, null);
+	ary.@internal_array = $acopy(args);
+	ary;
+});
 
-	base_array.clone = $varargs(function(args) {
-			if($asize(args) > 1)
-			$throw("Too many arguments to array.clone(). Only takes 0 or 1.");
+base_array.clone = $varargs(function(args) {
+	if($asize(args) > 1)
+		$throw("Too many arguments to array.clone(). Only takes 0 or 1.");
 
-			var new_array = $new(this);
-			$objsetproto(new_array, $objgetproto(this));
+	var new_array = $new(this);
+	$objsetproto(new_array, $objgetproto(this));
 
-			if($asize(args) == 1) {
-			if($typeof(args[0]) == $tobject)
+	if($asize(args) == 1) {
+		if($typeof(args[0]) == $tobject)
 			new_array.@value = $string(args[0].@internal_array);
-			else if($typeof(args[0]) == $tarray)
-			new_array.@internal_array = args[0];
-			else
-			$throw("Need an array argument for array.clone()");
-			}
+	else if($typeof(args[0]) == $tarray)
+		new_array.@internal_array = args[0];
+	else
+		$throw("Need an array argument for array.clone()");
+	}
 
-			new_array;
-			})
+	new_array;
+})
 
 
 base_array.length = function() {
@@ -1085,7 +1085,7 @@ base_array.__set = function(index, value) {
 	this;
 }
 
-base_array.@less@less = function(value) {
+base_array.push = function(value) {
 	var old_len = $asize(this.@internal_array);
 	var new_array = $amake(old_len + 1);
 	$ablit(new_array, 0, this.@internal_array, 0, old_len);
@@ -1093,6 +1093,8 @@ base_array.@less@less = function(value) {
 	this.@internal_array = new_array;
 	this;
 }
+
+base_array.@less@less = base_array.push;
 
 base_array.@plus = function(ary) {
 	this.@internal_array = $aconcat($array(this.@internal_array, ary.@internal_array));
