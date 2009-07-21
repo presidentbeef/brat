@@ -1,0 +1,66 @@
+var @brat = $loader.loadmodule("internal", $loader);
+
+var set = @brat.base_object.new();
+set.new = $varargs(function(args) {
+	var arglen = $asize(args);
+	if(arglen == 1) {
+		if($typeof(args[0]) == $tarray)
+			args = args[0];
+		else if($typeof(args[0]) == $tobject && @brat.has_field(args[0], "@internal_array"))
+			args = args[0].@internal_array;
+	}
+	else if(arglen == 0)
+		args = null;
+
+	var @internal_hash = @brat.base_hash.new();
+
+	if(args != null) {
+		var i = 0;
+		while(i < arglen) {
+			@internal_hash.set(args[i], null);
+			i = i + 1;
+		}
+	}
+	var new_set = @brat.new_brat(this, null);
+	new_set.@internal_hash = @internal_hash;
+	new_set;
+})
+
+set.@to_s = function() {
+	if(this.@internal_hash != null)
+		this.@internal_hash.keys().@to_s();
+	else
+		"[]";
+}
+
+set.add = function(item) {
+	this.@internal_hash.set(item, null);
+	this;
+}
+
+set.delete = function(item) {
+	this.@internal_hash.delete(item);
+	this;
+}
+
+set.include@question = function(item) {
+	this.@internal_hash.key@question(item);
+}
+
+set.to@underarray = function() {
+	this.@internal_hash.keys();
+}
+
+set.clear = function() {
+	@internal_hash = @brat.base_hash.new();
+}
+
+set.empty@question = function() {
+	@internal_hash.empty@question();
+}
+
+set.length = function() {
+	@internal_hash.length();
+}
+
+$exports.set = set;

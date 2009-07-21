@@ -217,6 +217,7 @@ base_object.@less@equal@greater = function(rhs) {
 	var res = $compare(lhs, rhs);
 	if(res == null)
 		res = -1;
+
 	base_number.new(res);
 }
 
@@ -1203,18 +1204,18 @@ base_hash.@key_value = function(key) {
 }
 
 base_hash.new = $varargs(function(args) {
-		var hsh = new_brat(this, null);
-		if($asize(args) == 0) {
+	var hsh = new_brat(this, null);
+	if($asize(args) == 0) {
 		hsh.@internal_hash = $hnew(1);
-		}
-		else if($typeof(args[0]) == $tabstract) {
+	}
+	else if($typeof(args[0]) == $tabstract) {
 		hsh.@internal_hash = args[0];
-		}
-		else {
+	}
+	else {
 		throw("Invalid hash initialization:" + $string(args));
-		}
-		hsh;
-		});
+	}
+	hsh;
+});
 
 base_hash.get = function(index) {
 	if(has_field(index, "@value")) {
@@ -1308,12 +1309,12 @@ base_hash.keys = function() {
 	this.map(fun);
 }
 
-	base_hash.empty@question = function() {
-		if($hcount(this.@internal_hash) == 0)
-			base_object.@true();
-		else
-			base_object.@false();
-	}
+base_hash.empty@question = function() {
+	if($hcount(this.@internal_hash) == 0)
+		base_object.@true();
+	else
+		base_object.@false();
+}
 
 base_hash.@to_s = function() {
 	output = "";
@@ -1366,26 +1367,26 @@ base_string.length = function() {
 }
 
 base_string.new = $varargs(function(args) {
-		var s = new_brat(this, null);
-		if($asize(args) == 0) {
+	var s = new_brat(this, null);
+	if($asize(args) == 0) {
 		s.@value = "";
-		}
-		else if($asize(args) == 1) {
+	}
+	else if($asize(args) == 1) {
 		if($typeof(args[0]) == $tstring) {
-		s.@value = args[0];
-		}
-		else if($typeof(args[0]) == $tobject && has_field(args[0], "@value") && $typeof(args[0].@value) == $tstring) {
+			s.@value = args[0];
+	}
+	else if($typeof(args[0]) == $tobject && has_field(args[0], "@value") && $typeof(args[0].@value) == $tstring) {
 		s.@value = $scopy(args[0].@value);
 		}
 		else if($typeof(args[0]) != $tobject) 
-		s.@value = $string(args[0]);
+			s.@value = $string(args[0]);
 		else
-		$throw("Invalid argument to string.new(): " + $string(args[0]));
+			$throw("Invalid argument to string.new(): " + $string(args[0]));
 		}
-		else {
+	else {
 		$throw("Too many arguments to string.new(). Only takes 0 or 1.");
-		}
-		s;
+	}
+	s;
 });
 
 base_string.clone = $varargs(function(args) {
