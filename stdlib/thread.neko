@@ -2,6 +2,13 @@ var tcreate = $loader.loadprim("std@thread_create", 2);
 var lock_create = $loader.loadprim("std@lock_create", 0);
 var lock_release = $loader.loadprim("std@lock_release", 1);
 var lock_wait = $loader.loadprim("std@lock_wait", 2);
+var mutex_create = $loader.loadprim("std@mutex_create", 0);
+var mutex_acquire = $loader.loadprim("std@mutex_acquire", 1);
+var mutex_try = $loader.loadprim("std@mutex_try", 1);
+var mutex_release = $loader.loadprim("std@mutex_release", 0);
+var queue_create = $loader.loadprim("std@deque_create", 0);
+var queue_push = $loader.loadprim("std@deque_add", 2);
+var queue_pop = $loader.loadprim("std@deque_pop", 2);
 
 var @brat = $loader.loadmodule("internal", $loader);
 
@@ -10,6 +17,8 @@ thread.@lock = null;
 thread.@result = null;
 thread.@finished = false;
 thread.@all = @brat.base_array.new();
+thread.@mutex = mutex_create();
+mutex_release(thread.@mutex);
 thread.new = function(block) {
 	if($typeof(block) != $tfunction)
 		$throw("Thread.new requires a function as its argument.");
@@ -28,7 +37,11 @@ thread.new = function(block) {
 		lock_release(t.@lock);
 		t.@finished = true;
 	}
+	mutex_acquire(thread.@mutex);
 	t.@thread = tcreate(wrap, null);
+	thread.@all.push(t);
+	mutex_release(thread.@mutex);
+
 	t;
 }
 
@@ -51,5 +64,95 @@ thread.finished@question = function() {
 	else
 		@brat.base_object.@false();
 }
+
+thread.@join_all = $varargs(function(args) {
+	var arglen = $asize(args);
+	var threads;
+	if(arglen > 0) {
+		if(arglen == 1 && $typeof(args[0]) == $tobject && @brat.has_field(args[0], "@internal_array"))
+			args = args[0].@internal_array;
+		else if(arglen == 1 && $typeof(args[0]) == $tarray)
+			args = args[0];
+
+		var q = queue_create();
+		//pass in [thread, queue]
+		var wrap = function(thq) {
+			thq[0].join();
+			queue_push(thq[1], thq[0]);
+		}
+
+		var i = 0;
+		var wait_threads = $amake(arglen);
+		var current;
+		while(i < arglen) {
+			current = args[i];
+			if($typeof(current) == $tabstract)
+				threads[i] = current;
+			else if($typeof(current) == $tobject && @brat.has_field(current, "@thread"))
+				threads[i] = current;
+			else
+				$throw("Invalid arguments to thread.wait_on().");
+
+			wait_threads[i] = tcreate(wrap, $array(threads[i], q));
+
+			i = i + 1;
+		}
+	}
+	else
+		$throw("Invalid arguments for thread.wait_on().");
+
+	$array(wait_threads, q);
+})
+
+thread.wait@underall = $varargs(function(args) {
+	var block;
+	if($asize(args) == 1 && $typeof(args[0]) == $tfunction)
+		block = args[0];
+	else if($asize(args) != 0)
+		$throw("Invalid argument for thread.wait_all(): requires either a block or nothing.");
+
+	mutex_acquire(thread.@mutex);
+	var threads = $acopy(thread.@all);
+	mutex_release(thread.@mutex);
+	
+	if(block != null)
+		thread.wait@underon(threads, block);
+	else
+		thread.wait@underon(threads);
+})
+
+var set = $loader.loadmodule("set", $loader).set;
+
+thread.wait@underon = $varargs(function(args) {
+	var arglen = $asize(args);
+	if(arglen == 0)
+		$throw("Thread.wait_all() requires some arguments!");
+	else if(arglen == 1 && $typeof(args[0]) == $tobject && @brat.has_field(args[0], "@internal_array"))
+		args = args[0].@internal_array;
+	else
+		$throw("Invalid arguments for thread.wait_all.");
+
+	var joins;
+	var block;
+	if($typeof(args[arglen - 1]) == $tfunction) {
+		joins = thread.@join_all($asub(args, 0, arglen - 1));
+		block = args[arglen - 1];
+	}
+	else
+		joins = thread.@join_all(args);
+
+	var threads = set.new(joins[0]);
+	var q = joins[1];
+
+	var t;
+	while(threads.empty@question() != @brat.@true()) {
+		t = queue_pop(joins[1], true);
+		threads.delete(t);
+		if(block != null)
+			block(t.result());
+	}
+
+	@brat.@null();
+})
 
 $exports.thread = thread;
