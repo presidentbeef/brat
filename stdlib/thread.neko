@@ -60,9 +60,9 @@ thread.result = function() {
 
 thread.finished@question = function() {
 	if(this.@finished || this.@thread == null)
-		@brat.base_object.@true();
+		@brat.base_object.@@true;
 	else
-		@brat.base_object.@false();
+		@brat.base_object.@@false;
 }
 
 thread.@join_all = $varargs(function(args) {

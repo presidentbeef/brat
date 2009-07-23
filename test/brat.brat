@@ -1,3 +1,5 @@
-a = new
-a.b = { x | p x }
-a.call_method "b", "sup", 1
+h = hash.new
+h[1] = "hello"
+p 1 == 1
+p h
+p h[1]

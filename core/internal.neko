@@ -105,7 +105,7 @@ base_object.print = $varargs(function(args) {
 		i += 1;
 	};
 	$call($print, null, args);
-	base_object.@null();
+	base_object.@@null;
 })
 
 base_object.p = $varargs(function(args) {
@@ -132,16 +132,16 @@ base_object.squish = function(object) {
 
 base_object.function@question = function(object) {
 	if($typeof(object) == $tfunction)
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 base_object.object@question = function(object) {
 	if($typeof(object) == $tobject)
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 var random = $loader.loadprim("std@random_new", 0);
@@ -187,27 +187,27 @@ base_object.g = $varargs(function(args) {
 	        } while(true);
 	}
 	catch e {
-		return base_object.@null();
+		return base_object.@@null;
 	}
         base_string.new(buffer_string(b));
 })
 
 //True, false, and null values
-var @false_value = new_brat(null, null);
-@false_value.to@unders = function() { base_string.new("false") };
-var @true_value = new_brat(null, null);
-@true_value.to@unders = function() { base_string.new("true") };
-var @null_value = new_brat(null, null);
-@null_value.to@unders = function() { base_string.new("null") };
-base_object.@false = function() { @false_value }
-base_object.@true = function() { @true_value }
-base_object.@null = function() { @null_value}
+base_object.@@false = new_brat(null, null);
+base_object.@false = function() { base_object.@@false }
+base_object.@@false.to@unders = function() { base_string.new("false") };
+base_object.@@true = new_brat(null, null);
+base_object.@true = function() { base_object.@@true }
+base_object.@@true.to@unders = function() { base_string.new("true") };
+base_object.@@null = new_brat(null, null);
+base_object.@null = function() { base_object.@@null }
+base_object.@@null.to@unders = function() { base_string.new("null") };
 
 base_object.@equal@equal = function(rhs) {
 	if(this.@less@equal@greater(rhs).@value == 0)
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 base_object.@notequal = function(rhs) {
@@ -223,7 +223,7 @@ base_object.@less@equal@greater = function(rhs) {
 }
 
 var istrue = function(arg) {
-	if(arg == base_object.@null() || arg == base_object.@false()) {
+	if(arg == base_object.@@null || arg == base_object.@@false) {
 		false;
 	}
 	else {
@@ -243,9 +243,9 @@ base_object.@true@question = $varargs(function(args) {
 
 base_object.@0_@true@question = function() {
 	if(istrue(this))
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 	
 }
 
@@ -259,9 +259,9 @@ base_object.@1_@true@question = function(condition) {
 	}
 
 	if(istrue(first))
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 
@@ -327,9 +327,9 @@ base_object.@false@question = $varargs(function(args) {
 
 base_object.@0_@false@question = function() {
 	if($not(istrue(this)))
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 base_object.@1_@false@question = function(condition) {
@@ -342,9 +342,9 @@ base_object.@1_@false@question = function(condition) {
 	}
 
 	if($not(istrue(first)))
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 
@@ -409,10 +409,10 @@ base_object.@null@question = $varargs(function(args) {
 })
 
 base_object.@0_@null@question = function() {
-	if(this == base_object.@null())
-		base_object.@true();
+	if(this == base_object.@@null)
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 base_object.@1_@null@question = function(condition) {
@@ -424,10 +424,10 @@ base_object.@1_@null@question = function(condition) {
 		first = condition
 	}
 	
-	if(first == null || first == base_object.@null())
-		base_object.@true();
+	if(first == null || first == base_object.@@null)
+		base_object.@@true;
 	else 
-		base_object.@false();
+		base_object.@@false;
 }
 
 base_object.@2_@null@question = function(condition, null_branch) {
@@ -439,7 +439,7 @@ base_object.@2_@null@question = function(condition, null_branch) {
 		first = condition
 	}
 
-	if(first == null || first == base_object.@null()) {
+	if(first == null || first == base_object.@@null) {
 		if($typeof(null_branch) == $tfunction) {
 			null_branch();
 		}
@@ -448,7 +448,7 @@ base_object.@2_@null@question = function(condition, null_branch) {
 		}
 	}
 	else {
-		base_object.@false();
+		base_object.@@false;
 	}
 }
 
@@ -461,7 +461,7 @@ base_object.@3_@null@question = function(condition, null_branch, else_branch) {
 		first = condition
 	}
 
-	if(first == null || first == base_object.@null()) {
+	if(first == null || first == base_object.@@null) {
 		if($typeof(null_branch) == $tfunction) {
 			null_branch();
 		}
@@ -479,11 +479,11 @@ base_object.@3_@null@question = function(condition, null_branch, else_branch) {
 
 base_object.not = function(arg) {
 	if(istrue(arg)) {
-		base_object.@false();
+		base_object.@@false;
 	}
 	else
 	{
-		base_object.@true();
+		base_object.@@true;
 	}
 }
 
@@ -586,7 +586,7 @@ base_object.get@undermethod = function(name) {
 	if(m == null) {
 		var proto = $objgetproto(this);
         	if(proto == null) {
-			base_object.@null();
+			base_object.@@null;
         	}
 	        else {
 			proto.get@undermethod(name);
@@ -603,7 +603,7 @@ base_object.call@undermethod = $varargs(function(args) {
 
 	var m = this.get@undermethod(args[0]);
 
-	if(m == base_object.@null())
+	if(m == base_object.@@null)
 		$throw("No such method " + $string(args[0]) + " for " + $string(this) + "."); 
 
 	var nargs = $nargs(m);
@@ -749,9 +749,9 @@ base_number.to@unders = function() {
 
 base_number.native@question = function() {
 	if(this.@native)
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 base_number.to@underi = function() {
@@ -952,11 +952,11 @@ base_number.@less@equal@greater = function(num) {
 
 base_number.@equal@equal = function(num) {
 	if($not(has_field(num, "@native")))
-		base_object.@false();
+		base_object.@@false;
 	else if(this.@less@equal@greater(num).@value == 0)
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 //Array object
@@ -1003,7 +1003,7 @@ base_array.__get = $varargs(function(args) {
 
 		var index = args[0].@nvalue();
 		if(index > len || index < -len) {
-		return base_object.@null();
+		return base_object.@@null;
 		}
 		else if(index >= 0) {
 		return this.@internal_array[index];
@@ -1011,7 +1011,7 @@ base_array.__get = $varargs(function(args) {
 		else { //index  < 0
 		index = len + index;
 		if(index < 0 || index >= len) {
-		return base_object.@null();
+		return base_object.@@null;
 		}
 		else {
 			return this.@internal_array[index];
@@ -1075,7 +1075,7 @@ base_array.__set = function(index, value) {
 	if(index >= len) {
 		var new_array = $amake(index - len + 1);
 		var i = 0;
-		var n = base_object.@null();
+		var n = base_object.@@null;
 		while( i < (index - len + 1)) {
 			new_array[i] = n;
 			i += 1;
@@ -1105,7 +1105,7 @@ base_array.@plus = function(ary) {
 
 	base_array.@equal@equal = function(rhs) {
 		if(lhs == rhs)
-			return base_object.@true();
+			return base_object.@@true;
 		else if($typeof(rhs) == $tobject || has_field(rhs, "@internal_array"))
 			rhs = rhs.@internal_array;
 		else
@@ -1113,17 +1113,17 @@ base_array.@plus = function(ary) {
 
 		var lhs = this.@internal_array;
 		if($asize(lhs) != $asize(rhs))
-			return base_object.@false();
+			return base_object.@@false;
 
 		var index = 0;
 		var length = $asize(lhs);
 		while(index < length) {
 			if($not(istrue(lhs[index].@equal@equal(rhs[index]))))
-				return base_object.@false()
+				return base_object.@@false
 			else
 				index = index + 1;
 		}
-		base_object.@true();
+		base_object.@@true;
 	}
 
 base_array.@to_s = function() {
@@ -1192,12 +1192,12 @@ base_hash.@key_value = function(key) {
 		base_string.new(key);
 	else if(t == $tbool) {
 		if(key)
-			base_object.@true();
+			base_object.@@true;
 		else
-			base_object.@false();
+			base_object.@@false;
 	}
 	else if(t == $tnull)
-		base_object.@null();
+		base_object.@@null;
 	else if(t == $tarray)
 		make_array(key);
 	else {
@@ -1223,7 +1223,7 @@ base_hash.get = function(index) {
 	if($hmem(this.@internal_hash, index, base_hash.@compare) == true)
 		$hget(this.@internal_hash, index, base_hash.@compare);
 	else
-		base_object.@null();
+		base_object.@@null;
 }
 
 base_hash.set = function(index, value) {
@@ -1242,9 +1242,9 @@ make_hash = function(neko_hash) {
 
 base_hash.key@question = function(index) {
 	if($hmem(this.@internal_hash, index, base_hash.@compare))
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 base_hash.each = function(block) {
@@ -1292,9 +1292,9 @@ base_hash.keys = function() {
 
 base_hash.empty@question = function() {
 	if($hcount(this.@internal_hash) == 0)
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 base_hash.@to_s = function() {
@@ -1635,7 +1635,7 @@ base_string.dice = function() {
 
 var regexp_new = $loader.loadprim("regexp@regexp_new", 1);
 base_regex = new_brat(null, null);
-base_regex.@internal_regex = base_object.@null();
+base_regex.@internal_regex = base_object.@@null;
 base_regex.new = function(regx_string) {
 	if($typeof(regx_string) == $tobject && has_field(regx_string, "@value"))
 		regx_string = regx_string.@value;
@@ -1655,9 +1655,9 @@ base_regex.match = function(val) {
 		$throw("Wrong, wrong, wrong!");
 
 	if(regexp_match(this.@internal_regex, val, 0, $ssize(val)))
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();
+		base_object.@@false;
 }
 
 base_regex.@tilde = base_regex.match;
@@ -1681,11 +1681,11 @@ base_symbol.@equal@equal = function(rhs) {
 		rhs = rhs.@value;
 
 	if($typeof(rhs) != $tint)
-		base_object.@false();
+		base_object.@@false;
 	else if(this.@value == rhs)
-		base_object.@true();
+		base_object.@@true;
 	else
-		base_object.@false();		
+		base_object.@@false;		
 }
 
 base_symbol.@to_s = function() {
