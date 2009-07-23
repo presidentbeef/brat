@@ -20,6 +20,8 @@ base_object.new = $varargs(function(args) {
 	new_brat(this, arg_hash);
 })
 
+base_object.hkey = function() { $hkey(this) };
+
 //Create a new object with either parent_brat or base_object
 //as the parent class.
 new_brat = function(parent_brat, arg_hash) {
@@ -37,10 +39,14 @@ new_brat = function(parent_brat, arg_hash) {
 		var set_f = function(k,v) {
 			if($typeof(v) != $tfunction)
 				v = function() { v };
-			if($typeof(k) == $tint)
-				$objset(brat, k, v);
-			else if($typeof(k) == $tstring)
-				$objset(brat, $hash(k), v);
+		
+			if(has_field(k, "@value")) {
+				k = k.@value
+				if($typeof(k) == $tint)
+					$objset(brat, k, v);
+				else if($typeof(k) == $tstring)
+					$objset(brat, $hash(k), v);
+			}
 			else
 				$throw("Expecting symbol or string for field name.");
 		}
@@ -209,14 +215,9 @@ base_object.@notequal = function(rhs) {
 }
 
 base_object.@less@equal@greater = function(rhs) {
-	var lhs = this;
-	if(has_field(rhs, "@value") && has_field(lhs, "@value")) {
-		rhs = rhs.@value;
-		lhs = lhs.@value;
-	}
-	var res = $compare(lhs, rhs);
+	var res = $compare(this, rhs);
 	if(res == null)
-		res = -1;
+		res = -2;
 
 	base_number.new(res);
 }
@@ -946,7 +947,7 @@ base_number.@less@equal@greater = function(num) {
 			base_number.new(num_cmp(to_bignum(lhs), to_bignum(rhs)));
 	}
 	else
-		$throw("Unable to compare number to " + $string(num));
+		base_number.new(-2);
 }
 
 base_number.@equal@equal = function(num) {
@@ -976,12 +977,12 @@ base_array.clone = $varargs(function(args) {
 	$objsetproto(new_array, $objgetproto(this));
 
 	if($asize(args) == 1) {
-		if($typeof(args[0]) == $tobject)
-			new_array.@value = $string(args[0].@internal_array);
-	else if($typeof(args[0]) == $tarray)
-		new_array.@internal_array = args[0];
-	else
-		$throw("Need an array argument for array.clone()");
+		if($typeof(args[0]) == $tobject && has_field(args[0], "@internal_array"))
+			new_array.@internal_array = args[0].@internal_array;
+		else if($typeof(args[0]) == $tarray)
+			new_array.@internal_array = args[0];
+		else
+			$throw("Need an array argument for array.clone()");
 	}
 
 	new_array;
@@ -1132,18 +1133,12 @@ base_array.@to_s = function() {
 	while i < len {
 		if(has_field(this.@internal_array[i], "@to_s"))
 			temp[i] = this.@internal_array[i].@to_s();
-		else if(has_field(this.@internal_array[i], "@value"))
-			temp[i] = this.@internal_array[i].@value;
 		else
 			temp[i] = this.@internal_array[i];
 
 		i += 1;
 	}
 	$string(temp);
-}
-
-base_array.to@unders = function() {
-	base_string.new(this.@to_s());
 }
 
 base_array.reverse = function() {
@@ -1178,7 +1173,14 @@ base_array.get = base_array.__get;
 
 //Hash table object
 base_hash = new_brat(null, null);
-base_hash.@internal_hash = $hnew(0);
+base_hash.@internal_hash = $hnew(10);
+base_hash.@compare = function(lhs, rhs) {
+	if($typeof(lhs) == $tobject && $typeof(rhs) == $tobject) {
+		lhs.@less@equal@greater(rhs).@value;
+	}
+	else 
+		$compare(lhs, rhs);
+}
 
 base_hash.@key_value = function(key) {
 	var t = $typeof(key);
@@ -1218,27 +1220,14 @@ base_hash.new = $varargs(function(args) {
 });
 
 base_hash.get = function(index) {
-	if(has_field(index, "@value")) {
-		if($typeof(index.@value) == $tabstract && is_num(index.@value))
-			index = index.@to_s();
-		else
-			index = index.@value;
-	}
-	if($hmem(this.@internal_hash, index, null))
-		$hget(this.@internal_hash, index, null);
+	if($hmem(this.@internal_hash, index, base_hash.@compare) == true)
+		$hget(this.@internal_hash, index, base_hash.@compare);
 	else
 		base_object.@null();
 }
 
 base_hash.set = function(index, value) {
-	if(has_field(index, "@value")) {
-		if($typeof(index.@value) == $tabstract && is_num(index.@value)) {
-			index = index.@to_s();
-		}
-		else
-			index = index.@value;
-	}
-	$hset(this.@internal_hash, index, value, null);
+	$hset(this.@internal_hash, index, value, base_hash.@compare);
 	this;
 }
 
@@ -1252,27 +1241,19 @@ make_hash = function(neko_hash) {
 }
 
 base_hash.key@question = function(index) {
-	if(has_field(index, "@value"))
-		index = index.@value;
-	if($hmem(this.@internal_hash, index, null))
+	if($hmem(this.@internal_hash, index, base_hash.@compare))
 		base_object.@true();
 	else
 		base_object.@false();
 }
 
 base_hash.each = function(block) {
-	var fun = function(key, value) {
-		block(this.@key_value(key), value);
-	}
-	$hiter(this.@internal_hash, fun);
+	$hiter(this.@internal_hash, block);
 	this;
 }
 
 base_hash.delete = function(key) {
-	if(has_field(key, "@value"))
-		key = key.@value;
-
-	$hremove(this.@internal_hash, key, null);
+	$hremove(this.@internal_hash, key, base_hash.@compare);
 	this;
 }
 
@@ -1283,8 +1264,8 @@ base_hash.length = function() {
 base_hash.select = function(block) {
 	var res = $hnew(5);
 	var test = function(key, value) { 
-		if(istrue(block(this.@key_value(key), value)))
-			$hset(res, key, value, null);
+		if(istrue(block(key, value)))
+			$hset(res, key, value, base_hash.@compare);
 	}
 	$hiter(this.@internal_hash, test);
 	make_hash(res);
@@ -1294,17 +1275,17 @@ base_hash.map = function(block) {
 	var res = $amake($hcount(this.@internal_hash));
 	var i = 0;
 	var fun = function(key, value) {
-		var tk = this.@key_value(key)l
-			res[i] = block(tk, value);
+		res[i] = block(key, value);
 		i = i + 1;
 	}
+
 	$hiter(this.@internal_hash, fun);
 	make_array(res);
 }
 
 base_hash.keys = function() {
 	var fun = function(key, value) {
-		base_hash.@key_value(key);
+		key;
 	}
 	this.map(fun);
 }
@@ -1330,15 +1311,7 @@ base_hash.@to_s = function() {
 }
 
 hset = function(hashtable, index, value) {
-	if(has_field(index, "@value")) {
-		if($typeof(index.@value) == $tabstract && is_num(index.@value)) {
-			index = index.@to_s();
-		}
-		else
-			index = index.@value;
-	}
-
-	$hset(hashtable, index, value, null)
+	$hset(hashtable, index, value, base_hash.@compare)
 }
 
 make_array = function(neko_array) {
@@ -1351,6 +1324,18 @@ base_string = new_brat(null, null);
 base_string.@value = "";
 base_string.@to_s = function() {
 	this.@value;
+}
+
+base_string.@less@equal@greater = function(rhs) {
+	if($typeof(rhs) == $tobject && has_field(rhs, "@value")) {
+		if($typeof(rhs.@value) == $tstring) {
+			base_number.new($compare(this.@value, rhs.@value));
+		}
+		else 
+			base_number.new(-2);
+	}
+	else
+		base_number.new(-2);
 }
 
 base_string.to@underi = function() {
@@ -1694,10 +1679,13 @@ base_symbol.new = function(sym_string) {
 base_symbol.@equal@equal = function(rhs) {
 	if($typeof(rhs) == $tobject && has_field(rhs, "@value"))
 		rhs = rhs.@value;
-	if($typeof(rhs) != $tint)
-		$throw("Cannot compare symbol to " + $string(rhs));
 
-	this.@value == rhs;
+	if($typeof(rhs) != $tint)
+		base_object.@false();
+	else if(this.@value == rhs)
+		base_object.@true();
+	else
+		base_object.@false();		
 }
 
 base_symbol.@to_s = function() {
