@@ -105,6 +105,7 @@ class BratCoreTests < Test::Unit::TestCase
 	def test_hash_key?
 		assert_result "true", 'a = ["a" : 1]; a.key? "a"'
 		assert_result "false", 'a = ["a" : 1]; a.key? 1'
+		assert_result "false", 'a = [1:"hi"]; a.key? "1"'
 	end
 
 	def test_hash_each

@@ -6,8 +6,10 @@ set.new = $varargs(function(args) {
 	if(arglen == 1) {
 		if($typeof(args[0]) == $tarray)
 			args = args[0];
-		else if($typeof(args[0]) == $tobject && @brat.has_field(args[0], "@internal_array"))
+		else if($typeof(args[0]) == $tobject && @brat.has_field(args[0], "@internal_array")) {
 			args = args[0].@internal_array;
+			arglen = $asize(args);
+		}
 	}
 	else if(arglen == 0)
 		args = null;
@@ -38,6 +40,8 @@ set.add = function(item) {
 	this;
 }
 
+set.@less@less = set.add;
+
 set.delete = function(item) {
 	this.@internal_hash.delete(item);
 	this;
@@ -52,15 +56,15 @@ set.to@underarray = function() {
 }
 
 set.clear = function() {
-	@internal_hash = @brat.base_hash.new();
+	this.@internal_hash = @brat.base_hash.new();
 }
 
 set.empty@question = function() {
-	@internal_hash.empty@question();
+	this.@internal_hash.empty@question();
 }
 
 set.length = function() {
-	@internal_hash.length();
+	this.@internal_hash.length();
 }
 
 $exports.set = set;
