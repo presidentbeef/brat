@@ -120,7 +120,7 @@ def brat orig_file_name, keep_intermediate = false, force = false
 	end
 
 	if not system "neko #{file_name}.n"
-		abort "Error while running program."
+		abort "Running program returned error number: #{$?}"
 	end
 end
 
