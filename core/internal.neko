@@ -656,6 +656,10 @@ base_object.local@undermethods = function() {
 	meths = make_array(meths).select(function(i) { base_object.not(i[base_number.new(0)].@equal@equal(base_string.new("@")))});
 }
 
+base_object.with@underthis = function(block) {
+	block();
+}
+
 var sys_exit = $loader.loadprim("std@sys_exit", 1);
 base_object.exit = $varargs(function(exit_code) {
 	if($asize(exit_code) == 0)
