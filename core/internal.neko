@@ -596,6 +596,17 @@ base_object.get@undermethod = function(name) {
 		m;
 }
 
+base_object.has@undermethod@question = function(name) {
+	if(has_field(name, "@value") && $typeof(name.@value) == $tstring) {
+		if(has_field(this, name.@to_s()))
+			base_object.@@true;
+		else
+			base_object.@@false;
+	}
+	else
+		$throw("has_method? expects a string.");
+}
+
 base_object.call@undermethod = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen < 1)
