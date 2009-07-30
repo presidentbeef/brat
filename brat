@@ -93,6 +93,15 @@ def brat orig_file_name, keep_intermediate = false, force = false
 	new_stdlib = compile_stdlib(force)
 	force = force || new_parser || new_internal || new_core || new_stdlib
 
+	file_name = compile_brat_file orig_file_name, force
+
+	if not system "neko #{file_name}.n"
+		abort "Running program returned error number: #{$?}"
+	end
+end
+
+def compile_brat_file orig_file_name, keep_intermediate = false, force = false 
+
 	if orig_file_name.match /\.brat$/i
 		file_name = orig_file_name[0..-6]
 	else
@@ -119,11 +128,8 @@ def brat orig_file_name, keep_intermediate = false, force = false
 		File.delete file_name + ".neko"
 	end
 
-	if not system "neko #{file_name}.n"
-		abort "Running program returned error number: #{$?}"
-	end
+	file_name
 end
-
 #Returns Neko code for Brat input, but without the Neko code it is usually wrapped in.
 def inner_brat input
 
