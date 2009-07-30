@@ -639,6 +639,23 @@ base_object.methods = function() {
 	}
 }
 
+base_object.local@undermethods = function() {
+	var meths = $objfields(this);
+	var i = 0; 
+	var field;
+	var name;
+	while(i < $asize(meths)) {
+		field = $field(meths[i]);
+		if(field == null)
+			$throw("Unable to retrieve string for field, for some weird reason.");
+		name = from_identifier(field);
+		meths[i] = base_string.new(name);
+		i = i + 1;
+	}
+
+	meths = make_array(meths).select(function(i) { base_object.not(i[base_number.new(0)].@equal@equal(base_string.new("@")))});
+}
+
 var sys_exit = $loader.loadprim("std@sys_exit", 1);
 base_object.exit = $varargs(function(exit_code) {
 	if($asize(exit_code) == 0)
