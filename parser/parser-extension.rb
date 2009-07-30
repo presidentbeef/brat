@@ -82,12 +82,12 @@ class Treetop::Runtime::SyntaxNode
 					#{temp}.#{method}(#{arguments});
 				}	
 				else
-					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ".#{method}: should be " + $string(arg_len) + " but given #{arg_length}");
+					$throw("Wrong number of arguments for #{nice_id object}.#{nice_id method}: should be " + $string(arg_len) + " but given #{arg_length}.");
 			}
 			else if(@brat.has_field(#{temp}, "no@undermethod"))
-				#{temp}.no@undermethod("#{nice_id(method)}", @brat.make_array($array(#{arguments})));
+				#{temp}.no@undermethod("#{nice_id method}", @brat.make_array($array(#{arguments})));
 			else
-				$throw("Invoking undefined method #{method} on " + @brat.nice_identifier("#{object}"));
+				$throw("Invoking undefined method #{nice_id method} on #{nice_id object}");
 		}
 		NEKO
 	end
@@ -100,12 +100,12 @@ class Treetop::Runtime::SyntaxNode
 		 		#{call_method("this", object, arguments, arg_length)}
 			}
 			else if(@brat.has_field(this, "no@undermethod"))
-				this.no@undermethod("#{nice_id(object)}", @brat.make_array($array(#{arguments})));
+				this.no@undermethod("#{nice_id object}", @brat.make_array($array(#{arguments})));
 			else if($typeof(no@undermethod) == $tfunction)
-				no@undermethod("#{nice_id(object)}", @brat.make_array($array(#{arguments})));
+				no@undermethod("#{nice_id object}", @brat.make_array($array(#{arguments})));
 			else
 			{
-				$throw("Trying to invoke null method: " + @brat.nice_identifier("#{object}"));
+				$throw("Trying to invoke null method: #{nice_id object}");
 			}
 		} else {
 			if($typeof(#{temp}) == $tfunction) {
@@ -114,11 +114,11 @@ class Treetop::Runtime::SyntaxNode
 				if(arg_len == -1 || arg_len == #{arg_length})
 					#{temp}(#{arguments});
 				else
-					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ". Expected " + $string(arg_len) + " but given #{arg_length}");
+					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 			}
 		NEKO
 		if arg_length > 0
-			output << "else { $throw(\"Tried to invoke non-method: \" + @brat.nice_identifier(\"#{object}\")); }}"
+			output << "else { $throw(\"Tried to invoke non-method: #{nice_id object}\"); }}"
 		else
 			output << "else { #{temp}; }}"
 		end
@@ -135,24 +135,24 @@ class Treetop::Runtime::SyntaxNode
 				if(arg_len == -1 || arg_len == #{arg_length})
 					#@result(#{arguments});
 				else
-					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ". Expected " + $string(arg_len) + " but given #{arg_length}");
+					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 			}
 			else if(@brat.has_field(this, "no@undermethod"))
-				this.no@undermethod("#{nice_id(object)}", @brat.make_array($array(#{arguments})));
+				this.no@undermethod("#{nice_id object}", @brat.make_array($array(#{arguments})));
 			else if($typeof(no@undermethod) == $tfunction)
-				no@undermethod("#{nice_id(object)}", @brat.make_array($array(#{arguments})));
+				no@undermethod("#{nice_id object}", @brat.make_array($array(#{arguments})));
 			else
-				$throw("Trying to invoke null method: " + @brat.nice_identifier("#{object}"));
+				$throw("Trying to invoke null method: #{nice_id object}");
 		} else {
 			if($typeof(#{temp}) == $tfunction) {
 				var arg_len = $nargs(#{temp});
 				if(arg_len == -1 || arg_len == #{arg_length})
 					#{temp}(#{arguments});
 				else
-					$throw("Wrong number of arguments for " + @brat.nice_identifier("#{object}") + ". Expected " + $string(arg_len) + " but given #{arg_length}");
+					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 			}
 			else if(#{arg_length != 0 ? "true" : "false"}) {
-				$throw("Tried to invoke non-method: " + @brat.nice_identifier("#{object}"));
+				$throw("Tried to invoke non-method: #{nice_id object}");
 			}
 			else { 
 				#{temp}; 
@@ -168,16 +168,16 @@ class Treetop::Runtime::SyntaxNode
 		<<-NEKO
 		if(#{temp} == null) {
 			if(@brat.has_field(this, "no@undermethod"))
-				this.no@undermethod("#{nice_id(method)}", @brat.make_array($array(#{arguments})));
+				this.no@undermethod("#{nice_id method}", @brat.make_array($array(#{arguments})));
 			else
-				$throw("Could not invoke null method:" + @brat.nice_identifier("#{method}"));
+				$throw("Could not invoke null method: #{nice_id method}");
 		}
 		else {
 			var arg_len = $nargs(#{temp});
 			if(arg_len == -1 || arg_len == #{arg_length})
 				#{temp}(#{arguments});
 			else
-				$throw("Wrong number of arguments for " + @brat.nice_identifier("#{method}") + ". Expected " + $string(arg_len) + " but given #{arg_length}.");
+				$throw("Wrong number of arguments for #{nice_id method}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 		}
 		NEKO
 	end
