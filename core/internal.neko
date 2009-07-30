@@ -1766,7 +1766,7 @@ $hset(from_id_list, "@back", "\\", null)
 $hset(from_id_list, "@question", "?", null)
 $hset(from_id_list, "@less", "<", null)
 $hset(from_id_list, "@greater", ">", null)
-$hset(from_id_list, "!=","@notequal", null)
+$hset(from_id_list, "@notequal","!=", null)
 $hset(from_id_list, "@equal", "=", null)
 $hset(from_id_list, "@percent", "%", null)
 $hset(from_id_list, "@under", "_", null)
@@ -1791,18 +1791,18 @@ to_identifier = function(string) {
 	reg_rep_fun(regexp2, string, f2);
 }
 
-	from_identifier = function(string) {
-		if($typeof(string) != $tstring)
-			$throw("Cannot convert " + $string(string) + " to an identifier.");
+from_identifier = function(string) {
+	if($typeof(string) != $tstring)
+		$throw("Cannot convert " + $string(string) + " to an identifier.");
 
-		var regexp1 = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under)")
+	var regexp1 = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under)")
 
-		var f1 = function(m) { $hget(from_id_list, reg_matched(m), null) };
-		string = reg_rep_fun(regexp1, string, f1);
-		var regexp2 = regexp_new("@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)");
-		var f2 = function(m) { var s = reg_matched(m); $ssub(s, 1, $ssize(s) - 1); }
-		reg_rep_fun(regexp2, string, f2);
-	}
+	var f1 = function(m) { $hget(from_id_list, reg_matched(m), null) };
+	string = reg_rep_fun(regexp1, string, f1);
+	var regexp2 = regexp_new("@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)");
+	var f2 = function(m) { var s = reg_matched(m); $ssub(s, 1, $ssize(s) - 1); }
+	reg_rep_fun(regexp2, string, f2);
+}
 
 var run_gc = $loader.loadprim("std@run_gc", 1);
 var gc_stats = $loader.loadprim("std@gc_stats", 0);
