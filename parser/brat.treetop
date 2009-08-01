@@ -28,7 +28,7 @@ grammar BaseBrat
 
 		def inner_brat
 			Treetop::Runtime::SyntaxNode.clear_variables
-			elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";").gsub(";", ";\n")
+			elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";")
 		end
 
 		def core_brat
@@ -54,7 +54,7 @@ grammar BaseBrat
 			$exports.hset = @brat.hset;
 			$exports.make_array = @brat.make_array;
 			$exports.make_hash = @brat.make_hash;
-			$exports.base_array = array;
+			:$exports.base_array = array;
 			$exports.base_hash = hash;
 			$exports.base_number = number;
 			$exports.base_string = string;
@@ -64,6 +64,7 @@ grammar BaseBrat
 			$exports.num_args = @brat.num_args;
 			$exports.nice_identifier = @brat.nice_identifier;
 			$exports.to_identifier = @brat.to_identifier;
+			$exports.set_fun_nargs = @brat.set_fun_nargs;
 			NEKO
 		end
 	}
@@ -133,6 +134,10 @@ grammar BaseBrat
 
   rule unary_rhs_expression
  	index_get / paren_exp / number / string / hash / bare_array / method_invocation / regex / symbol
+  end
+
+  rule default_arg_rhs_expression
+	index_get / paren_exp / method_access / method_invocation / number / unary_operation / string / symbol / function_definition / hash / array
   end
 
   #Matches regular expression literals
@@ -452,8 +457,28 @@ grammar BaseBrat
 			else
 				args = ""
 			end
+
+			if fa.respond_to? :function_header
+				inside = fa.function_header
+			else
+				inside = ""
+			end
+
+			if fa.respond_to? :function_prior
+				output << fa.function_prior
+			end
+
 			next_temp
-			output = "var #@result = function(#{args}) { \n#{l.elements.map {|e| e.brat}.join(";")} };"
+
+			output << "var #@result = function(#{args}) { \n" <<
+				inside <<
+				l.elements.map {|e| e.brat}.join(";") <<
+				"};"
+
+			if fa.respond_to? :var_args
+				output << "@brat.set_fun_nargs(#@result, -2);\n"
+			end
+
 			pop_scope
 			output
 		end
@@ -462,27 +487,49 @@ grammar BaseBrat
 
   #Matches formal arguments in a function definition
   rule formal_args
-  	space? i:identifier? rest_formal space? "|" {
+	space? plain_formals space? "|" {
+		def brat
+			plain_formals.brat
+		end
+	}
+	/
+	space? default_args space? "|"
+	/
+	space? variable_args space? "|"	
+	/
+	space? plain_formals space? "," space? variable_args space? "|"
+	/
+	space? default_args space? "," space? variable_args space? "|"
+	/
+	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|"
+	/
+  	space? plain_formals space? "," space? default_args space? "|"
+	/
+	!"|"
+  end
+
+  rule plain_formals
+	i:identifier rest_formal {
+		attr_reader :args
+
 		def brat
 			if i.respond_to? :brat
 				var_add i.brat, next_temp
 				if $interactive
-					args = [i.brat] + rest_formal.brat
+					@args = [i.brat] + rest_formal.brat
 				else
-					args = [@result] + rest_formal.brat
+					@args = [@result] + rest_formal.brat
 				end
 			else
-				args = []
+				@args = []
 			end.join(", ")
 		end
 	}
-	/
-	!"|" 
   end
 
   #Matches list items in a formal argument list
   rule rest_formal
-  	(space? "," space? identifier)* {
+  	(space? "," space? identifier ~(!(space? "=")))* {
 		def brat
 			if elements.length > 0
 				elements.map do |e|
@@ -498,6 +545,37 @@ grammar BaseBrat
 			end
 		end
 	}
+  end
+
+  rule default_args
+	first:default_arg rest:(space? "," space? default_arg)* {
+		attr_reader :args
+
+		def brat
+			output = first.brat 
+			@args = {first.result]
+			rest.elements.each do |e|
+				output << e.default_arg.brat
+				@args << e.default_arg.result
+			end
+			output
+		end
+	}
+  end
+
+  rule default_arg
+	i:identifier space? "=" space? v:default_arg_rhs_expression {
+		def brat
+			var_add i.brat, next_temp
+			output << v.brat
+			next_temp
+			output << "var #@result = #{v.result};\n"
+		end
+	}
+  end
+
+  rule variable_args
+  	"*" i:identifier
   end
 
   #Matches a unary operation, which requires a symbol to be

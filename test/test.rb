@@ -133,6 +133,17 @@ class BratParserTest < Test::Unit::TestCase
 		parse "1 + 2 ! 3 @ b"
 	end
 
+	def test_formal_parse
+		parse "{x, y | }"
+		parse "{x, y| z }"
+		parse "{x, y = 1 | y }"
+		parse "{*y | p y }"
+		parse "{x, *y | p y }"
+		parse "{ x = 1, *y | }"
+		parse "{ x = 1, z = 3, *y | }"
+		parse "{ a,b, c, x = 1,z = 3,*y | }"
+	end
+
 	def test_operation
 		assert_result "1", "a = new; a.! = {b| b }; a ! 1"
 		assert_result "2", "a = new; a.? = {b| 2}; a ? \"hello\""
