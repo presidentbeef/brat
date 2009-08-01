@@ -1781,6 +1781,7 @@ base_object.memstats = function() {
 	$print("After running gc:", gc_stats(), "\n");
 }
 
+
 $exports.hset = hset;
 $exports.make_array = make_array;
 $exports.make_hash = make_hash;
@@ -1797,3 +1798,4 @@ $exports.num_args = num_args;
 $exports.memstats = memstats;
 $exports.nice_identifier = from_identifier;
 $exports.to_identifier = to_identifier;
+$exports.set_fun_nargs = $loader.loadprim("core-util@set_fun_nargs", 2);
