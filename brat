@@ -45,10 +45,15 @@ end
 #Compiles stdlibs if needed. Returns false if compilation does not occur.
 def compile_stdlib force = false
 	neko_files = Dir.glob "#$program_path/stdlib/*.neko"
+	brat_files = Dir.glob "#$program_path/stdlib/*.brat"
 
 	if force
 		neko_files.each do |f|
 			system "nekoc #{f}"
+		end
+
+		brat_files.each do |f|
+			compile_brat_file f, false, true 
 		end
 		true
 	else
@@ -59,6 +64,11 @@ def compile_stdlib force = false
 				compiled = true
 				system "nekoc #{f}"
 			end
+		end
+
+		#Warning: does not set compiled flag
+		brat_files.each do |f|
+			compile_brat_file f
 		end
 		compiled
 	end
@@ -93,6 +103,16 @@ def brat orig_file_name, keep_intermediate = false, force = false
 	new_stdlib = compile_stdlib(force)
 	force = force || new_parser || new_internal || new_core || new_stdlib
 
+	file_name = compile_brat_file orig_file_name, force
+
+	if not system "neko #{file_name}.n"
+		abort "Running program returned error number: #{$?}"
+	end
+end
+
+#Compiles a Brat file to Neko bytecode, returns base name of file
+def compile_brat_file orig_file_name, keep_intermediate = false, force = false 
+
 	if orig_file_name.match /\.brat$/i
 		file_name = orig_file_name[0..-6]
 	else
@@ -119,11 +139,8 @@ def brat orig_file_name, keep_intermediate = false, force = false
 		File.delete file_name + ".neko"
 	end
 
-	if not system "neko #{file_name}.n"
-		abort "Running program returned error number: #{$?}"
-	end
+	file_name
 end
-
 #Returns Neko code for Brat input, but without the Neko code it is usually wrapped in.
 def inner_brat input
 

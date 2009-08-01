@@ -596,6 +596,17 @@ base_object.get@undermethod = function(name) {
 		m;
 }
 
+base_object.has@undermethod@question = function(name) {
+	if(has_field(name, "@value") && $typeof(name.@value) == $tstring) {
+		if(has_field(this, name.@to_s()))
+			base_object.@@true;
+		else
+			base_object.@@false;
+	}
+	else
+		$throw("has_method? expects a string.");
+}
+
 base_object.call@undermethod = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen < 1)
@@ -637,6 +648,27 @@ base_object.methods = function() {
 	else {
 		meths.@plus(proto.methods());
 	}
+}
+
+base_object.local@undermethods = function() {
+	var meths = $objfields(this);
+	var i = 0; 
+	var field;
+	var name;
+	while(i < $asize(meths)) {
+		field = $field(meths[i]);
+		if(field == null)
+			$throw("Unable to retrieve string for field, for some weird reason.");
+		name = from_identifier(field);
+		meths[i] = base_string.new(name);
+		i = i + 1;
+	}
+
+	meths = make_array(meths).select(function(i) { base_object.not(i[base_number.new(0)].@equal@equal(base_string.new("@")))});
+}
+
+base_object.with@underthis = function(block) {
+	block();
 }
 
 var sys_exit = $loader.loadprim("std@sys_exit", 1);
@@ -1734,7 +1766,7 @@ $hset(from_id_list, "@back", "\\", null)
 $hset(from_id_list, "@question", "?", null)
 $hset(from_id_list, "@less", "<", null)
 $hset(from_id_list, "@greater", ">", null)
-$hset(from_id_list, "!=","@notequal", null)
+$hset(from_id_list, "@notequal","!=", null)
 $hset(from_id_list, "@equal", "=", null)
 $hset(from_id_list, "@percent", "%", null)
 $hset(from_id_list, "@under", "_", null)
@@ -1759,18 +1791,18 @@ to_identifier = function(string) {
 	reg_rep_fun(regexp2, string, f2);
 }
 
-	from_identifier = function(string) {
-		if($typeof(string) != $tstring)
-			$throw("Cannot convert " + $string(string) + " to an identifier.");
+from_identifier = function(string) {
+	if($typeof(string) != $tstring)
+		$throw("Cannot convert " + $string(string) + " to an identifier.");
 
-		var regexp1 = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under)")
+	var regexp1 = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)")
 
-		var f1 = function(m) { $hget(from_id_list, reg_matched(m), null) };
-		string = reg_rep_fun(regexp1, string, f1);
-		var regexp2 = regexp_new("@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)");
-		var f2 = function(m) { var s = reg_matched(m); $ssub(s, 1, $ssize(s) - 1); }
-		reg_rep_fun(regexp2, string, f2);
-	}
+	var f1 = function(m) { $hget(from_id_list, reg_matched(m), null) };
+	string = reg_rep_fun(regexp1, string, f1);
+	var regexp2 = regexp_new("@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)");
+	var f2 = function(m) { var s = reg_matched(m); $ssub(s, 1, $ssize(s) - 1); }
+	reg_rep_fun(regexp2, string, f2);
+}
 
 var run_gc = $loader.loadprim("std@run_gc", 1);
 var gc_stats = $loader.loadprim("std@gc_stats", 0);
