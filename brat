@@ -349,7 +349,7 @@ elsif ARGV[0]
 	end
 
 	if options.include? '-f' or force
-		File.delete(file_name + ".n") rescue nil
+		File.delete(file_name.sub(/\.brat$/, "") << ".n") rescue nil
 	end
 
 	if options.include? "-s"
