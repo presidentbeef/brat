@@ -1,5 +1,3 @@
-h = hash.new
-h[1] = "hello"
-p 1 == 1
-p h
-p h[1]
+no_method = { *args | p args }
+a = { no_method 1 }
+b

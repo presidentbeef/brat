@@ -247,7 +247,6 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result '1', 'a = new;a.== = {x| x + 1}; a == 0'
 	end
 
-
 	def test_true
 		assert_result "1", "true? false, 0, 1"
 		assert_result "1", "true? false, 0, {1}"
@@ -298,6 +297,19 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", "a = {x| x.length}; a \"f\":1"
 		assert_result "1", "a = {x| x[\"f\"] }; a \"f\":1"
 		assert_result "1", "a = {x, y, z| z[\"f\"] }; a 1, \"f\":1, 2"
+	end
+
+	def test_no_method_immediate
+		assert_result "abc", "a = new; a.no_method = { *args | args[0] }; a.abc"
+	end
+
+	def test_no_method_ancestor
+		assert_result "abc", "a = new; a.no_method = { *args | args[0] }; b = a.new; b.abc"
+		assert_result "abc", "my.no_method = { *args | args[0] }; b = new; b.abc"
+	end
+
+	def test_no_method_local
+		assert_result "abc", "no_method = { *args | args[0] }; abc"
 	end
 
 	def test_method_parens_parse

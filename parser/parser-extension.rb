@@ -87,8 +87,9 @@ class Treetop::Runtime::SyntaxNode
 				else
 					$throw("Wrong number of arguments for #{nice_id object}.#{nice_id method}: should be " + $string(arg_len) + " but given #{arg_length}.");
 			}
-			else if(@brat.has_field(#{temp}, "no@undermethod"))
-				#{temp}.no@undermethod("#{nice_id method}", @brat.make_array($array(#{arguments})));
+			else if(@brat.has_field(#{temp}, "no@undermethod")) {
+				#{call_no_method temp, method, arguments, arg_length}
+			}
 			else
 				$throw("Invoking undefined method #{nice_id method} on #{nice_id object}");
 		}
@@ -97,22 +98,22 @@ class Treetop::Runtime::SyntaxNode
 
 	def call_no_method object, method, arguments, arg_length
 		method = nice_id method
+		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 
 		if arg_length == 0
-			arguments = method
+			arguments = "string.new(\"#{method}\")"
 		else
-			arguments = method + " , " + arguments
+			arguments = "string.new(\"#{method}\")" << " , " << arguments
 		end
 
 		arg_length += 1
-
 		if object.nil?
 			<<-NEKO
-			var nma = $nargs(no@undermethod);
+			var nma = $nargs(#{no_meth});
 			if(nma == #{arg_length})
-				no@undermethod(#{arguments})
+				#{no_meth}(#{arguments})
 			else if(nma == -2)
-				no@undermethod($array(#{arguments}));
+				#{no_meth}($array(#{arguments}));
 			else
 				$throw("Wrong number of arguments for no_method: should be " + $string(nma) + " but given #{arg_length}.");
 			NEKO
@@ -131,15 +132,18 @@ class Treetop::Runtime::SyntaxNode
 
 	def get_value object, arguments, arg_length 
 		temp = var_exist?(object) || object
+		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		output = <<-NEKO
 		if($typeof(#{temp}) == $tnull) {
 			if(@brat.has_field(this, "#{object}")) {
 		 		#{call_method("this", object, arguments, arg_length)}
 			}
-			else if(@brat.has_field(this, "no@undermethod"))
-				this.no@undermethod("#{nice_id object}", @brat.make_array($array(#{arguments})));
-			else if($typeof(no@undermethod) == $tfunction)
-				no@undermethod("#{nice_id object}", @brat.make_array($array(#{arguments})));
+			else if(@brat.has_field(this, "no@undermethod")) {
+				#{call_no_method "this", object, arguments, arg_length}
+			}
+			else if($typeof(#{no_meth}) == $tfunction) {
+				#{call_no_method nil, object, arguments, arg_length}
+			}
 			else
 			{
 				$throw("Trying to invoke null method: #{nice_id object}");
@@ -165,6 +169,7 @@ class Treetop::Runtime::SyntaxNode
 
 	def get_value_clean object, arguments, arg_length
 		temp = var_exist?(object) || object
+		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		<<-NEKO
 		if($typeof(#{temp}) == $tnull) {
 			if(@brat.has_field(this, "#{object}")) {
@@ -178,10 +183,12 @@ class Treetop::Runtime::SyntaxNode
 				else
 					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 			}
-			else if(@brat.has_field(this, "no@undermethod"))
-				this.no@undermethod("#{nice_id object}", @brat.make_array($array(#{arguments})));
-			else if($typeof(no@undermethod) == $tfunction)
-				no@undermethod("#{nice_id object}", @brat.make_array($array(#{arguments})));
+			else if(@brat.has_field(this, "no@undermethod")) {
+				#{call_no_method "this", object, arguments, arg_length}
+			}
+			else if($typeof(#{no_meth}) == $tfunction) {
+				#{call_no_method nil, object, arguments, arg_length}
+			}
 			else
 				$throw("Trying to invoke null method: #{nice_id object}");
 		} else {
@@ -210,17 +217,17 @@ class Treetop::Runtime::SyntaxNode
 		temp = var_exist?(method) || method
 		<<-NEKO
 		if(#{temp} == null) {
-			if(@brat.has_field(this, "no@undermethod"))
-				this.no@undermethod("#{nice_id method}", @brat.make_array($array(#{arguments})));
+			if(@brat.has_field(this, "no@undermethod")) {
+				#{call_no_method "this", method, arguments, arg_length}
+			}
 			else
 				$throw("Could not invoke null method: #{nice_id method}");
 		}
 		else {
 			var arg_len = $nargs(#{temp});
-			if(arg_len == #{arg_length})
+			if(arg_len == #{arg_length} || arg_len == -1)
 				#{temp}(#{arguments});
-			else if(arg_len == -1) {
-				$print("Life really sucks\n");	
+			else if(arg_len == -2) {
 				#{temp}($array(#{arguments}));
 			}
 			else
