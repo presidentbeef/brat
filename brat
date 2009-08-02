@@ -103,7 +103,7 @@ def brat orig_file_name, keep_intermediate = false, force = false
 	new_stdlib = compile_stdlib(force)
 	force = force || new_parser || new_internal || new_core || new_stdlib
 
-	file_name = compile_brat_file orig_file_name, force
+	file_name = compile_brat_file orig_file_name, keep_intermediate, force
 
 	if not system "neko #{file_name}.n"
 		abort "Running program returned error number: #{$?}"
