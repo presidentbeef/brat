@@ -1,10 +1,8 @@
 #include <neko.h>
 
-value set_fun_nargs(value func, value num) {
-	val_check(func, function);
-	val_check(num, int);
-	val_fun_nargs(func) = val_int(num);
-	return val_null; 
+value brat_var_args(value func) {
+	val_fun_nargs(func) = -2;
+	return func;
 }
 
-DEFINE_PRIM(set_fun_nargs, 2);
+DEFINE_PRIM(brat_var_args, 1);

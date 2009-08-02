@@ -64,7 +64,7 @@ grammar BaseBrat
 			$exports.num_args = @brat.num_args;
 			$exports.nice_identifier = @brat.nice_identifier;
 			$exports.to_identifier = @brat.to_identifier;
-			$exports.set_fun_nargs = @brat.set_fun_nargs;
+			$exports.brat_var_args = @brat.brat_var_args;
 			NEKO
 		end
 	}
@@ -478,7 +478,7 @@ grammar BaseBrat
 				"};"
 
 			if fa.respond_to? :var_args
-				output << "@brat.set_fun_nargs(#@result, -1);\n"
+				output << "#@result = @brat.brat_var_args(#@result);\n"
 			end
 
 			pop_scope

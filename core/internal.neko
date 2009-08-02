@@ -1830,4 +1830,4 @@ $exports.num_args = num_args;
 $exports.memstats = memstats;
 $exports.nice_identifier = from_identifier;
 $exports.to_identifier = to_identifier;
-$exports.set_fun_nargs = $loader.loadprim("core-util@set_fun_nargs", 2);
+$exports.brat_var_args = $loader.loadprim("core-util@brat_var_args", 1);
