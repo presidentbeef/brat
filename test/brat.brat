@@ -1,3 +1,1 @@
-no_method = { *args | p args }
-a = { no_method 1 }
-b
+a = { first, *args | first }; a 1,2,3,4 

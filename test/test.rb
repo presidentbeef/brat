@@ -144,6 +144,16 @@ class BratParserTest < Test::Unit::TestCase
 		parse "{ a,b, c, x = 1,z = 3,*y | }"
 	end
 
+	def test_var_args
+		assert_result "1", "a = { *args | args[0] }; a 1,2,3,4"
+		assert_result "true", "a = { *args | args.empty?  }; a"
+	end
+
+	def test_required_and_var_args
+		assert_result "1", "a = { first, *args | first }; a 1,2,3,4"
+		assert_result "1", "a = { first, *args | first }; a 1"
+	end
+
 	def test_operation
 		assert_result "1", "a = new; a.! = {b| b }; a ! 1"
 		assert_result "2", "a = new; a.? = {b| 2}; a ? \"hello\""

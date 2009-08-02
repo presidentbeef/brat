@@ -522,7 +522,7 @@ grammar BaseBrat
 			"@args"
 		end
 
-		def function_header
+		def function_header fname = nil
 			"#{@param} = @brat.make_array(@args);\n"
 		end
 	}
@@ -542,17 +542,18 @@ grammar BaseBrat
 			"@args"
 		end
 
-		def function_header fun_name
+		def function_header
+			plain_formals.brat
 			req_args = plain_formals.args.length
 			i = 0
-			output = "if($asize(@args) < #{req_args}) $throw(\"Expected at least #{req_args} argument(s) for #{fun_name}.\");\n"
+			output = "if($asize(@args) < #{req_args}) $throw(\"Expected at least #{req_args} argument(s).\");\n"
 
 			plain_formals.args.each do |a|
-				output << "#{a} = @args[i];\n"
+				output << "#{a} = @args[#{i}];\n"
 				i += 1
 			end
 
-			output << "#{@param} = @args[i];" 
+			output << "#{@param} = @brat.make_array($asub(@args, #{i}, $asize(@args) - #{i}));" 
 		end
 	}
 	/
