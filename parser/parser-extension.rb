@@ -80,7 +80,10 @@ class Treetop::Runtime::SyntaxNode
 				var arg_len = @brat.num_args(#{temp}, "#{method}");
 				if(arg_len == -1 || arg_len == #{arg_length}) {
 					#{temp}.#{method}(#{arguments});
-				}	
+				}
+				else if(arg_len == -2) {
+					#{temp}.#{method}($array(#{arguments}));
+				}
 				else
 					$throw("Wrong number of arguments for #{nice_id object}.#{nice_id method}: should be " + $string(arg_len) + " but given #{arg_length}.");
 			}
@@ -90,6 +93,40 @@ class Treetop::Runtime::SyntaxNode
 				$throw("Invoking undefined method #{nice_id method} on #{nice_id object}");
 		}
 		NEKO
+	end
+
+	def call_no_method object, method, arguments, arg_length
+		method = nice_id method
+
+		if arg_length == 0
+			arguments = method
+		else
+			arguments = method + " , " + arguments
+		end
+
+		arg_length += 1
+
+		if object.nil?
+			<<-NEKO
+			var nma = $nargs(no@undermethod);
+			if(nma == #{arg_length})
+				no@undermethod(#{arguments})
+			else if(nma == -2)
+				no@undermethod($array(#{arguments}));
+			else
+				$throw("Wrong number of arguments for no_method: should be " + $string(nma) + " but given #{arg_length}.");
+			NEKO
+		else
+			<<-NEKO
+			var nma = $nargs(#{object}.no@undermethod);
+			if(nma == #{arg_length})
+				#{object}.no@undermethod(#{arguments})
+			else if(nma == -2)
+				#{object}.no@undermethod($array(#{arguments}));
+			else
+				$throw("Wrong number of arguments for no_method: should be " + $string(nma) + " but given #{arg_length}.");
+			NEKO
+		end
 	end
 
 	def get_value object, arguments, arg_length 
@@ -113,6 +150,8 @@ class Treetop::Runtime::SyntaxNode
 				var arg_len = $nargs(#{temp});
 				if(arg_len == -1 || arg_len == #{arg_length})
 					#{temp}(#{arguments});
+				else if(arg_len == -2)
+					#{temp}($array(#{arguments}));
 				else
 					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 			}
@@ -134,6 +173,8 @@ class Treetop::Runtime::SyntaxNode
 				var arg_len = $nargs(#@result);
 				if(arg_len == -1 || arg_len == #{arg_length})
 					#@result(#{arguments});
+				else if(arg_len == -2)
+					#@result($array(#{arguments}));
 				else
 					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 			}
@@ -148,6 +189,8 @@ class Treetop::Runtime::SyntaxNode
 				var arg_len = $nargs(#{temp});
 				if(arg_len == -1 || arg_len == #{arg_length})
 					#{temp}(#{arguments});
+				else if(arg_len == -2)
+					#{temp}($array(#{arguments}));
 				else
 					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 			}
@@ -174,8 +217,12 @@ class Treetop::Runtime::SyntaxNode
 		}
 		else {
 			var arg_len = $nargs(#{temp});
-			if(arg_len == -1 || arg_len == #{arg_length})
+			if(arg_len == #{arg_length})
 				#{temp}(#{arguments});
+			else if(arg_len == -1) {
+				$print("Life really sucks\n");	
+				#{temp}($array(#{arguments}));
+			}
 			else
 				$throw("Wrong number of arguments for #{nice_id method}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 		}

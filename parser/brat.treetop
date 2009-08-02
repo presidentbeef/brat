@@ -20,7 +20,7 @@ grammar BaseBrat
 				}
 			else
 				$throw(\"Import expects a string, not \" + $string(name));
-			}" <<
+			}\n" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
 			"@exit_value = @brat.base_object.@main_tantrum();\n"
@@ -54,7 +54,7 @@ grammar BaseBrat
 			$exports.hset = @brat.hset;
 			$exports.make_array = @brat.make_array;
 			$exports.make_hash = @brat.make_hash;
-			:$exports.base_array = array;
+			$exports.base_array = array;
 			$exports.base_hash = hash;
 			$exports.base_number = number;
 			$exports.base_string = string;
@@ -463,6 +463,8 @@ grammar BaseBrat
 			else
 				inside = ""
 			end
+		
+			output = ""
 
 			if fa.respond_to? :function_prior
 				output << fa.function_prior
@@ -476,7 +478,7 @@ grammar BaseBrat
 				"};"
 
 			if fa.respond_to? :var_args
-				output << "@brat.set_fun_nargs(#@result, -2);\n"
+				output << "@brat.set_fun_nargs(#@result, -1);\n"
 			end
 
 			pop_scope
@@ -493,11 +495,66 @@ grammar BaseBrat
 		end
 	}
 	/
-	space? default_args space? "|"
+	space? default_args space? "|" {
+		attr_reader :var_args
+
+		def brat
+			"@args"	
+		end
+
+		def function_prior
+			default_args.brat
+		end
+	}
 	/
-	space? variable_args space? "|"	
+	space? variable_args space? "|"	{
+		attr_reader :var_args
+
+		def brat
+			param = variable_args.i.brat
+			var_add param, next_temp
+			if $interactive
+				@param = param
+			else
+				@param = @result
+			end
+
+			"@args"
+		end
+
+		def function_header
+			"#{@param} = @brat.make_array(@args);\n"
+		end
+	}
 	/
-	space? plain_formals space? "," space? variable_args space? "|"
+	space? plain_formals space? "," space? variable_args space? "|" {
+		attr_reader :var_args
+
+		def brat
+			param = variable_args.i.brat
+			var_add param, next_temp
+			if $interactive
+				@param = param
+			else
+				@param = @result
+			end
+
+			"@args"
+		end
+
+		def function_header fun_name
+			req_args = plain_formals.args.length
+			i = 0
+			output = "if($asize(@args) < #{req_args}) $throw(\"Expected at least #{req_args} argument(s) for #{fun_name}.\");\n"
+
+			plain_formals.args.each do |a|
+				output << "#{a} = @args[i];\n"
+				i += 1
+			end
+
+			output << "#{@param} = @args[i];" 
+		end
+	}
 	/
 	space? default_args space? "," space? variable_args space? "|"
 	/
@@ -553,7 +610,7 @@ grammar BaseBrat
 
 		def brat
 			output = first.brat 
-			@args = {first.result]
+			@args = [first.result]
 			rest.elements.each do |e|
 				output << e.default_arg.brat
 				@args << e.default_arg.result
@@ -567,7 +624,7 @@ grammar BaseBrat
 	i:identifier space? "=" space? v:default_arg_rhs_expression {
 		def brat
 			var_add i.brat, next_temp
-			output << v.brat
+			output = v.brat
 			next_temp
 			output << "var #@result = #{v.result};\n"
 		end
