@@ -114,7 +114,7 @@ grammar BaseBrat
 		end
 	}
 	/ 
-	method_access / method_invocation / number / unary_operation / string / symbol / function_definition / hash / array
+	unary_operation / method_access / method_invocation / number / string / symbol / function_definition / hash / array
   end
 
   #Expressions which can be followed by []
@@ -277,7 +277,7 @@ grammar BaseBrat
 
   #Matches assignment using "=" operator
   rule assignment
- 	lhs:field_access space? "=" spaceorbreak rhs:function_definition {
+ 	lhs:field_access space "=" spaceorbreak rhs:function_definition {
 		def brat
 			output = lhs.brat <<
 			rhs.brat  <<
@@ -287,27 +287,26 @@ grammar BaseBrat
 		end
 	}
 	/
- 	lhs:field_access space? "=" spaceorbreak rhs:method_access {
+ 	lhs:field_access space "=" spaceorbreak rhs:method_access {
 		def brat
 			output = lhs.brat << 
 			rhs.brat <<
 			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});"
-			@result = rhs.result
 			output
 		end
 	}
 	/
- 	lhs:field_access space? "=" spaceorbreak rhs:expression {
+ 	lhs:field_access space "=" spaceorbreak rhs:expression {
 		def brat
 			output = lhs.brat << 
 			rhs.brat <<
 			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), function() {#{rhs.result}});"
 			@result = rhs.result
-			output
+			output << "#@result;"
 		end
 	}
 	/
-	lhs:identifier space? "=" spaceorbreak rhs:expression {
+	lhs:identifier space "=" spaceorbreak rhs:expression {
 		def brat
 			var = lhs.brat
 			temp = var_exist? var
@@ -587,7 +586,7 @@ grammar BaseBrat
 
   #Matches list items in a formal argument list
   rule rest_formal
-  	(space? "," space? identifier ~(!(space? "=")))* {
+  	(space? "," space? identifier ~(!(space "=")))* {
 		def brat
 			if elements.length > 0
 				elements.map do |e|
@@ -611,7 +610,7 @@ grammar BaseBrat
 
 		def brat
 			output = first.brat 
-			@args = [first.result]
+			@args = {first.var_name => first.result}
 			rest.elements.each do |e|
 				output << e.default_arg.brat
 				@args << e.default_arg.result
@@ -622,12 +621,21 @@ grammar BaseBrat
   end
 
   rule default_arg
-	i:identifier space? "=" space? v:default_arg_rhs_expression {
+	i:identifier space "=" space v:default_arg_rhs_expression {
 		def brat
-			var_add i.brat, next_temp
+			@var_name = i.brat
+			var_add @var_name, next_temp
 			output = v.brat
 			next_temp
 			output << "var #@result = #{v.result};\n"
+		end
+
+		def var_name
+			if $interactive
+				@var_name
+			else
+				var_exist? @var_name
+			end
 		end
 	}
   end
@@ -855,7 +863,8 @@ grammar BaseBrat
 			" #@result = " << invoke(temp, arg_list.list, arg_list.length) << ";" <<
 			" } else if($typeof(#{temp}) == $tobject) { " <<
 			"  #@result = #{temp}}" <<
-			"else { $throw \"Tried to invoke method on #{name}\" };"
+			"else if($typeof(#{temp}) == $tnull) { $throw(\"Cannot call method on #{nice_id name}, as it is null.\"); }" <<
+			"else { $throw(\"Could not invoke method on #{nice_id name}.\") };"
 			last = @result
 			if not a.elements.empty?
 				a.elements.each do |elem|
@@ -903,7 +912,7 @@ grammar BaseBrat
   #Matches the "don't execute this" operator ("->") which just returns the method
   #instead of executing/calling it.
   rule method_access
-  	"->" m:identifier {
+  	"->" m:(identifier / operator) {
 		def brat
 			next_temp
 			name = m.brat
@@ -912,9 +921,11 @@ grammar BaseBrat
 				"var #@result = #{temp};"
 			else	
 				"var #@result;" <<
-				"if (#{name} == null)" <<
-					"#@result = $objget(this, $hash(\"#{name}\"));" <<
-				"else #@result = #{name};"
+				"if(#{name} == null) {" <<
+					"if(@brat.has_field(this, \"#{name}\")) {" <<
+						"#@result = $objget(this, $hash(\"#{name}\"));" <<
+					"} else { $throw(\"Cannot access #{nice_id name}, it is null.\") }}"<<
+				"else { #@result = #{name} };\n"
 			end
 		end
 	}
@@ -922,8 +933,12 @@ grammar BaseBrat
   	o:method_invocation "->" m:(identifier / operator) {
 		def brat
 			next_temp
+			name = m.brat
 			o.brat <<
-			"var #@result = $objget(#{o.result}, $hash(\"#{m.brat}\"));"
+			"var #@result;" <<
+			"if(@brat.has_field(#{o.result}, \"#{m.brat}\")) {" <<
+				"#@result = $objget(#{o.result}, $hash(\"#{name}\")); }" <<
+			"else { $throw(\"#{o.text_value} has no method #{nice_id name}.\") };\n"
 		end
 	}
   end
@@ -1160,7 +1175,7 @@ grammar BaseBrat
   rule operator
 	~(!("->" !operator) !("=" !(operator / "="))) ("!=" / ">=" / "<=" / [!?\-*+^@~/\\><$_%\=] / "||" / "|" / "&&" / "&")+ {
 		def brat
-			escape_operator(elements.map {|e| e.text_value}.join)
+			escape_operator(text_value)
 		end
 	}
   end
