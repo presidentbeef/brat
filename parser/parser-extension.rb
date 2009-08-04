@@ -237,7 +237,7 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def escape_identifier identifier
-		identifier.gsub(/([!?\-*+^&@~\/\\><$_%])/) do |e|
+		identifier.gsub(/(!=|>=|<=|\|\||[!?\-*+^@~\/\\><$_%|&=])/) do
 			case $1
 			when "!"	
 				"@bang"
@@ -247,6 +247,12 @@ class Treetop::Runtime::SyntaxNode
 				"@minus"
 			when "+"
 				"@plus"
+			when "||"
+				"@oror"
+			when "|"
+				"@or"
+			when "&&"
+				"@andand"
 			when "&"
 				"@and"
 			when "@"
@@ -265,14 +271,22 @@ class Treetop::Runtime::SyntaxNode
 				"@less"
 			when ">"
 				"@greater"
-			when "$"
-				"@dollar"
-			when "_"
-				"@under"
+			when "!="
+				"@notequal"
+			when "="
+				"@equal"
+			when ">="
+				"@greater@equal"
+			when "<="
+				"@less@equal"
 			when "%"
 				"@percent"
+			when "_"
+				"@under"
+			when "$"
+				"@dollar"
 			else
-				nil	
+				"---something unmatched---"
 			end
 		end.gsub(/\b(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)\b/i) {|m| "@" + $1 }
 	end
