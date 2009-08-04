@@ -371,7 +371,7 @@ class BratParserTest < Test::Unit::TestCase
 		parse("{ p hi }")
 		parse("{x, y | p x, y} ").brat
 		parse("x = { p hi }").brat
-		parse("x= {a, b | \"a + b\"}").brat
+		parse("x = {a, b | \"a + b\"}").brat
 	end
 
 	def test_multiline_method_parse
@@ -428,10 +428,15 @@ class BratParserTest < Test::Unit::TestCase
 	def test_assignment_return
 		assert_result "5", "x = 5"
 		assert_result "5", "x = []; x[5] = 5"
+		assert_result "1", "a = new; a.b = 1"
 	end
 
 	def test_method_invocation_assignment
 		assert_result "5", "a = { x | x }; b = [->a]; c = b[0] 5; c"
+	end
+
+	def test_field_assignment
+		assert_fail "a.b = 1"
 	end
 
 	def test_new
