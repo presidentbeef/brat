@@ -137,6 +137,9 @@ def compile_brat_file orig_file_name, keep_intermediate = false, force = false
 
 	if not keep_intermediate and File.exist? file_name + ".neko"
 		File.delete file_name + ".neko"
+	else
+		system "nekoc -p #{file_name}.neko"
+		system "mv #{file_name}2.neko #{file_name}.neko"
 	end
 
 	file_name
