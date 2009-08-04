@@ -135,11 +135,13 @@ def compile_brat_file orig_file_name, keep_intermediate = false, force = false
 		system "nekoc #{file_name}.neko" or abort "Error while compiling program"
 	end
 
-	if not keep_intermediate and File.exist? file_name + ".neko"
-		File.delete file_name + ".neko"
-	else
-		system "nekoc -p #{file_name}.neko"
-		system "mv #{file_name}2.neko #{file_name}.neko"
+	if File.exist? file_name + ".neko"
+		if not keep_intermediate
+			File.delete file_name + ".neko"
+		else
+			system "nekoc -p #{file_name}.neko"
+			system "mv #{file_name}2.neko #{file_name}.neko"
+		end
 	end
 
 	file_name
