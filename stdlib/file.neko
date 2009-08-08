@@ -162,35 +162,26 @@ file.path = function() {
 		@brat.base_string.new(fname(this.@file));
 }
 
-var read_char = $loader.loadprim("std@file_read_char", 1);
-var buffer_new = $loader.loadprim("std@buffer_new", 0);
-var buffer_add_char = $loader.loadprim("std@buffer_add_char", 2);
+var read_line = $loader.loadprim("std@file_gets", 1);
 var buffer_string = $loader.loadprim("std@buffer_string", 1);
 var file_eof = $loader.loadprim("std@file_eof", 1);
 
 file.read@underline = function() {
-	if(this.@file == null)
+	var f = this.@file;
+	if(f == null)
 		$throw("No file opened.");
 
-	var break_char = 10; // platform dependent, naturally
-	var buff = buffer_new();
-
-	var c = 0;
-	var f = this.@file;
-	while($not(file_eof(f))) {
+	if($not(file_eof(f))) {
 		try {
-			c = read_char(f);
+			line = read_line(f);
 		}
 		catch e {
-			c = break_char;
+			return @brat.base_object.@@null;
 		}
 
-		if(c == break_char)
-			break;
-		buffer_add_char(buff, c);
 	};
 
-	@brat.base_string.new(buffer_string(buff));
+	@brat.base_string.new(line);
 }
 
 file.each@underline = function(block) {
@@ -198,7 +189,8 @@ file.each@underline = function(block) {
 		$throw("File.each_line takes a block with a single argument.");
 
 	var line;
-	while($not(file_eof(this.@file))) {
+	var f = this.@file;
+	while($not(file_eof(f))) {
 		block(this.read@underline());
 	}
 }
