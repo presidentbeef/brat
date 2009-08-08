@@ -144,6 +144,10 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "that", 'a = new; a.what?! = { "that" }; b = a.new; w = \'what?!; c = b.get_method w; c'
 	end
 
+	def test_object_has_method?
+		assert_result "true", 'a = new; a.wh_at?! = { "that" }; a.has_method? "wh_at?!"'
+	end
+
 	def test_object_add_method
 		assert_result "that", 'a = new; a.add_method "what?!", { "that" }; a.what?!'
 		assert_result "that", 'a = new; a.add_method \'what?!, { "that" }; b = a.new; b.what?!'
