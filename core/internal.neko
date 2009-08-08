@@ -160,7 +160,7 @@ base_object.random = function(x) {
 }
 
 var stdin = $loader.loadprim("std@file_stdin", 0);
-var read_char = $loader.loadprim("std@file_read_char", 1);
+var read_line = $loader.loadprim("std@file_gets", 1);
 var buffer_new = $loader.loadprim("std@buffer_new", 0);
 var buffer_add_char = $loader.loadprim("std@buffer_add_char", 2);
 var buffer_string = $loader.loadprim("std@buffer_string", 1);
@@ -176,20 +176,13 @@ base_object.g = $varargs(function(args) {
 		$throw("Wrong number of arguments: g expects 0 or 1 but you gave it " + $string($asize(args)));
 	}
 
-        var b = buffer_new();
-	var in = stdin();
 	try {
-        	do {
-        		var c = read_char(in);
-	                if(c == break_char)
-	                        break;
-		        buffer_add_char(b,c);
-	        } while(true);
-	}
+		line = read_line(stdin());
+        }
 	catch e {
 		return base_object.@@null;
 	}
-        base_string.new(buffer_string(b));
+        base_string.new(line);
 })
 
 //True, false, and null values
