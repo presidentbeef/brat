@@ -281,6 +281,33 @@ static value file_contents( value name ) {
 	return s;
 }
 
+#include <string.h>
+#define BUF_SIZE 1024
+
+/**
+ *   file_gets : 'file -> string
+ *     <doc>Read a line from file.</doc>
+ *     **/
+/* From here: http://lists.motion-twin.com/pipermail/neko/2009-July/002588.html ( Kacper Gutowski ) */
+static value file_gets( value o ) {
+	fio *f;
+	val_check_kind(o, k_file);
+	f = val_file(o);
+	char buf[BUF_SIZE];
+	int length;
+	buffer b;
+	b = alloc_buffer(NULL);
+	if (fgets(buf, BUF_SIZE, f->io) == NULL)
+		file_error("file_gets", f);
+	buffer_append_sub(b, buf, buf[(length = strlen(buf))-1] == '\n' ? length-1 : length);
+	while (buf[length-1] != '\n') {
+		if (fgets(buf, BUF_SIZE, f->io) == NULL) break;
+		buffer_append_sub(b, buf, buf[(length = strlen(buf))-1] == '\n' ? length-1 : length);
+	}
+	return buffer_to_string(b);
+}
+DEFINE_PRIM(file_gets,1);
+
 #define MAKE_STDIO(k) \
 	static value file_##k() { \
 		fio *f; \
@@ -289,22 +316,22 @@ static value file_contents( value name ) {
 		f->io = k; \
 		return alloc_abstract(k_file,f); \
 	} \
-	DEFINE_PRIM(file_##k,0);
+DEFINE_PRIM(file_##k,0);
 
 /**
-	file_stdin : void -> 'file
-	<doc>The standard input</doc>
-**/
+file_stdin : void -> 'file
+<doc>The standard input</doc>
+ **/
 MAKE_STDIO(stdin);
 /**
-	file_stdout : void -> 'file
-	<doc>The standard output</doc>
-**/
+file_stdout : void -> 'file
+<doc>The standard output</doc>
+ **/
 MAKE_STDIO(stdout);
 /**
-	file_stderr : void -> 'file
-	<doc>The standard error output</doc>
-**/
+file_stderr : void -> 'file
+<doc>The standard error output</doc>
+ **/
 MAKE_STDIO(stderr);
 
 DEFINE_PRIM(file_open,2);
