@@ -90,6 +90,7 @@ all: createbin libneko neko std compiler libs
 move:
 	cp -f bin/libneko.so ../../lib/
 	cp -f bin/neko bin/nekoc bin/nekotools ../../bin
+	cp -f bin/*.ndll ../../lib/
 
 universal:
 	make MACOSX=1 OSX_UNIVERSAL=1
