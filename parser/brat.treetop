@@ -465,10 +465,6 @@ grammar BaseBrat
 		
 			output = ""
 
-			if fa.respond_to? :function_prior
-				output << fa.function_prior
-			end
-
 			next_temp
 
 			output << "var #@result = function(#{args}) { \n" <<
@@ -501,8 +497,34 @@ grammar BaseBrat
 			"@args"	
 		end
 
-		def function_prior
+		def function_header
 			default_args.brat
+			output = "var @arg_len = $asize(@args);" <<
+				"if(@arg_len > #{default_args.args.length})" <<
+					"$throw(\"Function only accepts up to #{default_args.args.length} arguments.\");"
+
+			#Check and set default args
+			i = default_args.args.length
+			default_args.args.reverse.each do |a|
+				output << "if(@arg_len < #{i}) {\n #{a}\n"
+				i -= 1
+			end
+			output << ("}" * default_args.args.length) << "\n"
+
+			#Set args passed in
+			output << "switch @arg_len {\n"
+
+			names = default_args.arg_names
+			num_names = names.length
+			num_names.times do |l|
+				output << "#{num_names - l} => {"
+				names[0, num_names - l].each_with_index do |n, i|
+					output << "#{n} = @args[#{i}];"
+				end
+				output << "}\n"
+			end
+			output << "}\n"
+
 		end
 	}
 	/
@@ -521,7 +543,7 @@ grammar BaseBrat
 			"@args"
 		end
 
-		def function_header fname = nil
+		def function_header
 			"#{@param} = @brat.make_array(@args);\n"
 		end
 	}
@@ -606,16 +628,16 @@ grammar BaseBrat
 
   rule default_args
 	first:default_arg rest:(space? "," space? default_arg)* {
-		attr_reader :args
+		attr_reader :args, :arg_names
 
 		def brat
-			output = first.brat 
-			@args = {first.var_name => first.result}
+			@args = [first.brat]
+			@arg_names = [first.var_name]
 			rest.elements.each do |e|
-				output << e.default_arg.brat
-				@args << e.default_arg.result
+				@args << e.default_arg.brat
+				@arg_names << e.default_arg.var_name
 			end
-			output
+			""
 		end
 	}
   end
@@ -626,15 +648,15 @@ grammar BaseBrat
 			@var_name = i.brat
 			var_add @var_name, next_temp
 			output = v.brat
-			next_temp
-			output << "var #@result = #{v.result};\n"
+			@result = v.result
+			output << "#{var_name} = #{v.result}"
 		end
 
 		def var_name
 			if $interactive
 				@var_name
 			else
-				var_exist? @var_name
+				var_exist?(@var_name) || @var_name
 			end
 		end
 	}
