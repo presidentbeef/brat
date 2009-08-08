@@ -591,7 +591,7 @@ base_object.get@undermethod = function(name) {
 
 base_object.has@undermethod@question = function(name) {
 	if(has_field(name, "@value") && $typeof(name.@value) == $tstring) {
-		if(has_field(this, name.@to_s()))
+		if(has_field(this, to_identifier(name.@to_s())))
 			base_object.@@true;
 		else
 			base_object.@@false;
