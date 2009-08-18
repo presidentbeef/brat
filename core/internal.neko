@@ -210,7 +210,7 @@ base_object.@notequal = function(rhs) {
 base_object.@less@equal@greater = function(rhs) {
 	var res = $compare(this, rhs);
 	if(res == null)
-		res = -2;
+		$throw("Cannot compare " + $string(this) + " and " + $string(rhs));
 
 	base_number.new(res);
 }
@@ -972,7 +972,7 @@ base_number.@less@equal@greater = function(num) {
 			base_number.new(num_cmp(to_bignum(lhs), to_bignum(rhs)));
 	}
 	else
-		base_number.new(-2);
+		$throw("Cannot compare " + $string(this) + " and " + $string(num));
 }
 
 base_number.@equal@equal = function(num) {
@@ -1019,69 +1019,68 @@ base_array.length = function() {
 }
 
 base_array.__get = $varargs(function(args) {
-		var len = $asize(this.@internal_array);
-		if($asize(args) == 0 || $asize(args) > 2)
+	var len = $asize(this.@internal_array);
+	if($asize(args) == 0 || $asize(args) > 2)
 		$throw("Invalid number of arguments to array.get(), should be 1 or 2.");
-		else if($asize(args) == 1) {
+	else if($asize(args) == 1) {
 		if($not(has_field(args[0], "@nvalue")))
-		$throw("Cannot access array with non-number value.");
+			$throw("Cannot access array with non-number value.");
 
 		var index = args[0].@nvalue();
 		if(index > len || index < -len) {
-		return base_object.@@null;
+			return base_object.@@null;
 		}
 		else if(index >= 0) {
-		return this.@internal_array[index];
-		}
-		else { //index  < 0
-		index = len + index;
-		if(index < 0 || index >= len) {
-		return base_object.@@null;
-		}
-		else {
 			return this.@internal_array[index];
 		}
-		}
-		}
-		else {
-			if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
-				$throw("Cannot access array with non-number value.");
-
-			if(len == 0) {
-				this.clone($amake(0));
+		else { //index  < 0
+			index = len + index;
+			if(index < 0 || index >= len) {
+				return base_object.@@null;
 			}
 			else {
-
-				var start = args[0].@nvalue();
-				var stop = args[1].@nvalue();
-
-				if(start < 0)
-					start = len + start;
-				if(stop < 0)
-					stop = len + stop;
-
-				if(start < 0)
-					start = 0;
-				if(stop < 0)
-					stop = 0;
-
-				if(start > stop) {
-					var temp = stop;
-					stop = start;
-					start = temp;
-				}
-
-				if(start >= len)
-					return this.clone($amake(0));
-
-				if(stop >= len)
-					stop = len - 1;
-
-				var new_array = $asub(this.@internal_array, start, stop - start + 1);
-				this.clone(new_array);
-			}		
+				return this.@internal_array[index];
+			}
 		}
+	}
+	else {
+		if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
+			$throw("Cannot access array with non-number value.");
 
+		if(len == 0) {
+			this.clone($amake(0));
+		}
+		else {
+
+			var start = args[0].@nvalue();
+			var stop = args[1].@nvalue();
+
+			if(start < 0)
+				start = len + start;
+			if(stop < 0)
+				stop = len + stop;
+
+			if(start < 0)
+				start = 0;
+			if(stop < 0)
+				stop = 0;
+
+			if(start > stop) {
+				var temp = stop;
+				stop = start;
+				start = temp;
+			}
+
+			if(start >= len)
+				return this.clone($amake(0));
+
+			if(stop >= len)
+				stop = len - 1;
+
+			var new_array = $asub(this.@internal_array, start, stop - start + 1);
+			this.clone(new_array);
+		}
+	}
 });
 
 base_array.__set = function(index, value) {
@@ -1357,10 +1356,10 @@ base_string.@less@equal@greater = function(rhs) {
 			base_number.new($compare(this.@value, rhs.@value));
 		}
 		else 
-			base_number.new(-2);
+			$throw("Cannot compare " + $string(this) + " and " + $string(rhs));
 	}
 	else
-		base_number.new(-2);
+		$throw("Cannot compare " + $string(this) + " and " + $string(rhs));
 }
 
 base_string.to@underi = function() {
