@@ -578,7 +578,62 @@ grammar BaseBrat
 		end
 	}
 	/
-	space? default_args space? "," space? variable_args space? "|"
+	space? default_args space? "," space? variable_args space? "|" {
+		attr_reader :var_args
+
+		def brat
+			param = variable_args.i.brat
+			var_add param, next_temp
+			if $interactive
+				@param = param
+			else
+				@param = @result
+			end
+
+			"@args"
+		end
+
+		def function_header
+			default_args.brat
+			output = "var @arg_len = $asize(@args);$print(\"args:\", @arg_len, \"\\n\"); \n"
+
+			#Check and set default args
+			i = default_args.args.length
+			default_args.args.reverse.each do |a|
+				output << "if(@arg_len < #{i}) {\n #{a};\n"
+				i -= 1
+			end
+
+			output << ("}" * default_args.args.length) << "\n"
+
+			#Set args passed in
+			output << "switch @arg_len {\n"
+
+			names = default_args.arg_names
+			num_names = names.length
+			num_names.times do |l|
+				output << "#{num_names - l} => {"
+				names[0, num_names - l].each_with_index do |n, i|
+					output << "#{n} = @args[#{i}];"
+				end
+				output << "}\n"
+			end
+		
+			#This is if there are more args than defaults
+			output << "default => { "
+			names.each_with_index do |n, i|
+				output << "#{n} = @args[#{i}];"
+			end
+			output << "}\n"
+
+			#Close switch statement
+			output << "}\n"
+
+			output << "if(@arg_len > #{num_names}) {" <<
+				"#{@param} = @brat.make_array($asub(@args, #{num_names}, $asize(@args) - #{num_names}));" <<
+				"} else { #{@param} = @brat.base_array.new();}"
+		end
+	}
 	/
 	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|"
 	/
