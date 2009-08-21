@@ -197,22 +197,15 @@ base_object.@null = function() { base_object.@@null }
 base_object.@@null.to@unders = function() { base_string.new("null") };
 
 base_object.@equal@equal = function(rhs) {
-	if(this.@less@equal@greater(rhs).@value == 0)
+	if($pcompare(this, rhs) == 0) {
 		base_object.@@true;
+	}
 	else
 		base_object.@@false;
 }
 
 base_object.@notequal = function(rhs) {
 	base_object.not(this.@equal@equal(rhs));
-}
-
-base_object.@less@equal@greater = function(rhs) {
-	var res = $compare(this, rhs);
-	if(res == null)
-		$throw("Cannot compare " + $string(this) + " and " + $string(rhs));
-
-	base_number.new(res);
 }
 
 var istrue = function(arg) {
@@ -1127,28 +1120,34 @@ base_array.@plus = function(ary) {
 	this;
 }
 
-	base_array.@equal@equal = function(rhs) {
-		if(lhs == rhs)
-			return base_object.@@true;
-		else if($typeof(rhs) == $tobject || has_field(rhs, "@internal_array"))
-			rhs = rhs.@internal_array;
-		else
-			$throw("Cannot compare array to " + $string(rhs));
+base_array.@equal@equal = function(rhs) {
+	if(lhs == rhs)
+		return base_object.@@true;
+	else if($typeof(rhs) == $tobject && has_field(rhs, "@internal_array"))
+		rhs = rhs.@internal_array;
+	else
+		return base_object.@@false;
 
-		var lhs = this.@internal_array;
-		if($asize(lhs) != $asize(rhs))
-			return base_object.@@false;
-
-		var index = 0;
-		var length = $asize(lhs);
-		while(index < length) {
-			if($not(istrue(lhs[index].@equal@equal(rhs[index]))))
-				return base_object.@@false
-			else
-				index = index + 1;
-		}
-		base_object.@@true;
+	var lhs = this.@internal_array;
+	if(lhs == null) {
+		$throw($string(this) + " has a null array");
 	}
+	else if(rhs == null) {
+		$throw("rhs has a null array");
+	}
+	if($asize(lhs) != $asize(rhs))
+		return base_object.@@false;
+
+	var index = 0;
+	var length = $asize(lhs);
+	while(index < length) {
+		if($not(istrue(lhs[index].@equal@equal(rhs[index]))))
+			return base_object.@@false
+		else
+			index = index + 1;
+	}
+	base_object.@@true;
+}
 
 base_array.@to_s = function() {
 	var i = 0;
@@ -1200,7 +1199,10 @@ base_hash = new_brat(null, null);
 base_hash.@internal_hash = $hnew(10);
 base_hash.@compare = function(lhs, rhs) {
 	if($typeof(lhs) == $tobject && $typeof(rhs) == $tobject) {
-		lhs.@less@equal@greater(rhs).@value;
+		if(istrue(lhs.@equal@equal(rhs)))
+			0;
+		else
+			-1;
 	}
 	else 
 		$compare(lhs, rhs);
@@ -1348,6 +1350,19 @@ base_string = new_brat(null, null);
 base_string.@value = "";
 base_string.@to_s = function() {
 	this.@value;
+}
+
+base_string.@equal@equal = function(rhs) {
+	if($typeof(rhs) == $tobject && has_field(rhs, "@value")) {
+		if($typeof(rhs.@value) == $tstring) {
+			if($compare(this.@value, rhs.@value) == 0)
+				base_object.@@true;
+			else
+				base_object.@@false;
+		}
+		else
+			base_object.@@false;
+	}
 }
 
 base_string.@less@equal@greater = function(rhs) {
