@@ -109,23 +109,23 @@ class Treetop::Runtime::SyntaxNode
 		arg_length += 1
 		if object.nil?
 			<<-NEKO
-			var nma = $nargs(#{no_meth});
-			if(nma == #{arg_length})
+			var @nma = $nargs(#{no_meth});
+			if(@nma == #{arg_length})
 				#{no_meth}(#{arguments})
-			else if(nma == -2)
+			else if(@nma == -2)
 				#{no_meth}($array(#{arguments}));
 			else
-				$throw("Wrong number of arguments for no_method: should be " + $string(nma) + " but given #{arg_length}.");
+				$throw("Wrong number of arguments for no_method: should be " + $string(@nma) + " but given #{arg_length}.");
 			NEKO
 		else
 			<<-NEKO
-			var nma = $nargs(#{object}.no@undermethod);
-			if(nma == #{arg_length})
+			var @nma = $nargs(#{object}.no@undermethod);
+			if(@nma == #{arg_length})
 				#{object}.no@undermethod(#{arguments})
-			else if(nma == -2)
+			else if(@nma == -2)
 				#{object}.no@undermethod($array(#{arguments}));
 			else
-				$throw("Wrong number of arguments for no_method: should be " + $string(nma) + " but given #{arg_length}.");
+				$throw("Wrong number of arguments for no_method: should be " + $string(@nma) + " but given #{arg_length}.");
 			NEKO
 		end
 	end
