@@ -149,9 +149,30 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "true", "a = { *args | args.empty?  }; a"
 	end
 
+	def test_default_args
+		assert_result "2", "a = { first = 1, second = 2 | second }; a"
+		assert_result "2", "a = { first = 1, second = 2 | second }; a 3"
+		assert_result "4", "a = { first = 1, second = 2 | second }; a 2, 4"
+	end
+
+	def test_required_and_default_args
+		assert_fail "a = { first, second = 2 | second }; a"
+		assert_result "2", "a = { first, second = 2 | second }; a 3"
+		assert_result "3", "a = { first, second = 2 | first }; a 3"
+		assert_result "4", "a = { first, second = 2 | second }; a 2, 4"
+	end
+
 	def test_required_and_var_args
 		assert_result "1", "a = { first, *args | first }; a 1,2,3,4"
 		assert_result "1", "a = { first, *args | first }; a 1"
+		assert_result "4", "a = { first, *args | args[-1] }; a 2, 3, 4"
+	end
+
+	def test_default_and_var_args
+		assert_result "1", "a = { first = 1, *args | first }; a 1,2,3,4"
+		assert_result "2", "a = { first = 1, *args | first }; a 2"
+		assert_result "4", "a = { first = 1, *args | args[-1] }; a 2, 3, 4"
+		assert_result "4", "a = { first = 1, second = 2, *args | args[0] }; a 2, 3, 4"
 	end
 
 	def test_operation
