@@ -175,6 +175,18 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "4", "a = { first = 1, second = 2, *args | args[0] }; a 2, 3, 4"
 	end
 
+	def test_all_kinds_of_args
+		assert_fail "a = { first, second = 2, third = 3, *rest | rest[0] }; a"
+		assert_result "5", "a = { first, second = 2, third = 3, *rest | rest[0] }; a 2, 3, 4, 5"
+		assert_result "9", "a = { first, second = 2, third = 3, *rest | rest[-1] }; a 2, 3, 4, 5, 6, 7, 8, 9"
+		assert_result "3", "a = { first, second = 2, third = 3, *rest | second }; a 2, 3, 4, 5"
+		assert_result "2", "a = { first, second = 2, third = 3, *rest | second }; a 1"
+		assert_result "3", "a = { first, second = 2, third = 3, *rest | third }; a 1"
+		assert_result "3", "a = { first, second = 2, third = 3, *rest | third }; a 1, 5"
+		assert_result "6", "a = { first, second = 2, third = 3, *rest | third }; a 1, 5, 6"
+		assert_result "true", "a = { first, second = 2, third = 3, *rest | rest.empty? }; a 1, 5, 6"
+	end
+
 	def test_operation
 		assert_result "1", "a = new; a.! = {b| b }; a ! 1"
 		assert_result "2", "a = new; a.? = {b| 2}; a ? \"hello\""

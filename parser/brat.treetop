@@ -635,7 +635,73 @@ grammar BaseBrat
 		end
 	}
 	/
-	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|"
+	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" {
+		attr_reader :var_args
+
+		def brat
+			param = variable_args.i.brat
+			var_add param, next_temp
+			if $interactive
+				@param = param
+			else
+				@param = @result
+			end
+
+			"@args"
+		end
+
+		def function_header
+			plain_formals.brat
+			default_args.brat
+			def_args = default_args.args.length
+			req_args = plain_formals.args.length
+			output = "var @arg_len = $asize(@args);" <<
+				"if($asize(@args) < #{req_args}) $throw(\"Expected at least #{req_args} argument(s).\");"
+
+			i = 0
+			plain_formals.args.each do |a|
+				output << "#{a} = @args[#{i}];\n"
+				i += 1
+			end
+
+			#Check and set default args
+			i = def_args
+			default_args.args.reverse.each do |a|
+				output << "if(@arg_len < #{i + req_args}) {\n #{a};\n"
+				i -= 1
+			end
+
+			output << ("}" * default_args.args.length) << "\n"
+
+			#Set args passed in
+			output << "switch @arg_len {\n"
+
+			names = default_args.arg_names
+			num_names = names.length
+			num_names.times do |l|
+				output << "#{num_names - l + req_args} => {"
+				names[0, num_names - l].each_with_index do |n, i|
+					output << "#{n} = @args[#{i + req_args}];"
+				end
+				output << "}\n"
+			end
+			
+			#This is if there are more args than defaults
+			output << "default => { if(@arg_len > #{req_args + def_args}) {"
+			names.each_with_index do |n, i|
+				output << "#{n} = @args[#{i + req_args}];"
+			end
+			output << "}}\n"
+
+			#Close switch statement
+			output << "}\n"
+
+			other_args = def_args + req_args
+			output << "if(@arg_len > #{other_args}) {" <<
+				"#{@param} = @brat.make_array($asub(@args, #{other_args}, $asize(@args) - #{other_args}));" <<
+				"} else { #{@param} = @brat.base_array.new();}"
+		end
+	}
 	/
   	space? plain_formals space? "," space? default_args space? "|" {
 		attr_reader :var_args
