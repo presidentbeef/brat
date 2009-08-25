@@ -68,7 +68,11 @@ def compile_stdlib force = false
 
 		#Warning: does not set compiled flag
 		brat_files.each do |f|
-			compile_brat_file f
+			fcomp = f[0..-5] + "n"
+			if not File.exist? fcomp or newer? f, fcomp
+				compiled = true
+				compile_brat_file f
+			end
 		end
 		compiled
 	end
