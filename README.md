@@ -51,15 +51,24 @@ Please have on hand:
 
 * Linux (for now)
 * A relatively modern Ruby (let's say 1.8.6 and up)
+* You will need Ruby to be compiled with readline to use the interactive mode
 * [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
 * [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
-* Git if you want to check it out of the repository directly - `sudo urpmi git`
+* Git if you want to check it out of the repository directly - `sudo urpmi git` (or the equivalent for your platform)
 
 # Installation
 
 Please follow the following steps, in the order in which they are ordered:
 
    1. [Clone or download](http://github.com/presidentbeef/brat/tree/master) the latest Brat version.
+
+There are Linux x86 binaries included. These may work for you.
+
+If not, to compile from the source:
+
+   1. Install [libgc](http://www.hpl.hp.com/personal/Hans_Boehm/gc/) - `sudo urpmi libgc1 libgc-devel` (or the equivalent for your platform)
+   2. Install [GMP](http://gmplib.org/) - `sudo urpmi libgmp libgmp-devel`
+   3. Run `sh ./build.sh` to compile Neko and Brat (it is fine to skip any libraries it may ask about) 
 
 # Testing
 
