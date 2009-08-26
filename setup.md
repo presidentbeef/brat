@@ -18,15 +18,15 @@ Please have on hand:
 
 Please follow the following steps, in the order in which they are ordered:
 
-   1. [Clone or download](http://github.com/presidentbeef/brat/tree/master) the latest Brat version.
+1. [Clone or download](http://github.com/presidentbeef/brat/tree/master) the latest Brat version.
 
 This may be all you need to do if you are using a 32-bit Linux and the included binaries work for you.
 
 If not, you may wish to compile it all yourself:
 
-   1. Install [libgc](http://www.hpl.hp.com/personal/Hans_Boehm/gc/) - `sudo urpmi libgc1 libgc-devel` (or the equivalent for your platform)
-   2. Install [GMP](http://gmplib.org/) - `sudo urpmi libgmp libgmp-devel`
-   3. Run `sh ./build.sh` to compile Neko and Brat (it is fine to skip any libraries it may ask about) 
+1. Install [libgc](http://www.hpl.hp.com/personal/Hans_Boehm/gc/) - `sudo urpmi libgc1 libgc-devel` (or the equivalent for your platform)
+2. Install [GMP](http://gmplib.org/) - `sudo urpmi libgmp libgmp-devel`
+3. Run `sh ./build.sh` to compile Neko and Brat (it is fine to skip any libraries it may ask about) 
 
 ## Testing
 
