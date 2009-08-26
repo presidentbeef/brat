@@ -841,7 +841,7 @@ base_number.@plus = function(num) {
 
 	if(this.@native && num.@native) {
 		var res = lhs + rhs;
-		if(lhs > 0 && rhs > 0 && res >= lhs)
+		if(lhs >= 0 && rhs >= 0 && res >= lhs)
 			base_number.new(res);
 		else {
 			lhs = to_bignum(lhs);
@@ -875,7 +875,7 @@ base_number.@minus = $varargs(function(args) {
 
 	if(this.@native && args[0].@native) {
 		var res = lhs - rhs;
-		if(lhs >= 0 && rhs >= 0 && res < lhs)
+		if(lhs >= 0 && rhs >= 0 && res <= lhs)
 			base_number.new(res);
 		else if(lhs < 0 && rhs < 0 && res > lhs)
 			base_number.new(res);

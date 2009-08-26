@@ -1,9 +1,7 @@
 fibonacci = { x |
-        true? x == 0,
-                0,
-                { true? x == 1,
-                        1,
-                        { fibonacci(x - 1) + fibonacci(x - 2) }};
+        true? x < 2,
+                x,
+                { fibonacci(x - 1) + fibonacci(x - 2) }
 }
 
-p fibonacci 10
+p fibonacci 25

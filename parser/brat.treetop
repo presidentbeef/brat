@@ -399,7 +399,11 @@ grammar BaseBrat
 	'-' [0-9]+ {
 		def brat
 			next_temp
-			"var #@result = number.@stoi(\"#{text_value}\");"
+			if text_value.to_i > -1073741823
+				"var #@result = number.new(#{text_value});"
+			else
+				"var #@result = number.@stoi(\"#{text_value}\");"
+			end
 		end
 	}
   end
@@ -409,7 +413,11 @@ grammar BaseBrat
 	[0-9]+ {
 		def brat
 			next_temp
-			"var #@result = number.@stoi(\"#{text_value}\");"
+			if text_value.to_i < 1073741824
+				"var #@result = number.new(#{text_value});"
+			else
+				"var #@result = number.@stoi(\"#{text_value}\");"
+			end
 		end
 	}
   end
