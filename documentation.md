@@ -10,7 +10,19 @@ layout: default
 * [Examples](examples.html)
 * [Modules](modules.html)
 
-### Libraries
+### Core Objects
 
-* [Core](docs/core.html)
-* [File](docs/file.html)
+* [array](docs/array.html)
+* [enumerable](docs/enumerable.html)
+* [hash](docs/hash.html)
+* [number](docs/number.html)
+* [object](docs/object.html)
+* [regular Expression](docs/regex.html)
+* [string](docs/string.html)
+* [symbol](docs/symbol.html) 
+
+### Standard Libraries
+
+* [file](docs/file.html)
+* [set](docs/set.html)
+* [thread](docs/thread.html)

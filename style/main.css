@@ -72,10 +72,17 @@ h2 {
   margin-top: 15px;
 }
 
-ol, ul, p {
-  padding: 0 0 10px 10px;
+ol,ul, p {
   font-family: verdana, arial, sans-serif;
   font-size: 0.9em;
+}
+
+ol, p {
+  padding: 0 0 10px 10px;
+}
+
+li {
+	margin-bottom: 2px;
 }
 
 a {

@@ -1,6 +1,6 @@
 ---
 layout: doc
-lib: thread 
+lib: stdlib
 object: thread
 desc: "Threads can be used for concurrent programming."
 methlist:
