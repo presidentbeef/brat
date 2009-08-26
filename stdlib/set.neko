@@ -57,6 +57,7 @@ set.to@underarray = function() {
 
 set.clear = function() {
 	this.@internal_hash = @brat.base_hash.new();
+	this;
 }
 
 set.empty@question = function() {
