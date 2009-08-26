@@ -15,13 +15,10 @@ layout: default
 * Built in hash tables and dynamic arrays
 * Very flexible unary and binary operators
 * Arbitrary precision numbers using [GMP](http://gmplib.org/)
+* Functions may have default and variable length arguments
 
 ## Current Limitations
 
 * Only running on Linux at the moment
 * Limited built-in objects and methods
 * Mixins limited to squish-ins
-* Native Brat methods cannot be overloaded
-* Native Brat methods cannot have variable argument lengths
-* There is a workaround for overloading and variable arguments if the method is written in Neko, though
-* No install/compile scripts
