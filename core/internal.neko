@@ -687,21 +687,7 @@ base_object.sleep = function(seconds) {
 }
 
 has_field = function(object, field_name) {
-	if(object == null || $typeof(object) != $tobject) {
-		return false;
-	}
-        if($objfield(object, $hash(field_name))) {
-                return true;
-        }
-        else {
-                var proto = $objgetproto(object);
-                if(proto == null) {
-                        return false;
-                }
-                else {
-                        return has_field(proto, field_name);
-                }
-        }
+	$typeof(object) == $tobject && $objget(object, $hash(field_name)) != null
 }
 
 num_args = function(object, method) {
