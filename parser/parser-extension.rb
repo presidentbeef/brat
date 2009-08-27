@@ -173,7 +173,7 @@ class Treetop::Runtime::SyntaxNode
 		<<-NEKO
 		if($typeof(#{temp}) == $tnull) {
 			if(@brat.has_field(this, "#{object}")) {
-				#@result = $objget(this, $hash("#{object}"));
+				#@result = this.#{object};
 				
 				var arg_len = $nargs(#@result);
 				if(arg_len == -1 || arg_len == #{arg_length})
