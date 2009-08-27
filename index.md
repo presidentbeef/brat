@@ -14,6 +14,32 @@ Brat may be obtained using any of the following methods:
 * Download in [zip](http://github.com/presidentbeef/brat/zipball/master) or [tar](http://github.com/presidentbeef/brat/tarball/master) format
 * [Browse](http://github.com/presidentbeef/brat/tree/master) around the source
 
+## How It Looks
+
+Here is the Brat 'hello world' program:
+
+{% highlight javascript %}
+p "Hello, world!"
+{% endhighlight %}
+
+Here is a slightly more interesting, object-oriented 'hello world':
+
+{% highlight javascript %}
+world = new
+world.hello! = { p "Hello, world!" }
+world.hello!
+{% endhighlight %}
+
+Here's one to say hello to you:
+
+{% highlight javascript %}
+world = new
+world.greet = { name | p "Hello, ", name, "!"}
+print "What is your name? "
+your_name = g
+world.greet your_name
+{% endhighlight %}
+
 ## Why You Should Use Brat
 
 An arbitrary number of reasons to use Brat:
@@ -26,7 +52,7 @@ An arbitrary number of reasons to use Brat:
 6. No one is going to tell you 'no'
 7. No one else is
 
-## People Who Should Use Brat
+## Who Should Use Brat
 
 You should use Brat if:
 
@@ -35,10 +61,8 @@ You should use Brat if:
 * You do what you wanna
 * You don't have a thing to prove
 * You eat your candy with your pork and beans
-* You want to be 1337
-* You want to be 3V1L
 
-## People Who Probably Shouldn't Use Brat
+## Who Probably Shouldn't Use Brat
 
 You should steer clear of Brat if:
 
@@ -50,11 +74,11 @@ You should steer clear of Brat if:
 * You do not enjoy cryptic error messages
 * You want to write Real&trade; programs
 
-## People Who Don't Care Either Way
+## Who Doesn't Care Either Way
 
 * Presidents
 * Goldfish
 * Ninjas
-* Rockstars (musical or coder variations)
+* Guitar heroes
 * Indiana Jones
 * Most everyone else
