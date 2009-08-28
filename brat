@@ -46,6 +46,7 @@ end
 def compile_stdlib force = false
 	neko_files = Dir.glob "#$program_path/stdlib/*.neko"
 	brat_files = Dir.glob "#$program_path/stdlib/*.brat"
+	options = {:force => true}
 
 	if force
 		neko_files.each do |f|
@@ -53,7 +54,7 @@ def compile_stdlib force = false
 		end
 
 		brat_files.each do |f|
-			compile_brat_file f, false, true 
+			compile_brat_file f, options
 		end
 		true
 	else
@@ -66,7 +67,6 @@ def compile_stdlib force = false
 			end
 		end
 
-		#Warning: does not set compiled flag
 		brat_files.each do |f|
 			fcomp = f[0..-5] + "n"
 			if not File.exist? fcomp or newer? f, fcomp
@@ -95,27 +95,34 @@ def newer? file1, file2
 end
 
 #Compiles and runs code from a single Brat file
-def brat orig_file_name, keep_intermediate = false, force = false
+def brat orig_file_name, options
 	require 'rubygems'
 	require 'treetop'
-	new_parser = compile_parser(force)
+
+	force = options[:force]
+	new_parser = compile_parser(force) unless options[:skip_check]
+
 	require "#$program_path/parser/brat"
 	require "#$program_path/parser/parser-extension"
 
-	new_internal = compile_brat_internal(force) 
-	new_core = compile_core(force)
-	new_stdlib = compile_stdlib(force)
-	force = force || new_parser || new_internal || new_core || new_stdlib
+	unless options[:skip_check]
+		new_internal = compile_brat_internal(force) 
+		new_core = compile_core(force)
+		new_stdlib = compile_stdlib(force)
+		force = force || new_parser || new_internal || new_core || new_stdlib
+	end
 
-	file_name = compile_brat_file orig_file_name, keep_intermediate, force
+	options[:force] = force
 
-	if not system "neko #{file_name}.n"
+	file_name = compile_brat_file orig_file_name, options
+
+	if not system "neko #{options[:stats] ? "-stats" : ""} #{file_name}.n"
 		abort "Running program returned error number: #{$?}"
 	end
 end
 
 #Compiles a Brat file to Neko bytecode, returns base name of file
-def compile_brat_file orig_file_name, keep_intermediate = false, force = false 
+def compile_brat_file orig_file_name, options = {}
 
 	if orig_file_name.match /\.brat$/i
 		file_name = orig_file_name[0..-6]
@@ -123,8 +130,10 @@ def compile_brat_file orig_file_name, keep_intermediate = false, force = false
 		file_name = orig_file_name
 	end
 
-	if not File.exist?(file_name + ".n") or newer? orig_file_name, file_name + ".n" or force
-		if not File.exist? file_name + ".neko" or newer? orig_file_name, file_name + ".neko" or force
+	force = options[:force]
+
+	if force or not File.exist?(file_name + ".n") or newer? orig_file_name, file_name + ".n"
+		if force or not File.exist? file_name + ".neko" or newer? orig_file_name, file_name + ".neko"
 			brat_input = File.read orig_file_name
 			begin
 				neko = brat_to_neko brat_input
@@ -140,9 +149,9 @@ def compile_brat_file orig_file_name, keep_intermediate = false, force = false
 	end
 
 	if File.exist? file_name + ".neko"
-		if not keep_intermediate
+		if not options[:keep_intermediate]
 			File.delete file_name + ".neko"
-		else
+		elsif options[:pretty]
 			system "nekoc -p #{file_name}.neko"
 			system "mv #{file_name}2.neko #{file_name}.neko"
 		end
@@ -163,10 +172,11 @@ def inner_brat input
 end
 
 #Runs the interactice Brat shell.
-def brat_interactive force = false
+def brat_interactive options = {}
 	require 'rubygems'
 	require 'treetop'
 
+	force = options[:force]
 	compile_parser force
 	compile_brat_internal force
 
@@ -302,11 +312,14 @@ def show_help
 	puts <<-END
 Usage: brat [options] [file_name]
 Possible options:
--a    Force recompilation of parser
+-a    Force recompilation of everything
 -f    Ignore existing .n file
--h    Show this help
+-h    Show this help information
 -k    Don't erase intermediate files (implies -f)
--t    Benchmark code
+-p    Prettify Neko code (implies -k)
+-r    Report Neko stats
+-s    Skip checking for out-of-date files
+-t    Report running time
 -w    Start Neko web server in current directory
 	END
 end
@@ -324,24 +337,22 @@ ENV['PATH'] += ":#$program_path/bin/:" << Dir.pwd
 
 $interactive = false
 
-if ARGV[0] == '-w'
+if ARGV.include? '-w'
 	exec "nekotools server #{ARGV[1..-1].join(" ")}"
 elsif ARGV[0]
 	require 'set'
-	options = Set.new(ARGV.select {|o| o[0,1] == '-' })
+	opt_args = Set.new(ARGV.select {|o| o[0,1] == '-' })
+	options = {}
 
-	force = options.include? "-a"
+	options[:force] = opt_args.include? "-a"
+	
+	options[:skip_check] = opt_args.include? '-s'
 
-	if options.include? '-h'
+	if opt_args.include? '-h'
 		show_help
 		exit
-	elsif options.include? '-i'
-		brat_interactive force
-		exit
-	end
-
-	if options.include? ARGV[-1]
-		brat_interactive force
+	elsif opt_args.include? ARGV[-1] or opt_args.include? '-i'
+		brat_interactive options
 	end
 
 	file_name = Dir.pwd + "/" + ARGV[-1]
@@ -349,28 +360,25 @@ elsif ARGV[0]
 	if not File.exist? file_name
 		abort "No such file: #{ARGV[-1]}"
 	end
+	
+	options[:stats] = opt_args.include? '-r'
 
-	if options.include? '-k'
-		keep_intermediate = true
-		force = true
-	else
-		keep_intermediate = false
-	end
+	options[:keep_intermediate] = opt_args.include? '-k'
 
-	if options.include? '-f' or force
+	options[:keep_intermediate] = options[:prettify] = opt_args.include?('-p')
+
+	if opt_args.include? '-f' or options[:force] or options[:keep_intermediate]
 		File.delete(file_name.sub(/\.brat$/, "") << ".n") rescue nil
 	end
 
-	if options.include? "-s"
-		brat_standalone file_name, keep_intermediate, force
-	elsif options.include? "-t"
+	if opt_args.include? "-t"
 		require 'benchmark'
 		time = Benchmark.measure do
-			brat file_name, keep_intermediate, force
+			brat file_name, options
 		end
 		puts time.format('Time: %t %r')
 	else
-		brat file_name, keep_intermediate, force
+		brat file_name, options
 	end
 
 else
