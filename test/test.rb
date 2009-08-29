@@ -434,9 +434,8 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_comment_parse
 		parse "x = 1; #x = 6 \n x"
-		parse  "x = 1; //x = 6 \n x"
-		parse "x = 1; /* x = 6 */ \n x"
-		parse "x = 1; /* \n x = 6 \n */ \n x"
+		parse "x = 1; #* x = 6 *# \n x"
+		parse "x = 1; #* \n x = 6 \n *# \n x"
 	end
 
 	def test_symbol_parse
@@ -506,9 +505,14 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_comments
 		assert_result "1", "x = 1; #x = 6 \n x"
-		assert_result "1", "x = 1; //x = 6 \n x"
-		assert_result "1", "x = 1; /* x = 6 */ \n x"
-		assert_result "1", "x = 1; /* \n x = 6 \n */ \n x"
+		assert_result "1", "x = 1; #* x = 6 */ \n x"
+		assert_result "1", "x = 1; #* \n x = 6 \n *# \n x"
+	end
+
+	def test_nested_comments
+		assert_result "1", "x = 1; #* x = 3 *#"
+		assert_result "1", "x = 1; #*\n x = 3 \n *#"
+		assert_result "1", "x = 1; #*\n  #* \n x = 3 \n *# \n *#"
 	end
 
 	def test_parameter_scope

@@ -152,13 +152,9 @@ grammar BaseBrat
 
   #Matches comments
   rule comment
-	space? ("//" / "#") (!(eol/eof) .)+ {
-		def brat
-			""
-		end
-	}
+  	space? "#*" (!"*#" (comment / .))* "*#"
 	/
-	space? "/*" (!"*/" .)+ "*/"
+	space? "#" (!(eol/eof) .)+
   end
 
   #Matches hash table literals
