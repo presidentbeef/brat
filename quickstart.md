@@ -279,12 +279,14 @@ p a.match "helllllo"
 {% highlight ruby %}
 #this is a comment
 
-//p "this will never print"
+#p "this will never print"
 
-/*  
+#*  
   use this for multiple line comments 
-*/
+*#
 {% endhighlight %}
+
+Comments may be nested.
 
 ## Keywords
 
