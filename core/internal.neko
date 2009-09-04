@@ -583,8 +583,8 @@ base_object.get@undermethod = function(name) {
 }
 
 base_object.has@undermethod@question = function(name) {
-	if(has_field(name, "@value") && $typeof(name.@value) == $tstring) {
-		if(has_field(this, to_identifier(name.@to_s())))
+	if(has_field(name, "@neko_string")) {
+		if(has_field(this, to_identifier(name.@neko_string())))
 			base_object.@@true;
 		else
 			base_object.@@false;
@@ -992,6 +992,7 @@ base_array.clone = $varargs(function(args) {
 	new_array;
 })
 
+base_array.@neko_array = function() { this.@internal_array }
 
 base_array.length = function() {
 	base_number.new($asize(this.@internal_array));
@@ -1338,26 +1339,22 @@ base_string.@to_s = function() {
 	this.@value;
 }
 
+base_string.@neko_string = function() { this.@value }
+
 base_string.@equal@equal = function(rhs) {
-	if($typeof(rhs) == $tobject && has_field(rhs, "@value")) {
-		if($typeof(rhs.@value) == $tstring) {
-			if($compare(this.@value, rhs.@value) == 0)
-				base_object.@@true;
-			else
-				base_object.@@false;
-		}
+	if($typeof(rhs) == $tobject && has_field(rhs, "@neko_string")) {
+		if($compare(this.@neko_string(), rhs.@neko_string()) == 0)
+			base_object.@@true;
 		else
 			base_object.@@false;
 	}
+	else
+		base_object.@@false;
 }
 
 base_string.@less@equal@greater = function(rhs) {
-	if($typeof(rhs) == $tobject && has_field(rhs, "@value")) {
-		if($typeof(rhs.@value) == $tstring) {
-			base_number.new($compare(this.@value, rhs.@value));
-		}
-		else 
-			$throw("Cannot compare " + $string(this) + " and " + $string(rhs));
+	if($typeof(rhs) == $tobject && has_field(rhs, "@neko_string")) {
+		base_number.new($compare(this.@neko_string(), rhs.@neko_string()));
 	}
 	else
 		$throw("Cannot compare " + $string(this) + " and " + $string(rhs));
@@ -1384,18 +1381,17 @@ base_string.new = $varargs(function(args) {
 	else if($asize(args) == 1) {
 		if($typeof(args[0]) == $tstring) {
 			s.@value = args[0];
-	}
-	else if($typeof(args[0]) == $tobject && has_field(args[0], "@value") && $typeof(args[0].@value) == $tstring) {
-		s.@value = $scopy(args[0].@value);
+		}
+		else if($typeof(args[0]) == $tobject && has_field(args[0], "@neko_string")) {
+			s.@value = $scopy(args[0].@value);
 		}
 		else if($typeof(args[0]) != $tobject) 
 			s.@value = $string(args[0]);
 		else
 			$throw("Invalid argument to string.new(): " + $string(args[0]));
-		}
-	else {
-		$throw("Too many arguments to string.new(). Only takes 0 or 1.");
 	}
+	else
+		$throw("Too many arguments to string.new(). Only takes 0 or 1.");
 	s;
 });
 
