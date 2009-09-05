@@ -49,11 +49,18 @@ array.map = { block |
 		{
 			index = 0
 			length = my.length
-			while {
-				new_ary << block(my[index])
-				index = index + 1
-				index < length
-			}
+			
+			true? function?(->block),
+				{ while {
+					new_ary << block(my[index])
+					index = index + 1
+					index < length
+				}},
+				{ while {
+					new_ary << my[index].call_method block
+					index = index + 1
+					index < length
+				}}
 		}
 	new_ary
 }
@@ -86,6 +93,7 @@ array.each = { block |
 		}
 	my
 }
+
 
 array.reverse_each = { block |
 	false? my.empty?, 
