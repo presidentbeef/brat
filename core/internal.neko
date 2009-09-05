@@ -130,7 +130,7 @@ base_object.squish = function(object) {
 	this;
 }
 
-base_object.function@question = function(object) {
+base_object.@function@question = function(object) {
 	if($typeof(object) == $tfunction)
 		base_object.@@true;
 	else
