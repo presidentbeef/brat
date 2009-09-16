@@ -1,1 +1,3 @@
-a = { first, *args | first }; a 1,2,3,4 
+squish import "subprocess"
+
+subprocess.new "which"
