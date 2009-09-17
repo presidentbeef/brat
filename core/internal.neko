@@ -36,6 +36,14 @@ base_object.my = function() {
 	return this;
 }
 
+base_object.parent = function() {
+	var parent = $objgetproto(this);
+	if(parent == null)
+		base_object;
+	else
+		parent;
+}
+
 base_object.to@unders = function() {
 	var fields = $objfields(this);
 	var index = 0;
