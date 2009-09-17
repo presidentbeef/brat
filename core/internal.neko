@@ -2,57 +2,26 @@
 base_object = $new(null);
 
 base_object.new = $varargs(function(args) {
-	var arg_hash;
-	if($asize(args) > 0 ) {
-		arg_hash = args[0];
-
-		if($typeof(arg_hash) == $tobject && has_field(arg_hash, "@internal_hash")) {
-			arg_hash = arg_hash.@internal_hash; 
-		}
-	}
-	else
-		arg_hash = $hnew(0);
-
-
-	if($typeof(arg_hash) != $tabstract)
-		$throw("Expecting hash table for initialization.");
-
-	new_brat(this, arg_hash);
+	var nb = new_brat(this);
+	if(has_field(this, "init"))
+		$objcall(nb, $hash("init"), args);
+	else if($asize(args) > 0)
+		$throw("Did not expect arguments for new().");
+	
+	nb;
 })
 
-base_object.hkey = function() { $hkey(this) };
+base_object.hash_code = function() { $hash(this) };
 
 //Create a new object with either parent_brat or base_object
 //as the parent class.
-new_brat = function(parent_brat, arg_hash) {
+new_brat = function(parent_brat) {
 	var brat = $new(null);
 
-	if(parent_brat == null) {
+	if(parent_brat == null)
 		$objsetproto(brat, base_object);
-	}
 	else 
-	{
 		$objsetproto(brat, parent_brat);
-	}
-
-	if(arg_hash != null && $hcount(arg_hash) > 0) {
-		var set_f = function(k,v) {
-			if($typeof(v) != $tfunction)
-				v = function() { v };
-		
-			if(has_field(k, "@value")) {
-				k = k.@value
-				if($typeof(k) == $tint)
-					$objset(brat, k, v);
-				else if($typeof(k) == $tstring)
-					$objset(brat, $hash(k), v);
-			}
-			else
-				$throw("Expecting symbol or string for field name.");
-		}
-
-		$hiter(arg_hash, set_f);
-	}
 
 	brat;
 }
@@ -186,13 +155,13 @@ base_object.g = $varargs(function(args) {
 })
 
 //True, false, and null values
-base_object.@@false = new_brat(null, null);
+base_object.@@false = new_brat(null);
 base_object.@false = function() { base_object.@@false }
 base_object.@@false.to@unders = function() { base_string.new("false") };
-base_object.@@true = new_brat(null, null);
+base_object.@@true = new_brat(null);
 base_object.@true = function() { base_object.@@true }
 base_object.@@true.to@unders = function() { base_string.new("true") };
-base_object.@@null = new_brat(null, null);
+base_object.@@null = new_brat(null);
 base_object.@null = function() { base_object.@@null }
 base_object.@@null.to@unders = function() { base_string.new("null") };
 
@@ -732,7 +701,7 @@ var num_neg = $loader.loadprim("number@num_neg", 1);
 var to_neko_num = $loader.loadprim("number@to_neko_num", 1);
 var to_bignum = $loader.loadprim("number@to_bignum", 1);
 var integer_fits = $loader.loadprim("number@integer_fits_native", 1);
-base_number = new_brat(null, null);
+base_number = new_brat(null);
 base_number.@value = 0;
 base_number.@native = true;
 base_number.@to_s = function() {
@@ -780,7 +749,7 @@ base_number.@nvalue = function() {
 }
 
 base_number.new = function(num) {
-	var n = new_brat(this, null);
+	var n = new_brat(this);
 	if($typeof(num) == $tint || $typeof(num) == $tfloat) {
 		n.@value = num;
 		n.@native = true
@@ -964,11 +933,11 @@ base_number.@equal@equal = function(num) {
 }
 
 //Array object
-base_array = new_brat(null, null);
+base_array = new_brat(null);
 base_array.@internal_array = $amake(0);
 
 base_array.new = $varargs(function(args) {
-	var ary = new_brat(this, null);
+	var ary = new_brat(this);
 	ary.@internal_array = $acopy(args);
 	ary;
 });
@@ -1182,7 +1151,7 @@ base_array.set = base_array.__set;
 base_array.get = base_array.__get;
 
 //Hash table object
-base_hash = new_brat(null, null);
+base_hash = new_brat(null);
 base_hash.@internal_hash = $hnew(10);
 base_hash.@compare = function(lhs, rhs) {
 	if($typeof(lhs) == $tobject && $typeof(rhs) == $tobject) {
@@ -1219,7 +1188,7 @@ base_hash.@key_value = function(key) {
 }
 
 base_hash.new = $varargs(function(args) {
-	var hsh = new_brat(this, null);
+	var hsh = new_brat(this);
 	if($asize(args) == 0) {
 		hsh.@internal_hash = $hnew(1);
 	}
@@ -1333,7 +1302,7 @@ make_array = function(neko_array) {
 	ary;
 }
 
-base_string = new_brat(null, null);
+base_string = new_brat(null);
 base_string.@value = "";
 base_string.@to_s = function() {
 	this.@value;
@@ -1374,7 +1343,7 @@ base_string.length = function() {
 }
 
 base_string.new = $varargs(function(args) {
-	var s = new_brat(this, null);
+	var s = new_brat(this);
 	if($asize(args) == 0) {
 		s.@value = "";
 	}
@@ -1655,7 +1624,7 @@ base_string.dice = function() {
 }
 
 var regexp_new = $loader.loadprim("regexp@regexp_new", 1);
-base_regex = new_brat(null, null);
+base_regex = new_brat(null);
 base_regex.@internal_regex = base_object.@@null;
 base_regex.new = function(regx_string) {
 	if($typeof(regx_string) == $tobject && has_field(regx_string, "@value"))
@@ -1663,7 +1632,7 @@ base_regex.new = function(regx_string) {
 	if($typeof(regx_string) != $tstring)
 		$throw("Must create new regex with a string, not " + $string(regx_string));
 
-	var reg = new_brat(this, null);
+	var reg = new_brat(this);
 	reg.@internal_regex = regexp_new(regx_string);
 	reg; 
 }
@@ -1683,7 +1652,7 @@ base_regex.match = function(val) {
 
 base_regex.@tilde = base_regex.match;
 
-base_symbol = new_brat(null, null);
+base_symbol = new_brat(null);
 base_symbol.new = function(sym_string) {
 	if($typeof(sym_string) == $tobject && has_field(sym_string, "@value"))
 		sym_string = sym_string.@value;
@@ -1692,7 +1661,7 @@ base_symbol.new = function(sym_string) {
 	else
 		$throw("Must create new symbol with using a string or a symbol, not " + $string(sym_string));
 
-	var sym = new_brat(this, null);
+	var sym = new_brat(this);
 	sym.@value = sym_string;
 	sym; 
 }

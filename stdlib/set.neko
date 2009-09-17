@@ -23,7 +23,7 @@ set.new = $varargs(function(args) {
 			i = i + 1;
 		}
 	}
-	var new_set = @brat.new_brat(this, null);
+	var new_set = @brat.new_brat(this);
 	new_set.@internal_hash = @internal_hash;
 	new_set;
 })

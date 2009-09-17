@@ -7,18 +7,18 @@ subprocess.@args = null;
 subprocess.new = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen == 0) {
-		var p = @brat.new_brat(this, null);
+		var p = @brat.new_brat(this);
 		p.@subproc = null;
 		p;
 	}
 	else if(arglen == 1 && $typeof(args[0]) == $tobject &&@brat.has_field(args[0], "@neko_string")) {
-		var p = @brat.new_brat(this, null);
+		var p = @brat.new_brat(this);
 		p.@command = args[0].@neko_string();
 		p.@subproc = null;
 		p;
 	}
 	else if(arglen == 2 && $typeof(args[0]) == $tobject && $typeof(args[1]) == $tobject &&@brat.has_field(args[0], "@neko_string") &&@brat.has_field(args[1], "@neko_array")) {
-		var p = @brat.new_brat(this, null);
+		var p = @brat.new_brat(this);
 		p.@command = args[0].@neko_string();
 		p.@subproc = null;
 		p.@args = args[1].@neko_array();

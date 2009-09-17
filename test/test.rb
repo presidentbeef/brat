@@ -479,6 +479,11 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "#object { y }", "x = new; x.y = 1; x"
 	end
 
+	def test_init
+		assert_result "something", 'x = new; x.init = { my.test = "something" };x.new.test'
+		assert_result "something", 'x = new; x.init = { arg | my.test = arg };y = x.new "something"; y.test'
+	end
+
 	def test_method
 		assert_result "#function:0", "{ p hi }"
 		assert_result "#function:1", "{x| p x }"

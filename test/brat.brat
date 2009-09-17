@@ -1,3 +1,4 @@
-squish import "subprocess"
-
-subprocess.new "which"
+o = new
+o.new = {
+	object.new	
+}

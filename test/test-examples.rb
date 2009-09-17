@@ -102,18 +102,6 @@ class BratExamplesTest < Test::Unit::TestCase
 		assert_result "7", "tak = { x, y, z | false? y < x, { z } , { tak tak(x - 1, y, z), tak(y - 1, z, x), tak(z - 1, x, y) } }; tak 18, 12, 6"
 	end
 
-	def test_hash_fields_set
-		assert_result "Bob Johnson", 'person = new \'first_name : "Bob",
-							\'last_name : "Johnson",
-							\'adddress : [ \'street : "Sycamore St.",
-									\'number : 7777,
-									\'city : "Baltimore",
-									\'state : "MD",
-									\'zip : 21075 ],
-									\'display : { my.first_name + " " + my.last_name }
-						person.display'
-	end
-
 	def test_hideous 
 		assert_result "#object { <------||==@ -!_+~%~+_!- }", <<-NEKO
 		a_!?-*+^&@1~\\\\><$ = new

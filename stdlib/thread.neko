@@ -25,7 +25,7 @@ thread.new = function(block) {
 	else if($nargs(block) != 0)
 		$throw("Thread.new requires a function with zero arguments.");
 
-	var t = @brat.new_brat(this, null);
+	var t = @brat.new_brat(this);
 	t.@lock = lock_create();
 	var wrap = function(dummy) {
 		try {

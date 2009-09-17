@@ -90,7 +90,7 @@ file.@file = null;
 var file_open = $loader.loadprim("std@file_open", 2);
 
 file.new = function(path) {
-	var f = @brat.new_brat(this, null);
+	var f = @brat.new_brat(this);
 	if(@brat.has_field(path, "@value"))
 		path = path.@value;
 	if($typeof(path) != $tstring)
