@@ -1,0 +1,301 @@
+var @brat = $loader.loadmodule("internal", $loader);
+
+var subprocess = @brat.base_object.new();
+subprocess.@subproc = null;
+subprocess.@command = null;
+subprocess.@args = null;
+subprocess.new = $varargs(function(args) {
+	var arglen = $asize(args);
+	if(arglen == 0) {
+		var p = @brat.new_brat(this, null);
+		p.@subproc = null;
+		p;
+	}
+	else if(arglen == 1 && $typeof(args[0]) == $tobject &&@brat.has_field(args[0], "@neko_string")) {
+		var p = @brat.new_brat(this, null);
+		p.@command = args[0].@neko_string();
+		p.@subproc = null;
+		p;
+	}
+	else if(arglen == 2 && $typeof(args[0]) == $tobject && $typeof(args[1]) == $tobject &&@brat.has_field(args[0], "@neko_string") &&@brat.has_field(args[1], "@neko_array")) {
+		var p = @brat.new_brat(this, null);
+		p.@command = args[0].@neko_string();
+		p.@subproc = null;
+		p.@args = args[1].@neko_array();
+	
+		var i = 0;
+		var l = $asize(p.@args);
+		while(i < l) {
+			if($typeof(p.@args[i]) == $tobject && @brat.has_field(p.@args[i], "@neko_string"))
+				p.@args[i] = p.@args[i].@neko_string();
+			else
+				$throw("Expected string for argument to subprocess.");
+			i = i + 1;
+		}
+
+		p;
+	}
+	else
+		$throw("Invalid arguments to subprocess.new");
+});
+
+var run = $loader.loadprim("std@process_run", 2);
+subprocess.run = $varargs(function(args) {
+	var arglen = $asize(args);
+	if(arglen == 0) {
+		if(this.@command == null) {
+			$throw("No program name given for subprocess.");
+		}
+		else {
+			if(this.@args == null) {
+				this.@subproc = run(this.@command, $amake(0));
+			}
+			else {
+				this.@subproc = run(this.@command, this.@args);
+			}
+		}
+		this;
+	}
+	else {
+		var sub = $call(subprocess.new, subprocess, args);
+		sub.run();
+	}
+});
+
+var read_stdout = $loader.loadprim("std@process_stdout_read", 4);
+subprocess.read@underline = function() {
+	if(this.@subproc == null)
+		$throw("No process has been started to read from.");
+
+	if(this.@in_buffer == null || $ssize(this.@in_buffer) == 0) {
+		var temp = $smake(1024);
+		var read = read_stdout(this.@subproc, temp, 0, 1024);
+		
+		this.@in_buffer = $ssub(temp, 0, read);
+	}
+
+	var lineend = $sfind(this.@in_buffer, 0, "\n");
+	if(lineend == null) {
+		var temp = $smake(1024);
+		var read = read_stdout(this.@subproc, temp, 0, 1024);
+		
+		var bsize = $ssize(this.@in_buffer);
+		this.@in_buffer = $smake(read + bsize);
+		$sblit(this.@in_buffer, bsize, temp, 0, read);
+		
+		this.read@underline();
+	}
+	else {
+		var res = @brat.base_string.new($ssub(this.@in_buffer, 0, lineend));
+		this.@in_buffer = $ssub(this.@in_buffer, lineend + 1, $ssize(this.@in_buffer) - lineend - 1);
+		res;
+	}
+}
+
+var read_stderr = $loader.loadprim("std@process_stderr_read", 4);
+subprocess.read@undererr@underline = function() {
+	if(this.@subproc == null)
+		$throw("No process has been started to read from.");
+
+	if(this.@err_buffer == null || $ssize(this.@err_buffer) == 0) {
+		var temp = $smake(1024);
+		var read = read_stderr(this.@subproc, temp, 0, 1024);
+		
+		this.@err_buffer = $ssub(temp, 0, read);
+	}
+
+	var lineend = $sfind(this.@err_buffer, 0, "\n");
+	if(lineend == null) {
+		var temp = $smake(1024);
+		var read = read_stderr(this.@subproc, temp, 0, 1024);
+		
+		var bsize = $ssize(this.@err_buffer);
+		this.@err_buffer = $smake(read + bsize);
+		$sblit(this.@err_buffer, bsize, temp, 0, read);
+		
+		this.read@undererr@underline();
+	}
+	else {
+		var res = @brat.base_string.new($ssub(this.@err_buffer, 0, lineend));
+		this.@err_buffer = $ssub(this.@err_buffer, lineend + 1, $ssize(this.@err_buffer) - lineend - 1);
+		res;
+	}
+}
+
+subprocess.read = function(length) {
+	if(this.@subproc == null)
+		$throw("No process has been started to read from.");
+
+	if($typeof(length) == $tobject && @brat.has_field(length, "@nvalue")) {
+		length = length.@nvalue();
+	}
+	if($typeof(length) != $tint) {
+		$throw("Expected integer for subprocess.read(), not " + $string(length));
+	}
+
+	if(this.@in_buffer != null && $ssize(this.@in_buffer) > 0) {
+		var bsize = $ssize(this.@in_buffer);
+		if(bsize == length) {
+			var res = @brat.base_string.new(this.@in_buffer);
+			this.@in_buffer = null;
+			res;
+		}
+		else if(bsize > length) {
+			var res = @brat.base_string.new($ssub(this.@in_buffer, 0, length));
+			this.@in_buffer = $ssub(this.@in_buffer, length, bsize - length);
+			res;
+		}
+		else if(bsize < length) {
+			var temp = $smake(length - bsize);
+			var l = read_stdout(this.@subproc, temp, 0, length - bsize);
+			var res_temp = $smake(bsize + l);
+			$sblit(res_temp, 0, this.@in_buffer, 0, bsize);
+			$sblit(res_temp, bsize, temp, 0, l);
+			this.@in_buffer = null;
+			@brat.base_string.new(res_temp);  
+		}
+	}
+	else {
+		var temp = $smake(length);
+		var l = read_stdout(this.@subproc, temp, 0, length);
+		if(l == 0)
+			@brat.base_string.new("");
+		else
+			@brat.base_string.new($ssub(temp, 0, l));
+	}	
+}
+
+subprocess.read@undererr = function(length) {
+	if(this.@subproc == null)
+		$throw("No process has been started to read from.");
+
+	if($typeof(length) == $tobject && @brat.has_field(length, "@nvalue")) {
+		length = length.@nvalue();
+	}
+	if($typeof(length) != $tint) {
+		$throw("Expected integer for subprocess.read(), not " + $string(length));
+	}
+
+	if(this.@err_buffer != null && $ssize(this.@err_buffer) > 0) {
+		var bsize = $ssize(this.@err_buffer);
+		if(bsize == length) {
+			var res = @brat.base_string.new(this.@err_buffer);
+			this.@err_buffer = null;
+			res;
+		}
+		else if(bsize > length) {
+			var res = @brat.base_string.new($ssub(this.@err_buffer, 0, length));
+			this.@err_buffer = $ssub(this.@err_buffer, length, bsize - length);
+			res;
+		}
+		else if(bsize < length) {
+			var temp = $smake(length - bsize);
+			var l = read_stderr(this.@subproc, temp, 0, length - bsize);
+			var res_temp = $smake(bsize + l);
+			$sblit(res_temp, 0, this.@err_buffer, 0, bsize);
+			$sblit(res_temp, bsize, temp, 0, l);
+			this.@err_buffer = null;
+			@brat.base_string.new(res_temp);  
+		}
+	}
+	else {
+		var temp = $smake(length);
+		var l = read_stderr(this.@subproc, temp, 0, length);
+		if(l == 0)
+			@brat.base_string.new("");
+		else
+			@brat.base_string.new($ssub(temp, 0, l));
+	}	
+}
+
+subprocess.each@underline = function(block) {
+	if($typeof(block) != $tfunction)
+		$throw("Expected a function.");
+
+	var res;
+	while(true) {
+		try {
+			res = this.read@underline();
+		}
+		catch e {
+			break;
+		}
+		
+		block(res);
+	}
+}
+
+subprocess.each@undererr@underline = function(block) {
+	if($typeof(block) != $tfunction)
+		$throw("Expected a function.");
+
+	var res;
+	while(true) {
+		try {
+			res = this.read@undererr@underline();
+		}
+		catch e {
+			break;
+		}
+		
+		block(res);
+	}
+}
+
+var write = $loader.loadprim("std@process_stdin_write", 4);
+subprocess.write = function(message) {
+	if(this.@subproc == null)
+		$throw("No process has been started.");
+
+	if($typeof(message) == $tobject && @brat.has_field(message, "@neko_string")) {
+		message = message.@neko_string();
+	}
+	if($typeof(message) != $tstring) {
+		$throw("Can only write out strings to subprocess.");
+	}
+
+	@brat.base_number.new(write(this.@subproc, message, 0, $ssize(message)));
+}
+
+subprocess.write@underline = function(message) {
+	if($typeof(message) == $tobject && @brat.has_field(message, "@neko_string")) {
+		message = message.@neko_string();
+	}
+	if($typeof(message) != $tstring) {
+		$throw("Can only write out strings to subprocess.");
+	}
+
+	var temp = $smake($ssize(message) + 1);
+	$sblit(temp, $ssize(temp) - 1, "\n", 0, 1);
+	subprocess.write(temp);
+}
+
+var wait = $loader.loadprim("std@process_exit", 1);
+subprocess.join = function() {
+	if(this.@subproc != null)
+		wait(this.@subproc);
+
+	@brat.@@null;
+}
+
+var close = $loader.loadprim("std@process_close", 1);
+subprocess.close = function() {
+	if(this.@subproc != null)
+		close(this.@subproc);
+
+	this.@subproc = null;
+	@brat.@@null;
+}
+
+var pid = $loader.loadprim("std@process_pid", 1);
+subprocess.pid = function() {
+	if(this.@subproc == null)
+		$throw("No process yet, no pid.");
+
+	if(this.@pid)
+		this.@pid;
+	else
+		this.@pid = @brat.base_number.new(pid(this.@subproc));
+}
+
+$exports.subprocess = subprocess;
