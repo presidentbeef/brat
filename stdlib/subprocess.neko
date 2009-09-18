@@ -266,8 +266,10 @@ subprocess.write@underline = function(message) {
 	}
 
 	var temp = $smake($ssize(message) + 1);
+	$sblit(temp, 0, message, 0, $ssize(message));
 	$sblit(temp, $ssize(temp) - 1, "\n", 0, 1);
-	subprocess.write(temp);
+	$print("Writing: ", temp);
+	this.write(temp);
 }
 
 var wait = $loader.loadprim("std@process_exit", 1);
