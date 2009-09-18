@@ -1318,6 +1318,8 @@ base_string.@to_s = function() {
 
 base_string.@neko_string = function() { this.@value }
 
+base_string.to@unders = function() { this }
+
 base_string.@equal@equal = function(rhs) {
 	if($typeof(rhs) == $tobject && has_field(rhs, "@neko_string")) {
 		if($compare(this.@neko_string(), rhs.@neko_string()) == 0)
