@@ -293,7 +293,7 @@ end
 #Checks if a line is 'finished'. For example, returns false if a string literal is still open.
 def line_closed? line
 
-	items = line.scan(/\{|\}|"|\(|\)|\[|\]/)
+	items = line.scan(/\{|\}|[^\\]"|\(|\)|\[|\]/)
 
 	count = Hash.new(0)
 	items.each do |i|
