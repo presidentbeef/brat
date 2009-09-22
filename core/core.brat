@@ -182,11 +182,17 @@ number.times = { block |
 	true? my > 0,
 		{
 			n = 0
-			while {
-				block
-				n = n + 1
-				n < my
-			}	
+			true? method_arity(->block) > 0,
+				{ while {
+					block n
+					n = n + 1
+					n < my
+				}},
+				{ while {
+					block
+					n = n + 1
+					n < my
+				}}
 		}
 	my
 }

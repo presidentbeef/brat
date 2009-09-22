@@ -80,6 +80,7 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "5", "5.times { 'a }"
 		assert_result "[a,a,a]", "a = []; 3.times { a << 'a }; a"
 		assert_result "[]", "a = []; 0.times { a << 'a }; a"
+		assert_result "[0,1,2]", "a = []; 3.times { i | a << i }; a"
 	end
 
 	def test_core_and
