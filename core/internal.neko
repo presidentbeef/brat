@@ -3,8 +3,13 @@ base_object = $new(null);
 
 base_object.new = $varargs(function(args) {
 	var nb = new_brat(this);
-	if(has_field(this, "init"))
-		$objcall(nb, $hash("init"), args);
+	if(has_field(this, "init")) {
+		var init = $objget(this, $hash("init"))
+		if($nargs(init) == -2)
+			nb.init(args);
+		else
+			$objcall(nb, $hash("init"), args);
+	}
 	else if($asize(args) > 0)
 		$throw("Did not expect arguments for new().");
 	
