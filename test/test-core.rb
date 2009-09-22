@@ -52,6 +52,18 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "[]", "[].select { i | i < 3 }"
 	end
 
+	def test_core_array_clear
+		assert_result "[]", "[1,2,3,4].clear"
+	end
+
+	def test_core_array_delete_first
+		assert_result "[1,2,3]", "[1,2,3,4].delete_first 4;"
+		assert_result "[2,3,4]", "[1,2,3,4].delete_first 1"
+		assert_result "[1,2,3]", "[1,2,3].delete_first 4"
+		assert_result "[1,2,3,4]", "[1,1,2,3,4].delete_first 1"
+		assert_result "[1,3]", "[1,2,3].delete_first 2"
+	end
+
 	def test_core_array_include?
 		assert_result "true", "[1,2,3].include? 3"
 		assert_result "true", "a = new; b = [a]; b.include? a"

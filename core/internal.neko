@@ -1171,6 +1171,51 @@ base_array.reverse@bang = function() {
 	this;
 }
 
+base_array.clear = function() {
+	this.@internal_array = $amake(0);
+}
+
+base_array.delete@underfirst = function(item) {
+	var index = 0;
+	var found = null;
+	var length = $asize(this.@internal_array);
+
+	var compare;
+
+	if($typeof(item) == $tobject) {
+		compare = function(current) {
+			item.@equal@equal(current) == base_object.@@true;
+		}
+	}
+	else {
+		compare = function(current) {
+			item == current;
+		}
+	}
+
+	while index < length + 1 {
+		if(compare(this.@internal_array[index])) {
+			found = index;
+			break;
+		}
+		index = index + 1;
+	}
+
+	if(found != null) {
+		var temp = $amake(length - 1);
+		if(found > 0)
+			$ablit(temp, 0, this.@internal_array, 0, found);
+
+		if(found < length)
+			$ablit(temp, found, this.@internal_array, found + 1, $asize(this.@internal_array) - found - 1);
+	
+		this.@internal_array = temp;
+		this;
+	}
+	else
+		this;
+	
+}
 
 base_array.set = base_array.__set;
 base_array.get = base_array.__get;
