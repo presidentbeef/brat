@@ -16,8 +16,6 @@ base_object.new = $varargs(function(args) {
 	nb;
 })
 
-base_object.hash_code = function() { $hash(this) };
-
 //Create a new object with either parent_brat or base_object
 //as the parent class.
 new_brat = function(parent_brat) {
