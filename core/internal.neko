@@ -60,7 +60,10 @@ base_object.to@unders = function() {
 	var output = "#object {"
 	while index < length {
 		cur_field = fields[index];
-		name = from_identifier($field(cur_field))
+		name = $field(cur_field);
+		if(name == null)
+			name = "null"; //I don't know why this would happen, but it did
+		name = from_identifier(name);
 		first = $ssub(name, 0, 1);
 		if(first != "@" && first != "_")
 			output = output + " " + name;
@@ -1825,7 +1828,7 @@ from_identifier = function(string) {
 	if($typeof(string) != $tstring)
 		$throw("Cannot convert " + $string(string) + " to an identifier.");
 
-	var regexp1 = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)")
+	var regexp1 = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)");
 
 	var f1 = function(m) { $hget(from_id_list, reg_matched(m), null) };
 	string = reg_rep_fun(regexp1, string, f1);

@@ -9,6 +9,7 @@ var mutex_release = $loader.loadprim("std@mutex_release", 1);
 var queue_create = $loader.loadprim("std@deque_create", 0);
 var queue_push = $loader.loadprim("std@deque_add", 2);
 var queue_pop = $loader.loadprim("std@deque_pop", 2);
+var queue_prepend = $loader.loadprim("std@deque_push", 2);
 
 var @brat = $loader.loadmodule("internal", $loader);
 
@@ -32,10 +33,11 @@ thread.new = function(block) {
 			t.@result = $call(block, @brat.base_object, $amake(0));
 		}
 		catch e {
-			$print(e, "\n");
+			$print("Error in thread: ", e, "\n");
 		}
-		lock_release(t.@lock);
+
 		t.@finished = true;
+		lock_release(t.@lock);
 	}
 	mutex_acquire(thread.@mutex);
 	t.@thread = tcreate(wrap, null);
@@ -50,6 +52,11 @@ thread.join = function() {
 		return null;
 	
 	lock_wait(this.@lock, null);
+
+	mutex_acquire(thread.@mutex);
+	thread.@all.delete@underfirst(this);
+	mutex_release(thread.@mutex);
+
 	lock_release(this.@lock);
 	this.@result;
 }
@@ -59,14 +66,13 @@ thread.result = function() {
 }
 
 thread.finished@question = function() {
-	if(this.@finished || this.@thread == null)
+	if(this.@finished)
 		@brat.base_object.@@true;
 	else
 		@brat.base_object.@@false;
 }
 
 thread.@join_all = $varargs(function(args) {
-	$print("called with ", args, "\n");
 	var arglen = $asize(args);
 	var wait_threads;
 	var q;
@@ -89,8 +95,8 @@ thread.@join_all = $varargs(function(args) {
 		var current;
 		while(i < arglen) {
 			current = args[i];
-			if($typeof(current) != $tabstract && ($typeof(current) != $tobject || $not(@brat.has_field(current, "@thread"))))
-				$throw("Invalid arguments to thread.@join_all().");
+			if($typeof(current) != $tobject)
+				$throw("Invalid arguments to thread.@join_all(): " + $string(current));
 
 			wait_threads[i] = tcreate(wrap, $array(current, q));
 
@@ -123,7 +129,6 @@ thread.wait@underall = $varargs(function(args) {
 var set = $loader.loadmodule("set", $loader).set;
 
 thread.wait@underon = $varargs(function(args) {
-	$print("wait_on called with ", args, "\n");
 	var arglen = $asize(args);
 	if(arglen == 0)
 		$throw("Thread.wait_all() requires some arguments!");
@@ -147,7 +152,6 @@ thread.wait@underon = $varargs(function(args) {
 		arglen = $asize(args);
 	}
 
-	$print("calling join_all with ", args, "\n");
 	var joins;
 	var block;
 	if($typeof(args[arglen - 1]) == $tfunction) {
@@ -159,8 +163,6 @@ thread.wait@underon = $varargs(function(args) {
 
 	var num_threads = $asize(joins[0]);
 	var q = joins[1];
-
-	$print("threads: ", num_threads, "\n");
 
 	var t;
 	while(num_threads > 0) {
