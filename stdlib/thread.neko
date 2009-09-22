@@ -175,4 +175,46 @@ thread.wait@underon = $varargs(function(args) {
 	@brat.base_object.@@null;
 })
 
+var queue = @brat.base_object.new();
+queue.new = function() {
+	var q = @brat.new_brat(this);
+	q.@internal_queue = queue_create();
+	q;
+}
+
+queue.push = function(item) {
+	queue_push(this.@internal_queue, item);
+}
+
+queue.pop = function() {
+	var res = queue_pop(this.@internal_queue, false);
+	if(res == null)
+		@brat.@@null;
+	else
+		res;
+}
+
+queue.wait@undernext = function() {
+	queue_pop(this.@internal_queue, true);
+}
+
+queue.prepend = function(item) {
+	queue_prepend(this.@internal_queue, item);
+}
+
+var mutex = @brat.base_object.new();
+mutex.new = function() {
+	var m = @brat.new_brat(this);
+	m.@mutex = mutex_create(); 
+	m;
+}
+
+mutex.synchronize = function(block) {
+	mutex_acquire(this.@mutex);
+	var res = block();
+	mutex_release(this.@mutex);
+}
+
 $exports.thread = thread;
+$exports.queue = queue;
+$exports.mutex = mutex;
