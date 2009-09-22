@@ -639,6 +639,18 @@ base_object.with@underthis = function(block) {
 	block();
 }
 
+base_object.method@underarity = function(func) {
+	if($typeof(func) == $tfunction) {
+		var args = $nargs(func);
+		if(args < 0)
+			base_number.new(-1);
+		else
+			base_number.new(args);
+	}
+	else
+		$throw($string(func) + " is not a function, cannot report its arity.");
+}
+
 var sys_exit = $loader.loadprim("std@sys_exit", 1);
 base_object.exit = $varargs(function(exit_code) {
 	if($asize(exit_code) == 0)
