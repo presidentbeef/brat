@@ -468,7 +468,7 @@ base_object.@1_@while = function(block) {
 }
 
 base_object.@2_@while = function(condition, block) {
-	while(($typeof(condition) == $tfunction && istrue(condition())) || istrue(condition)) { block() }
+	while(($typeof(condition) == $tfunction && istrue(condition())) || ($typeof(condition) != $tfunction && istrue(condition))) { block() }
 }
 
 base_object.when = $varargs(function(args) {
