@@ -420,12 +420,23 @@ grammar BaseBrat
 
   #Matches doubly-quoted strings
   rule string
-    '"' ('\"' / !'"' . )* '"' {
-	    def brat
-		    next_temp
-		    "var #@result = string.new(#{text_value});"
-	    end
-    }
+    '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
+		def brat
+			next_temp
+			content.elements.each do |e|
+				p e
+			end
+			"var #@result = string.new(#{text_value});"
+		end
+	}
+  end
+
+  rule string_interpolation
+	"#" "{" space? expression space? "}" {
+		def brat
+
+		end
+	} 
   end
 
   #Like symbols in Scheme or Ruby
