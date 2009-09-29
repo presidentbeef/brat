@@ -423,18 +423,46 @@ grammar BaseBrat
     '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
 		def brat
 			next_temp
-			content.elements.each do |e|
-				p e
+			if content.elements.empty?
+				"var #@result = string.new(#{text_value});"
+			else
+				text = '"'
+				output = ""
+				content.elements.each do |e|
+					if e.respond_to? :brat
+						output << e.brat
+						text << "\" + $string(#{e.result}) + \""
+					else
+						text << e.text_value
+					end
+				end
+				output << "var #@result = string.new(#{text << '"'});"
 			end
-			"var #@result = string.new(#{text_value});"
 		end
 	}
   end
 
   rule string_interpolation
-	"#" "{" space? expression space? "}" {
+	~"#" "{" ~(space?) first:expression? ~(space?) rest:((~eol ~(space?) expression ~(space?))*) ~(eol?) ~(space?) ~"}" {
 		def brat
+			output = ""
+			if first.respond_to? :brat
+				output << first.brat
+				@result = first.result
+			end
 
+			rest.elements.each do |e|
+				if e.expression.respond_to? :brat
+					output << e.expression.brat
+					@result = e.expression.result
+				end
+			end
+
+			if @result.nil?
+				@result = '""'
+			end
+
+			output
 		end
 	} 
   end

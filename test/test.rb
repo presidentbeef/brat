@@ -599,6 +599,17 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", 'a = "a"; b = [a:1]; b["a"]'
 	end
 
+	def test_string_interpolation
+		assert_result "abc", '"a#{"b"}c"'
+		assert_result "abc", '"a#{  "b"  }c"'
+		assert_result "abc", '"a#{  "b" ;  }c"'
+		assert_result "abc", 'f = { "b" }; "a#{ f }c"'
+		assert_result "abc", 'f = { "c" }; "a#{ f; "b" }c"'
+		assert_result "abc", 'f = { "c" }; c = "c"; "#{"a"}#{ f; "b" }#{ c }"'
+		assert_result "a-b c", 'f = { "c" }; c = "c"; "#{"a"}-#{ f; "b" } #{ c }"'
+		assert_result "a-b c", 'f = { "c" }; b = null; c = null; a = { b = { c = "c"; "b" }; "a" }; "#{a}-#{ f; b } #{ c }"'
+	end
+
 	def test_string_indexing
 		assert_result "b", 'b = "abc"; b[1]'
 		assert_result "abc", '"zabcdef"[1,3]'
