@@ -35,9 +35,32 @@ enumerable.select = { block |
 	new_ary
 }
 
+enumerable.sort = {
+	my.to_array.sort
+}
+
+enumerable.to_array = {
+	new_ary = []
+	index = 0
+	my.each { o |
+		new_ary[index] = o
+		index = index + 1
+	}
+	new_ary
+}
+
+
 export enumerable, "enumerable"
 
+array.my_sort = array->sort
+
 array.squish enumerable
+
+array.sort = array->my_sort;
+
+array.to_array = {
+	my
+}
 
 array.first = { my[0] }
 array.rest = { my[1,-1] }
