@@ -611,7 +611,7 @@ base_object.methods = function() {
 	}
 
 	var proto = $objgetproto(this);
-	meths = make_array(meths).select(function(i) { base_object.not(i[base_number.new(0)].@equal@equal(base_string.new("@")))});
+	meths = base_array.new(meths).select(function(i) { base_object.not(i[base_number.new(0)].@equal@equal(base_string.new("@")))});
 	if(proto == null)
 		meths;
 	else {
@@ -633,7 +633,7 @@ base_object.local@undermethods = function() {
 		i = i + 1;
 	}
 
-	meths = make_array(meths).select(function(i) { base_object.not(i[base_number.new(0)].@equal@equal(base_string.new("@")))});
+	meths = base_array.new(meths).select(function(i) { base_object.not(i[base_number.new(0)].@equal@equal(base_string.new("@")))});
 }
 
 base_object.with@underthis = function(block) {
@@ -965,6 +965,9 @@ base_array.@internal_array = $amake(0);
 base_array.new = $varargs(function(args) {
 	var ary = new_brat(this);
 	if($asize(args) > 0) {
+		if($asize(args) == 1 && $typeof(args[0]) == $tarray)
+			args = args[0];
+
 		ary.@internal_array = args;
 		ary.@length = $asize(args);
 	}
@@ -1045,7 +1048,7 @@ base_array.__get = $varargs(function(args) {
 				stop = len - 1;
 
 			var new_array = $asub(this.@internal_array, start, stop - start + 1);
-			make_array(new_array);
+			base_array.new(new_array);
 		}
 	}
 });
@@ -1072,7 +1075,6 @@ base_array.__set = function(index, value) {
 				this.@internal_array[i] = n;
 				i = i + 1;
 			}
-			this.@length = index;	
 		}
 		else {
 			len = $asize(this.@internal_array);
@@ -1091,10 +1093,10 @@ base_array.__set = function(index, value) {
 			}
 
 			this.@internal_array = $aconcat($array(this.@internal_array, new_array));
-			this.@length = $asize(this.@internal_array);
 		}
 	}
 
+	this.@length = index + 1;
 	this.@internal_array[index] = value;
 	this;
 }
@@ -1174,7 +1176,7 @@ base_array.reverse = function() {
 		new_array[index] = this.@internal_array[length - index - 1];
 		index = index + 1;
 	}
-	make_array(new_array);
+	base_array.new(new_array);
 }
 
 base_array.reverse@bang = function() {
@@ -1282,7 +1284,7 @@ quick_sort = function(array, left, right) {
 base_array.sort = function() {
 	var array = $asub(this.@internal_array, 0, this.@length);
 	quick_sort(array, 0, $asize(array) - 1);
-	make_array(array);
+	base_array.new(array);
 }
 
 base_array.sort@bang = function() {
@@ -1324,7 +1326,7 @@ base_hash.@key_value = function(key) {
 	else if(t == $tnull)
 		base_object.@@null;
 	else if(t == $tarray)
-		make_array(key);
+		base_array.new(key);
 	else {
 		key;
 	}
@@ -1423,7 +1425,7 @@ base_hash.map = function(block) {
 	}
 
 	$hiter(this.@internal_hash, fun);
-	make_array(res);
+	base_array.new(res);
 }
 
 base_hash.keys = function() {
@@ -1457,12 +1459,6 @@ hset = function(hashtable, index, value) {
 	$hset(hashtable, index, value, base_hash.@compare)
 }
 
-make_array = function(neko_array) {
-	var ary = base_array.new();
-	ary.@internal_array = neko_array;
-	ary.@length = $asize(neko_array);
-	ary;
-}
 
 base_string = new_brat(null);
 base_string.@value = "";
@@ -1772,7 +1768,7 @@ base_string.split = $varargs(function(args) {
 			i = i + 1;
 		}
 
-		make_array(res);
+		base_array.new(res);
 })
 
 base_string.dice = function() {
@@ -1784,7 +1780,7 @@ base_string.dice = function() {
 		i = i + 1;
 	}
 
-	make_array(res);
+	base_array.new(res);
 }
 
 var regexp_new = $loader.loadprim("regexp@regexp_new", 1);
@@ -1937,7 +1933,6 @@ base_object.memstats = function() {
 
 
 $exports.hset = hset;
-$exports.make_array = make_array;
 $exports.make_hash = make_hash;
 $exports.new_brat = new_brat;
 $exports.has_field = has_field;
