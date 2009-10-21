@@ -181,7 +181,7 @@ grammar BaseBrat
 	"[" spaceorbreak "]" {
 		def brat
 			next_temp
-			"var #@result = @brat.base_array.new($amake(0));"
+			"var #@result = @brat.base_array.new();"
 		end
 	}
   end
