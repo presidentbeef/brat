@@ -128,11 +128,11 @@ grammar BaseBrat
  
   #Expressions which can be used as the lhs of a binary expression 
   rule binary_lhs_expression
- 	index_get / paren_exp / number / string / hash / bare_array / method_with_parens / regex / symbol / unary_operation
+ 	index_get / paren_exp / number / string / hash / array / method_with_parens / regex / symbol / unary_operation
   end
 
   rule unary_rhs_expression
- 	index_get / paren_exp / number / string / hash / bare_array / method_invocation / regex / symbol
+ 	index_get / paren_exp / number / string / hash / array / method_invocation / regex / symbol
   end
 
   rule default_arg_rhs_expression
@@ -182,18 +182,6 @@ grammar BaseBrat
 		def brat
 			next_temp
 			"var #@result = @brat.base_array.new();"
-		end
-	}
-  end
-
-  #Matches bare arrays
-  #(Note: is this necessary?)
-  rule bare_array
-  	"[" spaceorbreak inner_arg_list spaceorbreak "]" ~(&(space / eol)) {
-		def brat
-			output = inner_arg_list.brat
-			next_temp
-			output << "var #@result = @brat.base_array.new(#{inner_arg_list.array});"
 		end
 	}
   end
