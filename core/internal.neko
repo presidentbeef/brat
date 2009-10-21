@@ -1218,6 +1218,48 @@ base_array.delete@underfirst = function(item) {
 	
 }
 
+partition = function(array, left, right, pivot) {
+	var pivot_value = array[pivot];
+	var temp = array[pivot];
+	array[pivot] = array[right];
+	array[right] = temp;
+	store_index = left;
+	var i = left;
+	while(i < right) {
+		if(pivot_value.@greater@equal(array[i]) == base_object.@@true;) {
+			temp = array[store_index];
+			array[store_index] = array[i];
+			array[i] = temp;
+			store_index = store_index + 1;
+		}
+		i = i + 1;
+	}
+	temp = array[store_index];
+	array[store_index] = array[right];
+	array[right] = temp;
+	store_index;
+}
+
+quick_sort = function(array, left, right) {
+	if(right > left) {
+		var pivot = random_int(random(), right - left) + left;
+		var new_pivot = partition(array, left, right, pivot);
+		quick_sort(array, left, new_pivot - 1);
+		quick_sort(array, new_pivot + 1, right);
+	}
+}
+
+base_array.sort = function() {
+	var array = $acopy(this.@internal_array);
+	quick_sort(array, 0, $asize(array) - 1);
+	make_array(array);
+}
+
+base_array.sort@bang = function() {
+	quick_sort(this.@internal_array, 0, $asize(this.@internal_array) - 1);
+	this;
+}
+
 base_array.set = base_array.__set;
 base_array.get = base_array.__get;
 

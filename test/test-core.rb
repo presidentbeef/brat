@@ -83,6 +83,20 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "null", "[].find { x | x > 4 }"
 	end
 
+	def test_core_sort
+		assert_result "[1,2,3]", "[3,2,1].sort"
+		assert_result "[3,2,1]", "a = [3,2,1]; a.sort; a"
+		assert_result '[a,b,c]', 'a = ["b", "c", "a"]; a.sort'
+		assert_result '[b,c,a]', 'a = ["b", "c", "a"]; a.sort; a'
+	end
+
+	def test_core_sort!
+		assert_result "[1,2,3]", "[3,2,1].sort!"
+		assert_result "[1,2,3]", "a = [3,2,1]; a.sort!; a"
+		assert_result '[a,b,c]', 'a = ["b", "c", "a"]; a.sort!'
+		assert_result '[a,b,c]', 'a = ["b", "c", "a"]; a.sort!; a'
+	end
+
 	def test_core_while
 		assert_result "3", "n = 0; while { n = n + 1; n < 3 }; n"
 		assert_result "3", "n = 0; while { n < 3 }, { n = n + 1 }; n"
