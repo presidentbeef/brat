@@ -52,7 +52,6 @@ grammar BaseBrat
 			#{inner_brat}
 			$exports.has_field = @brat.has_field;
 			$exports.hset = @brat.hset;
-			$exports.make_array = @brat.make_array;
 			$exports.make_hash = @brat.make_hash;
 			$exports.base_array = array;
 			$exports.base_hash = hash;
@@ -175,14 +174,14 @@ grammar BaseBrat
 		def brat
 			output = inner_arg_list.brat
 			next_temp
-			output << "var #@result = @brat.make_array(#{inner_arg_list.array});"
+			output << "var #@result = @brat.base_array.new(#{inner_arg_list.array});"
 		end
 	}
 	/
 	"[" spaceorbreak "]" {
 		def brat
 			next_temp
-			"var #@result = @brat.make_array($amake(0));"
+			"var #@result = @brat.base_array.new($amake(0));"
 		end
 	}
   end
@@ -194,7 +193,7 @@ grammar BaseBrat
 		def brat
 			output = inner_arg_list.brat
 			next_temp
-			output << "var #@result = @brat.make_array(#{inner_arg_list.array});"
+			output << "var #@result = @brat.base_array.new(#{inner_arg_list.array});"
 		end
 	}
   end
@@ -587,7 +586,7 @@ grammar BaseBrat
 		end
 
 		def function_header
-			"#{@param} = @brat.make_array(@args);\n"
+			"#{@param} = @brat.base_array.new(@args);\n"
 		end
 	}
 	/
@@ -617,7 +616,7 @@ grammar BaseBrat
 				i += 1
 			end
 
-			output << "#{@param} = @brat.make_array($asub(@args, #{i}, $asize(@args) - #{i}));" 
+			output << "#{@param} = @brat.base_array.new($asub(@args, #{i}, $asize(@args) - #{i}));" 
 		end
 	}
 	/
@@ -673,7 +672,7 @@ grammar BaseBrat
 			output << "}\n"
 
 			output << "if(@arg_len > #{num_names}) {" <<
-				"#{@param} = @brat.make_array($asub(@args, #{num_names}, $asize(@args) - #{num_names}));" <<
+				"#{@param} = @brat.base_array.new($asub(@args, #{num_names}, $asize(@args) - #{num_names}));" <<
 				"} else { #{@param} = @brat.base_array.new();}"
 		end
 	}
@@ -741,7 +740,7 @@ grammar BaseBrat
 
 			other_args = def_args + req_args
 			output << "if(@arg_len > #{other_args}) {" <<
-				"#{@param} = @brat.make_array($asub(@args, #{other_args}, $asize(@args) - #{other_args}));" <<
+				"#{@param} = @brat.base_array.new($asub(@args, #{other_args}, $asize(@args) - #{other_args}));" <<
 				"} else { #{@param} = @brat.base_array.new();}"
 		end
 	}
