@@ -1138,21 +1138,20 @@ base_array.@plus = function(ary) {
 base_array.@equal@equal = function(rhs) {
 	if(lhs == rhs)
 		return base_object.@@true;
-	else if($typeof(rhs) == $tobject && has_field(rhs, "@neko_array"))
-		rhs = rhs.@neko_array();
-	else
+	else if($typeof(rhs) != $tobject || $not(has_field(rhs, "@neko_array")))
 		return base_object.@@false;
 
 	var lhs = this.@internal_array;
 	if(lhs == null) {
 		$throw($string(this) + " has a null array");
 	}
-	else if(rhs == null) {
+	else if(rhs.@internal_array == null) {
 		$throw("rhs has a null array");
 	}
-	if($asize(lhs) != $asize(rhs))
+	if(this.@length != rhs.@length)
 		return base_object.@@false;
 
+	rhs = rhs.@internal_array;
 	var index = 0;
 	var length = this.@length;
 	while(index < length) {

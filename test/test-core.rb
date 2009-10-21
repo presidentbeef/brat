@@ -83,6 +83,13 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "null", "[].find { x | x > 4 }"
 	end
 
+	def test_core_array_compare
+		assert_result "true", "[] == []"
+		assert_result "false", "[1,2] == [3,4]"
+		assert_result "false", "[1,2,3] == [1,2]"
+		assert_result "false", '["a", "b"] == ["b", "a"]'
+	end
+
 	def test_core_sort
 		assert_result "[1,2,3]", "[3,2,1].sort"
 		assert_result "[3,2,1]", "a = [3,2,1]; a.sort; a"
