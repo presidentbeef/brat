@@ -964,18 +964,30 @@ base_array.@internal_array = $amake(0);
 
 base_array.new = $varargs(function(args) {
 	var ary = new_brat(this);
-	ary.@internal_array = $acopy(args);
+	if($asize(args) > 0) {
+		ary.@internal_array = args;
+		ary.@length = $asize(args);
+	}
+	else {
+		ary.@internal_array = $amake(16);
+		ary.@length = 0;
+	}
 	ary;
 });
 
-base_array.@neko_array = function() { this.@internal_array }
+base_array.@neko_array = function() { 
+	if(this.@length == $asize(this.@internal_array))
+		this.@internal_array
+	else
+		$asub(this.@internal_array, 0, this.@length);
+}
 
 base_array.length = function() {
-	base_number.new($asize(this.@internal_array));
+	base_number.new(this.@length);
 }
 
 base_array.__get = $varargs(function(args) {
-	var len = $asize(this.@internal_array);
+	var len = this.@length;
 	if($asize(args) == 0 || $asize(args) > 2)
 		$throw("Invalid number of arguments to array.get(), should be 1 or 2.");
 	else if($asize(args) == 1) {
@@ -983,7 +995,7 @@ base_array.__get = $varargs(function(args) {
 			$throw("Cannot access array with non-number value.");
 
 		var index = args[0].@nvalue();
-		if(index > len || index < -len) {
+		if(index >= len || index < -len) {
 			return base_object.@@null;
 		}
 		else if(index >= 0) {
@@ -1004,10 +1016,9 @@ base_array.__get = $varargs(function(args) {
 			$throw("Cannot access array with non-number value.");
 
 		if(len == 0) {
-			this.clone($amake(0));
+			this.new(); //return empty array
 		}
 		else {
-
 			var start = args[0].@nvalue();
 			var stop = args[1].@nvalue();
 
@@ -1028,13 +1039,13 @@ base_array.__get = $varargs(function(args) {
 			}
 
 			if(start >= len)
-				return this.clone($amake(0));
+				return this.new();
 
 			if(stop >= len)
 				stop = len - 1;
 
 			var new_array = $asub(this.@internal_array, start, stop - start + 1);
-			this.clone(new_array);
+			make_array(new_array);
 		}
 	}
 });
@@ -1045,7 +1056,7 @@ base_array.__set = function(index, value) {
 	if($typeof(index) != $tint)
 		$throw("Cannot use non-integer index for array.");
 
-	var len = this.length().@nvalue();
+	var len = this.@length;
 	if(index < 0)
 		index = len + index;
 
@@ -1053,14 +1064,35 @@ base_array.__set = function(index, value) {
 		$throw("Invalid array index: " + $string(index));
 
 	if(index >= len) {
-		var new_array = $amake(index - len + 1);
-		var i = 0;
-		var n = base_object.@@null;
-		while( i < (index - len + 1)) {
-			new_array[i] = n;
-			i += 1;
-		}	
-		this.@internal_array = $aconcat($array(this.@internal_array, new_array));
+
+		if(index < $asize(this.@internal_array)) { //no need to resize
+			var i = this.@length;
+			var n = base_object.@@null;
+			while(i < index) {
+				this.@internal_array[i] = n;
+				i = i + 1;
+			}
+			this.@length = index;	
+		}
+		else {
+			len = $asize(this.@internal_array);
+			var new_array = $amake(index - len + 1);
+			var i = 0;
+			var n = base_object.@@null;
+			var stop = index - len + 1;
+			while( i < stop) {
+				new_array[i] = n;
+				i += 1;
+			}
+
+			i = this.@length;
+			while(i < len) {
+				this.@internal_array[i] = n;
+			}
+
+			this.@internal_array = $aconcat($array(this.@internal_array, new_array));
+			this.@length = $asize(this.@internal_array);
+		}
 	}
 
 	this.@internal_array[index] = value;
@@ -1068,26 +1100,32 @@ base_array.__set = function(index, value) {
 }
 
 base_array.push = function(value) {
-	var old_len = $asize(this.@internal_array);
-	var new_array = $amake(old_len + 1);
-	$ablit(new_array, 0, this.@internal_array, 0, old_len);
-	new_array[old_len] = value;
-	this.@internal_array = new_array;
+	if(this.@length == $asize(this.@internal_array)) {	//resize
+		var new_array = $amake((this.@length + 1) * 2);
+		//this.@internal_array = $aconcat($array(this.@internal_array, new_array));
+		$ablit(new_array, 0, this.@internal_array, 0, this.@length);
+		this.@internal_array = new_array;
+	}
+
+	this.@internal_array[this.@length] = value;
+	this.@length = this.@length + 1;
+
 	this;
 }
 
 base_array.@less@less = base_array.push;
 
 base_array.@plus = function(ary) {
-	this.@internal_array = $aconcat($array(this.@internal_array, ary.@internal_array));
+	this.@internal_array = $aconcat($array(this.@neko_array(), ary.@neko_array()));
+	this.@length = this.@length + ary.@length;
 	this;
 }
 
 base_array.@equal@equal = function(rhs) {
 	if(lhs == rhs)
 		return base_object.@@true;
-	else if($typeof(rhs) == $tobject && has_field(rhs, "@internal_array"))
-		rhs = rhs.@internal_array;
+	else if($typeof(rhs) == $tobject && has_field(rhs, "@neko_array"))
+		rhs = rhs.@neko_array();
 	else
 		return base_object.@@false;
 
@@ -1102,7 +1140,7 @@ base_array.@equal@equal = function(rhs) {
 		return base_object.@@false;
 
 	var index = 0;
-	var length = $asize(lhs);
+	var length = this.@length;
 	while(index < length) {
 		if($not(istrue(lhs[index].@equal@equal(rhs[index]))))
 			return base_object.@@false
@@ -1114,7 +1152,7 @@ base_array.@equal@equal = function(rhs) {
 
 base_array.@to_s = function() {
 	var i = 0;
-	var len = $asize(this.@internal_array);
+	var len = this.@length;
 	var temp = $amake(len);
 	while i < len {
 		if(has_field(this.@internal_array[i], "@to_s"))
@@ -1129,7 +1167,7 @@ base_array.@to_s = function() {
 
 base_array.reverse = function() {
 	var index = 0;
-	var length = $asize(this.@internal_array);
+	var length = this.@length;
 	var new_array = $amake(length);
 
 	while index < length + 1 {
@@ -1141,7 +1179,7 @@ base_array.reverse = function() {
 
 base_array.reverse@bang = function() {
 	var index = 0;
-	var length = $asize(this.@internal_array);
+	var length = this.@length;
 	var new_array = $amake(length);
 
 	while index < length + 1 {
@@ -1154,13 +1192,15 @@ base_array.reverse@bang = function() {
 }
 
 base_array.clear = function() {
-	this.@internal_array = $amake(0);
+	//this.@internal_array = $amake(0);
+	this.@length = 0;
+	this;
 }
 
 base_array.delete@underfirst = function(item) {
 	var index = 0;
 	var found = null;
-	var length = $asize(this.@internal_array);
+	var length = this.@length;
 
 	var compare;
 
@@ -1184,14 +1224,21 @@ base_array.delete@underfirst = function(item) {
 	}
 
 	if(found != null) {
-		var temp = $amake(length - 1);
-		if(found > 0)
-			$ablit(temp, 0, this.@internal_array, 0, found);
+		if(found == this.@length - 1) {
+			this.@internal_array[found] = null;
+			this.@length = this.@length - 1;
+		}
+		else {
+			var temp = $amake(length - 1);
+			if(found > 0)
+				$ablit(temp, 0, this.@internal_array, 0, found);
 
-		if(found < length)
-			$ablit(temp, found, this.@internal_array, found + 1, $asize(this.@internal_array) - found - 1);
+			if(found < length)
+				$ablit(temp, found, this.@internal_array, found + 1, this.@length - found - 1);
 	
-		this.@internal_array = temp;
+			this.@internal_array = temp;
+			this.@length = $asize(this.@internal_array);
+		}
 		this;
 	}
 	else
@@ -1233,13 +1280,13 @@ quick_sort = function(array, left, right) {
 }
 
 base_array.sort = function() {
-	var array = $acopy(this.@internal_array);
+	var array = $asub(this.@internal_array, 0, this.@length);
 	quick_sort(array, 0, $asize(array) - 1);
 	make_array(array);
 }
 
 base_array.sort@bang = function() {
-	quick_sort(this.@internal_array, 0, $asize(this.@internal_array) - 1);
+	quick_sort(this.@internal_array, 0, this.@length - 1);
 	this;
 }
 
@@ -1413,6 +1460,7 @@ hset = function(hashtable, index, value) {
 make_array = function(neko_array) {
 	var ary = base_array.new();
 	ary.@internal_array = neko_array;
+	ary.@length = $asize(neko_array);
 	ary;
 }
 
