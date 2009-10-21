@@ -1,6 +1,8 @@
 var @brat = $loader.loadmodule("internal", $loader);
+var enum = $loader.loadmodule("core", $loader).enumerable;
 
 var set = @brat.base_object.new();
+set.squish(enum);
 set.new = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen == 1) {
@@ -45,6 +47,10 @@ set.@less@less = set.add;
 set.delete = function(item) {
 	this.@internal_hash.delete(item);
 	this;
+}
+
+set.each = function(block) {
+	this.@internal_hash.each@underkey(block);
 }
 
 set.include@question = function(item) {
