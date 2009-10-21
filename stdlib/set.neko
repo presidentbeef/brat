@@ -8,8 +8,8 @@ set.new = $varargs(function(args) {
 	if(arglen == 1) {
 		if($typeof(args[0]) == $tarray)
 			args = args[0];
-		else if($typeof(args[0]) == $tobject && @brat.has_field(args[0], "@internal_array")) {
-			args = args[0].@internal_array;
+		else if($typeof(args[0]) == $tobject && @brat.has_field(args[0], "@neko_array")) {
+			args = args[0].@neko_array();
 			arglen = $asize(args);
 		}
 	}

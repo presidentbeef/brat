@@ -77,8 +77,8 @@ thread.@join_all = $varargs(function(args) {
 	var wait_threads;
 	var q;
 	if(arglen > 0) {
-		if(arglen == 1 && $typeof(args[0]) == $tobject && @brat.has_field(args[0], "@internal_array"))
-			args = args[0].@internal_array;
+		if(arglen == 1 && $typeof(args[0]) == $tobject && @brat.has_field(args[0], "@neko_array"))
+			args = args[0].@neko_array();
 		else if(arglen == 1 && $typeof(args[0]) == $tarray)
 			args = args[0];
 
@@ -117,7 +117,7 @@ thread.wait@underall = $varargs(function(args) {
 		$throw("Invalid argument for thread.wait_all(): requires either a block or nothing.");
 
 	mutex_acquire(thread.@mutex);
-	var threads = $acopy(thread.@all.@internal_array);
+	var threads = $acopy(thread.@all.@neko_array());
 	mutex_release(thread.@mutex);
 	
 	if(block != null)
@@ -132,8 +132,8 @@ thread.wait@underon = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen == 0)
 		$throw("Thread.wait_all() requires some arguments!");
-	else if(arglen == 1 && $typeof(args[0]) == $tobject && @brat.has_field(args[0], "@internal_array"))
-		args = args[0].@internal_array;
+	else if(arglen == 1 && $typeof(args[0]) == $tobject && @brat.has_field(args[0], "@neko_array"))
+		args = args[0].@neko_array();
 	else if(arglen == 1 && $typeof(args[0]) == $tarray)
 		args = args[0];
 	else if(arglen == 2 && $typeof(args[0]) == $tarray && $typeof(args[1]) == $tfunction) {
@@ -143,9 +143,9 @@ thread.wait@underon = $varargs(function(args) {
 		args[$asize(args) - 1] = temp[$asize(temp[0]) - 1];
 		arglen = $asize(args);
 	}
-	else if(arglen == 2 && $typeof(args[0]) == $tobject && $typeof(args[1]) == $tfunction && @brat.has_field(args[0], "@internal_array")) {
+	else if(arglen == 2 && $typeof(args[0]) == $tobject && $typeof(args[1]) == $tfunction && @brat.has_field(args[0], "@neko_array")) {
 		var temp = args;
-		var temp_array = args[0].@internal_array;
+		var temp_array = args[0].@neko_array();
 		args = $amake($asize(temp_array) + 1);
 		$ablit(args, 0, temp_array, 0, $asize(temp_array));
 		args[$asize(temp_array)] = temp[1];
