@@ -137,7 +137,15 @@ class BratCoreTests < Test::Unit::TestCase
 	end
 
 	def test_hash_each
-		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each { key, val | b << val << key }; b.length == 6 && (b.include? 4) && (b.include? 2) && (b.include? 1)'
+		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each { key, val | b << val << key }; b.length == 6 && (b.include? "b") && (b.include? 2) && (b.include? 4)'
+	end
+
+	def test_hash_each_key
+		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each_key { key | b << key }; b.length == 3 && (b.include? 3) && (b.include? "a") && (b.include? "b")'
+	end
+
+	def test_hash_each_value
+		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each_value { val | b << val }; b.length == 3 && (b.include? 4) && (b.include? 2) && (b.include? 1)'
 	end
 
 	def test_hash_map

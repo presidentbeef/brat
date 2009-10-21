@@ -1349,6 +1349,24 @@ base_hash.each = function(block) {
 	this;
 }
 
+base_hash.each@underkey = function(block) {
+	var f = function(k,v) {
+		block(k);
+	}
+
+	$hiter(this.@internal_hash, f);
+	this;
+}
+
+base_hash.each@undervalue = function(block) {
+	var f = function(k,v) {
+		block(v);
+	}
+
+	$hiter(this.@internal_hash, f);
+	this;
+}
+
 base_hash.delete = function(key) {
 	$hremove(this.@internal_hash, key, base_hash.@compare);
 	this;
