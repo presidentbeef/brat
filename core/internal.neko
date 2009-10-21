@@ -989,6 +989,18 @@ base_array.length = function() {
 	base_number.new(this.@length);
 }
 
+base_array.reserve = function(size) {
+	if($typeof(size) != $tobject || $not(has_field(size, "@nvalue")))
+		$throw("Array.reserve expects integer.");
+
+	size = size.@nvalue();
+	var empty = $asize(this.@internal_array) - this.@length;
+	if(size > empty)
+		this.@internal_array = $aconcat($array(this.@internal_array, $amake(size - empty)));
+
+	this;
+}
+
 base_array.__get = $varargs(function(args) {
 	var len = this.@length;
 	if($asize(args) == 0 || $asize(args) > 2)
