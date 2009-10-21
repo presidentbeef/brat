@@ -32,7 +32,10 @@ end
 def compile_core force = false
 	if force or not File.exist? "#$program_path/core/core.n" or newer? "#$program_path/core/core.brat", "#$program_path/core/core.n"
 		File.open "#$program_path/core/core.brat.neko", "w" do |f|
-			f.puts BaseBratParser.new.parse(File.read("#$program_path/core/core.brat")).core_brat
+			parser = BaseBratParser.new
+			tree = parser.parse(File.read("#$program_path/core/core.brat"))
+			abort "Error parsing core: \n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}"
+			f.puts tree.core_brat
 		end
 
 		system "nekoc #$program_path/core/core.brat.neko" or abort "Error while compiling program"
@@ -233,6 +236,7 @@ def brat_interactive options = {}
 		rescue
 			puts "Error converting to Neko."
 			line = ""
+			prompt = ">"
 			next
 		end
 
@@ -293,7 +297,7 @@ end
 #Checks if a line is 'finished'. For example, returns false if a string literal is still open.
 def line_closed? line
 
-	items = line.scan(/\{|\}|([^\\]")|\(|\)|\[|\]/)
+	items = line.scan(/\{|\}|"|\(|\)|\[|\]/)
 
 	count = Hash.new(0)
 	items.each do |i|
