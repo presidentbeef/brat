@@ -1220,13 +1220,15 @@ base_array.delete@underfirst = function(item) {
 
 partition = function(array, left, right, pivot) {
 	var pivot_value = array[pivot];
+	if($typeof(pivot_value) != $tobject || $not(has_field(pivot_value, "@greater@equal")))
+		$throw("Cannot compare " + $string(pivot_value) + " in order to sort it.");
 	var temp = array[pivot];
 	array[pivot] = array[right];
 	array[right] = temp;
 	store_index = left;
 	var i = left;
 	while(i < right) {
-		if(pivot_value.@greater@equal(array[i]) == base_object.@@true;) {
+		if(pivot_value.@greater@equal(array[i]) == base_object.@@true) {
 			temp = array[store_index];
 			array[store_index] = array[i];
 			array[i] = temp;
