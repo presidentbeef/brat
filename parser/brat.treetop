@@ -128,7 +128,7 @@ grammar BaseBrat
  
   #Expressions which can be used as the lhs of a binary expression 
   rule binary_lhs_expression
-	index_get / paren_exp / number / string / hash / array / method_with_parens / regex / symbol / unary_operation
+	method_with_parens / index_get / paren_exp / number / string / hash / array / regex / symbol / unary_operation / method_invocation
   end
 
   rule unary_rhs_expression
@@ -935,7 +935,7 @@ grammar BaseBrat
 			elements.each do |e|
 				output << e.lhs.brat
 				@stack << e.lhs.result
-				@stack << e.op.brat	
+				@stack << e.op.brat
 			end
 			output
 		end
@@ -953,31 +953,13 @@ grammar BaseBrat
 		end
 	}
 	/
-	m:identifier a:simple_arg_list {
+  	lhs:method_chain i:(identifier / operator) &space {
 		def brat
+			output = lhs.brat
 			next_temp
-			name = m.brat
-			a.brat <<
-			"var #@result = " << get_value(name, a.list, a.length) << ";"
+			output << "var #@result = " << call_method(lhs.result, i.brat, "", 0) << ";"
 		end
-	}
-	/
-	m:paren_exp a:simple_arg_list {
-		def brat
-			output = m.brat
-			output << a.brat
-			next_temp
-			output << "var #@result = " << invoke(m.result, a.list, a.length) << ";"
-		end
-	}
-	/
-	f:function_definition !space a:simple_arg_list {
-		def brat
-			output = f.brat
-			output << a.brat
-			next_temp
-			output << "var #@result = " << invoke(f.result, a.list, a.length) << ";"
-		end
+
 	}
   end
 
@@ -1278,28 +1260,6 @@ grammar BaseBrat
 
 		def list
 			""
-		end
-	}
-	/
-	![(] &(space) {
-		def brat
-			""
-		end
-
-		def array
-			"$amake(0)"
-		end
-
-		def length
-			0
-		end
-
-		def list
-			""
-		end
-
-		def nothing?
-			true
 		end
 	}
   end
