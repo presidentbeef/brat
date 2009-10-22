@@ -34,7 +34,7 @@ def compile_core force = false
 		File.open "#$program_path/core/core.brat.neko", "w" do |f|
 			parser = BaseBratParser.new
 			tree = parser.parse(File.read("#$program_path/core/core.brat"))
-			abort "Error parsing core: \n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}"
+			abort "Error parsing core: \n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}" if tree.nil?
 			f.puts tree.core_brat
 		end
 
