@@ -128,11 +128,11 @@ grammar BaseBrat
  
   #Expressions which can be used as the lhs of a binary expression 
   rule binary_lhs_expression
- 	method_invocation / index_get / paren_exp / number / string / hash / array / method_with_parens / regex / symbol / unary_operation
+	index_get / paren_exp / number / string / hash / array / method_with_parens / regex / symbol / unary_operation
   end
 
   rule unary_rhs_expression
- 	method_invocation / index_get / paren_exp / number / string / hash / array / regex / symbol
+ 	index_get / paren_exp / number / string / hash / array / method_invocation / regex / symbol
   end
 
   rule default_arg_rhs_expression
