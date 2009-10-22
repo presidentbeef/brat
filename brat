@@ -34,7 +34,7 @@ def compile_core force = false
 		File.open "#$program_path/core/core.brat.neko", "w" do |f|
 			parser = BaseBratParser.new
 			tree = parser.parse(File.read("#$program_path/core/core.brat"))
-			abort "Error parsing core: \n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}" if tree.nil?
+			abort "Error parsing core: \n#{parser.terminal_failures.join("\n")}" if tree.nil?
 			f.puts tree.core_brat
 		end
 
@@ -234,7 +234,7 @@ def brat_interactive options = {}
 		begin
 			neko = inner_brat line
 		rescue
-			puts "Error converting to Neko."
+			puts "Parsing error."
 			line = ""
 			prompt = ">"
 			next
