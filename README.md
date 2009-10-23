@@ -28,7 +28,7 @@ If you would rather have your conditions be separated out, you could define it t
     }   
 
     n = 1 
-    while { n < 10 }, { p n; n = n + 1 }
+    while { n < 10 } { p n; n = n + 1 }
 
 
 # Features
