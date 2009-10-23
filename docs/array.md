@@ -6,7 +6,6 @@ desc: Array is an ordered list which will resize dynamically. They can be as het
 methlist:
 - "=="
 - "+"
-- clone
 - each
 - each_with_index
 - empty?
@@ -19,12 +18,15 @@ methlist:
 - map
 - map_with_index
 - new
+- reserve
 - rest
 - reverse
 - reverse!
 - reverse_each
 - rindex_of
 - set
+- sort
+- sort!
 ---
 
 ### Manipulating Arrays
@@ -53,36 +55,32 @@ Note that negative indices are allowed, and that ranges are inclusive.
 Compare two arrays.
 
 ### \+
->\+ _array_
+>_array_ \+ _array_
 
 Concatenate two arrays.
 
 ### <<
-><< _object_
+>_array_ << _object_
 
 Append an object to the array.
 
-### clone
->clone  
->clone _array_
-
-Creates a new array object. If given an array as an argument, however, it will create a new array object which shares the same internal array. I have no idea why this might be useful.
-
 ### each
->each { _item_ | _block_ }
+>_array_.each { _item_ | _block_ }
 
 Invokes the block for each item in the array.
 
 ### each\_with\_index
->each\_with\_index { _item_, _index_ | _block_ }
+>_array_.each\_with\_index { _item_, _index_ | _block_ }
 
 Invokes the block for each item in the array, passing in the current index as well.
 
 ### empty?
+>_array_.empty?
 
 Checks if the array is of length 0.
 
 ### first
+>_array_.first
 
 Returns the first item in the array.
 
@@ -93,42 +91,52 @@ Returns the first item in the array.
 Retrieves values from the array. Indices may be negative, in which case they begin from the end of the array and go backwards.
 
 ### include?
->include? _item_
+>_array_.include? _item_
 
 Checks if the array contains the given item.
 
 ### index\_of
->index\_of _item_
+>_array_.index\_of _item_
 
 Returns the index of the first item found in the array. If the item is not in the array, returns null.
 
 ### last
+>_array_.last
 
 Returns the last item in the array.
 
 ### map
->map { _item_ | _block_ }
+>_array_.map { _item_ | _block_ }
 
 Invokes the block for each element in the array and returns a new array containing the results.
 
 ### map\_with\_index
->map\_with\_index { _item_, _index_ | _block_ }
+>_array_.map\_with\_index { _item_, _index_ | _block_ }
 
 Invokes the block for each element in the array, passing in the index as well, and returns a new array containing the results.
 
 ### new
+>_array_.new
 
 Creates a new array object.
 
+### reserve
+>_array_.reserve _size_
+
+Arrays in Brat currently use the 'double capacity when running out of space' method of resizing arrays. This method expands the array such that it has _size_ 'extra' slots. If you are intending on appending a ton of items to an array, reserving the space first will make it much, much faster.
+
 ### rest
+>_array_.rest
 
 Returns a copy of the array, minus the first element.
 
 ### reverse
+>_array_.reverse
 
 Reverses the array and returns it as a new array (non-destructive).
 
 ### reverse!
+>_array_.reverse!
 
 The destructive version of reverse.
 
@@ -138,11 +146,21 @@ The destructive version of reverse.
 Invokes block for each item in the array, but starts at the end.
 
 ### rindex\_of
->rindex\_of _item_
+>_array_.rindex\_of _item_
 
 Returns the last index of the item found in the array, or null if there is no such item.
 
 ### set
->set _index_, _item_
+>_array_.set _index_, _item_
 
 Sets the given index in the array to the given item.
+
+### sort
+>_array_.sort
+
+Returns a copy of the array which has been sorted in ascending order. Throws an error if items cannot be compared for sorting.
+
+### sort!
+>_array_.sort!
+
+Sorts the array in ascending order. Throws an error if items cannot be compared for sorting.

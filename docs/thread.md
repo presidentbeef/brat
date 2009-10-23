@@ -26,18 +26,31 @@ t.join
 {% endhighlight %}
 
 ### finished?
+>_thread_.finished?
 
 Returns true if the thread has finished executing.
 
 ### new
->new { _block_ }
+>thread.new { _block_ }
 
 Creates a new thread which runs the given block. Spawns the new thread immediately.
 
 ### join
+>_thread_.join
 
 Waits for the thread to end and returns the return value from the thread.
 
 ### result
+>_thread_.result
 
 Returns the result of the function executed in the thread. Will return `null` if the thread is not finished yet.
+
+### wait\_all
+>thread.wait\_all
+
+Waits for all current threads to complete. This will not wait on threads created after this method is called.
+
+### wait\_on
+>thread.wait\_on _thread_, _..._
+
+Waits on any number of threads passed in as arguments. Also accept an array of threads.

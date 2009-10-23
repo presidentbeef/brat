@@ -16,6 +16,12 @@ _Adds newline, too_
 p "hello world"
 {% endhighlight %}
 
+_No newline_
+
+{% highlight ruby %}
+print "hello world"
+{% endhighlight %}
+
 ## Creating a new object
 
 {% highlight ruby %}
@@ -42,21 +48,6 @@ person.name = "Bob"
 p person.name
 {% endhighlight %}
 
-A (possibly) easier way is to pass in a hash table of symbols or strings, which are converted to fields:
-
-{% highlight ruby %}
-person = new    'first_name : "Bob",
-                'last_name : "Johnson",
-                'adddress : [ 'street : "Sycamore St.",
-                                'number : 7777,
-                                'city : "Baltimore",
-                                'state : "MD",
-                                'zip : 21075 ],
-                'display : { p my.first_name, " ", my.last_name }
-
-person.display
-{% endhighlight %}
-
 ## Defining functions
 
 _Functions return their last value_
@@ -65,6 +56,26 @@ _Functions return their last value_
 hello = { p "hello again, world" }
 
 greet = { first, last | p "oh, hi ", first, " ", last }
+{% endhighlight %}
+
+You may also have functions with default arguments, variable arguments, or a mix of those and required arguments. Using an asterisk `*` on the final formal parameter will gather up remaining arguments into an array.
+
+{% highlight ruby %}
+any = { *args | p args }
+
+any 1, 2, 3 # [1,2,3]
+any # []
+
+one_or_more = { first, *rest | p first, " - ", rest }
+one_or_more 1, 2, 3 # 1-[2,3]
+
+one_two_or_more = {first, second = "two", *rest | p first, second, rest }
+one_two_or_more 1, 2, 3 #12[3]
+one_two_or_more 1 #1two[3]
+
+at_most_two = {first = "one", second = "two" | p first, second }
+at_most_two  # onetwo
+at_most_two "hello"  # hellotwo
 {% endhighlight %}
 
 ## Calling a function
@@ -87,6 +98,14 @@ a = { x,y,z | p x, y, z["a"]}
 a 1, "a":3, 2
 {% endhighlight %}
 
+Multiple functions (or closures, or blocks) can be passed in without commas:
+
+{% highlight ruby %}
+a = { x,y,z | p "Ignoring everything..." }
+
+a { "nothing" } { null } { 1 + 2 }
+{% endhighlight %}
+
 ## Getting a function
 
 {% highlight ruby %}
@@ -107,7 +126,7 @@ x.another = ->another
 x.another "me"
 {% endhighlight %}
 
-_For ease of use, -> actually returns the 'value' in a variable, it just happens to usually be a method._
+_For ease of use, -> actually returns the 'value' in a variable, so you can use it with functions or objects without getting into trouble._
 
 {% highlight ruby %}
 w = 1
@@ -144,15 +163,6 @@ a = "hello"
 p a
 {% endhighlight %}
 
-## Symbols
-
-Symbols are interned strings. Whatever that means. They begin with a single quote.
-
-{% highlight ruby %}
-a = 'a
-p a
-{% endhighlight %}
-
 ## Booleans
 
 False and null are false, true and everything else are true.
@@ -178,41 +188,18 @@ true? true, 1, 0
 
 a = null
 
-false? { null? a }, { p "a is not null" }, { p "a is null" }
+false? { null? a }
+	{ p "a is not null" } 
+	{ p "a is null" }
 {% endhighlight %}
 
 ## Numbers
 
-Numbers are numbers. There are some operators defined for them, too. *BUT* beware: the only 'special' operators in Brat are '=' and '->'. The rest are just methods. What does this mean? It means that operators are _always_ applied left to right, there is no "operator precedence."
-
-This is _true_:
-
-{% highlight ruby %}
-p true? 1 - 1 * 3 == 0
-{% endhighlight %}
-
-
-This gives an error:
-
-{% highlight ruby %}
-p true? 1 - 1 * 3 == -1 + 1
-{% endhighlight %}
-
-If you want something special, use parentheses. Otherwise, everyone gets treated the same.
-
-{% highlight ruby %}
-a = 1
-
-b = number.new 2
-
-p a - b + c - d
-
-p a - (b * a)
-{% endhighlight %}
+Numbers are numbers. Most of the usual operators with the typical precedence are defined for them, too. Numbers in Brat have arbitrary precision (there is no MAX_INT or whatever).
 
 ## Arrays
 
-Arrays are zero-based, dynamically resized lists which can contain anything.
+Arrays are zero-based, dynamically resized lists which can contain anything. Note that the maximum length for an array is 2<sup>30</sup> elements. 
 
 {% highlight ruby %}
 a = array.new
@@ -250,7 +237,7 @@ p b["c"] 5
 
 ## Binary Operators
 
-You can define certain binary operators. These should always take one parameter. They can then be used as 'infix' notation.
+You can define certain binary operators. These should always take one parameter. They can then be used as 'infix' notation. The 'usual' operators will have their typical precedence.
 
 {% highlight js %}
 array.% = { i | my[i]}
@@ -275,6 +262,8 @@ p a.match "helllllo"
 {% endhighlight %}
 
 ## Comments
+
+Comments mark lines of code that will not be parsed or executed. They may be nested.
 
 {% highlight ruby %}
 #this is a comment

@@ -8,6 +8,7 @@ methlist:
 - all?
 - find
 - select
+- sort
 ---
 
 ### Usage
@@ -20,21 +21,31 @@ enumerable = import "core", "enumerable"
 {% endhighlight %}
 
 ### any?
->any? { _obj_ | _block_ }
+>_enum_.any? { _obj_ | _block_ }
 
 Returns true if, for any object in the collection, the block returns true.
 
 ### all?
->all? { _obj_ | _block_ }
+>_enum_.all? { _obj_ | _block_ }
 
 Returns true if, for every object in the collection, the block returns true.
 
 ### find
->find { _obj_ | _block_ }
+>_enum_.find { _obj_ | _block_ }
 
 Returns the first object for which the block returns true.
 
 ### select
->select { _obj_ | _block_ }
+>_enum_.select { _obj_ | _block_ }
 
 Returns an array containing all objects for which the block returns true.
+
+### sort
+>_enum_.sort
+
+Returns a sorted array of the elements in the collection.
+
+### to\_array
+>_enum_.to\_array
+
+Returns an array containing the elements from the collection.

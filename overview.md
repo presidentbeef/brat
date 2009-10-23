@@ -28,23 +28,15 @@ Names of variables need to start with a letter (upper or lower case), but other 
 
 As was said above, most things in Brat are objects. In fact, a whole Brat program is actually a function defined on an object, which then gets invoked. Whee!
 
-There are no classes in Brat, because Brat doesn't need them. It takes a prototyping approach instead. There are two ways to create new objects: either by creating a 'subclass' of an object (the new object will lookup methods in the old one) or by cloning an object (the new object will have the same superclass as the old one.)
-
-You can think of the difference between `new` and `clone` as being extending the class hierarchy vertically or horizontally, respectively.
+There are no classes in Brat, because Brat doesn't need them. It takes a prototyping approach instead.
 
 Objects can have fields (or slots or instance variables or whatever you would like to call them). These also are created as you need them.
-
-The example illustrates defining fields and the difference between `new` and `clone`:
 
 {% highlight ruby %}
 a = new   # a is now a subclass of the base object
 b = a.new   # b is a subclass of a
 a.hello = { p "Hello!" }
 b.hello  # b can reference methods in its superclasses
-
-c = b.clone  # methods from b (none) copied but still uses a as superclass
-b.hello = { p "I'm not c!"}
-c.hello   #this calls a.hello still
 {% endhighlight %}
 
 ##  Functions 
@@ -58,7 +50,7 @@ Functions look like this:
 { arg1, arg2, arg3 | p "this method has three!"}
 {% endhighlight %}
 
-Functions cannot be called directly, they have to be assigned to a variable first. You can give a function its arguments by using a comma separated list. This might need to be within parentheses. If you do put them in parentheses, make sure they are snuggled up tight to the variable, or else they won't know they go together. They are shy that way.
+Functions are typically assigned to a variable prior to use. You can give a function its arguments by using a comma separated list. This might need to be within parentheses. If you do put them in parentheses, make sure they are snuggled up tight to the variable, or else they won't know they go together. They are shy that way.
 
 {% highlight ruby %}
 a = { x, y, z | p x, y, z}
@@ -79,7 +71,7 @@ Functions can span multiple lines. So can argument lists, if you want.
 
 ##  Binary Operators 
 
-Binary operators are basically just special functions that take a single argument. Operators can only contain a mixture of these symbols: ! > < ? - `*` + ^ ~ @ $ _ % | & = / \
+Binary operators are basically just special functions that take a single argument. Operators can only contain a mixture of these symbols: ! > < ? - \* + ^ ~ @ $ \_ % | & = / \
 
 Operators can be defined like any other function:
 
@@ -100,6 +92,8 @@ But they can also (and more usefully) be used as binary operators:
 a ? "is up"
 {% endhighlight %}
 
+Note that `=` is not considered an operator.
+
 ##  Unary Operators 
 
 Unary operators are like binary operators, except they take no arguments and need to be cuddled up to an expression. Otherwise, they are pretty much the same.
@@ -116,12 +110,12 @@ p !"hi"
 
 For binary operators, the order of precedence from highest to lowest is:
 
-+ \*\*
-+ % / \*
-+ \+ \-
-+ >> <<
-+ > < >= <=
-+ \!~ ~ != == <=>
-+ &&
-+ ||
-+ Everything else
+    **
+    % / *
+    + -
+    >> <<
+    > < >= <=
+    !~ ~ != == <=>
+    &&
+    ||
+    Everything else

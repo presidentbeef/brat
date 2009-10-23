@@ -60,6 +60,7 @@ Perform division. If the result is would not be an integer, a float is returned.
 Modulus operation.
 
 ### native?
+>_number_.native?
 
 Returns true if the number is being represented as a native Neko number.
 

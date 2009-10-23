@@ -15,11 +15,11 @@ methlist:
 Same as _match_.
 
 ### match
->match _string_
+>_regex_.match _string_
 
 Returns true if the regular expression matches the string.
 
 ### new
->new _string_
+>regex.new _string_
 
 Builds a new regular expression from the given string.
