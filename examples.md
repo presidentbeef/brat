@@ -34,11 +34,11 @@ Or, more traditionally:
 
 {% highlight ruby %}
 n = 1
-while { n <= 1 }, 
-	{
-        	p n
-	        n = n + 1
-	}
+while { n <= 1 } 
+      {
+          p n
+	  n = n + 1
+      }
 {% endhighlight %}
 
 ## Factorial 
@@ -69,8 +69,8 @@ p fibonacci 10
 
 {% highlight ruby %}
 tak = { x, y, z | 
-          false? y < x, 
-                 { z } , 
+          false? y < x
+                 { z }
                  { tak tak(x - 1, y, z), tak(y - 1, z, x), tak(z - 1, x, y) } 
 }
 
@@ -95,8 +95,8 @@ _Note: array.map is actually defined already, but let's ignore that._
 
 {% highlight ruby %}
 array.map = { f |
-        true? my.length <= 0,
-                {[]},
+        true? my.length <= 0
+                {[]}
                 { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
 }
 
@@ -116,13 +116,13 @@ translate = [
 ]
 
 process_line = { line, index |
-        true? line.length > 0 && (index < line.length),
+        true? line.length > 0 && (index < line.length)
                 {
-                true? line[0] == ">",
-                        { p line },
+                true? line[0] == ">"
+                        { p line }
                         { print translate[line[index]]
                           process_line line, index + 1 }
-                },
+                }
                 { p }
 }
 

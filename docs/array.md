@@ -141,7 +141,7 @@ Reverses the array and returns it as a new array (non-destructive).
 The destructive version of reverse.
 
 ### reverse\_each
->reverse\_each { _item_ | _block_ }
+>_array_.reverse\_each { _item_ | _block_ }
 
 Invokes block for each item in the array, but starts at the end.
 

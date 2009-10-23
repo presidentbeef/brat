@@ -51,8 +51,8 @@ Checks if the set is empty.
 Returns how many items are in the set.
 
 ### new
->set.new
->set.new _array_
+>set.new  
+>set.new _array_  
 >set.new _..._
 
 Creates a new set. If given an array or a list of elements, the set will be initialized with those elements.

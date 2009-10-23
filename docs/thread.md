@@ -53,4 +53,4 @@ Waits for all current threads to complete. This will not wait on threads created
 ### wait\_on
 >thread.wait\_on _thread_, _..._
 
-Waits on any number of threads passed in as arguments. Also accept an array of threads.
+Waits on any number of threads passed in as arguments. Also accepts an array of threads.

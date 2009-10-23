@@ -1,6 +1,6 @@
 ---
 layout: lib
-lib: core
+lib: thread 
 objlist:
 - mutex
 - queue

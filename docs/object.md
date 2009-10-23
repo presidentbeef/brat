@@ -9,7 +9,6 @@ methlist:
 - "||"
 - add_method
 - call_method
-- clone
 - del_method
 - export
 - exit
@@ -60,10 +59,6 @@ Adds a new method to the object. Name can be a symbol or a string.
 
 Calls the given method with the given arguments.
 
-### clone
-
-Make a clone of an object. This will copy methods from the object into the clone and make the parent of the clone the same as the parent of the cloned object. This is like 'new' in a lot of languages. I think of it as expanding the inheritance tree horizontally.
-
 ### del\_method
 >_object_.del\_method _name_
 
@@ -101,12 +96,13 @@ Gets a string from standard input, minus the end-of-line character.
 Returns the method with the given name (can be a string or a symbol).
 
 ### import
-import _file_  
-import _file_, _name_
+>import _file_  
+>import _file_, _name_
 
 Imports the exports from a given file. If the name of an object or function is given as a parameter, it will import just the item matching that name.
 
 ### local\_methods
+>_object_.local\_methods
 
 Returns an array containing the names of the methods available on the object, not including those inherited from parent objects.
 

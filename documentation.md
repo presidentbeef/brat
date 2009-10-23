@@ -17,7 +17,7 @@ layout: default
 * [hash](docs/hash.html)
 * [number](docs/number.html)
 * [object](docs/object.html)
-* [regular Expression](docs/regex.html)
+* [regular expression](docs/regex.html)
 * [string](docs/string.html)
 * [symbol](docs/symbol.html) 
 
@@ -25,4 +25,4 @@ layout: default
 
 * [file](docs/file.html)
 * [set](docs/set.html)
-* [thread](docs/thread.html)
+* [thread](docs/thread_lib.html)
