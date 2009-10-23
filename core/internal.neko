@@ -29,11 +29,13 @@ new_brat = function(parent_brat) {
 	brat;
 }
 
+/*
 base_object.clone = function() {
 	var brat = $new(this);
 	$objsetproto(brat, $objgetproto(this));
 	brat;
 }
+*/
 
 base_object.my = function() {
 	return this;
