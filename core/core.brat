@@ -3,8 +3,8 @@ enumerable = new
 enumerable.any? = { block |
 	flag = false
 	my.each { o |
-		false? flag, 
-			{ true? block(o), { flag = true } }
+		false? flag
+			{ true? block(o) { flag = true } }
 	}
 	flag
 }
@@ -12,8 +12,8 @@ enumerable.any? = { block |
 enumerable.all? = { block |
 	flag = true
 	my.each { o |
-		true? flag, 
-			{ false? block(o), { flag = false } }
+		true? flag
+			{ false? block(o) { flag = false } }
 	}
 	flag
 }
@@ -21,8 +21,8 @@ enumerable.all? = { block |
 enumerable.find = { block |
 	found = null
 	my.each { o |
-		null? found,
-			{ true? block(o), { found = o } }
+		null? found
+			{ true? block(o) { found = o } }
 	}
 	found
 }
@@ -30,7 +30,7 @@ enumerable.find = { block |
 enumerable.select = { block |
 	new_ary = []
 	my.each { i |
-		true? block(i), { new_ary << i }
+		true? block(i) { new_ary << i }
 	}
 	new_ary
 }
@@ -73,12 +73,12 @@ array.map = { block |
 			index = 0
 			length = my.length
 			
-			true? function?(->block),
+			true? function?(->block)
 				{ while {
 					new_ary << block(my[index])
 					index = index + 1
 					index < length
-				}},
+				}}
 				{ while {
 					new_ary << my[index].call_method block
 					index = index + 1
@@ -104,7 +104,7 @@ array.map_with_index = { block |
 }
 
 array.each = { block |
-	false? my.empty?, 
+	false? my.empty? 
 		{
 			index = 0
 			length = my.length
@@ -119,7 +119,7 @@ array.each = { block |
 
 
 array.reverse_each = { block |
-	false? my.empty?, 
+	false? my.empty? 
 		{
 			index = my.length
 			length = my.length
@@ -133,7 +133,7 @@ array.reverse_each = { block |
 }
 
 array.each_with_index = { block |
-	false? my.empty?, 
+	false? my.empty? 
 		{
 			index = 0
 			length = my.length
@@ -149,8 +149,8 @@ array.each_with_index = { block |
 array.empty? = { my.length == 0 }
 
 array.include? = { item |
-	true? my.empty?, 
-		{ false },
+	true? my.empty?
+		{ false }
 		{ 
 			found = false
 			index = 0
@@ -165,8 +165,8 @@ array.include? = { item |
 }
 
 array.index_of = { item |
-	true? my.empty?, 
-		{ null },
+	true? my.empty?
+		{ null }
 		{ 
 			found = false
 			index = 0
@@ -181,8 +181,8 @@ array.index_of = { item |
 }
 
 array.rindex_of = { item |
-	true? my.empty?, 
-		{ null },
+	true? my.empty? 
+		{ null }
 		{ 
 			found = false
 			index = my.length
@@ -202,15 +202,15 @@ string.squish comparable
 number.squish comparable
 
 number.times = { block |
-	true? my > 0,
+	true? my > 0
 		{
 			n = 0
-			true? method_arity(->block) > 0,
+			true? method_arity(->block) > 0
 				{ while {
 					block n
 					n = n + 1
 					n < my
-				}},
+				}}
 				{ while {
 					block
 					n = n + 1
@@ -222,27 +222,25 @@ number.times = { block |
 
 number.to = { stop, block |
 	n = my
-	true? n < stop,
-		{
-			while { n <= stop },
-				{ block n; n = n + 1 }
-		},
-		{
-			while { n >= stop },
-				{ block n; n = n - 1 }
+	true? n < stop
+		{ while { n <= stop }
+			{ block n; n = n + 1 }
+		}
+		{ while { n >= stop }
+			{ block n; n = n - 1 }
 		}
 	stop
 }
 
 object.&& = { rhs |
-        true? my,
-                { rhs },
+        true? my
+                { rhs }
                 { false }
 }
 
 object.|| = { rhs |
-	true? my,
-		{ true },
+	true? my
+		{ true }
 		{ true? rhs }
 }
 
