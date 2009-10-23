@@ -1334,6 +1334,14 @@ grammar BaseBrat
 			output
 		end
 	}
+	/
+	~((space / eol)*) arg_first:function_definition {
+		def brat
+			output = arg_first.brat
+			@result = arg_first.result
+			output
+		end
+	} 
   end
  
   #Matches a 'named' argument

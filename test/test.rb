@@ -295,12 +295,12 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_true
 		assert_result "1", "true? false, 0, 1"
-		assert_result "1", "true? false, 0, {1}"
-		assert_result "2", "true? true, {2}, {1}"
+		assert_result "1", "true? false, 0 {1}"
+		assert_result "2", "true? true, {2} {1}"
 		assert_result "true", "true? 0"
 		assert_result "true", "true?"
 		assert_result "0", "true? (true? 1), 0"
-		assert_result "0", "true? {true? 1}, {0}"
+		assert_result "0", "true? {true? 1} {0}"
 		assert_result "0", "true? true?, 0, 1"
 		assert_result "0", "true? true.true?, 0, 1"
 		assert_result "1", "true? false.true?, 0, 1"
@@ -310,11 +310,11 @@ class BratParserTest < Test::Unit::TestCase
 	def test_false
 		assert_result "0", "false? false, 0, 1"
 		assert_result "0", "false? {false}, 0, {1}"
-		assert_result "1", "false? {true}, {2}, {1}"
+		assert_result "1", "false? {true} {2} {1}"
 		assert_result "false", "false? 0"
 		assert_result "false", "false?"
 		assert_result "0", "false? (false? 1), 0"
-		assert_result "0", "false? {false? 1}, {0}"
+		assert_result "0", "false? {false? 1} {0}"
 		assert_result "0", "false? false?, 0, 1"
 		assert_result "0", "false? true.false?, 0, 1"
 		assert_result "0", "true? false.false?, 0, 1"
@@ -324,7 +324,7 @@ class BratParserTest < Test::Unit::TestCase
 	def test_null
 		assert_result "0", "null? null, 0, 1"
 		assert_result "0", "null? {null}, 0, {1}"
-		assert_result "1", "null? {true}, {2}, {1}"
+		assert_result "1", "null? {true} {2} {1}"
 		assert_result "false", "null? 0"
 		assert_result "true", "(null? null)"
 		assert_result "0", "true? (null? null), 0"
@@ -343,6 +343,13 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", "a = {x| x.length}; a \"f\":1"
 		assert_result "1", "a = {x| x[\"f\"] }; a \"f\":1"
 		assert_result "1", "a = {x, y, z| z[\"f\"] }; a 1, \"f\":1, 2"
+	end
+
+	def test_closure_args
+		assert_result "b", 'true? false, {"a"} {"b"}'
+		assert_fail 'true? false {"a"} {"b"}'
+		assert_result "b", "true? false \n {\"a\"} \n {\"b\"}"
+		assert_result "b", "true? false, {\"a\"} \n {\"b\"}"
 	end
 
 	def test_no_method_immediate

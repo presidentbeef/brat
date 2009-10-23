@@ -17,9 +17,9 @@ class BratExamplesTest < Test::Unit::TestCase
 	def test_fibonacci
 		assert_result "55", "fibonacci = { x|
 				        true? x == 0,
-				                0,
+				                0
 				                { true? x == 1,
-				                        1,
+				                        1
 				                        {
 			        	                        fibonacci(x - 1) + fibonacci(x - 2)}};
 				                        }
@@ -31,8 +31,8 @@ class BratExamplesTest < Test::Unit::TestCase
 		assert_result "[2,3,4]", "array.first = { my[0] }
 					array.rest = { my[1,-1] }
 					array.map = {f|
-					        true? my.length <= 0,
-					                {[]},
+					        true? my.length <= 0
+					                {[]}
 					                { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
 					}
 					[1,2,3].map({x| x + 1})"
@@ -50,9 +50,9 @@ class BratExamplesTest < Test::Unit::TestCase
 		assert_result '[How, are ,you?]', 'array.first = { my[0] }
 					array.rest = { my[1,-1] }
 					array.map = {f|
-					        true? my.length <= 0,
-					                {[]},
-					                { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
+					        true? my.length <= 0
+					                {[]}
+					                { true? my.length == 1 {[f my.first]} {[f my.first] + my.rest.map ->f} }
 					}
 					how = {x| x.map {y| y }}
 					are = {x| x}
