@@ -182,11 +182,19 @@ base_object.@null = function() { base_object.@@null }
 base_object.@@null.to@unders = function() { base_string.new("null") };
 
 base_object.@equal@equal = function(rhs) {
-	if($pcompare(this, rhs) == 0) {
-		base_object.@@true;
+	if(has_field(this, "@less@equal@greater")) {
+		if(this.@less@equal@greater(rhs).@nvalue() == 0)
+			base_object.@@true;
+		else
+			base_object.@@false;
 	}
-	else
-		base_object.@@false;
+	else {
+		if($pcompare(this, rhs) == 0) {
+			base_object.@@true;
+		}
+		else
+			base_object.@@false;
+	}
 }
 
 base_object.@notequal = function(rhs) {
