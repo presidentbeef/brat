@@ -4,7 +4,7 @@ Brat is a little toy language that doesn't care what you think of it.
 
 It won't admit it, but it is not even out of infancy. Not even a toddler yet. But it can already run methods and create objects and has arrays and hashes and numbers and that sort of stuff, so it thinks quite highly of itself.
 
-Brat uses a [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) parser written using [TreeTop](http://treetop.rubyforge.org/index.html), a [Ruby](http://ruby-lang.org) parser generator. The Brat code is then converted into [Neko](http://treetop.rubyforge.org/index.html), compiled to Neko bytecode, and then run on the Neko VM.
+Brat uses a [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) parser written using [TreeTop](http://treetop.rubyforge.org/index.html), a [Ruby](http://ruby-lang.org) parser generator. The Brat code is then converted into [Neko](http://nekovm.org/), compiled to Neko bytecode, and then run on the Neko VM.
 
 Brat is flexible enough that you can get by with a very small core and write any functionality that most languages use keywords for. For example, you can write and use a while loop like so:
 
