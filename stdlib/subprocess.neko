@@ -213,7 +213,7 @@ subprocess.each@underline = function(block) {
 		$throw("Expected a function.");
 
 	var res;
-	while(true) {
+	while(this.@subproc != null) {
 		try {
 			res = this.read@underline();
 		}
@@ -230,7 +230,7 @@ subprocess.each@undererr@underline = function(block) {
 		$throw("Expected a function.");
 
 	var res;
-	while(true) {
+	while(this.@subproc != null) {
 		try {
 			res = this.read@undererr@underline();
 		}
