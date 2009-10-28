@@ -5,6 +5,7 @@ objlist:
 - comparable
 - file
 - set
+- subprocess
 - "thread_lib"
 ---
 
