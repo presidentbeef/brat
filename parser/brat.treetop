@@ -60,7 +60,6 @@ grammar BaseBrat
 			$exports.base_object = object;
 			$exports.base_regex = regex;
 			$exports.base_symbol = symbol;
-			$exports.num_args = @brat.num_args;
 			$exports.nice_identifier = @brat.nice_identifier;
 			$exports.to_identifier = @brat.to_identifier;
 			$exports.brat_var_args = @brat.brat_var_args;

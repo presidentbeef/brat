@@ -695,28 +695,6 @@ has_field = function(object, field_name) {
 	$typeof(object) == $tobject && $objget(object, $hash(field_name)) != null
 }
 
-num_args = function(object, method) {
-	if(object == null || $typeof(object) != $tobject) {
-		$throw("Not an object:" + $string(object));
-	}
-        if($objfield(object, $hash(method))) {
-		var meth = $objget(object, $hash(method));
-		if($typeof(meth) != $tfunction)
-			$throw("Tried to get argument length for non-method: " + method);
-
-                $nargs(meth);
-        }
-        else {
-                var proto = $objgetproto(object);
-                if(proto == null) {
-			$throw("No method:" + method + " for " + $string(object));
-                }
-                else {
-                        return num_args(proto, method);
-                }
-        }
-}
-
 //Number functions
 var f_from_s = $loader.loadprim("number@float_from_string", 1);
 var i_from_s = $loader.loadprim("number@integer_from_string", 1);
@@ -1964,7 +1942,6 @@ $exports.base_string = base_string;
 $exports.base_object = base_object;
 $exports.base_regex = base_regex;
 $exports.base_symbol = base_symbol;
-$exports.num_args = num_args;
 $exports.memstats = memstats;
 $exports.nice_identifier = from_identifier;
 $exports.to_identifier = to_identifier;

@@ -77,7 +77,7 @@ class Treetop::Runtime::SyntaxNode
 		}
 		else {
 			if(@brat.has_field(#{temp}, "#{method}")) {
-				var arg_len = @brat.num_args(#{temp}, "#{method}");
+				var arg_len = $nargs(#{temp}.#{method});
 				if(arg_len == -1 || arg_len == #{arg_length}) {
 					#{temp}.#{method}(#{arguments});
 				}
