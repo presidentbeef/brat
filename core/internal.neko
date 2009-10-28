@@ -1291,6 +1291,166 @@ base_array.sort@bang = function() {
 	this;
 }
 
+base_array.first = function() {
+	this.get(base_number.new(0));
+}
+
+base_array.rest = function() {
+	this.get(base_number.new(1), base_number.new(-1));
+}
+
+base_array.last = function() {
+	this.get(base_number.new(-1));
+}
+
+base_array.map = function(block) {
+	if(this.@length == 0)
+		return base_array.new();
+
+	var new_ary = base_array.new($amake(this.@length));
+	new_ary.@length = this.@length;
+	var index = 0;
+	var length = this.@length;
+
+	//Should be Brat String or function
+	if($typeof(block) == $tobject) {
+		var method = $hash(to_identifier(name));
+		var args = $amake(0);
+		while(index < length) {
+			new_ary.@internal_array[index] = $objcall(this.@internal_array[index], method, args); 
+			index = index + 1;
+		}
+	}
+	else {	
+		while(index < length) {
+			new_ary.@internal_array[index] = block(this.@internal_array[index]);
+			index = index + 1;
+		}
+	}
+
+	new_ary;
+}
+
+base_array.map@underwith@underindex = function(block) {
+	if(this.@length == 0)
+		return base_array.new();
+
+	var new_ary = base_array.new($amake(this.@length));
+	new_ary.@length = this.@length;
+	var index = 0;
+	var length = this.@length;
+
+	while(index < length) {
+		new_ary.@internal_array[index] = block(this.@internal_array[index], base_number.new(index));
+		index = index + 1;
+	}
+
+	new_ary;
+}
+
+base_array.each = function(block) {
+	if(this.@length == 0)
+		return this;;
+
+	var index = 0;
+	var length = this.@length;
+
+	while(index < length) {
+		block(this.@internal_array[index]);
+		index = index + 1;
+	}
+
+	this;
+}
+
+base_array.each@underwith@underindex = function(block) {
+	if(this.@length == 0)
+		return this;;
+
+	var index = 0;
+	var length = this.@length;
+
+	while(index < length) {
+		block(this.@internal_array[index], base_number.new(index));
+		index = index + 1;
+	}
+
+	this;
+}
+
+base_array.reverse@undereach = function(block) {
+	if(this.@length == 0)
+		return this;;
+
+	var index = this.@length -1;
+
+	while(index >= 0) {
+		block(this.@internal_array[index]);
+		index = index - 1;
+	}
+
+	this;
+}
+
+base_array.empty@question = function() {
+	if(this.@length == 0)
+		base_object.@@true;
+	else
+		base_object.@@false;
+}
+
+base_array.include@question = function(item) {
+	if(this.@length == 0)
+		return base_object.@@false;
+
+	var index = 0;
+	var length = this.@length;
+
+	while(index < length) {
+		if(this.@internal_array[index].@equal@equal(item) == base_object.@@true)
+			return base_object.@@true;
+
+		index = index + 1;
+	}
+
+
+	base_object.@@false;
+}
+
+base_array.index@underof = function(item) {
+	if(this.@length == 0)
+		return base_object.@@null;
+
+	var index = 0;
+	var length = this.@length;
+
+	while(index < length) {
+		if(this.@internal_array[index].@equal@equal(item) == base_object.@@true)
+			return base_number.new(index);
+		index = index + 1;
+	}
+
+	base_object.@@null;
+}
+
+base_array.index@underof = function(item) {
+	if(this.@length == 0)
+		return base_object.@@null;
+
+	var index = this.@length - 1;
+
+	while(index >= 0) {
+		if(this.@internal_array[index].@equal@equal(item) == base_object.@@true)
+			return base_number.new(index);
+
+		index = index - 1;
+	}
+
+	base_object.@@null;
+}
+
+base_array.to@underarray = function() { this }
+
 base_array.set = base_array.__set;
 base_array.get = base_array.__get;
 
