@@ -247,12 +247,8 @@ class Treetop::Runtime::SyntaxNode
 				"@minus"
 			when "+"
 				"@plus"
-			when "||"
-				"@oror"
 			when "|"
 				"@or"
-			when "&&"
-				"@andand"
 			when "&"
 				"@and"
 			when "@"
@@ -292,7 +288,7 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def escape_operator op
-		op.gsub(/(!=|>=|<=|\|\||[!?\-*+^@~\/\\><$_%|&=])/) do
+		op.gsub(/(!=|>=|<=|[!?\-*+^@~\/\\><$_%|&=])/) do
 			case $1
 			when "!"	
 				"@bang"
@@ -302,12 +298,8 @@ class Treetop::Runtime::SyntaxNode
 				"@minus"
 			when "+"
 				"@plus"
-			when "||"
-				"@oror"
 			when "|"
 				"@or"
-			when "&&"
-				"@andand"
 			when "&"
 				"@and"
 			when "@"
