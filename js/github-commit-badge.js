@@ -12,7 +12,7 @@ function truncate(string, length, truncation) {
 };
 
 function parseDate(dateTime) {	// thanks to lachlanhardy
-	var timeZone = 1;	// TODO: This doesn't really work
+	var timeZone = 0;	// TODO: This doesn't really work
 
 	dateTime = dateTime.substring(0,19) + "Z";
 	var theirTime = dateTime.substring(11,13);
