@@ -1,5 +1,5 @@
 var @brat = $loader.loadmodule("internal", $loader);
-var enum = $loader.loadmodule("core", $loader).enumerable;
+var enum = $loader.loadmodule("enumerable", $loader).enumerable;
 
 var set = @brat.base_object.new();
 set.squish(enum);
