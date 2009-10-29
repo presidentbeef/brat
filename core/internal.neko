@@ -946,6 +946,57 @@ base_number.@equal@equal = function(num) {
 		base_object.@@false;
 }
 
+base_number.times = function(block) {
+	if(this.@native) {
+		var num = this.@nvalue();
+		if(num == 0) return this;
+		var index = 0;
+	
+		if($nargs(block) == 0) {
+			while(index < num) {
+				block();
+				index = index + 1;
+			}
+		}
+		else {
+			while(index < num) {
+				block(base_number.new(index));
+				index = index + 1;
+			}
+		}
+	}
+	else
+		$throw("Not implemented quite yet.");
+
+	this;
+}
+
+base_number.to = function(stop, block) {
+	if(this.@native) {
+		var index = this.@nvalue();
+		stop = stop.@nvalue();
+		if(index == stop) return this;
+	
+		if(index < stop) {
+			while(index <= stop) {
+				block(base_number.new(index));
+				index = index + 1;
+			}
+		}
+		else {
+			while(index >= stop) {
+				block(base_number.new(index));
+				index = index - 1;
+			}
+		}
+	}
+	else
+		$throw("Not implemented quite yet.");
+
+	this;
+}
+
+
 //Array object
 base_array = new_brat(null);
 base_array.@internal_array = $amake(0);

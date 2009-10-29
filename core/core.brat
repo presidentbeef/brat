@@ -11,37 +11,6 @@ string.squish comparable
 
 number.squish comparable
 
-number.times = { block |
-	true? my > 0
-		{
-			n = 0
-			true? method_arity(->block) > 0
-				{ while {
-					block n
-					n = n + 1
-					n < my
-				}}
-				{ while {
-					block
-					n = n + 1
-					n < my
-				}}
-		}
-	my
-}
-
-number.to = { stop, block |
-	n = my
-	true? n < stop
-		{ while { n <= stop }
-			{ block n; n = n + 1 }
-		}
-		{ while { n >= stop }
-			{ block n; n = n - 1 }
-		}
-	stop
-}
-
 object.&& = { rhs |
         true? my
                 { rhs }
@@ -53,4 +22,3 @@ object.|| = { rhs |
 		{ true }
 		{ true? rhs }
 }
-
