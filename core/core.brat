@@ -10,15 +10,3 @@ comparable = import "comparable"
 string.squish comparable
 
 number.squish comparable
-
-object.&& = { rhs |
-        true? my
-                { rhs }
-                { false }
-}
-
-object.|| = { rhs |
-	true? my
-		{ true }
-		{ true? rhs }
-}

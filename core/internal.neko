@@ -482,6 +482,34 @@ base_object.@2_@while = function(condition, block) {
 	while(($typeof(condition) == $tfunction && istrue(condition())) || ($typeof(condition) != $tfunction && istrue(condition))) { block() }
 }
 
+base_object.@and@and = function(rhs) {
+	if(istrue(this)) {
+		if($typeof(rhs) == $tfunction)
+			rhs = rhs();
+
+		if(istrue(rhs))
+			base_object.@@true;
+		else
+			base_object.@@false;
+	}
+	else
+		base_object.@@false;
+}
+
+base_object.@or@or = function(rhs) {
+	if(istrue(this))
+		base_object.@@true;
+	else {
+		if($typeof(rhs) == $tfunction)
+			rhs = rhs();
+
+		if(istrue(rhs))
+			base_object.@@true;
+		else
+			base_object.@@false;
+	}
+}
+
 base_object.when = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen < 2) {

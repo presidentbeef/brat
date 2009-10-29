@@ -122,6 +122,7 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "false", "true && false"
 		assert_result "true", "true && true"
 		assert_result "2", "n = true? {true && {p \"hi\";false}}, 1, 2"
+		assert_result "true", "true && { true }"
 	end
 
 	def test_core_or
@@ -129,6 +130,8 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "true", "true || false"
 		assert_result "true", "2 || 1"
 		assert_result "2", "true? false || false, 1, 2"
+		assert_result "false", "false || { false }"
+		assert_result "true", "false || { true }"
 	end
 
 	def test_core_squish
