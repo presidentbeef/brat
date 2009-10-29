@@ -2,6 +2,21 @@
 title: The Brat Language
 layout: default
 ---
+## Recent Activity
+
+<div id="github-commit-badge-container">
+	<script type="text/javascript">
+		var Badges = new Array();
+		Badges[0] = new Object;
+		Badges[0]["username"] = "presidentbeef";
+		Badges[0]["repo"] = "brat";
+		Badges[0]["branch"] = "master";
+	</script>
+	<script type="text/javascript" src="js/github-commit-badge.js">
+	</script>
+</div>
+
+
 ## What It Is
 
 Brat is a little toy language that _just doesn't care_.
