@@ -720,7 +720,7 @@ base_object.sleep = function(seconds) {
 }
 
 has_field = function(object, field_name) {
-	$typeof(object) == $tobject && $objget(object, $hash(field_name)) != null
+	$objget(object, $hash(field_name)) != null
 }
 
 //Number functions

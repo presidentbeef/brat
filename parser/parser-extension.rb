@@ -76,7 +76,7 @@ class Treetop::Runtime::SyntaxNode
 			$throw("Method invoked on null object.");
 		}
 		else {
-			if(@brat.has_field(#{temp}, "#{method}")) {
+			if(#{has_field(temp, method)}) {
 				var arg_len = $nargs(#{temp}.#{method});
 				if(arg_len == -1 || arg_len == #{arg_length}) {
 					#{temp}.#{method}(#{arguments});
@@ -87,7 +87,7 @@ class Treetop::Runtime::SyntaxNode
 				else
 					$throw("Wrong number of arguments for #{nice_id object}.#{nice_id method}: should be " + $string(arg_len) + " but given #{arg_length}.");
 			}
-			else if(@brat.has_field(#{temp}, "no@undermethod")) {
+			else if(#{has_field(temp, "no@undermethod")}) {
 				#{call_no_method temp, method, arguments, arg_length}
 			}
 			else
@@ -135,10 +135,10 @@ class Treetop::Runtime::SyntaxNode
 		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		output = <<-NEKO
 		if($typeof(#{temp}) == $tnull) {
-			if(@brat.has_field(this, "#{object}")) {
+			if(#{has_field("this", object)}) {
 		 		#{call_method("this", object, arguments, arg_length)}
 			}
-			else if(@brat.has_field(this, "no@undermethod")) {
+			else if(#{has_field("this", "no@undermethod")}) {
 				#{call_no_method "this", object, arguments, arg_length}
 			}
 			else if($typeof(#{no_meth}) == $tfunction) {
@@ -172,7 +172,7 @@ class Treetop::Runtime::SyntaxNode
 		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		<<-NEKO
 		if($typeof(#{temp}) == $tnull) {
-			if(@brat.has_field(this, "#{object}")) {
+			if(#{has_field("this", object)}) {
 				#@result = this.#{object};
 				
 				var arg_len = $nargs(#@result);
@@ -183,7 +183,7 @@ class Treetop::Runtime::SyntaxNode
 				else
 					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
 			}
-			else if(@brat.has_field(this, "no@undermethod")) {
+			else if(#{has_field("this", "no@undermethod")}) {
 				#{call_no_method "this", object, arguments, arg_length}
 			}
 			else if($typeof(#{no_meth}) == $tfunction) {
@@ -217,7 +217,7 @@ class Treetop::Runtime::SyntaxNode
 		temp = var_exist?(method) || method
 		<<-NEKO
 		if(#{temp} == null) {
-			if(@brat.has_field(this, "no@undermethod")) {
+			if(#{has_field("this", "no@undermethod")}) {
 				#{call_no_method "this", method, arguments, arg_length}
 			}
 			else
@@ -371,5 +371,9 @@ class Treetop::Runtime::SyntaxNode
 
 	def precedence op
 		Precedence[op] || 0
+	end
+
+	def has_field object, field_name
+		"$objget(#{object}, $hash(\"#{field_name}\")) != null"
 	end
 end
