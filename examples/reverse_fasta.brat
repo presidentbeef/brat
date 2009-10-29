@@ -6,13 +6,13 @@ translate = [
 ]
 
 process_line = { line, index |
-        true? line.length > 0 && (index < line.length),
+        true? line.length > 0 && (index < line.length)
                 {
-                true? line[0] == ">",
-                        { p line },
+                true? line[0] == ">"
+                        { p line }
                         { print translate[line[index]]
                           process_line line, index + 1 }
-                },
+                }
                 { p }
 }
 

@@ -8,4 +8,4 @@ fibonacci = { x |
 	fib_aux x, 1, 0
 }
 
-p fibonacci 40
+p fibonacci 50
