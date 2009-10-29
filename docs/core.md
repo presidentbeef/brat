@@ -3,7 +3,6 @@ layout: lib
 lib: core
 objlist:
 - array
-- enumerable
 - hash
 - number
 - object

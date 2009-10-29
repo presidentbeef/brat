@@ -3,6 +3,7 @@ layout: lib
 lib: stdlib
 objlist:
 - comparable
+- enumerable
 - file
 - set
 - subprocess

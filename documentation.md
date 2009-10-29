@@ -13,7 +13,6 @@ layout: default
 ### Core Objects
 
 * [array](docs/array.html)
-* [enumerable](docs/enumerable.html)
 * [hash](docs/hash.html)
 * [number](docs/number.html)
 * [object](docs/object.html)
@@ -23,6 +22,9 @@ layout: default
 
 ### Standard Libraries
 
+* [comparable](docs/comparable.html)
+* [enumerable](docs/enumerable.html)
 * [file](docs/file.html)
 * [set](docs/set.html)
+* [subprocess](docs/subprocess.html)
 * [thread](docs/thread_lib.html)
