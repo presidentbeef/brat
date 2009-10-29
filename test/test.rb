@@ -35,9 +35,17 @@ system "mv core/core.brat.n core/core.n"
 $stderr.puts "Compiling standard libraries..."
 stdlib_files = Dir.glob "#{Dir.pwd}/stdlib/*.neko"
 stdlib_files.each do |f|
-	if not File.exist? f[0..-4]
-		system "nekoc #{f}"
+	system "nekoc #{f}"
+end
+
+brat_stdlib_files = Dir.glob "#{Dir.pwd}/stdlib/*.brat"
+brat_stdlib_files.each do |file_name|
+	neko_file = file_name[0..-5] + "neko"
+	File.open neko_file, "w" do |f|
+		f.puts BaseBratParser.new.parse(File.read(file_name)).brat
 	end
+	system "nekoc #{neko_file}"
+	File.delete neko_file if File.exists? neko_file	
 end
 
 class BratParserTest < Test::Unit::TestCase
