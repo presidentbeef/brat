@@ -1056,8 +1056,8 @@ grammar BaseBrat
 			temp = var_exist?(name) || name
 			output <<
 			"var #@result;" <<
-			"if(@brat.has_field(this, \"#{name}\")) {" <<
-			" #@result = " << call_method("this", name, arg_list.list, arg_list.length) <<
+			"if($objget(this, $hash(\"#{name}\")) != null) {" <<
+			"#@result = " << call_method("this", name, arg_list.list, arg_list.length) <<
 			"}" <<
 			"else " <<
 			" if($typeof(#{temp}) == $tfunction) {" <<
@@ -1123,10 +1123,10 @@ grammar BaseBrat
 			else	
 				"var #@result;" <<
 				"if(#{name} == null) {" <<
-					"if(@brat.has_field(this, \"#{name}\")) {" <<
-						"#@result = $objget(this, $hash(\"#{name}\"));" <<
-					"} else { $throw(\"Cannot access #{nice_id name}, it is null.\") }}"<<
-				"else { #@result = #{name} };\n"
+					"#@result = $objget(this, $hash(\"#{name}\"));" <<
+					"if(#@result == null) $throw(\"Cannot access #{nice_id name}, it is null.\");" <<
+					"#@result;" <<
+				"} else { #@result = #{name} };\n"
 			end
 		end
 	}
@@ -1137,9 +1137,8 @@ grammar BaseBrat
 			name = m.brat
 			o.brat <<
 			"var #@result;" <<
-			"if(@brat.has_field(#{o.result}, \"#{m.brat}\")) {" <<
-				"#@result = $objget(#{o.result}, $hash(\"#{name}\")); }" <<
-			"else { $throw(\"#{o.text_value} has no method #{nice_id name}.\") };\n"
+			"#@result = $objget(#{o.result}, $hash(\"#{name}\"));" <<
+			"if(#@result == null) $throw(\"#{o.text_value} has no method #{nice_id name}.\"); #@result; \n"
 		end
 	}
   end
