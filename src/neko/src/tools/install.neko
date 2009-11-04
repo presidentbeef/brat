@@ -311,11 +311,11 @@ link = function(files,target,params1,params2) {
 loop_include = function(data,i,incl) {
 	var dir;
 	while( (dir = find_file(data.inc[i],incl)) == null ) {
-		$print("The file "+data.inc[i]+" provided when installing "+data.incname+" was not found\n");
-		$print("Please enter a valid include path to look for it\n");
-		$print("Or 's' to skip this library\n");
-		incl = request_include(incl);
-		if( incl == null )
+		$print("The file "+data.inc[i]+" provided when installing "+data.incname+" was not found -- SKIPPING\n");
+		//$print("Please enter a valid include path to look for it\n");
+		//$print("Or 's' to skip this library\n");
+		//incl = request_include(incl);
+		//if( incl == null )
 			return null;
 	}
 	return dir;
@@ -342,7 +342,7 @@ compile_lib = function(name,data) {
 		linklib = "";
 	else {
 		while( (dir = find_file(linklib,libraries)) == null ) {
-			$print("The file "+linklib+" provided when installing "+data.incname+" was not found\n");
+			$print("The file "+linklib+" provided when installing "+data.incname+" was not found -- SKIPPING\n");
 			$print("Please enter a valid include path to look for it\n");
 			$print("Or 's' to skip this library\n");
 			if( $not(request_lib()) )
