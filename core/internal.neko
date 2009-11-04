@@ -1233,6 +1233,7 @@ base_array.@equal@equal = function(rhs) {
 base_array.@to_s = function() {
 	var i = 0;
 	var len = this.@length;
+	if(len == null) len = 0;
 	var temp = $amake(len);
 	while i < len {
 		if(has_field(this.@internal_array[i], "@to_s"))
