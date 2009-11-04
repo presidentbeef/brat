@@ -1,4 +1,4 @@
-var @brat = $loader.loadmodule("internal", $loader);
+@brat = $loader.loadmodule("internal", $loader);
 
 @greater = function(num) {
 	if(this.@less@equal@greater(num).@value == 1)

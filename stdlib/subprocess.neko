@@ -1,6 +1,6 @@
-var @brat = $loader.loadmodule("internal", $loader);
+@brat = $loader.loadmodule("internal", $loader);
 
-var subprocess = @brat.base_object.new();
+subprocess = @brat.base_object.new();
 subprocess.@subproc = null;
 subprocess.@command = null;
 subprocess.@args = null;
@@ -39,7 +39,7 @@ subprocess.new = $varargs(function(args) {
 		$throw("Invalid arguments to subprocess.new");
 });
 
-var run = $loader.loadprim("std@process_run", 2);
+run = $loader.loadprim("std@process_run", 2);
 subprocess.run = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen == 0) {
@@ -62,7 +62,7 @@ subprocess.run = $varargs(function(args) {
 	}
 });
 
-var read_stdout = $loader.loadprim("std@process_stdout_read", 4);
+read_stdout = $loader.loadprim("std@process_stdout_read", 4);
 subprocess.read@underline = function() {
 	if(this.@subproc == null)
 		$throw("No process has been started to read from.");
@@ -92,7 +92,7 @@ subprocess.read@underline = function() {
 	}
 }
 
-var read_stderr = $loader.loadprim("std@process_stderr_read", 4);
+read_stderr = $loader.loadprim("std@process_stderr_read", 4);
 subprocess.read@undererr@underline = function() {
 	if(this.@subproc == null)
 		$throw("No process has been started to read from.");
@@ -242,7 +242,7 @@ subprocess.each@undererr@underline = function(block) {
 	}
 }
 
-var write = $loader.loadprim("std@process_stdin_write", 4);
+write = $loader.loadprim("std@process_stdin_write", 4);
 subprocess.write = function(message) {
 	if(this.@subproc == null)
 		$throw("No process has been started.");
@@ -272,7 +272,7 @@ subprocess.write@underline = function(message) {
 	this.write(temp);
 }
 
-var wait = $loader.loadprim("std@process_exit", 1);
+wait = $loader.loadprim("std@process_exit", 1);
 subprocess.join = function() {
 	if(this.@subproc != null)
 		wait(this.@subproc);
@@ -280,7 +280,7 @@ subprocess.join = function() {
 	@brat.@@null;
 }
 
-var close = $loader.loadprim("std@process_close", 1);
+close = $loader.loadprim("std@process_close", 1);
 subprocess.close = function() {
 	if(this.@subproc != null)
 		close(this.@subproc);
@@ -289,7 +289,7 @@ subprocess.close = function() {
 	@brat.@@null;
 }
 
-var pid = $loader.loadprim("std@process_pid", 1);
+pid = $loader.loadprim("std@process_pid", 1);
 subprocess.pid = function() {
 	if(this.@subproc == null)
 		$throw("No process yet, no pid.");

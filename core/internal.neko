@@ -129,8 +129,8 @@ base_object.object@question = function(object) {
 		base_object.@@false;
 }
 
-var random = $loader.loadprim("std@random_new", 0);
-var random_int = $loader.loadprim("std@random_int", 2);
+random = $loader.loadprim("std@random_new", 0);
+random_int = $loader.loadprim("std@random_int", 2);
 base_object.random = function(x) {
 	var max ;
 	if($typeof(x) == $tobject && has_field(x, "@value")) {
@@ -144,11 +144,11 @@ base_object.random = function(x) {
 		$throw(base_exception.argument_error("random", "number", x));
 }
 
-var stdin = $loader.loadprim("std@file_stdin", 0);
-var read_line = $loader.loadprim("std@file_gets", 1);
-var buffer_new = $loader.loadprim("std@buffer_new", 0);
-var buffer_add_char = $loader.loadprim("std@buffer_add_char", 2);
-var buffer_string = $loader.loadprim("std@buffer_string", 1);
+stdin = $loader.loadprim("std@file_stdin", 0);
+read_line = $loader.loadprim("std@file_gets", 1);
+buffer_new = $loader.loadprim("std@buffer_new", 0);
+buffer_add_char = $loader.loadprim("std@buffer_add_char", 2);
+buffer_string = $loader.loadprim("std@buffer_string", 1);
 base_object.g = $varargs(function(args) {
 	var break_char = 10;
 	if($asize(args) == 1) {
@@ -201,7 +201,7 @@ base_object.@notequal = function(rhs) {
 	base_object.not(this.@equal@equal(rhs));
 }
 
-var istrue = function(arg) {
+istrue = function(arg) {
 	if(arg == base_object.@@null || arg == base_object.@@false) {
 		false;
 	}
@@ -690,7 +690,7 @@ base_object.method@underarity = function(func) {
 		$throw(base_exception.new($string(func) + " is not a function, cannot report its arity."));
 }
 
-var sys_exit = $loader.loadprim("std@sys_exit", 1);
+sys_exit = $loader.loadprim("std@sys_exit", 1);
 base_object.exit = $varargs(function(exit_code) {
 	if($asize(exit_code) == 0)
 		sys_exit(0);
@@ -709,7 +709,7 @@ base_object.exit = $varargs(function(exit_code) {
 
 });
 
-var sys_sleep = $loader.loadprim("std@sys_sleep", 1);
+sys_sleep = $loader.loadprim("std@sys_sleep", 1);
 base_object.sleep = function(seconds) {
 	if($typeof(seconds) == $tobject && has_field(seconds, "@nvalue"))
 		seconds = seconds.@nvalue();
@@ -724,25 +724,25 @@ has_field = function(object, field_name) {
 }
 
 //Number functions
-var f_from_s = $loader.loadprim("number@float_from_string", 1);
-var i_from_s = $loader.loadprim("number@integer_from_string", 1);
-var num_add = $loader.loadprim("number@num_add", 2);
-var num_sub = $loader.loadprim("number@num_sub", 2);
-var num_mul = $loader.loadprim("number@num_mul", 2);
-var num_div = $loader.loadprim("number@num_div", 2);
-var num_cmp = $loader.loadprim("number@num_cmp", 2);
-var is_num = $loader.loadprim("number@is_num", 1);
-var is_int = $loader.loadprim("number@is_int", 1);
-var is_float = $loader.loadprim("number@is_float", 1);
-var num_to_string = $loader.loadprim("number@num_to_string", 1);
-var num_to_float = $loader.loadprim("number@int_to_float", 1);
-var num_to_int = $loader.loadprim("number@float_to_int", 1);
-var integer_from_int = $loader.loadprim("number@integer_from_int", 1);
-var float_from_float = $loader.loadprim("number@float_from_float", 1);
-var num_neg = $loader.loadprim("number@num_neg", 1);
-var to_neko_num = $loader.loadprim("number@to_neko_num", 1);
-var to_bignum = $loader.loadprim("number@to_bignum", 1);
-var integer_fits = $loader.loadprim("number@integer_fits_native", 1);
+f_from_s = $loader.loadprim("number@float_from_string", 1);
+i_from_s = $loader.loadprim("number@integer_from_string", 1);
+num_add = $loader.loadprim("number@num_add", 2);
+num_sub = $loader.loadprim("number@num_sub", 2);
+num_mul = $loader.loadprim("number@num_mul", 2);
+num_div = $loader.loadprim("number@num_div", 2);
+num_cmp = $loader.loadprim("number@num_cmp", 2);
+is_num = $loader.loadprim("number@is_num", 1);
+is_int = $loader.loadprim("number@is_int", 1);
+is_float = $loader.loadprim("number@is_float", 1);
+num_to_string = $loader.loadprim("number@num_to_string", 1);
+num_to_float = $loader.loadprim("number@int_to_float", 1);
+num_to_int = $loader.loadprim("number@float_to_int", 1);
+integer_from_int = $loader.loadprim("number@integer_from_int", 1);
+float_from_float = $loader.loadprim("number@float_from_float", 1);
+num_neg = $loader.loadprim("number@num_neg", 1);
+to_neko_num = $loader.loadprim("number@to_neko_num", 1);
+to_bignum = $loader.loadprim("number@to_bignum", 1);
+integer_fits = $loader.loadprim("number@integer_fits_native", 1);
 base_number = new_brat(null);
 base_number.@value = 0;
 base_number.@native = true;
@@ -1884,11 +1884,11 @@ base_string.@plus = function(value) {
 	this.clone(new_string);
 }
 
-var reg_rep_first = $loader.loadprim("regexp@regexp_replace", 3);
-var reg_rep = $loader.loadprim("regexp@regexp_replace_all", 3);
-var reg_rep_fun = $loader.loadprim("regexp@regexp_replace_fun", 3);
-var reg_match = $loader.loadprim("regexp@regexp_matched", 2);
-var reg_matched = function(regex) { reg_match(regex, 0) }
+reg_rep_first = $loader.loadprim("regexp@regexp_replace", 3);
+reg_rep = $loader.loadprim("regexp@regexp_replace_all", 3);
+reg_rep_fun = $loader.loadprim("regexp@regexp_replace_fun", 3);
+reg_match = $loader.loadprim("regexp@regexp_matched", 2);
+reg_matched = function(regex) { reg_match(regex, 0) }
 base_string.sub = function(regexp, replacement) {
 	if($typeof(regexp) == $tobject && has_field(regexp, "@internal_regex"))
 		regexp = regexp.@internal_regex;
@@ -1955,7 +1955,7 @@ base_string.sub@underfirst = function(regexp, replacement) {
 	else $throw("Need to provide a string for string.sub_first()");
 }
 
-var string_split = $loader.loadprim("std@string_split", 2);
+string_split = $loader.loadprim("std@string_split", 2);
 
 base_string.split = $varargs(function(args) {
 		var sep;
@@ -2022,7 +2022,7 @@ base_string.dice = function() {
 	base_array.new(res);
 }
 
-var regexp_new = $loader.loadprim("regexp@regexp_new", 1);
+regexp_new = $loader.loadprim("regexp@regexp_new", 1);
 base_regex = new_brat(null);
 base_regex.@internal_regex = base_object.@@null;
 base_regex.new = function(regx_string) {
@@ -2036,7 +2036,7 @@ base_regex.new = function(regx_string) {
 	reg; 
 }
 
-var regexp_match = $loader.loadprim("regexp@regexp_match", 4);
+regexp_match = $loader.loadprim("regexp@regexp_match", 4);
 base_regex.match = function(val) {
 	if($typeof(val) == $tobject && has_field(val, "@value"))
 		val = val.@value;
@@ -2081,7 +2081,7 @@ base_symbol.@to_s = function() {
 	$field(this.@value);
 }
 
-var to_id_list = $hnew(22);
+to_id_list = $hnew(22);
 $hset(to_id_list, "!", "@bang", null)
 $hset(to_id_list, "*", "@star", null)
 $hset(to_id_list, "-", "@minus", null)
@@ -2106,7 +2106,7 @@ $hset(to_id_list, "%", "@percent", null)
 $hset(to_id_list, "_", "@under", null)
 $hset(to_id_list, "$", "@dollar", null)
 
-var from_id_list = $hnew(22);
+from_id_list = $hnew(22);
 $hset(from_id_list, "@bang", "!", null)
 $hset(from_id_list, "@star", "*", null)
 $hset(from_id_list, "@minus", "-", null)
@@ -2161,8 +2161,8 @@ from_identifier = function(string) {
 	reg_rep_fun(regexp2, string, f2);
 }
 
-var run_gc = $loader.loadprim("std@run_gc", 1);
-var gc_stats = $loader.loadprim("std@gc_stats", 0);
+run_gc = $loader.loadprim("std@run_gc", 1);
+gc_stats = $loader.loadprim("std@gc_stats", 0);
 
 base_object.memstats = function() {
 	$print("Before running gc:", gc_stats(), "\n");

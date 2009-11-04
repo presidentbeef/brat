@@ -1,7 +1,7 @@
-var @brat = $loader.loadmodule("internal", $loader);
-var enum = $loader.loadmodule("enumerable", $loader).enumerable;
+@brat = $loader.loadmodule("internal", $loader);
+enum = $loader.loadmodule("enumerable", $loader).enumerable;
 
-var set = @brat.base_object.new();
+set = @brat.base_object.new();
 set.squish(enum);
 set.new = $varargs(function(args) {
 	var arglen = $asize(args);

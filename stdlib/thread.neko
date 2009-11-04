@@ -1,19 +1,19 @@
-var tcreate = $loader.loadprim("std@thread_create", 2);
-var lock_create = $loader.loadprim("std@lock_create", 0);
-var lock_release = $loader.loadprim("std@lock_release", 1);
-var lock_wait = $loader.loadprim("std@lock_wait", 2);
-var mutex_create = $loader.loadprim("std@mutex_create", 0);
-var mutex_acquire = $loader.loadprim("std@mutex_acquire", 1);
-var mutex_try = $loader.loadprim("std@mutex_try", 1);
-var mutex_release = $loader.loadprim("std@mutex_release", 1);
-var queue_create = $loader.loadprim("std@deque_create", 0);
-var queue_push = $loader.loadprim("std@deque_add", 2);
-var queue_pop = $loader.loadprim("std@deque_pop", 2);
-var queue_prepend = $loader.loadprim("std@deque_push", 2);
+tcreate = $loader.loadprim("std@thread_create", 2);
+lock_create = $loader.loadprim("std@lock_create", 0);
+lock_release = $loader.loadprim("std@lock_release", 1);
+lock_wait = $loader.loadprim("std@lock_wait", 2);
+mutex_create = $loader.loadprim("std@mutex_create", 0);
+mutex_acquire = $loader.loadprim("std@mutex_acquire", 1);
+mutex_try = $loader.loadprim("std@mutex_try", 1);
+mutex_release = $loader.loadprim("std@mutex_release", 1);
+queue_create = $loader.loadprim("std@deque_create", 0);
+queue_push = $loader.loadprim("std@deque_add", 2);
+queue_pop = $loader.loadprim("std@deque_pop", 2);
+queue_prepend = $loader.loadprim("std@deque_push", 2);
 
-var @brat = $loader.loadmodule("internal", $loader);
+@brat = $loader.loadmodule("internal", $loader);
 
-var thread = @brat.base_object.new();
+thread = @brat.base_object.new();
 thread.@lock = null;
 thread.@result = null;
 thread.@finished = false;
@@ -26,6 +26,7 @@ thread.new = function(block) {
 	else if($nargs(block) != 0)
 		$throw("Thread.new requires a function with zero arguments.");
 
+	mutex_acquire(thread.@mutex);
 	var t = @brat.new_brat(this);
 	t.@lock = lock_create();
 	var wrap = function(dummy) {
@@ -39,7 +40,6 @@ thread.new = function(block) {
 		t.@finished = true;
 		lock_release(t.@lock);
 	}
-	mutex_acquire(thread.@mutex);
 	t.@thread = tcreate(wrap, null);
 	thread.@all.push(t);
 	mutex_release(thread.@mutex);
@@ -50,8 +50,14 @@ thread.new = function(block) {
 thread.join = function() {
 	if(this.@lock == null)
 		return null;
-	
-	lock_wait(this.@lock, null);
+
+	try {
+		lock_wait(this.@lock, null);
+	}
+	catch e {
+		$print("Error when waiting on thread: ", e);
+		$rethrow(e);
+	}
 
 	mutex_acquire(thread.@mutex);
 	thread.@all.delete@underfirst(this);
@@ -126,7 +132,7 @@ thread.wait@underall = $varargs(function(args) {
 		thread.wait@underon(threads);
 })
 
-var set = $loader.loadmodule("set", $loader).set;
+set = $loader.loadmodule("set", $loader).set;
 
 thread.wait@underon = $varargs(function(args) {
 	var arglen = $asize(args);
@@ -175,7 +181,7 @@ thread.wait@underon = $varargs(function(args) {
 	@brat.base_object.@@null;
 })
 
-var queue = @brat.base_object.new();
+queue = @brat.base_object.new();
 queue.new = function() {
 	var q = @brat.new_brat(this);
 	q.@internal_queue = queue_create();
@@ -202,7 +208,7 @@ queue.prepend = function(item) {
 	queue_prepend(this.@internal_queue, item);
 }
 
-var mutex = @brat.base_object.new();
+mutex = @brat.base_object.new();
 mutex.new = function() {
 	var m = @brat.new_brat(this);
 	m.@mutex = mutex_create(); 
@@ -211,6 +217,7 @@ mutex.new = function() {
 
 mutex.synchronize = function(block) {
 	mutex_acquire(this.@mutex);
+	$print("hi\n");
 	var res = block();
 	mutex_release(this.@mutex);
 }

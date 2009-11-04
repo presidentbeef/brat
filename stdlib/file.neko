@@ -1,6 +1,6 @@
-var @brat = $loader.loadmodule("internal", $loader);
+@brat = $loader.loadmodule("internal", $loader);
 
-var file_exists = $loader.loadprim("std@sys_exists", 1);
+file_exists = $loader.loadprim("std@sys_exists", 1);
 file@underexists@question = function(path) {
 	if(@brat.has_field(path, "@value"))
 		path = path.@value;
@@ -13,7 +13,7 @@ file@underexists@question = function(path) {
 		@brat.base_object.@@false;
 }
 
-var file_delete = $loader.loadprim("std@file_delete", 1);
+file_delete = $loader.loadprim("std@file_delete", 1);
 file@underdelete = function(path) {
 	if(file@underexists@question(path) == @brat.base_object.@@true) {
 		file_delete(path.@value);
@@ -24,7 +24,7 @@ file@underdelete = function(path) {
 	}
 }
 
-var file_rename = $loader.loadprim("std@sys_rename", 2);
+file_rename = $loader.loadprim("std@sys_rename", 2);
 file@underrename = function(opath, npath) {
 	if(file@underexists@question(opath) == @brat.base_object.@@true) {
 		file_rename(opath.@value, npath.@value);
@@ -35,7 +35,7 @@ file@underrename = function(opath, npath) {
 	}
 }
 
-var create_dir = $loader.loadprim("std@sys_create_dir", 2);
+create_dir = $loader.loadprim("std@sys_create_dir", 2);
 make@underdir = function(path) {
 	if(@brat.has_field(path, "@value"))
 		path = path.@value;
@@ -46,7 +46,7 @@ make@underdir = function(path) {
 	@brat.base_object.@@null;
 }
 
-var delete_dir = $loader.loadprim("std@sys_remove_dir", 1);
+delete_dir = $loader.loadprim("std@sys_remove_dir", 1);
 delete@underdir = function(path) {
 	if(file@underexists@question(path) == @brat.base_object.@@true) {
 		delete_dir(path.@value);
@@ -57,7 +57,7 @@ delete@underdir = function(path) {
 	}
 }
 
-var file_type = $loader.loadprim("std@sys_file_type", 1);
+file_type = $loader.loadprim("std@sys_file_type", 1);
 file@undertype = function(path) {
 	if(@brat.has_field(path, "@value"))
 		path = path.@value;
@@ -72,7 +72,7 @@ file@undertype = function(path) {
 	}
 }
 
-var fslurp = $loader.loadprim("std@file_contents", 1);
+fslurp = $loader.loadprim("std@file_contents", 1);
 file@underslurp = function(path) {
 	if(@brat.has_field(path, "@value"))
 		path = path.@value;
@@ -85,9 +85,9 @@ file@underslurp = function(path) {
 		$throw("File name should be a string for file_slurp().");
 }
 
-var file = @brat.base_object.new();
+file = @brat.base_object.new();
 file.@file = null;
-var file_open = $loader.loadprim("std@file_open", 2);
+file_open = $loader.loadprim("std@file_open", 2);
 
 file.new = function(path) {
 	var f = @brat.new_brat(this);
@@ -131,7 +131,7 @@ file@underopen = $varargs(function(args) {
 		$throw("Wrong number of arguments for file.open. Expects 1 or 2.");
 });
 
-var file_close = $loader.loadprim("std@file_close", 1);
+file_close = $loader.loadprim("std@file_close", 1);
 file.close = function() {
 	if($not(this.@file == null)) {
 		file_close(this.@file);
@@ -162,9 +162,9 @@ file.path = function() {
 		@brat.base_string.new(fname(this.@file));
 }
 
-var read_line = $loader.loadprim("std@file_gets", 1);
-var buffer_string = $loader.loadprim("std@buffer_string", 1);
-var file_eof = $loader.loadprim("std@file_eof", 1);
+read_line = $loader.loadprim("std@file_gets", 1);
+buffer_string = $loader.loadprim("std@buffer_string", 1);
+file_eof = $loader.loadprim("std@file_eof", 1);
 
 file.read@underline = function() {
 	var f = this.@file;
