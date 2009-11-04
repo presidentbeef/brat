@@ -2129,6 +2129,8 @@ $hset(from_id_list, "@percent", "%", null)
 $hset(from_id_list, "@under", "_", null)
 $hset(from_id_list, "@dollar", "$", null)
 
+to_id_regexp_symbols = regexp_new("!=|>=|<=|\\|\\||[!?\\-*+^@~\\/\\\\><$_%|&=]"); 
+to_id_regexp_keywords = regexp_new("\\b(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)\\b");
 to_identifier = function(string) {
 	if($typeof(string) == $tobject && has_field(string, "@value")) {
 		string = string.@value;
@@ -2140,25 +2142,23 @@ to_identifier = function(string) {
 	if($typeof(string) != $tstring)
 		$throw("Cannot convert " + $string(string) + " to an identifier.");
 
-	var regexp1 = regexp_new("!=|>=|<=|\\|\\||[!?\\-*+^@~\\/\\\\><$_%|&=]");
 	var f1 = function(m) { $hget(to_id_list, reg_matched(m), null) };
-	string = reg_rep_fun(regexp1, string, f1);
-	var regexp2 = regexp_new("\\b(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)\\b");
+	string = reg_rep_fun(to_id_regexp_symbols, string, f1);
 	var f2 = function(m) { "@" + reg_matched(m) }
-	reg_rep_fun(regexp2, string, f2);
+	reg_rep_fun(to_id_regexp_keywords, string, f2);
 }
 
+from_id_regexp_symbols = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)");
+from_id_regexp_keywords = regexp_new("@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)");
 from_identifier = function(string) {
 	if($typeof(string) != $tstring)
 		$throw("Cannot convert " + $string(string) + " to an identifier.");
 
-	var regexp1 = regexp_new("@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)");
 
 	var f1 = function(m) { $hget(from_id_list, reg_matched(m), null) };
-	string = reg_rep_fun(regexp1, string, f1);
-	var regexp2 = regexp_new("@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)");
+	string = reg_rep_fun(from_id_regexp_symbols, string, f1);
 	var f2 = function(m) { var s = reg_matched(m); $ssub(s, 1, $ssize(s) - 1); }
-	reg_rep_fun(regexp2, string, f2);
+	reg_rep_fun(from_id_regexp_keywords, string, f2);
 }
 
 run_gc = $loader.loadprim("std@run_gc", 1);
