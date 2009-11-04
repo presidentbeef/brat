@@ -11,7 +11,7 @@ base_object.new = $varargs(function(args) {
 			$objcall(nb, $hash("init"), args);
 	}
 	else if($asize(args) > 0)
-		$throw("Did not expect arguments for new().");
+		$throw(base_exception.argument_error("object.new", 0, $asize(args)));
 	
 	nb;
 })
@@ -100,7 +100,7 @@ base_object.p = $varargs(function(args) {
 
 base_object.squish = function(object) {
 	if($typeof(object) != $tobject)
-		$throw("Can only squish in objects.");
+		$throw("object.squish", "object", object);
 
 	var fields = $objfields(object);
 	var num_fields = $asize(fields);
@@ -138,10 +138,10 @@ base_object.random = function(x) {
 		if($typeof(max) == $tint)
 			base_number.new(random_int(random(), max));
 		else
-			$throw("Expected integer, got " + $string(max));
+			$throw(base_exception.argument_error("random", "integer", max));
 	}
 	else
-		$throw("Expected number, got " + $string(x));
+		$throw(base_exception.argument_error("random", "number", x));
 }
 
 var stdin = $loader.loadprim("std@file_stdin", 0);
@@ -155,10 +155,10 @@ base_object.g = $varargs(function(args) {
 		if($typeof(args[0]) == $tobject && has_field(args[0], "@value") && $ssize(args[0].@value) == 1)
 			break_char = $sget(args[0].@nvalue(), 0)
 		else
-			$throw("g expects to get a single character. Not " + $string(args[0]));
+			$throw(base_exception.argument_error("g", "single character", args[0]));
 	}
 	else if($asize(args) > 1) {
-		$throw("Wrong number of arguments: g expects 0 or 1 but you gave it " + $string($asize(args)));
+		$throw(base_exception.argument_error("g", "0 or 1", $asize(args)));
 	}
 
 	try {
@@ -216,7 +216,7 @@ base_object.@true@question = $varargs(function(args) {
 		1 => this.@1_@true@question(args[0])
 		2 => this.@2_@true@question(args[0], args[1])
 		3 => this.@3_@true@question(args[0], args[1], args[2])
-		default => $throw("Wrong number of arguments for true? Expected 0 - 3.")
+		default => $throw(base_exception.argument_error("true?", "0 - 3", $asize(args)))
 	}
 })
 
@@ -299,7 +299,7 @@ base_object.@false@question = $varargs(function(args) {
 		1 => this.@1_@false@question(args[0])
 		2 => this.@2_@false@question(args[0], args[1])
 		3 => this.@3_@false@question(args[0], args[1], args[2])
-		default => $throw("Wrong number of arguments for false? Expected 0 - 3.")
+		default => $throw(base_exception.argument_error("false?", "0 - 3", $asize(args)))
 	}
 })
 
@@ -383,7 +383,7 @@ base_object.@null@question = $varargs(function(args) {
 		1 => this.@1_@null@question(args[0])
 		2 => this.@2_@null@question(args[0], args[1])
 		3 => this.@3_@null@question(args[0], args[1], args[2])
-		default => $throw("Wrong number of arguments for null? Expected 0 - 3.")
+		default => $throw(base_exception.argument_error("null?", "0 - 3", $asize(args)))
 	}
 })
 
@@ -470,7 +470,7 @@ base_object.@while = $varargs(function(args) {
 	switch $asize(args) {
 		1 => this.@1_@while(args[0])
 		2 => this.@2_@while(args[0], args[1])
-		default => $throw("While expects 1 or 2 arguments.")
+		default => $throw(base_exception.argument_error("while", "1 or 2", $asize(args)))
 	}
 })
 
@@ -513,7 +513,7 @@ base_object.@or@or = function(rhs) {
 base_object.when = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen < 2) {
-		$throw("When requires at least 2 arguments.");
+		$throw(base_exception.argument_error("when", "at least 2", arglen));
 	} 
 	else if(arglen % 2 == 0) {
 		
@@ -540,14 +540,14 @@ base_object.import = $varargs(function(args) {
 					$objset(imp, f[index], field);
 				else if($field(f[index]) == "__module") {}
 				else
-					$throw("Cannot import: " + $string($field(f[index])));
+					$throw(base_exception.new("Cannot import: " + $string($field(f[index]))));
 
 				index = index + 1;
 			}
 			imp;
 		}
 		else
-			$throw("Import expects a string, not " + $string(args[0]));
+			$throw(base_exception.argument_error("import", "string", args[0]));
 	}
 	else if($asize(args) == 2) {
 		if(has_field(args[0], "@value") && has_field(args[1], "@value")) {
@@ -557,13 +557,13 @@ base_object.import = $varargs(function(args) {
 				$objget(m, name);
 			}
 			else
-				$throw("Module " + args[0].@value + " does not have an export named " + args[1].@value);
+				$throw(base_exception.new("Module " + args[0].@value + " does not have an export named " + args[1].@value));
 		}
 		else
-			$throw("Import expects two string arguments.");
+			$throw(base_exception.argument_error("import", "two string", args));
 	}
 	else
-		$throw("Import requires either 1 or 2 parameters.");
+		$throw(base_exception.argument_error("import", "1 or 2", $asize(args)));
 })
 
 base_object.export = function(object, name) {
@@ -571,7 +571,7 @@ base_object.export = function(object, name) {
 		$objset($exports, $hash(to_identifier(name.@value)), object);
 	}
 	else
-		$throw("Import expects a string, not " + $string(name));
+		$throw(base_exception.argument_error("export", "string", name));
 }
 
 base_object.add@undermethod = function(name, block) {
@@ -611,22 +611,22 @@ base_object.has@undermethod@question = function(name) {
 			base_object.@@false;
 	}
 	else
-		$throw("has_method? expects a string.");
+		$throw(base_exception.argument_error("has_method?", "string", name));
 }
 
 base_object.call@undermethod = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen < 1)
-		$throw("Call_method requires at least one argument.")
+		$throw(base_exception.argument_error("call_method", "at least one", arglen));
 
 	var m = this.get@undermethod(args[0]);
 
 	if(m == base_object.@@null)
-		$throw("No such method " + $string(args[0]) + " for " + $string(this) + "."); 
+		$throw(base_exception.no_method(this, args[0])); 
 
 	var nargs = $nargs(m);
 	if(nargs != -1 && nargs != arglen - 1)
-		$throw($string(args[0]) + " requires " + $string(nargs) + " argument(s).");
+		$throw(base_exception.argument_error(args[0], nargs, arglen));
 
 	if(arglen > 1)
 		$call(m, this, $asub(args, 1, arglen - 1));
@@ -642,7 +642,7 @@ base_object.methods = function() {
 	while(i < $asize(meths)) {
 		field = $field(meths[i]);
 		if(field == null)
-			$throw("Unable to retrieve string for field, for some weird reason.");
+			$throw(base_exception.new("Unable to retrieve string for field, for some weird reason."));
 		name = from_identifier(field);
 		meths[i] = base_string.new(name);
 		i = i + 1;
@@ -665,7 +665,7 @@ base_object.local@undermethods = function() {
 	while(i < $asize(meths)) {
 		field = $field(meths[i]);
 		if(field == null)
-			$throw("Unable to retrieve string for field, for some weird reason.");
+			$throw(base_exception.new("Unable to retrieve string for field, for some weird reason."));
 		name = from_identifier(field);
 		meths[i] = base_string.new(name);
 		i = i + 1;
@@ -687,7 +687,7 @@ base_object.method@underarity = function(func) {
 			base_number.new(args);
 	}
 	else
-		$throw($string(func) + " is not a function, cannot report its arity.");
+		$throw(base_exception.new($string(func) + " is not a function, cannot report its arity."));
 }
 
 var sys_exit = $loader.loadprim("std@sys_exit", 1);
@@ -701,10 +701,10 @@ base_object.exit = $varargs(function(exit_code) {
 		else if($typeof(exit_code) == $tint)
 			sys_exit(exit_code);
 		else
-			$throw("Argument for exit should be an integer.");
+			$throw(base_exception.argument_error("exit", "integer", exit_code[0]));
 	}
 	else {
-		$throw("Wrong number of arguments for exit. Expects 0 or 1.");
+		$throw(base_exception.argument_error("exit", "0 or 1", $asize(exit_code)));
 	}
 
 });
@@ -714,7 +714,7 @@ base_object.sleep = function(seconds) {
 	if($typeof(seconds) == $tobject && has_field(seconds, "@nvalue"))
 		seconds = seconds.@nvalue();
 	else if($typeof(seconds) != $tint && $typeof(seconds) != $tfloat)
-		$throw("Expected a number for sleep(), got " + $string(seconds));
+		$throw(base_exception.argument_error("sleep", "number", seconds));
 
 	sys_sleep(seconds);
 }
@@ -806,7 +806,7 @@ base_number.new = function(num) {
 			n.@native = false
 		}
 		else
-			$throw("Expected number, not " + $string(num));
+			$throw(base_exception.argument_error("number.new", "number", num));
 	}
 	else if(is_num(num)) {
 		if(integer_fits(num)) {
@@ -819,7 +819,7 @@ base_number.new = function(num) {
 		}
 	}
 	else
-		$throw("Expected number, not " + $string(num));
+		$throw(base_exception.argument_error("number.new", "number", num));
 
 	n;
 }
@@ -854,7 +854,7 @@ base_number.@plus = function(num) {
 		base_number.new(num_add(lhs, rhs));
 	}
 	else
-		$throw("Expected numbers to add, not " + $string(num) + " and " + $string(this));
+		$throw(base_exception.argument_error("add", "number", $string(num) + " and " + $string(this)));
 }
 
 base_number.@minus = $varargs(function(args) {
@@ -865,7 +865,7 @@ base_number.@minus = $varargs(function(args) {
 			return base_number.new(num_neg(this.@value));
 	}
 	else if($asize(args) > 1)
-		$throw("Too many arguments for number.- Should be 0 or 1, given " + $string(args));
+		$throw(base_exception.argument_error("number -", "0 or 1", $asize(args)));
 		
 	var lhs = this.@value;
 	var rhs = args[0].@value;
@@ -890,7 +890,7 @@ base_number.@minus = $varargs(function(args) {
 		base_number.new(num_sub(lhs, rhs));
 	}
 	else
-		$throw("Expected numbers to subtract, not " + $string(args[0]) + " and " + $string(this));
+		$throw(base_exception.argument_error("number.-", "number", $string(args[0]) + " and " + $string(this)));
 })
 
 base_number.@forward = function(num) {
@@ -910,7 +910,7 @@ base_number.@forward = function(num) {
 		base_number.new(num_div(lhs, rhs));
 	}
 	else
-		$throw("Expected numbers to divide, not " + $string(num) + " and " + $string(this));
+		$throw(base_exception.argument_error("number./", "number", $string(num) + " and " + $string(this)));
 
 }
 
@@ -932,7 +932,7 @@ base_number.@star = function(num) {
 		base_number.new(num_mul(lhs, rhs));
 	}
 	else
-		$throw("Expected numbers to multiply, not " + $string(num) + " and " + $string(this));
+		$throw(base_exception.argument_error("number.*", "number", $string(num) + " and " + $string(this)));
 }
 
 base_number.@percent = function(num) {
@@ -945,7 +945,7 @@ base_number.@percent = function(num) {
 	else if(is_int(rhs) && is_int(lhs))
 		base_number.new(int_mod(lhs, rhs));
 	else
-		$throw("Expected integers for modulo, not " + $string(num) + " and " + $string(this));
+		$throw(base_exception.argument_error("number.%", "number", $string(num) + " and " + $string(this)));
 
 }
 
@@ -962,7 +962,7 @@ base_number.@less@equal@greater = function(num) {
 			base_number.new(num_cmp(to_bignum(lhs), to_bignum(rhs)));
 	}
 	else
-		$throw("Cannot compare " + $string(this) + " and " + $string(num));
+		$throw(base_exception.new("Cannot compare " + $string(this) + " and " + $string(num)));
 }
 
 base_number.@equal@equal = function(num) {
@@ -1058,7 +1058,7 @@ base_array.length = function() {
 
 base_array.reserve = function(size) {
 	if($typeof(size) != $tobject || $not(has_field(size, "@nvalue")))
-		$throw("Array.reserve expects integer.");
+		$throw(base_exception.argument_error("array.reserve", "integer", size));
 
 	size = size.@nvalue();
 	var empty = $asize(this.@internal_array) - this.@length;
@@ -1071,10 +1071,10 @@ base_array.reserve = function(size) {
 base_array.__get = $varargs(function(args) {
 	var len = this.@length;
 	if($asize(args) == 0 || $asize(args) > 2)
-		$throw("Invalid number of arguments to array.get(), should be 1 or 2.");
+		$throw(base_exception.argument_error("array.get", "1 or 2", $asize(args)));
 	else if($asize(args) == 1) {
 		if($not(has_field(args[0], "@nvalue")))
-			$throw("Cannot access array with non-number value.");
+			$throw(base_exception.argument_error("array[]", "number", args[0]));
 
 		var index = args[0].@nvalue();
 		if(index >= len || index < -len) {
@@ -1095,7 +1095,7 @@ base_array.__get = $varargs(function(args) {
 	}
 	else {
 		if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
-			$throw("Cannot access array with non-number value.");
+			$throw(base_exception.argument_error("array[]", "number", args[0]));
 
 		if(len == 0) {
 			this.new(); //return empty array
@@ -1136,14 +1136,14 @@ base_array.__set = function(index, value) {
 	if($typeof(index) == $tobject && has_field(index, "@nvalue"))
 		index = index.@nvalue();
 	if($typeof(index) != $tint)
-		$throw("Cannot use non-integer index for array.");
+		$throw(base_exception.argument_error("array[]", "integer", args[0]));
 
 	var len = this.@length;
 	if(index < 0)
 		index = len + index;
 
 	if(index < 0)
-		$throw("Invalid array index: " + $string(index));
+		$throw(base_exception.new("Invalid array index: " + $string(index), "index error"));
 
 	if(index >= len) {
 
@@ -1210,10 +1210,10 @@ base_array.@equal@equal = function(rhs) {
 
 	var lhs = this.@internal_array;
 	if(lhs == null) {
-		$throw($string(this) + " has a null array");
+		$throw(base_exception.new($string(this) + " has a null array"));
 	}
 	else if(rhs.@internal_array == null) {
-		$throw("rhs has a null array");
+		$throw(base_exception.new("rhs has a null array"));
 	}
 	if(this.@length != rhs.@length)
 		return base_object.@@false;
@@ -1329,7 +1329,7 @@ base_array.delete@underfirst = function(item) {
 partition = function(array, left, right, pivot) {
 	var pivot_value = array[pivot];
 	if($typeof(pivot_value) != $tobject || $not(has_field(pivot_value, "@greater@equal")))
-		$throw("Cannot compare " + $string(pivot_value) + " in order to sort it.");
+		$throw(base_exception.new("Cannot compare " + $string(pivot_value) + " in order to sort it."));
 	var temp = array[pivot];
 	array[pivot] = array[right];
 	array[right] = temp;
@@ -1579,7 +1579,7 @@ base_hash.new = $varargs(function(args) {
 		hsh.@internal_hash = args[0];
 	}
 	else {
-		throw("Invalid hash initialization:" + $string(args));
+		$throw(base_exception.new("Invalid hash initialization:" + $string(args)));
 	}
 	hsh;
 });
@@ -1724,7 +1724,7 @@ base_string.@less@equal@greater = function(rhs) {
 		base_number.new($compare(this.@neko_string(), rhs.@neko_string()));
 	}
 	else
-		$throw("Cannot compare " + $string(this) + " and " + $string(rhs));
+		$throw(base_exception.new("Cannot compare " + $string(this) + " and " + $string(rhs)));
 }
 
 base_string.to@underi = function() {
@@ -1755,16 +1755,16 @@ base_string.new = $varargs(function(args) {
 		else if($typeof(args[0]) != $tobject) 
 			s.@value = $string(args[0]);
 		else
-			$throw("Invalid argument to string.new(): " + $string(args[0]));
+			$throw(base_exception.argument_error("string.new", "string", args[0]));
 	}
 	else
-		$throw("Too many arguments to string.new(). Only takes 0 or 1.");
+		$throw(base_exception.argument_error("string.new", "0 or 1", $asize(args)));
 	s;
 });
 
 base_string.clone = $varargs(function(args) {
 	if($asize(args) > 1)
-		$throw("Too many arguments to string.clone(). Only takes 0 or 1.");
+		$throw(base_exception.argument_error("string.clone", "0 or 1", $asize(args)));
 
 	var new_string = $new(this);
 	$objsetproto(new_string, $objgetproto(this));
@@ -1775,7 +1775,7 @@ base_string.clone = $varargs(function(args) {
 		else if($typeof(args[0]) == $tstring)
 			new_string.@value = args[0];
 		else
-			$throw("Need a string argument for string.clone()");
+			$throw(base_exception.argument_error("string.clone", "string", args[0]));
 	}
 
 	new_string;
@@ -1784,10 +1784,10 @@ base_string.clone = $varargs(function(args) {
 base_string.__get = $varargs(function(args) {
 	var len = $ssize(this.@value);
 	if($asize(args) == 0 || $asize(args) > 2)
-		$throw("Invalid number of arguments to string.get(), should be 1 or 2.");
+		$throw(base_exception.argument_error("string.get", "1 or 2", $asize(args)));
 	else if($asize(args) == 1) {
 		if($not(has_field(args[0], "@nvalue")))
-			$throw("Cannot index string with non-number value.");
+			$throw(base_exception.new("Cannot index string with non-number value."));
 
 		var index = args[0].@nvalue();
 		if(index >= len || index < -len) {
@@ -1810,7 +1810,7 @@ base_string.__get = $varargs(function(args) {
 	}
 	else {
 		if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
-			$throw("Cannot index string with non-number value.");
+			$throw(base_exception.new("Cannot index string with non-number value."));
 		if(len == 0) {
 			this.clone("");
 		}
@@ -2169,6 +2169,36 @@ base_object.memstats = function() {
 	$print("After running gc:", gc_stats(), "\n");
 }
 
+base_exception = new_brat(null);
+base_exception.new = $varargs(function(args) {
+	var arg_len = $nargs(args);
+	var e new_brat(this);
+	if(arg_len == 0) {
+	}
+	else if(arg_len == 1) {
+		e.error_message = msg;
+		e.type = "standard";
+	}
+	else if(arg_len == 2) {
+		e.error_message = msg;
+		e.type = "standard";
+	}
+	else {
+		$throw("Error creating error.");
+	}
+})
+
+base_exception.argument_error = function(name, expected, got) {
+	this.new("Argument error: Expected " + $string(expected) + " argument(s) but was given " + $string(given) + "for " + $string(name) + ".", "argument error");
+}
+
+base_exception.convert_error = function(current, to) {
+	this.new("Conversion error: Cannot convert " + $string(current) + " to " + $string(to) + ".", "convert error");
+}
+
+base_exception.no_method = function(object, name) {
+	this.new("Method error: " + $string(object) + " has no method called '" + $string(name) + "'.", "method error");
+}
 
 $exports.hset = hset;
 $exports.make_hash = make_hash;
