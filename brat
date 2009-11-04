@@ -355,6 +355,11 @@ elsif ARGV[0]
 	opt_args = Set.new(ARGV.select {|o| o[0,1] == '-' })
 	options = {}
 
+	if opt_args.include? "-d"
+		system "nekoc -d #{ARGV[1]}"
+		exit
+	end
+
 	options[:force] = opt_args.include? "-a"
 	
 	options[:skip_check] = opt_args.include? '-s'
