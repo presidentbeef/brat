@@ -22,20 +22,21 @@ ENV['PATH'] ||= ""
 ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 
 $stderr.puts "Compiling internals..."
-system "cd core && nekoc internal.neko"
+system "nekoc core/internal.neko && nekoc -z core/internal.n"
 
 $stderr.puts "Compiling core..."
-File.open "core/core.brat.neko", "w" do |f|
+File.open "core/core.neko", "w" do |f|
 	f.puts BaseBratParser.new.parse(File.read("core/core.brat")).core_brat
 end
 
-system "nekoc core/core.brat.neko" or abort "Error while compiling program"
-system "mv core/core.brat.n core/core.n"
+system "nekoc core/core.neko && nekoc -z core/core.n" or abort "Error while compiling program"
+File.delete "core/core.neko"
 
 $stderr.puts "Compiling standard libraries..."
 stdlib_files = Dir.glob "#{Dir.pwd}/stdlib/*.neko"
 stdlib_files.each do |f|
 	system "nekoc #{f}"
+	system "nekoc -z #{f[0..-4]}"
 end
 
 brat_stdlib_files = Dir.glob "#{Dir.pwd}/stdlib/*.brat"
@@ -45,6 +46,7 @@ brat_stdlib_files.each do |file_name|
 		f.puts BaseBratParser.new.parse(File.read(file_name)).brat
 	end
 	system "nekoc #{neko_file}"
+	system "nekoc -z #{neko_file[0..-4]}"
 	File.delete neko_file if File.exists? neko_file	
 end
 
