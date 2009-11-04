@@ -22,7 +22,8 @@ end
 #Compiles internal.neko if needed. Returns false if compilation does not occur, otherwise returns result of compilation.
 def compile_brat_internal force = false
 	if force or not File.exist? "#$program_path/core/internal.n" or newer? "#$program_path/core/internal.neko", "#$program_path/core/internal.n"
-		system "cd #$program_path/core && nekoc internal.neko"
+		system "nekoc #$program_path/core/internal.neko" or abort "Error while compiling internal.neko"
+		system "nekoc -z #$program_path/core/internal.n" or abort "Error while compiling internal.neko"
 	else
 		false
 	end
@@ -31,15 +32,16 @@ end
 #Compiles core.brat if needed. Returns false if compilation does not occur, otherwise returns result of compilation.
 def compile_core force = false
 	if force or not File.exist? "#$program_path/core/core.n" or newer? "#$program_path/core/core.brat", "#$program_path/core/core.n"
-		File.open "#$program_path/core/core.brat.neko", "w" do |f|
+		File.open "#$program_path/core/core.neko", "w" do |f|
 			parser = BaseBratParser.new
 			tree = parser.parse(File.read("#$program_path/core/core.brat"))
 			abort "Error parsing core: \n#{parser.terminal_failures.join("\n")}" if tree.nil?
 			f.puts tree.core_brat
 		end
 
-		system "nekoc #$program_path/core/core.brat.neko" or abort "Error while compiling program"
-		system "mv #$program_path/core/core.brat.n #$program_path/core/core.n"
+		system "nekoc #$program_path/core/core.neko" or abort "Error while compiling core.brat"
+		system "nekoc -z #$program_path/core/core.n"
+		File.delete "#$program_path/core/core.neko"
 	else
 		false
 	end
@@ -66,7 +68,8 @@ def compile_stdlib force = false
 			fcomp = f[0..-4]
 			if not File.exist? fcomp or newer? f, fcomp
 				compiled = true
-				system "nekoc #{f}"
+				system "nekoc #{f}" or abort "Error compiling #{f}"
+				system "nekoc -z #{fcomp}"
 			end
 		end
 
@@ -158,6 +161,10 @@ def compile_brat_file orig_file_name, options = {}
 			system "nekoc -p #{file_name}.neko"
 			system "mv #{file_name}2.neko #{file_name}.neko"
 		end
+	end
+
+	unless options[:nostrip]
+		system "nekoc -z #{file_name}.n"
 	end
 
 	file_name
@@ -366,6 +373,8 @@ elsif ARGV[0]
 	end
 	
 	options[:stats] = opt_args.include? '-r'
+	
+	options[:nostrip] = opt_args.include? '-z'
 
 	options[:keep_intermediate] = options[:prettify] = opt_args.include?('-p')
 	
