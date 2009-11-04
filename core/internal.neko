@@ -3,7 +3,7 @@ base_object = $new(null);
 
 base_object.new = $varargs(function(args) {
 	var nb = new_brat(this);
-	if(has_field(this, "init")) {
+	if($objget(this, $hash("init")) != null) {
 		var init = $objget(this, $hash("init"))
 		if($nargs(init) == -2)
 			nb.init(args);
@@ -84,7 +84,7 @@ base_object.print = $varargs(function(args) {
 	var i = 0;
 	var len = $asize(args);
 	while i < len {
-		if(has_field(args[i], "@to_s")) {
+		if($objget(args[i], $hash("@to_s")) != null) {
 			args[i] = args[i].@to_s();
 		};
 		i += 1;
@@ -133,7 +133,7 @@ random = $loader.loadprim("std@random_new", 0);
 random_int = $loader.loadprim("std@random_int", 2);
 base_object.random = function(x) {
 	var max ;
-	if($typeof(x) == $tobject && has_field(x, "@value")) {
+	if($typeof(x) == $tobject && $objget(x, $hash("@value")) != null) {
 		max = x.@nvalue();
 		if($typeof(max) == $tint)
 			base_number.new(random_int(random(), max));
@@ -152,7 +152,7 @@ buffer_string = $loader.loadprim("std@buffer_string", 1);
 base_object.g = $varargs(function(args) {
 	var break_char = 10;
 	if($asize(args) == 1) {
-		if($typeof(args[0]) == $tobject && has_field(args[0], "@value") && $ssize(args[0].@value) == 1)
+		if($typeof(args[0]) == $tobject && $objget(args[0], $hash("@value")) != null && $ssize(args[0].@value) == 1)
 			break_char = $sget(args[0].@nvalue(), 0)
 		else
 			$throw(base_exception.argument_error("g", "single character", args[0]));
@@ -182,7 +182,7 @@ base_object.@null = function() { base_object.@@null }
 base_object.@@null.to@unders = function() { base_string.new("null") };
 
 base_object.@equal@equal = function(rhs) {
-	if(has_field(this, "@less@equal@greater")) {
+	if($objget(this, $hash("@less@equal@greater")) != null) {
 		if(this.@less@equal@greater(rhs).@nvalue() == 0)
 			base_object.@@true;
 		else
@@ -525,7 +525,7 @@ base_object.when = $varargs(function(args) {
 
 base_object.import = $varargs(function(args) {
 	if($asize(args) == 1) {
-		if(has_field(args[0], "@value")) {
+		if($objget(args[0], $hash("@value")) != null) {
 			var m = $loader.loadmodule(to_identifier(args[0].@value), $loader);
 			var imp = base_object.new();
 			var f = $objfields(m);
@@ -550,7 +550,7 @@ base_object.import = $varargs(function(args) {
 			$throw(base_exception.argument_error("import", "string", args[0]));
 	}
 	else if($asize(args) == 2) {
-		if(has_field(args[0], "@value") && has_field(args[1], "@value")) {
+		if($objget(args[0], $hash("@value")) != null && $objget(args[1], $hash("@value")) != null) {
 			var m = $loader.loadmodule(args[0].@value, $loader);
 			var name = $hash(to_identifier(args[1].@value));
 			if($objfield(m, name)) {
@@ -567,7 +567,7 @@ base_object.import = $varargs(function(args) {
 })
 
 base_object.export = function(object, name) {
-	if(has_field(name, "@value")) {
+	if($objget(name, $hash("@value")) != null) {
 		$objset($exports, $hash(to_identifier(name.@value)), object);
 	}
 	else
@@ -604,7 +604,7 @@ base_object.get@undermethod = function(name) {
 }
 
 base_object.has@undermethod@question = function(name) {
-	if(has_field(name, "@neko_string")) {
+	if($objget(name, $hash("@neko_string")) != null) {
 		if(has_field(this, to_identifier(name.@neko_string())))
 			base_object.@@true;
 		else
@@ -696,7 +696,7 @@ base_object.exit = $varargs(function(exit_code) {
 		sys_exit(0);
 	else if($asize(exit_code) == 1) {
 		exit_code = exit_code[0];
-		if($typeof(exit_code) == $tobject && has_field(exit_code, "@nvalue"))
+		if($typeof(exit_code) == $tobject && $objget(exit_code, $hash("@nvalue")) != null)
 			sys_exit(exit_code.@nvalue());
 		else if($typeof(exit_code) == $tint)
 			sys_exit(exit_code);
@@ -711,7 +711,7 @@ base_object.exit = $varargs(function(exit_code) {
 
 sys_sleep = $loader.loadprim("std@sys_sleep", 1);
 base_object.sleep = function(seconds) {
-	if($typeof(seconds) == $tobject && has_field(seconds, "@nvalue"))
+	if($typeof(seconds) == $tobject && $objget(seconds, $hash("@nvalue")) != null)
 		seconds = seconds.@nvalue();
 	else if($typeof(seconds) != $tint && $typeof(seconds) != $tfloat)
 		$throw(base_exception.argument_error("sleep", "number", seconds));
@@ -950,7 +950,7 @@ base_number.@percent = function(num) {
 }
 
 base_number.@less@equal@greater = function(num) {
-	if(has_field(num, "@native")) {
+	if($objget(num, $hash("@native")) != null) {
 		var rhs = num.@value;
 		var lhs = this.@value;
 
@@ -966,7 +966,7 @@ base_number.@less@equal@greater = function(num) {
 }
 
 base_number.@equal@equal = function(num) {
-	if($not(has_field(num, "@native")))
+	if($not($objget(num, $hash("@native")) != null))
 		base_object.@@false;
 	else if(this.@less@equal@greater(num).@value == 0)
 		base_object.@@true;
@@ -1057,7 +1057,7 @@ base_array.length = function() {
 }
 
 base_array.reserve = function(size) {
-	if($typeof(size) != $tobject || $not(has_field(size, "@nvalue")))
+	if($typeof(size) != $tobject || $not($objget(size, $hash("@nvalue")) != null))
 		$throw(base_exception.argument_error("array.reserve", "integer", size));
 
 	size = size.@nvalue();
@@ -1073,7 +1073,7 @@ base_array.__get = $varargs(function(args) {
 	if($asize(args) == 0 || $asize(args) > 2)
 		$throw(base_exception.argument_error("array.get", "1 or 2", $asize(args)));
 	else if($asize(args) == 1) {
-		if($not(has_field(args[0], "@nvalue")))
+		if($not($objget(args[0], $hash("@nvalue")) != null))
 			$throw(base_exception.argument_error("array[]", "number", args[0]));
 
 		var index = args[0].@nvalue();
@@ -1094,7 +1094,7 @@ base_array.__get = $varargs(function(args) {
 		}
 	}
 	else {
-		if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
+		if($not($objget(args[0], $hash("@nvalue")) != null) || $not($objget(args[1], $hash("@nvalue")) != null))
 			$throw(base_exception.argument_error("array[]", "number", args[0]));
 
 		if(len == 0) {
@@ -1133,7 +1133,7 @@ base_array.__get = $varargs(function(args) {
 });
 
 base_array.__set = function(index, value) {
-	if($typeof(index) == $tobject && has_field(index, "@nvalue"))
+	if($typeof(index) == $tobject && $objget(index, $hash("@nvalue")) != null)
 		index = index.@nvalue();
 	if($typeof(index) != $tint)
 		$throw(base_exception.argument_error("array[]", "integer", args[0]));
@@ -1205,7 +1205,7 @@ base_array.@plus = function(ary) {
 base_array.@equal@equal = function(rhs) {
 	if(lhs == rhs)
 		return base_object.@@true;
-	else if($typeof(rhs) != $tobject || $not(has_field(rhs, "@neko_array")))
+	else if($typeof(rhs) != $tobject || $not($objget(rhs, $hash("@neko_array")) != null))
 		return base_object.@@false;
 
 	var lhs = this.@internal_array;
@@ -1236,7 +1236,7 @@ base_array.@to_s = function() {
 	if(len == null) len = 0;
 	var temp = $amake(len);
 	while i < len {
-		if(has_field(this.@internal_array[i], "@to_s"))
+		if($objget(this.@internal_array[i], $hash("@to_s")) != null)
 			temp[i] = this.@internal_array[i].@to_s();
 		else
 			temp[i] = this.@internal_array[i];
@@ -1329,7 +1329,7 @@ base_array.delete@underfirst = function(item) {
 
 partition = function(array, left, right, pivot) {
 	var pivot_value = array[pivot];
-	if($typeof(pivot_value) != $tobject || $not(has_field(pivot_value, "@greater@equal")))
+	if($typeof(pivot_value) != $tobject || $not($objget(pivot_value, $hash("@greater@equal")) != null))
 		$throw(base_exception.new("Cannot compare " + $string(pivot_value) + " in order to sort it."));
 	var temp = array[pivot];
 	array[pivot] = array[right];
@@ -1710,7 +1710,7 @@ base_string.@neko_string = function() { this.@value }
 base_string.to@unders = function() { this }
 
 base_string.@equal@equal = function(rhs) {
-	if($typeof(rhs) == $tobject && has_field(rhs, "@neko_string")) {
+	if($typeof(rhs) == $tobject && $objget(rhs, $hash("@neko_string")) != null) {
 		if($compare(this.@neko_string(), rhs.@neko_string()) == 0)
 			base_object.@@true;
 		else
@@ -1721,7 +1721,7 @@ base_string.@equal@equal = function(rhs) {
 }
 
 base_string.@less@equal@greater = function(rhs) {
-	if($typeof(rhs) == $tobject && has_field(rhs, "@neko_string")) {
+	if($typeof(rhs) == $tobject && $objget(rhs, $hash("@neko_string")) != null) {
 		base_number.new($compare(this.@neko_string(), rhs.@neko_string()));
 	}
 	else
@@ -1750,7 +1750,7 @@ base_string.new = $varargs(function(args) {
 		if($typeof(args[0]) == $tstring) {
 			s.@value = args[0];
 		}
-		else if($typeof(args[0]) == $tobject && has_field(args[0], "@neko_string")) {
+		else if($typeof(args[0]) == $tobject && $objget(args[0], $hash("@neko_string")) != null) {
 			s.@value = $scopy(args[0].@value);
 		}
 		else if($typeof(args[0]) != $tobject) 
@@ -1787,7 +1787,7 @@ base_string.__get = $varargs(function(args) {
 	if($asize(args) == 0 || $asize(args) > 2)
 		$throw(base_exception.argument_error("string.get", "1 or 2", $asize(args)));
 	else if($asize(args) == 1) {
-		if($not(has_field(args[0], "@nvalue")))
+		if($not($objget(args[0], $hash("@nvalue")) != null))
 			$throw(base_exception.new("Cannot index string with non-number value."));
 
 		var index = args[0].@nvalue();
@@ -1810,7 +1810,7 @@ base_string.__get = $varargs(function(args) {
 		}
 	}
 	else {
-		if($not(has_field(args[0], "@nvalue")) || $not(has_field(args[1], "@nvalue")))
+		if($not($objget(args[0], $hash("@nvalue")) != null) || $not($objget(args[1], $hash("@nvalue")) != null))
 			$throw(base_exception.new("Cannot index string with non-number value."));
 		if(len == 0) {
 			this.clone("");
@@ -1847,15 +1847,15 @@ base_string.__get = $varargs(function(args) {
 })
 
 base_string.__set = function(index, value) {
-	if($typeof(value) == $tobject && has_field(value, "@value"))
+	if($typeof(value) == $tobject && $objget(value, $hash("@value")) != null)
 		value = $string(value.@value);
 	if($typeof(value) != $tstring)
 		$throw("Cannot set string to non-string value.");
 
 
-	if($typeof(index) == $tobject && has_field(index, "@nvalue"))
+	if($typeof(index) == $tobject && $objget(index, $hash("@nvalue")) != null)
 		index = index.@nvalue();
-	else if($typeof(index) == $tobject && has_field(index, "@value"))
+	else if($typeof(index) == $tobject && $objget(index, $hash("@value")) != null)
 		index = index.@value;
 
 	if($typeof(index) != $tint)
@@ -1872,7 +1872,7 @@ base_string.__set = function(index, value) {
 }
 
 base_string.@plus = function(value) {
-	if($typeof(value) == $tobject && has_field(value, "@value"))
+	if($typeof(value) == $tobject && $objget(value, $hash("@value")) != null)
 		value = $string(value.@value);
 	if($typeof(value) != $tstring)
 		$throw("Cannot add string to non-string value.");
@@ -1890,9 +1890,9 @@ reg_rep_fun = $loader.loadprim("regexp@regexp_replace_fun", 3);
 reg_match = $loader.loadprim("regexp@regexp_matched", 2);
 reg_matched = function(regex) { reg_match(regex, 0) }
 base_string.sub = function(regexp, replacement) {
-	if($typeof(regexp) == $tobject && has_field(regexp, "@internal_regex"))
+	if($typeof(regexp) == $tobject && $objget(regexp, $hash("@internal_regex")) != null)
 		regexp = regexp.@internal_regex;
-	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
+	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@value")) != null)
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
 		$throw("Need to provide a regular expression for string.sub()");
@@ -1910,9 +1910,9 @@ base_string.sub = function(regexp, replacement) {
 }
 
 base_string.sub@bang = function(regexp, replacement) {
-	if($typeof(regexp) == $tobject && has_field(regexp, "@internal_regex"))
+	if($typeof(regexp) == $tobject && $objget(regexp, $hash("@internal_regex")) != null)
 		regexp = regexp.@internal_regex;
-	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
+	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@value")) != null)
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
 		$throw("Need to provide a regular expression for string.sub()");
@@ -1929,9 +1929,9 @@ base_string.sub@bang = function(regexp, replacement) {
 }
 
 base_string.sub@underfirst@bang = function(regexp, replacement) {
-	if($typeof(regexp) == $tobject && has_field(regexp, "@internal_regex"))
+	if($typeof(regexp) == $tobject && $objget(regexp, $hash("@internal_regex")) != null)
 		regexp = regexp.@internal_regex;
-	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
+	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@value")) != null)
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
 		$throw("Need to provide a regular expression for string.sub_first()");
@@ -1943,9 +1943,9 @@ base_string.sub@underfirst@bang = function(regexp, replacement) {
 }
 
 base_string.sub@underfirst = function(regexp, replacement) {
-	if($typeof(regexp) == $tobject && has_field(regexp, "@internal_regex"))
+	if($typeof(regexp) == $tobject && $objget(regexp, $hash("@internal_regex")) != null)
 		regexp = regexp.@internal_regex;
-	if($typeof(replacement) == $tobject && has_field(replacement, "@value"))
+	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@value")) != null)
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
 		$throw("Need to provide a regular expression for string.sub_first()");
@@ -1964,7 +1964,7 @@ base_string.split = $varargs(function(args) {
 		sep = " ";
 		else if(arglen == 1) {
 		sep = args[0];
-		if($typeof(sep) == $tobject && has_field(sep, "@value"))
+		if($typeof(sep) == $tobject && $objget(sep, $hash("@value")) != null)
 		sep = sep.@value;
 		if($typeof(sep) != $tstring)
 		$throw("Separator for split() must be a string, not " + $string(sep));
@@ -2026,7 +2026,7 @@ regexp_new = $loader.loadprim("regexp@regexp_new", 1);
 base_regex = new_brat(null);
 base_regex.@internal_regex = base_object.@@null;
 base_regex.new = function(regx_string) {
-	if($typeof(regx_string) == $tobject && has_field(regx_string, "@value"))
+	if($typeof(regx_string) == $tobject && $objget(regx_string, $hash("@value")) != null)
 		regx_string = regx_string.@value;
 	if($typeof(regx_string) != $tstring)
 		$throw("Must create new regex with a string, not " + $string(regx_string));
@@ -2038,7 +2038,7 @@ base_regex.new = function(regx_string) {
 
 regexp_match = $loader.loadprim("regexp@regexp_match", 4);
 base_regex.match = function(val) {
-	if($typeof(val) == $tobject && has_field(val, "@value"))
+	if($typeof(val) == $tobject && $objget(val, $hash("@value")) != null)
 		val = val.@value;
 	else
 		$throw("Wrong, wrong, wrong!");
@@ -2053,7 +2053,7 @@ base_regex.@tilde = base_regex.match;
 
 base_symbol = new_brat(null);
 base_symbol.new = function(sym_string) {
-	if($typeof(sym_string) == $tobject && has_field(sym_string, "@value"))
+	if($typeof(sym_string) == $tobject && $objget(sym_string, $hash("@value")) != null)
 		sym_string = sym_string.@value;
 	if($typeof(sym_string) == $tstring)
 		sym_string = $hash(to_identifier(sym_string));
@@ -2066,7 +2066,7 @@ base_symbol.new = function(sym_string) {
 }
 
 base_symbol.@equal@equal = function(rhs) {
-	if($typeof(rhs) == $tobject && has_field(rhs, "@value"))
+	if($typeof(rhs) == $tobject && $objget(rhs, $hash("@value")) != null)
 		rhs = rhs.@value;
 
 	if($typeof(rhs) != $tint)
@@ -2132,7 +2132,7 @@ $hset(from_id_list, "@dollar", "$", null)
 to_id_regexp_symbols = regexp_new("!=|>=|<=|\\|\\||[!?\\-*+^@~\\/\\\\><$_%|&=]"); 
 to_id_regexp_keywords = regexp_new("\\b(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)\\b");
 to_identifier = function(string) {
-	if($typeof(string) == $tobject && has_field(string, "@value")) {
+	if($typeof(string) == $tobject && $objget(string, $hash("@value")) != null) {
 		string = string.@value;
 	}
 	//String was a symbol, already escaped
