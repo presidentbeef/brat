@@ -941,7 +941,7 @@ base_number.@percent = function(num) {
 	var rhs = num.@value;
 
 	if(this.@native && num.@native) {
-		base_number.new(lhs, rhs);
+		base_number.new(lhs % rhs);
 	}
 	else if(is_int(rhs) && is_int(lhs))
 		base_number.new(int_mod(lhs, rhs));
