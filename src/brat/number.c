@@ -238,6 +238,19 @@ value num_cmp(value num1, value num2) {
 		return alloc_int(float_cmp(int_to_float(num1), int_to_float(num2)));
 }
 
+value int_pow(value base, value pow) {
+	if(val_is_int(base) && val_is_int(pow)) {
+		value result = new_integer();
+		mpz_ui_pow_ui(val_data(result), val_int(base), val_int(pow));
+		return result;
+	}
+	else if(val_is_kind(base, k_mint) && val_is_int(pow)) {
+		value result = new_integer();
+		mpz_pow_ui(val_data(result), val_data(base), val_int(pow));
+		return result;
+	}
+}
+
 value is_num(value num) {
 	return alloc_bool(val_is_kind(num, k_mint) || val_is_kind(num, k_mfloat));
 }
@@ -263,7 +276,7 @@ value num_neg(value num) {
 	}
 	else {
 		neko_error();
-	}	
+	}
 }
 
 value to_neko_num(value num) {
@@ -274,8 +287,10 @@ value to_neko_num(value num) {
 			failure("Cannot convert number to signed long, too big.");
 	}
 	else if(val_is_kind(num, k_mfloat)) {
-		failure("Cannot convert float to Neko native.");
+		return alloc_float(mpf_get_d(val_data(num)));
 	}
+	else if(val_is_int(num) || val_is_float(num))
+		return num;
 	else {
 		failure("Cannot convert abstract to Neko native.");
 	}	
@@ -304,6 +319,7 @@ DEFINE_PRIM(num_mul, 2);
 DEFINE_PRIM(num_div, 2);
 DEFINE_PRIM(int_div, 2);
 DEFINE_PRIM(num_cmp, 2);
+DEFINE_PRIM(int_pow, 2);
 DEFINE_PRIM(int_mod, 2);
 DEFINE_PRIM(is_num, 1);
 DEFINE_PRIM(is_int, 1);

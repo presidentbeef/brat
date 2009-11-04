@@ -730,6 +730,7 @@ num_add = $loader.loadprim("number@num_add", 2);
 num_sub = $loader.loadprim("number@num_sub", 2);
 num_mul = $loader.loadprim("number@num_mul", 2);
 num_div = $loader.loadprim("number@num_div", 2);
+int_pow = $loader.loadprim("number@int_pow", 2);
 num_cmp = $loader.loadprim("number@num_cmp", 2);
 is_num = $loader.loadprim("number@is_num", 1);
 is_int = $loader.loadprim("number@is_int", 1);
@@ -947,6 +948,17 @@ base_number.@percent = function(num) {
 	else
 		$throw(base_exception.argument_error("number.%", "number", $string(num) + " and " + $string(this)));
 
+}
+
+math_pow = $loader.loadprim("std@math_pow", 2);
+base_number.@up = function(num) {
+	var lhs = this.@value;
+	var rhs = num.@value;
+
+	if(is_float(lhs) || is_float(rhs))
+		base_number.new(math_pow(to_neko_num(lhs), to_neko_num(rhs)));
+	else
+		base_number.new(int_pow(lhs, rhs));
 }
 
 base_number.@less@equal@greater = function(num) {
