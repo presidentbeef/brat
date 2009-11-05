@@ -309,7 +309,7 @@ grammar BaseBrat
 				output = rhs.brat <<
 					"#{var} = #{rhs.result};"
 			else
-				temp = var_add var, next_temp
+				temp = var_add var
 				output = rhs.brat <<
 					"#{temp} = #{rhs.result};"
 			end
@@ -590,7 +590,7 @@ grammar BaseBrat
 
 		def brat
 			param = variable_args.i.brat
-			@param = var_add param, next_temp
+			@param = var_add param
 			"@args"
 		end
 
@@ -604,7 +604,7 @@ grammar BaseBrat
 
 		def brat
 			param = variable_args.i.brat
-			@param = var_add param, next_temp
+			@param = var_add param
 
 			"@args"
 		end
@@ -629,7 +629,7 @@ grammar BaseBrat
 
 		def brat
 			param = variable_args.i.brat
-			@param = var_add param, next_temp
+			@param = var_add param
 
 			"@args"
 		end
@@ -681,7 +681,7 @@ grammar BaseBrat
 
 		def brat
 			param = variable_args.i.brat
-			@param = var_add param, next_temp
+			@param = var_add param
 
 			"@args"
 		end
@@ -797,7 +797,7 @@ grammar BaseBrat
 
 		def brat
 			if i.respond_to? :brat
-				@args = [var_add(i.brat, next_temp)] + rest_formal.brat
+				@args = [var_add(i.brat)] + rest_formal.brat
 			else
 				@args = []
 			end.join(", ")
@@ -819,7 +819,7 @@ grammar BaseBrat
 		def brat
 			if elements.length > 0
 				elements.map do |e|
-					var_add e.identifier.brat, next_temp
+					var_add e.identifier.brat
 				end
 			else
 				[]
@@ -858,7 +858,7 @@ grammar BaseBrat
 	i:identifier space "=" space v:default_arg_rhs_expression {
 		def brat
 			@var_name = i.brat
-			var_add @var_name, next_temp
+			var_add @var_name
 			output = v.brat
 			@result = v.result
 			output << "#{var_name} = #{v.result}"

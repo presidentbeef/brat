@@ -32,11 +32,7 @@ class Treetop::Runtime::SyntaxNode
 		false
 	end
 
-	def var_local? v
-		variables[-1][v]
-	end
-
-	def var_add v, temp = nil
+	def var_add v
 		if $interactive
 			variables[-1][v] = v
 		else
@@ -58,10 +54,6 @@ class Treetop::Runtime::SyntaxNode
 
 	def pop_scope
 		variables.pop
-	end
-
-	def top_scope?
-		variables.length == 1
 	end
 
 	def variables
