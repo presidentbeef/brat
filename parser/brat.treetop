@@ -865,11 +865,7 @@ grammar BaseBrat
 		end
 
 		def var_name
-			if $interactive
-				@var_name
-			else
-				var_exist?(@var_name) || @var_name
-			end
+			var_exist?(@var_name) || @var_name
 		end
 	}
   end

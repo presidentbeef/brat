@@ -1,8 +1,9 @@
 class Treetop::Runtime::SyntaxNode
 	attr_reader :result
-	@variables = Hash.new
+	@variables = [Hash.new]
+	@variables[-1][:current_scope] = { :variable => "@temp#{0}", :next_index => 0 }
 	@replacements = Hash.new
-	@temp = 0
+	@temp = 1
 	Precedence = {"@oror"=>1, 
 			"@and@and"=>2, 
 			"@less@equal@greater"=>3, 
