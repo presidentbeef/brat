@@ -28,7 +28,8 @@ grammar BaseBrat
 
 		def inner_brat
 			Treetop::Runtime::SyntaxNode.clear_variables
-			elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";")
+			output = elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";")
+			"var #{variables[-1][:current_scope][:variable]} = $amake(#{variables[-1][:current_scope][:next_index]});\n" << output
 		end
 
 		def core_brat
@@ -308,9 +309,9 @@ grammar BaseBrat
 				output = rhs.brat <<
 					"#{var} = #{rhs.result};"
 			else
-				var_add var, next_temp
+				temp = var_add var, next_temp
 				output = rhs.brat <<
-					"#@result = #{rhs.result};"
+					"#{temp} = #{rhs.result};"
 			end
 			@result = rhs.result
 			output
@@ -504,9 +505,18 @@ grammar BaseBrat
 
 			next_temp
 
+			inner_function = l.elements.map {|e| e.brat}.join(";");
+
+			if variables[-1].length == 1
+				environment = ""
+			else
+				environment = "var #{variables[-1][:current_scope][:variable]} = $amake(#{variables[-1][:current_scope][:next_index]});\n"
+			end
+
 			output << "var #@result = function(#{args}) { \n" <<
+				environment <<
 				inside <<
-				l.elements.map {|e| e.brat}.join(";") <<
+				inner_function <<
 				"};"
 
 			if fa.respond_to? :var_args
@@ -523,7 +533,17 @@ grammar BaseBrat
   rule formal_args
 	space? plain_formals space? "|" {
 		def brat
+			plain_formals.plain
+		end
+
+		def function_header
+			names = plain_formals.args
 			plain_formals.brat
+			output = ""
+			names.each_with_index do |n, i|
+				output << "#{variables[-1][:current_scope][:variable]}[#{i}] = #{n};"
+			end
+			output
 		end
 	}
 	/
@@ -570,13 +590,7 @@ grammar BaseBrat
 
 		def brat
 			param = variable_args.i.brat
-			var_add param, next_temp
-			if $interactive
-				@param = param
-			else
-				@param = @result
-			end
-
+			@param = var_add param, next_temp
 			"@args"
 		end
 
@@ -590,12 +604,7 @@ grammar BaseBrat
 
 		def brat
 			param = variable_args.i.brat
-			var_add param, next_temp
-			if $interactive
-				@param = param
-			else
-				@param = @result
-			end
+			@param = var_add param, next_temp
 
 			"@args"
 		end
@@ -620,12 +629,7 @@ grammar BaseBrat
 
 		def brat
 			param = variable_args.i.brat
-			var_add param, next_temp
-			if $interactive
-				@param = param
-			else
-				@param = @result
-			end
+			@param = var_add param, next_temp
 
 			"@args"
 		end
@@ -677,12 +681,7 @@ grammar BaseBrat
 
 		def brat
 			param = variable_args.i.brat
-			var_add param, next_temp
-			if $interactive
-				@param = param
-			else
-				@param = @result
-			end
+			@param = var_add param, next_temp
 
 			"@args"
 		end
@@ -798,12 +797,15 @@ grammar BaseBrat
 
 		def brat
 			if i.respond_to? :brat
-				var_add i.brat, next_temp
-				if $interactive
-					@args = [i.brat] + rest_formal.brat
-				else
-					@args = [@result] + rest_formal.brat
-				end
+				@args = [var_add(i.brat, next_temp)] + rest_formal.brat
+			else
+				@args = []
+			end.join(", ")
+		end
+
+		def plain
+			if i.respond_to? :brat
+				@args = [i.brat] + rest_formal.plain
 			else
 				@args = []
 			end.join(", ")
@@ -818,11 +820,16 @@ grammar BaseBrat
 			if elements.length > 0
 				elements.map do |e|
 					var_add e.identifier.brat, next_temp
-					if $interactive
-						e.identifier.brat
-					else
-						@result
-					end
+				end
+			else
+				[]
+			end
+		end
+
+		def plain
+			if elements.length > 0
+				elements.map do |e|
+					e.identifier.brat
 				end
 			else
 				[]

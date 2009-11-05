@@ -1,6 +1,6 @@
 class Treetop::Runtime::SyntaxNode
 	attr_reader :result
-	@variables = [Hash.new]
+	@variables = Hash.new
 	@replacements = Hash.new
 	@temp = 0
 	Precedence = {"@oror"=>1, 
@@ -31,16 +31,28 @@ class Treetop::Runtime::SyntaxNode
 		false
 	end
 
+	def var_local? v
+		variables[-1][v]
+	end
+
 	def var_add v, temp = nil
 		if $interactive
 			variables[-1][v] = v
 		else
-			variables[-1][v] = temp
+			variables[-1][v] = next_local
 		end
 	end
 
 	def new_scope
 		variables << Hash.new
+		variables[-1][:current_scope] = { :variable => next_temp, :next_index => 0 }
+	end
+
+	def next_local
+		cs = variables[-1][:current_scope]
+		index = cs[:next_index]
+		cs[:next_index] += 1
+		"#{cs[:variable]}[#{index}]"
 	end
 
 	def pop_scope
@@ -61,7 +73,8 @@ class Treetop::Runtime::SyntaxNode
 
 	def self.clear_variables
 		@@variables = [Hash.new]
-		@@temp = 0
+		@@temp = 1
+		@@variables[-1][:current_scope] = { :variable => "@temp#{0}", :next_index => 0 }
 	end
 
 	def next_temp
