@@ -819,4 +819,8 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "false", 'a = ["a"]; b = ["b", "c"]; a == b'
 		assert_result "true", "a = new; b = new; c = [a,b]; d = [a,b]; c == d"
 	end
+
+	def test_recursive_scope
+		assert_result "2", "a = { x | y = x + 1; true? (x < 3) { a(x + 1) }; y }; a(1)"
+	end
 end
