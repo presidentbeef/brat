@@ -199,9 +199,44 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "that", 'a = new; a.add_method \'what?!, { "that" }; b = a.new; b.what?!'
 	end
 
+	def test_object_with_this
+		assert_result "1", "a = new; a.x = 1; a.with_this { x }"
+	end
+
+	def test_method_arity
+		assert_result "0", "f = { }; method_arity ->f"
+		assert_result "2", "f = { x, y | }; method_arity ->f"
+		assert_result "-1", "f = { x, y = 1 | }; method_arity ->f"
+		assert_result "-1", "f = { x, *y | }; method_arity ->f"
+		assert_result "-1", "f = { x, y = 1, *z | }; method_arity ->f"
+	end
+
 	def test_object_del_method
 		assert_result "null", 'a = new; a.what?! = { "what" }; a.del_method "what?!";a.get_method "what?!"'
 		assert_result "what", 'a = new; a.what?! = { "what" }; b = a.new; b.del_method "what?!";b.what?!'
+	end
+
+	def test_object_methods
+		assert_result "true", 'a = new; a.b = { }; a.methods.include? "b"'
+		assert_result "true", 'a = new; a.b = { }; a.methods.include? "new"'
+	end
+
+	def test_object_local_methods
+		assert_result "true", 'a = new; a.b = { }; a.local_methods.include? "b"'
+		assert_result "false", 'a = new; a.b = { }; a.local_methods.include? "new"'
+		assert_result "1", 'a = new; a.b = { }; a.local_methods.length'
+	end
+
+	def test_object_random
+		assert_result "true", 'r = random 1; true? r == 0 || r == 1'
+		assert_result "true", 'r = random 0; true? r == 0'
+	end
+
+	def test_function?
+		assert_result "true", "function? {}"
+		assert_result "true", "f = {}; function? ->f"
+		assert_result "false", "f = new; function? f"
+		assert_result "false", "function? 1"
 	end
 
 	def test_string_split

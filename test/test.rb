@@ -755,6 +755,11 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "213971023970000000000", "10000000000 * 21397102397"
 	end
 
+	def test_modulo
+		assert_result "1", "3 % 2"
+		assert_result "2", "10 % 8"
+	end
+
 	def test_number_compare
 		assert_result "true", "true? 1 < 2"
 		assert_result "false", "true? 1 > 2"
