@@ -203,6 +203,7 @@ def brat_interactive options = {}
 	current = 0
 	prompt = ">"
 	line = ""
+	puts "Warning: some code may not run accurately in interactive mode."
 	loop do
 		current += 1
 
@@ -240,8 +241,8 @@ def brat_interactive options = {}
 
 		begin
 			neko = inner_brat line
-		rescue
-			puts "Parsing error."
+		rescue Exception => e
+			puts "Parsing error: #{e}"
 			line = ""
 			prompt = ">"
 			next
