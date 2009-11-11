@@ -1883,6 +1883,19 @@ base_string.__set = function(index, value) {
 	this;
 }
 
+base_string.@less@less = function(value) {
+	if($typeof(value) == $tobject && $objget(value, $hash("@value")) != null)
+		value = $string(value.@value);
+	if($typeof(value) != $tstring)
+		$throw("Cannot add string to non-string value.");
+
+	var new_string = $smake($ssize(this.@value) + $ssize(value));
+	$sblit(new_string, 0, this.@value, 0, $ssize(this.@value));
+	$sblit(new_string, $ssize(this.@value), value, 0, $ssize(value));
+
+	this.@value = new_string;
+}
+
 base_string.@plus = function(value) {
 	if($typeof(value) == $tobject && $objget(value, $hash("@value")) != null)
 		value = $string(value.@value);
@@ -1892,7 +1905,6 @@ base_string.@plus = function(value) {
 	var new_string = $smake($ssize(this.@value) + $ssize(value));
 	$sblit(new_string, 0, this.@value, 0, $ssize(this.@value));
 	$sblit(new_string, $ssize(this.@value), value, 0, $ssize(value));
-	new_string;
 	this.clone(new_string);
 }
 
