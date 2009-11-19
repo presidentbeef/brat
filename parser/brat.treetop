@@ -219,11 +219,23 @@ grammar BaseBrat
 			output << "var #@result = @brat.make_hash(#{hash_temp});"
 		end
 	}
-
   end
 
   #Single member of a hash table
   rule hash_argument
+	i:((identifier / operator) (identifier / operator / number)*) ":" spaceorbreak e:expression {
+		attr_reader :index, :value
+
+		def brat
+			next_temp
+			output = "var #@result = symbol.new(\"#{i.text_value}\");"
+			@index = @result
+			output << e.brat
+			@value = e.result
+			output
+		end
+	}
+	/
   	i:expression spaceorbreak ":" spaceorbreak v:expression {
 		attr_reader :index, :value
 		def brat
@@ -442,6 +454,13 @@ grammar BaseBrat
 			end
 		end
 	}
+	/
+	"'" content:(("\\'" / !"'" . )*) "'" {
+		def brat
+			next_temp
+			"var #@result = string.new(\"#{content.text_value.gsub("\\'", "'")}\")"
+		end
+	}
   end
 
   rule string_interpolation
@@ -474,7 +493,7 @@ grammar BaseBrat
 	":" id:(identifier / operator / number)+ {
 		def brat
 			next_temp
-			"var #@result = symbol.new(\"#{id.elements.map { |m| m.text_value }.join}\");"
+			"var #@result = symbol.new(\"#{id.text_value}\");"
 		end
 	} 
   end
@@ -1313,8 +1332,7 @@ grammar BaseBrat
 				hash_temp = @result
 				output << "var #{hash_temp} = $hnew(#{named_args.length});"
 				named_args.map do |e|
-					output << e.i.brat
-					output << "@brat.hset(#{hash_temp}, #{e.i.result}, #{e.result});"
+					output << "@brat.hset(#{hash_temp}, #{e.key}, #{e.result});"
 				end
 				next_temp
 				output << "var #@result = @brat.make_hash(#{hash_temp});"
@@ -1362,10 +1380,31 @@ grammar BaseBrat
  
   #Matches a 'named' argument
   rule named_argument
+	i:((identifier / operator) (identifier / operator / number)*) ":" spaceorbreak e:expression {
+		attr_reader :key
+
+		def brat
+			next_temp
+			output = "var #@result = symbol.new(\"#{i.text_value}\");"
+			@key = @result
+			output << e.brat
+			@result = e.result
+			output
+		end
+
+		def named_argument?
+			true
+		end
+	}
+	/
   	i:expression spaceorbreak ":" spaceorbreak e:expression {
+		attr_reader :key
+
 		def brat
 			output = e.brat
 			@result = e.result
+			output << i.brat
+			@key = i.result
 			output
 		end
 

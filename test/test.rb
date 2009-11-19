@@ -134,6 +134,7 @@ class BratParserTest < Test::Unit::TestCase
 	def test_weird_args_parse
 		parse("sup dog.bark")
 		parse("call_this wacky:method, then:this.one, 1, 2    \n     ,3, 4")
+		parse("call_this wacky : method, then : this.one, 1, 2    \n     ,3, 4")
 	end
 
 	def test_operation_parse
@@ -353,6 +354,8 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", "a = {x| x.length}; a \"f\":1"
 		assert_result "1", "a = {x| x[\"f\"] }; a \"f\":1"
 		assert_result "1", "a = {x, y, z| z[\"f\"] }; a 1, \"f\":1, 2"
+		assert_result "1", "a = {x, y, z| z[:f] }; a 1, f:1, 2"
+		assert_result "2", "a = {x, y, z| z[:g] }; a 1, f:1, 2, :g : 2"
 	end
 
 	def test_closure_args
@@ -439,6 +442,7 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_hash_parse
 		parse("[a:1, b:2]")
+		parse("[a : 1, b : 2]")
 	end
 
 	def test_list_access_parse
@@ -615,11 +619,13 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "0", "x = [:]; x.length"
 		assert_result "a", "x = [1:\"a\"]; x[1];"
 		assert_result "2", "y = [2]; x = [1:y]; x[1][0]"
+		assert_result "a", "x = [b:\"a\"]; x[:b];"
+		assert_result "a", "x = [b::a]; x[:b];"
 	end
 
 	def test_string
 		assert_result "a", '"a"'
-		assert_result "1", 'a = "a"; b = [a:1]; b["a"]'
+		assert_result "1", 'a = "a"; b = [a : 1]; b["a"]'
 	end
 
 	def test_string_interpolation
