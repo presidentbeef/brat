@@ -169,7 +169,7 @@ grammar BaseBrat
 	"[" space? ":" space? "]" {
 		def brat
 			next_temp
-			output = "#@result = @brat.base_hash.new();" 
+			output = "var #@result = @brat.base_hash.new();" 
 		end
 	}
 	/
