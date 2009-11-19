@@ -166,6 +166,13 @@ grammar BaseBrat
 
   #Matches hash table literals
   rule hash
+	"[" space? ":" space? "]" {
+		def brat
+			next_temp
+			output = "#@result = @brat.base_hash.new();" 
+		end
+	}
+	/
   	"[" spaceorbreak hash_inner spaceorbreak "]" {
 		def brat
 

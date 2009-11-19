@@ -610,6 +610,9 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_hash
 		assert_result "1", "x = hash.new; x[\"y\"] = 1; x[\"y\"]"
+		assert_result "1", "x = [:]; x[\"y\"] = 1; x[\"y\"]"
+		assert_result "1", "x = [ : ]; x[\"y\"] = 1; x[\"y\"]"
+		assert_result "0", "x = [:]; x.length"
 		assert_result "a", "x = [1:\"a\"]; x[1];"
 		assert_result "2", "y = [2]; x = [1:y]; x[1][0]"
 	end
