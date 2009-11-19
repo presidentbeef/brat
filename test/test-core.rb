@@ -12,7 +12,7 @@ class BratCoreTests < Test::Unit::TestCase
 	end
 
 	def test_core_array_map_with_index
-		assert_result "[[0,a],[1,b],[2,c]]", "b = ['a, 'b, 'c]; b.map_with_index { obj, index | [index, obj] }"
+		assert_result "[[0,a],[1,b],[2,c]]", "b = [:a, :b, :c]; b.map_with_index { obj, index | [index, obj] }"
 		assert_result "[]", "a = []; a.map_with_index {i, in | i + 1 }"
 	end
 
@@ -37,7 +37,7 @@ class BratCoreTests < Test::Unit::TestCase
 	end
 
 	def test_core_array_each_with_index
-		assert_result "[0,a,1,b,2,c]", "a = [];b = ['a, 'b, 'c]; b.each_with_index { obj, index | a << index << obj }; a"
+		assert_result "[0,a,1,b,2,c]", "a = [];b = [:a, :b, :c]; b.each_with_index { obj, index | a << index << obj }; a"
 		assert_result "[]", "b = []; [].each_with_index { i, in | b << i }; b "
 	end
 
@@ -111,9 +111,9 @@ class BratCoreTests < Test::Unit::TestCase
 	end
 
 	def test_core_number_times
-		assert_result "5", "5.times { 'a }"
-		assert_result "[a,a,a]", "a = []; 3.times { a << 'a }; a"
-		assert_result "[]", "a = []; 0.times { a << 'a }; a"
+		assert_result "5", "5.times { :a }"
+		assert_result "[a,a,a]", "a = []; 3.times { a << :a }; a"
+		assert_result "[]", "a = []; 0.times { a << :a }; a"
 		assert_result "[0,1,2]", "a = []; 3.times { i | a << i }; a"
 	end
 
@@ -184,10 +184,10 @@ class BratCoreTests < Test::Unit::TestCase
 	end
 
 	def test_object_get_method
-		assert_result "that", 'a = new; a.what?! = { "that" }; c = a.get_method \'what?!; c'
+		assert_result "that", 'a = new; a.what?! = { "that" }; c = a.get_method :what?!; c'
 		assert_result "that", 'a = new; a.what?! = { "that" }; c = a.get_method "what?!"; c'
-		assert_result "that", 'a = new; a.what?! = { "that" }; w = \'what?!; c = a.get_method w; c'
-		assert_result "that", 'a = new; a.what?! = { "that" }; b = a.new; w = \'what?!; c = b.get_method w; c'
+		assert_result "that", 'a = new; a.what?! = { "that" }; w = :what?!; c = a.get_method w; c'
+		assert_result "that", 'a = new; a.what?! = { "that" }; b = a.new; w = :what?!; c = b.get_method w; c'
 	end
 
 	def test_object_has_method?
@@ -196,7 +196,7 @@ class BratCoreTests < Test::Unit::TestCase
 
 	def test_object_add_method
 		assert_result "that", 'a = new; a.add_method "what?!", { "that" }; a.what?!'
-		assert_result "that", 'a = new; a.add_method \'what?!, { "that" }; b = a.new; b.what?!'
+		assert_result "that", 'a = new; a.add_method :what?!, { "that" }; b = a.new; b.what?!'
 	end
 
 	def test_object_with_this

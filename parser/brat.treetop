@@ -471,7 +471,7 @@ grammar BaseBrat
 
   #Like symbols in Scheme or Ruby
   rule symbol
-	"'" id:(identifier / operator / number)+ {
+	":" id:(identifier / operator / number)+ {
 		def brat
 			next_temp
 			"var #@result = symbol.new(\"#{id.elements.map { |m| m.text_value }.join}\");"

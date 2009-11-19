@@ -459,9 +459,9 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_symbol_parse
-		parse "x = 'x"
-		parse "x = 'sdifhsd123123!"
-		parse "x 'a.hello(1, 2, 3)"
+		parse "x = :x"
+		parse "x = :sdifhsd123123!"
+		parse "x :a.hello(1, 2, 3)"
 	end
 
 	def test_object_method_call
@@ -815,8 +815,8 @@ class BratParserTest < Test::Unit::TestCase
 	end
 
 	def test_symbol_compare
-		assert_result "true", "a = 'a; b = 'a; a == b"
-		assert_result "false", "'b == 'a"
+		assert_result "true", "a = :a; b = :a; a == b"
+		assert_result "false", ":b == :a"
 	end
 
 	def test_array_compare
