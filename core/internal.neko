@@ -526,7 +526,7 @@ base_object.when = $varargs(function(args) {
 base_object.import = $varargs(function(args) {
 	if($asize(args) == 1) {
 		if($objget(args[0], $hash("@value")) != null) {
-			var m = $loader.loadmodule(to_identifier(args[0].@value), $loader);
+			var m = $loader.loadmodule(to_identifier(args[0]), $loader);
 			var imp = base_object.new();
 			var f = $objfields(m);
 			var fs = $asize(f);
@@ -552,7 +552,7 @@ base_object.import = $varargs(function(args) {
 	else if($asize(args) == 2) {
 		if($objget(args[0], $hash("@value")) != null && $objget(args[1], $hash("@value")) != null) {
 			var m = $loader.loadmodule(args[0].@value, $loader);
-			var name = $hash(to_identifier(args[1].@value));
+			var name = $hash(to_identifier(args[1]));
 			if($objfield(m, name)) {
 				$objget(m, name);
 			}
@@ -568,7 +568,7 @@ base_object.import = $varargs(function(args) {
 
 base_object.export = function(object, name) {
 	if($objget(name, $hash("@value")) != null) {
-		$objset($exports, $hash(to_identifier(name.@value)), object);
+		$objset($exports, $hash(to_identifier(name)), object);
 	}
 	else
 		$throw(base_exception.argument_error("export", "string", name));
@@ -604,14 +604,10 @@ base_object.get@undermethod = function(name) {
 }
 
 base_object.has@undermethod@question = function(name) {
-	if($objget(name, $hash("@neko_string")) != null) {
-		if(has_field(this, to_identifier(name.@neko_string())))
-			base_object.@@true;
-		else
-			base_object.@@false;
-	}
+	if($objget(this, $hash(to_identifier(name))) == null)
+		base_object.@@false;
 	else
-		$throw(base_exception.argument_error("has_method?", "string", name));
+		base_object.@@true;
 }
 
 base_object.call@undermethod = $varargs(function(args) {
@@ -2054,32 +2050,44 @@ base_regex.@tilde = base_regex.match;
 
 base_symbol = new_brat(null);
 base_symbol.new = function(sym_string) {
-	if($typeof(sym_string) == $tobject && $objget(sym_string, $hash("@value")) != null)
-		sym_string = sym_string.@value;
-	if($typeof(sym_string) == $tstring)
-		sym_string = $hash(to_identifier(sym_string));
+	if($typeof(sym_string) == $tobject && $objget(sym_string, $hash("@neko_string")) != null)
+		sym_string = sym_string.@neko_string();
+	else if($typeof(sym_string) == $tstring)
+		sym_string = $hash(sym_string);
+	else if($typeof(sym_string) == $tint) { 
+		//assume it comes directly from $hash() in parser
+	}
 	else
 		$throw("Must create new symbol with using a string or a symbol, not " + $string(sym_string));
 
 	var sym = new_brat(this);
-	sym.@value = sym_string;
+	sym.@sym_value = sym_string;
 	sym; 
 }
 
 base_symbol.@equal@equal = function(rhs) {
-	if($typeof(rhs) == $tobject && $objget(rhs, $hash("@value")) != null)
-		rhs = rhs.@value;
+	if($typeof(rhs) == $tobject && $objget(rhs, $hash("@sym_value")) != null)
+		rhs = rhs.@sym_value;
 
 	if($typeof(rhs) != $tint)
 		base_object.@@false;
-	else if(this.@value == rhs)
+	else if(this.@sym_value == rhs)
 		base_object.@@true;
 	else
-		base_object.@@false;		
+		base_object.@@false;
 }
 
 base_symbol.@to_s = function() {
-	$field(this.@value);
+	$field(this.@sym_value);
+}
+
+base_symbol.@to_identifier = function() {
+	if(this.@identifier != null)
+		this.@identifier;
+	else
+		this.@identifier = to_identifier($field(this.@sym_value));
+
+	this.@identifier;
 }
 
 to_id_list = $hnew(22);
@@ -2133,12 +2141,13 @@ $hset(from_id_list, "@dollar", "$", null)
 to_id_regexp_symbols = regexp_new("!=|>=|<=|\\|\\||[!?\\-*+^@~\\/\\\\><$_%|&=]"); 
 to_id_regexp_keywords = regexp_new("\\b(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)\\b");
 to_identifier = function(string) {
-	if($typeof(string) == $tobject && $objget(string, $hash("@value")) != null) {
-		string = string.@value;
-	}
-	//String was a symbol, already escaped
-	if($typeof(string) == $tint) {
-		return $field(string);
+	if($typeof(string) == $tobject) {
+		if($objget(string, $hash("@neko_string")) != null) {
+			string = string.@neko_string();
+		}
+		else if($objget(string, $hash("@sym_value")) != null) {
+			return string.@to_identifier();
+		}
 	}
 	if($typeof(string) != $tstring)
 		$throw("Cannot convert " + $string(string) + " to an identifier.");
