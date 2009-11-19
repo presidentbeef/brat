@@ -686,6 +686,22 @@ base_object.method@underarity = function(func) {
 		$throw(base_exception.new($string(func) + " is not a function, cannot report its arity."));
 }
 
+base_object.tap = function(block) {
+	if($typeof(block) == $tfunction) {
+		var args = $nargs(block);
+		if(args < 1)
+			block();
+		else if(args == 1)
+			block(this);
+		else
+			$throw(base_exception.argument_error("object.tap", "function taking a single argument", block));
+	}
+	else
+		$throw(base_exception.argument_error("object.tap", "function taking a single argument", block));
+
+	this;
+}
+
 sys_exit = $loader.loadprim("std@sys_exit", 1);
 base_object.exit = $varargs(function(exit_code) {
 	if($asize(exit_code) == 0)
