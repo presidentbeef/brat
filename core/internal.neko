@@ -1098,7 +1098,7 @@ base_array.__get = $varargs(function(args) {
 		$throw(base_exception.argument_error("array.get", "1 or 2", $asize(args)));
 	else if($asize(args) == 1) {
 		if($not($objget(args[0], $hash("@nvalue")) != null))
-			$throw(base_exception.argument_error("array[]", "number", args[0]));
+			$throw(base_exception.argument_error("array[]", "integer", args[0]));
 
 		var index = args[0].@nvalue();
 		if(index >= len || index < -len) {
@@ -2198,25 +2198,29 @@ base_object.memstats = function() {
 
 base_exception = new_brat(null);
 base_exception.new = $varargs(function(args) {
-	var arg_len = $nargs(args);
-	var e new_brat(this);
+	var arg_len = $asize(args);
+	var e = new_brat(this);
 	if(arg_len == 0) {
 	}
 	else if(arg_len == 1) {
-		e.error_message = msg;
+		e.error_message = args[0];
 		e.type = "standard";
 	}
 	else if(arg_len == 2) {
-		e.error_message = msg;
-		e.type = "standard";
+		e.error_message = args[0];
+		e.type = args[1];
 	}
 	else {
 		$throw("Error creating error.");
 	}
+
+	e;
 })
 
+base_exception.@to_s = function() { this.error_message }
+
 base_exception.argument_error = function(name, expected, got) {
-	this.new("Argument error: Expected " + $string(expected) + " argument(s) but was given " + $string(given) + "for " + $string(name) + ".", "argument error");
+	this.new("Argument error: Expected " + $string(expected) + " argument(s) but was given " + $string(given) + " for " + $string(name) + ".", "argument error");
 }
 
 base_exception.convert_error = function(current, to) {
