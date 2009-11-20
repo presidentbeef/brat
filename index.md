@@ -18,10 +18,9 @@ layout: default
 </div>
 
 #### Latest blog post
+ 
 
-<div>
 {{ site.posts.first.date | date_to_string }} - [{{ site.posts.first.title }}](/brat/{{ site.posts.first.url }})
-</div>
 
 ## What It Is
 
