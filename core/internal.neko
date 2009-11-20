@@ -525,6 +525,10 @@ base_object.when = $varargs(function(args) {
 	}	
 })
 
+base_object.include = $varargs(function(args) {
+	this.squish($objcall(this, $hash("import"), args));
+})
+
 base_object.import = $varargs(function(args) {
 	if($asize(args) == 1) {
 		if($objget(args[0], $hash("@value")) != null) {

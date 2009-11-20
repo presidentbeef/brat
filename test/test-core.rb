@@ -248,4 +248,9 @@ class BratCoreTests < Test::Unit::TestCase
 		assert_result "[]", '"".split "hello"'
 		assert_result "[h,e,l,l,o]", '"hello".split ""'
 	end
+
+	def test_include
+		assert_result "[]", "include 'set'; set.new"
+		assert_result "true", "include 'thread', 'queue'; has_method? :pop"
+	end
 end
