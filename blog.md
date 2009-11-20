@@ -11,4 +11,6 @@ title: Development Blog
 </div>
 {% endfor %}
 
+<div style="margin-top: 15px; text-align:right">
 [More posts...](archive.html)
+</div>
