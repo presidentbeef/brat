@@ -4,6 +4,7 @@ layout: default
 ---
 ## Recent Activity
 
+### Code changes
 <div id="github-commit-badge-container">
 	<script type="text/javascript">
 		var Badges = new Array();
@@ -16,10 +17,13 @@ layout: default
 	</script>
 </div>
 
+### Latest blog post
+
+{{ site.posts.first.date | date_to_string }} - [{{ site.posts.first.title }}]({{ site.posts.first.url }})
 
 ## What It Is
 
-Brat is a little toy language that _just doesn't care_.
+Brat is a little toy language that _just doesn't care_. It is dynamically typed, with objects, first-class functions, and simple syntax.
 
 ## Where It Is
 
