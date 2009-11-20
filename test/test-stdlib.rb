@@ -42,4 +42,12 @@ class BratStdlibTests < Test::Unit::TestCase
 	def test_set_clear
 		assert_result "true", 'squish import "set"; s = set.new; a = new; s << a << 1 << 2 << a; s.clear; s.empty?'
 	end
+
+	def test_set_compare
+		assert_result "false", "squish import 'set'; s = set.new 1,2,3; t = 1; s == t"
+		assert_result "false", "squish import 'set'; s = set.new 1,2,3; t = set.new 1,2,3,4,6,7,8,9,10; t == s"
+		assert_result "false", "squish import 'set'; s = set.new 1,2,3; t = set.new 1,2,4; s == t"
+		assert_result "true", "squish import 'set'; s = set.new 1,2,3; t = set.new 1,2,3; s == t"
+		assert_result "true", "squish import 'set'; s = set.new 1,2,3; s == s"
+	end
 end

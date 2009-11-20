@@ -8,7 +8,7 @@ set.new = $varargs(function(args) {
 	if(arglen == 1) {
 		if($typeof(args[0]) == $tarray)
 			args = args[0];
-		else if($typeof(args[0]) == $tobject && @brat.has_field(args[0], "@neko_array")) {
+		else if($typeof(args[0]) == $tobject && $objget(args[0], $hash("@neko_array")) != null) {
 			args = args[0].@neko_array();
 			arglen = $asize(args);
 		}
@@ -35,6 +35,33 @@ set.@to_s = function() {
 		this.@internal_hash.keys().@to_s();
 	else
 		"[]";
+}
+
+set.@equal@equal = function(rhs) {
+	if($pcompare(this, rhs) == 0)
+		@brat.base_object.@@true;
+	else if($objget(rhs, $hash("@internal_hash")) == null)
+		@brat.base_object.@@false;
+	else if(this.length().@value != rhs.length().@value)
+		@brat.base_object.@@false;
+	else {
+		var flag = true;
+		var keys = this.@internal_hash.keys().@neko_array();
+		var stop = $asize(keys);
+		var index = 0;
+
+		while(index < stop && flag) {
+			if(rhs.include@question(keys[index]) == @brat.base_object.@@false)
+				flag = false;
+
+			index = index + 1;
+		}
+
+		if(flag)
+			@brat.base_object.@@true;
+		else
+			@brat.base_object.@@false;
+	}
 }
 
 set.add = function(item) {
