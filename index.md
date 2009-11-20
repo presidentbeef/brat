@@ -19,7 +19,7 @@ layout: default
 
 ### Latest blog post
 
-{{ site.posts.first.date | date_to_string }} - [{{ site.posts.first.title }}]({{ site.posts.first.url }})
+* {{ site.posts.first.date | date_to_string }} - [{{ site.posts.first.title }}](brat/{{ site.posts.first.url }})
 
 ## What It Is
 
