@@ -4,7 +4,8 @@ layout: default
 ---
 ## Recent Activity
 
-#### Code changes
+[{{ site.posts.first.title }}](/brat/{{ site.posts.first.url }}) - {{ site.posts.first.date | date_to_string }}
+
 <div id="github-commit-badge-container">
 	<script type="text/javascript">
 		var Badges = new Array();
@@ -16,11 +17,6 @@ layout: default
 	<script type="text/javascript" src="js/github-commit-badge.js">
 	</script>
 </div>
-
-#### Latest blog post
- 
-
-{{ site.posts.first.date | date_to_string }} - [{{ site.posts.first.title }}](/brat/{{ site.posts.first.url }})
 
 ## What It Is
 
