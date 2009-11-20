@@ -7,6 +7,9 @@ layout: default
 ### Information
 
 * [Quickstart](quickstart.html)
+* [Overview](overview.html)
+* [Features](features.html)
+* [Setup](setup.html)
 * [Examples](examples.html)
 * [Modules](modules.html)
 

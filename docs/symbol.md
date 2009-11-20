@@ -2,7 +2,7 @@
 layout: doc
 lib: thread
 object: thread
-desc: "Symbols are like strings, except they are immutable and are stored as integers. So, not much like strings at all."
+desc: "Symbols are like strings, except they are immutable and are stored as integers. So, not much like strings at all. Compared to strings, however, they are faster to compare, faster for things like referencing method names, and use less memory."
 methlist:
 - new
 - to_s
@@ -13,7 +13,7 @@ methlist:
 Symbols have a literal syntax that looks like:
 
 {% highlight ruby %}
-'a_symbol
+:a_symbol
 {% endhighlight %}
 
 ### new
