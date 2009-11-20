@@ -182,7 +182,9 @@ base_object.@null = function() { base_object.@@null }
 base_object.@@null.to@unders = function() { base_string.new("null") };
 
 base_object.@equal@equal = function(rhs) {
-	if($objget(this, $hash("@less@equal@greater")) != null) {
+	if($pcompare(this, rhs) == 0)
+		base_object.@@true;
+	else if($objget(this, $hash("@less@equal@greater")) != null) {
 		if(this.@less@equal@greater(rhs).@nvalue() == 0)
 			base_object.@@true;
 		else
@@ -974,25 +976,31 @@ base_number.@up = function(num) {
 }
 
 base_number.@less@equal@greater = function(num) {
+	base_number.new(this.@compare(num));
+}
+
+base_number.@compare = function(num) {
 	if($objget(num, $hash("@native")) != null) {
 		var rhs = num.@value;
 		var lhs = this.@value;
 
 		if(this.@native && num.@native)
-			base_number.new($compare(lhs,rhs));
+			$compare(lhs,rhs);
 		else if(is_num(lhs) && is_num(rhs)) 
-			base_number.new(num_cmp(lhs, rhs));
+			num_cmp(lhs, rhs);
 		else 
-			base_number.new(num_cmp(to_bignum(lhs), to_bignum(rhs)));
+			num_cmp(to_bignum(lhs), to_bignum(rhs));
 	}
 	else
 		$throw(base_exception.new("Cannot compare " + $string(this) + " and " + $string(num)));
 }
 
 base_number.@equal@equal = function(num) {
-	if($not($objget(num, $hash("@native")) != null))
+	if($pcompare(this, rhs) == 0)
+		base_object.@@true;
+	else if($not($objget(num, $hash("@native")) != null))
 		base_object.@@false;
-	else if(this.@less@equal@greater(num).@value == 0)
+	else if(this.@compare(num) == 0)
 		base_object.@@true;
 	else
 		base_object.@@false;
@@ -1227,8 +1235,8 @@ base_array.@plus = function(ary) {
 }
 
 base_array.@equal@equal = function(rhs) {
-	if(lhs == rhs)
-		return base_object.@@true;
+	if($pcompare(this, rhs) == 0)
+		base_object.@@true;
 	else if($typeof(rhs) != $tobject || $not($objget(rhs, $hash("@neko_array")) != null))
 		return base_object.@@false;
 
@@ -1711,7 +1719,9 @@ base_string.@neko_string = function() { this.@value }
 base_string.to@unders = function() { this }
 
 base_string.@equal@equal = function(rhs) {
-	if($typeof(rhs) == $tobject && $objget(rhs, $hash("@neko_string")) != null) {
+	if($pcompare(this, rhs) == 0)
+		base_object.@@true;
+	else if($typeof(rhs) == $tobject && $objget(rhs, $hash("@neko_string")) != null) {
 		if($compare(this.@neko_string(), rhs.@neko_string()) == 0)
 			base_object.@@true;
 		else
@@ -2082,12 +2092,12 @@ base_symbol.new = function(sym_string) {
 }
 
 base_symbol.@equal@equal = function(rhs) {
-	if($typeof(rhs) == $tobject && $objget(rhs, $hash("@sym_value")) != null)
+	if($pcompare(this, rhs) == 0)
+		base_object.@@true;
+	else if($typeof(rhs) == $tobject && $objget(rhs, $hash("@sym_value")) != null)
 		rhs = rhs.@sym_value;
 
-	if($typeof(rhs) != $tint)
-		base_object.@@false;
-	else if(this.@sym_value == rhs)
+	if($pcompare(this.@sym_value, rhs) == 0)
 		base_object.@@true;
 	else
 		base_object.@@false;
