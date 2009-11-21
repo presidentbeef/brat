@@ -15,6 +15,7 @@ methlist:
 - read_line
 - read_err_line
 - run
+- stop
 - write
 - write_line
 ---
@@ -85,6 +86,11 @@ Returns a line from the subprocess' standard error.
 Creates and launches an external process based on the command given. Can be used without arguments if they have already been set up using _new_.
 
 Note that the arguments to the command need to be passed in as an array.
+
+### stop
+>_subprocess_.stop
+
+Kills the subprocess, if it is still running.
 
 ### write
 >_subprocess_.write _string_
