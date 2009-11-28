@@ -1,9 +1,11 @@
 class Treetop::Runtime::SyntaxNode
 	attr_reader :result
+	#Keep track of variable scope
 	@variables = [Hash.new]
 	@variables[-1][:current_scope] = { :variable => "@temp#{0}", :next_index => 0 }
-	@replacements = Hash.new
 	@temp = 1
+	
+	#Operator precedence. Lower values are lower precedence.
 	Precedence = {"@oror"=>1, 
 			"@and@and"=>2, 
 			"@less@equal@greater"=>3, 
@@ -58,10 +60,6 @@ class Treetop::Runtime::SyntaxNode
 
 	def variables
 		@@variables
-	end
-
-	def replacements
-		@@replacements
 	end
 
 	def self.clear_variables
