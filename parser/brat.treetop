@@ -13,6 +13,7 @@ grammar BaseBrat
 			"string = @brat.base_string;" <<
 			"regex = @brat.base_regex;" <<
 			"symbol = @brat.base_symbol;" <<
+			"exception = @brat.base_exception;" <<
 			"object = this;" <<
 			"this.export = function(object, name) {
 				if(@brat.has_field(name, \"@value\")) { 
@@ -41,6 +42,7 @@ grammar BaseBrat
 			string = @brat.base_string;
 			regex = @brat.base_regex;
 			symbol = @brat.base_symbol;
+			exception = @brat.base_exception;
 			object = @brat.base_object;
 			this = @brat.base_object;
 			export = function(object, name) {
@@ -61,6 +63,7 @@ grammar BaseBrat
 			$exports.base_object = object;
 			$exports.base_regex = regex;
 			$exports.base_symbol = symbol;
+			$exports.base_exception = exception;
 			$exports.nice_identifier = @brat.nice_identifier;
 			$exports.to_identifier = @brat.to_identifier;
 			$exports.brat_var_args = @brat.brat_var_args;
