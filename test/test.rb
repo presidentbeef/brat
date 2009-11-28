@@ -7,7 +7,7 @@ require 'test/test-core'
 require 'test/test-stdlib'
 
 $stderr.puts "Compiling parser..."
-system "cd parser && tt brat.treetop"
+system "cd parser && tt -f brat.treetop"
 
 $stderr.puts "Loading parser..."
 Treetop.load 'parser/brat'
@@ -85,6 +85,7 @@ class BratParserTest < Test::Unit::TestCase
 		parse("hello")
 		parse("what.what?")
 		parse("hello()")
+		parse("p f test: 'hello' test2: 'there'")
 	end
 
 	def test_chained_method_parse
@@ -356,6 +357,12 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "1", "a = {x, y, z| z[\"f\"] }; a 1, \"f\":1, 2"
 		assert_result "1", "a = {x, y, z| z[:f] }; a 1, f:1, 2"
 		assert_result "2", "a = {x, y, z| z[:g] }; a 1, f:1, 2, :g : 2"
+	end
+
+	def test_named_args_no_commas
+		assert_result "hello", "f = { args | args[:test] }; f test: 'hello', test2: 'world'"
+		assert_result "hello", "f = { args | args[:test] }; f test: 'hello' test2: 'world'"
+		assert_result "hello", "f = { block, args | block(args[:test]) }; f {x | x} test: 'hello' test2: 'world'"
 	end
 
 	def test_closure_args
@@ -836,5 +843,22 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_recursive_scope
 		assert_result "2", "a = { x | y = x + 1; true? (x < 3) { a(x + 1) }; y }; a(1)"
+	end
+
+	def test_protect
+		assert_result "true", "protect { throw 'TEST!' }; true"
+	end
+
+	def test_rescue
+		assert_result "hello", "protect { throw 'eep' } rescue: { e | 'hello' }"
+		assert_result "hello", "protect { throw 'eep' } rescue: { 'hello' }"
+	end
+
+	def test_exceptions
+		assert_result "standard error", "protect { throw exception.new } rescue: { e | e.type }"
+		assert_result "argument error", "f = { }; protect { f 1 } rescue: { e | e.type }"
+		assert_result "null error", "protect { f } rescue: { e | e.type }"
+		assert_result "method error", "f = new; protect { f.test } rescue: { e | e.type }"
+		assert_result "hello", "f = { }; protect { f 1 }; 'hello'"
 	end
 end
