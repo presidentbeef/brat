@@ -2210,14 +2210,102 @@ base_object.memstats = function() {
 	$print("After running gc:", gc_stats(), "\n");
 }
 
+convert_stack = function(array) {
+	var index = 0;
+	var stop = $asize(array) - 1; //skip last, that's us catching it
+	var stack = $amake(stop);
+	var current = null;
+
+	while(index < stop) {
+		current = array[index];
+		if(current == null)
+			stack[index] = base_object.@@null;
+		else if($typeof(current) == $tstring)
+			stack[index] = base_string.new(current);
+		else if($typeof(current) == $tarray)
+			stack[index] = base_string.new($string(current[0]) + " : " + $string(current[1]));
+		else
+			stack[index] = current;
+
+		index = index + 1;
+	}
+
+	base_array.new(stack);
+}
+
+base_object.protect = $varargs(function(args) {
+	var arglen = $asize(args);
+	var block;
+	var options;
+
+	if(arglen < 1)
+		$throw(base_exception.argument_error("protect", "at least one argument", "0"));
+	else if(arglen == 1) {
+		if($typeof(args[0]) != $tfunction)
+			$throw(base_exception.argument_error("protect", "block argument", args[0]));
+
+		block = args[0];			
+	}
+	else if(arglen == 2) {
+		if($typeof(args[0]) != $tfunction)
+			$throw(base_exception.argument_error("protect", "block argument as first argument", args[0]));
+	
+		block = args[0];
+
+		if($typeof(args[1]) != $tobject || $objget(args[1], $hash("@internal_hash")) == null)
+			$throw(base_exception.argument_error("protect", "hash object as second argument", args[1]));
+
+		options = args[1];
+	}
+	else
+		$throw(base_exception.argument_error("protect", "at most two arguments", arglen));
+		
+	try {
+		block();
+	}
+	catch e {
+		if(options != null) {
+			var rescue = base_symbol.new("rescue");
+
+			if($typeof(e) == $tstring)
+				e = base_exception.new(e);
+
+			e.stack_trace = convert_stack($callstack());
+
+			if($typeof(options) == $tobject && istrue(options.key@question(rescue))) {
+				var rescue_block = options.get(rescue);
+				if($typeof(rescue_block) == $tfunction) {
+					if($nargs(rescue_block) == 0)
+						rescue_block();
+					else
+						rescue_block(e);
+				}
+				else
+					$throw(base_exception.argument_error("rescue", "block", rescue_block));
+			}
+		}
+	}
+})
+
+base_object.throw = function(exception) {
+	if($objget(exception, $hash("@neko_string")) != null)
+		exception = base_exception.new(exception);
+	
+	$throw(exception);
+}
+
 base_exception = new_brat(null);
 base_exception.new = $varargs(function(args) {
 	var arg_len = $asize(args);
 	var e = new_brat(this);
 	if(arg_len == 0) {
+		e.error_message = "Unspecified exception";
+		e.type = "unspecified"
 	}
 	else if(arg_len == 1) {
 		e.error_message = args[0];
+		if($typeof(e.error_message) == $tstring)
+			e.error_message = base_string.new(e.error_message);
 		e.type = "standard";
 	}
 	else if(arg_len == 2) {
@@ -2228,10 +2316,12 @@ base_exception.new = $varargs(function(args) {
 		$throw("Error creating error.");
 	}
 
+	e.stack_trace = base_array.new($amake(0));
+
 	e;
 })
 
-base_exception.@to_s = function() { this.error_message }
+base_exception.@to_s = function() { $string(this.error_message) + "\nBacktrace:\n" + $string(this.stack_trace) }
 
 base_exception.argument_error = function(name, expected, got) {
 	this.new("Argument error: Expected " + $string(expected) + " argument(s) but was given " + $string(given) + " for " + $string(name) + ".", "argument error");
@@ -2256,6 +2346,7 @@ $exports.base_string = base_string;
 $exports.base_object = base_object;
 $exports.base_regex = base_regex;
 $exports.base_symbol = base_symbol;
+$exports.base_exception = base_exception;
 $exports.memstats = memstats;
 $exports.nice_identifier = from_identifier;
 $exports.to_identifier = to_identifier;
