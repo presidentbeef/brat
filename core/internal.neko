@@ -100,7 +100,7 @@ base_object.p = $varargs(function(args) {
 
 base_object.squish = function(object) {
 	if($typeof(object) != $tobject)
-		$throw("object.squish", "object", object);
+		$throw(base_exception.argument_error("object.squish", "object", object));
 
 	var fields = $objfields(object);
 	var num_fields = $asize(fields);
