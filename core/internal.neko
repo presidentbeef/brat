@@ -2297,27 +2297,40 @@ base_object.throw = function(exception) {
 base_exception = new_brat(null);
 base_exception.new = $varargs(function(args) {
 	var arg_len = $asize(args);
-	var e = new_brat(this);
+	var error_message;
+	var type = "standard error";
+
 	if(arg_len == 0) {
-		e.error_message = "Unspecified exception";
-		e.type = "unspecified"
+		error_message = "Unspecified exception";
 	}
 	else if(arg_len == 1) {
-		e.error_message = args[0];
-		if($typeof(e.error_message) == $tstring)
-			e.error_message = base_string.new(e.error_message);
-		e.type = "standard";
+		error_message = args[0];
 	}
 	else if(arg_len == 2) {
-		e.error_message = args[0];
-		e.type = args[1];
+		error_message = args[0];
+		type = args[1];
 	}
 	else {
-		$throw("Error creating error.");
+		$throw(base_exception.argument_error("base_exception.new", "1 or 2", arg_len))
 	}
 
-	e.stack_trace = base_array.new($amake(0));
+	if($typeof(error_message) == $tstring)
+		error_message = base_string.new(error_message);
+	else if($typeof(error_message) != $tobject || $objget(error_message, "@neko_string") == null)
+		$throw(base_exception.argument_error("base_exception.new", "string", error_message));
 
+	if($typeof(type) == $tstring)
+		type = base_string.new(type);
+	else if($typeof(type) != $tobject || $objget(type, "@neko_string") == null)
+		$throw(base_exception.argument_error("base_exception.new", "string", type));
+
+
+	stack_trace = base_array.new($amake(0));
+
+	var e = new_brat(this);
+	e.error_message = function() { error_message };
+	e.type = function() { type };
+	e.stack_trace = function() { stack_trance };
 	e;
 })
 
@@ -2333,6 +2346,10 @@ base_exception.convert_error = function(current, to) {
 
 base_exception.no_method = function(object, name) {
 	this.new("Method error: " + $string(object) + " has no method called '" + $string(name) + "'.", "method error");
+}
+
+base_exception.null_error = function(name, cannot) {
+	this.new("Null error: " + $string(name) + " is null, cannot " + $string(cannot) + ".", "null error");
 }
 
 $exports.hset = hset;

@@ -77,7 +77,7 @@ class Treetop::Runtime::SyntaxNode
 		#"\n$print("Calling ", method, " on ", #{object}, " with (", #{arguments}, ")\\n");"
 		<<-NEKO
 		if(#{temp} == null) {
-			$throw("Method invoked on null object.");
+			$throw(exception.null_error("#{nice_id object}", "invoke #{nice_id method} on it"));
 		}
 		else {
 			if(#{has_field(temp, method)}) {
@@ -89,13 +89,13 @@ class Treetop::Runtime::SyntaxNode
 					#{temp}.#{method}($array(#{arguments}));
 				}
 				else
-					$throw("Wrong number of arguments for #{nice_id object}.#{nice_id method}: should be " + $string(arg_len) + " but given #{arg_length}.");
+					$throw(exception.argument_error("#{nice_id object}.#{nice_id method}",  $string(arg_len), #{arg_length}));
 			}
 			else if(#{has_field(temp, "no@undermethod")}) {
 				#{call_no_method temp, method, arguments, arg_length}
 			}
 			else
-				$throw("Invoking undefined method #{nice_id method} on #{nice_id object}");
+				$throw(exception.no_method("#{nice_id object}", "#{nice_id method}"));
 		}
 		NEKO
 	end
@@ -119,7 +119,7 @@ class Treetop::Runtime::SyntaxNode
 			else if(@nma == -2)
 				#{no_meth}($array(#{arguments}));
 			else
-				$throw("Wrong number of arguments for no_method: should be " + $string(@nma) + " but given #{arg_length}.");
+				$throw(exception.argument_error("no_method", $string(@nma), #{arg_length}));
 			NEKO
 		else
 			<<-NEKO
@@ -129,7 +129,7 @@ class Treetop::Runtime::SyntaxNode
 			else if(@nma == -2)
 				#{object}.no@undermethod($array(#{arguments}));
 			else
-				$throw("Wrong number of arguments for no_method: should be " + $string(@nma) + " but given #{arg_length}.");
+				$throw(exception.argument_error("#{nice_id object}.no_method", $string(@nma), #{arg_length}));
 			NEKO
 		end
 	end
@@ -150,7 +150,7 @@ class Treetop::Runtime::SyntaxNode
 			}
 			else
 			{
-				$throw("Trying to invoke null method: #{nice_id object}");
+				$throw(exception.null_error("#{nice_id object}", "get value"));
 			}
 		} else {
 			if($typeof(#{temp}) == $tfunction) {
@@ -161,11 +161,11 @@ class Treetop::Runtime::SyntaxNode
 				else if(arg_len == -2)
 					#{temp}($array(#{arguments}));
 				else
-					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
+					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
 			}
 		NEKO
 		if arg_length > 0
-			output << "else { $throw(\"Tried to invoke non-method: #{nice_id object}\"); }}"
+			output << "else { $throw(exception.new(\"Tried to invoke non-method: #{nice_id object}\")); }}"
 		else
 			output << "else { #{temp}; }}"
 		end
@@ -185,7 +185,7 @@ class Treetop::Runtime::SyntaxNode
 				else if(arg_len == -2)
 					#@result($array(#{arguments}));
 				else
-					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
+					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
 			}
 			else if(#{has_field("this", "no@undermethod")}) {
 				#{call_no_method "this", object, arguments, arg_length}
@@ -194,7 +194,7 @@ class Treetop::Runtime::SyntaxNode
 				#{call_no_method nil, object, arguments, arg_length}
 			}
 			else
-				$throw("Trying to invoke null method: #{nice_id object}");
+				$throw(exception.null_error("#{nice_id object}", "invoke method"));
 		} else {
 			if($typeof(#{temp}) == $tfunction) {
 				var arg_len = $nargs(#{temp});
@@ -203,10 +203,10 @@ class Treetop::Runtime::SyntaxNode
 				else if(arg_len == -2)
 					#{temp}($array(#{arguments}));
 				else
-					$throw("Wrong number of arguments for #{nice_id object}. Expected " + $string(arg_len) + " but given #{arg_length}.");
+					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
 			}
 			else if(#{arg_length != 0 ? "true" : "false"}) {
-				$throw("Tried to invoke non-method: #{nice_id object}");
+				$throw(base_exception.new("Tried to invoke non-method: #{nice_id object}"));
 			}
 			else { 
 				#{temp}; 
@@ -225,7 +225,7 @@ class Treetop::Runtime::SyntaxNode
 				#{call_no_method "this", method, arguments, arg_length}
 			}
 			else
-				$throw("Could not invoke null method: #{nice_id method}");
+				$throw(exception.null_error("#{nice_id method}", "invoke method"));
 		}
 		else {
 			var arg_len = $nargs(#{temp});
@@ -235,7 +235,7 @@ class Treetop::Runtime::SyntaxNode
 				#{temp}($array(#{arguments}));
 			}
 			else
-				$throw("Wrong number of arguments for #{nice_id method}. Expected " + $string(arg_len) + " but given #{arg_length}.");
+				$throw(exception.argument_error("#{nice_id method}", $string(arg_len), #{arg_length}));
 		}
 		NEKO
 	end

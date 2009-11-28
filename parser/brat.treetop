@@ -20,7 +20,7 @@ grammar BaseBrat
 					$objset($exports, $hash(@brat.to_identifier(name.@value)), object);
 				}
 			else
-				$throw(\"Import expects a string, not \" + $string(name));
+				$throw(exception.argument_error(\"import\", \"a string\", $string(name)));
 			}\n" <<
 			self.inner_brat << ";\n" <<
 			"}\n" <<
@@ -50,7 +50,7 @@ grammar BaseBrat
 					$objset($exports, $hash(@brat.nice_identifier(name.@value)), object);
 				}
 			else
-				$throw("Import expects a string, not " + $string(name));
+				$throw(exception.argument_error("import", "a string", $string(name)));
 			}
 			#{inner_brat}
 			$exports.has_field = @brat.has_field;
@@ -583,11 +583,11 @@ grammar BaseBrat
 			"@args"	
 		end
 
-		def function_header
+		def function_header name = "function"
 			default_args.brat
 			output = "var @arg_len = $asize(@args);" <<
 				"if(@arg_len > #{default_args.args.length})" <<
-					"$throw(\"Function only accepts up to #{default_args.args.length} arguments.\");"
+					"$throw(exception.argument_error(\"function\", \"up to #{default_args.args.length}\"));"
 
 			#Check and set default args
 			i = default_args.args.length
@@ -642,7 +642,7 @@ grammar BaseBrat
 			plain_formals.brat
 			req_args = plain_formals.args.length
 			i = 0
-			output = "if($asize(@args) < #{req_args}) $throw(\"Expected at least #{req_args} argument(s).\");\n"
+			output = "if($asize(@args) < #{req_args}) $throw(exception.new(\"function\", \"at least #{req_args}\"));\n"
 
 			plain_formals.args.each do |a|
 				output << "#{a} = @args[#{i}];\n"
@@ -721,7 +721,7 @@ grammar BaseBrat
 			def_args = default_args.args.length
 			req_args = plain_formals.args.length
 			output = "var @arg_len = $asize(@args);" <<
-				"if($asize(@args) < #{req_args}) $throw(\"Expected at least #{req_args} argument(s).\");"
+				"if($asize(@args) < #{req_args}) $throw(exception.argument_error(\"function\", \"at least #{req_args}\"));"
 
 			i = 0
 			plain_formals.args.each do |a|
@@ -781,9 +781,9 @@ grammar BaseBrat
 			def_args = default_args.args.length
 			req_args = plain_formals.args.length
 			output = "var @arg_len = $asize(@args);" <<
-				"if($asize(@args) < #{req_args}) $throw(\"Expected at least #{req_args} argument(s).\");\n" <<
+				"if($asize(@args) < #{req_args}) $throw(exception.argument_error(\"function\", \"at least #{req_args}\"));\n" <<
 				"if(@arg_len > #{def_args + req_args})" <<
-					"$throw(\"Function only accepts up to #{def_args + req_args} argument(s).\");"
+					"$throw(exception.argument_error(\"function\", \"up to #{def_args + req_args}\"));"
 
 			i = 0
 			plain_formals.args.each do |a|
@@ -1104,8 +1104,8 @@ grammar BaseBrat
 			" #@result = " << invoke(temp, arg_list.list, arg_list.length) << ";" <<
 			" } else if($typeof(#{temp}) == $tobject) { " <<
 			"  #@result = #{temp}}" <<
-			"else if($typeof(#{temp}) == $tnull) { $throw(\"Cannot call method on #{nice_id name}, as it is null.\"); }" <<
-			"else { $throw(\"Could not invoke method on #{nice_id name}.\") };"
+			"else if($typeof(#{temp}) == $tnull) { $throw(exception.null_error(\"#{nice_id name}\", \"cannot call method on it\")); }" <<
+			"else { $throw(exception.no_method(\"#{nice_id name}\", \"#{identifier.text_value}\")) };"
 			last = @result
 			if not a.elements.empty?
 				a.elements.each do |elem|
@@ -1164,7 +1164,7 @@ grammar BaseBrat
 				"var #@result;" <<
 				"if(#{name} == null) {" <<
 					"#@result = $objget(this, $hash(\"#{name}\"));" <<
-					"if(#@result == null) $throw(\"Cannot access #{nice_id name}, it is null.\");" <<
+					"if(#@result == null) $throw(exception.null_error(\"#{nice_id name}\", \"access it\"));" <<
 					"#@result;" <<
 				"} else { #@result = #{name} };\n"
 			end
@@ -1178,7 +1178,7 @@ grammar BaseBrat
 			o.brat <<
 			"var #@result;" <<
 			"#@result = $objget(#{o.result}, $hash(\"#{name}\"));" <<
-			"if(#@result == null) $throw(\"#{o.text_value} has no method #{nice_id name}.\"); #@result; \n"
+			"if(#@result == null) $throw(exception.no_method(\"#{o.text_value}\", \"#{nice_id name}\")); #@result; \n"
 		end
 	}
   end
