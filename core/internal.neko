@@ -2288,7 +2288,7 @@ base_object.protect = $varargs(function(args) {
 })
 
 base_object.throw = function(exception) {
-	if($objget(exception, $hash("@neko_string")) != null)
+	if($objget(exception, $hash("stack@undertrace")) == null)
 		exception = base_exception.new(exception);
 	
 	$throw(exception);
