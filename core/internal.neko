@@ -2333,7 +2333,12 @@ base_exception.new = $varargs(function(args) {
 	e;
 })
 
-base_exception.@to_s = function() { $string(this.error@undermessage()) + "\nBacktrace:\n" + $string(this.stack@undertrace()) }
+base_exception.@to_s = function() {
+	if($objget(this, $hash("error@undermessage")) == null)
+		"Uninitialized exception"
+	else
+		$string(this.error@undermessage()) + "\nBacktrace:\n" + $string(this.stack@undertrace())
+}
 
 base_exception.argument_error = function(name, expected, got) {
 	this.new("Argument error: Expected " + $string(expected) + " argument(s) but was given " + $string(given) + " for " + $string(name) + ".", "argument error");
