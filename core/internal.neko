@@ -624,7 +624,7 @@ base_object.call@undermethod = $varargs(function(args) {
 	var m = this.get@undermethod(args[0]);
 
 	if(m == base_object.@@null)
-		$throw(base_exception.no_method(this, args[0])); 
+		$throw(base_exception.method_error(this, args[0])); 
 
 	var nargs = $nargs(m);
 	if(nargs != -1 && nargs != arglen - 1)
@@ -2352,17 +2352,17 @@ base_exception.convert_error = function(current, to) {
 
 base_exception.convert@undererror = base_exception.convert_error;
 
-base_exception.no_method = function(object, name) {
+base_exception.method_error = function(object, name) {
 	this.new("Method error: " + $string(object) + " has no method called '" + $string(name) + "'.", "method error");
 }
 
-base_exception.no@undermethod = base_exception.no_method;
+base_exception.method@undererror = base_exception.method_error;
 
 base_exception.null_error = function(name, cannot) {
 	this.new("Null error: " + $string(name) + " is null, cannot " + $string(cannot) + ".", "null error");
 }
 
-base_exception.null@undererror = base_exception.null_err;
+base_exception.@null@undererror = base_exception.null_error;
 
 $exports.hset = hset;
 $exports.make_hash = make_hash;
