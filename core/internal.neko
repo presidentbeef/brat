@@ -2340,21 +2340,29 @@ base_exception.@to_s = function() {
 		$string(this.error@undermessage()) + "\nBacktrace:\n" + $string(this.stack@undertrace())
 }
 
-base_exception.argument_error = function(name, expected, got) {
-	this.new("Argument error: Expected " + $string(expected) + " argument(s) but was given " + $string(given) + " for " + $string(name) + ".", "argument error");
+base_exception.argument_error = function(name, expected, given) {
+	this.new("Argument error: " + $string(name) + " expected " + $string(expected) + " argument(s) but was given " + $string(given) + ".", "argument error");
 }
+
+base_exception.argument@undererror = base_exception.argument_error;
 
 base_exception.convert_error = function(current, to) {
 	this.new("Conversion error: Cannot convert " + $string(current) + " to " + $string(to) + ".", "convert error");
 }
 
+base_exception.convert@undererror = base_exception.convert_error;
+
 base_exception.no_method = function(object, name) {
 	this.new("Method error: " + $string(object) + " has no method called '" + $string(name) + "'.", "method error");
 }
 
+base_exception.no@undermethod = base_exception.no_method;
+
 base_exception.null_error = function(name, cannot) {
 	this.new("Null error: " + $string(name) + " is null, cannot " + $string(cannot) + ".", "null error");
 }
+
+base_exception.null@undererror = base_exception.null_err;
 
 $exports.hset = hset;
 $exports.make_hash = make_hash;
