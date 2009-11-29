@@ -7,7 +7,7 @@ require 'test/test-core'
 require 'test/test-stdlib'
 
 $stderr.puts "Compiling parser..."
-system "cd parser && tt -f brat.treetop"
+system "cd parser && rm brat.rb && tt brat.treetop"
 
 $stderr.puts "Loading parser..."
 Treetop.load 'parser/brat'
