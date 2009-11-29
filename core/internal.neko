@@ -2223,7 +2223,7 @@ convert_stack = function(array) {
 		else if($typeof(current) == $tstring)
 			stack[index] = base_string.new(current);
 		else if($typeof(current) == $tarray)
-			stack[index] = base_string.new($string(current[0]) + " : " + $string(current[1]));
+			stack[index] = base_array.new($array(base_string.new($string(current[0])), base_string.new($string(current[1]))));
 		else
 			stack[index] = current;
 
@@ -2270,7 +2270,8 @@ base_object.protect = $varargs(function(args) {
 			if($typeof(e) == $tstring)
 				e = base_exception.new(e);
 
-			e.stack_trace = convert_stack($callstack());
+			var stack = convert_stack($callstack());
+			e.stack@undertrace = function() { stack };
 
 			if($typeof(options) == $tobject && istrue(options.key@question(rescue))) {
 				var rescue_block = options.get(rescue);
@@ -2288,9 +2289,9 @@ base_object.protect = $varargs(function(args) {
 })
 
 base_object.throw = function(exception) {
-	if($objget(exception, $hash("stack@undertrace")) == null)
+	if($typeof(exception) != $tobject || $objget(exception, $hash("stack@undertrace")) == null)
 		exception = base_exception.new(exception);
-	
+
 	$throw(exception);
 }
 
@@ -2316,25 +2317,23 @@ base_exception.new = $varargs(function(args) {
 
 	if($typeof(error_message) == $tstring)
 		error_message = base_string.new(error_message);
-	else if($typeof(error_message) != $tobject || $objget(error_message, "@neko_string") == null)
+	else if($typeof(error_message) != $tobject || $objget(error_message, $hash("@neko_string")) == null)
 		$throw(base_exception.argument_error("base_exception.new", "string", error_message));
 
 	if($typeof(type) == $tstring)
 		type = base_string.new(type);
-	else if($typeof(type) != $tobject || $objget(type, "@neko_string") == null)
+	else if($typeof(type) != $tobject || $objget(type, $hash("@neko_string")) == null)
 		$throw(base_exception.argument_error("base_exception.new", "string", type));
 
-
-	stack_trace = base_array.new($amake(0));
-
 	var e = new_brat(this);
-	e.error_message = function() { error_message };
+	e.error@undermessage = function() { error_message };
 	e.type = function() { type };
-	e.stack_trace = function() { stack_trance };
+	var stack = convert_stack($callstack());
+	e.stack@undertrace = function() { stack };
 	e;
 })
 
-base_exception.@to_s = function() { $string(this.error_message) + "\nBacktrace:\n" + $string(this.stack_trace) }
+base_exception.@to_s = function() { $string(this.error@undermessage()) + "\nBacktrace:\n" + $string(this.stack@undertrace()) }
 
 base_exception.argument_error = function(name, expected, got) {
 	this.new("Argument error: Expected " + $string(expected) + " argument(s) but was given " + $string(given) + " for " + $string(name) + ".", "argument error");
