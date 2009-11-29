@@ -857,8 +857,10 @@ class BratParserTest < Test::Unit::TestCase
 	def test_exceptions
 		assert_result "standard error", "protect { throw exception.new } rescue: { e | e.type }"
 		assert_result "argument error", "f = { }; protect { f 1 } rescue: { e | e.type }"
+		assert_result "argument error", "f = { }; protect { throw exception.argument_error 'f', 2, 1 } rescue: { e | e.type }"
 		assert_result "null error", "protect { f } rescue: { e | e.type }"
-		assert_result "method error", "f = new; protect { f.test } rescue: { e | e.type }"
+		assert_result "null error", "protect { throw exception.null_error 'f', 'call null' } rescue: { e | e.type }"
+		assert_result "method error", "protect { throw exception.no_method 'o', 'f' } rescue: { e | e.type }"
 		assert_result "hello", "f = { }; protect { f 1 }; 'hello'"
 	end
 end
