@@ -9,7 +9,7 @@ var buffer_string = $loader.loadprim("std@buffer_string", 1);
 var variables = $hnew(50);
 var in = stdin();
 
-variables = console.run("@brat = $loader.loadmodule(\"core\", $loader);array = @brat.base_array; hash = @brat.base_hash; number = @brat.base_number; string = @brat.base_string; regex = @brat.base_regex; symbol = @brat.base_symbol;object = @brat.base_object;
+variables = console.run("@brat = $loader.loadmodule(\"core\", $loader);array = @brat.base_array; hash = @brat.base_hash; number = @brat.base_number; string = @brat.base_string; regex = @brat.base_regex; symbol = @brat.base_symbol;object = @brat.base_object;exception = @brat.base_exception;
 var stdin = $loader.loadprim(\"std@file_stdin\", 0);
 var read_char = $loader.loadprim(\"std@file_read_char\", 1);
 var buffer_new = $loader.loadprim(\"std@buffer_new\", 0);
