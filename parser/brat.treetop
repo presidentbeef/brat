@@ -1105,7 +1105,7 @@ grammar BaseBrat
 			" } else if($typeof(#{temp}) == $tobject) { " <<
 			"  #@result = #{temp}}" <<
 			"else if($typeof(#{temp}) == $tnull) { $throw(exception.null_error(\"#{nice_id name}\", \"cannot call method on it\")); }" <<
-			"else { $throw(exception.no_method(\"this\", \"#{nice_id name}\")) };"
+			"else { $throw(exception.method_error(\"this\", \"#{nice_id name}\")) };"
 			last = @result
 			if not a.elements.empty?
 				a.elements.each do |elem|
@@ -1178,7 +1178,7 @@ grammar BaseBrat
 			o.brat <<
 			"var #@result;" <<
 			"#@result = $objget(#{o.result}, $hash(\"#{name}\"));" <<
-			"if(#@result == null) $throw(exception.no_method(\"#{nice_id o.text_value}\", \"#{nice_id name}\")); #@result; \n"
+			"if(#@result == null) $throw(exception.method_error(\"#{nice_id o.text_value}\", \"#{nice_id name}\")); #@result; \n"
 		end
 	}
   end

@@ -95,7 +95,7 @@ class Treetop::Runtime::SyntaxNode
 				#{call_no_method temp, method, arguments, arg_length}
 			}
 			else
-				$throw(exception.no_method("#{nice_id object}", "#{nice_id method}"));
+				$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
 		}
 		NEKO
 	end
