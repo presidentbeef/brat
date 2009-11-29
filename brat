@@ -240,7 +240,7 @@ def brat_interactive options = {}
 		end
 
 		begin
-			neko = inner_brat line
+			neko = inner_brat "protect { #{line} } rescue: { e | p e.error_message }"
 		rescue Exception => e
 			puts "Parsing error: #{e}"
 			line = ""
