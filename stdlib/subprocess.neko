@@ -300,4 +300,14 @@ subprocess.pid = function() {
 		this.@pid = @brat.base_number.new(pid(this.@subproc));
 }
 
+kill = $loader.loadprim("std@process_kill", 1);
+subprocess.stop = function() {
+	if(this.@subproc != null) {
+		kill(this.@subproc);
+		@brat.@@true;
+	}
+	else
+		@brat.@@null;
+} 
+
 $exports.subprocess = subprocess;
