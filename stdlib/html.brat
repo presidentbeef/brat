@@ -1,0 +1,56 @@
+html_tags = [:a, :abbr, :acronym, :address, :applet, :area, :b, :base, :basefont, :bdo, :big, :blockquote, :body, :br, :button, :caption, :center, :cite, :code, :col, :colgroup, :dd, :del, :dfn, :dir, :div, :dl, :dt, :em, :fieldset, :font, :form, :h1, :h2, :h3, :h4, :h5, :h6, :head, :hr, :html, :i, :iframe, :img, :input, :ins, :isindex, :kbd, :label, :legend, :li, :link, :map, :menu, :meta, :noframes, :noscript, :object, :ol, :optgroup, :option, :p, :param, :pre, :q, :s, :samp, :script, :select, :small, :span, :strike, :strong, :style, :sub, :sup, :table, :tbody, :td, :textarea, :tfoot, :th, :thead, :title, :tr, :tt, :u, :ul, :var ]
+
+self_closing_tags = [:area, :base, :br, :col, :hr, :img, :input, :link, :meta, :param]
+
+builder = new
+
+html = { block |
+	b = builder.new ->block
+	"<html>" + b.output + "</html>"
+}
+
+builder.init = { content |
+	true? function?(->content)
+		{
+			my.output = ""
+			result = my.with_this ->content
+			false? null?(result),
+				{ my.output << result }
+		}
+		{ my.output = content }
+}
+
+builder.p = { content = "", options = [:] |
+	tag :p, ->content, options
+}
+
+builder.no_method = { name, content = "", options = [:] |
+	tag name, ->content, options
+}
+
+builder.append = { code |
+	my.output << code
+}
+
+builder.tag = { name, content = "", options = [:] |
+	false? html_tags.include?(name) 
+		{ "INVALID TAG: #{name}" }
+		{ true? self_closing_tags.include?(name)
+			{ append "<#{name}#{opt_output options}/>" }
+			{ append "<#{name}#{opt_output options}>" + builder.new(->content).output + "</#{name}>" }}
+
+	""
+}
+
+builder.opt_output = { options |
+	output = ""
+	false? options == null, {
+		options.each { key, value |
+			output << " #{key}=\"#{value}\""
+		}
+	}
+
+	output
+}
+
+export ->html, "html"
