@@ -1,4 +1,4 @@
-@brat = $loader.loadmodule("internal", $loader);
+@brat = $loader.loadmodule("core", $loader);
 
 file_exists = $loader.loadprim("std@sys_exists", 1);
 file@underexists@question = function(path) {

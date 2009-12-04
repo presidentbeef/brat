@@ -1,4 +1,4 @@
-@brat = $loader.loadmodule("internal", $loader);
+@brat = $loader.loadmodule("core", $loader);
 
 subprocess = @brat.base_object.new();
 subprocess.@subproc = null;

@@ -11,7 +11,7 @@ queue_push = $loader.loadprim("std@deque_add", 2);
 queue_pop = $loader.loadprim("std@deque_pop", 2);
 queue_prepend = $loader.loadprim("std@deque_push", 2);
 
-@brat = $loader.loadmodule("internal", $loader);
+@brat = $loader.loadmodule("core", $loader);
 
 thread = @brat.base_object.new();
 thread.@lock = null;
