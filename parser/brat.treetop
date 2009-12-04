@@ -32,43 +32,6 @@ grammar BaseBrat
 			output = elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";")
 			"var #{variables[-1][:current_scope][:variable]} = $amake(#{variables[-1][:current_scope][:next_index]});\n" << output
 		end
-
-		def core_brat
-			<<-NEKO
-			@brat = $loader.loadmodule("internal", $loader);
-			array = @brat.base_array;
-			hash = @brat.base_hash;
-			number = @brat.base_number;
-			string = @brat.base_string;
-			regex = @brat.base_regex;
-			symbol = @brat.base_symbol;
-			exception = @brat.base_exception;
-			object = @brat.base_object;
-			this = @brat.base_object;
-			export = function(object, name) {
-				if(@brat.has_field(name, "@value")) {
-					$objset($exports, $hash(@brat.nice_identifier(name.@value)), object);
-				}
-			else
-				$throw(exception.argument_error("import", "a string", $string(name)));
-			}
-			#{inner_brat}
-			$exports.has_field = @brat.has_field;
-			$exports.hset = @brat.hset;
-			$exports.make_hash = @brat.make_hash;
-			$exports.base_array = array;
-			$exports.base_hash = hash;
-			$exports.base_number = number;
-			$exports.base_string = string;
-			$exports.base_object = object;
-			$exports.base_regex = regex;
-			$exports.base_symbol = symbol;
-			$exports.base_exception = exception;
-			$exports.nice_identifier = @brat.nice_identifier;
-			$exports.to_identifier = @brat.to_identifier;
-			$exports.brat_var_args = @brat.brat_var_args;
-			NEKO
-		end
 	}
 	/
 	eof

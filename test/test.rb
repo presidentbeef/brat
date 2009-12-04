@@ -21,16 +21,8 @@ ENV['NEKOPATH'] = ENV['NEKOPATH'] + ":#{Dir.pwd}/bin/:#{Dir.pwd}/core/:#{Dir.pwd
 ENV['PATH'] ||= ""
 ENV['PATH'] = ENV['PATH'] + ":#{Dir.pwd}/bin/"
 
-$stderr.puts "Compiling internals..."
-system "nekoc core/internal.neko && nekoc -z core/internal.n"
-
 $stderr.puts "Compiling core..."
-File.open "core/core.neko", "w" do |f|
-	f.puts BaseBratParser.new.parse(File.read("core/core.brat")).core_brat
-end
-
-system "nekoc core/core.neko && nekoc -z core/core.n" or abort "Error while compiling program"
-File.delete "core/core.neko"
+system "nekoc core/core.neko && nekoc -z core/core.n"
 
 $stderr.puts "Compiling standard libraries..."
 stdlib_files = Dir.glob "#{Dir.pwd}/stdlib/*.neko"
