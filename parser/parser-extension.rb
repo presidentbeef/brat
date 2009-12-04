@@ -105,9 +105,9 @@ class Treetop::Runtime::SyntaxNode
 		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 
 		if arg_length == 0
-			arguments = "string.new(\"#{method}\")"
+			arguments = "symbol.new(\"#{method}\")"
 		else
-			arguments = "string.new(\"#{method}\")" << " , " << arguments
+			arguments = "symbol.new(\"#{method}\")" << " , " << arguments
 		end
 
 		arg_length += 1
