@@ -499,6 +499,11 @@ grammar BaseBrat
 
 			inner_function = l.elements.map {|e| e.brat}.join(";");
 
+			#Empty functions should return null object instead of Neko null
+			if inner_function.strip.gsub(";", "").length == 0
+				inner_function = "@brat.base_object.@@null";
+			end
+
 			if variables[-1].length == 1
 				environment = ""
 			else
