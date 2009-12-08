@@ -2486,6 +2486,12 @@ base_exception.null_error = function(name, cannot) {
 
 base_exception.@null@undererror = base_exception.null_error;
 
+base_exception.name_error = function(name) {
+	this.new("Name error: No such method or local variable '" + $string(name) + "'.", "name error");
+}
+
+base_exception.name@undererror = base_exception.name_error;
+
 $exports.hset = hset;
 $exports.make_hash = make_hash;
 $exports.new_brat = new_brat;

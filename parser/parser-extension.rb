@@ -150,7 +150,7 @@ class Treetop::Runtime::SyntaxNode
 			}
 			else
 			{
-				$throw(exception.null_error("#{nice_id object}", "get value"));
+				$throw(exception.name_error("#{nice_id object}"));
 			}
 		} else {
 			if($typeof(#{temp}) == $tfunction) {
@@ -194,7 +194,7 @@ class Treetop::Runtime::SyntaxNode
 				#{call_no_method nil, object, arguments, arg_length}
 			}
 			else
-				$throw(exception.null_error("#{nice_id object}", "invoke method"));
+				$throw(exception.name_error("#{nice_id object}"));
 		} else {
 			if($typeof(#{temp}) == $tfunction) {
 				var arg_len = $nargs(#{temp});
