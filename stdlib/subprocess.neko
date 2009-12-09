@@ -1,24 +1,25 @@
 @brat = $loader.loadmodule("core", $loader);
 
-subprocess = @brat.base_object.new();
-subprocess.@subproc = null;
-subprocess.@command = null;
-subprocess.@args = null;
+subprocess = @brat.new_brat(null);
+child = @brat.new_brat(null);
+child.@subproc = null;
+child.@command = null;
+child.@args = null;
 subprocess.new = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen == 0) {
-		var p = @brat.new_brat(this);
+		var p = @brat.new_brat(child);
 		p.@subproc = null;
 		p;
 	}
 	else if(arglen == 1 && $typeof(args[0]) == $tobject &&@brat.has_field(args[0], "@neko_string")) {
-		var p = @brat.new_brat(this);
+		var p = @brat.new_brat(child);
 		p.@command = args[0].@neko_string();
 		p.@subproc = null;
 		p;
 	}
 	else if(arglen == 2 && $typeof(args[0]) == $tobject && $typeof(args[1]) == $tobject &&@brat.has_field(args[0], "@neko_string") &&@brat.has_field(args[1], "@neko_array")) {
-		var p = @brat.new_brat(this);
+		var p = @brat.new_brat(child);
 		p.@command = args[0].@neko_string();
 		p.@subproc = null;
 		p.@args = args[1].@neko_array();
@@ -29,14 +30,14 @@ subprocess.new = $varargs(function(args) {
 			if($typeof(p.@args[i]) == $tobject && @brat.has_field(p.@args[i], "@neko_string"))
 				p.@args[i] = p.@args[i].@neko_string();
 			else
-				$throw("Expected string for argument to subprocess.");
+				$throw("Expected string for argument to child.");
 			i = i + 1;
 		}
 
 		p;
 	}
 	else
-		$throw("Invalid arguments to subprocess.new");
+		$throw("Invalid arguments to child.new");
 });
 
 run = $loader.loadprim("std@process_run", 2);
@@ -44,7 +45,7 @@ subprocess.run = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen == 0) {
 		if(this.@command == null) {
-			$throw("No program name given for subprocess.");
+			$throw("No program name given for child.");
 		}
 		else {
 			if(this.@args == null) {
@@ -57,13 +58,58 @@ subprocess.run = $varargs(function(args) {
 		this;
 	}
 	else {
-		var sub = $call(subprocess.new, subprocess, args);
+		var sub = $call(child.new, subprocess, args);
 		sub.run();
 	}
 });
 
+sys_fork = $loader.loadprim("core-util@sys_fork", 0);
+sys_exit = $loader.loadprim("std@sys_exit", 1);
+subprocess.fork = $varargs(function(args) {
+	var arglen = $asize(args);
+	if(arglen == 0) {
+		var pid = sys_fork();
+		@brat.base_number.new(pid);
+	}
+	else if(arglen == 1) {
+		var block = args[0];
+		if($typeof(block) != $tfunction)
+			$throw(@brat.base_exception.argument_error("fork", "a function", block));
+		
+		var pid = sys_fork();
+		if(pid == 0) {
+			block();
+			sys_exit(0);
+		}
+		else {
+			@brat.base_number.new(pid);
+		}
+	}
+	else
+		$throw(@brat.base_exception.argument_error("fork", "a function or no", args));
+
+})
+
+sys_wait = $loader.loadprim("core-util@sys_wait", 0);
+sys_waitpid = $loader.loadprim("core-util@sys_waitpid", 1);
+subprocess.wait = $varargs(function(args) {
+	var arglen = $asize(args);
+	if(arglen == 0)
+		@brat.base_number.new(sys_wait());
+	else if(arglen == 1) {
+		var pid = args[0];
+		if($typeof(pid) == $tobject && $objget(pid, $hash("@nvalue")) != null)
+			@brat.base_number.new(sys_waitpid(pid.@nvalue()));
+		else
+			$throw(@brat.base_exception.argument_error("wait", "number", pid));
+	}
+	else
+		$throw(@brat.base_exception.argument_error("wait", "number", args));
+
+})
+
 read_stdout = $loader.loadprim("std@process_stdout_read", 4);
-subprocess.read@underline = function() {
+child.read@underline = function() {
 	if(this.@subproc == null)
 		$throw("No process has been started to read from.");
 
@@ -93,7 +139,7 @@ subprocess.read@underline = function() {
 }
 
 read_stderr = $loader.loadprim("std@process_stderr_read", 4);
-subprocess.read@undererr@underline = function() {
+child.read@undererr@underline = function() {
 	if(this.@subproc == null)
 		$throw("No process has been started to read from.");
 
@@ -122,7 +168,7 @@ subprocess.read@undererr@underline = function() {
 	}
 }
 
-subprocess.read = function(length) {
+child.read = function(length) {
 	if(this.@subproc == null)
 		$throw("No process has been started to read from.");
 
@@ -130,7 +176,7 @@ subprocess.read = function(length) {
 		length = length.@nvalue();
 	}
 	if($typeof(length) != $tint) {
-		$throw("Expected integer for subprocess.read(), not " + $string(length));
+		$throw("Expected integer for child.read(), not " + $string(length));
 	}
 
 	if(this.@in_buffer != null && $ssize(this.@in_buffer) > 0) {
@@ -165,7 +211,7 @@ subprocess.read = function(length) {
 	}	
 }
 
-subprocess.read@undererr = function(length) {
+child.read@undererr = function(length) {
 	if(this.@subproc == null)
 		$throw("No process has been started to read from.");
 
@@ -173,7 +219,7 @@ subprocess.read@undererr = function(length) {
 		length = length.@nvalue();
 	}
 	if($typeof(length) != $tint) {
-		$throw("Expected integer for subprocess.read(), not " + $string(length));
+		$throw("Expected integer for child.read(), not " + $string(length));
 	}
 
 	if(this.@err_buffer != null && $ssize(this.@err_buffer) > 0) {
@@ -208,7 +254,7 @@ subprocess.read@undererr = function(length) {
 	}	
 }
 
-subprocess.each@underline = function(block) {
+child.each@underline = function(block) {
 	if($typeof(block) != $tfunction)
 		$throw("Expected a function.");
 
@@ -225,7 +271,7 @@ subprocess.each@underline = function(block) {
 	}
 }
 
-subprocess.each@undererr@underline = function(block) {
+child.each@undererr@underline = function(block) {
 	if($typeof(block) != $tfunction)
 		$throw("Expected a function.");
 
@@ -243,7 +289,7 @@ subprocess.each@undererr@underline = function(block) {
 }
 
 write = $loader.loadprim("std@process_stdin_write", 4);
-subprocess.write = function(message) {
+child.write = function(message) {
 	if(this.@subproc == null)
 		$throw("No process has been started.");
 
@@ -251,18 +297,18 @@ subprocess.write = function(message) {
 		message = message.@neko_string();
 	}
 	if($typeof(message) != $tstring) {
-		$throw("Can only write out strings to subprocess.");
+		$throw("Can only write out strings to child.");
 	}
 
 	@brat.base_number.new(write(this.@subproc, message, 0, $ssize(message)));
 }
 
-subprocess.write@underline = function(message) {
+child.write@underline = function(message) {
 	if($typeof(message) == $tobject && @brat.has_field(message, "@neko_string")) {
 		message = message.@neko_string();
 	}
 	if($typeof(message) != $tstring) {
-		$throw("Can only write out strings to subprocess.");
+		$throw("Can only write out strings to child.");
 	}
 
 	var temp = $smake($ssize(message) + 1);
@@ -273,7 +319,7 @@ subprocess.write@underline = function(message) {
 }
 
 wait = $loader.loadprim("std@process_exit", 1);
-subprocess.join = function() {
+child.join = function() {
 	if(this.@subproc != null)
 		wait(this.@subproc);
 
@@ -281,7 +327,7 @@ subprocess.join = function() {
 }
 
 close = $loader.loadprim("std@process_close", 1);
-subprocess.close = function() {
+child.close = function() {
 	if(this.@subproc != null)
 		close(this.@subproc);
 
@@ -290,7 +336,7 @@ subprocess.close = function() {
 }
 
 pid = $loader.loadprim("std@process_pid", 1);
-subprocess.pid = function() {
+child.pid = function() {
 	if(this.@subproc == null)
 		$throw("No process yet, no pid.");
 
@@ -301,7 +347,7 @@ subprocess.pid = function() {
 }
 
 kill = $loader.loadprim("std@process_kill", 1);
-subprocess.stop = function() {
+child.stop = function() {
 	if(this.@subproc != null) {
 		kill(this.@subproc);
 		@brat.@@true;
