@@ -378,7 +378,8 @@ grammar BaseBrat
 			if text_value.to_i > -1073741823
 				"var #@result;\n" <<
 				"if((#@result = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
-				"#@result = number.new(#{text_value});"
+				"#@result = number.new(#{text_value});"  <<
+				"else #@result;";
 			else
 				"var #@result = number.@stoi(\"#{text_value}\");"
 			end
@@ -394,7 +395,8 @@ grammar BaseBrat
 			if text_value.to_i < 1073741824
 				"var #@result;\n" <<
 				"if((#@result = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
-				"#@result = number.new(#{text_value});"
+				"#@result = number.new(#{text_value});" <<
+				"else #@result;";
 			else
 				"var #@result = number.@stoi(\"#{text_value}\");"
 			end
