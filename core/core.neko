@@ -799,6 +799,7 @@ base_number.squish(comparable);
 
 base_number.@value = 0;
 base_number.@native = true;
+base_number.@cache = $hnew(10);
 base_number.@to_s = function() {
 	this.to@unders().@value;
 }
@@ -844,13 +845,20 @@ base_number.@nvalue = function() {
 }
 
 base_number.new = function(num) {
-	var n = new_brat(this);
-	if($typeof(num) == $tint || $typeof(num) == $tfloat) {
+	var n;
+	if($typeof(num) == $tint && (n = $hget(base_number.@cache, num, null)) != null) {
+		return n;
+	}
+
+	n = new_brat(this);
+	if($typeof(num) == $tint) {
 		n.@value = num;
 		n.@native = true
+		if($hcount(base_number.@cache) < 1000)
+			$hset(base_number.@cache, num, n, null);
 	}
 	else if($typeof(num) == $tobject) {
-		if($typeof(num.@value) == $tint || $typeof(num.@value) == $tfloat) {
+		if($typeof(num.@value) == $tint) {
 			n.@value = num;
 			n.@native = true
 		}
@@ -873,7 +881,6 @@ base_number.new = function(num) {
 	}
 	else
 		$throw(base_exception.argument_error("number.new", "number", num));
-
 	n;
 }
 
