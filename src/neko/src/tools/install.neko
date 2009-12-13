@@ -153,8 +153,11 @@ search_includes = function(isap2) {
 	if( isap2 )
 		inc2 = $array(
 			"/usr/local/apache2/include",
+			"/usr/local/apache/include",
 			"/usr/include/apache2",
+			"/usr/include/apache",
 			"/opt/local/apache2/include",
+			"/opt/local/apache/include",
 			"/usr/include/apr-1",
 			"/usr/include/apr-1.0",
 			"/usr/include/apr-0",
