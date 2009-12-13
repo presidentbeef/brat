@@ -339,6 +339,12 @@ static int_val jit_run( neko_vm *vm, vfunction *acc ) {
 			pc = (int_val*)((vfunction*)acc)->addr; \
 			vm->vthis = this_arg; \
 			vm->env = ((vfunction*)acc)->env; \
+		} else if( val_tag(acc) == VAL_FUNCTION && pc_args == 1 && ((vfunction*)acc)->nargs == BRAT_VAR_ARGS) { \
+			PushInfos(); \
+			m = (neko_module*)((vfunction*)acc)->module; \
+			pc = (int_val*)((vfunction*)acc)->addr; \
+			vm->vthis = this_arg; \
+			vm->env = ((vfunction*)acc)->env; \
 		} else if( val_tag(acc) == VAL_PRIMITIVE ) { \
 			if( pc_args == ((vfunction*)acc)->nargs ) { \
 				SetupBeforeCall(this_arg); \

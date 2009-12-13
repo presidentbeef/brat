@@ -280,6 +280,7 @@ typedef struct _mt_lock mt_lock;
 #endif
 
 #define VAR_ARGS (-1)
+#define BRAT_VAR_ARGS (-2)
 #define DEFINE_PRIM_MULT(func) C_FUNCTION_BEGIN EXPORT void *func##__MULT() { return (void*)(&func); } C_FUNCTION_END
 #define DEFINE_PRIM(func,nargs) C_FUNCTION_BEGIN EXPORT void *func##__##nargs() { return (void*)(&func); } C_FUNCTION_END
 #define DEFINE_KIND(name) int_val __kind_##name = 0; vkind name = (vkind)&__kind_##name;
