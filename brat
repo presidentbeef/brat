@@ -21,7 +21,7 @@ end
 
 #Compiles core.neko if needed. Returns false if compilation does not occur, otherwise returns result of compilation.
 def compile_core force = false
-	if force or not File.exist? "#$program_path/core/core/core.n" or newer? "#$program_path/core/core.neko", "#$program_path/core/core.n"
+	if force or not File.exist? "#$program_path/core/core.n" or newer? "#$program_path/core/core.neko", "#$program_path/core/core.n"
 		system "nekoc #$program_path/core/core.neko" or abort "Error while compiling core.neko"
 		#system "nekoc -z #$program_path/core/core.n" or abort "Error while compiling core.neko"
 	else
