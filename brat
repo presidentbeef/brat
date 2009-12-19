@@ -366,7 +366,9 @@ elsif ARGV[0]
 	options[:keep_intermediate] ||= opt_args.include? '-k'
 
 	if opt_args.include? '-f' or options[:force] or options[:keep_intermediate]
-		File.delete(file_name.sub(/\.brat$/, "") << ".n") rescue nil
+		bare_name = file_name.sub(/\.brat$/, "")
+		File.delete(bare_name + ".n") rescue nil
+		File.delete(bare_name + ".neko") rescue nil
 	end
 
 	if opt_args.include? "-t"
