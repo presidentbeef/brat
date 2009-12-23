@@ -361,7 +361,7 @@ elsif ARGV[0]
 	
 	options[:nostrip] = opt_args.include? '-z'
 
-	options[:keep_intermediate] = options[:prettify] = opt_args.include?('-p')
+	options[:keep_intermediate] = options[:pretty] = opt_args.include?('-p')
 	
 	options[:keep_intermediate] ||= opt_args.include? '-k'
 
