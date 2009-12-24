@@ -10,7 +10,7 @@ module BratTestExt
 
 	def brat input
 		out = parse(input).brat
-		File.open('.test.neko.tmp', 'w') {|f| f.puts out << "@brat.base_object.p(@exit_value);"}
+		File.open('.test.neko.tmp', 'w') {|f| f.puts "//" << caller[3] << "\n" << out << "@brat.base_object.p(@exit_value);"}
 		result = `nekoc .test.neko.tmp && neko .test.neko.n`
 		`cp .test.neko.tmp test.neko.last_error` unless $? == 0
 		File.delete(".test.neko.n")
