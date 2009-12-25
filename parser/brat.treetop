@@ -1174,7 +1174,9 @@ grammar BaseBrat
 					"if($objget(this, $hash(\"#{name}\")) != null) {" <<
 						"#@result = " << call_method("this", name, arg_list.list, arg_list.length) <<
 					"}" <<
-					"else { $throw(exception.method_error(\"this\", \"#{nice_id name}\")) };"
+					"else if(#{name} != null) {" <<
+					"#@result = #{name}" <<
+					"} else { $throw(exception.method_error(\"this\", \"#{nice_id name}\")) };"
 				end
 
 			last = @result
