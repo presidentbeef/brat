@@ -1159,19 +1159,24 @@ grammar BaseBrat
 			next_temp
 			output = arg_list.brat
 			name = identifier.brat
-			temp = var_exist?(name) || name
+			temp = var_exist? name
+
 			output <<
 			"var #@result;" <<
-			"if($objget(this, $hash(\"#{name}\")) != null) {" <<
-			"#@result = " << call_method("this", name, arg_list.list, arg_list.length) <<
-			"}" <<
-			"else " <<
-			" if($typeof(#{temp}) == $tfunction) {" <<
-			" #@result = " << invoke(temp, arg_list.list, arg_list.length) << ";" <<
-			" } else if($typeof(#{temp}) == $tobject) { " <<
-			"  #@result = #{temp}}" <<
-			"else if($typeof(#{temp}) == $tnull) { $throw(exception.null_error(\"#{nice_id name}\", \"cannot call method on it\")); }" <<
-			"else { $throw(exception.method_error(\"this\", \"#{nice_id name}\")) };"
+				if temp
+					"if($typeof(#{temp}) == $tobject) { " <<
+						"#@result = #{temp};" <<
+					"} else if($typeof(#{temp}) == $tfunction) {" <<
+						"#@result = " << invoke(temp, arg_list.list, arg_list.length) << ";" <<
+					"} else if($typeof(#{temp}) == $tnull) { $throw(exception.null_error(\"#{nice_id name}\", \"cannot call method on it\")); }" <<
+					"else { $throw(exception.method_error(\"this\", \"#{nice_id name}\")) };"
+				else
+					"if($objget(this, $hash(\"#{name}\")) != null) {" <<
+						"#@result = " << call_method("this", name, arg_list.list, arg_list.length) <<
+					"}" <<
+					"else { $throw(exception.method_error(\"this\", \"#{nice_id name}\")) };"
+				end
+
 			last = @result
 			if not a.elements.empty?
 				a.elements.each do |elem|
