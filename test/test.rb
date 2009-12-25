@@ -480,6 +480,10 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "x", "t = \"x\"; t"
 	end
 
+	def test_method_scope_thing
+		assert_result "3", "a = new; a.b = new; a.b.c = 3; a.c = { b = new; b.c = 1; b.c }; a.c; a.b.c"
+	end
+
 	def test_assignment_return
 		assert_result "5", "x = 5"
 		assert_result "5", "x = []; x[5] = 5"
