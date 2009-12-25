@@ -1,9 +1,7 @@
+require 'set'
+
 class Treetop::Runtime::SyntaxNode
 	attr_reader :result
-	#Keep track of variable scope
-	@variables = [Hash.new]
-	@variables[-1][:current_scope] = { :variable => "@temp#{0}", :next_index => 0 }
-	@temp = 1
 	
 	#Operator precedence. Lower values are lower precedence.
 	Precedence = {"@oror"=>1, 
@@ -27,35 +25,80 @@ class Treetop::Runtime::SyntaxNode
 			"@star@star"=>10
 	}
 
-	def var_exist? v
-		variables.reverse_each do |vars|
-			return vars[v] if vars[v]
+	def var_exist? v, include_outer = false
+		#puts "Looking for #{v} in #{@@current_scope.inspect}"
+		if var = @@current_scope[v]
+			#puts "Var #{v} found in current scope"
+			var
+		elsif include_outer
+			scope = @@current_scope[:outer_scope]
+			until scope.nil?
+				#puts "Looking for #{v} in #{scope.inspect}"
+				 if scope[v]
+					unless scope[:used].include? v
+						scope[:used] << v
+						scope[v] = "#{scope[:variable]}[#{scope[:next_index]}]"
+						scope[:next_index] += 1
+					end
+
+					#puts "Var #{v} found in outer scope"
+
+					return scope[v]
+				 end
+
+				scope = scope[:outer_scope]
+			end
+			#puts "#{v} not found"
+			false
+		else
+			#puts "#{v} not found"
+			false
 		end
-		false
 	end
 
-	def var_add v
+	def var_used? var
+		@@current_scope[:used].include? var
+	end
+
+	def var_add v, outer_scope = nil
 		if $interactive
-			variables[-1][v] = v
+			@@current_scope[v] ||= v
+		elsif outer_scope
+			#Adds copy of temp variable name from outer scope
+			#puts "Copying #{v}=#{outer_scope} from outer scope"
+			@@current_scope[:used] << v
+			@@current_scope[v] ||= outer_scope
 		else
-			variables[-1][v] = next_local
+			#puts "Adding #{v} to scope"
+			@@current_scope[v] ||= "@temp#{@@temp += 1}" 
 		end
 	end
 
 	def new_scope
-		variables << Hash.new
-		variables[-1][:current_scope] = { :variable => next_temp, :next_index => 0 }
+		#puts "New scope!"
+		@@current_scope = { :variable => next_temp, :next_index => 0, :used => Set.new, :outer_scope => @@current_scope }
+		variables << @@current_scope
 	end
 
-	def next_local
-		cs = variables[-1][:current_scope]
-		index = cs[:next_index]
-		cs[:next_index] += 1
-		"#{cs[:variable]}[#{index}]"
+	def next_scope
+		@@scope_index += 1
+		@@current_scope = variables[@@scope_index]
+		#puts "Next scope! #@@scope_index"
 	end
 
 	def pop_scope
-		variables.pop
+		@@current_scope = @@current_scope[:outer_scope]
+	end
+
+	def end_scope
+		@@current_scope = @@current_scope[:outer_scope]
+		#puts "End scope! #@@scope_index"
+	end
+
+	def next_local
+		index = @@current_scope[:next_index]
+		@@current_scope[:next_index] += 1
+		"#{@@current_scope[:variable]}[#{index}]"
 	end
 
 	def variables
@@ -63,13 +106,24 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def self.clear_variables
-		@@variables = [Hash.new]
+		@@variables = []
+		@@current_scope = { :variable => "@temp0", :next_index => 0, :used => Set.new }
+		@@variables << @current_scope
+		@@scope_index = 0
 		@@temp = 1
-		@@variables[-1][:current_scope] = { :variable => "@temp#{0}", :next_index => 0 }
 	end
 
 	def next_temp
 		@result = "@temp#{@@temp += 1}"
+	end
+
+	def output_environment
+		env_var = @@current_scope[:variable]
+		if @@current_scope[:next_index] == 0 #nothing to put in array
+			""
+		else
+			"var #{env_var} = $amake(#{@@current_scope[:next_index]});\n"
+		end
 	end
 
 	def call_method object, method, arguments, arg_length
@@ -83,16 +137,16 @@ class Treetop::Runtime::SyntaxNode
 			if(#{has_field(temp, method)}) {
 				var arg_len = $nargs(#{temp}.#{method});
 				if(arg_len == -1 || arg_len == #{arg_length}) {
-					#{temp}.#{method}(#{arguments});
+		#{temp}.#{method}(#{arguments});
 				}
 				else if(arg_len == -2) {
-					#{temp}.#{method}($array(#{arguments}));
+		#{temp}.#{method}($array(#{arguments}));
 				}
 				else
 					$throw(exception.argument_error("#{nice_id object}.#{nice_id method}",  $string(arg_len), #{arg_length}));
 			}
 			else if(#{has_field(temp, "no@undermethod")}) {
-				#{call_no_method temp, method, arguments, arg_length}
+		#{call_no_method temp, method, arguments, arg_length}
 			}
 			else
 				$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
@@ -115,9 +169,9 @@ class Treetop::Runtime::SyntaxNode
 			<<-NEKO
 			var @nma = $nargs(#{no_meth});
 			if(@nma == #{arg_length})
-				#{no_meth}(#{arguments})
+			#{no_meth}(#{arguments})
 			else if(@nma == -2)
-				#{no_meth}($array(#{arguments}));
+			#{no_meth}($array(#{arguments}));
 			else
 				$throw(exception.argument_error("no_method", $string(@nma), #{arg_length}));
 			NEKO
@@ -125,9 +179,9 @@ class Treetop::Runtime::SyntaxNode
 			<<-NEKO
 			var @nma = $nargs(#{object}.no@undermethod);
 			if(@nma == #{arg_length})
-				#{object}.no@undermethod(#{arguments})
+			#{object}.no@undermethod(#{arguments})
 			else if(@nma == -2)
-				#{object}.no@undermethod($array(#{arguments}));
+			#{object}.no@undermethod($array(#{arguments}));
 			else
 				$throw(exception.argument_error("#{nice_id object}.no_method", $string(@nma), #{arg_length}));
 			NEKO
@@ -140,13 +194,13 @@ class Treetop::Runtime::SyntaxNode
 		output = <<-NEKO
 		if($typeof(#{temp}) == $tnull) {
 			if(#{has_field("this", object)}) {
-		 		#{call_method("this", object, arguments, arg_length)}
+		#{call_method("this", object, arguments, arg_length)}
 			}
 			else if(#{has_field("this", "no@undermethod")}) {
-				#{call_no_method "this", object, arguments, arg_length}
+		#{call_no_method "this", object, arguments, arg_length}
 			}
 			else if($typeof(#{no_meth}) == $tfunction) {
-				#{call_no_method nil, object, arguments, arg_length}
+		#{call_no_method nil, object, arguments, arg_length}
 			}
 			else
 			{
@@ -157,9 +211,9 @@ class Treetop::Runtime::SyntaxNode
 
 				var arg_len = $nargs(#{temp});
 				if(arg_len == -1 || arg_len == #{arg_length})
-					#{temp}(#{arguments});
+		#{temp}(#{arguments});
 				else if(arg_len == -2)
-					#{temp}($array(#{arguments}));
+		#{temp}($array(#{arguments}));
 				else
 					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
 			}
@@ -177,21 +231,21 @@ class Treetop::Runtime::SyntaxNode
 		<<-NEKO
 		if($typeof(#{temp}) == $tnull) {
 			if(#{has_field("this", object)}) {
-				#@result = this.#{object};
-				
+		#@result = this.#{object};
+
 				var arg_len = $nargs(#@result);
 				if(arg_len == -1 || arg_len == #{arg_length})
-					#@result(#{arguments});
+		#@result(#{arguments});
 				else if(arg_len == -2)
-					#@result($array(#{arguments}));
+		#@result($array(#{arguments}));
 				else
 					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
 			}
 			else if(#{has_field("this", "no@undermethod")}) {
-				#{call_no_method "this", object, arguments, arg_length}
+		#{call_no_method "this", object, arguments, arg_length}
 			}
 			else if($typeof(#{no_meth}) == $tfunction) {
-				#{call_no_method nil, object, arguments, arg_length}
+		#{call_no_method nil, object, arguments, arg_length}
 			}
 			else
 				$throw(exception.name_error("#{nice_id object}"));
@@ -199,9 +253,9 @@ class Treetop::Runtime::SyntaxNode
 			if($typeof(#{temp}) == $tfunction) {
 				var arg_len = $nargs(#{temp});
 				if(arg_len == -1 || arg_len == #{arg_length})
-					#{temp}(#{arguments});
+		#{temp}(#{arguments});
 				else if(arg_len == -2)
-					#{temp}($array(#{arguments}));
+		#{temp}($array(#{arguments}));
 				else
 					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
 			}
@@ -209,7 +263,7 @@ class Treetop::Runtime::SyntaxNode
 				$throw(base_exception.new("Tried to invoke non-method: #{nice_id object}"));
 			}
 			else { 
-				#{temp}; 
+		#{temp}; 
 			}
 		}
 		NEKO
@@ -222,7 +276,7 @@ class Treetop::Runtime::SyntaxNode
 		<<-NEKO
 		if(#{temp} == null) {
 			if(#{has_field("this", "no@undermethod")}) {
-				#{call_no_method "this", method, arguments, arg_length}
+		#{call_no_method "this", method, arguments, arg_length}
 			}
 			else
 				$throw(exception.null_error("#{nice_id method}", "invoke method"));
@@ -230,9 +284,9 @@ class Treetop::Runtime::SyntaxNode
 		else {
 			var arg_len = $nargs(#{temp});
 			if(arg_len == #{arg_length} || arg_len == -1)
-				#{temp}(#{arguments});
+		#{temp}(#{arguments});
 			else if(arg_len == -2) {
-				#{temp}($array(#{arguments}));
+		#{temp}($array(#{arguments}));
 			}
 			else
 				$throw(exception.argument_error("#{nice_id method}", $string(arg_len), #{arg_length}));
@@ -343,26 +397,26 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	ID_CONVERT_LIST = { "bang" => "!", 
-		"star" => "*", 
-		"minus" => "-", 
-		"plus" => "+", 
-		"oror" => "||", 
-		"or" =>  "|" , 
-		"andand" => "&&", 
-		"and" => "&", 
-		"at" => "@", 
-		"tilde" => "~", 
-		"up" => "^", 
-		"forward" => "/", 
-		"back" => "\\\\", 
-		"question" => "?", 
-		"less" => "<", 
-		"greater" => ">", 
-		"notequal" => "!=", 
-		"equal" => "=", 
-		"percent" => "%", 
-		"under" => "_", 
-		"dollar" => "$" }
+			"star" => "*", 
+			"minus" => "-", 
+			"plus" => "+", 
+			"oror" => "||", 
+			"or" =>  "|" , 
+			"andand" => "&&", 
+			"and" => "&", 
+			"at" => "@", 
+			"tilde" => "~", 
+			"up" => "^", 
+			"forward" => "/", 
+			"back" => "\\\\", 
+			"question" => "?", 
+			"less" => "<", 
+			"greater" => ">", 
+			"notequal" => "!=", 
+			"equal" => "=", 
+			"percent" => "%", 
+			"under" => "_", 
+			"dollar" => "$" }
 
 	ID_CONVERT_RE_OP = /@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)/
 	ID_CONVERT_RE_KW = /@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)/
@@ -380,4 +434,13 @@ class Treetop::Runtime::SyntaxNode
 	def has_field object, field_name
 		"$objget(#{object}, $hash(\"#{field_name}\")) != null"
 	end
+
+	def check_variables
+		unless elements.nil?
+			elements.each do |e|
+				e.check_variables if e.respond_to? :check_variables
+			end
+		end
+	end
+
 end

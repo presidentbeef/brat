@@ -29,8 +29,9 @@ grammar BaseBrat
 
 		def inner_brat
 			Treetop::Runtime::SyntaxNode.clear_variables
+			elements.each {|e| e.check_variables }
 			output = elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";")
-			"var #{variables[-1][:current_scope][:variable]} = $amake(#{variables[-1][:current_scope][:next_index]});\n" << output
+			output_environment << output
 		end
 	}
 	/
@@ -286,7 +287,7 @@ grammar BaseBrat
 		def brat
 			var = lhs.brat
 			temp = var_exist? var
-			if temp
+			if temp.include? "["
 				output = rhs.brat <<
 					"#{temp} = #{rhs.result};"
 			elsif $interactive
@@ -294,12 +295,26 @@ grammar BaseBrat
 				output = rhs.brat <<
 					"#{var} = #{rhs.result};"
 			else
-				temp = var_add var
 				output = rhs.brat <<
-					"#{temp} = #{rhs.result};"
+					"var #{temp} = #{rhs.result};"
 			end
 			@result = rhs.result
 			output
+		end
+
+		def check_variables
+			#puts "Assignment #{lhs.brat}"
+
+			unless var_exist? lhs.brat
+				var = var_exist? lhs.brat, true
+				if var
+					var_add lhs.brat, var
+				else
+					var_add lhs.brat
+				end
+			end
+
+			rhs.check_variables
 		end
 	}
   end
@@ -457,6 +472,14 @@ grammar BaseBrat
 
 			output
 		end
+
+		def check_variables
+			first.check_variables
+			rest.elements.each do |e|
+				e.expression.check_variables
+			end
+		end
+
 	} 
   end
 
@@ -486,7 +509,7 @@ grammar BaseBrat
   rule function_definition
 	"{" space? fa:formal_args space? l:line* space? "}" {
 		def brat
-			new_scope
+			next_scope
 			if fa.respond_to? :brat
 				args = fa.brat
 			else
@@ -503,6 +526,7 @@ grammar BaseBrat
 
 			next_temp
 
+
 			inner_function = l.elements.map {|e| e.brat}.join(";");
 
 			#Empty functions should return null object instead of Neko null
@@ -513,7 +537,7 @@ grammar BaseBrat
 			if variables[-1].length == 1
 				environment = ""
 			else
-				environment = "var #{variables[-1][:current_scope][:variable]} = $amake(#{variables[-1][:current_scope][:next_index]});\n"
+				environment = output_environment
 			end
 
 			output << "var #@result = function(#{args}) { \n" <<
@@ -529,6 +553,13 @@ grammar BaseBrat
 			pop_scope
 			output
 		end
+
+		def check_variables
+			new_scope
+			fa.check_variables
+			l.elements.each {|e| e.check_variables }
+			end_scope
+		end
 	}
   end
 
@@ -540,13 +571,19 @@ grammar BaseBrat
 		end
 
 		def function_header
-			names = plain_formals.args
-			plain_formals.brat
 			output = ""
-			names.each_with_index do |n, i|
-				output << "#{variables[-1][:current_scope][:variable]}[#{i}] = #{n};"
+			plain_formals.args.each do |a|
+				if var_used? a
+					output << "#{var_exist? a} = #{a};"
+				else
+					output << "var #{var_exist? a} = #{a};"
+				end
 			end
 			output
+		end
+
+		def check_variables
+			plain_formals.check_variables
 		end
 	}
 	/
@@ -600,6 +637,10 @@ grammar BaseBrat
 		def function_header
 			"#{@param} = @brat.base_array.new(@args);\n"
 		end
+
+		def check_variables
+			var_add variable_args.i.brat
+		end
 	}
 	/
 	space? plain_formals space? "," space? variable_args space? "|" {
@@ -619,12 +660,22 @@ grammar BaseBrat
 			output = "if($asize(@args) < #{req_args}) $throw(exception.new(\"function\", \"at least #{req_args}\"));\n"
 
 			plain_formals.args.each do |a|
-				output << "#{a} = @args[#{i}];\n"
+				if var_used? a
+					output << "#{var_exist? a} = @args[#{i}];\n"
+				else
+					output << "var #{var_exist? a} = @args[#{i}];\n"
+				end
 				i += 1
 			end
 
 			output << "#{@param} = @brat.base_array.new($asub(@args, #{i}, $asize(@args) - #{i}));" 
 		end
+
+		def check_variables
+			plain_formals.check_variables
+			var_add variable_args.i.brat
+		end
+
 	}
 	/
 	space? default_args space? "," space? variable_args space? "|" {
@@ -677,6 +728,11 @@ grammar BaseBrat
 				"#{@param} = @brat.base_array.new($asub(@args, #{num_names}, $asize(@args) - #{num_names}));" <<
 				"} else { #{@param} = @brat.base_array.new();}"
 		end
+
+		def check_variables
+			var_add variable_args.i.brat
+			default_args.check_variables
+		end
 	}
 	/
 	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" {
@@ -699,7 +755,11 @@ grammar BaseBrat
 
 			i = 0
 			plain_formals.args.each do |a|
-				output << "#{a} = @args[#{i}];\n"
+				if var_used? a
+					output << "#{var_exist? a} = @args[#{i}];\n"
+				else
+					output << "var #{var_exist? a} = @args[#{i}];\n"
+				end
 				i += 1
 			end
 
@@ -761,7 +821,11 @@ grammar BaseBrat
 
 			i = 0
 			plain_formals.args.each do |a|
-				output << "#{a} = @args[#{i}];\n"
+				if var_used? a
+					output << "#{var_exist? a} = @args[#{i}];\n"
+				else
+					output << "var #{var_exist? a} = @args[#{i}];\n"
+				end
 				i += 1
 			end
 
@@ -799,19 +863,18 @@ grammar BaseBrat
 		attr_reader :args
 
 		def brat
-			if i.respond_to? :brat
-				@args = [var_add(i.brat)] + rest_formal.brat
-			else
-				@args = []
-			end.join(", ")
+			self.plain
 		end
 
 		def plain
-			if i.respond_to? :brat
-				@args = [i.brat] + rest_formal.plain
-			else
-				@args = []
-			end.join(", ")
+			@args = [i.brat] + rest_formal.plain
+			@args.join(", ")
+		end
+
+		def check_variables
+			var_add i.brat
+			#$stderr.puts "Added formal #{i.brat} as #{var_exist? i.brat}"
+			rest_formal.check_variables
 		end
 	}
   end
@@ -836,6 +899,12 @@ grammar BaseBrat
 				end
 			else
 				[]
+			end
+		end
+
+		def check_variables
+			elements.each do |e|
+				var_add e.identifier.brat
 			end
 		end
 	}
@@ -870,6 +939,12 @@ grammar BaseBrat
 		def var_name
 			var_exist?(@var_name) || @var_name
 		end
+
+		def check_variables
+			var_add i.brat
+			v.check_variables
+		end
+
 	}
   end
 
@@ -1008,6 +1083,17 @@ grammar BaseBrat
 			a.brat <<
 			get_value_clean(name, a.list, a.length) << ";"
 		end
+
+		def check_variables
+			unless var_exist? m.brat
+				var = var_exist? m.brat, true
+				if var
+					var_add m.brat, var
+				end
+			end
+
+			a.check_variables
+		end
 	}
 	/
 	m:paren_exp a:arg_list {
@@ -1056,6 +1142,12 @@ grammar BaseBrat
 			end
 			output
 		end
+
+		def check_variables
+			elements.each do |e|
+				e.check_variables
+			end
+		end
 	}
 	
   end
@@ -1090,7 +1182,16 @@ grammar BaseBrat
 				end
 			end
 			output
-		end	
+		end
+
+		def check_variables
+			unless var_exist? identifier.brat
+				var = var_exist? identifier.brat, true
+				if var
+					var_add identifier.brat, var
+				end
+			end
+		end
 	}
 	/
 	a:array a_rest:(array+) {
@@ -1141,6 +1242,17 @@ grammar BaseBrat
 					"if(#@result == null) $throw(exception.null_error(\"#{nice_id name}\", \"access it\"));" <<
 					"#@result;" <<
 				"} else { #@result = #{name} };\n"
+			end
+		end
+
+		def check_variables
+			unless var_exist? m.brat
+				var = var_exist? m.brat, true
+				if var
+					var_add m.brat, var
+				else
+					var_add m.brat
+				end
 			end
 		end
 	}
@@ -1326,6 +1438,13 @@ grammar BaseBrat
 				"$array(#{self.list})"
 			else
 				"$amake(0)"
+			end
+		end
+
+		def check_variables
+			e.check_variables
+			o.elements.each do |elem|
+				elem.arg_first.check_variables
 			end
 		end
 	}
