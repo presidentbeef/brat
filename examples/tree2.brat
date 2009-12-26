@@ -27,7 +27,7 @@ bottom_up_tree = { data, depth |
 		}
 }
 
-max_depth = 20
+max_depth = 10
 min_depth = 4
 
 true? min_depth + 2 > max_depth
