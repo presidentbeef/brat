@@ -1257,8 +1257,6 @@ grammar BaseBrat
 				var = var_exist? m.brat, true
 				if var
 					var_add m.brat, var
-				else
-					var_add m.brat
 				end
 			end
 		end
