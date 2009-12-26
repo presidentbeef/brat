@@ -44,18 +44,7 @@ run = $loader.loadprim("std@process_run", 2);
 subprocess.run = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen == 0) {
-		if(this.@command == null) {
-			$throw("No program name given for child.");
-		}
-		else {
-			if(this.@args == null) {
-				this.@subproc = run(this.@command, $amake(0));
-			}
-			else {
-				this.@subproc = run(this.@command, this.@args);
-			}
-		}
-		this;
+		$throw(@brat.base_exception.argument_error("run", "at least 1", arglen));
 	}
 	else {
 		var sub = $call(child.new, subprocess, args);
@@ -107,6 +96,22 @@ subprocess.wait = $varargs(function(args) {
 		$throw(@brat.base_exception.argument_error("wait", "number", args));
 
 })
+
+child.run = function() {
+	if(this.@command == null) {
+			$throw("No program name given for child.");
+		}
+	else {
+		if(this.@args == null) {
+			this.@subproc = run(this.@command, $amake(0));
+		}
+		else {
+			this.@subproc = run(this.@command, this.@args);
+		}
+	}
+	this;
+}
+
 
 read_stdout = $loader.loadprim("std@process_stdout_read", 4);
 child.read@underline = function() {
