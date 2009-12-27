@@ -1168,7 +1168,7 @@ grammar BaseBrat
 						"#@result = #{temp};" <<
 					"} else if($typeof(#{temp}) == $tfunction) {" <<
 						"#@result = " << invoke(temp, arg_list.list, arg_list.length) << ";" <<
-					"} else if($typeof(#{temp}) == $tnull) { $throw(exception.null_error(\"#{nice_id name}\", \"cannot call method on it\")); }" <<
+					"} else if(#{temp} == null) { $throw(exception.null_error(\"#{nice_id name}\", \"cannot call method on it\")); }" <<
 					"else { $throw(exception.method_error(\"this\", \"#{nice_id name}\")) };"
 				else
 					"if($objget(this, $hash(\"#{name}\")) != null) {" <<

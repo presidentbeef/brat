@@ -192,7 +192,7 @@ class Treetop::Runtime::SyntaxNode
 		temp = var_exist?(object) || object
 		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		output = <<-NEKO
-		if($typeof(#{temp}) == $tnull) {
+		if(#{temp} == null) {
 			if(#{has_field("this", object)}) {
 		#{call_method("this", object, arguments, arg_length)}
 			}
@@ -229,7 +229,7 @@ class Treetop::Runtime::SyntaxNode
 		temp = var_exist?(object) || object
 		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		<<-NEKO
-		if($typeof(#{temp}) == $tnull) {
+		if(#{temp} == null) {
 			if(#{has_field("this", object)}) {
 		#@result = this.#{object};
 
