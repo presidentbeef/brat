@@ -146,7 +146,7 @@ class Treetop::Runtime::SyntaxNode
 					$throw(exception.argument_error("#{nice_id object}.#{nice_id method}",  $string(arg_len), #{arg_length}));
 			}
 			else if(#{has_field(temp, "no@undermethod")}) {
-		#{call_no_method temp, method, arguments, arg_length}
+				#{call_no_method temp, method, arguments, arg_length}
 			}
 			else
 				$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
@@ -192,36 +192,34 @@ class Treetop::Runtime::SyntaxNode
 		temp = var_exist?(object) || object
 		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		output = <<-NEKO
-		if(#{temp} == null) {
+		if($typeof(#{temp}) == $tfunction) {
+			var arg_len = $nargs(#{temp});
+			if(arg_len == -1 || arg_len == #{arg_length})
+				#{temp}(#{arguments});
+			else if(arg_len == -2)
+				#{temp}($array(#{arguments}));
+			else
+				$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
+		} else 	if(#{temp} == null) {
 			if(#{has_field("this", object)}) {
-		#{call_method("this", object, arguments, arg_length)}
+				#{call_method("this", object, arguments, arg_length)}
 			}
 			else if(#{has_field("this", "no@undermethod")}) {
-		#{call_no_method "this", object, arguments, arg_length}
+				#{call_no_method "this", object, arguments, arg_length}
 			}
 			else if($typeof(#{no_meth}) == $tfunction) {
-		#{call_no_method nil, object, arguments, arg_length}
+				#{call_no_method nil, object, arguments, arg_length}
 			}
 			else
 			{
 				$throw(exception.name_error("#{nice_id object}"));
 			}
-		} else {
-			if($typeof(#{temp}) == $tfunction) {
-
-				var arg_len = $nargs(#{temp});
-				if(arg_len == -1 || arg_len == #{arg_length})
-		#{temp}(#{arguments});
-				else if(arg_len == -2)
-		#{temp}($array(#{arguments}));
-				else
-					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
-			}
+		}
 		NEKO
 		if arg_length > 0
-			output << "else { $throw(exception.new(\"Tried to invoke non-method: #{nice_id object}\")); }}"
+			output << "else { $throw(exception.new(\"Tried to invoke non-method: #{nice_id object}\")); }"
 		else
-			output << "else { #{temp}; }}"
+			output << "else { #{temp}; }"
 		end
 	end
 
@@ -231,40 +229,36 @@ class Treetop::Runtime::SyntaxNode
 		<<-NEKO
 		if(#{temp} == null) {
 			if(#{has_field("this", object)}) {
-		#@result = this.#{object};
+				#@result = this.#{object};
 
-				var arg_len = $nargs(#@result);
-				if(arg_len == -1 || arg_len == #{arg_length})
-		#@result(#{arguments});
-				else if(arg_len == -2)
-		#@result($array(#{arguments}));
-				else
-					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
+			var arg_len = $nargs(#@result);
+			if(arg_len == -1 || arg_len == #{arg_length})
+				#@result(#{arguments});
+			else if(arg_len == -2)
+				#@result($array(#{arguments}));
+			else
+				$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
 			}
 			else if(#{has_field("this", "no@undermethod")}) {
-		#{call_no_method "this", object, arguments, arg_length}
+				#{call_no_method "this", object, arguments, arg_length}
 			}
 			else if($typeof(#{no_meth}) == $tfunction) {
-		#{call_no_method nil, object, arguments, arg_length}
+				#{call_no_method nil, object, arguments, arg_length}
 			}
 			else
 				$throw(exception.name_error("#{nice_id object}"));
-		} else {
-			if($typeof(#{temp}) == $tfunction) {
-				var arg_len = $nargs(#{temp});
-				if(arg_len == -1 || arg_len == #{arg_length})
-		#{temp}(#{arguments});
-				else if(arg_len == -2)
-		#{temp}($array(#{arguments}));
-				else
-					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
-			}
-			else if(#{arg_length != 0 ? "true" : "false"}) {
-				$throw(base_exception.new("Tried to invoke non-method: #{nice_id object}"));
-			}
-			else { 
-		#{temp}; 
-			}
+		} else if($typeof(#{temp}) == $tfunction) {
+			var arg_len = $nargs(#{temp});
+			if(arg_len == -1 || arg_len == #{arg_length})
+				#{temp}(#{arguments});
+			else if(arg_len == -2)
+				#{temp}($array(#{arguments}));
+			else
+				$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
+		} else if(#{arg_length != 0 ? "true" : "false"}) {
+			$throw(base_exception.new("Tried to invoke non-method: #{nice_id object}"));
+		} else { 
+			#{temp}; 
 		}
 		NEKO
 	end
