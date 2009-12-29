@@ -571,6 +571,11 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "2", "[1,2,3,4][2,3].length"
 	end
 
+	def test_large_array
+		assert_result ":a", "x = [:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :m, :n, :o, :p, :q, :r, :s, :t, :u, :v, :w, :x, :y, :z, :aa, :ab, :ac, :ad, :ae, :af, :ag, :ah, :ai, :aj, :ak, :al, :am, :an, :ao, :ap, :aq, :ar, :as, :at, :au, :av, :aw, :ax, :ay, :az, :ba, :bb, :bc, :bd, :be, :bf, :bg, :bh, :bi, :bj, :bk, :bl, :bm, :bn, :bo, :bp, :bq, :br, :bs, :bt, :bu, :bv, :bw, :bx, :by, :bz, :ca, :cb, :cc, :cd, :ce, :cf, :cg, :ch, :ci, :cj, :ck, :cl, :cm, :cn, :co, :cp, :cq, :cr, :cs, :ct, :cu, :cv, :cw, :cx, :cy, :cz]; x[0]"
+		assert_result ":cz", "x = [:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :m, :n, :o, :p, :q, :r, :s, :t, :u, :v, :w, :x, :y, :z, :aa, :ab, :ac, :ad, :ae, :af, :ag, :ah, :ai, :aj, :ak, :al, :am, :an, :ao, :ap, :aq, :ar, :as, :at, :au, :av, :aw, :ax, :ay, :az, :ba, :bb, :bc, :bd, :be, :bf, :bg, :bh, :bi, :bj, :bk, :bl, :bm, :bn, :bo, :bp, :bq, :br, :bs, :bt, :bu, :bv, :bw, :bx, :by, :bz, :ca, :cb, :cc, :cd, :ce, :cf, :cg, :ch, :ci, :cj, :ck, :cl, :cm, :cn, :co, :cp, :cq, :cr, :cs, :ct, :cu, :cv, :cw, :cx, :cy, :cz]; x[-1]"
+	end
+
 	def test_array_indexing
 		assert_result "b", 'b = ["a", "b", "c"]; b[1]'
 		assert_result "null",'b = ["a", "b", "c"]; b[-5]' 
