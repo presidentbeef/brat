@@ -1380,6 +1380,8 @@ grammar BaseBrat
 					var_add identifier.brat, var
 				end
 			end
+		
+			arg_list.check_variables			
 
 			a.elements.each do |e|
 				e.inner_arg_list.check_variables
