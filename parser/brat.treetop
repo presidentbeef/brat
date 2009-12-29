@@ -69,9 +69,12 @@ grammar BaseBrat
 	regex / binary_operation / index_set / index_get / 
 	assignment / 
 	paren_exp ~(!("." / "(")) { 
-		def brat
+		def brat array_val = nil
 			output = paren_exp.brat
 			@result = paren_exp.result
+			if array_val
+				output << "#{array_val} = #@result;"
+			end
 			output
 		end 
 
@@ -109,9 +112,13 @@ grammar BaseBrat
   #Matches regular expression literals
   rule regex
 	"/" r:(!"/" . / "\\/")* "/" {
-		def brat
-			next_temp
-			"var #@result = regex.new(\"#{r.text_value}\");"
+		def brat array_val = nil
+			if array_val
+				"#{array_val} = regex.new(\"#{r.text_value}\");"
+			else
+				next_temp
+				"var #@result = regex.new(\"#{r.text_value}\");"
+			end
 		end
 	}
   end
@@ -134,16 +141,19 @@ grammar BaseBrat
   #Matches hash table literals
   rule hash
 	"[" space? ":" space? "]" {
-		def brat
-			next_temp
-			output = "var #@result = @brat.base_hash.new();" 
+		def brat array_val = nil
+			if array_val
+				"#{array_val} = @brat.base_hash.new();" 
+			else
+				next_temp
+				"var #@result = @brat.base_hash.new();" 
+			end
 		end
 	}
 	/
   	"[" spaceorbreak hash_inner spaceorbreak "]" {
-		def brat
-
-			output = hash_inner.brat
+		def brat array_val = nil
+			output = hash_inner.brat array_val
 			@result = hash_inner.result
 			output
 		end
@@ -152,18 +162,44 @@ grammar BaseBrat
 
   #Matches array literals
   rule array
-  	"[" spaceorbreak inner_arg_list spaceorbreak "]" {
-		def brat
-			output = inner_arg_list.brat
-			next_temp
-			output << "var #@result = @brat.base_array.new(#{inner_arg_list.array});"
+  	"[" spaceorbreak array_inner spaceorbreak "]" {
+		def brat array_val = nil
+			output = array_inner.brat
+
+			if array_val
+				output << "#{array_val} = @brat.base_array.new(#{array_inner.result});"
+			else
+				next_temp
+				output << "var #@result = @brat.base_array.new(#{array_inner.result});"
+			end
 		end
 	}
 	/
 	"[" spaceorbreak "]" {
+		def brat array_val = nil
+			if array_val
+				"#{array_val} = @brat.base_array.new();"
+			else
+				next_temp
+				"var #@result = @brat.base_array.new();"
+			end
+		end
+	}
+  end
+
+  rule array_inner
+	first:expression rest:(spaceorbreak "," spaceorbreak e:expression)* {
 		def brat
 			next_temp
-			"var #@result = @brat.base_array.new();"
+			output = "var #@result = $amake(#{rest.elements.length + 1});"
+
+			output << first.brat("#@result[0]")
+
+			rest.elements.each_with_index do |r, i|
+				output <<  r.e.brat("#@result[#{i + 1}]")
+			end
+
+			output
 		end
 	}
   end
@@ -171,7 +207,7 @@ grammar BaseBrat
   #Inside of a hash literal
   rule hash_inner
 	first:hash_argument rest:(spaceorbreak "," spaceorbreak n:hash_argument spaceorbreak)* {
-		def brat
+		def brat array_val
 			next_temp
 			hash_temp = @result
 			output = "var #{hash_temp} = $hnew(#{rest.elements.length + 1});"
@@ -182,8 +218,13 @@ grammar BaseBrat
 				output << elem.brat
 				output << "@brat.hset(#{hash_temp}, #{elem.index}, #{elem.value});"
 			end
-			next_temp
-			output << "var #@result = @brat.make_hash(#{hash_temp});"
+
+			if array_val
+				output << "#{array_val} = @brat.make_hash(#{hash_temp});"
+			else
+				next_temp
+				output << "var #@result = @brat.make_hash(#{hash_temp});"
+			end
 		end
 	}
   end
@@ -218,14 +259,19 @@ grammar BaseBrat
   #Setting value via index (e.g., "a[1] = b")
   rule index_set
   	a:indexed_expression "[" i:expression "]" space? "=" spaceorbreak v:expression {
-		def brat
+		def brat array_val = nil
 			output = a.brat
 			output << i.brat
 			output << v.brat
 			next_temp
 			output << "var #@result = #{a.result}.__set(#{i.result}, #{v.result});"
 			@result = v.result
-			output << "#{@result};"
+
+			if array_val
+				output << "#{array_val} = #@result;"
+			else
+				output << @result
+			end
 		end
 	}
   end
@@ -233,7 +279,7 @@ grammar BaseBrat
   #Retrieving value via index (e.g., "a[1]")
   rule index_get
   	e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
-		def brat
+		def brat array_val = nil
 			output = e.brat
 			last = e.result
 			a.elements.each do |elem|
@@ -247,6 +293,11 @@ grammar BaseBrat
 				next_temp
 				output << "var #@result = " << invoke(last, args.list, args.length) << ";"
 			end
+
+			if array_val
+				output << "#{array_val} = #@result;"
+			end
+
 			output
 		end
 	}
@@ -255,36 +306,52 @@ grammar BaseBrat
   #Matches assignment using "=" operator
   rule assignment
  	lhs:field_access space "=" spaceorbreak rhs:function_definition {
-		def brat
+		def brat array_val = nil
 			output = lhs.brat <<
 			rhs.brat  <<
 			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});"
 			@result = rhs.result
+
+			if array_val
+				output << "#{array_val} = #@result;"
+			end
+
 			output
 		end
 	}
 	/
  	lhs:field_access space "=" spaceorbreak rhs:method_access {
-		def brat
+		def brat array_val = nil
 			output = lhs.brat << 
 			rhs.brat <<
 			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});"
+
+			if array_val
+				output << "#{array_val} = #@result;"
+			end
+
 			output
 		end
 	}
 	/
  	lhs:field_access space "=" spaceorbreak rhs:expression {
-		def brat
+		def brat array_val = nil
 			output = lhs.brat << 
 			rhs.brat <<
 			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), function() {#{rhs.result}});"
 			@result = rhs.result
 			output << "#@result;"
+
+			if array_val
+				output << "#{array_val} = #@result;"
+			end
+
+			output
 		end
 	}
 	/
 	lhs:identifier space "=" spaceorbreak rhs:expression {
-		def brat
+		def brat array_val = nil
 			var = lhs.brat
 			temp = var_exist? var
 			if temp.include? "["
@@ -299,6 +366,11 @@ grammar BaseBrat
 					"var #{temp} = #{rhs.result};"
 			end
 			@result = rhs.result
+
+			if array_val
+				output << "#{array_val} = #@result;"
+			end
+
 			output
 		end
 
@@ -322,7 +394,7 @@ grammar BaseBrat
   #Matches a lhs that is a field access (e.g., "a.b")
   rule field_access
   	m:method_chain i:(identifier / operator) {
-		def brat
+		def brat array_val = nil
 			output = m.brat
 			@result = m.result
 			output
@@ -333,8 +405,8 @@ grammar BaseBrat
   #Matches a parenthesized expression
   rule paren_exp
   	'(' ~(space?) expression ~(space?) ')' {
-		def brat
-			output = expression.brat
+		def brat array_val = nil
+			output = expression.brat array_val
 			@result = expression.result
 			output
 		end
@@ -368,16 +440,24 @@ grammar BaseBrat
   #Matches floats
   rule float
 	'-' i:pos_integer "." d:pos_integer {
-		def brat
-			next_temp
-			"var #@result = number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
+		def brat array_val = nil
+			if array_val
+				"#{array_val} = number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
+			else
+				next_temp
+				"var #@result = number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
+			end
 		end
 	}
 	/
   	i:pos_integer "." d:pos_integer {
-		def brat
-			next_temp
-			"var #@result = number.@stof(\"#{i.text_value}.#{d.text_value}\");"
+		def brat array_val = nil
+			if array_val
+				"#{array_val} = number.@stof(\"#{i.text_value}.#{d.text_value}\");"
+			else
+				next_temp
+				"var #@result = number.@stof(\"#{i.text_value}.#{d.text_value}\");"
+			end
 		end
 	}
   end
@@ -388,15 +468,24 @@ grammar BaseBrat
 	pos_integer
 	/
 	'-' [0-9]+ {
-		def brat
+		def brat array_val = nil
 			next_temp
-			if text_value.to_i > -1073741823
-				"var #@result;\n" <<
-				"if((#@result = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
-				"#@result = number.new(#{text_value});"  <<
-				"else #@result;";
+			if array_val
+				if text_value.to_i > -1073741823
+					"if((#{array_val} = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
+						"#{array_val} = number.new(#{text_value});"
+				else
+					"#{array_val} = number.@stoi(\"#{text_value}\");"
+				end
 			else
-				"var #@result = number.@stoi(\"#{text_value}\");"
+				if text_value.to_i > -1073741823
+					"var #@result;\n" <<
+					"if((#@result = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
+					"#@result = number.new(#{text_value});"  <<
+					"else #@result;";
+				else
+					"var #@result = number.@stoi(\"#{text_value}\");"
+				end
 			end
 		end
 	}
@@ -405,15 +494,25 @@ grammar BaseBrat
 
   rule pos_integer
 	[0-9]+ {
-		def brat
+		def brat array_val = nil
 			next_temp
-			if text_value.to_i < 1073741824
-				"var #@result;\n" <<
-				"if((#@result = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
-				"#@result = number.new(#{text_value});" <<
-				"else #@result;";
+			if array_val
+				if text_value.to_i < 1073741824
+					"if((#{array_val} = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
+						"#{array_val} = number.new(#{text_value});"
+				else
+					"#{array_val} = number.@stoi(\"#{text_value}\");"
+				end
+
 			else
-				"var #@result = number.@stoi(\"#{text_value}\");"
+				if text_value.to_i < 1073741824
+					"var #@result;\n" <<
+					"if((#@result = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
+					"#@result = number.new(#{text_value});" <<
+					"else #@result;";
+				else
+					"var #@result = number.@stoi(\"#{text_value}\");"
+				end
 			end
 		end
 	}
@@ -422,10 +521,14 @@ grammar BaseBrat
   #Matches doubly-quoted strings
   rule string
     '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
-		def brat
+		def brat array_val = nil
 			next_temp
 			if content.elements.empty?
-				"var #@result = string.new(#{text_value});"
+				if array_val
+					"#{array_val} = string.new(#{text_value});"
+				else
+					"var #@result = string.new(#{text_value});"
+				end
 			else
 				text = '"'
 				output = ""
@@ -437,15 +540,24 @@ grammar BaseBrat
 						text << e.text_value
 					end
 				end
-				output << "var #@result = string.new(#{text << '"'});"
+
+				if array_val
+					output << "#{array_val} = string.new(#{text << '"'});"
+				else
+					output << "var #@result = string.new(#{text << '"'});"
+				end
 			end
 		end
 	}
 	/
 	"'" content:(("\\'" / "\\\\" / !"'" . )*) "'" {
-		def brat
-			next_temp
-			"var #@result = string.new(\"#{content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1")}\")"
+		def brat array_val = nil
+			if array_val
+				"#{array_val} = string.new(\"#{content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1")}\")"
+			else
+				next_temp
+				"var #@result = string.new(\"#{content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1")}\")"
+			end
 		end
 	}
   end
@@ -486,9 +598,13 @@ grammar BaseBrat
   #Like symbols in Scheme or Ruby
   rule symbol
 	":" id:(identifier / operator / number)+ {
-		def brat
-			next_temp
-			"var #@result = symbol.new(\"#{id.text_value}\");"
+		def brat array_val = nil
+			if array_val
+				"#{array_val} = symbol.new(\"#{id.text_value}\");"
+			else
+				next_temp
+				"var #@result = symbol.new(\"#{id.text_value}\");"
+			end
 		end
 	} 
   end
@@ -508,7 +624,7 @@ grammar BaseBrat
   #Matches function definitions
   rule function_definition
 	"{" space? fa:formal_args space? l:line* space? "}" {
-		def brat
+		def brat array_val = nil
 			next_scope
 			if fa.respond_to? :brat
 				args = fa.brat
@@ -540,17 +656,28 @@ grammar BaseBrat
 				environment = output_environment
 			end
 
-			output << "var #@result = function(#{args}) { \n" <<
+			if array_val
+				output << "#{array_val} = "
+			else
+				output << "var #@result = "
+			end
+
+			output << "function(#{args}) { \n" <<
 				environment <<
 				inside <<
 				inner_function <<
 				"};"
 
 			if fa.respond_to? :var_args
-				output << "#@result = @brat.brat_var_args(#@result);\n"
+				if array_val
+					output << "#{array_val} = @brat.brat_var_args(#{array_val});\n"
+				else
+					output << "#@result = @brat.brat_var_args(#@result);\n"
+				end
 			end
 
 			pop_scope
+
 			output
 		end
 
@@ -956,10 +1083,14 @@ grammar BaseBrat
   #immediately followed by an expression.
   rule unary_operation
 	op:operator !space rhs:unary_rhs_expression {
-		def brat
+		def brat array_val = nil
 			next_temp
-			rhs.brat <<
-			"var #@result = " << call_method(rhs.result, op.brat, "", 0) << ";"
+			output = rhs.brat
+			if array_val
+				output << "#{array_val} = " << call_method(rhs.result, op.brat, "", 0) << ";"
+			else
+				output << "var #@result = " << call_method(rhs.result, op.brat, "", 0) << ";"
+			end
 		end
 	}
   end
@@ -968,7 +1099,7 @@ grammar BaseBrat
   rule binary_operation
 	lhs:binary_operation_chain rhs:expression
 	 {
-		def brat
+		def brat array_val = nil
 			output = lhs.brat
 			output << rhs.brat
 			in_stack = lhs.stack
@@ -1007,8 +1138,12 @@ grammar BaseBrat
 				end
 			end
 	
-			next_temp
-			output << "var #@result = #{res_stack.pop};"
+			if array_val
+				output << "#{array_val} = #{res_stack.pop};"
+			else
+				next_temp
+				output << "var #@result = #{res_stack.pop};"
+			end
 		end
 	}
   end
@@ -1017,7 +1152,7 @@ grammar BaseBrat
   rule binary_operation_chain
 	(lhs:binary_lhs_expression ~space op:operator ~space)+ {
 		attr_reader :stack
-		def brat	
+		def brat array_val = nil	
 			@stack = []
 			output = ""
 			elements.each do |e|
@@ -1033,19 +1168,33 @@ grammar BaseBrat
   #Matches method calls which must have parentheses or no arguments
   rule method_with_parens
   	lhs:method_chain i:(identifier / operator) a:simple_arg_list {
-		def brat
+		def brat array_val = nil
 			output = lhs.brat
 			output << a.brat
-			next_temp
-			output << "var #@result = " << call_method(lhs.result, i.brat, a.list, a.length) << ";"
+
+			if array_val
+				output << "#{array_val} = "
+			else
+				next_temp
+				output << "var #@result = "
+			end
+
+			output << call_method(lhs.result, i.brat, a.list, a.length) << ";"
 		end
 	}
 	/
   	lhs:method_chain i:(identifier / operator) &space {
-		def brat
+		def brat array_val = nil
 			output = lhs.brat
-			next_temp
-			output << "var #@result = " << call_method(lhs.result, i.brat, "", 0) << ";"
+
+			if array_val
+				output << "#{array_val} = "
+			else
+				next_temp
+				output << "var #@result = "
+			end
+
+			output << call_method(lhs.result, i.brat, "", 0) << ";"
 		end
 
 	}
@@ -1054,11 +1203,18 @@ grammar BaseBrat
   #Matches method/function invocations
   rule method_invocation
   	lhs:method_chain i:(identifier / operator) a:arg_list {
-		def brat
+		def brat array_val = nil
 			output = lhs.brat
 			output << a.brat
-			next_temp
-			output << "var #@result = " << call_method(lhs.result, i.brat, a.list, a.length) << ";"
+
+			if array_val
+				output << "#{array_val} = "
+			else
+				next_temp
+				output << "var #@result = "
+			end
+
+			output << call_method(lhs.result, i.brat, a.list, a.length) << ";"
 		end
 
 		def no_result_brat
@@ -1070,11 +1226,15 @@ grammar BaseBrat
 	}
 	/
 	m:identifier a:arg_list {
-		def brat
-			next_temp
+		def brat array_val = nil
 			name = m.brat
 			a.brat <<
-			"var #@result = " << get_value(name, a.list, a.length) << ";"
+				if array_val
+					"#{array_val} = " << get_value(name, a.list, a.length) << ";"
+				else
+					next_temp
+					"var #@result = " << get_value(name, a.list, a.length) << ";"
+				end
 		end
 
 		def no_result_brat
@@ -1097,20 +1257,35 @@ grammar BaseBrat
 	}
 	/
 	m:paren_exp a:arg_list {
-		def brat
+		def brat array_val = nil
 			output = m.brat
 			output << a.brat
-			next_temp
-			output << "var #@result = " << invoke(m.result, a.list, a.length) << ";"
+
+			if array_val	
+				output << "#{array_val} = "
+			else
+				next_temp
+				output << "var #@result = "
+			end
+			
+			output << invoke(m.result, a.list, a.length) << ";"
+			
 		end
 	}
 	/
 	f:function_definition !space a:simple_arg_list {
-		def brat
+		def brat array_val = nil
 			output = f.brat
 			output << a.brat
-			next_temp
-			output << "var #@result = " << invoke(f.result, a.list, a.length) << ";"
+
+			if array_val
+				output << "#{array_val} = " 
+			else
+				next_temp
+				output << "var #@result = " 
+			end
+
+			output << invoke(f.result, a.list, a.length) << ";"
 		end
 	}
 
@@ -1201,8 +1376,8 @@ grammar BaseBrat
 		end
 	}
 	/
-	a:array a_rest:(array+) {
-		def brat 
+	a:array a_rest:("[" space? inner_arg_list space? "]")+ {
+		def brat
 			output = a.brat
 			last = a.result
 			a_rest.elements.each do |elem|
@@ -1226,7 +1401,7 @@ grammar BaseBrat
 	}
 	/
 	method_target_expression {
-		def brat
+		def brat array_val = nil
 			super
 		end
 	}
@@ -1236,14 +1411,25 @@ grammar BaseBrat
   #instead of executing/calling it.
   rule method_access
   	"->" m:(identifier / operator) {
-		def brat
-			next_temp
+		def brat array_val = nil
 			name = m.brat
 			temp = var_exist? name
 			if temp
-				"var #@result = #{temp};"
+				if array_val
+					"#{array_val} = #{temp};"
+				else
+					next_temp
+					"var #@result = #{temp};"
+				end
 			else	
-				"var #@result;" <<
+				if array_val
+					@result = array_val
+					output = ""
+				else
+					next_temp
+					output = "var #@result;"
+				end
+				output <<
 				"if(#{name} == null) {" <<
 					"#@result = $objget(this, $hash(\"#{name}\"));" <<
 					"if(#@result == null) $throw(exception.null_error(\"#{nice_id name}\", \"access it\"));" <<
@@ -1263,11 +1449,16 @@ grammar BaseBrat
 	}
 	/
   	o:method_invocation "->" m:(identifier / operator) {
-		def brat
-			next_temp
+		def brat array_val = nil
 			name = m.brat
 			o.brat <<
-			"var #@result;" <<
+			if array_val
+				@result = array_val
+				""
+			else
+				next_temp
+				"var #@result;"
+			end <<
 			"#@result = $objget(#{o.result}, $hash(\"#{name}\"));" <<
 			"if(#@result == null) $throw(exception.method_error(\"#{nice_id o.text_value}\", \"#{nice_id name}\")); #@result; \n"
 		end
