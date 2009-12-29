@@ -375,8 +375,6 @@ grammar BaseBrat
 		end
 
 		def check_variables
-			#puts "Assignment #{lhs.brat}"
-
 			unless var_exist? lhs.brat
 				var = var_exist? lhs.brat, true
 				if var
@@ -1000,7 +998,6 @@ grammar BaseBrat
 
 		def check_variables
 			var_add i.brat
-			#$stderr.puts "Added formal #{i.brat} as #{var_exist? i.brat}"
 			rest_formal.check_variables
 		end
 	}
@@ -1067,7 +1064,6 @@ grammar BaseBrat
 			var_add @var_name
 			output = v.brat
 			@result = v.result
-			puts "#{i.brat} is #{var_exist? i.brat}"
 			output << "#{var_name} = #{v.result}"
 		end
 
@@ -1077,7 +1073,6 @@ grammar BaseBrat
 
 		def check_variables
 			var_add i.brat
-			puts "adding #{i.brat} as #{var_exist? i.brat}"
 			v.check_variables
 		end
 	}
@@ -1470,7 +1465,6 @@ grammar BaseBrat
 	/
   	o:method_invocation "->" m:(identifier / operator) {
 		def brat array_val = nil
-			p "CALLED!"
 			name = m.brat
 			o.brat <<
 			if array_val
