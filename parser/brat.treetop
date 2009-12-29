@@ -1050,6 +1050,13 @@ grammar BaseBrat
 			end
 			""
 		end
+
+		def check_variables
+			first.check_variables
+			rest.elements.each do |e|
+				e.default_arg.check_variables
+			end
+		end
 	}
   end
 
@@ -1060,6 +1067,7 @@ grammar BaseBrat
 			var_add @var_name
 			output = v.brat
 			@result = v.result
+			puts "#{i.brat} is #{var_exist? i.brat}"
 			output << "#{var_name} = #{v.result}"
 		end
 
@@ -1069,9 +1077,9 @@ grammar BaseBrat
 
 		def check_variables
 			var_add i.brat
+			puts "adding #{i.brat} as #{var_exist? i.brat}"
 			v.check_variables
 		end
-
 	}
   end
 
@@ -1324,7 +1332,6 @@ grammar BaseBrat
 			end
 		end
 	}
-	
   end
 
   #Matches expressions which can be the targets of method calls
@@ -1373,6 +1380,10 @@ grammar BaseBrat
 					var_add identifier.brat, var
 				end
 			end
+
+			a.elements.each do |e|
+				e.inner_arg_list.check_variables
+			end
 		end
 	}
 	/
@@ -1388,6 +1399,13 @@ grammar BaseBrat
 			end
 			@result = last
 			output
+		end
+
+		def check_variables
+			a.check_variables
+			a_rest.elements.each do |e|
+				e.inner_arg_list.check_variables
+			end
 		end
 	}
 	/
@@ -1450,6 +1468,7 @@ grammar BaseBrat
 	/
   	o:method_invocation "->" m:(identifier / operator) {
 		def brat array_val = nil
+			p "CALLED!"
 			name = m.brat
 			o.brat <<
 			if array_val
