@@ -375,12 +375,13 @@ grammar BaseBrat
 		end
 
 		def check_variables
-			unless var_exist? lhs.brat
-				var = var_exist? lhs.brat, true
+			id = lhs.brat
+			unless var_exist? id
+				var = var_exist? id, true
 				if var
-					var_add lhs.brat, var
+					var_add id, var
 				else
-					var_add lhs.brat
+					var_add id
 				end
 			end
 
@@ -1248,10 +1249,11 @@ grammar BaseBrat
 		end
 
 		def check_variables
-			unless var_exist? m.brat
-				var = var_exist? m.brat, true
+			id = m.brat
+			unless var_exist? id
+				var = var_exist? id, true
 				if var
-					var_add m.brat, var
+					var_add id, var
 				end
 			end
 
@@ -1369,10 +1371,12 @@ grammar BaseBrat
 		end
 
 		def check_variables
-			unless var_exist? identifier.brat
-				var = var_exist? identifier.brat, true
+			id = identifier.brat
+
+			unless var_exist? id
+				var = var_exist? id, true
 				if var
-					var_add identifier.brat, var
+					var_add id, var
 				end
 			end
 		
@@ -1454,10 +1458,12 @@ grammar BaseBrat
 		end
 
 		def check_variables
-			unless var_exist? m.brat
-				var = var_exist? m.brat, true
+			id = m.brat
+
+			unless var_exist? id
+				var = var_exist? id, true
 				if var
-					var_add m.brat, var
+					var_add id, var
 				end
 			end
 		end
