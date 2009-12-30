@@ -12,7 +12,7 @@ Please have on hand:
 * You will need Ruby to be compiled with readline to use the interactive mode
 * [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
 * [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
-* Git if you want to check it out of the repository directly - `sudo urpmi git`
+* Git if you want to check it out of the repository directly - `sudo urpmi git-core`
 
 ## Installation
 
@@ -27,6 +27,8 @@ If not, you may wish to compile it all yourself:
 1. Install [libgc](http://www.hpl.hp.com/personal/Hans_Boehm/gc/) - `sudo urpmi libgc1 libgc-devel` (or the equivalent for your platform)
 2. Install [GMP](http://gmplib.org/) - `sudo urpmi libgmp libgmp-devel`
 3. Run `sh ./build.sh` to compile Neko and Brat (it is fine to skip any libraries it may ask about) 
+
+If you want to compile a 64-bit version: First, be aware that there seem to be some issues with it. Second, modify `src/neko/Makefile` and uncomment the flags for 64-bit compilation.
 
 ## Testing
 
