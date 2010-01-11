@@ -103,7 +103,7 @@ def brat orig_file_name, options
 
 	file_name = compile_brat_file orig_file_name, options
 
-	if not system "neko #{options[:stats] ? "-stats" : ""} #{file_name}.n"
+	if not system "neko #{options[:stats] ? "-stats" : ""} #{options[:interp] ? "-interp" : "" } #{file_name}.n"
 		abort "Running program returned error number: #{$?}"
 	end
 end
@@ -306,6 +306,7 @@ Possible options:
 -a    Force recompilation of everything
 -f    Ignore existing .n file
 -h    Show this help information
+-i    Disable JIT
 -k    Don't erase intermediate files (implies -f)
 -p    Prettify Neko code (implies -k)
 -r    Report Neko stats
@@ -348,7 +349,7 @@ elsif ARGV[0]
 	if opt_args.include? '-h'
 		show_help
 		exit
-	elsif opt_args.include? ARGV[-1] or opt_args.include? '-i'
+	elsif opt_args.include? ARGV[-1]
 		brat_interactive options
 	end
 
@@ -361,6 +362,8 @@ elsif ARGV[0]
 	options[:stats] = opt_args.include? '-r'
 	
 	options[:nostrip] = opt_args.include? '-z'
+	
+	options[:interp] = opt_args.include? '-i'
 
 	options[:keep_intermediate] = options[:pretty] = opt_args.include?('-p')
 	
