@@ -219,7 +219,7 @@ def brat_interactive options = {}
 		end
 
 		begin
-			neko = inner_brat "protect { #{line} } rescue: { e | p e.error_message }"
+			neko = inner_brat "protect { #{line} } rescue: { e | p e; p e.error_message }"
 		rescue Exception => e
 			puts "Parsing error: #{e}"
 			line = ""
@@ -312,6 +312,7 @@ Possible options:
 -s    Skip checking for out-of-date files
 -t    Report running time
 -w    Start Neko web server in current directory
+-z    Don't strip debug information
 	END
 end
 
