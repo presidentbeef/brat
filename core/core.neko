@@ -578,14 +578,6 @@ base_object.import = $varargs(function(args) {
 		$throw(base_exception.argument_error("import", "1 or 2", $asize(args)));
 })
 
-base_object.export = function(object, name) {
-	if($objget(name, $hash("@value")) != null) {
-		$objset($exports, $hash(to_identifier(name)), object);
-	}
-	else
-		$throw(base_exception.argument_error("export", "string", name));
-}
-
 base_object.add@undermethod = function(name, block) {
 	name = to_identifier(name);
 
