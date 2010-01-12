@@ -8,6 +8,12 @@ echo "Building core utility library..."
 gcc -L ../../lib/ -I ../neko/vm/ -fPIC -lneko -pthread -c core-util.c && \
 gcc -L ../../lib/ -I ../neko/vm/ -shared -lneko -o ../../lib/core-util.ndll core-util.o && \
 rm core-util.o
+echo "Building cURL library..."
+#cURL library
+gcc -Wall -L ../../lib/ -I ../neko/vm/ -fPIC -lneko -lcurl -pthread -c curl.c && \
+gcc -Wall -L ../../lib/ -I ../neko/vm/ -shared -lneko -lcurl -o ../../lib/curl.ndll curl.o && \
+rm curl.o
+
 #Brat console
 export NEKOPATH=$NEKOPATH:../neko/bin/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../neko/bin/

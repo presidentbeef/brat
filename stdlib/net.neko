@@ -1,0 +1,26 @@
+@brat = $loader.loadmodule("core", $loader);
+curl_init = $loader.loadprim("curl@lib_curl_init", 0);
+curl_init();
+
+get_curl = $loader.loadprim("curl@get_curl_handle", 0);
+set_curl_debug = $loader.loadprim("curl@curl_set_debug", 2);
+get_url = $loader.loadprim("curl@curl_get_url", 2);
+cleanup_curl = $loader.loadprim("curl@curl_cleanup", 1);
+
+net = @brat.base_object.new();
+
+net.fetch = function(url) {
+	if($typeof(url) == $tobject && $objget(url, $hash("@neko_string")) != null)
+		url = url.@neko_string();
+	
+	if($typeof(url) != $tstring)
+		$throw(@brat.base_exception.argument_error("net.fetch", "string", url));
+
+	var handle = get_curl();
+	set_curl_debug(handle, true);
+	var result = get_url(handle, url);
+	cleanup_curl(handle);
+	result;	
+}
+
+$exports.net = net;
