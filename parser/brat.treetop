@@ -17,11 +17,10 @@ grammar BaseBrat
 				exception = @brat.base_exception;
 				object = this;
 				this.export = function(object, name) {
-					if(@brat.has_field(name, "@value")) { 
+					if($objget(name, "@neko_string") != null)
 						$objset($exports, $hash(@brat.to_identifier(name.@value)), object);
-					}
-				else
-					$throw(exception.argument_error("import", "a string", $string(name)));
+					else
+						$throw(exception.argument_error("import", "a string", $string(name)));
 				}
 				#{self.inner_brat}
 			}
