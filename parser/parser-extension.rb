@@ -137,10 +137,10 @@ class Treetop::Runtime::SyntaxNode
 			if(#{has_field(temp, method)}) {
 				var arg_len = $nargs(#{temp}.#{method});
 				if(arg_len == -1 || arg_len == #{arg_length}) {
-		#{temp}.#{method}(#{arguments});
+					#{temp}.#{method}(#{arguments});
 				}
 				else if(arg_len == -2) {
-		#{temp}.#{method}($array(#{arguments}));
+					#{temp}.#{method}($array(#{arguments}));
 				}
 				else
 					$throw(exception.argument_error("#{nice_id object}.#{nice_id method}",  $string(arg_len), #{arg_length}));
@@ -270,7 +270,7 @@ class Treetop::Runtime::SyntaxNode
 		<<-NEKO
 		if(#{temp} == null) {
 			if(#{has_field("this", "no@undermethod")}) {
-		#{call_no_method "this", method, arguments, arg_length}
+				#{call_no_method "this", method, arguments, arg_length}
 			}
 			else
 				$throw(exception.null_error("#{nice_id method}", "invoke method"));
@@ -278,9 +278,9 @@ class Treetop::Runtime::SyntaxNode
 		else {
 			var arg_len = $nargs(#{temp});
 			if(arg_len == #{arg_length} || arg_len == -1)
-		#{temp}(#{arguments});
+				#{temp}(#{arguments});
 			else if(arg_len == -2) {
-		#{temp}($array(#{arguments}));
+				#{temp}($array(#{arguments}));
 			}
 			else
 				$throw(exception.argument_error("#{nice_id method}", $string(arg_len), #{arg_length}));

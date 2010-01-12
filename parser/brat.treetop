@@ -5,26 +5,28 @@ grammar BaseBrat
  	line+ {
 		def brat
 			Treetop::Runtime::SyntaxNode.clear_variables
-			"@brat = $loader.loadmodule(\"core\", $loader);\n" <<
-			"@brat.base_object.@main_tantrum = function() {\n" <<
-			"array = @brat.base_array;" <<
-			"hash = @brat.base_hash;" <<
-			"number = @brat.base_number;" <<
-			"string = @brat.base_string;" <<
-			"regex = @brat.base_regex;" <<
-			"symbol = @brat.base_symbol;" <<
-			"exception = @brat.base_exception;" <<
-			"object = this;" <<
-			"this.export = function(object, name) {
-				if(@brat.has_field(name, \"@value\")) { 
-					$objset($exports, $hash(@brat.to_identifier(name.@value)), object);
+			<<-NEKO
+			@brat = $loader.loadmodule("core", $loader);
+			@brat.base_object.@main_tantrum = function() {
+				array = @brat.base_array;
+				hash = @brat.base_hash;
+				number = @brat.base_number;
+				string = @brat.base_string;
+				regex = @brat.base_regex;
+				symbol = @brat.base_symbol;
+				exception = @brat.base_exception;
+				object = this;
+				this.export = function(object, name) {
+					if(@brat.has_field(name, "@value")) { 
+						$objset($exports, $hash(@brat.to_identifier(name.@value)), object);
+					}
+				else
+					$throw(exception.argument_error("import", "a string", $string(name)));
 				}
-			else
-				$throw(exception.argument_error(\"import\", \"a string\", $string(name)));
-			}\n" <<
-			self.inner_brat << ";\n" <<
-			"}\n" <<
-			"@exit_value = @brat.base_object.@main_tantrum();\n"
+				#{self.inner_brat}
+			}
+			@exit_value = @brat.base_object.@main_tantrum();
+			NEKO
 		end
 
 		def inner_brat
@@ -1342,21 +1344,25 @@ grammar BaseBrat
 
 			output <<
 			"var #@result;" <<
-				if temp
-					"if($typeof(#{temp}) == $tobject) { " <<
-						"#@result = #{temp};" <<
-					"} else if($typeof(#{temp}) == $tfunction) {" <<
-						"#@result = " << invoke(temp, arg_list.list, arg_list.length) << ";" <<
-					"} else if(#{temp} == null) { $throw(exception.null_error(\"#{nice_id name}\", \"cannot call method on it\")); }" <<
-					"else { $throw(exception.method_error(\"this\", \"#{nice_id name}\")) };"
-				else
-					"if($objget(this, $hash(\"#{name}\")) != null) {" <<
-						"#@result = " << call_method("this", name, arg_list.list, arg_list.length) <<
-					"}" <<
-					"else if(#{name} != null) {" <<
-					"#@result = #{name}" <<
-					"} else { $throw(exception.method_error(\"this\", \"#{nice_id name}\")) };"
-				end
+			if temp
+				<<-NEKO
+				if($typeof(#{temp}) == $tobject) {
+					#@result = #{temp};
+				} else if($typeof(#{temp}) == $tfunction) {
+					#@result = #{invoke(temp, arg_list.list, arg_list.length)};
+				} else if(#{temp} == null) { $throw(exception.null_error("#{nice_id name}", "cannot call method on it")); }
+				else { $throw(exception.method_error("this", "#{nice_id name}")) };
+				NEKO
+			else
+				<<-NEKO
+				if($objget(this, $hash("#{name}")) != null) {
+					#@result = #{call_method("this", name, arg_list.list, arg_list.length)}
+				}
+				else if(#{name} != null) {
+				#@result = #{name};
+				} else { $throw(exception.method_error("this", "#{nice_id name}")) };
+				NEKO
+			end
 
 			last = @result
 			if not a.elements.empty?
