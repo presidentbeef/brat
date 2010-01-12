@@ -532,7 +532,13 @@ base_object.include = $varargs(function(args) {
 base_object.import = $varargs(function(args) {
 	if($asize(args) == 1) {
 		if($objget(args[0], $hash("@value")) != null) {
-			var m = $loader.loadmodule(to_identifier(args[0]), $loader);
+			var m;
+			try {
+				m = $loader.loadmodule(to_identifier(args[0]), $loader);
+			}
+			catch e {
+				$throw(base_exception.new(e));
+			}
 			var imp = base_object.new();
 			var f = $objfields(m);
 			var fs = $asize(f);
