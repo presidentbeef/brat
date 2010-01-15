@@ -380,7 +380,7 @@ elsif ARGV[0]
 		time = Benchmark.measure do
 			brat file_name, options
 		end
-		puts time.format('Time: %t %r')
+		$stderr.puts time.format('Time: %t %r')
 	else
 		brat file_name, options
 	end
