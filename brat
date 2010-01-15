@@ -71,7 +71,7 @@ def brat_to_neko input
 	parser = BaseBratParser.new
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
-		raise "Error during parsing:\n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}"
+		raise "Error during parsing:\n#{parser.failure_reason}"
 	else
 		tree.brat
 	end
@@ -155,7 +155,7 @@ def inner_brat input
 	parser = BaseBratParser.new
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
-		raise "Error during parsing:\n#{parser.terminal_failures.join("\n")}\n#{tree.inspect}"
+		raise "Error during parsing:\n#{parser.failure_reason}"
 	else
 		tree.inner_brat
 	end
