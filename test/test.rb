@@ -659,6 +659,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "axdx", '"acdc".sub /c/, "x"'
 		assert_result "hewo worwd", '"hello world".sub /l+/, "w"'
 		assert_result "hewo worwd", 'a = "hello world"; a.sub /l+/, "w"'
+		assert_result "10", 'a = "hello world"; a.sub!(/l+/, "w").length'
 		assert_result "hecko world", 'a = "hello world"; a.sub /hell/, { m | "heck" }'
 		assert_result "chaaxa", 'a = "cheese"; a.sub /(e|s)/, { m | true? m == "s", "x", "a" }'
 		assert_result "cheese", 'a = "cheese"; a.sub /(e|s)/, { m | true? m == "s", "x", "a" }; a'
@@ -669,6 +670,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "axdx", 'a = "acdc"; a.sub! /c/, "x"; a'
 		assert_result "hewo worwd", '"hello world".sub! /l+/, "w"'
 		assert_result "hewo worwd", 'a = "hello world"; a.sub! /l+/, "w"; a'
+		assert_result "10", 'a = "hello world"; a.sub! /l+/, "w"; a.length'
 		assert_result "hecko world", 'a = "hello world"; a.sub! /hell/, { m | "heck" }'
 		assert_result "chaaxa", 'a = "cheese"; a.sub! /(e|s)/, { m | true? m == "s", "x", "a" }'
 		assert_result "chaaxa", 'a = "cheese"; a.sub! /(e|s)/, { m | true? m == "s", "x", "a" }; a'
@@ -680,6 +682,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "hewo world", '"hello world".sub_first /l+/, "w"'
 		assert_result "hewo world", 'a = "hello world"; a.sub_first /l+/, "w"'
 		assert_result "hello world", 'a = "hello world"; a.sub_first /l+/, "w"; a'
+		assert_result "10", 'a = "hello world"; b = a.sub_first /l+/, "w"; b.length'
 	end
 
 	def test_string_sub_first!
@@ -688,6 +691,7 @@ class BratParserTest < Test::Unit::TestCase
 		assert_result "hewo world", '"hello world".sub_first! /l+/, "w"'
 		assert_result "hewo world", 'a = "hello world"; a.sub_first! /l+/, "w"'
 		assert_result "hewo world", 'a = "hello world"; a.sub_first! /l+/, "w"; a'
+		assert_result "10", 'a = "hello world"; a.sub_first! /l+/, "w"; a.length'
 	end
 
 	def test_string_set
@@ -697,8 +701,22 @@ class BratParserTest < Test::Unit::TestCase
 		assert_fail 'a = "abcde"; a[-6] = "b"; a[3]'
 	end
 
-	def test_string_concat
+	def test_string_add
 		assert_result "abcd", '"a" + "b" + "c" + "d"'
+		assert_result "a", 'a = "a"; a + "b" + "c" + "d"; a'
+		assert_result "4", 'c = "a" + "b" + "c" + "d"; c.length'
+	end
+
+	def test_string_concat
+		assert_result "abcd", '"a" << "b" << "c" << "d"'
+		assert_result "abcd", 'a = "a"; a << "b" << "c" << "d"; a'
+		assert_result "4", 'a = "a"; a << "b" << "c" << "d"; a.length'
+	end
+
+	def test_string_multiply
+		assert_result "aaaa", '"a" * 4'
+		assert_result "40", '("a" * 40).length'
+		assert_result "0", '("a" * 0).length'
 	end
 
 	def test_string_to_f

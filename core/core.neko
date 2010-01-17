@@ -1881,7 +1881,7 @@ base_string.to@underf = function() {
 }
 
 base_string.length = function() {
-	base_number.new($ssize(this.@value));
+	this.@length;
 }
 
 base_string.new = $varargs(function(args) {
@@ -1903,27 +1903,10 @@ base_string.new = $varargs(function(args) {
 	}
 	else
 		$throw(base_exception.argument_error("string.new", "0 or 1", $asize(args)));
+
+	s.@length = base_number.new($ssize(s.@value));
 	s;
 });
-
-base_string.clone = $varargs(function(args) {
-	if($asize(args) > 1)
-		$throw(base_exception.argument_error("string.clone", "0 or 1", $asize(args)));
-
-	var new_string = $new(this);
-	$objsetproto(new_string, $objgetproto(this));
-
-	if($asize(args) == 1) {
-		if($typeof(args[0]) == $tobject)
-			new_string.@value = $string(args[0].@value);
-		else if($typeof(args[0]) == $tstring)
-			new_string.@value = args[0];
-		else
-			$throw(base_exception.argument_error("string.clone", "string", args[0]));
-	}
-
-	new_string;
-})
 
 base_string.__get = $varargs(function(args) {
 	var len = $ssize(this.@value);
@@ -1935,20 +1918,20 @@ base_string.__get = $varargs(function(args) {
 
 		var index = args[0].@nvalue();
 		if(index >= len || index < -len) {
-			this.clone("");
+			this.new("");
 		}
 		else if(index >= 0) {
 			var new_string = $ssub(this.@value, index, 1);
-			return this.clone(new_string);
+			return this.new(new_string);
 		}
 		else { //index  < 0
 			index = len + index;
 			if(index < 0 || index >= len) {
-				this.clone("");
+				this.new("");
 			}
 			else {
 				var new_string = $ssub(this.@value, index, 1);
-				this.clone(new_string);
+				this.new(new_string);
 			}
 		}
 	}
@@ -1956,7 +1939,7 @@ base_string.__get = $varargs(function(args) {
 		if($not($objget(args[0], $hash("@nvalue")) != null) || $not($objget(args[1], $hash("@nvalue")) != null))
 			$throw(base_exception.new("Cannot index string with non-number value."));
 		if(len == 0) {
-			this.clone("");
+			this.new("");
 		}
 		else {
 			var start = args[0].@nvalue();
@@ -1978,13 +1961,13 @@ base_string.__get = $varargs(function(args) {
 			}
 
 			if(start >= len)
-				return this.clone("");
+				return this.new("");
 
 			if(stop >= len)
 				stop = len - 1;
 
 			var new_string = $ssub(this.@value, start, stop - start + 1);
-			this.clone(new_string);
+			this.new(new_string);
 		}		
 	}
 })
@@ -2020,11 +2003,11 @@ base_string.@less@less = function(value) {
 	if($typeof(value) != $tstring)
 		$throw("Cannot add string to non-string value.");
 
-	var new_string = $smake($ssize(this.@value) + $ssize(value));
-	$sblit(new_string, 0, this.@value, 0, $ssize(this.@value));
-	$sblit(new_string, $ssize(this.@value), value, 0, $ssize(value));
+	var new_string = this.@value + value;
 
 	this.@value = new_string;
+	this.@length = base_number.new($ssize(new_string));
+	this;
 }
 
 base_string.@plus = function(value) {
@@ -2033,10 +2016,8 @@ base_string.@plus = function(value) {
 	if($typeof(value) != $tstring)
 		$throw("Cannot add string to non-string value.");
 
-	var new_string = $smake($ssize(this.@value) + $ssize(value));
-	$sblit(new_string, 0, this.@value, 0, $ssize(this.@value));
-	$sblit(new_string, $ssize(this.@value), value, 0, $ssize(value));
-	this.clone(new_string);
+	var new_string = this.@value + value;
+	base_string.new(new_string);
 }
 
 base_string.@star = function(value) {
@@ -2097,6 +2078,7 @@ base_string.sub@bang = function(regexp, replacement) {
 	}
 	else $throw("Need to provide a string or function for string.sub()");
 
+	this.@length = base_number.new($ssize(this.@value));
 	this;
 }
 
@@ -2110,6 +2092,8 @@ base_string.sub@underfirst@bang = function(regexp, replacement) {
 	if($typeof(replacement) == $tstring)
 		this.@value = reg_rep_first(regexp, this.@value, replacement);
 	else $throw("Need to provide a string for string.sub_first()");
+
+	this.@length = base_number.new($ssize(this.@value));
 
 	this;
 }
