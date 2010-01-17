@@ -1237,6 +1237,7 @@ base_array.__get = $varargs(function(args) {
 			$throw(base_exception.argument_error("array[]", "integer", args[0]));
 
 		var index = args[0].@nvalue();
+
 		if(index >= len || index < -len) {
 			return base_object.@@null;
 		}
@@ -2036,6 +2037,23 @@ base_string.@plus = function(value) {
 	$sblit(new_string, 0, this.@value, 0, $ssize(this.@value));
 	$sblit(new_string, $ssize(this.@value), value, 0, $ssize(value));
 	this.clone(new_string);
+}
+
+base_string.@star = function(value) {
+	if($typeof(value) == $tobject && $objget(value, $hash("@nvalue")) != null)
+		value = value.@nvalue();
+
+	if($typeof(value) != $tint)
+		$throw(base_exception.argument_error("string.*", "integer", value));
+
+	var new_str = "";
+	var my_string = this.@value;
+	while(value > 0) {
+		new_str += my_string;
+		value -= 1;
+	}
+
+	base_string.new(new_str);
 }
 
 reg_rep_first = $loader.loadprim("regexp@regexp_replace", 3);
