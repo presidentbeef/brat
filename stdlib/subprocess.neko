@@ -58,7 +58,7 @@ subprocess.fork = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen == 0) {
 		var pid = sys_fork();
-		@brat.base_number.new(pid);
+		pid;
 	}
 	else if(arglen == 1) {
 		var block = args[0];
@@ -71,7 +71,7 @@ subprocess.fork = $varargs(function(args) {
 			sys_exit(0);
 		}
 		else {
-			@brat.base_number.new(pid);
+			pid;
 		}
 	}
 	else
@@ -84,11 +84,11 @@ sys_waitpid = $loader.loadprim("core-util@sys_waitpid", 1);
 subprocess.wait = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen == 0)
-		@brat.base_number.new(sys_wait());
+		sys_wait();
 	else if(arglen == 1) {
 		var pid = args[0];
-		if($typeof(pid) == $tobject && $objget(pid, $hash("@nvalue")) != null)
-			@brat.base_number.new(sys_waitpid(pid.@nvalue()));
+		if($typeof(pid) == $tint)
+			sys_waitpid(pid);
 		else
 			$throw(@brat.base_exception.argument_error("wait", "number", pid));
 	}
@@ -177,9 +177,6 @@ child.read = function(length) {
 	if(this.@subproc == null)
 		$throw("No process has been started to read from.");
 
-	if($typeof(length) == $tobject && @brat.has_field(length, "@nvalue")) {
-		length = length.@nvalue();
-	}
 	if($typeof(length) != $tint) {
 		$throw("Expected integer for child.read(), not " + $string(length));
 	}
@@ -220,9 +217,6 @@ child.read@undererr = function(length) {
 	if(this.@subproc == null)
 		$throw("No process has been started to read from.");
 
-	if($typeof(length) == $tobject && @brat.has_field(length, "@nvalue")) {
-		length = length.@nvalue();
-	}
 	if($typeof(length) != $tint) {
 		$throw("Expected integer for child.read(), not " + $string(length));
 	}
@@ -305,7 +299,7 @@ child.write = function(message) {
 		$throw("Can only write out strings to child.");
 	}
 
-	@brat.base_number.new(write(this.@subproc, message, 0, $ssize(message)));
+	write(this.@subproc, message, 0, $ssize(message));
 }
 
 child.write@underline = function(message) {
@@ -348,7 +342,7 @@ child.pid = function() {
 	if(this.@pid)
 		this.@pid;
 	else
-		this.@pid = @brat.base_number.new(pid(this.@subproc));
+		this.@pid = pid(this.@subproc);
 }
 
 kill = $loader.loadprim("std@process_kill", 1);

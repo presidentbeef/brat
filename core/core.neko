@@ -84,9 +84,10 @@ base_object.print = $varargs(function(args) {
 	var i = 0;
 	var len = $asize(args);
 	while i < len {
-		if($objget(args[i], $hash("@to_s")) != null) {
+		if($objget(args[i], $hash("@to_s")) != null)
 			args[i] = args[i].@to_s();
-		};
+		else if(base_number.@is_number(args[i]))
+			args[i] = base_number.@to_s(args[i]);
 		i += 1;
 	};
 	$call($print, null, args);
@@ -131,12 +132,10 @@ base_object.object@question = function(object) {
 
 random = $loader.loadprim("std@random_new", 0);
 random_int = $loader.loadprim("std@random_int", 2);
-base_object.random = function(x) {
-	var max ;
-	if($typeof(x) == $tobject && $objget(x, $hash("@value")) != null) {
-		max = x.@nvalue();
+base_object.random = function(max) {
+	if(base_number.@is_number(max)) {
 		if($typeof(max) == $tint)
-			base_number.new(random_int(random(), max));
+			random_int(random(), max);
 		else
 			$throw(base_exception.argument_error("random", "integer", max));
 	}
@@ -153,7 +152,7 @@ base_object.g = $varargs(function(args) {
 	var break_char = 10;
 	if($asize(args) == 1) {
 		if($typeof(args[0]) == $tobject && $objget(args[0], $hash("@value")) != null && $ssize(args[0].@value) == 1)
-			break_char = $sget(args[0].@nvalue(), 0)
+			break_char = $sget(args[0], 0)
 		else
 			$throw(base_exception.argument_error("g", "single character", args[0]));
 	}
@@ -185,7 +184,7 @@ base_object.@equal@equal = function(rhs) {
 	if($pcompare(this, rhs) == 0)
 		base_object.@@true;
 	else if($objget(this, $hash("@less@equal@greater")) != null) {
-		if(this.@less@equal@greater(rhs).@nvalue() == 0)
+		if(this.@less@equal@greater(rhs) == 0)
 			base_object.@@true;
 		else
 			base_object.@@false;
@@ -512,6 +511,16 @@ base_object.@or@or = function(rhs) {
 	}
 }
 
+base_object.@check_equal = function(lhs, rhs) {
+	var t = $typeof(lhs);
+	if(t == $tobject)
+		istrue(lhs.@equal@equal(rhs))
+	else if(t == $tint || is_num(lhs))
+		istrue(base_number.@equal@equal(lhs, rhs))
+	else
+		$throw(base_exception.new("Cannot compare " + $string(lhs) + " and " + $string(rhs)));
+}
+
 base_object.when = $varargs(function(args) {
 	var arglen = $asize(args);
 	if(arglen < 2) {
@@ -649,7 +658,7 @@ base_object.methods = function() {
 	}
 
 	var proto = $objgetproto(this);
-	meths = base_array.new(meths).select(function(i) { base_object.not(i[base_number.new(0)].@equal@equal(base_string.new("@")))});
+	meths = base_array.new(meths).select(function(i) { base_object.not(i[0].@equal@equal(base_string.new("@")))});
 	if(proto == null)
 		meths;
 	else {
@@ -671,7 +680,7 @@ base_object.local@undermethods = function() {
 		i = i + 1;
 	}
 
-	meths = base_array.new(meths).select(function(i) { base_object.not(i[base_number.new(0)].@equal@equal(base_string.new("@")))});
+	meths = base_array.new(meths).select(function(i) { base_object.not(i[0].@equal@equal(base_string.new("@")))});
 }
 
 base_object.with@underthis = function(block) {
@@ -682,9 +691,9 @@ base_object.method@underarity = function(func) {
 	if($typeof(func) == $tfunction) {
 		var args = $nargs(func);
 		if(args < 0)
-			base_number.new(-1);
+			0-1;
 		else
-			base_number.new(args);
+			args;
 	}
 	else
 		$throw(base_exception.new($string(func) + " is not a function, cannot report its arity."));
@@ -712,9 +721,7 @@ base_object.exit = $varargs(function(exit_code) {
 		sys_exit(0);
 	else if($asize(exit_code) == 1) {
 		exit_code = exit_code[0];
-		if($typeof(exit_code) == $tobject && $objget(exit_code, $hash("@nvalue")) != null)
-			sys_exit(exit_code.@nvalue());
-		else if($typeof(exit_code) == $tint)
+		if($typeof(exit_code) == $tint)
 			sys_exit(exit_code);
 		else
 			$throw(base_exception.argument_error("exit", "integer", exit_code[0]));
@@ -727,9 +734,7 @@ base_object.exit = $varargs(function(exit_code) {
 
 sys_sleep = $loader.loadprim("std@sys_sleep", 1);
 base_object.sleep = function(seconds) {
-	if($typeof(seconds) == $tobject && $objget(seconds, $hash("@nvalue")) != null)
-		seconds = seconds.@nvalue();
-	else if($typeof(seconds) != $tint && $typeof(seconds) != $tfloat)
+	if($typeof(seconds) != $tint && $typeof(seconds) != $tfloat)
 		$throw(base_exception.argument_error("sleep", "number", seconds));
 
 	sys_sleep(seconds);
@@ -743,28 +748,28 @@ has_field = function(object, field_name) {
 comparable = new_brat(null);
 
 comparable.@greater = function(num) {
-	if(this.@less@equal@greater(num).@value == 1)
+	if(this.@less@equal@greater(num) == 1)
 		base_object.@@true;
 	else
 		base_object.@@false;
 }
 
 comparable.@less = function(num) {
-	if(this.@less@equal@greater(num).@value == -1)
+	if(this.@less@equal@greater(num) == -1)
 		base_object.@@true;
 	else
 		base_object.@@false;
 }
 
 comparable.@less@equal = function(num) {
-	if(this.@less@equal@greater(num).@value < 1)
+	if(this.@less@equal@greater(num) < 1)
 		base_object.@@true;
 	else
 		base_object.@@false;
 }
 
 comparable.@greater@equal = function(num) {
-	if(this.@less@equal@greater(num).@value > -1)
+	if(this.@less@equal@greater(num) > -1)
 		base_object.@@true;
 	else
 		base_object.@@false;
@@ -793,19 +798,24 @@ to_bignum = $loader.loadprim("number@to_bignum", 1);
 integer_fits = $loader.loadprim("number@integer_fits_native", 1);
 
 base_number = new_brat(null);
-base_number.squish(comparable);
 
-base_number.@value = 0;
-base_number.@native = true;
-base_number.@cache = $hnew(10);
-base_number.@to_s = function() {
-	this.to@unders().@value;
+base_number.@is_number = function(num) {
+	if($typeof(num) == $tint)
+		true
+	else if($typeof(num) == $tabstract && is_num(num))
+		true
+	else
+		false
 }
 
-base_number.to@unders = function() {
-	if(this.@native)
-		return base_string.new($string(this.@value));
-	var s = num_to_string(this.@value);
+base_number.@to_s = function(num) {
+	str = base_number.to@unders(num).@neko_string();
+}
+
+base_number.to@unders = function(num) {
+	if($typeof(num) == $tint)
+		return base_string.new($string(num));
+	var s = num_to_string(num);
 	var str = base_string.new(s);
 	if($sfind(str.@value, 0, ".") != null) {
 		var r = base_regex.new("\\.?0+$");
@@ -814,90 +824,89 @@ base_number.to@unders = function() {
 	str;
 }
 
-base_number.native@question = function() {
-	if(this.@native)
+base_number.native@question = function(num) {
+	if($typeof(num) == $tint)
 		base_object.@@true;
 	else
 		base_object.@@false;
 }
 
-base_number.to@underi = function() {
-	if(this.@native)
-		base_number.new($int(this.@value));
-	else
-		base_number.new(num_to_int(this.@value));
+base_number.to@underi = function(num) {
+	base_number.new(num_to_int(num));
 }
 
-base_number.to@underf = function() {
-	if(this.@native)
-		base_number.new($float(this.@value));
+base_number.to@underf = function(num) {
+	if($typeof(num) == $tint)
+		int_to_float(integer_from_int(num));
 	else
-		base_number.new(num_to_float(this.@value));
-}
-
-base_number.@nvalue = function() {
-	if(this.@native)
-		this.@value;
-	else
-		to_neko_num(this.@value);
+		num_to_float(num);
 }
 
 base_number.new = function(num) {
-	var n;
-	if($typeof(num) == $tint && (n = $hget(base_number.@cache, num, null)) != null) {
-		return n;
-	}
-
-	n = new_brat(this);
 	if($typeof(num) == $tint) {
-		n.@value = num;
-		n.@native = true
-		if($hcount(base_number.@cache) < 1000)
-			$hset(base_number.@cache, num, n, null);
-	}
-	else if($typeof(num) == $tobject) {
-		if($typeof(num.@value) == $tint) {
-			n.@value = num;
-			n.@native = true
-		}
-		else if(is_num(num.@value)) {
-			n.@value = num.@value;
-			n.@native = false
-		}
-		else
-			$throw(base_exception.argument_error("number.new", "number", num));
+		return num;
 	}
 	else if(is_num(num)) {
-		if(integer_fits(num)) {
-			n.@value = to_neko_num(num);
-			n.@native = true; 
-		}
-		else {
-			n.@value = num;
-			n.@native = false
-		}
+		if(integer_fits(num)) 
+			return to_neko_num(num)
+		else
+			return num
 	}
 	else
 		$throw(base_exception.argument_error("number.new", "number", num));
-	n;
 }
 
 base_number.@stoi = function(str) {
-	base_number.new(i_from_s(str));
+	i_from_s(str);
 }
 
 base_number.@stof = function(str) {
-	base_number.new(f_from_s(str));
+	f_from_s(str);
 }
 
-base_number.@plus = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
+base_number.@or@or = function(lhs, rhs) {
+	base_object.@@true;
+}
 
-	if(this.@native && num.@native) {
-		var res = lhs + rhs;
+base_number.@and@and = function(lhs, rhs) {
+	istrue(rhs);
+}
+
+base_number.@greater = function(lhs, num) {
+	if(base_number.@compare(lhs, num) == 1)
+		base_object.@@true;
+	else
+		base_object.@@false;
+}
+
+base_number.@less = function(lhs, num) {
+	if(base_number.@compare(lhs, num) == -1)
+		base_object.@@true;
+	else
+		base_object.@@false;
+}
+
+base_number.@less@equal = function(lhs, num) {
+	if(base_number.@compare(lhs, num) < 1)
+		base_object.@@true;
+	else
+		base_object.@@false;
+}
+
+base_number.@greater@equal = function(lhs, num) {
+	if(base_number.@compare(lhs, num) > -1)
+		base_object.@@true;
+	else
+		base_object.@@false;
+}
+
+base_number.@plus = function(lhs, rhs) {
+	var tlhs = $typeof(lhs);
+	var trhs = $typeof(rhs);
+	if(tlhs == $tint && trhs == $tint) {
+		var res = $iadd(lhs, rhs);
 		if(lhs >= 0 && rhs >= 0 && res >= lhs)
-			base_number.new(res);
+			res;
 		else {
 			lhs = to_bignum(lhs);
 			rhs = to_bignum(rhs); 
@@ -906,34 +915,34 @@ base_number.@plus = function(num) {
 	}
 	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_add(lhs, rhs));
-	else if((is_num(rhs) && this.@native) || (is_num(lhs) && num.@native)) {
+	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_add(lhs, rhs));
 	}
 	else
-		$throw(base_exception.argument_error("add", "number", $string(num) + " and " + $string(this)));
+		$throw(base_exception.argument_error("add", "number", $string(lhs) + " and " + $string(rhs)));
 }
 
 base_number.@minus = $varargs(function(args) {
-	if($asize(args) == 0) {
-		if(this.@native)
-			return base_number.new(-this.@value);
+	if($asize(args) == 1) {
+		if($typeof(args[0]) == $tint)
+			return 0 - args[0];
 		else
-			return base_number.new(num_neg(this.@value));
+			return num_neg(args[0]);
 	}
-	else if($asize(args) > 1)
+	else if($asize(args) > 2)
 		$throw(base_exception.argument_error("number -", "0 or 1", $asize(args)));
 		
-	var lhs = this.@value;
-	var rhs = args[0].@value;
+	lhs = args[0];
+	rhs = args[1];
 
-	if(this.@native && args[0].@native) {
-		var res = lhs - rhs;
+	if($typeof(lhs) == $tint && $typeof(rhs) == $tint) {
+		var res = $isub(lhs, rhs);
 		if(lhs >= 0 && rhs >= 0 && res <= lhs)
-			base_number.new(res);
+			res;
 		else if(lhs < 0 && rhs < 0 && res > lhs)
-			base_number.new(res);
+			res;
 		else {
 			lhs = to_bignum(lhs);
 			rhs = to_bignum(rhs); 
@@ -942,41 +951,35 @@ base_number.@minus = $varargs(function(args) {
 	}
 	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_sub(lhs, rhs));
-	else if((is_num(rhs) && this.@native) || (is_num(lhs) && args[0].@native)) {
+	else if(($typeof(lhs) == $tint && is_num(rhs)) || ($typeof(rhs) == $tint && is_num(lhs))) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_sub(lhs, rhs));
 	}
 	else
-		$throw(base_exception.argument_error("number.-", "number", $string(args[0]) + " and " + $string(this)));
+		$throw(base_exception.argument_error("number.-", "number", $string(args[0]) + " and " + $string(args[1])));
 })
 
-base_number.@forward = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-
-	if(this.@native && num.@native) {
+base_number.@forward = function(lhs, rhs) {
+	if($typeof(lhs) == $tint && $typeof(rhs) == $tint) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs); 
 		base_number.new(num_div(lhs, rhs));
 	}
 	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_div(lhs, rhs));
-	else if((is_num(rhs) && this.@native) || (is_num(lhs) && num.@native)) {
+	else if(($typeof(lhs) == $tint && is_num(rhs)) || ($typeof(rhs) == $tint && is_num(lhs))) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_div(lhs, rhs));
 	}
 	else
-		$throw(base_exception.argument_error("number./", "number", $string(num) + " and " + $string(this)));
+		$throw(base_exception.argument_error("number./", "number", $string(lhs) + " and " + $string(rhs)));
 
 }
 
-base_number.@star = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-
-	if(this.@native && num.@native) {
+base_number.@star = function(lhs, rhs) {
+	if($typeof(lhs) == $tint && $typeof(rhs) == $tint) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs); 
 		base_number.new(num_mul(lhs, rhs));
@@ -984,86 +987,77 @@ base_number.@star = function(num) {
 	else if(is_num(rhs) && is_num(lhs)) {
 		base_number.new(num_mul(lhs, rhs));
 	}
-	else if((is_num(rhs) && this.@native) || (is_num(lhs) && num.@native)) {
+	else if(($typeof(lhs) == $tint && is_num(rhs)) || ($typeof(rhs) == $tint && is_num(lhs))) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_mul(lhs, rhs));
 	}
 	else
-		$throw(base_exception.argument_error("number.*", "number", $string(num) + " and " + $string(this)));
+		$throw(base_exception.argument_error("number.*", "number", $string(lhs) + " and " + $string(rhs)));
 }
 
-base_number.@percent = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-
-	if(this.@native && num.@native) {
+base_number.@percent = function(lhs, rhs) {
+	if($typeof(lhs) == $tint && $typeof(rhs) == $tint) {
 		base_number.new(lhs % rhs);
 	}
-	else if(is_int(rhs) && is_int(lhs))
+	else if(is_int(lhs) && is_int(rhs))
 		base_number.new(int_mod(lhs, rhs));
 	else
-		$throw(base_exception.argument_error("number.%", "number", $string(num) + " and " + $string(this)));
+		$throw(base_exception.argument_error("number.%", "number", $string(lhs) + " and " + $string(rhs)));
 
 }
 
-math_pow = $loader.loadprim("std@math_pow", 2);
-base_number.@up = function(num) {
-	var lhs = this.@value;
-	var rhs = num.@value;
-
-	if(is_float(lhs) || is_float(rhs))
-		base_number.new(math_pow(to_neko_num(lhs), to_neko_num(rhs)));
-	else
-		base_number.new(int_pow(lhs, rhs));
+base_number.@up = function(lhs, rhs) {
+	base_number.new(int_pow(lhs,rhs));
 }
 
-base_number.@less@equal@greater = function(num) {
-	base_number.new(this.@compare(num));
+base_number.@less@equal@greater = function(lhs, rhs) {
+	base_number.@compare(lhs, rhs);
 }
 
-base_number.@compare = function(num) {
-	if($objget(num, $hash("@native")) != null) {
-		var rhs = num.@value;
-		var lhs = this.@value;
-
-		if(this.@native && num.@native)
-			$compare(lhs,rhs);
-		else if(is_num(lhs) && is_num(rhs)) 
-			num_cmp(lhs, rhs);
-		else 
-			num_cmp(to_bignum(lhs), to_bignum(rhs));
+base_number.@compare = function(lhs, rhs) {
+	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
+		$compare(lhs,rhs);
+	else if(is_num(lhs) && is_num(rhs)) 
+		num_cmp(lhs, rhs);
+	else if(($typeof(lhs) == $tint && is_num(rhs)) || ($typeof(rhs) == $tint && is_num(lhs))) {
+		num_cmp(to_bignum(lhs), to_bignum(rhs));
 	}
 	else
-		$throw(base_exception.new("Cannot compare " + $string(this) + " and " + $string(num)));
+		$throw(base_exception.new("Cannot compare " + $string(lhs) + " and " + $string(rhs)));
 }
 
-base_number.@equal@equal = function(num) {
-	if($pcompare(this, rhs) == 0)
+base_number.@equal@equal = function(lhs, rhs) {
+	if($pcompare(lhs, rhs) == 0)
 		base_object.@@true;
-	else if($not($objget(num, $hash("@native")) != null))
-		base_object.@@false;
-	else if(this.@compare(num) == 0)
-		base_object.@@true;
+	else if(($typeof(rhs) == $tint || is_num(rhs))) {
+		if(base_number.@compare(lhs, rhs) == 0)
+			base_object.@@true;
+		else
+			base_object.@@false;
+	}
 	else
 		base_object.@@false;
 }
 
-base_number.times = function(block) {
-	if(this.@native) {
-		var num = this.@nvalue();
-		if(num == 0) return this;
+base_number.@notequal = function(lhs, rhs) {
+	base_object.not(base_number.@equal@equal(lhs, rhs))
+}
+
+base_number.times = function(lhs, block) {
+	if($typeof(lhs) == $tint) {
+		if(lhs == 0) return lhs;
 		var index = 0;
 	
 		if($nargs(block) == 0) {
-			while(index < num) {
+			while(index < lhs) {
 				block();
 				index = index + 1;
 			}
 		}
 		else {
-			while(index < num) {
-				block(base_number.new(index));
+			while(index < lhs) {
+				block(index);
 				index = index + 1;
 			}
 		}
@@ -1071,24 +1065,23 @@ base_number.times = function(block) {
 	else
 		$throw("Not implemented quite yet.");
 
-	this;
+	lhs;
 }
 
-base_number.to = function(stop, block) {
-	if(this.@native) {
-		var index = this.@nvalue();
-		stop = stop.@nvalue();
-		if(index == stop) return this;
+base_number.to = function(lhs, stop, block) {
+	if($typeof(lhs) == $tint) {
+		var index = lhs;
+		if(index == stop) return lhs;
 	
 		if(index < stop) {
 			while(index <= stop) {
-				block(base_number.new(index));
+				block(index);
 				index = index + 1;
 			}
 		}
 		else {
 			while(index >= stop) {
-				block(base_number.new(index));
+				block(index);
 				index = index - 1;
 			}
 		}
@@ -1096,7 +1089,7 @@ base_number.to = function(stop, block) {
 	else
 		$throw("Not implemented quite yet.");
 
-	this;
+	lhs;
 }
 
 //Enumerable squishin
@@ -1213,14 +1206,13 @@ base_array.@neko_array = function() {
 }
 
 base_array.length = function() {
-	base_number.new(this.@length);
+	this.@length;
 }
 
 base_array.reserve = function(size) {
-	if($typeof(size) != $tobject || $not($objget(size, $hash("@nvalue")) != null))
+	if($typeof(size) != $tint)
 		$throw(base_exception.argument_error("array.reserve", "integer", size));
 
-	size = size.@nvalue();
 	var empty = $asize(this.@internal_array) - this.@length;
 	if(size > empty)
 		this.@internal_array = $aconcat($array(this.@internal_array, $amake(size - empty)));
@@ -1233,10 +1225,10 @@ base_array.__get = $varargs(function(args) {
 	if($asize(args) == 0 || $asize(args) > 2)
 		$throw(base_exception.argument_error("array.get", "1 or 2", $asize(args)));
 	else if($asize(args) == 1) {
-		if($not($objget(args[0], $hash("@nvalue")) != null))
+		if($typeof(args[0] != $tint))
 			$throw(base_exception.argument_error("array[]", "integer", args[0]));
 
-		var index = args[0].@nvalue();
+		var index = args[0];
 
 		if(index >= len || index < -len) {
 			return base_object.@@null;
@@ -1255,15 +1247,15 @@ base_array.__get = $varargs(function(args) {
 		}
 	}
 	else {
-		if($not($objget(args[0], $hash("@nvalue")) != null) || $not($objget(args[1], $hash("@nvalue")) != null))
-			$throw(base_exception.argument_error("array[]", "number", args[0]));
+		if($typeof(args[0]) != $tint)
+			$throw(base_exception.argument_error("array[]", "integer", args[0]));
 
 		if(len == 0) {
 			this.new(); //return empty array
 		}
 		else {
-			var start = args[0].@nvalue();
-			var stop = args[1].@nvalue();
+			var start = args[0];
+			var stop = args[1];
 
 			if(start < 0)
 				start = len + start;
@@ -1294,8 +1286,6 @@ base_array.__get = $varargs(function(args) {
 });
 
 base_array.__set = function(index, value) {
-	if($typeof(index) == $tobject && $objget(index, $hash("@nvalue")) != null)
-		index = index.@nvalue();
 	if($typeof(index) != $tint)
 		$throw(base_exception.argument_error("array[]", "integer", args[0]));
 
@@ -1383,10 +1373,10 @@ base_array.@equal@equal = function(rhs) {
 	var index = 0;
 	var length = this.@length;
 	while(index < length) {
-		if($not(istrue(lhs[index].@equal@equal(rhs[index]))))
-			return base_object.@@false
-		else
-			index = index + 1;
+		if($not(base_object.@check_equal(lhs[index], rhs[index])))
+				return base_object.@@false
+
+		index = index + 1;
 	}
 	base_object.@@true;
 }
@@ -1444,21 +1434,8 @@ base_array.delete@underfirst = function(item) {
 	var found = null;
 	var length = this.@length;
 
-	var compare;
-
-	if($typeof(item) == $tobject) {
-		compare = function(current) {
-			item.@equal@equal(current) == base_object.@@true;
-		}
-	}
-	else {
-		compare = function(current) {
-			item == current;
-		}
-	}
-
 	while index < length + 1 {
-		if(compare(this.@internal_array[index])) {
+		if(base_object.@check_equal(item, this.@internal_array[index])) {
 			found = index;
 			break;
 		}
@@ -1490,15 +1467,29 @@ base_array.delete@underfirst = function(item) {
 
 partition = function(array, left, right, pivot) {
 	var pivot_value = array[pivot];
-	if($typeof(pivot_value) != $tobject || $not($objget(pivot_value, $hash("@greater@equal")) != null))
+	if(($typeof(pivot_value) != $tobject || $not($objget(pivot_value, $hash("@greater@equal")) != null)) && $typeof(pivot_value) != $tint && $not(is_num(pivot_value)))
 		$throw(base_exception.new("Cannot compare " + $string(pivot_value) + " in order to sort it."));
 	var temp = array[pivot];
 	array[pivot] = array[right];
 	array[right] = temp;
 	store_index = left;
 	var i = left;
+
+	var compare;
+
+	if($typeof(pivot_value) == $tobject)
+		compare = function(current) {
+			pivot_value.@greater@equal(current) == base_object.@@true;
+		}
+	else if($typeof(pivot_value) == $tint || is_num(pivot_value))
+		compare = function(current) {
+			base_number.@greater@equal(pivot_value, current) == base_object.@@true;
+		}
+	else
+		$throw(base_exception.new("Cannot compare " + $string(pivot_value) + " in order to sort it."));
+
 	while(i < right) {
-		if(pivot_value.@greater@equal(array[i]) == base_object.@@true) {
+		if(compare(array[i])) {
 			temp = array[store_index];
 			array[store_index] = array[i];
 			array[i] = temp;
@@ -1533,15 +1524,15 @@ base_array.sort@bang = function() {
 }
 
 base_array.first = function() {
-	this.get(base_number.new(0));
+	this.get(0);
 }
 
 base_array.rest = function() {
-	this.get(base_number.new(1), base_number.new(-1));
+	this.get(1, -1);
 }
 
 base_array.last = function() {
-	this.get(base_number.new(-1));
+	this.get(-1);
 }
 
 base_array.map = function(block) {
@@ -1582,7 +1573,7 @@ base_array.map@underwith@underindex = function(block) {
 	var length = this.@length;
 
 	while(index < length) {
-		new_ary.@internal_array[index] = block(this.@internal_array[index], base_number.new(index));
+		new_ary.@internal_array[index] = block(this.@internal_array[index], index);
 		index = index + 1;
 	}
 
@@ -1612,7 +1603,7 @@ base_array.each@underwith@underindex = function(block) {
 	var length = this.@length;
 
 	while(index < length) {
-		block(this.@internal_array[index], base_number.new(index));
+		block(this.@internal_array[index], index);
 		index = index + 1;
 	}
 
@@ -1648,7 +1639,7 @@ base_array.include@question = function(item) {
 	var length = this.@length;
 
 	while(index < length) {
-		if(this.@internal_array[index].@equal@equal(item) == base_object.@@true)
+		if(base_object.@check_equal(this.@internal_array[index], item))
 			return base_object.@@true;
 
 		index = index + 1;
@@ -1666,8 +1657,8 @@ base_array.index@underof = function(item) {
 	var length = this.@length;
 
 	while(index < length) {
-		if(this.@internal_array[index].@equal@equal(item) == base_object.@@true)
-			return base_number.new(index);
+		if(base_object.@check_equal(this.@internal_array[index], item))
+			return index;
 		index = index + 1;
 	}
 
@@ -1681,8 +1672,8 @@ base_array.index@underof = function(item) {
 	var index = this.@length - 1;
 
 	while(index >= 0) {
-		if(this.@internal_array[index].@equal@equal(item) == base_object.@@true)
-			return base_number.new(index);
+		if(base_object.@check_equal(this.@internal_array[index], item))
+			return index;
 
 		index = index - 1;
 	}
@@ -1701,9 +1692,15 @@ base_hash.@internal_hash = $hnew(10);
 base_hash.@compare = function(lhs, rhs) {
 	if($typeof(lhs) == $tobject && $typeof(rhs) == $tobject) {
 		if(istrue(lhs.@equal@equal(rhs)))
-			0;
+			0
 		else
-			-1;
+			-1
+	}
+	else if($typeof(lhs) == $tint || is_num(lhs)) {
+		if(istrue(base_number.@equal@equal(lhs, rhs)))
+			0
+		else
+			-1
 	}
 	else 
 		$compare(lhs, rhs);
@@ -1780,7 +1777,7 @@ base_hash.delete = function(key) {
 }
 
 base_hash.length = function() {
-	base_number.new($hcount(this.@internal_hash));
+	$hcount(this.@internal_hash);
 }
 
 base_hash.select = function(block) {
@@ -1865,7 +1862,7 @@ base_string.@equal@equal = function(rhs) {
 
 base_string.@less@equal@greater = function(rhs) {
 	if($typeof(rhs) == $tobject && $objget(rhs, $hash("@neko_string")) != null) {
-		base_number.new($compare(this.@neko_string(), rhs.@neko_string()));
+		$compare(this.@neko_string(), rhs.@neko_string());
 	}
 	else
 		$throw(base_exception.new("Cannot compare " + $string(this) + " and " + $string(rhs)));
@@ -1904,7 +1901,7 @@ base_string.new = $varargs(function(args) {
 	else
 		$throw(base_exception.argument_error("string.new", "0 or 1", $asize(args)));
 
-	s.@length = base_number.new($ssize(s.@value));
+	s.@length = $ssize(s.@value);
 	s;
 });
 
@@ -1913,10 +1910,10 @@ base_string.__get = $varargs(function(args) {
 	if($asize(args) == 0 || $asize(args) > 2)
 		$throw(base_exception.argument_error("string.get", "1 or 2", $asize(args)));
 	else if($asize(args) == 1) {
-		if($not($objget(args[0], $hash("@nvalue")) != null))
-			$throw(base_exception.new("Cannot index string with non-number value."));
+		if($typeof(args[0]) != $tint)
+			$throw(base_exception.new("Cannot index string with non-integer value."));
 
-		var index = args[0].@nvalue();
+		var index = args[0];
 		if(index >= len || index < -len) {
 			this.new("");
 		}
@@ -1936,14 +1933,14 @@ base_string.__get = $varargs(function(args) {
 		}
 	}
 	else {
-		if($not($objget(args[0], $hash("@nvalue")) != null) || $not($objget(args[1], $hash("@nvalue")) != null))
-			$throw(base_exception.new("Cannot index string with non-number value."));
+		if($typeof(args[0]) != $tint || $typeof(args[1] != $tint))
+			$throw(base_exception.new("Cannot index string with non-integer value."));
 		if(len == 0) {
 			this.new("");
 		}
 		else {
-			var start = args[0].@nvalue();
-			var stop = args[1].@nvalue();
+			var start = args[0];
+			var stop = args[1];
 			if(start < 0)
 				start = len + start;
 			if(stop < 0)
@@ -1979,11 +1976,6 @@ base_string.__set = function(index, value) {
 		$throw("Cannot set string to non-string value.");
 
 
-	if($typeof(index) == $tobject && $objget(index, $hash("@nvalue")) != null)
-		index = index.@nvalue();
-	else if($typeof(index) == $tobject && $objget(index, $hash("@value")) != null)
-		index = index.@value;
-
 	if($typeof(index) != $tint)
 		$throw("Cannot use non-integer index for string.");
 
@@ -2006,7 +1998,7 @@ base_string.@less@less = function(value) {
 	var new_string = this.@value + value;
 
 	this.@value = new_string;
-	this.@length = base_number.new($ssize(new_string));
+	this.@length = $ssize(new_string);
 	this;
 }
 
@@ -2021,9 +2013,6 @@ base_string.@plus = function(value) {
 }
 
 base_string.@star = function(value) {
-	if($typeof(value) == $tobject && $objget(value, $hash("@nvalue")) != null)
-		value = value.@nvalue();
-
 	if($typeof(value) != $tint)
 		$throw(base_exception.argument_error("string.*", "integer", value));
 
@@ -2078,7 +2067,7 @@ base_string.sub@bang = function(regexp, replacement) {
 	}
 	else $throw("Need to provide a string or function for string.sub()");
 
-	this.@length = base_number.new($ssize(this.@value));
+	this.@length = $ssize(this.@value);
 	this;
 }
 
@@ -2093,7 +2082,7 @@ base_string.sub@underfirst@bang = function(regexp, replacement) {
 		this.@value = reg_rep_first(regexp, this.@value, replacement);
 	else $throw("Need to provide a string for string.sub_first()");
 
-	this.@length = base_number.new($ssize(this.@value));
+	this.@length = $ssize(this.@value);
 
 	this;
 }
@@ -2171,7 +2160,7 @@ base_string.dice = function() {
 	var strlen = $ssize(this.@value);
 	var res = $amake(strlen);
 	while(i < strlen) {
-		res[i] = this.__get(base_number.new(i));
+		res[i] = this.__get(i);
 		i = i + 1;
 	}
 

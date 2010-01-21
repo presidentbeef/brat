@@ -133,7 +133,7 @@ class Treetop::Runtime::SyntaxNode
 		if(#{temp} == null) {
 			$throw(exception.null_error("#{nice_id object}", "invoke #{nice_id method} on it"));
 		}
-		else {
+		else if($typeof(#{temp}) == $tobject) {
 			if(#{has_field(temp, method)}) {
 				var arg_len = $nargs(#{temp}.#{method});
 				if(arg_len == -1 || arg_len == #{arg_length}) {
@@ -147,6 +147,29 @@ class Treetop::Runtime::SyntaxNode
 			}
 			else if(#{has_field(temp, "no@undermethod")}) {
 				#{call_no_method temp, method, arguments, arg_length}
+			}
+			else
+				$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
+		}
+		else {
+			if(#{has_field("number", method)}) {
+				var arg_len = $nargs(number.#{method});
+				if(arg_len == -1 || arg_len == #{arg_length + 1}) {
+					number.#{method}(#{temp}, #{arguments});
+				}
+				else if(arg_len == 1) {
+					var @n = @brat.new_brat(number);
+					@n.my = function() { #{temp} };
+					$call(number.#{method}, @n, $array(#{arguments}));
+				}
+				else if(arg_len == -2) {
+					number.#{method}($array(#{temp}, #{arguments}));
+				}
+				else
+					$throw(exception.argument_error("number.#{nice_id method}",  $string(arg_len) - 1, #{arg_length}));
+			}
+			else if(#{has_field("number", "no@undermethod")}) {
+				#{call_no_method "number", method, "#{temp}, #{arguments}", arg_length}
 			}
 			else
 				$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
@@ -204,6 +227,9 @@ class Treetop::Runtime::SyntaxNode
 			if(#{has_field("this", object)}) {
 				#{call_method("this", object, arguments, arg_length)}
 			}
+			else if(number.@is_number(this)) {
+				#{call_method("number", object, arguments, arg_length)}
+			}
 			else if(#{has_field("this", "no@undermethod")}) {
 				#{call_no_method "this", object, arguments, arg_length}
 			}
@@ -231,20 +257,23 @@ class Treetop::Runtime::SyntaxNode
 			if(#{has_field("this", object)}) {
 				#@result = this.#{object};
 
-			var arg_len = $nargs(#@result);
-			if(arg_len == -1 || arg_len == #{arg_length})
-				#@result(#{arguments});
-			else if(arg_len == -2)
-				#@result($array(#{arguments}));
-			else
-				$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
+				var arg_len = $nargs(#@result);
+				if(arg_len == -1 || arg_len == #{arg_length})
+					#@result(#{arguments});
+				else if(arg_len == -2)
+					#@result($array(#{arguments}));
+				else
+					$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
+			}
+			else if(number.@is_number(this)) {
+				#{call_method("number", object, arguments, arg_length)}
 			}
 			else if(#{has_field("this", "no@undermethod")}) {
 				#{call_no_method "this", object, arguments, arg_length}
 			}
 			else if($typeof(#{no_meth}) == $tfunction) {
 				#{call_no_method nil, object, arguments, arg_length}
-			}
+			}	
 			else
 				$throw(exception.name_error("#{nice_id object}"));
 		} else if($typeof(#{temp}) == $tfunction) {

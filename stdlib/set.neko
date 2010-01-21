@@ -41,7 +41,7 @@ set.@equal@equal = function(rhs) {
 		@brat.base_object.@@true;
 	else if($objget(rhs, $hash("@internal_hash")) == null)
 		@brat.base_object.@@false;
-	else if(this.length().@value != rhs.length().@value)
+	else if(this.length() != rhs.length())
 		@brat.base_object.@@false;
 	else {
 		var flag = true;

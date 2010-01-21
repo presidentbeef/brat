@@ -472,17 +472,13 @@ grammar BaseBrat
 			next_temp
 			if array_val
 				if text_value.to_i > -1073741823
-					"if((#{array_val} = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
-						"#{array_val} = number.new(#{text_value});"
+					"#{array_val} = #{text_value};"
 				else
 					"#{array_val} = number.@stoi(\"#{text_value}\");"
 				end
 			else
 				if text_value.to_i > -1073741823
-					"var #@result;\n" <<
-					"if((#@result = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
-					"#@result = number.new(#{text_value});"  <<
-					"else #@result;";
+					"var #@result = #{text_value};"
 				else
 					"var #@result = number.@stoi(\"#{text_value}\");"
 				end
@@ -498,18 +494,14 @@ grammar BaseBrat
 			next_temp
 			if array_val
 				if text_value.to_i < 1073741824
-					"if((#{array_val} = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
-						"#{array_val} = number.new(#{text_value});"
+					"#{array_val} = #{text_value};"
 				else
 					"#{array_val} = number.@stoi(\"#{text_value}\");"
 				end
 
 			else
 				if text_value.to_i < 1073741824
-					"var #@result;\n" <<
-					"if((#@result = $hget(number.@cache, #{text_value}, null)) == null)\n" <<
-					"#@result = number.new(#{text_value});" <<
-					"else #@result;";
+					"var #@result = #{text_value};"
 				else
 					"var #@result = number.@stoi(\"#{text_value}\");"
 				end
@@ -1345,7 +1337,8 @@ grammar BaseBrat
 			"var #@result;" <<
 			if temp
 				<<-NEKO
-				if($typeof(#{temp}) == $tobject) {
+				var @t = $typeof(#{temp});
+				if(@t == $tobject || @t == $tint || is_num(#{temp})) {
 					#@result = #{temp};
 				} else if($typeof(#{temp}) == $tfunction) {
 					#@result = #{invoke(temp, arg_list.list, arg_list.length)};
