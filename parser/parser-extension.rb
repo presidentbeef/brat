@@ -155,9 +155,9 @@ class Treetop::Runtime::SyntaxNode
 			if(#{has_field("number", method)}) {
 				var arg_len = $nargs(number.#{method});
 				if(arg_len == -1 || arg_len == #{arg_length + 1}) {
-					number.#{method}(#{temp}, #{arguments});
+					number.#{method}(#{temp}#{ arg_length > 0 ? ", " : ""}#{arguments});
 				}
-				else if(arg_len == 1) {
+				else if(arg_len == 1 || arg_len == 0) {
 					var @n = @brat.new_brat(number);
 					@n.my = function() { #{temp} };
 					$call(number.#{method}, @n, $array(#{arguments}));
@@ -166,7 +166,7 @@ class Treetop::Runtime::SyntaxNode
 					number.#{method}($array(#{temp}, #{arguments}));
 				}
 				else
-					$throw(exception.argument_error("number.#{nice_id method}",  $string(arg_len) - 1, #{arg_length}));
+					$throw(exception.argument_error("number.#{nice_id method}",  $string(arg_len - 1), #{arg_length}));
 			}
 			else if(#{has_field("number", "no@undermethod")}) {
 				#{call_no_method "number", method, "#{temp}, #{arguments}", arg_length}
