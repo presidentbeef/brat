@@ -789,7 +789,7 @@ is_int = $loader.loadprim("number@is_int", 1);
 is_float = $loader.loadprim("number@is_float", 1);
 num_to_string = $loader.loadprim("number@num_to_string", 1);
 num_to_float = $loader.loadprim("number@int_to_float", 1);
-num_to_int = $loader.loadprim("number@float_to_int", 1);
+float_to_int = $loader.loadprim("number@float_to_int", 1);
 integer_from_int = $loader.loadprim("number@integer_from_int", 1);
 float_from_float = $loader.loadprim("number@float_from_float", 1);
 num_neg = $loader.loadprim("number@num_neg", 1);
@@ -832,12 +832,17 @@ base_number.native@question = function(num) {
 }
 
 base_number.to@underi = function(num) {
-	base_number.new(num_to_int(num));
+	var res = to_bignum(num);
+	res = float_to_int(res);
+	base_number.new(res);
 }
 
 base_number.to@underf = function(num) {
-	if($typeof(num) == $tint)
-		int_to_float(integer_from_int(num));
+	if($typeof(num) == $tint) {
+		var res;
+		res = integer_from_int(num);
+		num_to_float(res);
+	}
 	else
 		num_to_float(num);
 }
