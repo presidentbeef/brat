@@ -310,7 +310,12 @@ grammar BaseBrat
 		def brat array_val = nil
 			output = lhs.brat <<
 			rhs.brat  <<
-			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});"
+			"if($typeof(#{lhs.result}) == $tobject)" <<
+				"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});" <<
+			"else if(number.@is_number(#{lhs.result}))" <<
+				"$objset(number, $hash(\"#{lhs.i.brat}\"), #{rhs.result});" <<
+			"else $throw(\"Cannot set method on \" + $string(#{lhs.result}));"
+
 			@result = rhs.result
 
 			if array_val
@@ -325,7 +330,11 @@ grammar BaseBrat
 		def brat array_val = nil
 			output = lhs.brat << 
 			rhs.brat <<
-			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});"
+			"if($typeof(#{lhs.result}) == $tobject)" <<
+				"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});" <<
+			"else if(number.@is_number(#{lhs.result}))" <<
+				"$objset(number, $hash(\"#{lhs.i.brat}\"), #{rhs.result});" <<
+			"else $throw(\"Cannot set method on \" + $string(#{lhs.result}));"
 
 			if array_val
 				output << "#{array_val} = #@result;"
@@ -339,7 +348,12 @@ grammar BaseBrat
 		def brat array_val = nil
 			output = lhs.brat << 
 			rhs.brat <<
-			"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), function() {#{rhs.result}});"
+			"if($typeof(#{lhs.result}) == $tobject)" <<
+				"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), function() { #{rhs.result}});" <<
+			"else if(number.@is_number(#{lhs.result}))" <<
+				"$objset(number, $hash(\"#{lhs.i.brat}\"), function() { #{rhs.result} });" <<
+			"else $throw(\"Cannot set method on \" + $string(#{lhs.result}));"
+
 			@result = rhs.result
 			output << "#@result;"
 
