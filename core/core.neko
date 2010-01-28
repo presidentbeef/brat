@@ -941,8 +941,10 @@ base_number.@minus = $varargs(function(args) {
 		
 	lhs = args[0];
 	rhs = args[1];
+	var tlhs = $typeof(lhs);
+	var trhs = $typeof(rhs);
 
-	if($typeof(lhs) == $tint && $typeof(rhs) == $tint) {
+	if(tlhs == $tint && trhs == $tint) {
 		var res = $isub(lhs, rhs);
 		if(lhs >= 0 && rhs >= 0 && res <= lhs)
 			res;
@@ -956,7 +958,7 @@ base_number.@minus = $varargs(function(args) {
 	}
 	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_sub(lhs, rhs));
-	else if(($typeof(lhs) == $tint && is_num(rhs)) || ($typeof(rhs) == $tint && is_num(lhs))) {
+	else if(tlhs == $tint && is_num(rhs) || trhs == $tint && is_num(lhs)) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_sub(lhs, rhs));
@@ -966,14 +968,17 @@ base_number.@minus = $varargs(function(args) {
 })
 
 base_number.@forward = function(lhs, rhs) {
-	if($typeof(lhs) == $tint && $typeof(rhs) == $tint) {
+	var tlhs = $typeof(lhs);
+	var trhs = $typeof(rhs);
+
+	if(tlhs == $tint && trhs == $tint) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs); 
 		base_number.new(num_div(lhs, rhs));
 	}
 	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_div(lhs, rhs));
-	else if(($typeof(lhs) == $tint && is_num(rhs)) || ($typeof(rhs) == $tint && is_num(lhs))) {
+	else if(tlhs == $tint && is_num(rhs) || trhs == $tint && is_num(lhs)) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_div(lhs, rhs));
@@ -984,7 +989,10 @@ base_number.@forward = function(lhs, rhs) {
 }
 
 base_number.@star = function(lhs, rhs) {
-	if($typeof(lhs) == $tint && $typeof(rhs) == $tint) {
+	var tlhs = $typeof(lhs);
+	var trhs = $typeof(rhs);
+
+	if(tlhs == $tint && trhs == $tint) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs); 
 		base_number.new(num_mul(lhs, rhs));
@@ -992,7 +1000,7 @@ base_number.@star = function(lhs, rhs) {
 	else if(is_num(rhs) && is_num(lhs)) {
 		base_number.new(num_mul(lhs, rhs));
 	}
-	else if(($typeof(lhs) == $tint && is_num(rhs)) || ($typeof(rhs) == $tint && is_num(lhs))) {
+	else if(tlhs == $tint && is_num(rhs) || trhs == $tint && is_num(lhs)) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_mul(lhs, rhs));
@@ -1021,11 +1029,14 @@ base_number.@less@equal@greater = function(lhs, rhs) {
 }
 
 base_number.@compare = function(lhs, rhs) {
-	if($typeof(lhs) == $tint && $typeof(rhs) == $tint)
+	var tlhs = $typeof(lhs);
+	var trhs = $typeof(rhs);
+
+	if(tlhs == $tint && trhs == $tint)
 		$compare(lhs,rhs);
 	else if(is_num(lhs) && is_num(rhs)) 
 		num_cmp(lhs, rhs);
-	else if(($typeof(lhs) == $tint && is_num(rhs)) || ($typeof(rhs) == $tint && is_num(lhs))) {
+	else if(tlhs == $tint && is_num(rhs) || trhs == $tint && is_num(lhs)) {
 		num_cmp(to_bignum(lhs), to_bignum(rhs));
 	}
 	else
