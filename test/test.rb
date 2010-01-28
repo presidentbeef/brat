@@ -830,11 +830,13 @@ class BratParserTest < Test::Unit::TestCase
 
 	def test_number_to_f
 		assert_result "5.5", "5.5.to_f"
+		assert_result "192380129731123.3", "192380129731123.3.to_f"
 	end
 
 	def test_number_to_i
 		assert_result "5", "5.5.to_i"
 		assert_result "0", "(1 / 2).to_i"
+		assert_result "192380129731123", "192380129731123.3.to_i"
 	end
 
 	def test_string_compare
