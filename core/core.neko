@@ -958,7 +958,7 @@ base_number.@minus = $varargs(function(args) {
 	}
 	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_sub(lhs, rhs));
-	else if(tlhs == $tint && is_num(rhs) || trhs == $tint && is_num(lhs)) {
+	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_sub(lhs, rhs));
@@ -978,7 +978,7 @@ base_number.@forward = function(lhs, rhs) {
 	}
 	else if(is_num(rhs) && is_num(lhs))
 		base_number.new(num_div(lhs, rhs));
-	else if(tlhs == $tint && is_num(rhs) || trhs == $tint && is_num(lhs)) {
+	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_div(lhs, rhs));
@@ -1000,7 +1000,7 @@ base_number.@star = function(lhs, rhs) {
 	else if(is_num(rhs) && is_num(lhs)) {
 		base_number.new(num_mul(lhs, rhs));
 	}
-	else if(tlhs == $tint && is_num(rhs) || trhs == $tint && is_num(lhs)) {
+	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
 		lhs = to_bignum(lhs);
 		rhs = to_bignum(rhs);
 		base_number.new(num_mul(lhs, rhs));
@@ -1036,7 +1036,7 @@ base_number.@compare = function(lhs, rhs) {
 		$compare(lhs,rhs);
 	else if(is_num(lhs) && is_num(rhs)) 
 		num_cmp(lhs, rhs);
-	else if(tlhs == $tint && is_num(rhs) || trhs == $tint && is_num(lhs)) {
+	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
 		num_cmp(to_bignum(lhs), to_bignum(rhs));
 	}
 	else
