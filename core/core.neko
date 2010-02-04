@@ -913,16 +913,12 @@ base_number.@plus = function(lhs, rhs) {
 		if(lhs >= 0 && rhs >= 0 && res >= lhs)
 			res;
 		else {
-			lhs = to_bignum(lhs);
-			rhs = to_bignum(rhs); 
+			lhs = integer_from_int(lhs);
+			rhs = integer_from_int(rhs);
 			base_number.new(num_add(lhs, rhs));
 		}
 	}
-	else if(is_num(rhs) && is_num(lhs))
-		base_number.new(num_add(lhs, rhs));
-	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
-		lhs = to_bignum(lhs);
-		rhs = to_bignum(rhs);
+	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs)) || (is_num(rhs) && is_num(rhs))) {
 		base_number.new(num_add(lhs, rhs));
 	}
 	else
@@ -951,16 +947,12 @@ base_number.@minus = $varargs(function(args) {
 		else if(lhs < 0 && rhs < 0 && res > lhs)
 			res;
 		else {
-			lhs = to_bignum(lhs);
-			rhs = to_bignum(rhs); 
+			lhs = integer_from_int(lhs);
+			rhs = integer_from_int(rhs);
 			base_number.new(num_sub(lhs, rhs));
 		}
 	}
-	else if(is_num(rhs) && is_num(lhs))
-		base_number.new(num_sub(lhs, rhs));
-	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
-		lhs = to_bignum(lhs);
-		rhs = to_bignum(rhs);
+	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs)) || (is_num(rhs) && is_num(rhs))) {
 		base_number.new(num_sub(lhs, rhs));
 	}
 	else
@@ -971,18 +963,8 @@ base_number.@forward = function(lhs, rhs) {
 	var tlhs = $typeof(lhs);
 	var trhs = $typeof(rhs);
 
-	if(tlhs == $tint && trhs == $tint) {
-		lhs = to_bignum(lhs);
-		rhs = to_bignum(rhs); 
+	if((tlhs == $tint && trhs == $tint) || (tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs)) || (is_num(rhs) && is_num(rhs)))
 		base_number.new(num_div(lhs, rhs));
-	}
-	else if(is_num(rhs) && is_num(lhs))
-		base_number.new(num_div(lhs, rhs));
-	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
-		lhs = to_bignum(lhs);
-		rhs = to_bignum(rhs);
-		base_number.new(num_div(lhs, rhs));
-	}
 	else
 		$throw(base_exception.argument_error("number./", "number", $string(lhs) + " and " + $string(rhs)));
 
@@ -993,16 +975,10 @@ base_number.@star = function(lhs, rhs) {
 	var trhs = $typeof(rhs);
 
 	if(tlhs == $tint && trhs == $tint) {
-		lhs = to_bignum(lhs);
-		rhs = to_bignum(rhs); 
+		lhs = integer_from_int(lhs);
 		base_number.new(num_mul(lhs, rhs));
 	}
-	else if(is_num(rhs) && is_num(lhs)) {
-		base_number.new(num_mul(lhs, rhs));
-	}
-	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
-		lhs = to_bignum(lhs);
-		rhs = to_bignum(rhs);
+	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs)) || (is_num(rhs) && is_num(lhs))) {
 		base_number.new(num_mul(lhs, rhs));
 	}
 	else
@@ -1024,21 +1000,16 @@ base_number.@up = function(lhs, rhs) {
 	base_number.new(int_pow(lhs,rhs));
 }
 
-base_number.@less@equal@greater = function(lhs, rhs) {
-	base_number.@compare(lhs, rhs);
-}
+base_number.@less@equal@greater = base_number.@compare;
 
 base_number.@compare = function(lhs, rhs) {
 	var tlhs = $typeof(lhs);
 	var trhs = $typeof(rhs);
 
 	if(tlhs == $tint && trhs == $tint)
-		$compare(lhs,rhs);
-	else if(is_num(lhs) && is_num(rhs)) 
+		$pcompare(lhs,rhs);
+	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs)) || (is_num(rhs) && is_num(rhs)))
 		num_cmp(lhs, rhs);
-	else if((tlhs == $tint && is_num(rhs)) || (trhs == $tint && is_num(lhs))) {
-		num_cmp(to_bignum(lhs), to_bignum(rhs));
-	}
 	else
 		$throw(base_exception.new("Cannot compare " + $string(lhs) + " and " + $string(rhs)));
 }
