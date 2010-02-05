@@ -151,7 +151,7 @@ buffer_string = $loader.loadprim("std@buffer_string", 1);
 base_object.g = $varargs(function(args) {
 	var break_char = 10;
 	if($asize(args) == 1) {
-		if($typeof(args[0]) == $tobject && $objget(args[0], $hash("@value")) != null && $ssize(args[0].@value) == 1)
+		if($typeof(args[0]) == $tobject && $objget(args[0], $hash("@neko_string")) != null && $ssize(args[0].@value) == 1)
 			break_char = $sget(args[0], 0)
 		else
 			$throw(base_exception.argument_error("g", "single character", args[0]));
@@ -540,7 +540,7 @@ base_object.include = $varargs(function(args) {
 
 base_object.import = $varargs(function(args) {
 	if($asize(args) == 1) {
-		if($objget(args[0], $hash("@value")) != null) {
+		if($objget(args[0], $hash("@neko_string")) != null) {
 			var m;
 			try {
 				m = $loader.loadmodule(to_identifier(args[0]), $loader);
@@ -571,7 +571,7 @@ base_object.import = $varargs(function(args) {
 			$throw(base_exception.argument_error("import", "string", args[0]));
 	}
 	else if($asize(args) == 2) {
-		if($objget(args[0], $hash("@value")) != null && $objget(args[1], $hash("@value")) != null) {
+		if($objget(args[0], $hash("@neko_string")) != null && $objget(args[1], $hash("@neko_string")) != null) {
 			var m = $loader.loadmodule(args[0].@value, $loader);
 			var name = $hash(to_identifier(args[1]));
 			if($objfield(m, name)) {
@@ -1957,7 +1957,7 @@ base_string.__get = $varargs(function(args) {
 })
 
 base_string.__set = function(index, value) {
-	if($typeof(value) == $tobject && $objget(value, $hash("@value")) != null)
+	if($typeof(value) == $tobject && $objget(value, $hash("@neko_string")) != null)
 		value = $string(value.@value);
 	if($typeof(value) != $tstring)
 		$throw("Cannot set string to non-string value.");
@@ -1977,7 +1977,7 @@ base_string.__set = function(index, value) {
 }
 
 base_string.@less@less = function(value) {
-	if($typeof(value) == $tobject && $objget(value, $hash("@value")) != null)
+	if($typeof(value) == $tobject && $objget(value, $hash("@neko_string")) != null)
 		value = $string(value.@value);
 	if($typeof(value) != $tstring)
 		$throw("Cannot add string to non-string value.");
@@ -1990,7 +1990,7 @@ base_string.@less@less = function(value) {
 }
 
 base_string.@plus = function(value) {
-	if($typeof(value) == $tobject && $objget(value, $hash("@value")) != null)
+	if($typeof(value) == $tobject && $objget(value, $hash("@neko_string")) != null)
 		value = $string(value.@value);
 	if($typeof(value) != $tstring)
 		$throw("Cannot add string to non-string value.");
@@ -2021,7 +2021,7 @@ reg_matched = function(regex) { reg_match(regex, 0) }
 base_string.sub = function(regexp, replacement) {
 	if($typeof(regexp) == $tobject && $objget(regexp, $hash("@internal_regex")) != null)
 		regexp = regexp.@internal_regex;
-	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@value")) != null)
+	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@neko_string")) != null)
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
 		$throw("Need to provide a regular expression for string.sub()");
@@ -2041,7 +2041,7 @@ base_string.sub = function(regexp, replacement) {
 base_string.sub@bang = function(regexp, replacement) {
 	if($typeof(regexp) == $tobject && $objget(regexp, $hash("@internal_regex")) != null)
 		regexp = regexp.@internal_regex;
-	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@value")) != null)
+	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@neko_string")) != null)
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
 		$throw("Need to provide a regular expression for string.sub()");
@@ -2061,7 +2061,7 @@ base_string.sub@bang = function(regexp, replacement) {
 base_string.sub@underfirst@bang = function(regexp, replacement) {
 	if($typeof(regexp) == $tobject && $objget(regexp, $hash("@internal_regex")) != null)
 		regexp = regexp.@internal_regex;
-	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@value")) != null)
+	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@neko_string")) != null)
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
 		$throw("Need to provide a regular expression for string.sub_first()");
@@ -2077,7 +2077,7 @@ base_string.sub@underfirst@bang = function(regexp, replacement) {
 base_string.sub@underfirst = function(regexp, replacement) {
 	if($typeof(regexp) == $tobject && $objget(regexp, $hash("@internal_regex")) != null)
 		regexp = regexp.@internal_regex;
-	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@value")) != null)
+	if($typeof(replacement) == $tobject && $objget(replacement, $hash("@neko_string")) != null)
 		replacement = replacement.@value;
 	if($typeof(regexp) != $tabstract)
 		$throw("Need to provide a regular expression for string.sub_first()");
@@ -2096,7 +2096,7 @@ base_string.split = $varargs(function(args) {
 		sep = " ";
 		else if(arglen == 1) {
 		sep = args[0];
-		if($typeof(sep) == $tobject && $objget(sep, $hash("@value")) != null)
+		if($typeof(sep) == $tobject && $objget(sep, $hash("@neko_string")) != null)
 		sep = sep.@value;
 		if($typeof(sep) != $tstring)
 		$throw("Separator for split() must be a string, not " + $string(sep));
@@ -2158,7 +2158,7 @@ regexp_new = $loader.loadprim("regexp@regexp_new", 1);
 base_regex = new_brat(null);
 base_regex.@internal_regex = base_object.@@null;
 base_regex.new = function(regx_string) {
-	if($typeof(regx_string) == $tobject && $objget(regx_string, $hash("@value")) != null)
+	if($typeof(regx_string) == $tobject && $objget(regx_string, $hash("@neko_string")) != null)
 		regx_string = regx_string.@value;
 	if($typeof(regx_string) != $tstring)
 		$throw("Must create new regex with a string, not " + $string(regx_string));
@@ -2170,7 +2170,7 @@ base_regex.new = function(regx_string) {
 
 regexp_match = $loader.loadprim("regexp@regexp_match", 4);
 base_regex.match = function(val) {
-	if($typeof(val) == $tobject && $objget(val, $hash("@value")) != null)
+	if($typeof(val) == $tobject && $objget(val, $hash("@neko_string")) != null)
 		val = val.@value;
 	else
 		$throw("Wrong, wrong, wrong!");
