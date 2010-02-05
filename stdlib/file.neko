@@ -2,7 +2,7 @@
 
 file_exists = $loader.loadprim("std@sys_exists", 1);
 file@underexists@question = function(path) {
-	if(@brat.has_field(path, "@value"))
+	if($objget(path, $hash("@neko_string")) != null)
 		path = path.@value;
 	if($typeof(path) != $tstring)
 		$throw("Expected string for file_exists?, was given " + $string(path));
@@ -37,7 +37,7 @@ file@underrename = function(opath, npath) {
 
 create_dir = $loader.loadprim("std@sys_create_dir", 2);
 make@underdir = function(path) {
-	if(@brat.has_field(path, "@value"))
+	if($objget(path, $hash("@neko_string")) != null)
 		path = path.@value;
 	if($typeof(path) != $tstring)
 		$throw("Expected string for make_dir, was given " + $string(path));
@@ -59,7 +59,7 @@ delete@underdir = function(path) {
 
 file_type = $loader.loadprim("std@sys_file_type", 1);
 file@undertype = function(path) {
-	if(@brat.has_field(path, "@value"))
+	if($objget(path, $hash("@neko_string")) != null)
 		path = path.@value;
 	if($typeof(path) != $tstring)
 		$throw("Expected string for file_type, was given " + $string(path));
@@ -74,7 +74,7 @@ file@undertype = function(path) {
 
 fslurp = $loader.loadprim("std@file_contents", 1);
 file@underslurp = function(path) {
-	if(@brat.has_field(path, "@value"))
+	if($objget(path, $hash("@neko_string")) != null)
 		path = path.@value;
 	else
 		path = path;
@@ -91,7 +91,7 @@ file_open = $loader.loadprim("std@file_open", 2);
 
 file.new = function(path) {
 	var f = @brat.new_brat(this);
-	if(@brat.has_field(path, "@value"))
+	if($objget(path, $hash("@neko_string")) != null)
 		path = path.@value;
 	if($typeof(path) != $tstring)
 		$throw("Expected string for file.new, was given " + $string(path));
@@ -113,7 +113,7 @@ file@underopen = $varargs(function(args) {
 		file.new(args[0]);
 	else if(arglen == 2) {
 		var path = args[0];
-		if($typeof(path) == $tobject && @brat.has_field(path, "@value"))
+		if($typeof(path) == $tobject && $objget(path, $hash("@neko_string")) != null)
 			path = path.@value;
 
 		if($typeof(path) != $tstring)
