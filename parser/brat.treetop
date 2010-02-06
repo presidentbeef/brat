@@ -306,7 +306,7 @@ grammar BaseBrat
 
   #Matches assignment using "=" operator
   rule assignment
- 	lhs:field_access space "=" spaceorbreak rhs:function_definition {
+ 	lhs:field_access space "=" spaceorbreak rhs:(function_definition / method_access) {
 		def brat array_val = nil
 			output = lhs.brat <<
 			rhs.brat  <<
@@ -317,24 +317,6 @@ grammar BaseBrat
 			"else $throw(\"Cannot set method on \" + $string(#{lhs.result}));"
 
 			@result = rhs.result
-
-			if array_val
-				output << "#{array_val} = #@result;"
-			end
-
-			output
-		end
-	}
-	/
- 	lhs:field_access space "=" spaceorbreak rhs:method_access {
-		def brat array_val = nil
-			output = lhs.brat << 
-			rhs.brat <<
-			"if($typeof(#{lhs.result}) == $tobject)" <<
-				"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});" <<
-			"else if(number.@is_number(#{lhs.result}))" <<
-				"$objset(number, $hash(\"#{lhs.i.brat}\"), #{rhs.result});" <<
-			"else $throw(\"Cannot set method on \" + $string(#{lhs.result}));"
 
 			if array_val
 				output << "#{array_val} = #@result;"
