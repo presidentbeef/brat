@@ -1,10 +1,7 @@
-#This is for testing core functions.
+require 'test/base-test'
+
 class BratStdlibTests < Test::Unit::TestCase
-	include BratTestExt
-	def setup
-		@parser = BaseBratParser.new
-		Treetop::Runtime::SyntaxNode.clear_variables
-	end
+	include BratBaseTest
 
 	def test_directory
 		require 'fileutils'

@@ -1,10 +1,7 @@
-#This is for testing examples posted to the wiki.
+require 'test/base-test'
+
 class BratExamplesTest < Test::Unit::TestCase
-	include BratTestExt
-	def setup
-		Treetop::Runtime::SyntaxNode.clear_variables
-		@parser = BaseBratParser.new
-	end
+	include BratBaseTest
 
 	def test_factorial
 		assert_result "720", "fact = {x|
