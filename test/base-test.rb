@@ -7,7 +7,7 @@ module BratBaseTest
 	def parse input
 		result = @parser.parse(input)
 		unless result
-			$stderr.puts @parser.terminal_failures.join("\n")
+			$stderr.puts @parser.failure_reason
 		end
 		assert !result.nil?
 		result
