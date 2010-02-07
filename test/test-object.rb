@@ -13,11 +13,11 @@ class BratObjectTest < Test::Unit::TestCase
 	end
 
 	def test_new
-		assert_result "#object { }", "new"
+		assert_result "#object< >", "new"
 	end
 
 	def test_new_object
-		assert_result "#object { y }", "x = new; x.y = 1; x"
+		assert_result "#object< y >", "x = new; x.y = 1; x"
 	end
 
 	def test_init

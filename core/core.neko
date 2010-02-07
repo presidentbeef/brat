@@ -57,7 +57,7 @@ base_object.to@unders = function() {
 	var cur_field;
 	var name;
 	var first;
-	var output = "#object {"
+	var output = "#object<"
 	while index < length {
 		cur_field = fields[index];
 		name = $field(cur_field);
@@ -69,7 +69,7 @@ base_object.to@unders = function() {
 			output = output + " " + name;
 		index = index + 1;
 	} 
-	base_string.new(output + " }");
+	base_string.new(output + " >");
 }
 
 base_object.@to_s = function() {
@@ -1804,16 +1804,20 @@ base_hash.empty@question = function() {
 }
 
 base_hash.@to_s = function() {
-	output = "";
+	output = "{";
 	var st = function(k,v) {
-		output = $string(output + $string(k) + " : " + $string(v) + ", ");
+		if($typeof(k) == $tabstract && is_num(k))
+			k = base_number.to@unders(k);
+
+		if($typeof(v) == $tabstract && is_num(v))
+			v = base_number.to@unders(v);
+		
+		output = output + $string(k) + " : " + $string(v) + ", ";
 	}
 
 	$hiter(this.@internal_hash, st);
 
-	var out = output;
-	output = null;
-	out;
+	$ssub(output, 0, $ssize(output) - 2) + "}";
 }
 
 hset = function(hashtable, index, value) {

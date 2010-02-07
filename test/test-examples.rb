@@ -100,7 +100,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_hideous 
-		assert_result "#object { -!_+~%~+_!- <------||==@ }", <<-NEKO
+		assert_result "#object< -!_+~%~+_!- <------||==@ >", <<-NEKO
 		a_!?-*+^&@1~\\\\><$ = new
 		a_!?-*+^&@1~\\\\><$.-!_+~%~+_!- = {d0~!@><?&&<>\\/+-*^&% | d0~!@><?&&<>\\/+-*^&%}
 		a_!?-*+^&@1~\\\\><$.@==||------> = { a_!?-*+^&@1~\\\\><$ }
