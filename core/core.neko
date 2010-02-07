@@ -2422,8 +2422,8 @@ base_exception.new = $varargs(function(args) {
 
 	if($typeof(error_message) == $tstring)
 		error_message = base_string.new(error_message);
-	else if($typeof(error_message) != $tobject || $objget(error_message, $hash("@neko_string")) == null)
-		$throw(base_exception.argument_error("base_exception.new", "string", error_message));
+	else
+		error_message = base_string.new($string(error_message)); 
 
 	if($typeof(type) == $tstring)
 		type = base_string.new(type);
