@@ -1,0 +1,3 @@
+[submodule "src/brat/lib/yajl"]
+	path = src/brat/lib/yajl
+	url = git://github.com/lloyd/yajl

@@ -13,6 +13,16 @@ echo "Building cURL library..."
 gcc -Wall -L ../../lib/ -I ../neko/vm/ -fPIC -lneko -lcurl -pthread -c curl.c && \
 gcc -Wall -L ../../lib/ -I ../neko/vm/ -shared -lneko -lcurl -o ../../lib/curl.ndll curl.o && \
 rm curl.o
+echo "Building JSON library..."
+#yajl library
+cd lib/yajl && \
+./configure && \
+make && \
+cd ../ && \
+cp -d lib/yajl/build/yajl*/lib/libyajl.so.* ../../lib/ && \
+gcc -Wall -L ../../lib/ -I ../neko/vm/ -I lib/yajl/build/yajl-1.0.10/include/ -fPIC -lneko -lyajl -pthread -c json.c && \
+gcc -Wall -L ../../lib/ -I ../neko/vm/ -I lib/yajl/build/yajl-1.0.10/include/ -shared -lneko -lyajl -o ../../lib/libjson.ndll json.o && \
+rm json.o
 
 #Brat console
 export NEKOPATH=$NEKOPATH:../neko/bin/

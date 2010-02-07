@@ -1,0 +1,115 @@
+@brat = $loader.loadmodule("core", $loader);
+
+
+callbacks = $new(null);
+callbacks.current_object = null;
+callbacks.current_key = null;
+callbacks.current_type = null;
+array = 0;
+hash = 1;
+
+callbacks.add_boolean = function(val) {
+	if(val)
+		this.set_current(@brat.base_object.@@true);
+	else
+		this.set_current(@brat.base_object.@@false);
+}
+
+callbacks.add_number = function(val) {
+	if($sfind(val, 0, ".") != null)
+		this.set_current(@brat.base_number.new(@brat.base_number.@stoi(val)));
+	else
+		this.set_current(@brat.base_number.@stof(val));
+}
+
+callbacks.add_string = function(val) {
+	this.set_current(@brat.base_string.new(val));
+}
+
+callbacks.add_string = function(val) {
+	this.set_current(@brat.base_string.new(val));
+}
+
+callbacks.add_null = function() {
+	this.set_current(@brat.base_object.@@null);
+}
+
+callbacks.start_array = function() {
+	if(this.current_object == null)
+		this.current_object = @brat.base_array.new();
+	else {
+		var a = @brat.base_array.new();
+		this.set_current(a);
+		a.@parent = this.current_object;
+		this.current_object = a;
+	}
+	
+	this.current_type = array;
+}
+
+callbacks.end_array = function() {
+	if(this.current_object.@parent != null) {
+		this.current_object = this.current_object.@parent;
+
+		if(this.current_object != null) {
+			if($objget(this.current_object, $hash("@neko_array")) != null)
+				this.current_type = array
+			else
+				this.current_type = hash
+		}
+	}
+}
+
+callbacks.start_hash = function() {
+	if(this.current_object == null)
+		this.current_object = @brat.base_hash.new();
+	else {
+		var a = @brat.base_hash.new();
+		this.set_current(a);
+		a.@parent = this.current_object;
+		this.current_object = a;
+	}
+
+	this.current_type = hash;
+}
+
+callbacks.set_key = function(val) {
+	this.current_key = @brat.base_string.new(val);
+}
+
+callbacks.end_hash = function() {
+	if(this.current_object.@parent != null) {
+		this.current_object = this.current_object.@parent;
+		
+		if(this.current_object != null) {
+			if($objget(this.current_object, $hash("@neko_array")) != null)
+				this.current_type = array
+			else
+				this.current_type = hash
+		}
+	}
+}
+
+callbacks.set_current = function(val) {
+	if(this.current_type == hash) {
+		this.current_object[this.current_key] = val;
+	}
+	else
+		this.current_object.push(val);
+}
+
+parse_json = $loader.loadprim("libjson@parse_json", 3);
+
+parse = function(json_string) {
+	if($typeof(json_string) == $tobject && $objget(json_string, $hash("@neko_string")) != null)
+		json_string = json_string.@neko_string();
+
+	if($typeof(json_string) != $tstring)
+		$throw(@brat.base_exception.argument_error("json parse", "string", json_string));
+
+	var cb = $new(callbacks);
+	parse_json(cb, json_string, $ssize(json_string));
+	cb.current_object;
+}
+
+$exports.parse = parse;
