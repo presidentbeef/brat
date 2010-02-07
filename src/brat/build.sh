@@ -18,11 +18,14 @@ echo "Building JSON library..."
 cd lib/yajl && \
 ./configure && \
 make && \
-cd ../ && \
-cp -d lib/yajl/build/yajl*/lib/libyajl.so.* ../../lib/ && \
+cd ../../ && \
+cp -f -d lib/yajl/build/yajl*/lib/libyajl.so* ../../lib/ && \
 gcc -Wall -L ../../lib/ -I ../neko/vm/ -I lib/yajl/build/yajl-1.0.10/include/ -fPIC -lneko -lyajl -pthread -c json.c && \
 gcc -Wall -L ../../lib/ -I ../neko/vm/ -I lib/yajl/build/yajl-1.0.10/include/ -shared -lneko -lyajl -o ../../lib/libjson.ndll json.o && \
-rm json.o
+rm json.o && \
+cd lib/yajl/ && \
+make clean && \
+cd ../../
 
 #Brat console
 export NEKOPATH=$NEKOPATH:../neko/bin/
