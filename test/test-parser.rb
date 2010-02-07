@@ -157,6 +157,7 @@ class BratParserTest < Test::Unit::TestCase
 		parse "\"Hello, there\""
 		parse "'what is up'"
 		parse "'what\\\'s up?'"
+		parse "'stray double \"quote'"
 	end
 
 	def test_assignment_parse

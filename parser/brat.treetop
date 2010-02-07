@@ -540,11 +540,12 @@ grammar BaseBrat
 	/
 	"'" content:(("\\'" / "\\\\" / !"'" . )*) "'" {
 		def brat array_val = nil
+			string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
 			if array_val
-				"#{array_val} = string.new(\"#{content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1")}\")"
+				"#{array_val} = string.new(\"#{string}\");"
 			else
 				next_temp
-				"var #@result = string.new(\"#{content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1")}\")"
+				"var #@result = string.new(\"#{string}\");"
 			end
 		end
 	}
