@@ -112,4 +112,4 @@ parse = function(json_string) {
 	cb.current_object;
 }
 
-$exports.parse = parse;
+$exports.parse_json = parse;
