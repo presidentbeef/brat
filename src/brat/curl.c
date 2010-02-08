@@ -57,6 +57,14 @@ value curl_set_url(value handle, value url) {
 	return alloc_int(curl_easy_setopt(c_handle, CURLOPT_URL, address));
 }
 
+value curl_set_auth(value handle, value userpwd) {
+	val_check_kind(handle, k_curl);
+	val_check(userpwd, string);
+
+	curl_easy_setopt(val_data(handle), CURLOPT_USERPWD, val_string(userpwd));
+	return val_null;
+}
+
 value curl_set_buffer(value handle, buffer buf) {
 	val_check_kind(handle, k_curl);
 	curl_easy_setopt(val_data(handle), CURLOPT_WRITEDATA, buf);
@@ -102,3 +110,4 @@ DEFINE_PRIM(get_curl_handle, 0);
 DEFINE_PRIM(curl_get_url, 2);
 DEFINE_PRIM(curl_cleanup, 1);
 DEFINE_PRIM(curl_set_debug, 2);
+DEFINE_PRIM(curl_set_auth, 2);

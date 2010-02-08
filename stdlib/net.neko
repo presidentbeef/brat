@@ -4,6 +4,7 @@ curl_init();
 
 get_curl = $loader.loadprim("curl@get_curl_handle", 0);
 set_curl_debug = $loader.loadprim("curl@curl_set_debug", 2);
+set_curl_auth = $loader.loadprim("curl@curl_set_auth", 2);
 get_url = $loader.loadprim("curl@curl_get_url", 2);
 cleanup_curl = $loader.loadprim("curl@curl_cleanup", 1);
 
@@ -18,6 +19,32 @@ net.fetch = function(url) {
 
 	var handle = get_curl();
 	set_curl_debug(handle, true);
+	var result = get_url(handle, url);
+	cleanup_curl(handle);
+	result;	
+}
+
+net.fetch@underauth = function(url, user, password) {
+	if($typeof(url) == $tobject && $objget(url, $hash("@neko_string")) != null)
+		url = url.@neko_string();
+	if($typeof(user) == $tobject && $objget(user, $hash("@neko_string")) != null)
+		user = user.@neko_string();
+	if($typeof(password) == $tobject && $objget(password, $hash("@neko_string")) != null)
+		password = password.@neko_string();
+
+	
+	if($typeof(url) != $tstring)
+		$throw(@brat.base_exception.argument_error("net.fetch", "string", url));
+	if($typeof(user) != $tstring)
+		$throw(@brat.base_exception.argument_error("net.fetch", "string", user));
+	if($typeof(password) != $tstring)
+		$throw(@brat.base_exception.argument_error("net.fetch", "string", password));
+
+	var handle = get_curl();
+	set_curl_debug(handle, true);
+	var usrpwd = user + ":" + password;
+	$print(usrpwd, "\n");
+	set_curl_auth(handle, usrpwd);
 	var result = get_url(handle, url);
 	cleanup_curl(handle);
 	result;	
