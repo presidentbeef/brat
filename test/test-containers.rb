@@ -159,6 +159,11 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "true", "a = new; b = new; c = [a,b]; d = [a,b]; c == d"
 	end
 
+	def test_array_join
+		assert_result "a, b, c", '["a", "b", "c"].join ", "'
+		assert_result "1, 2, 3", '[1, 2, 3].join ", "'
+	end
+
 	def test_hash
 		assert_result "1", "x = hash.new; x[\"y\"] = 1; x[\"y\"]"
 		assert_result "1", "x = [:]; x[\"y\"] = 1; x[\"y\"]"

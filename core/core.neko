@@ -1668,6 +1668,50 @@ base_array.index@underof = function(item) {
 	base_object.@@null;
 }
 
+base_array.join = $varargs(function(args) {
+	var arglen = $asize(args);
+	var separator = ""
+	if(arglen == 1) {
+		separator = args[0];
+		if($typeof(separator) == $tobject && $objget(separator, $hash("@neko_string")) != null)
+			separator = separator.@value;
+
+		if($typeof(separator) != $tstring)
+			$throw(base_exception.argument_error("array.join", "string", separator));
+	}
+	else if(arglen != 0) {
+		$throw(base_exception.argument_error("array.join", "0 or 1", arglen));
+	}
+	
+	if(this.@length == 0)
+		return base_string.new("");
+
+	var index = 0;
+	var length = this.@length - 1;
+	var cur;
+	var result = "";
+
+	while(index < length) {
+		cur = this.@internal_array[index];
+
+		if($typeof(cur) == $tabstract && is_num(cur))
+			cur = base_number.to@unders(cur);
+		else if($typeof(cur) != $tstring)
+			cur = $string(cur);
+
+		result = result + cur + separator;
+		index = index + 1;
+	}
+
+	cur = this.@internal_array[length];
+	if($typeof(cur) == $tabstract && is_num(cur))
+		cur = base_number.to@unders(cur);
+	else if($typeof(cur) != $tstring)
+		cur = $string(cur);
+
+	base_string.new(result + cur);
+})
+
 base_array.to@underarray = function() { this }
 
 base_array.set = base_array.__set;
