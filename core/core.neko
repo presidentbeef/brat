@@ -1878,6 +1878,13 @@ base_string.@to_s = function() {
 	this.@value;
 }
 
+base_string.@string = function(val) {
+	if($typeof(val) == $tabstract && is_num(val))
+		base_number.@to_s(val);
+	else
+		$string(val);
+}
+
 base_string.@neko_string = function() { this.@value }
 
 base_string.to@unders = function() { this }
