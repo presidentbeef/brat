@@ -8,23 +8,55 @@ set_curl_auth = $loader.loadprim("curl@curl_set_auth", 2);
 get_url = $loader.loadprim("curl@curl_get_url", 2);
 cleanup_curl = $loader.loadprim("curl@curl_cleanup", 1);
 
+combine_parameters = function(param_hash) {
+	$print("HI!@!@!");
+
+	if($typeof(param_hash) != $tobject || $objget(param_hash, $hash("@internal_hash")) != null)
+		@brat.base_exception.argument_error("combine_parameters", "hash", param_hash);
+
+	var res = param_hash.map(function(key, value) {
+		$print(key, " - ", value, "\n");
+		@brat.base_string.@string(key) + "=" + @brat.base_string.@string(value);
+	})
+
+	"?" + res.join("&").@neko_string();
+}
+
 net = @brat.base_object.new();
 
-net.fetch = function(url) {
-	if($typeof(url) == $tobject && $objget(url, $hash("@neko_string")) != null)
-		url = url.@neko_string();
-	
-	if($typeof(url) != $tstring)
-		$throw(@brat.base_exception.argument_error("net.fetch", "string", url));
+net.fetch = $varargs(function(args) {
+	var url;
+	var arglen = $asize(args);
+	if(arglen > 0 && arglen < 3) {
+		url = args[0];
+		if($typeof(url) == $tobject && $objget(url, $hash("@neko_string")) != null)
+			url = url.@neko_string();
+		if($typeof(url) != $tstring)
+			$throw(@brat.base_exception.argument_error("net.fetch", "string", url));
+	}
+	else
+		$throw(@brat.base_exception.argument_error("net.fetch", "1 or 2", arglen));
+
+	if(arglen == 2) {
+		var params = combine_parameters(args[1]);
+		url = url + params; 
+	}
 
 	var handle = get_curl();
 	set_curl_debug(handle, true);
 	var result = get_url(handle, url);
 	cleanup_curl(handle);
 	result;	
-}
+})
 
-net.fetch@underauth = function(url, user, password) {
+net.fetch@underauth = $varargs(function(args) {
+	var arglen = $asize(args);
+	if(arglen < 3 || arglen > 4)
+		$throw(@brat.base_exception.argument_error("net.fetch_auth", "3 or 4", arglen));
+
+	var url = args[0];
+	var user = args[1];
+	var password = args[2];
 	if($typeof(url) == $tobject && $objget(url, $hash("@neko_string")) != null)
 		url = url.@neko_string();
 	if($typeof(user) == $tobject && $objget(user, $hash("@neko_string")) != null)
@@ -34,11 +66,16 @@ net.fetch@underauth = function(url, user, password) {
 
 	
 	if($typeof(url) != $tstring)
-		$throw(@brat.base_exception.argument_error("net.fetch", "string", url));
+		$throw(@brat.base_exception.argument_error("net.fetch_auth", "string", url));
 	if($typeof(user) != $tstring)
-		$throw(@brat.base_exception.argument_error("net.fetch", "string", user));
+		$throw(@brat.base_exception.argument_error("net.fetch_auth", "string", user));
 	if($typeof(password) != $tstring)
-		$throw(@brat.base_exception.argument_error("net.fetch", "string", password));
+		$throw(@brat.base_exception.argument_error("net.fetch_auth", "string", password));
+
+	if(arglen == 4) {
+		var params = combine_parameters(args[3]);
+		url = url + params; 
+	}
 
 	var handle = get_curl();
 	set_curl_debug(handle, true);
@@ -48,6 +85,6 @@ net.fetch@underauth = function(url, user, password) {
 	var result = get_url(handle, url);
 	cleanup_curl(handle);
 	result;	
-}
+})
 
 $exports.net = net;
