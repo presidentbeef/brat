@@ -5,21 +5,22 @@ curl_init();
 get_curl = $loader.loadprim("curl@get_curl_handle", 0);
 set_curl_debug = $loader.loadprim("curl@curl_set_debug", 2);
 set_curl_auth = $loader.loadprim("curl@curl_set_auth", 2);
+set_curl_post = $loader.loadprim("curl@curl_set_post", 1);
+set_curl_postfields = $loader.loadprim("curl@curl_set_postfields", 2);
 get_url = $loader.loadprim("curl@curl_get_url", 2);
 cleanup_curl = $loader.loadprim("curl@curl_cleanup", 1);
 
-combine_parameters = function(param_hash) {
-	$print("HI!@!@!");
+url_encode = $loader.loadprim("std@url_encode", 1);
 
+combine_parameters = function(param_hash) {
 	if($typeof(param_hash) != $tobject || $objget(param_hash, $hash("@internal_hash")) != null)
 		@brat.base_exception.argument_error("combine_parameters", "hash", param_hash);
 
 	var res = param_hash.map(function(key, value) {
-		$print(key, " - ", value, "\n");
-		@brat.base_string.@string(key) + "=" + @brat.base_string.@string(value);
+		url_encode(@brat.base_string.@string(key)) + "=" + url_encode(@brat.base_string.@string(value));
 	})
 
-	"?" + res.join("&").@neko_string();
+	res.join("&").@neko_string();
 }
 
 net = @brat.base_object.new();
@@ -39,7 +40,7 @@ net.fetch = $varargs(function(args) {
 
 	if(arglen == 2) {
 		var params = combine_parameters(args[1]);
-		url = url + params; 
+		url = url + "?" + params; 
 	}
 
 	var handle = get_curl();
@@ -74,17 +75,62 @@ net.fetch@underauth = $varargs(function(args) {
 
 	if(arglen == 4) {
 		var params = combine_parameters(args[3]);
-		url = url + params; 
+		url = url + "?" + params; 
 	}
 
 	var handle = get_curl();
 	set_curl_debug(handle, true);
 	var usrpwd = user + ":" + password;
-	$print(usrpwd, "\n");
 	set_curl_auth(handle, usrpwd);
 	var result = get_url(handle, url);
 	cleanup_curl(handle);
 	result;	
 })
+
+net.post@underauth = function(url, user, password, params) {
+	if($typeof(url) == $tobject && $objget(url, $hash("@neko_string")) != null)
+		url = url.@neko_string();
+	if($typeof(user) == $tobject && $objget(user, $hash("@neko_string")) != null)
+		user = user.@neko_string();
+	if($typeof(password) == $tobject && $objget(password, $hash("@neko_string")) != null)
+		password = password.@neko_string();
+
+	
+	if($typeof(url) != $tstring)
+		$throw(@brat.base_exception.argument_error("net.post_auth", "string", url));
+	if($typeof(user) != $tstring)
+		$throw(@brat.base_exception.argument_error("net.post_auth", "string", user));
+	if($typeof(password) != $tstring)
+		$throw(@brat.base_exception.argument_error("net.post_auth", "string", password));
+
+	params = combine_parameters(params);
+
+	var handle = get_curl();
+	set_curl_debug(handle, true);
+	set_curl_post(handle);
+	set_curl_postfields(handle, params);
+	var usrpwd = user + ":" + password;
+	set_curl_auth(handle, usrpwd);
+	var result = get_url(handle, url);
+	cleanup_curl(handle);
+	result;	
+}
+
+net.post = function(url, params) {
+	if($typeof(url) == $tobject && $objget(url, $hash("@neko_string")) != null)
+		url = url.@neko_string();
+	if($typeof(url) != $tstring)
+		$throw(@brat.base_exception.argument_error("net.post", "string", url));
+
+	params = combine_parameters(params);
+
+	var handle = get_curl();
+	set_curl_debug(handle, true);
+	set_curl_post(handle);
+	set_curl_postfields(handle, params);
+	var result = get_url(handle, url);
+	cleanup_curl(handle);
+	result;	
+}
 
 $exports.net = net;
