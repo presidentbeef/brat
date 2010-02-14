@@ -71,6 +71,21 @@ value curl_set_buffer(value handle, buffer buf) {
 	return val_null;
 }
 
+value curl_set_post(value handle) {
+	val_check_kind(handle, k_curl);
+
+	curl_easy_setopt(val_data(handle), CURLOPT_POST, 1);
+	return val_null;
+}
+
+value curl_set_postfields(value handle, value fields) {
+	val_check_kind(handle, k_curl);
+	val_check(fields, string);
+
+	curl_easy_setopt(val_data(handle), CURLOPT_POSTFIELDS, val_string(fields));
+	return val_null;
+}
+
 value curl_get_url(value handle, value url) {
 	val_check_kind(handle, k_curl);
 	val_check(url, string)
@@ -111,3 +126,5 @@ DEFINE_PRIM(curl_get_url, 2);
 DEFINE_PRIM(curl_cleanup, 1);
 DEFINE_PRIM(curl_set_debug, 2);
 DEFINE_PRIM(curl_set_auth, 2);
+DEFINE_PRIM(curl_set_post, 1);
+DEFINE_PRIM(curl_set_postfields, 2);
