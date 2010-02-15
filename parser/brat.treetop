@@ -132,7 +132,7 @@ grammar BaseBrat
 		end
 	}
 	/
-	space? "#" (!(eol/eof) .)+ {
+	space? "#" (!(eol/eof) .)* {
 		def brat
 			""
 		end

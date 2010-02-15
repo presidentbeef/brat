@@ -110,6 +110,8 @@ class BratParserTest < Test::Unit::TestCase
 		parse "x = 1; #x = 6 \n x"
 		parse "x = 1; #* x = 6 *# \n x"
 		parse "x = 1; #* \n x = 6 \n *# \n x"
+		parse "#"
+		parse "#\n\"hi\""
 	end
 
 	def test_symbol_parse
