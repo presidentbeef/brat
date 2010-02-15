@@ -1861,7 +1861,11 @@ base_hash.@to_s = function() {
 
 	$hiter(this.@internal_hash, st);
 
-	$ssub(output, 0, $ssize(output) - 2) + "}";
+	var s = $ssize(output);
+	if(s > 1)
+		$ssub(output, 0, s - 2) + "}";
+	else
+		output + "}";
 }
 
 hset = function(hashtable, index, value) {
