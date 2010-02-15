@@ -1847,6 +1847,22 @@ base_hash.empty@question = function() {
 		base_object.@@false;
 }
 
+base_hash.@plus = function(rhs) {
+	if($typeof(rhs) != $tabstract || $objget(rhs, $hash("@internal_hash")) != null)
+		base_exception.argument_error("hash.+", "hash", rhs);
+	
+	rhs = rhs.@internal_hash;
+	var lhs = this.@internal_hash;
+	var res = $hnew($hcount(lhs) + $hcount(rhs));
+	var f = function(key, value) {
+		$hset(res, key, value, base_hash.@compare);	
+	}
+
+	$hiter(lhs, f);
+	$hiter(rhs, f);
+	base_hash.new(res);
+}
+
 base_hash.@to_s = function() {
 	output = "{";
 	var st = function(k,v) {

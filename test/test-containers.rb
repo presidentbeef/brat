@@ -175,6 +175,11 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "a", "x = [b::a]; x[:b];"
 	end
 
+	def test_hash_string
+		assert_result "{}", "[:]"
+		assert_result "{a : b}", "[a: :b]"
+	end
+
 	def test_hash_key?
 		assert_result "true", 'a = ["a" : 1]; a.key? "a"'
 		assert_result "false", 'a = ["a" : 1]; a.key? 1'
@@ -211,6 +216,11 @@ class BratContainerTests < Test::Unit::TestCase
 
 	def test_hash_keys
 		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; a.keys.include?("a") && (a.keys.length == 3)'
+	end
+
+	def test_hash_plus
+		assert_result "3", "a = [a: 1, b: 2, c: 3]; b = [b:3, d:4]; c = a + b; c[:b]"
+		assert_result "4", "a = [a: 1, b: 2, c: 3]; b = [b:3, d:4]; c = a + b; c.length"
 	end
 
 	def test_hash_empty?
