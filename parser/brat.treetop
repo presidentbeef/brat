@@ -17,7 +17,7 @@ grammar BaseBrat
 				exception = @brat.base_exception;
 				object = this;
 				this.export = function(object, name) {
-					if($objget(name, "@neko_string") != null)
+					if($objget(name, $hash("@neko_string")) != null)
 						$objset($exports, $hash(@brat.to_identifier(name.@value)), object);
 					else
 						$throw(exception.argument_error("import", "a string", $string(name)));
