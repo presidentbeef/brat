@@ -38,7 +38,7 @@ net.fetch = $varargs(function(args) {
 	else
 		$throw(@brat.base_exception.argument_error("net.fetch", "1 or 2", arglen));
 
-	if(arglen == 2) {
+	if(arglen == 2 && args[1] != @brat.@@null) {
 		var params = combine_parameters(args[1]);
 		url = url + "?" + params; 
 	}
@@ -73,7 +73,7 @@ net.fetch@underauth = $varargs(function(args) {
 	if($typeof(password) != $tstring)
 		$throw(@brat.base_exception.argument_error("net.fetch_auth", "string", password));
 
-	if(arglen == 4) {
+	if(arglen == 4 && args[3] != @brat.@@null) {
 		var params = combine_parameters(args[3]);
 		url = url + "?" + params; 
 	}
