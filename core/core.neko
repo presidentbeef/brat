@@ -2229,6 +2229,17 @@ base_string.dice = function() {
 	base_array.new(res);
 }
 
+string_url_encode = $loader.loadprim("std@url_encode", 1);
+string_url_decode = $loader.loadprim("std@url_decode", 1);
+
+base_string.url@underencode = function() {
+	base_string.new(string_url_encode(this.@value));	
+}
+
+base_string.url@underdecode = function() {
+	base_string.new(string_url_decode(this.@value));	
+}
+
 regexp_new = $loader.loadprim("regexp@regexp_new", 1);
 base_regex = new_brat(null);
 base_regex.@internal_regex = base_object.@@null;
