@@ -2088,6 +2088,20 @@ base_string.@star = function(value) {
 	base_string.new(new_str);
 }
 
+base_string.index@underof = function(value) {
+	if($typeof(value) == $tobject && $objget(value, $hash("@neko_string")) != null)
+		value = $string(value.@value);
+	if($typeof(value) != $tstring)
+		$throw(base_exception.argument_error("string.index_of", "string", value));
+
+	var index = $sfind(this.@value, 0, value);		
+
+	if(index == null)
+		base_object.@@null;
+	else
+		index;
+}
+
 reg_rep_first = $loader.loadprim("regexp@regexp_replace", 3);
 reg_rep = $loader.loadprim("regexp@regexp_replace_all", 3);
 reg_rep_fun = $loader.loadprim("regexp@regexp_replace_fun", 3);
