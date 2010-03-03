@@ -8,9 +8,16 @@ set_curl_auth = $loader.loadprim("curl@curl_set_auth", 2);
 set_curl_post = $loader.loadprim("curl@curl_set_post", 1);
 set_curl_postfields = $loader.loadprim("curl@curl_set_postfields", 2);
 get_url = $loader.loadprim("curl@curl_get_url", 2);
+get_status_code = $loader.loadprim("curl@curl_get_status_code", 1);
+get_error_string = $loader.loadprim("curl@curl_error_string", 1);
 cleanup_curl = $loader.loadprim("curl@curl_cleanup", 1);
-
 url_encode = $loader.loadprim("std@url_encode", 1);
+
+connect_error = function(message, status) {
+	var e = @brat.base_exception.new(message, "connect_error");
+	e.status = status;
+	e;
+}
 
 combine_parameters = function(param_hash) {
 	if($typeof(param_hash) != $tobject || $objget(param_hash, $hash("@internal_hash")) != null)
@@ -21,6 +28,21 @@ combine_parameters = function(param_hash) {
 	})
 
 	res.join("&").@neko_string();
+}
+
+check_result = function(handle, result, cleanup) {
+	if($typeof(result) == $tint) {
+		var status = get_status_code(handle);
+		var error_message = get_error_string(result);
+		if(cleanup)
+			cleanup_curl(handle);
+		$throw(connect_error(error_message, status));
+	}
+	else {
+		if(cleanup)
+			cleanup_curl(handle);
+		result;
+	}
 }
 
 net = @brat.base_object.new();
@@ -46,8 +68,7 @@ net.fetch = $varargs(function(args) {
 	var handle = get_curl();
 	set_curl_debug(handle, true);
 	var result = get_url(handle, url);
-	cleanup_curl(handle);
-	result;	
+	check_result(handle, result, true);
 })
 
 net.fetch@underauth = $varargs(function(args) {
@@ -83,8 +104,7 @@ net.fetch@underauth = $varargs(function(args) {
 	var usrpwd = user + ":" + password;
 	set_curl_auth(handle, usrpwd);
 	var result = get_url(handle, url);
-	cleanup_curl(handle);
-	result;	
+	check_result(handle, result, true);
 })
 
 net.post@underauth = function(url, user, password, params) {
@@ -112,8 +132,7 @@ net.post@underauth = function(url, user, password, params) {
 	var usrpwd = user + ":" + password;
 	set_curl_auth(handle, usrpwd);
 	var result = get_url(handle, url);
-	cleanup_curl(handle);
-	result;	
+	check_result(handle, result, true);
 }
 
 net.post = function(url, params) {
@@ -129,8 +148,7 @@ net.post = function(url, params) {
 	set_curl_post(handle);
 	set_curl_postfields(handle, params);
 	var result = get_url(handle, url);
-	cleanup_curl(handle);
-	result;	
+	check_result(handle, result, true);
 }
 
 $exports.net = net;

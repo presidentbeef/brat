@@ -71,6 +71,11 @@ value curl_set_buffer(value handle, buffer buf) {
 	return val_null;
 }
 
+value curl_error_string(value error_code) {
+	val_check(error_code, int);
+	return alloc_string(curl_easy_strerror(val_int(error_code)));
+}
+
 value curl_set_post(value handle) {
 	val_check_kind(handle, k_curl);
 
@@ -98,11 +103,17 @@ value curl_get_url(value handle, value url) {
 	CURLcode status = curl_easy_perform(val_data(handle));
 
 	if(status != 0) {
-		printf("ERROR!\n");
 		return alloc_int(status);
 	}
 
 	return buffer_to_string(buf);
+}
+
+value curl_get_status_code(value handle) {
+	val_check_kind(handle, k_curl);
+	long code = 0;
+	curl_easy_getinfo(val_data(handle), CURLINFO_HTTP_CODE, &code);
+	return alloc_int(code);
 }
 
 value curl_cleanup(value handle) {
@@ -128,3 +139,6 @@ DEFINE_PRIM(curl_set_debug, 2);
 DEFINE_PRIM(curl_set_auth, 2);
 DEFINE_PRIM(curl_set_post, 1);
 DEFINE_PRIM(curl_set_postfields, 2);
+DEFINE_PRIM(curl_get_status_code, 1);
+DEFINE_PRIM(curl_error_string, 1);
+
