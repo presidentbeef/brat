@@ -472,7 +472,8 @@ grammar BaseBrat
 				end
 			else
 				if text_value.to_i > -1073741823
-					"var #@result = #{text_value};"
+					@result = text_value
+					"#{text_value};"
 				else
 					"var #@result = number.@stoi(\"#{text_value}\");"
 				end
@@ -495,7 +496,8 @@ grammar BaseBrat
 
 			else
 				if text_value.to_i < 1073741824
-					"var #@result = #{text_value};"
+					@result = text_value
+					"#{text_value};"
 				else
 					"var #@result = number.@stoi(\"#{text_value}\");"
 				end
@@ -1141,7 +1143,7 @@ grammar BaseBrat
 			end
 
 			out_stack.each do |e|
-				if e[0,5] == "@temp"
+				if e[0,5] == "@temp" || e.to_i.to_s == e
 					res_stack.push e
 				else
 					r = res_stack.pop

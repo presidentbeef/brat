@@ -128,30 +128,8 @@ class Treetop::Runtime::SyntaxNode
 
 	def call_method object, method, arguments, arg_length
 		temp = var_exist?(object) || object
-		#"\n$print("Calling ", method, " on ", #{object}, " with (", #{arguments}, ")\\n");"
-		<<-NEKO
-		if(#{temp} == null) {
-			$throw(exception.null_error("#{nice_id object}", "invoke #{nice_id method} on it"));
-		}
-		else if($typeof(#{temp}) == $tobject) {
-			if(#{has_field(temp, method)}) {
-				var arg_len = $nargs(#{temp}.#{method});
-				if(arg_len == -1 || arg_len == #{arg_length}) {
-					#{temp}.#{method}(#{arguments});
-				}
-				else if(arg_len == -2) {
-					#{temp}.#{method}($array(#{arguments}));
-				}
-				else
-					$throw(exception.argument_error("#{nice_id object}.#{nice_id method}",  $string(arg_len), #{arg_length}));
-			}
-			else if(#{has_field(temp, "no@undermethod")}) {
-				#{call_no_method temp, method, arguments, arg_length}
-			}
-			else
-				$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
-		}
-		else {
+
+		call_number = <<-NEKO
 			if(#{has_field("number", method)}) {
 				var arg_len = $nargs(number.#{method});
 				if(arg_len == -1 || arg_len == #{arg_length + 1}) {
@@ -173,8 +151,38 @@ class Treetop::Runtime::SyntaxNode
 			}
 			else
 				$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
-		}
-		NEKO
+			NEKO
+
+		if temp.to_i.to_s == temp
+			call_number
+		else
+			<<-NEKO
+			if(#{temp} == null) {
+				$throw(exception.null_error("#{nice_id object}", "invoke #{nice_id method} on it"));
+			}
+			else if($typeof(#{temp}) == $tobject) {
+				if(#{has_field(temp, method)}) {
+					var arg_len = $nargs(#{temp}.#{method});
+					if(arg_len == -1 || arg_len == #{arg_length}) {
+						#{temp}.#{method}(#{arguments});
+					}
+					else if(arg_len == -2) {
+						#{temp}.#{method}($array(#{arguments}));
+					}
+					else
+						$throw(exception.argument_error("#{nice_id object}.#{nice_id method}",  $string(arg_len), #{arg_length}));
+				}
+				else if(#{has_field(temp, "no@undermethod")}) {
+					#{call_no_method temp, method, arguments, arg_length}
+				}
+				else
+					$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
+			}
+			else {
+				#{call_number}
+			}
+			NEKO
+		end
 	end
 
 	def call_no_method object, method, arguments, arg_length
@@ -213,6 +221,10 @@ class Treetop::Runtime::SyntaxNode
 
 	def get_value object, arguments, arg_length 
 		temp = var_exist?(object) || object
+		if temp.to_i.to_s == temp #it's a number literal
+			return temp
+		end
+
 		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		output = <<-NEKO
 		if($typeof(#{temp}) == $tfunction) {
@@ -251,6 +263,10 @@ class Treetop::Runtime::SyntaxNode
 
 	def get_value_clean object, arguments, arg_length
 		temp = var_exist?(object) || object
+		if temp.to_i.to_s == temp #it's a number literal
+			return temp
+		end
+
 		next_temp
 		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		<<-NEKO
