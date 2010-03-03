@@ -251,11 +251,12 @@ class Treetop::Runtime::SyntaxNode
 
 	def get_value_clean object, arguments, arg_length
 		temp = var_exist?(object) || object
+		next_temp
 		no_meth = var_exist?("no@undermethod") || "no@undermethod"
 		<<-NEKO
 		if(#{temp} == null) {
 			if(#{has_field("this", object)}) {
-				#@result = this.#{object};
+				var #@result = this.#{object};
 
 				var arg_len = $nargs(#@result);
 				if(arg_len == -1 || arg_len == #{arg_length})
