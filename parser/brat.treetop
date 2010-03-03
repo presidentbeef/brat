@@ -715,6 +715,12 @@ grammar BaseBrat
 					"$throw(exception.argument_error(\"function\", \"up to #{default_args.args.length}\"));"
 
 			#Check and set default args
+			names = default_args.arg_names
+			names.each do |n|
+				unless n.match /\[\d+\]/
+					output << "var #{n};"
+				end
+			end
 			i = default_args.args.length
 			default_args.args.reverse.each do |a|
 				output << "if(@arg_len < #{i}) {\n #{a}\n"
@@ -725,7 +731,6 @@ grammar BaseBrat
 			#Set args passed in
 			output << "switch @arg_len {\n"
 
-			names = default_args.arg_names
 			num_names = names.length
 			num_names.times do |l|
 				output << "#{num_names - l} => {"
@@ -807,6 +812,12 @@ grammar BaseBrat
 			output = "var @arg_len = $asize(@args);\n"
 
 			#Check and set default args
+			names = default_args.arg_names
+			names.each do |n|
+				unless n.match /\[\d+\]/
+					output << "var #{n};"
+				end
+			end
 			i = default_args.args.length
 			default_args.args.reverse.each do |a|
 				output << "if(@arg_len < #{i}) {\n #{a};\n"
@@ -818,7 +829,6 @@ grammar BaseBrat
 			#Set args passed in
 			output << "switch @arg_len {\n"
 
-			names = default_args.arg_names
 			num_names = names.length
 			num_names.times do |l|
 				output << "#{num_names - l} => {"
@@ -878,6 +888,13 @@ grammar BaseBrat
 			end
 
 			#Check and set default args
+			names = default_args.arg_names
+			names.each do |n|
+				unless n.match /\[\d+\]/
+					output << "var #{n};"
+				end
+			end
+
 			i = def_args
 			default_args.args.reverse.each do |a|
 				output << "if(@arg_len < #{i + req_args}) {\n #{a};\n"
@@ -889,7 +906,6 @@ grammar BaseBrat
 			#Set args passed in
 			output << "switch @arg_len {\n"
 
-			names = default_args.arg_names
 			num_names = names.length
 			num_names.times do |l|
 				output << "#{num_names - l + req_args} => {"
@@ -944,6 +960,12 @@ grammar BaseBrat
 			end
 
 			#Check and set default args
+			names = default_args.arg_names
+			names.each do |n|
+				unless n.match /\[\d+\]/
+					output << "var #{n};"
+				end
+			end
 			i = def_args
 			default_args.args.reverse.each do |a|
 				output << "if(@arg_len < #{i + req_args}) {\n #{a};\n"
@@ -1230,7 +1252,6 @@ grammar BaseBrat
 		end
 
 		def no_result_brat
-			next_temp
 			name = m.brat
 			a.brat <<
 			get_value_clean(name, a.list, a.length) << ";"
