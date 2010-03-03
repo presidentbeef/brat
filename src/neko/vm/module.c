@@ -138,7 +138,7 @@ static int neko_check_stack( neko_module *m, unsigned char *tmp, unsigned int i,
 		if( tmp[i] == UNKNOWN )
 			tmp[i] = stack;
 		else if( tmp[i] != stack )
-			return 0;
+			failure("temp[i] != stack");
 		else
 			return 1;
 		if( s == P )
@@ -148,8 +148,12 @@ static int neko_check_stack( neko_module *m, unsigned char *tmp, unsigned int i,
 		else
 			stack += s;
 		// 4 because it's the size of a push-infos needed in case of subcall
-		if( stack < istack || stack >= MAX_STACK_PER_FUNCTION - 4 )
-			return 0;
+		//if( stack < istack || stack >= MAX_STACK_PER_FUNCTION - 4 )
+		//	return 0;
+		if( stack < istack)
+			failure("push-infos subcall thing");
+		if( stack >= MAX_STACK_PER_FUNCTION - 4 )
+			failure("max stack per func wrong");
 		switch( c ) {
 		case Jump:
 		case JumpIf:
@@ -164,8 +168,10 @@ static int neko_check_stack( neko_module *m, unsigned char *tmp, unsigned int i,
 				if( c == Trap )
 					stack += s;
 			}
-			else if( tmp[itmp] != stack )
+			else if( tmp[itmp] != stack ) {
+				failure("Something != stack");
 				return 0;
+			}
 			if( c == Jump )
 				return 1;
 			break;
@@ -174,41 +180,47 @@ static int neko_check_stack( neko_module *m, unsigned char *tmp, unsigned int i,
 			i += itmp;
 			while( itmp > 0 ) {
 				itmp -= 2;
-				if( m->code[i - itmp] != Jump )
+				if( m->code[i - itmp] != Jump ){
+					failure("jump problem");
 					return 0;
+				}
 				if( !neko_check_stack(m,tmp,i - itmp,stack,istack) )
 					return 0;
 			}
 			break;
 		case AccStack:
 		case SetStack:
-			if( m->code[i+1] >= stack )
+			if( m->code[i+1] >= stack ) {
+				failure("set stack problem");
 				return 0;
+			}
 			break;
 		case AccStack0:
-			if( 0 >= stack )
+			if( 0 >= stack ) {
+				failure("accstack0 problem");
 				return 0;
+			}
 			break;
 		case AccStack1:
 			if( 1 >= stack )
-				return 0;
+				failure("accstack1 problem");
 			break;
 		case Last:
 			if( stack != 0 )
-				return 0;
+				failure("last problem");
 			return 1;
 		case Ret:
 			if( m->code[i+1] != stack )
-				return 0;
+				failure("ret problem");
 			return 1;
 		case ObjCall:
 			stack--;
 			if( stack < istack )
-				return 0;
+				failure("objcall problem");
 			break;
 		case TailCall:
 			if( stack - (m->code[i+1] & 7) < istack || (m->code[i+1]>>3) != stack )
-				return 0;
+				failure("tailcall problem");
 			return 1;
 		}
 		i += parameter_table[c]?2:1;
@@ -343,12 +355,12 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 	neko_vm *vm = NEKO_VM();
 	READ_LONG(itmp);
 	if( itmp != 0x4F4B454E )
-		ERROR();
+		failure("itmp is not right");
 	READ_LONG(m->nglobals);
 	READ_LONG(m->nfields);
 	READ_LONG(m->codesize);
 	if( m->nglobals < 0 || m->nglobals > 0xFFFF || m->nfields < 0 || m->nfields > 0xFFFF || m->codesize < 0 || m->codesize > 0xFFFFF )
-		ERROR();
+		failure("this check is not right");
 	tmp = (char*)malloc(sizeof(char)*(((m->codesize+1)>MAXSIZE)?(m->codesize+1):MAXSIZE));
 	m->jit = NULL;
 	m->jit_gc = NULL;
@@ -366,13 +378,13 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 		switch( t ) {
 		case 1:
 			if( read_string(r,p,tmp) == -1 )
-				ERROR();
+				failure("this read_string is not right");
 			m->globals[i] = val_null;
 			break;
 		case 2:
 			READ_LONG(itmp);
 			if( (itmp & 0xFFFFFF) >= m->codesize )
-				ERROR();
+				failure("codesize problem?");
 			m->globals[i] = neko_alloc_module_function(m,(itmp&0xFFFFFF),(itmp >> 24));
 			break;
 		case 3:
@@ -382,24 +394,24 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 			break;
 		case 4:
 			if( read_string(r,p,tmp) == -1 )
-				ERROR();
+				failure("reading float thing");
 			m->globals[i] = alloc_float( atof(tmp) );
 			break;
 		case 5:
 			if( !read_debug_infos(r,p,tmp,m) ) {
 				tmp = NULL; // already free in read_debug_infos
-				ERROR();
+				failure("problem reading debug infos");
 			}
 			m->globals[i] = val_null;
 			break;
 		default:
-			ERROR();
+			failure("problem initing global table");
 			break;
 		}
 	}
 	for(i=0;i<m->nfields;i++) {
 		if( read_string(r,p,tmp) == -1 )
-			ERROR();
+			failure("allocating string");
 		m->fields[i] = alloc_string(tmp);
 	}
 	if( vm->fstats ) {
@@ -454,13 +466,13 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 		register int c = (int)m->code[i];
 		itmp = (unsigned int)m->code[i+1];
 		if( c >= Last || tmp[i+1] == parameter_table[c] )
-			ERROR();
+			failure("parameter table thing");
 		// Additional checks and optimizations
 		switch( m->code[i] ) {
 		case AccGlobal:
 		case SetGlobal:
 			if( itmp >= m->nglobals )
-				ERROR();
+				failure("setglobal error");
 			m->code[i+1] = (int_val)(m->globals + itmp);
 			break;
 		case Jump:
@@ -469,7 +481,7 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 		case Trap:
 			itmp += i;
 			if( itmp > m->codesize || !tmp[itmp] )
-				ERROR();
+				failure("trap error");
 			m->code[i+1] = (int_val)(m->code + itmp);
 			break;
 		case AccInt:
@@ -483,14 +495,14 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 			itmp = (unsigned int)m->code[i+1];
 		case SetStack:
 			if( ((int)itmp) < 0 )
-				ERROR();
+				failure("set stack error");
 			break;
 		case Ret:
 		case Pop:
 		case AccEnv:
 		case SetEnv:
 			if( ((int)itmp) < 0 )
-				ERROR();
+				failure("set environment error");
 			break;
 		case AccBuiltin: {
 			field f = (field)(int_val)itmp;
@@ -505,15 +517,15 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 		case Call:
 		case ObjCall:
 			if( itmp > CALL_MAX_ARGS )
-				ERROR();
+				failure("too many arguments in objcall");
 			break;
 		case TailCall:
 			if( (itmp&7) > CALL_MAX_ARGS )
-				ERROR();
+				failure("too many arguments in tail call");
 			break;
 		case Apply:
 			if( itmp == 0 || itmp >= CALL_MAX_ARGS )
-				ERROR();
+				failure("too many or zero arguments in apply");
 			break;
 		case MakeEnv:
 			if( itmp > 0xFF )
@@ -525,7 +537,7 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 			break;
 		case JumpTable:
 			if( itmp > 0xff || i + 1 + itmp * 2 >= m->codesize )
-				ERROR();
+				failure("error in jumptable");
 			m->code[i+1] <<= 1;
 			break;
 		}
@@ -539,7 +551,7 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 		memset(stmp,UNKNOWN,m->codesize+1);
 		if( !vm->trusted_code && !neko_check_stack(m,stmp,0,0,0) ) {
 			free(stmp);
-			ERROR();
+			failure("error in check stack");
 		}
 		for(i=0;i<m->nglobals;i++) {
 			vfunction *f = (vfunction*)m->globals[i];
@@ -547,11 +559,11 @@ neko_module *neko_read_module( reader r, readp p, value loader ) {
 				itmp = (unsigned int)(int_val)f->addr;
 				if( itmp >= m->codesize || !tmp[itmp] || itmp < prev ) {
 					free(stmp);
-					ERROR();
+					failure("error in this thing");
 				}
 				if( !vm->trusted_code && !neko_check_stack(m,stmp,itmp,f->nargs,f->nargs) ) {
 					free(stmp);
-					ERROR();
+					failure("error in check stack and globals");
 				}
 				f->addr = m->code + itmp;
 				prev = itmp;
