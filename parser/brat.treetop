@@ -168,8 +168,8 @@ grammar BaseBrat
 			if array_val
 				output << "#{array_val} = @brat.base_array.new(#{array_inner.result});"
 			else
-				next_temp
-				output << "var #@result = @brat.base_array.new(#{array_inner.result});"
+				@result = array_inner.result #Reuse variable
+				output << "#@result = @brat.base_array.new(#{array_inner.result});"
 			end
 		end
 	}
