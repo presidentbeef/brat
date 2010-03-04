@@ -210,11 +210,11 @@ grammar BaseBrat
 			next_temp
 			hash_temp = @result
 			output = "var #{hash_temp} = $hnew(#{rest.elements.length + 1});"
-			output << first.brat
+			first.brat
 			output << "@brat.hset(#{hash_temp}, #{first.index}, #{first.value});"
 			rest.elements.each do |e|
 				elem = e.n
-				output << elem.brat
+				elem.brat
 				output << "@brat.hset(#{hash_temp}, #{elem.index}, #{elem.value});"
 			end
 
@@ -234,23 +234,16 @@ grammar BaseBrat
 		attr_reader :index, :value
 
 		def brat
-			next_temp
-			output = "var #@result = symbol.new(\"#{i.text_value}\");"
-			@index = @result
-			output << e.brat
-			@value = e.result
-			output
+			@index = "symbol.new(\"#{i.text_value}\")"
+			@value = "{#{e.brat}}"
 		end
 	}
 	/
   	i:expression spaceorbreak ":" spaceorbreak v:expression {
 		attr_reader :index, :value
 		def brat
-			output = i.brat
-			output << v.brat
-			@index = i.result
-			@value = v.result
-			output
+			@index = "{#{i.brat}}"
+			@value = "{#{v.brat}}"
 		end
 	}
   end
@@ -1631,7 +1624,7 @@ grammar BaseBrat
 			named_args = []
 
 			if e.respond_to? :named_argument?
-				output << e.brat
+				e.brat
 				named_args << e
 			else
 				output << e.brat
@@ -1641,7 +1634,7 @@ grammar BaseBrat
 			o.elements.each do |elem|
 				if elem.respond_to? :brat
 					if elem.arg_first.respond_to? :named_argument?
-						output << elem.arg_first.brat
+						elem.arg_first.brat
 						named_args << elem.arg_first
 					else
 						output << elem.brat
@@ -1721,12 +1714,9 @@ grammar BaseBrat
 		attr_reader :key
 
 		def brat
-			next_temp
-			output = "var #@result = symbol.new(\"#{i.text_value}\");"
-			@key = @result
-			output << e.brat
-			@result = e.result
-			output
+			@key = "symbol.new(\"#{i.text_value}\")"
+			@result = "{#{e.brat}}"
+			""
 		end
 
 		def named_argument?
@@ -1738,11 +1728,9 @@ grammar BaseBrat
 		attr_reader :key
 
 		def brat
-			output = e.brat
-			@result = e.result
-			output << i.brat
-			@key = i.result
-			output
+			@key = "{#{i.brat}}"
+			@result = "{#{e.brat}}"
+			""
 		end
 
 		def named_argument?
