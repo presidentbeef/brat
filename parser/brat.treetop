@@ -192,10 +192,10 @@ grammar BaseBrat
 			next_temp
 			output = "var #@result = $amake(#{rest.elements.length + 1});"
 
-			output << first.brat("#@result[0]")
+			output << "#@result[0] = {#{first.brat}};"
 
 			rest.elements.each_with_index do |r, i|
-				output <<  r.e.brat("#@result[#{i + 1}]")
+				output <<  "#@result[#{i + 1}] = {#{r.e.brat}}"
 			end
 
 			output
