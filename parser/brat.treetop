@@ -71,9 +71,6 @@ grammar BaseBrat
 		def brat
 			output = paren_exp.brat
 			@result = paren_exp.result
-			if false
-				output << "#{array_val} = #@result;"
-			end
 			output
 		end 
 
@@ -112,12 +109,8 @@ grammar BaseBrat
   rule regex
 	"/" r:(!"/" . / "\\/")* "/" {
 		def brat
-			if false
-				"#{array_val} = regex.new(\"#{r.text_value}\");"
-			else
-				next_temp
-				"var #@result = regex.new(\"#{r.text_value}\");"
-			end
+			next_temp
+			"var #@result = regex.new(\"#{r.text_value}\");"
 		end
 	}
   end
@@ -141,12 +134,8 @@ grammar BaseBrat
   rule hash
 	"[" space? ":" space? "]" {
 		def brat
-			if false
-				"#{array_val} = @brat.base_hash.new();" 
-			else
-				next_temp
-				"var #@result = @brat.base_hash.new();" 
-			end
+			next_temp
+			"var #@result = @brat.base_hash.new();" 
 		end
 	}
 	/
@@ -165,23 +154,15 @@ grammar BaseBrat
 		def brat
 			output = array_inner.brat
 
-			if false
-				output << "#{array_val} = @brat.base_array.new(#{array_inner.result});"
-			else
-				@result = array_inner.result #Reuse variable
-				output << "#@result = @brat.base_array.new(#{array_inner.result});"
-			end
+			@result = array_inner.result #Reuse variable
+			output << "#@result = @brat.base_array.new(#{array_inner.result});"
 		end
 	}
 	/
 	"[" spaceorbreak "]" {
 		def brat
-			if false
-				"#{array_val} = @brat.base_array.new();"
-			else
-				next_temp
-				"var #@result = @brat.base_array.new();"
-			end
+			next_temp
+			"var #@result = @brat.base_array.new();"
 		end
 	}
   end
@@ -218,12 +199,8 @@ grammar BaseBrat
 				output << "@brat.hset(#{hash_temp}, #{elem.index}, #{elem.value});"
 			end
 
-			if false
-				output << "#{array_val} = @brat.make_hash(#{hash_temp});"
-			else
-				next_temp
-				output << "var #@result = @brat.make_hash(#{hash_temp});"
-			end
+			next_temp
+			output << "var #@result = @brat.make_hash(#{hash_temp});"
 		end
 	}
   end
@@ -259,11 +236,7 @@ grammar BaseBrat
 			output << "var #@result = #{a.result}.__set(#{i.result}, #{v.result});"
 			@result = v.result
 
-			if false
-				output << "#{array_val} = #@result;"
-			else
-				output << @result
-			end
+			output << @result
 		end
 	}
   end
@@ -286,10 +259,6 @@ grammar BaseBrat
 				output << "var #@result = " << invoke(last, args.list, args.length) << ";"
 			end
 
-			if false
-				output << "#{array_val} = #@result;"
-			end
-
 			output
 		end
 	}
@@ -309,10 +278,6 @@ grammar BaseBrat
 
 			@result = rhs.result
 
-			if false
-				output << "#{array_val} = #@result;"
-			end
-
 			output
 		end
 	}
@@ -329,10 +294,6 @@ grammar BaseBrat
 
 			@result = rhs.result
 			output << "#@result;"
-
-			if false
-				output << "#{array_val} = #@result;"
-			end
 
 			output
 		end
@@ -354,10 +315,6 @@ grammar BaseBrat
 					"var #{temp} = #{rhs.result};"
 			end
 			@result = rhs.result
-
-			if false
-				output << "#{array_val} = #@result;"
-			end
 
 			output
 		end
@@ -428,23 +385,15 @@ grammar BaseBrat
   rule float
 	'-' i:pos_integer "." d:pos_integer {
 		def brat
-			if false
-				"#{array_val} = number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
-			else
-				next_temp
-				"var #@result = number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
-			end
+			next_temp
+			"var #@result = number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
 		end
 	}
 	/
   	i:pos_integer "." d:pos_integer {
 		def brat
-			if false
-				"#{array_val} = number.@stof(\"#{i.text_value}.#{d.text_value}\");"
-			else
-				next_temp
-				"var #@result = number.@stof(\"#{i.text_value}.#{d.text_value}\");"
-			end
+			next_temp
+			"var #@result = number.@stof(\"#{i.text_value}.#{d.text_value}\");"
 		end
 	}
   end
@@ -457,19 +406,11 @@ grammar BaseBrat
 	'-' [0-9]+ {
 		def brat
 			next_temp
-			if false
-				if text_value.to_i > -1073741823
-					"#{array_val} = #{text_value};"
-				else
-					"#{array_val} = number.@stoi(\"#{text_value}\");"
-				end
+			if text_value.to_i > -1073741823
+				@result = text_value
+				"#{text_value};"
 			else
-				if text_value.to_i > -1073741823
-					@result = text_value
-					"#{text_value};"
-				else
-					"var #@result = number.@stoi(\"#{text_value}\");"
-				end
+				"var #@result = number.@stoi(\"#{text_value}\");"
 			end
 		end
 	}
@@ -480,20 +421,11 @@ grammar BaseBrat
 	[0-9]+ {
 		def brat
 			next_temp
-			if false
-				if text_value.to_i < 1073741824
-					"#{array_val} = #{text_value};"
-				else
-					"#{array_val} = number.@stoi(\"#{text_value}\");"
-				end
-
+			if text_value.to_i < 1073741824
+				@result = text_value
+				"#{text_value};"
 			else
-				if text_value.to_i < 1073741824
-					@result = text_value
-					"#{text_value};"
-				else
-					"var #@result = number.@stoi(\"#{text_value}\");"
-				end
+				"var #@result = number.@stoi(\"#{text_value}\");"
 			end
 		end
 	}
@@ -505,11 +437,7 @@ grammar BaseBrat
 		def brat
 			next_temp
 			if content.elements.empty?
-				if false
-					"#{array_val} = string.new(#{text_value});"
-				else
-					"var #@result = string.new(#{text_value});"
-				end
+				"var #@result = string.new(#{text_value});"
 			else
 				text = '"'
 				output = ""
@@ -522,11 +450,7 @@ grammar BaseBrat
 					end
 				end
 
-				if false
-					output << "#{array_val} = string.new(#{text << '"'});"
-				else
-					output << "var #@result = string.new(#{text << '"'});"
-				end
+				output << "var #@result = string.new(#{text << '"'});"
 			end
 		end
 	}
@@ -534,12 +458,8 @@ grammar BaseBrat
 	"'" content:(("\\'" / "\\\\" / !"'" . )*) "'" {
 		def brat
 			string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
-			if false
-				"#{array_val} = string.new(\"#{string}\");"
-			else
-				next_temp
-				"var #@result = string.new(\"#{string}\");"
-			end
+			next_temp
+			"var #@result = string.new(\"#{string}\");"
 		end
 	}
   end
