@@ -501,12 +501,8 @@ grammar BaseBrat
   rule symbol
 	":" id:(identifier / operator / number)+ {
 		def brat
-			if false
-				"#{array_val} = symbol.new(\"#{id.text_value}\");"
-			else
-				next_temp
-				"var #@result = symbol.new(\"#{id.text_value}\");"
-			end
+			next_temp
+			"var #@result = symbol.new(\"#{id.text_value}\");"
 		end
 	} 
   end
@@ -558,24 +554,14 @@ grammar BaseBrat
 				environment = output_environment
 			end
 
-			if false
-				output << "#{array_val} = "
-			else
-				output << "var #@result = "
-			end
-
-			output << "function(#{args}) { \n" <<
+			output << "var #@result = " << "function(#{args}) { \n" <<
 				environment <<
 				inside <<
 				inner_function <<
 				"};"
 
 			if fa.respond_to? :var_args
-				if false
-					output << "#{array_val} = @brat.brat_var_args(#{array_val});\n"
-				else
-					output << "#@result = @brat.brat_var_args(#@result);\n"
-				end
+				output << "#@result = @brat.brat_var_args(#@result);\n"
 			end
 
 			pop_scope
@@ -1015,11 +1001,7 @@ grammar BaseBrat
 		def brat
 			next_temp
 			output = rhs.brat
-			if false
-				output << "#{array_val} = " << call_method(rhs.result, op.brat, "", 0) << ";"
-			else
-				output << "var #@result = " << call_method(rhs.result, op.brat, "", 0) << ";"
-			end
+			output << "var #@result = " << call_method(rhs.result, op.brat, "", 0) << ";"
 		end
 	}
   end
@@ -1067,12 +1049,8 @@ grammar BaseBrat
 				end
 			end
 	
-			if false
-				output << "#{array_val} = #{res_stack.pop};"
-			else
-				next_temp
-				output << "var #@result = #{res_stack.pop};"
-			end
+			next_temp
+			output << "var #@result = #{res_stack.pop};"
 		end
 	}
   end
@@ -1101,14 +1079,8 @@ grammar BaseBrat
 			output = lhs.brat
 			output << a.brat
 
-			if false
-				output << "#{array_val} = "
-			else
-				next_temp
-				output << "var #@result = "
-			end
-
-			output << call_method(lhs.result, i.brat, a.list, a.length) << ";"
+			next_temp
+			output << "var #@result = " << call_method(lhs.result, i.brat, a.list, a.length) << ";"
 		end
 	}
 	/
@@ -1116,14 +1088,8 @@ grammar BaseBrat
 		def brat
 			output = lhs.brat
 
-			if false
-				output << "#{array_val} = "
-			else
-				next_temp
-				output << "var #@result = "
-			end
-
-			output << call_method(lhs.result, i.brat, "", 0) << ";"
+			next_temp
+			output << "var #@result = " << call_method(lhs.result, i.brat, "", 0) << ";"
 		end
 
 	}
@@ -1136,14 +1102,8 @@ grammar BaseBrat
 			output = lhs.brat
 			output << a.brat
 
-			if false
-				output << "#{array_val} = "
-			else
-				next_temp
-				output << "var #@result = "
-			end
-
-			output << call_method(lhs.result, i.brat, a.list, a.length) << ";"
+			next_temp
+			output << "var #@result = " << call_method(lhs.result, i.brat, a.list, a.length) << ";"
 		end
 
 		def no_result_brat
@@ -1157,13 +1117,8 @@ grammar BaseBrat
 	m:identifier a:arg_list {
 		def brat
 			name = m.brat
-			a.brat <<
-				if false
-					"#{array_val} = " << get_value(name, a.list, a.length) << ";"
-				else
-					next_temp
-					"var #@result = " << get_value(name, a.list, a.length) << ";"
-				end
+			next_temp
+			a.brat << "var #@result = " << get_value(name, a.list, a.length) << ";"
 		end
 
 		def no_result_brat
@@ -1190,14 +1145,8 @@ grammar BaseBrat
 			output = m.brat
 			output << a.brat
 
-			if false	
-				output << "#{array_val} = "
-			else
-				next_temp
-				output << "var #@result = "
-			end
-			
-			output << invoke(m.result, a.list, a.length) << ";"
+			next_temp
+			output << "var #@result = " << invoke(m.result, a.list, a.length) << ";"
 			
 		end
 	}
@@ -1207,14 +1156,8 @@ grammar BaseBrat
 			output = f.brat
 			output << a.brat
 
-			if false
-				output << "#{array_val} = " 
-			else
-				next_temp
-				output << "var #@result = " 
-			end
-
-			output << invoke(f.result, a.list, a.length) << ";"
+			next_temp
+			output << "var #@result = " << invoke(f.result, a.list, a.length) << ";"
 		end
 	}
 
@@ -1363,21 +1306,11 @@ grammar BaseBrat
 			name = m.brat
 			temp = var_exist? name
 			if temp
-				if false
-					"#{array_val} = #{temp};"
-				else
-					next_temp
-					"var #@result = #{temp};"
-				end
+				next_temp
+				"var #@result = #{temp};"
 			else	
-				if false
-					@result = array_val
-					output = ""
-				else
-					next_temp
-					output = "var #@result;"
-				end
-				output <<
+				next_temp
+				output = "var #@result;" <<
 				"if(#{name} == null) {" <<
 					"#@result = $objget(this, $hash(\"#{name}\"));" <<
 					"if(#@result == null) $throw(exception.null_error(\"#{nice_id name}\", \"access it\"));" <<
@@ -1401,14 +1334,8 @@ grammar BaseBrat
   	o:method_invocation "->" m:(identifier / operator) {
 		def brat
 			name = m.brat
-			o.brat <<
-			if false
-				@result = array_val
-				""
-			else
-				next_temp
-				"var #@result;"
-			end <<
+			next_temp
+			o.brat << "var #@result;" <<
 			"#@result = $objget(#{o.result}, $hash(\"#{name}\"));" <<
 			"if(#@result == null) $throw(exception.method_error(\"#{nice_id o.text_value}\", \"#{nice_id name}\")); #@result; \n"
 		end
