@@ -68,10 +68,10 @@ grammar BaseBrat
 	regex / binary_operation / index_set / index_get / 
 	assignment / 
 	paren_exp ~(!("." / "(")) { 
-		def brat array_val = nil
+		def brat
 			output = paren_exp.brat
 			@result = paren_exp.result
-			if array_val
+			if false
 				output << "#{array_val} = #@result;"
 			end
 			output
@@ -111,8 +111,8 @@ grammar BaseBrat
   #Matches regular expression literals
   rule regex
 	"/" r:(!"/" . / "\\/")* "/" {
-		def brat array_val = nil
-			if array_val
+		def brat
+			if false
 				"#{array_val} = regex.new(\"#{r.text_value}\");"
 			else
 				next_temp
@@ -140,8 +140,8 @@ grammar BaseBrat
   #Matches hash table literals
   rule hash
 	"[" space? ":" space? "]" {
-		def brat array_val = nil
-			if array_val
+		def brat
+			if false
 				"#{array_val} = @brat.base_hash.new();" 
 			else
 				next_temp
@@ -151,8 +151,8 @@ grammar BaseBrat
 	}
 	/
   	"[" spaceorbreak hash_inner spaceorbreak "]" {
-		def brat array_val = nil
-			output = hash_inner.brat array_val
+		def brat
+			output = hash_inner.brat
 			@result = hash_inner.result
 			output
 		end
@@ -162,10 +162,10 @@ grammar BaseBrat
   #Matches array literals
   rule array
   	"[" spaceorbreak array_inner spaceorbreak "]" {
-		def brat array_val = nil
+		def brat
 			output = array_inner.brat
 
-			if array_val
+			if false
 				output << "#{array_val} = @brat.base_array.new(#{array_inner.result});"
 			else
 				@result = array_inner.result #Reuse variable
@@ -175,8 +175,8 @@ grammar BaseBrat
 	}
 	/
 	"[" spaceorbreak "]" {
-		def brat array_val = nil
-			if array_val
+		def brat
+			if false
 				"#{array_val} = @brat.base_array.new();"
 			else
 				next_temp
@@ -206,7 +206,7 @@ grammar BaseBrat
   #Inside of a hash literal
   rule hash_inner
 	first:hash_argument rest:(spaceorbreak "," spaceorbreak n:hash_argument spaceorbreak)* {
-		def brat array_val
+		def brat
 			next_temp
 			hash_temp = @result
 			output = "var #{hash_temp} = $hnew(#{rest.elements.length + 1});"
@@ -218,7 +218,7 @@ grammar BaseBrat
 				output << "@brat.hset(#{hash_temp}, #{elem.index}, #{elem.value});"
 			end
 
-			if array_val
+			if false
 				output << "#{array_val} = @brat.make_hash(#{hash_temp});"
 			else
 				next_temp
@@ -251,7 +251,7 @@ grammar BaseBrat
   #Setting value via index (e.g., "a[1] = b")
   rule index_set
   	a:indexed_expression "[" i:expression "]" space? "=" spaceorbreak v:expression {
-		def brat array_val = nil
+		def brat
 			output = a.brat
 			output << i.brat
 			output << v.brat
@@ -259,7 +259,7 @@ grammar BaseBrat
 			output << "var #@result = #{a.result}.__set(#{i.result}, #{v.result});"
 			@result = v.result
 
-			if array_val
+			if false
 				output << "#{array_val} = #@result;"
 			else
 				output << @result
@@ -271,7 +271,7 @@ grammar BaseBrat
   #Retrieving value via index (e.g., "a[1]")
   rule index_get
   	e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
-		def brat array_val = nil
+		def brat
 			output = e.brat
 			last = e.result
 			a.elements.each do |elem|
@@ -286,7 +286,7 @@ grammar BaseBrat
 				output << "var #@result = " << invoke(last, args.list, args.length) << ";"
 			end
 
-			if array_val
+			if false
 				output << "#{array_val} = #@result;"
 			end
 
@@ -298,7 +298,7 @@ grammar BaseBrat
   #Matches assignment using "=" operator
   rule assignment
  	lhs:field_access space "=" spaceorbreak rhs:(function_definition / method_access) {
-		def brat array_val = nil
+		def brat
 			output = lhs.brat <<
 			rhs.brat  <<
 			"if($typeof(#{lhs.result}) == $tobject)" <<
@@ -309,7 +309,7 @@ grammar BaseBrat
 
 			@result = rhs.result
 
-			if array_val
+			if false
 				output << "#{array_val} = #@result;"
 			end
 
@@ -318,7 +318,7 @@ grammar BaseBrat
 	}
 	/
  	lhs:field_access space "=" spaceorbreak rhs:expression {
-		def brat array_val = nil
+		def brat
 			output = lhs.brat << 
 			rhs.brat <<
 			"if($typeof(#{lhs.result}) == $tobject)" <<
@@ -330,7 +330,7 @@ grammar BaseBrat
 			@result = rhs.result
 			output << "#@result;"
 
-			if array_val
+			if false
 				output << "#{array_val} = #@result;"
 			end
 
@@ -339,7 +339,7 @@ grammar BaseBrat
 	}
 	/
 	lhs:identifier space "=" spaceorbreak rhs:expression {
-		def brat array_val = nil
+		def brat
 			var = lhs.brat
 			temp = var_exist? var
 			if temp.include? "["
@@ -355,7 +355,7 @@ grammar BaseBrat
 			end
 			@result = rhs.result
 
-			if array_val
+			if false
 				output << "#{array_val} = #@result;"
 			end
 
@@ -381,7 +381,7 @@ grammar BaseBrat
   #Matches a lhs that is a field access (e.g., "a.b")
   rule field_access
   	m:method_chain i:(identifier / operator) {
-		def brat array_val = nil
+		def brat
 			output = m.brat
 			@result = m.result
 			output
@@ -392,8 +392,8 @@ grammar BaseBrat
   #Matches a parenthesized expression
   rule paren_exp
   	'(' ~(space?) expression ~(space?) ')' {
-		def brat array_val = nil
-			output = expression.brat array_val
+		def brat
+			output = expression.brat
 			@result = expression.result
 			output
 		end
@@ -427,8 +427,8 @@ grammar BaseBrat
   #Matches floats
   rule float
 	'-' i:pos_integer "." d:pos_integer {
-		def brat array_val = nil
-			if array_val
+		def brat
+			if false
 				"#{array_val} = number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
 			else
 				next_temp
@@ -438,8 +438,8 @@ grammar BaseBrat
 	}
 	/
   	i:pos_integer "." d:pos_integer {
-		def brat array_val = nil
-			if array_val
+		def brat
+			if false
 				"#{array_val} = number.@stof(\"#{i.text_value}.#{d.text_value}\");"
 			else
 				next_temp
@@ -455,9 +455,9 @@ grammar BaseBrat
 	pos_integer
 	/
 	'-' [0-9]+ {
-		def brat array_val = nil
+		def brat
 			next_temp
-			if array_val
+			if false
 				if text_value.to_i > -1073741823
 					"#{array_val} = #{text_value};"
 				else
@@ -478,9 +478,9 @@ grammar BaseBrat
 
   rule pos_integer
 	[0-9]+ {
-		def brat array_val = nil
+		def brat
 			next_temp
-			if array_val
+			if false
 				if text_value.to_i < 1073741824
 					"#{array_val} = #{text_value};"
 				else
@@ -502,10 +502,10 @@ grammar BaseBrat
   #Matches doubly-quoted strings
   rule string
     '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
-		def brat array_val = nil
+		def brat
 			next_temp
 			if content.elements.empty?
-				if array_val
+				if false
 					"#{array_val} = string.new(#{text_value});"
 				else
 					"var #@result = string.new(#{text_value});"
@@ -522,7 +522,7 @@ grammar BaseBrat
 					end
 				end
 
-				if array_val
+				if false
 					output << "#{array_val} = string.new(#{text << '"'});"
 				else
 					output << "var #@result = string.new(#{text << '"'});"
@@ -532,9 +532,9 @@ grammar BaseBrat
 	}
 	/
 	"'" content:(("\\'" / "\\\\" / !"'" . )*) "'" {
-		def brat array_val = nil
+		def brat
 			string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
-			if array_val
+			if false
 				"#{array_val} = string.new(\"#{string}\");"
 			else
 				next_temp
@@ -580,8 +580,8 @@ grammar BaseBrat
   #Like symbols in Scheme or Ruby
   rule symbol
 	":" id:(identifier / operator / number)+ {
-		def brat array_val = nil
-			if array_val
+		def brat
+			if false
 				"#{array_val} = symbol.new(\"#{id.text_value}\");"
 			else
 				next_temp
@@ -606,7 +606,7 @@ grammar BaseBrat
   #Matches function definitions
   rule function_definition
 	"{" space? fa:formal_args space? l:line* space? "}" {
-		def brat array_val = nil
+		def brat
 			next_scope
 			if fa.respond_to? :brat
 				args = fa.brat
@@ -638,7 +638,7 @@ grammar BaseBrat
 				environment = output_environment
 			end
 
-			if array_val
+			if false
 				output << "#{array_val} = "
 			else
 				output << "var #@result = "
@@ -651,7 +651,7 @@ grammar BaseBrat
 				"};"
 
 			if fa.respond_to? :var_args
-				if array_val
+				if false
 					output << "#{array_val} = @brat.brat_var_args(#{array_val});\n"
 				else
 					output << "#@result = @brat.brat_var_args(#@result);\n"
@@ -1092,10 +1092,10 @@ grammar BaseBrat
   #immediately followed by an expression.
   rule unary_operation
 	op:operator !space rhs:unary_rhs_expression {
-		def brat array_val = nil
+		def brat
 			next_temp
 			output = rhs.brat
-			if array_val
+			if false
 				output << "#{array_val} = " << call_method(rhs.result, op.brat, "", 0) << ";"
 			else
 				output << "var #@result = " << call_method(rhs.result, op.brat, "", 0) << ";"
@@ -1108,7 +1108,7 @@ grammar BaseBrat
   rule binary_operation
 	lhs:binary_operation_chain rhs:expression
 	 {
-		def brat array_val = nil
+		def brat
 			output = lhs.brat
 			output << rhs.brat
 			in_stack = lhs.stack
@@ -1147,7 +1147,7 @@ grammar BaseBrat
 				end
 			end
 	
-			if array_val
+			if false
 				output << "#{array_val} = #{res_stack.pop};"
 			else
 				next_temp
@@ -1161,7 +1161,7 @@ grammar BaseBrat
   rule binary_operation_chain
 	(lhs:binary_lhs_expression ~space op:operator ~space)+ {
 		attr_reader :stack
-		def brat array_val = nil	
+		def brat	
 			@stack = []
 			output = ""
 			elements.each do |e|
@@ -1177,11 +1177,11 @@ grammar BaseBrat
   #Matches method calls which must have parentheses or no arguments
   rule method_with_parens
   	lhs:method_chain i:(identifier / operator) a:simple_arg_list {
-		def brat array_val = nil
+		def brat
 			output = lhs.brat
 			output << a.brat
 
-			if array_val
+			if false
 				output << "#{array_val} = "
 			else
 				next_temp
@@ -1193,10 +1193,10 @@ grammar BaseBrat
 	}
 	/
   	lhs:method_chain i:(identifier / operator) &space {
-		def brat array_val = nil
+		def brat
 			output = lhs.brat
 
-			if array_val
+			if false
 				output << "#{array_val} = "
 			else
 				next_temp
@@ -1212,11 +1212,11 @@ grammar BaseBrat
   #Matches method/function invocations
   rule method_invocation
   	lhs:method_chain i:(identifier / operator) a:arg_list {
-		def brat array_val = nil
+		def brat
 			output = lhs.brat
 			output << a.brat
 
-			if array_val
+			if false
 				output << "#{array_val} = "
 			else
 				next_temp
@@ -1235,10 +1235,10 @@ grammar BaseBrat
 	}
 	/
 	m:identifier a:arg_list {
-		def brat array_val = nil
+		def brat
 			name = m.brat
 			a.brat <<
-				if array_val
+				if false
 					"#{array_val} = " << get_value(name, a.list, a.length) << ";"
 				else
 					next_temp
@@ -1266,11 +1266,11 @@ grammar BaseBrat
 	}
 	/
 	m:paren_exp a:arg_list {
-		def brat array_val = nil
+		def brat
 			output = m.brat
 			output << a.brat
 
-			if array_val	
+			if false	
 				output << "#{array_val} = "
 			else
 				next_temp
@@ -1283,11 +1283,11 @@ grammar BaseBrat
 	}
 	/
 	f:function_definition !space a:simple_arg_list {
-		def brat array_val = nil
+		def brat
 			output = f.brat
 			output << a.brat
 
-			if array_val
+			if false
 				output << "#{array_val} = " 
 			else
 				next_temp
@@ -1429,7 +1429,7 @@ grammar BaseBrat
 	}
 	/
 	method_target_expression {
-		def brat array_val = nil
+		def brat
 			super
 		end
 	}
@@ -1439,18 +1439,18 @@ grammar BaseBrat
   #instead of executing/calling it.
   rule method_access
   	"->" m:(identifier / operator) {
-		def brat array_val = nil
+		def brat
 			name = m.brat
 			temp = var_exist? name
 			if temp
-				if array_val
+				if false
 					"#{array_val} = #{temp};"
 				else
 					next_temp
 					"var #@result = #{temp};"
 				end
 			else	
-				if array_val
+				if false
 					@result = array_val
 					output = ""
 				else
@@ -1479,10 +1479,10 @@ grammar BaseBrat
 	}
 	/
   	o:method_invocation "->" m:(identifier / operator) {
-		def brat array_val = nil
+		def brat
 			name = m.brat
 			o.brat <<
-			if array_val
+			if false
 				@result = array_val
 				""
 			else
