@@ -10,6 +10,7 @@ layout: default
 * [Overview](overview.html)
 * [Features](features.html)
 * [Setup](setup.html)
+* [Commandline Options](options.html)
 * [Examples](examples.html)
 * [Modules](modules.html)
 
