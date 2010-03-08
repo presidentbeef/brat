@@ -141,9 +141,8 @@ grammar BaseBrat
 	/
   	"[" spaceorbreak hash_inner spaceorbreak "]" {
 		def brat
-			output = hash_inner.brat
-			@result = hash_inner.result
-			output
+			next_temp
+			"var #@result = #{hash_inner.brat};"
 		end
 	}
   end
@@ -187,18 +186,16 @@ grammar BaseBrat
 	first:hash_argument rest:(spaceorbreak "," spaceorbreak n:hash_argument spaceorbreak)* {
 		def brat
 			next_temp
-			hash_temp = @result
-			output = "var #{hash_temp} = $hnew(#{rest.elements.length + 1});"
+			output = "{ var #@result = $hnew(#{rest.elements.length + 1});"
 			first.brat
-			output << "@brat.hset(#{hash_temp}, #{first.index}, #{first.value});"
+			output << "@brat.hset(#@result, #{first.index}, #{first.value});"
 			rest.elements.each do |e|
 				elem = e.n
 				elem.brat
-				output << "@brat.hset(#{hash_temp}, #{elem.index}, #{elem.value});"
+				output << "@brat.hset(#@result, #{elem.index}, #{elem.value});"
 			end
 
-			next_temp
-			output << "var #@result = @brat.make_hash(#{hash_temp});"
+			output << "@brat.make_hash(#@result) }"
 		end
 	}
   end
