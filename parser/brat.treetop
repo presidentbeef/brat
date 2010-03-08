@@ -152,10 +152,8 @@ grammar BaseBrat
   rule array
   	"[" spaceorbreak array_inner spaceorbreak "]" {
 		def brat
-			output = array_inner.brat
-
-			@result = array_inner.result #Reuse variable
-			output << "#@result = @brat.base_array.new(#{array_inner.result});"
+			next_temp
+			"var #@result = @brat.base_array.new(#{array_inner.brat});"
 		end
 	}
 	/
@@ -171,7 +169,7 @@ grammar BaseBrat
 	first:expression rest:(spaceorbreak "," spaceorbreak e:expression)* {
 		def brat
 			next_temp
-			output = "var #@result = $amake(#{rest.elements.length + 1});"
+			output = "{ var #@result = $amake(#{rest.elements.length + 1});"
 
 			output << "#@result[0] = {#{first.brat}};"
 
@@ -179,7 +177,7 @@ grammar BaseBrat
 				output <<  "#@result[#{i + 1}] = {#{r.e.brat}}"
 			end
 
-			output
+			output << "#@result }"
 		end
 	}
   end
