@@ -1344,10 +1344,6 @@ grammar BaseBrat
 			inner_arg_list.brat
 		end
 
-		def array
-			inner_arg_list.array
-		end
-
 		def length
 			inner_arg_list.length
 		end
@@ -1360,10 +1356,6 @@ grammar BaseBrat
 	'(' empty_list ')' {
 		def brat
 			""
-		end
-
-		def array
-			"$amake(0)"
 		end
 
 		def length
@@ -1380,10 +1372,6 @@ grammar BaseBrat
 			inner_arg_list.brat
 		end
 
-		def array
-			inner_arg_list.array
-		end
-
 		def length
 			inner_arg_list.length
 		end
@@ -1397,10 +1385,6 @@ grammar BaseBrat
 	![(] ~(&(space?)) {
 		def brat
 			""
-		end
-
-		def array
-			"$amake(0)"
 		end
 
 		def length
@@ -1424,10 +1408,6 @@ grammar BaseBrat
 			inner_arg_list.brat
 		end
 
-		def array
-			inner_arg_list.array
-		end
-
 		def length
 			inner_arg_list.length
 		end
@@ -1440,10 +1420,6 @@ grammar BaseBrat
 	'(' empty_list ')' {
 		def brat
 			""
-		end
-
-		def array
-			"$amake(0)"
 		end
 
 		def length
@@ -1499,14 +1475,6 @@ grammar BaseBrat
 			@list = args.join(',')
 			@length = args.length
 			output
-		end
-
-		def array
-			if length > 0
-				"$array(#{self.list})"
-			else
-				"$amake(0)"
-			end
 		end
 
 		def check_variables
