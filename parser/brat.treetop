@@ -1207,7 +1207,7 @@ grammar BaseBrat
 			if temp
 				<<-NEKO
 				var @t = $typeof(#{temp});
-				if(@t == $tobject || @t == $tint || is_num(#{temp})) {
+				if(@t == $tobject || @t == $tint || @brat.is_num(#{temp})) {
 					#@result = #{temp};
 				} else if($typeof(#{temp}) == $tfunction) {
 					#@result = #{invoke(temp, arg_list.list, arg_list.length)};

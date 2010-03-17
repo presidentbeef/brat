@@ -2593,3 +2593,4 @@ $exports.to_identifier = to_identifier;
 $exports.comparable = comparable;
 $exports.enumerable = enumerable;
 $exports.brat_var_args = $loader.loadprim("core-util@brat_var_args", 1);
+$exports.is_num = is_num;

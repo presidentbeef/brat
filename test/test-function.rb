@@ -241,6 +241,10 @@ class BratFunctionTests < Test::Unit::TestCase
 		assert_result "2", "x = new; x.y = new; x.y.z = [1,2,3]; x.y.z[1]"
 	end
 
+	def test_return_value_call
+		assert_result "0", "f = { [] }; f.length"
+	end
+
 	def test_method_access
 		assert_result "#function:0", "x = new;x.x = { 1 }; x->x"
 		assert_result "1", "x = new; y = new; x.y = { 1 }; y.x = x->y; y.x"
