@@ -423,17 +423,15 @@ grammar BaseBrat
 				"var #@result = string.new(#{text_value});"
 			else
 				text = '"'
-				output = ""
 				content.elements.each do |e|
 					if e.respond_to? :brat
-						output << e.brat
-						text << "\" + $string(#{e.result}) + \""
+						text << "\" + $string({#{e.brat}}) + \""
 					else
 						text << e.text_value
 					end
 				end
 
-				output << "var #@result = string.new(#{text << '"'});"
+				"var #@result = string.new(#{text << '"'});"
 			end
 		end
 	}
