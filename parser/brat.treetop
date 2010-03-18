@@ -224,14 +224,8 @@ grammar BaseBrat
   rule index_set
   	a:indexed_expression "[" i:expression "]" space? "=" spaceorbreak v:expression {
 		def brat
-			output = a.brat
-			output << i.brat
-			output << v.brat
 			next_temp
-			output << "var #@result = #{a.result}.__set(#{i.result}, #{v.result});"
-			@result = v.result
-
-			output << @result
+			"{var #@result; {#{a.brat}}.__set({#{i.brat}}, #@result = {#{v.brat}}); #@result}"
 		end
 	}
   end
