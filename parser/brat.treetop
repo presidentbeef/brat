@@ -1146,23 +1146,18 @@ grammar BaseBrat
   rule method_chain
  	(e:method_lhs ".")+ {
 		def brat
-			output = elements.first.e.brat
-			last = elements.first.e.result
-			@result = last
+			next_temp
+			output = "var #@result = {#{elements.first.e.brat}}"
 			meth = args = nil
 			elements[1..-1].each do |elem|
 				meth = elem.e.identifier.brat
 				args = elem.e.arg_list
 				output << args.brat
-				next_temp
-				output << "var #@result = " << call_method(last, meth, args.list, args.length) << ";"
-				last = @result
+				output << "#@result = " << call_method(@result, meth, args.list, args.length) << ";"
 				if not elem.e.a.elements.empty?
 					elem.e.a.elements.each do |ele|
 						output << ele.inner_arg_list.brat
-						next_temp
-						output << "var #@result = #{last}.__get(#{ele.inner_arg_list.list});"
-						last = @result
+						output << "#@result = #{@result}.__get(#{ele.inner_arg_list.list});"
 					end
 				end
 			end
