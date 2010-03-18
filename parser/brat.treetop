@@ -1445,8 +1445,9 @@ grammar BaseBrat
 				e.brat
 				named_args << e
 			else
-				output << e.brat
-				args << e.result
+				next_temp
+				output << "var #@result = {#{e.brat}};"
+				args << @result
 			end
 
 			o.elements.each do |elem|
@@ -1455,21 +1456,22 @@ grammar BaseBrat
 						elem.arg_first.brat
 						named_args << elem.arg_first
 					else
-						output << elem.brat
-						args << elem.result
+						next_temp
+						output << "var #@result = {#{elem.brat}};"
+						args << @result
 					end
 				end
 			end
+
 			unless named_args.empty?
 				next_temp
-				hash_temp = @result
-				output << "var #{hash_temp} = $hnew(#{named_args.length});"
-				named_args.map do |e|
-					output << "@brat.hset(#{hash_temp}, #{e.key}, #{e.result});"
-				end
-				next_temp
-				output << "var #@result = @brat.make_hash(#{hash_temp});"
 				args << @result
+				output << "var #@result = {"
+				output << "#@result = $hnew(#{named_args.length});"
+				named_args.map do |e|
+					output << "@brat.hset(#@result, #{e.key}, #{e.result});"
+				end
+				output << "@brat.make_hash(#@result)};"
 			end
 
 			@list = args.join(',')
