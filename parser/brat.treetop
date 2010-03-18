@@ -107,8 +107,7 @@ grammar BaseBrat
   rule regex
 	"/" r:(!"/" . / "\\/")* "/" {
 		def brat
-			next_temp
-			"var #@result = regex.new(\"#{r.text_value}\");"
+			"regex.new(\"#{r.text_value}\");"
 		end
 	}
   end
@@ -132,15 +131,13 @@ grammar BaseBrat
   rule hash
 	"[" space? ":" space? "]" {
 		def brat
-			next_temp
-			"var #@result = @brat.base_hash.new();" 
+			"@brat.base_hash.new();" 
 		end
 	}
 	/
   	"[" spaceorbreak hash_inner spaceorbreak "]" {
 		def brat
-			next_temp
-			"var #@result = #{hash_inner.brat};"
+			hash_inner.brat
 		end
 	}
   end
@@ -149,15 +146,13 @@ grammar BaseBrat
   rule array
   	"[" spaceorbreak array_inner spaceorbreak "]" {
 		def brat
-			next_temp
-			"var #@result = @brat.base_array.new(#{array_inner.brat});"
+			"@brat.base_array.new(#{array_inner.brat});"
 		end
 	}
 	/
 	"[" spaceorbreak "]" {
 		def brat
-			next_temp
-			"var #@result = @brat.base_array.new();"
+			"@brat.base_array.new();"
 		end
 	}
   end
@@ -233,17 +228,17 @@ grammar BaseBrat
   	e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
 		def brat
 			next_temp
-			output = "var #@result = {#{e.brat}};"
+			output = "{ var #@result = {#{e.brat}};"
 			a.elements.each do |elem|
 				output << elem.inner_arg_list.brat
 				output << "#@result = #@result.__get(#{elem.inner_arg_list.list});" 
 			end
 			unless args.respond_to? :nothing?
 				output << args.brat
-				output << "#@result = " << invoke(@result, args.list, args.length) << ";"
+				output << invoke(@result, args.list, args.length) << ";"
 			end
 
-			output
+			output << " }"
 		end
 	}
   end
@@ -362,15 +357,13 @@ grammar BaseBrat
   rule float
 	'-' i:pos_integer "." d:pos_integer {
 		def brat
-			next_temp
-			"var #@result = number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
+			"number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
 		end
 	}
 	/
   	i:pos_integer "." d:pos_integer {
 		def brat
-			next_temp
-			"var #@result = number.@stof(\"#{i.text_value}.#{d.text_value}\");"
+			"number.@stof(\"#{i.text_value}.#{d.text_value}\");"
 		end
 	}
   end
@@ -384,10 +377,9 @@ grammar BaseBrat
 		def brat
 			next_temp
 			if text_value.to_i > -1073741823
-				@result = text_value
 				"#{text_value};"
 			else
-				"var #@result = number.@stoi(\"#{text_value}\");"
+				"number.@stoi(\"#{text_value}\");"
 			end
 		end
 	}
@@ -399,10 +391,9 @@ grammar BaseBrat
 		def brat
 			next_temp
 			if text_value.to_i < 1073741824
-				@result = text_value
 				"#{text_value};"
 			else
-				"var #@result = number.@stoi(\"#{text_value}\");"
+				"number.@stoi(\"#{text_value}\");"
 			end
 		end
 	}
@@ -412,9 +403,8 @@ grammar BaseBrat
   rule string
     '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
 		def brat
-			next_temp
 			if content.elements.empty?
-				"var #@result = string.new(#{text_value});"
+				"string.new(#{text_value});"
 			else
 				text = '"'
 				content.elements.each do |e|
@@ -425,7 +415,7 @@ grammar BaseBrat
 					end
 				end
 
-				"var #@result = string.new(#{text << '"'});"
+				"string.new(#{text << '"'});"
 			end
 		end
 	}
@@ -433,8 +423,7 @@ grammar BaseBrat
 	"'" content:(("\\'" / "\\\\" / !"'" . )*) "'" {
 		def brat
 			string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
-			next_temp
-			"var #@result = string.new(\"#{string}\");"
+			"string.new(\"#{string}\");"
 		end
 	}
   end
@@ -470,8 +459,7 @@ grammar BaseBrat
   rule symbol
 	":" id:(identifier / operator / number)+ {
 		def brat
-			next_temp
-			"var #@result = symbol.new(\"#{id.text_value}\");"
+			"symbol.new(\"#{id.text_value}\");"
 		end
 	} 
   end
@@ -507,7 +495,6 @@ grammar BaseBrat
 		
 			output = ""
 
-			next_temp
 
 
 			inner_function = l.elements.map {|e| e.brat}.join(";");
@@ -523,14 +510,19 @@ grammar BaseBrat
 				environment = output_environment
 			end
 
-			output << "var #@result = " << "function(#{args}) { \n" <<
+			if fa.respond_to? :var_args
+				next_temp
+				output << "var #@result = "
+			end
+
+			output << "function(#{args}) { \n" <<
 				environment <<
 				inside <<
 				inner_function <<
 				"};"
 
 			if fa.respond_to? :var_args
-				output << "#@result = @brat.brat_var_args(#@result);\n"
+				output << "@brat.brat_var_args(#@result);\n"
 			end
 
 			pop_scope
@@ -968,7 +960,7 @@ grammar BaseBrat
 		def brat  
 			next_temp
 			"var #@result = {#{rhs.brat}};" <<
-			"#@result = " << call_method(@result, op.brat, "", 0) << ";"
+			call_method(@result, op.brat, "", 0) << ";"
 		end
 	}
   end
@@ -1020,8 +1012,7 @@ grammar BaseBrat
 				end
 			end
 	
-			@result = final_result
-			output << "#@result = #{res_stack.pop};  }"
+			output << "#{res_stack.pop};  }"
 		end
 	}
   end
@@ -1051,7 +1042,7 @@ grammar BaseBrat
 			next_temp
 			"var #@result = {#{lhs.brat}};" <<
 			a.brat <<
-			"#@result = " << call_method(@result, i.brat, a.list, a.length) << ";"
+			call_method(@result, i.brat, a.list, a.length) << ";"
 		end
 	}
 	/
@@ -1072,7 +1063,7 @@ grammar BaseBrat
 			next_temp
 			"var #@result = {#{lhs.brat}}" << 
 			a.brat <<
-			"#@result = " << call_method(@result, i.brat, a.list, a.length) << ";"
+			call_method(@result, i.brat, a.list, a.length) << ";"
 		end
 
 		def no_result_brat
@@ -1087,8 +1078,7 @@ grammar BaseBrat
 	m:identifier a:arg_list {
 		def brat
 			name = m.brat
-			next_temp
-			a.brat << "var #@result = " << get_value(name, a.list, a.length) << ";"
+			a.brat << get_value(name, a.list, a.length) << ";"
 		end
 
 		def no_result_brat
@@ -1115,7 +1105,7 @@ grammar BaseBrat
 			next_temp
 			"var #@result = {#{m.brat}}" <<
 			a.brat <<
-			"#@result = " << invoke(@result, a.list, a.length) << ";"
+			invoke(@result, a.list, a.length) << ";"
 		end
 	}
 	/
@@ -1124,7 +1114,7 @@ grammar BaseBrat
 			next_temp
 			"var #@result = {#{f.brat}}" <<
 			a.brat <<
-			"#@result = " << invoke(@result, a.list, a.length) << ";"
+			invoke(@result, a.list, a.length) << ";"
 		end
 	}
 
@@ -1246,7 +1236,7 @@ grammar BaseBrat
 			next_temp
 			"var #@result = {#{f.brat}}" <<
 			a.brat <<
-			"#@result = " << invoke(@result, a.list, a.length) << ";"
+			invoke(@result, a.list, a.length) << ";"
 		end
 	}
 	/
@@ -1265,16 +1255,14 @@ grammar BaseBrat
 			name = m.brat
 			temp = var_exist? name
 			if temp
-				next_temp
-				"var #@result = #{temp};"
+				temp
 			else	
 				next_temp
-				output = "var #@result;" <<
-				"if(#{name} == null) {" <<
-					"#@result = $objget(this, $hash(\"#{name}\"));" <<
+				output ="if(#{name} == null) {" <<
+					"var #@result = $objget(this, $hash(\"#{name}\"));" <<
 					"if(#@result == null) $throw(exception.null_error(\"#{nice_id name}\", \"access it\"));" <<
 					"#@result;" <<
-				"} else { #@result = #{name} };\n"
+				"} else { #{name} };\n"
 			end
 		end
 
