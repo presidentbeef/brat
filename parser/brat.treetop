@@ -69,9 +69,7 @@ grammar BaseBrat
 	assignment / 
 	paren_exp ~(!("." / "(")) { 
 		def brat
-			output = paren_exp.brat
-			@result = paren_exp.result
-			output
+			paren_exp.brat
 		end 
 
 		def no_result_brat
@@ -264,7 +262,7 @@ grammar BaseBrat
 				"$objset(#{lhs_result}, $hash(\"#{lhs.i.brat}\"), #{rhs_result});" <<
 			"else if(number.@is_number(#{lhs_result}))" <<
 				"$objset(number, $hash(\"#{lhs.i.brat}\"), #{rhs_result});" <<
-			"else $throw(\"Cannot set method on \" + $string(#{lhs.result}));" << 
+			"else $throw(\"Cannot set method on \" + $string(#{lhs_result}));" << 
 			"#@result;"
 		end
 	}
@@ -322,9 +320,7 @@ grammar BaseBrat
   rule field_access
   	m:method_chain i:(identifier / operator) {
 		def brat
-			output = m.brat
-			@result = m.result
-			output
+			m.brat
 		end
 	}
   end
@@ -333,9 +329,7 @@ grammar BaseBrat
   rule paren_exp
   	'(' ~(space?) expression ~(space?) ')' {
 		def brat
-			output = expression.brat
-			@result = expression.result
-			output
+			expression.brat
 		end
 
 		def no_result_brat
@@ -451,18 +445,12 @@ grammar BaseBrat
 			output = ""
 			if first.respond_to? :brat
 				output << first.brat
-				@result = first.result
 			end
 
 			rest.elements.each do |e|
 				if e.expression.respond_to? :brat
 					output << e.expression.brat
-					@result = e.expression.result
 				end
-			end
-
-			if @result.nil?
-				@result = '""'
 			end
 
 			output
@@ -1433,7 +1421,7 @@ grammar BaseBrat
 						named_args << elem.arg_first
 					else
 						next_temp
-						output << "var #@result = {#{elem.brat}};"
+						output << "var #@result = {#{elem.arg_first.brat}};"
 						args << @result
 					end
 				end
@@ -1445,7 +1433,7 @@ grammar BaseBrat
 				output << "var #@result = {"
 				output << "#@result = $hnew(#{named_args.length});"
 				named_args.map do |e|
-					output << "@brat.hset(#@result, #{e.key}, #{e.result});"
+					output << "@brat.hset(#@result, #{e.key}, #{e.value});"
 				end
 				output << "@brat.make_hash(#@result)};"
 			end
@@ -1473,38 +1461,28 @@ grammar BaseBrat
   rule arg_next
   	~((space / eol)*) "," ~((space / eol)*) arg_first {
 		def brat
-			output = arg_first.brat
-			@result = arg_first.result
-			output
 		end
 	}
 	/
 	~((space / eol)*) arg_first:function_definition {
 		def brat
-			output = arg_first.brat
-			@result = arg_first.result
-			output
 		end
 	} 
 	/
 	~((space / eol)*) arg_first:named_argument {
-		def brat
-			output = arg_first.brat
-			@result = arg_first.result
-			output
-		end
-	}
+               def brat
+               end
+       }
   end
  
   #Matches a 'named' argument
   rule named_argument
 	i:((identifier / operator) (identifier / operator / number)*) ":" spaceorbreak e:expression {
-		attr_reader :key
+		attr_reader :key, :value
 
 		def brat
 			@key = "symbol.new(\"#{i.text_value}\")"
-			@result = "{#{e.brat}}"
-			""
+			@value = "{#{e.brat}}"
 		end
 
 		def named_argument?
@@ -1513,12 +1491,11 @@ grammar BaseBrat
 	}
 	/
   	i:expression spaceorbreak ":" spaceorbreak e:expression {
-		attr_reader :key
+		attr_reader :key, :value
 
 		def brat
 			@key = "{#{i.brat}}"
-			@result = "{#{e.brat}}"
-			""
+			@value = "{#{e.brat}}"
 		end
 
 		def named_argument?
