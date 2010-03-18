@@ -1306,8 +1306,8 @@ grammar BaseBrat
 		def brat
 			name = m.brat
 			next_temp
-			o.brat << "var #@result;" <<
-			"#@result = $objget(#{o.result}, $hash(\"#{name}\"));" <<
+			"var #@result = {#{o.brat}};" <<
+			"#@result = $objget(#@result, $hash(\"#{name}\"));" <<
 			"if(#@result == null) $throw(exception.method_error(\"#{nice_id o.text_value}\", \"#{nice_id name}\")); #@result; \n"
 		end
 	}
