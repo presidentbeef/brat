@@ -977,10 +977,10 @@ grammar BaseBrat
   #immediately followed by an expression.
   rule unary_operation
 	op:operator !space rhs:unary_rhs_expression {
-		def brat
+		def brat  
 			next_temp
-			output = rhs.brat
-			output << "var #@result = " << call_method(rhs.result, op.brat, "", 0) << ";"
+			"var #@result = {#{rhs.brat}};" <<
+			"#@result = " << call_method(@result, op.brat, "", 0) << ";"
 		end
 	}
   end
@@ -990,10 +990,14 @@ grammar BaseBrat
 	lhs:binary_operation_chain rhs:expression
 	 {
 		def brat
-			output = lhs.brat
-			output << rhs.brat
+			next_temp
+			final_result = @result
+			output = "var #{final_result}; { "
+			output << lhs.brat
+			next_temp
+			output << "var #@result = {#{rhs.brat}};"
 			in_stack = lhs.stack
-			in_stack << rhs.result
+			in_stack << @result
 			out_stack = []
 			op_stack = []
 			res_stack = []
@@ -1028,8 +1032,8 @@ grammar BaseBrat
 				end
 			end
 	
-			next_temp
-			output << "var #@result = #{res_stack.pop};"
+			@result = final_result
+			output << "#@result = #{res_stack.pop};  }"
 		end
 	}
   end
@@ -1042,8 +1046,9 @@ grammar BaseBrat
 			@stack = []
 			output = ""
 			elements.each do |e|
-				output << e.lhs.brat
-				@stack << e.lhs.result
+				next_temp
+				output << "var #@result = {#{e.lhs.brat}};"
+				@stack << @result
 				@stack << e.op.brat
 			end
 			output
