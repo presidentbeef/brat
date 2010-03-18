@@ -955,9 +955,7 @@ grammar BaseBrat
 		def brat
 			@var_name = i.brat
 			var_add @var_name
-			output = v.brat
-			@result = v.result
-			output << "#{var_name} = #{v.result}"
+			"#{var_name} = { #{v.brat} };"
 		end
 
 		def var_name
