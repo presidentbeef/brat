@@ -254,34 +254,35 @@ grammar BaseBrat
   rule assignment
  	lhs:field_access space "=" spaceorbreak rhs:(function_definition / method_access) {
 		def brat
-			output = lhs.brat <<
-			rhs.brat  <<
-			"if($typeof(#{lhs.result}) == $tobject)" <<
-				"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), #{rhs.result});" <<
-			"else if(number.@is_number(#{lhs.result}))" <<
-				"$objset(number, $hash(\"#{lhs.i.brat}\"), #{rhs.result});" <<
-			"else $throw(\"Cannot set method on \" + $string(#{lhs.result}));"
-
-			@result = rhs.result
-
-			output
+			next_temp
+			lhs_result = @result
+			next_temp
+			rhs_result = @result
+			"var #{lhs_result} = {#{lhs.brat}};" <<
+			"var #{rhs_result} = {#{rhs.brat}};"  <<
+			"if($typeof(#{lhs_result}) == $tobject)" <<
+				"$objset(#{lhs_result}, $hash(\"#{lhs.i.brat}\"), #{rhs_result});" <<
+			"else if(number.@is_number(#{lhs_result}))" <<
+				"$objset(number, $hash(\"#{lhs.i.brat}\"), #{rhs_result});" <<
+			"else $throw(\"Cannot set method on \" + $string(#{lhs.result}));" << 
+			"#@result;"
 		end
 	}
 	/
  	lhs:field_access space "=" spaceorbreak rhs:expression {
 		def brat
-			output = lhs.brat << 
-			rhs.brat <<
-			"if($typeof(#{lhs.result}) == $tobject)" <<
-				"$objset(#{lhs.result}, $hash(\"#{lhs.i.brat}\"), function() { #{rhs.result}});" <<
-			"else if(number.@is_number(#{lhs.result}))" <<
-				"$objset(number, $hash(\"#{lhs.i.brat}\"), function() { #{rhs.result} });" <<
-			"else $throw(\"Cannot set method on \" + $string(#{lhs.result}));"
-
-			@result = rhs.result
-			output << "#@result;"
-
-			output
+			next_temp
+			lhs_result = @result
+			next_temp
+			rhs_result = @result
+			"var #{lhs_result} = {#{lhs.brat}};" <<
+			"var #{rhs_result} = {#{rhs.brat}};"  <<
+			"if($typeof(#{lhs_result}) == $tobject)" <<
+				"$objset(#{lhs_result}, $hash(\"#{lhs.i.brat}\"), function() { #{rhs_result}});" <<
+			"else if(number.@is_number(#{lhs_result}))" <<
+				"$objset(number, $hash(\"#{lhs.i.brat}\"), function() { #{rhs_result} });" <<
+			"else $throw(\"Cannot set method on \" + $string(#{lhs_result}));" << 
+			"#@result;"
 		end
 	}
 	/
@@ -289,20 +290,16 @@ grammar BaseBrat
 		def brat
 			var = lhs.brat
 			temp = var_exist? var
+			@result = temp
 			if temp.include? "["
-				output = rhs.brat <<
-					"#{temp} = #{rhs.result};"
+				"#{temp} = {#{rhs.brat}};"
 			elsif $interactive
 				var_add var
-				output = rhs.brat <<
-					"#{var} = #{rhs.result};"
+				"#{var} = {#{rhs.brat}};"
+				@result = var
 			else
-				output = rhs.brat <<
-					"var #{temp} = #{rhs.result};"
+				"var #{temp} = {#{rhs.brat}};"
 			end
-			@result = rhs.result
-
-			output
 		end
 
 		def check_variables
