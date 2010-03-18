@@ -234,18 +234,15 @@ grammar BaseBrat
   rule index_get
   	e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
 		def brat
-			output = e.brat
-			last = e.result
+			next_temp
+			output = "var #@result = {#{e.brat}};"
 			a.elements.each do |elem|
 				output << elem.inner_arg_list.brat
-				next_temp
-				output << "var #@result = #{last}.__get(#{elem.inner_arg_list.list});" 
-				last = @result
+				output << "#@result = #@result.__get(#{elem.inner_arg_list.list});" 
 			end
 			unless args.respond_to? :nothing?
 				output << args.brat
-				next_temp
-				output << "var #@result = " << invoke(last, args.list, args.length) << ";"
+				output << "#@result = " << invoke(@result, args.list, args.length) << ";"
 			end
 
 			output
