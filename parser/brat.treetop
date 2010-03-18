@@ -1081,17 +1081,17 @@ grammar BaseBrat
   rule method_invocation
   	lhs:method_chain i:(identifier / operator) a:arg_list {
 		def brat
-			output = lhs.brat
-			output << a.brat
-
 			next_temp
-			output << "var #@result = " << call_method(lhs.result, i.brat, a.list, a.length) << ";"
+			"var #@result = {#{lhs.brat}}" << 
+			a.brat <<
+			"#@result = " << call_method(@result, i.brat, a.list, a.length) << ";"
 		end
 
 		def no_result_brat
-			lhs.brat << 
+			next_temp
+			"var #@result = {#{lhs.brat}}" << 
 			a.brat <<
-			call_method(lhs.result, i.brat, a.list, a.length) 
+			call_method(@result, i.brat, a.list, a.length) 
 		end
 
 	}
@@ -1124,22 +1124,19 @@ grammar BaseBrat
 	/
 	m:paren_exp a:arg_list {
 		def brat
-			output = m.brat
-			output << a.brat
-
 			next_temp
-			output << "var #@result = " << invoke(m.result, a.list, a.length) << ";"
-			
+			"var #@result = {#{m.brat}}" <<
+			a.brat <<
+			"#@result = " << invoke(@result, a.list, a.length) << ";"
 		end
 	}
 	/
 	f:function_definition !space a:simple_arg_list {
 		def brat
-			output = f.brat
-			output << a.brat
-
 			next_temp
-			output << "var #@result = " << invoke(f.result, a.list, a.length) << ";"
+			"var #@result = {#{f.brat}}" <<
+			a.brat <<
+			"#@result = " << invoke(@result, a.list, a.length) << ";"
 		end
 	}
 
