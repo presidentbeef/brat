@@ -1236,15 +1236,12 @@ grammar BaseBrat
 	/
 	a:array a_rest:("[" space? inner_arg_list space? "]")+ {
 		def brat
-			output = a.brat
-			last = a.result
+			next_temp
+			output = "var #@result = {#{a.brat}}"
 			a_rest.elements.each do |elem|
 				output << elem.inner_arg_list.brat
-				next_temp
-				output << "var #@result = #{last}.__get(#{elem.inner_arg_list.list});"
-				last = @result
+				output << "#@result = #{@result}.__get(#{elem.inner_arg_list.list});"
 			end
-			@result = last
 			output
 		end
 
@@ -1258,10 +1255,10 @@ grammar BaseBrat
 	/
 	f:function_definition !space a:simple_arg_list {
 		def brat
-			output = f.brat
-			output << a.brat
 			next_temp
-			output << "var #@result = " << invoke(f.result, a.list, a.length) << ";"
+			"var #@result = {#{f.brat}}" <<
+			a.brat <<
+			"#@result = " << invoke(@result, a.list, a.length) << ";"
 		end
 	}
 	/
