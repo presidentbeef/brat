@@ -526,12 +526,47 @@ base_object.when = $varargs(function(args) {
 	if(arglen < 2) {
 		$throw(base_exception.argument_error("when", "at least 2", arglen));
 	} 
-	else if(arglen % 2 == 0) {
-		
+	var index;
+	var check;
+
+	if(arglen % 2 == 0) {
+		index = 0;
+		check = function(condition) {
+			if($typeof(condition) == $tfunction) {
+				condition = condition();
+			}
+
+			istrue(condition);
+		}
 	}
 	else {
+		index = 1;
+		var value = args[0];
+		check = function(condition) {
+			if($typeof(condition) == $tfunction)
+				base_hash.@compare(value, condition()) == 0;
+			else
+				base_hash.@compare(value, condition) == 0;
+		}
+	}
 
-	}	
+	while(index < arglen) {
+		if(check(args[index])) {
+			var action = args[index + 1];
+
+			if($typeof(action) == $tfunction) {
+				if($nargs(action) == 0)
+					return action();
+			}
+			else
+				return action;
+		}
+		else {
+			index = index + 2;
+		}
+	}
+
+	return base_object.@@null;
 })
 
 base_object.include = $varargs(function(args) {
