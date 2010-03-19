@@ -47,6 +47,15 @@ check_result = function(handle, result, cleanup) {
 
 net = @brat.base_object.new();
 
+net.@debug = false;
+
+net.set@underdebug = function(bool) {
+	if(bool == @brat.base_object.@@false || bool == @brat.base_object.@@null)
+		net.@debug = false;
+	else
+		net.@debug = true;
+}
+
 net.fetch = $varargs(function(args) {
 	var url;
 	var arglen = $asize(args);
@@ -66,7 +75,7 @@ net.fetch = $varargs(function(args) {
 	}
 
 	var handle = get_curl();
-	set_curl_debug(handle, true);
+	set_curl_debug(handle, this.@debug);
 	var result = get_url(handle, url);
 	check_result(handle, result, true);
 })
@@ -100,7 +109,7 @@ net.fetch@underauth = $varargs(function(args) {
 	}
 
 	var handle = get_curl();
-	set_curl_debug(handle, true);
+	set_curl_debug(handle, this.@debug);
 	var usrpwd = user + ":" + password;
 	set_curl_auth(handle, usrpwd);
 	var result = get_url(handle, url);
@@ -126,7 +135,7 @@ net.post@underauth = function(url, user, password, params) {
 	params = combine_parameters(params);
 
 	var handle = get_curl();
-	set_curl_debug(handle, true);
+	set_curl_debug(handle, this.@debug);
 	set_curl_post(handle);
 	set_curl_postfields(handle, params);
 	var usrpwd = user + ":" + password;
@@ -144,7 +153,7 @@ net.post = function(url, params) {
 	params = combine_parameters(params);
 
 	var handle = get_curl();
-	set_curl_debug(handle, true);
+	set_curl_debug(handle, this.@debug);
 	set_curl_post(handle);
 	set_curl_postfields(handle, params);
 	var result = get_url(handle, url);
