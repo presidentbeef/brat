@@ -16,7 +16,7 @@ callbacks.add_boolean = function(val) {
 }
 
 callbacks.add_number = function(val) {
-	if($sfind(val, 0, ".") != null)
+	if($sfind(val, 0, ".") == null)
 		this.set_current(@brat.base_number.new(@brat.base_number.@stoi(val)));
 	else
 		this.set_current(@brat.base_number.@stof(val));
