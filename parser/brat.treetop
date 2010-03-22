@@ -289,7 +289,6 @@ grammar BaseBrat
 			elsif $interactive
 				var_add var
 				"#{var} = {#{rhs.brat}};"
-				@result = var
 			else
 				"var #{temp} = {#{rhs.brat}};"
 			end
