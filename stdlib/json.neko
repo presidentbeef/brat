@@ -109,6 +109,14 @@ parse = function(json_string) {
 
 	var cb = $new(callbacks);
 	parse_json(cb, json_string, $ssize(json_string));
+	if(cb.current_type == hash) {
+		cb.current_object.array@question = function() { @brat.base_object.@@false }
+		cb.current_object.hash@question = function() { @brat.base_object.@@true }
+	}
+	else {
+		cb.current_object.array@question = function() { @brat.base_object.@@true }
+		cb.current_object.hash@question = function() { @brat.base_object.@@false }
+	}
 	cb.current_object;
 }
 
