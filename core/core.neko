@@ -909,7 +909,10 @@ base_number.@or@or = function(lhs, rhs) {
 }
 
 base_number.@and@and = function(lhs, rhs) {
-	istrue(rhs);
+	if(istrue(rhs))
+		base_object.@@true
+	else
+		base_object.@@false
 }
 
 base_number.@greater = function(lhs, num) {
