@@ -1459,7 +1459,12 @@ grammar BaseBrat
 	~((space / eol)*) arg_first:named_argument {
                def brat
                end
-       }
+	}
+	/
+	~(space?) arg_first:expression {
+		def brat
+		end
+	}
   end
  
   #Matches a 'named' argument
@@ -1477,7 +1482,7 @@ grammar BaseBrat
 		end
 	}
 	/
-  	i:expression spaceorbreak ":" spaceorbreak e:expression {
+  	i:expression space? ":" space spaceorbreak e:expression {
 		attr_reader :key, :value
 
 		def brat

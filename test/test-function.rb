@@ -164,11 +164,11 @@ class BratFunctionTests < Test::Unit::TestCase
 	end
 
 	def test_named_args
-		assert_result "1", "a = {x| x.length}; a \"f\":1"
-		assert_result "1", "a = {x| x[\"f\"] }; a \"f\":1"
-		assert_result "1", "a = {x, y, z| z[\"f\"] }; a 1, \"f\":1, 2"
-		assert_result "1", "a = {x, y, z| z[:f] }; a 1, f:1, 2"
-		assert_result "2", "a = {x, y, z| z[:g] }; a 1, f:1, 2, :g : 2"
+		assert_result "1", "a = {x| x.length}; a \"f\": 1"
+		assert_result "1", "a = {x| x[\"f\"] }; a \"f\": 1"
+		assert_result "1", "a = {x, y, z| z[\"f\"] }; a 1, \"f\": 1, 2"
+		assert_result "1", "a = {x, y, z| z[:f] }; a 1, f: 1, 2"
+		assert_result "2", "a = {x, y, z| z[:g] }; a 1, f: 1, 2, :g : 2"
 	end
 
 	def test_named_args_no_commas
@@ -268,5 +268,23 @@ class BratFunctionTests < Test::Unit::TestCase
 		assert_result "true", "f = {}; function? ->f"
 		assert_result "false", "f = new; function? f"
 		assert_result "false", "function? 1"
+	end
+
+	def test_method_invocation_no_commas
+		assert_result "4", "f = { a, b, c, d | d }; f 1 2 3 4"
+		assert_result "4", "f = { *args | args[3] }; f 'a' 2 'b' 4"
+		assert_result "c", "f = { *args | args[3] }; f 'a' 2 'b' 'c'"
+		assert_result "4", "f = { *args | args[3] }; f {} 2 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; f /a/ 2 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; f 'a' 'c' 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; f 'a' (true) 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; f 1 {} 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; f 1 [] 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; f 1 [:] 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; f 1 ->f 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; f 1 /a/ 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; f 1 1 + 1 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; a = []; f 1 a[0] = 3 'b' 4"
+		assert_result "4", "f = { *args | args[3] }; g = { x, y | y }; f 1 :b 'b' g 3 4"
 	end
 end
