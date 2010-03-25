@@ -2306,7 +2306,22 @@ base_regex.new = function(regx_string) {
 
 	var reg = new_brat(this);
 	reg.@internal_regex = regexp_new(regx_string);
+	reg.@original_string = regx_string;
 	reg; 
+}
+
+base_regex.@to_s = function() { 
+	if(this.@original_string != null)
+		"#r:/" + this.@original_string + "/" 
+	else
+		"#r://"
+}
+
+base_regex.to@unders = function() {
+	if(this.@original_string != null)
+		base_string.new("#r:/" + this.@original_string + "/")
+	else
+		base_string.new("#r://")
 }
 
 regexp_match = $loader.loadprim("regexp@regexp_match", 4);
