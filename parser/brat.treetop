@@ -20,7 +20,7 @@ grammar BaseBrat
 				if($objget(name, $hash("@neko_string")) != null)
 					$objset($exports, $hash(@brat.to_identifier(name.@value)), object);
 				else
-					$throw(exception.argument_error("import", "a string", $string(name)));
+					$throw(exception.argument_error("export", "a string", $string(name)));
 			}
 			#{self.inner_brat}
 			NEKO
