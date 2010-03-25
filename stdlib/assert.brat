@@ -1,0 +1,74 @@
+# Very simple testing library.
+
+test_manager = new
+test_context = new
+
+test_manager.init = { block |
+	my.tests = []
+	block
+}
+
+test_manager.test = { name, block |
+	my.tests << test_context.new(name, ->block)
+}
+
+test_manager.run = { 
+	failures = []
+	num_tests = 0
+	num_assertions = 0
+
+	print "Running tests..."
+	
+	my.tests.each { t |
+		print "."
+		protect { t.run } rescue: { err | failures << [ name: t.name, message: err.error_message ] }
+		num_tests = num_tests + 1
+		num_assertions = num_assertions + t.assertions
+	}
+
+	p
+
+	true? failures.empty?, {
+		p "All tests passed!"
+	}
+	{
+		p "Test failure(s):"
+		p
+
+		failures.each_with_index { f, i |
+			p "\t#{i + 1}. '#{f[:name]}': #{f[:message]}\n"
+		}
+	}
+
+	p "#{num_tests} run, #{num_assertions} assertions, #{failures.length} failures."
+}
+
+
+test_context.init = { name, block |
+	my.name = name
+	my.tests = ->block
+	my.assertions = 0
+	my.print = { *args | }
+}
+
+test_context.run = { my.tests }
+
+test_context.assert = { condition, message = null |
+	my.assertions = my.assertions + 1
+	false? ->condition, {
+		throw null? message, "assert failed", message
+	}
+} 
+
+test_context.assert_equal = { expected, actual |
+	e = expected
+	r = actual
+	assert { e == r }, "expected #{e}, but was #{r}"
+}
+
+run_tests = { block |
+	tm = test_manager.new ->block
+	tm.run
+}
+
+export { block | test_manager.new(->block).run }, "setup"
