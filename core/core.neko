@@ -5,8 +5,11 @@ base_object.new = $varargs(function(args) {
 	var nb = new_brat(this);
 	if($objget(this, $hash("init")) != null) {
 		var init = $objget(this, $hash("init"))
-		if($nargs(init) == -2)
+		var arglen = $nargs(init);
+		if(arglen == -2)
 			nb.init(args);
+		else if(arglen != -1 && arglen != $asize(args))
+			$throw(base_exception.argument_error("new", $nargs(init), $asize(args)));
 		else
 			$objcall(nb, $hash("init"), args);
 	}
