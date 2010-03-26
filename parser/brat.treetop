@@ -540,7 +540,7 @@ grammar BaseBrat
 
   #Matches formal arguments in a function definition
   rule formal_args
-	space? plain_formals space? "|" {
+	space? plain_formals space? "|" !"|" {
 		def brat
 			plain_formals.plain
 		end
@@ -562,7 +562,7 @@ grammar BaseBrat
 		end
 	}
 	/
-	space? default_args space? "|" {
+	space? default_args space? "|" !"|" {
 		attr_reader :var_args
 
 		def brat
@@ -605,7 +605,7 @@ grammar BaseBrat
 		end
 	}
 	/
-	space? variable_args space? "|"	{
+	space? variable_args space? "|"	!"|" {
 		attr_reader :var_args
 
 		def brat
@@ -623,7 +623,7 @@ grammar BaseBrat
 		end
 	}
 	/
-	space? plain_formals space? "," space? variable_args space? "|" {
+	space? plain_formals space? "," space? variable_args space? "|"	!"|"  {
 		attr_reader :var_args
 
 		def brat
@@ -658,7 +658,7 @@ grammar BaseBrat
 
 	}
 	/
-	space? default_args space? "," space? variable_args space? "|" {
+	space? default_args space? "," space? variable_args space? "|" !"|" {
 		attr_reader :var_args
 
 		def brat
@@ -720,7 +720,7 @@ grammar BaseBrat
 		end
 	}
 	/
-	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" {
+	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" !"|" {
 		attr_reader :var_args
 
 		def brat
@@ -793,7 +793,7 @@ grammar BaseBrat
 		end
 	}
 	/
-  	space? plain_formals space? "," space? default_args space? "|" {
+  	space? plain_formals space? "," space? default_args space? "|" !"|" {
 		attr_reader :var_args
 
 		def brat
