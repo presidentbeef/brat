@@ -29,6 +29,10 @@ set.new = $varargs(function(args) {
 	new_set;
 })
 
+set.to@unders = function() {
+	@brat.base_string.new(this.@to_s())
+}
+
 set.@to_s = function() {
 	if(this.@internal_hash != null)
 		this.@internal_hash.keys().@to_s();

@@ -1409,6 +1409,10 @@ base_array.@equal@equal = function(rhs) {
 	base_object.@@true;
 }
 
+base_array.to@unders = function() {
+	base_string.new(this.@to_s());
+}
+
 base_array.@to_s = function() {
 	var i = 0;
 	var len = this.@length;
@@ -1904,6 +1908,10 @@ base_hash.@plus = function(rhs) {
 	base_hash.new(res);
 }
 
+base_hash.to@unders = function() {
+	base_string.new(this.@to_s());
+}
+
 base_hash.@to_s = function() {
 	output = "{";
 	var st = function(k,v) {
@@ -2318,10 +2326,7 @@ base_regex.@to_s = function() {
 }
 
 base_regex.to@unders = function() {
-	if(this.@original_string != null)
-		base_string.new("#r:/" + this.@original_string + "/")
-	else
-		base_string.new("#r://")
+	base_string.new(this.@to_s())
 }
 
 regexp_match = $loader.loadprim("regexp@regexp_match", 4);
@@ -2366,6 +2371,10 @@ base_symbol.@equal@equal = function(rhs) {
 		base_object.@@true;
 	else
 		base_object.@@false;
+}
+
+base_symbol.to@unders = function() {
+	base_string.new(this.@to_s());
 }
 
 base_symbol.@to_s = function() {
