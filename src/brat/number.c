@@ -482,7 +482,7 @@ value num_cmp(value num1, value num2) {
 			return alloc_int(int_cmp(num1, num2));
 		else if(val_is_int(num2))
 			return alloc_int(int_cmp_si(val_data(num1), val_int(num2)));
-		else if(val_is_kind(num2, k_mfloat))
+		else if(val_is_kind(num2, k_mfloat)) 
 			return alloc_int(float_cmp(int_to_float(num1), num2));
 		else
 			failure("Invalid use of num_cmp");
@@ -501,7 +501,7 @@ value num_cmp(value num1, value num2) {
 		if(val_is_kind(num2, k_mint))
 			return alloc_int(int_cmp_si(val_data(num2), val_int(num1)) * -1);
 		else if(val_is_kind(num2, k_mfloat))
-			return alloc_int(float_cmp_si(val_data(num1), val_int(num2)) * -1);
+			return alloc_int(float_cmp_si(val_data(num2), val_int(num1)) * -1);
 		else
 			failure("Invalid use of num_cmp");
 	}
