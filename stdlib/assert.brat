@@ -14,20 +14,21 @@ test_manager.test = { name, block |
 
 test_manager.run = { 
 	failures = []
+	total_tests = my.tests.length
 	num_tests = 0
 	num_assertions = 0
 
-	print "Running tests..."
+	p "Running tests..."
 	
-	my.tests.each { t |
-		print "."
+	my.tests.each_with_index { t, i |
+		print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
 		protect { t.run } rescue: { err | failures << [ name: t.name, message: err.error_message ] }
 		num_tests = num_tests + 1
 		num_assertions = num_assertions + t.assertions
 	}
-
+	
 	p
-
+	
 	true? failures.empty?, {
 		p "All tests passed!"
 	}
@@ -40,7 +41,7 @@ test_manager.run = {
 		}
 	}
 
-	p "#{num_tests} run, #{num_assertions} assertions, #{failures.length} failures."
+	p "#{num_tests} tests, #{num_assertions} assertions, #{failures.length} failures."
 }
 
 
@@ -48,7 +49,6 @@ test_context.init = { name, block |
 	my.name = name
 	my.tests = ->block
 	my.assertions = 0
-	my.print = { *args | }
 }
 
 test_context.run = { my.tests }
@@ -63,7 +63,22 @@ test_context.assert = { condition, message = null |
 test_context.assert_equal = { expected, actual |
 	e = expected
 	r = actual
-	assert { e == r }, "expected #{e}, but was #{r}"
+	assert { e == r } "expected #{e}, but was #{r}"
+}
+
+test_context.assert_false = { condition |
+	r = condition
+	assert { false? r } "expected #{r} to be false"
+}
+
+test_context.assert_null = { condition |
+	r = condition
+	assert { null? r } "expected #{r} to be null"
+}
+
+test_context.assert_match = { pattern, actual |
+	r = actual
+	assert pattern.match(r) "#{r} expected to match #{pattern}"
 }
 
 run_tests = { block |
@@ -71,4 +86,4 @@ run_tests = { block |
 	tm.run
 }
 
-export { block | test_manager.new(->block).run }, "setup"
+export { block | p "Loading tests..."; test_manager.new(->block).run } "setup"
