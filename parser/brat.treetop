@@ -1053,6 +1053,42 @@ grammar BaseBrat
 		end
 
 	}
+	/
+	i:identifier a:simple_arg_list {
+		def brat
+			a.brat <<
+			invoke(i.brat, a.list, a.length)
+		end
+
+		def check_variables
+			id = i.brat
+			unless var_exist? id
+				var = var_exist? id, true
+				if var
+					var_add id, var
+				end
+			end
+
+			a.check_variables
+		end
+	}
+	/
+	i:identifier ~(&space) {
+		def brat
+			get_value(i.brat, "", 0)
+		end
+
+		def check_variables
+			id = i.brat
+			unless var_exist? id
+				var = var_exist? id, true
+				if var
+					var_add id, var
+				end
+			end
+		end
+
+	}
   end
 
   #Matches method/function invocations
