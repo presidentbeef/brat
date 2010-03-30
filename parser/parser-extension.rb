@@ -302,7 +302,7 @@ class Treetop::Runtime::SyntaxNode
 			else
 				$throw(exception.argument_error("#{nice_id object}", $string(arg_len), #{arg_length}));
 		} else if(#{arg_length != 0 ? "true" : "false"}) {
-			$throw(base_exception.new("Tried to invoke non-method: #{nice_id object}"));
+			$throw(exception.new("Tried to invoke non-method: #{nice_id object}"));
 		} else { 
 			#{temp}; 
 		}
