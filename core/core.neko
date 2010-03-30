@@ -1937,6 +1937,33 @@ hset = function(hashtable, index, value) {
 	$hset(hashtable, index, value, base_hash.@compare)
 }
 
+func = new_brat(null);
+
+func.init = function(f) {
+	this.@function = f;
+}
+
+func.arity = function() {
+	if(this.@nargs == null) {
+		this.@nargs = base_number.new($nargs(this.@function));
+	}
+	else
+		this.@nargs;
+}
+
+func.@to_s = function() {
+	$string(this.@function);
+}
+
+func.to@unders = function() {
+	base_string.new(this.@to_s());
+}
+
+base_function = new_brat(null);
+
+base_function.new = function(f) {
+	func.new(f);
+}
 
 base_string = new_brat(null);
 
@@ -2659,3 +2686,4 @@ $exports.comparable = comparable;
 $exports.enumerable = enumerable;
 $exports.brat_var_args = $loader.loadprim("core-util@brat_var_args", 1);
 $exports.is_num = is_num;
+$exports.base_function = base_function;

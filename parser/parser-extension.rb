@@ -178,6 +178,25 @@ class Treetop::Runtime::SyntaxNode
 				else
 					$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
 			}
+			else if($typeof(#{temp}) == $tfunction) {
+				var @f = @brat.base_function.new(#{temp});
+				if(#{has_field("@f", method)}) {
+					var arg_len = $nargs(@f.#{method});
+					if(arg_len == -1 || arg_len == #{arg_length}) {
+						@f.#{method}(#{arguments});
+					}
+					else if(arg_len == -2) {
+						@f.#{method}($array(#{arguments}));
+					}
+					else
+						$throw(exception.argument_error("function.#{nice_id method}",  $string(arg_len), #{arg_length}));
+				}
+				else if(#{has_field("@f", "no@undermethod")}) {
+					#{call_no_method "@f", method, arguments, arg_length}
+				}
+				else
+					$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
+			}
 			else {
 				#{call_number}
 			}

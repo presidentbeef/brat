@@ -1275,6 +1275,12 @@ grammar BaseBrat
 		end
 	}
 	/
+	f:function_definition &(".") {
+		def brat
+			"@brat.base_function.new({#{f.brat}})"
+		end
+	}
+	/
 	method_target_expression {
 		def brat
 			super
