@@ -3,8 +3,9 @@
 test_manager = new
 test_context = new
 
-test_manager.init = { block |
+test_manager.init = { block, name = null |
 	my.tests = []
+	my.name = name
 	block
 }
 
@@ -18,15 +19,15 @@ test_manager.run = {
 	num_tests = 0
 	num_assertions = 0
 
-	p "Running tests..."
-	
+	null? my.name, { p "Running tests..." } { p "Running #{my.name}..." }
+
 	my.tests.each_with_index { t, i |
 		print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
 		protect { t.run } rescue: { err | failures << [ name: t.name, message: err.error_message ] }
 		num_tests = num_tests + 1
 		num_assertions = num_assertions + t.assertions
 	}
-	
+
 	p
 	
 	true? failures.empty?, {
@@ -86,4 +87,6 @@ run_tests = { block |
 	tm.run
 }
 
-export { block | p "Loading tests..."; test_manager.new(->block).run } "setup"
+export { block, options = [:] |
+	p "Loading tests..."
+	test_manager.new(->block, options[:name]).run }, "setup"
