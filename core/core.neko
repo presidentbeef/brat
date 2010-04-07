@@ -581,7 +581,7 @@ base_object.import = $varargs(function(args) {
 		if($objget(args[0], $hash("@neko_string")) != null) {
 			var m;
 			try {
-				m = $loader.loadmodule(to_identifier(args[0]), $loader);
+				m = $loader.loadmodule(args[0].@neko_string(), $loader);
 			}
 			catch e {
 				$throw(base_exception.new(e));
