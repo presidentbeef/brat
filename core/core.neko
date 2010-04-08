@@ -1796,6 +1796,44 @@ base_hash.new = $varargs(function(args) {
 	hsh;
 });
 
+base_hash.@equal@equal = function(rhs) {
+	if($typeof(rhs) != $tobject || $objget(rhs, $hash("@internal_hash")) == null)
+		return base_object.@@false;
+
+	rhs = rhs.@internal_hash;
+
+	var len = $hcount(this.@internal_hash);
+	if(len != $hcount(rhs))
+		return base_object.@@false;
+
+	if(len == 0)
+		return base_object.@@true;
+
+	var flag = true;
+	var index = 0;
+	var keys = this.keys().@internal_array;
+	var key;
+	var lvalue;
+	var rvalue;
+	var lhs = this.@internal_hash;
+
+	while(index < len) {
+		key = keys[index]
+		rvalue = $hget(rhs, key, base_hash.@compare)
+		lvalue = $hget(lhs, key, base_hash.@compare)
+		if(this.@compare(lvalue, rvalue) != 0) {
+			flag = false;
+			break;
+		}
+		index = index + 1;
+	}
+
+	if(flag)
+		base_object.@@true;
+	else
+		base_object.@@false;
+}
+
 base_hash.get = function(index) {
 	if($hmem(this.@internal_hash, index, base_hash.@compare) == true)
 		$hget(this.@internal_hash, index, base_hash.@compare);
