@@ -2375,7 +2375,8 @@ base_symbol = new_brat(null);
 base_symbol.new = function(sym_string) {
 	if($typeof(sym_string) == $tobject && $objget(sym_string, $hash("@neko_string")) != null)
 		sym_string = sym_string.@neko_string();
-	else if($typeof(sym_string) == $tstring)
+	
+	if($typeof(sym_string) == $tstring)
 		sym_string = $hash(sym_string);
 	else if($typeof(sym_string) == $tint) { 
 		//assume it comes directly from $hash() in parser
@@ -2390,7 +2391,7 @@ base_symbol.new = function(sym_string) {
 
 base_symbol.@equal@equal = function(rhs) {
 	if($pcompare(this, rhs) == 0)
-		base_object.@@true;
+		return base_object.@@true;
 	else if($typeof(rhs) == $tobject && $objget(rhs, $hash("@sym_value")) != null)
 		rhs = rhs.@sym_value;
 
