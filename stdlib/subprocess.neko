@@ -47,7 +47,7 @@ subprocess.run = $varargs(function(args) {
 		$throw(@brat.base_exception.argument_error("run", "at least 1", arglen));
 	}
 	else {
-		var sub = $call(child.new, subprocess, args);
+		var sub = $call(subprocess.new, subprocess, args);
 		sub.run();
 	}
 });
