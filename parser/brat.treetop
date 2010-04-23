@@ -77,37 +77,37 @@ grammar BaseBrat
 		end
 	}
 	/ 
-	unary_operation / method_access / method_invocation / number / string / symbol / function_definition / hash / array
+	unary_operation / method_access / method_invocation / number / string / symbol / function_definition / array / hash 
   end
 
   #Expressions which can be followed by []
   rule indexed_expression
- 	hash / array / paren_exp / unary_operation / method_invocation / string
+ 	array / hash / paren_exp / unary_operation / method_invocation / string
   end
 
   #Expressions which can be used as lhs of "." method calls
   rule method_target_expression
- 	hash / array / paren_exp / number / string / regex / symbol / unary_operation
+ 	array / hash / paren_exp / number / string / regex / symbol / unary_operation
   end
  
   #Expressions which can be used as the lhs of a binary expression 
   rule binary_lhs_expression
-	method_with_parens / index_get / paren_exp / number / string / hash / array / regex / symbol / unary_operation / method_invocation
+	method_with_parens / index_get / paren_exp / number / string / array / hash / regex / symbol / unary_operation / method_invocation
   end
 
   rule unary_rhs_expression
- 	index_get / paren_exp / number / string / hash / array / method_invocation / regex / symbol
+ 	index_get / paren_exp / number / string / array / hash / method_invocation / regex / symbol
   end
 
   rule default_arg_rhs_expression
-	index_get / paren_exp / method_access / method_invocation / number / unary_operation / string / symbol / function_definition / hash / array
+	index_get / paren_exp / method_access / method_invocation / number / unary_operation / string / symbol / function_definition / array / hash
   end
 
   #Matches regular expression literals
   rule regex
 	"/" r:(!"/" . / "\\/")* "/" {
 		def brat
-			"regex.new(\"#{r.text_value}\");"
+			"regex.new(\"#{r.text_value}\")"
 		end
 	}
   end
@@ -131,7 +131,7 @@ grammar BaseBrat
   rule hash
 	"[" space? ":" space? "]" {
 		def brat
-			"@brat.base_hash.new();" 
+			"@brat.base_hash.new()" 
 		end
 	}
 	/
@@ -146,19 +146,19 @@ grammar BaseBrat
   rule array
   	"[" spaceorbreak array_inner spaceorbreak "]" {
 		def brat
-			"@brat.base_array.new(#{array_inner.brat});"
+			"@brat.base_array.new(#{array_inner.brat})"
 		end
 	}
 	/
 	"[" spaceorbreak "]" {
 		def brat
-			"@brat.base_array.new();"
+			"@brat.base_array.new()"
 		end
 	}
   end
 
   rule array_inner
-	first:expression rest:(spaceorbreak "," spaceorbreak e:expression)* {
+	first:expression rest:(((spaceorbreak "," spaceorbreak) / ( space / eol)+) e:expression)* {
 		def brat
 			next_temp
 			output = "{ var #@result = $amake(#{rest.elements.length + 1});"
@@ -176,7 +176,7 @@ grammar BaseBrat
 
   #Inside of a hash literal
   rule hash_inner
-	first:hash_argument rest:(spaceorbreak "," spaceorbreak n:hash_argument spaceorbreak)* {
+	first:hash_argument rest:(((spaceorbreak "," spaceorbreak) / (space / eol)+) n:hash_argument)* {
 		def brat
 			next_temp
 			output = "{ var #@result = $hnew(#{rest.elements.length + 1});"
