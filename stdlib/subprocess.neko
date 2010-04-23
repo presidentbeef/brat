@@ -97,6 +97,17 @@ subprocess.wait = $varargs(function(args) {
 
 })
 
+sys_command = $loader.loadprim("std@sys_command", 1);
+subprocess.command = function(command) {
+	if($typeof(command) == $tobject && $objget(command, $hash("@neko_string")) != null)
+		command = command.@neko_string();
+
+	if($typeof(command) != $tstring)
+		$throw(@brat.base_exception.argument_error("subprocess.command", "string", command));
+
+	sys_command(command);
+}
+
 child.run = function() {
 	if(this.@command == null) {
 			$throw("No program name given for child.");
