@@ -1,0 +1,5 @@
+#*
+* Print the numbers 1 to 100, but substitute "Fizz" for multiples of 3,
+* "Buzz" for multiples of 5, and "FizzBuzz" for multiples of both 3 and 5.
+*#
+1.to 100 { n | true? n % 15 == 0 { p "FizzBuzz" } { true? n % 3 == 0 { p "Fizz" } { true? n % 5 == 0 { p "Buzz" } { p n }}}}
