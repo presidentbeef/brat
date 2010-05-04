@@ -29,7 +29,7 @@ function run(code, vartable) {
 		var output , module = IO.write_string();
 		Neko.Bytecode.write output bytecode;
 		// read compiled module
-		var m = Reflect.module_read (IO.input (IO.read_string module));
+		var m = Reflect.module_read (IO.input (IO.read_string module()));
 		// set module environement
 		var globals = fst bytecode;
 		Array.iteri (function(i,g) {
