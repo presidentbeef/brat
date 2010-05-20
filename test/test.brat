@@ -1,0 +1,12 @@
+include "subprocess"
+include "assert"
+
+["misc", "examples", "containers", "function", "misc", "number", "parser", "string"].each { file |
+	file = "test-" << file
+	true? subprocess.command("./brat -c -f test/#{file}.brat") == 0 {
+		protect {
+			import("test/#{file}")
+		} rescue: { e | p "Error importing test/#{file}.brat: #{e.error_message}" }
+	}
+	{ p "Error compiling test/#{file}.brat" }
+}

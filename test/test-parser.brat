@@ -1,0 +1,202 @@
+include 'assert'
+setup name: "test parsing" {
+
+	test "little_program_parse" {
+		a = object.new;a.! = {x| x + 1}
+		a.? = {x| x + 1}
+		a.\ = {x| x + 1}
+		a.- = {x| x + 1}
+		a.* = {x| x + 1}
+		a.+ = {x| x + 1}
+		a.^ = {x| x + 1}
+		a.@ = {x| x + 1}
+		a.~ = {x| x + 1}
+		a./ = {x| x + 1}
+		a.> = {x| x + 1}
+		a.< = {x| x + 1}
+		a.$ = {x| x + 1}
+		a._ = {x| x + 1}
+		a.% = {x| x + 1}
+		a.!= = {x| x + 1}
+		a.>= = {x| x + 1}
+		a.<= = {x| x + 1}
+		a.|| = {x| x + 1}
+		a.| = {x| x + 1}
+		a.&& = {x| x + 1}
+		a.& = {x| x + 1}
+		a.== = {x| x + 1}
+	}
+
+	test "simple_identifier_parse" {
+		{ a }
+	}
+
+	test "mixed_identifier_parse" {
+		{ h1h4h3 }
+		{ what?? }
+		{ HhH1?1! }
+		{ h-h!l2Al102913l??a }
+	}
+
+	test "method_parse" {
+		{ hello }
+		{ what.what? }
+		{ hello() }
+		{ p f test: 'hello' test2: 'there' }
+	}
+
+	test "chained_method_parse" {
+		{ what.what.what }
+		{ hello().something.what() }
+		{ hello.something() }
+		{ [1].test.test }
+		{ [a:1].test.test 3 }
+		{ "a".test.test(1).test }
+		{ a[1].test }
+		{ 1.test[3].test(1)[3][3].test }
+	}
+
+	test "big_combo_parse" {
+		{ a[1].test(1,2,3)[1].o(a,b,c,3).b(a:1)[1][2][3].test }
+		{ a[1].test(1,2,3)[1].o(a,b,c,3).b(a:1)[1][2][3].test [1,2,3] }
+	}
+
+	test "array_parse" {
+		{ [1,2,3] }
+		{ [a,1,b] }
+		{ [1, a, b, b.m, c.d(1,2,3)] }
+		{ [[[1,a], [2,b], [3,c]]] }
+		{ [1][0][2] }
+		{ [1,2,3].test }
+		{ [1].test }
+		{ [a][b][c][d,2].test }
+	}
+
+	test "simple_args_parse" {
+		{ sup dawg }
+		{ sup 1, 2, 3 }
+		{ sup b, a, 3, sup }
+	}
+
+	test "simple_named_args_parse" {
+		{ sup I:1, bob:b1 }
+	}
+
+	test "weird_args_parse" {
+		{ sup dog.bark }
+		{ call_this wacky:method, then:this.one, 1, 2    
+		     ,3, 4 }
+		{ call_this wacky : method, then : this.one, 1, 2    
+		     ,3, 4 }
+	}
+
+	test "operation_parse" {
+		{ a.@ = 1 }
+		{ a + b }
+		{ 1 + a.b }
+		{ 1 + 2 ! 3 @ b }
+	}
+
+	test "formal_parse" {
+		{ {x, y | } }
+		{ {x, y| z } }
+		{ {x, y = 1 | y } }
+		{ {*y | p y } }
+		{ {x, *y | p y } }
+		{ { x = 1, *y | } }
+		{ { x = 1, z = 3, *y | } }
+		{ { a,b, c, x = 1,z = 3,*y | } }
+	}
+
+	test "hash_parse" {
+		{ [a:1, b:2] }
+		{ [a : 1, b : 2] }
+	}
+
+	test "list_access_parse" {
+		{ a[1] }
+		{ a[x.y] }
+	}
+
+	test "list_set_parse" {
+		{ a[1] = 2 }
+		{ a[x] = m.m }
+		{ a[z] = {x, y| x } }
+	}
+
+	test "comment_parse" {
+		{ x = 1; #x = 6 
+		 x }
+		{ x = 1; #* x = 6 *# 
+		 x }
+		{ x = 1; #* 
+		 x = 6 
+		 *# 
+		 x }
+#
+		{ #
+		"hi" }
+	}
+
+	test "symbol_parse" {
+		{ x = :x }
+		{ x = :sdifhsd123123! }
+		{ x :a.hello(1, 2, 3) }
+	}
+
+	test "method_parens_parse" {
+		{ to_be?() }
+		{ sup(dawg) }
+		{ hi(man, girl, sister, brother, 1, 2, 3, 4, 5) }
+		{ monkey_butt(first:scratch, then:poke.it(1)) }
+		{ hi().hi.hi(1,2).hi(a,b,c).hi(a.a) }
+	}
+
+	test "method_access_parse" {
+		{ hi->there }
+		{ ->there }
+		{ a->->> }
+	}
+
+	test "paren_exp_parse" {
+		{ ( hi ) }
+		{ what().what() }
+		{ (( ((((((((a))) ))))))) }
+		{ (this.thing.is?( really ).driving.me.crazy) }
+	}
+
+	test "integer_parse" {
+		{ 1 }
+		{ 12312490 }
+		{ 001293213 }
+	}
+
+	test "float_parse" {
+		{ 1.1 }
+	}
+
+	test "digit_parse" {
+		{ 1 }
+	}
+
+	test "string_parse" {
+		{ "Hello, there" }
+		{ 'what is up' }
+		{ 'what\'s up?' }
+		{ 'stray double "quote' }
+	}
+
+	test "assignment_parse" {
+		{ pi = 3.123123 }
+	}
+
+	test "method_definition_parse" {
+		{ { p hi } }
+	}
+
+	test "multiline_method_parse" {
+		{ b = {
+		 a = 1
+		} }
+	}
+}
