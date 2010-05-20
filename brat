@@ -19,60 +19,13 @@ def compile_parser force = false
 	end
 end
 
-#Compiles core.neko if needed. Returns false if compilation does not occur, otherwise returns result of compilation.
-def compile_core force = false
-	if force or not File.exist? "#$program_path/core/core.n" or newer? "#$program_path/core/core.neko", "#$program_path/core/core.n"
-		system "nekoc #$program_path/core/core.neko" or abort "Error while compiling core.neko"
-		#system "nekoc -z #$program_path/core/core.n" or abort "Error while compiling core.neko"
-	else
-		false
-	end
-end
-
-#Compiles stdlibs if needed. Returns false if compilation does not occur.
-def compile_stdlib force = false
-	neko_files = Dir.glob "#$program_path/stdlib/*.neko"
-	brat_files = Dir.glob "#$program_path/stdlib/*.brat"
-	options = {:force => true}
-
-	if force
-		neko_files.each do |f|
-			system "nekoc #{f}"
-		end
-
-		brat_files.each do |f|
-			compile_brat_file f, options
-		end
-		true
-	else
-		compiled = false
-		neko_files.each do |f|
-			fcomp = f[0..-4]
-			if not File.exist? fcomp or newer? f, fcomp
-				compiled = true
-				system "nekoc #{f}" or abort "Error compiling #{f}"
-				#system "nekoc -z #{fcomp}"
-			end
-		end
-
-		brat_files.each do |f|
-			fcomp = f[0..-5] + "n"
-			if not File.exist? fcomp or newer? f, fcomp
-				compiled = true
-				compile_brat_file f
-			end
-		end
-		compiled
-	end
-end
-
-#Parses Brat input and returns Neko code from the parser.
-def brat_to_neko input
+#Parses Brat input and returns Lua code from the parser.
+def brat_to_lua input
 	parser = BaseBratParser.new
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
 		if input.strip == ""
-			"null"
+			"nil"
 		else
 			raise "Error during parsing:\n#{parser.failure_reason}"
 		end
@@ -98,9 +51,7 @@ def brat orig_file_name, options
 	require "#$program_path/parser/parser-extension"
 
 	unless options[:skip_check]
-		new_core = compile_core(force) 
-		new_stdlib = compile_stdlib(force)
-		force = force || new_parser || new_core || new_stdlib
+		force = force || new_parser
 	end
 
 	options[:force] = force
@@ -109,12 +60,12 @@ def brat orig_file_name, options
 
 	return if not options[:run]
 
-	if not system "neko #{options[:stats] ? "-stats" : ""} #{options[:interp] ? "-interp" : "" } #{file_name}.n"
+	if not system "lua #{file_name}.lua"
 		abort "Running program returned error number: #{$?}"
 	end
 end
 
-#Compiles a Brat file to Neko bytecode, returns base name of file
+#Compiles a Brat file to Lua, returns base name of file
 def compile_brat_file orig_file_name, options = {}
 	if orig_file_name.match /\.brat$/i
 		file_name = orig_file_name[0..-6]
@@ -124,40 +75,24 @@ def compile_brat_file orig_file_name, options = {}
 
 	force = options[:force]
 
-	if force or not File.exist?(file_name + ".n") or newer? orig_file_name, file_name + ".n"
-		if force or not File.exist? file_name + ".neko" or newer? orig_file_name, file_name + ".neko"
-			brat_input = File.read orig_file_name
-			begin
-				neko = brat_to_neko brat_input
-			rescue RuntimeError => e
-				puts e
-				exit
-			end
+	if force or not File.exist?(file_name + ".lua") or newer? orig_file_name, file_name + ".lua"
+		brat_input = File.read orig_file_name
 
-			File.open(file_name + ".neko", "w") {|f| f.puts neko }
+		begin
+			lua = brat_to_lua brat_input
+		rescue RuntimeError => e
+			puts e
+			exit
 		end
 
-		system "nekoc #{file_name}.neko" or abort "Error while compiling program"
-	end
-
-	if File.exist? file_name + ".neko"
-		if not options[:keep_intermediate]
-			File.delete file_name + ".neko"
-		elsif options[:pretty]
-			system "nekoc -p #{file_name}.neko"
-			system "mv #{file_name}2.neko #{file_name}.neko"
-		end
-	end
-
-	unless options[:nostrip]
-		system "nekoc -z #{file_name}.n"
+		File.open(file_name + ".lua", "w") {|f| f.puts lua }
 	end
 
 	file_name
 end
-#Returns Neko code for Brat input, but without the Neko code it is usually wrapped in.
-def inner_brat input
 
+#Returns Lua code for Brat input
+def inner_brat input
 	parser = BaseBratParser.new
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
@@ -171,143 +106,6 @@ def inner_brat input
 	end
 end
 
-#Runs the interactice Brat shell.
-def brat_interactive options = {}
-	require 'rubygems'
-	require 'treetop'
-
-	force = options[:force]
-	compile_parser force
-	compile_core force
-
-	require "#$program_path/parser/brat"
-	require "#$program_path/parser/parser-extension"
-
-	compile_stdlib force
-	$interactive = true
-
-	brat_console = IO.popen "#$program_path/bin/neko_console", "r+"
-	brat_console.gets
-
-	current = 0
-	prompt = ">"
-	line = ""
-	puts "Warning: some code may not run accurately in interactive mode."
-	loop do
-		current += 1
-
-		begin
-			next_line = read_line("brat:#{current}#{prompt} ") 
-		rescue Interrupt
-			puts "Interrupted - exiting"
-			unless brat_console.closed?
-				brat_console.print "!quit\n\1" rescue nil
-			end
-			exit
-		end
-
-		if next_line.nil?
-			puts
-			next
-		end
-
-		line << next_line
-
-		stripped = line.strip
-
-		if stripped.empty?
-			next
-		elsif not line_closed? line
-			prompt = "?"
-			next
-		elsif stripped == "quit" or stripped == "exit"
-			brat_console.print "!quit\n\1"
-			exit
-		elsif stripped == "restart"
-			brat_console.print "!quit\n\1"
-			exec "brat"
-		end
-
-		begin
-			neko = inner_brat "protect { #{line} } rescue: { e | p e; p e.error_message }"
-		rescue Exception => e
-			puts "Parsing error: #{e}"
-			line = ""
-			prompt = ">"
-			next
-		end
-
-		#Send to neko console
-		begin
-			brat_console.print neko
-			brat_console.print "\1"
-		rescue Errno::EPIPE
-			puts "Error - Neko interpreter crashed. Restarting."
-			brat_console = IO.popen "#$program_path/bin/neko_console", "r+"
-			brat_console.gets
-			current = 0
-			prompt = ">"
-			line = ""
-			next
-		rescue
-			puts "Communication error with Neko."
-			next
-		end
-
-		#read back from console
-		loop do
-			begin
-				response = brat_console.read_nonblock(12024)
-				print response.gsub("\1", "").gsub("\2", "")
-				break if response.include? "\1" or response.nil?
-				if response.include? "\2"
-					brat_console.puts read_line("")
-				end
-			rescue Interrupt => e
-				puts "Interrupted by user"
-			rescue Errno::EAGAIN
-				retry
-			rescue Exception => e
-				p e
-				exit
-			end
-		end
-
-		prompt = ">"
-		line = ""
-	end
-end
-
-#Reads a single line using Readline
-def read_line prompt
-	require 'readline' rescue nil
-
-	if defined? Readline
-		line = Readline::readline(prompt)
-		Readline::HISTORY.push(line) unless line.nil?
-		line
-	else
-		$stdin.gets
-	end
-end
-
-#Checks if a line is 'finished'. For example, returns false if a string literal is still open.
-def line_closed? line
-
-	items = line.scan(/\{|\}|"|\(|\)|\[|\]/)
-
-	count = Hash.new(0)
-	items.each do |i|
-		count[i] += 1
-	end
-
-	if not count['"'].even? or count["{"] != count["}"] or count["("] != count[")"] or count["["] != count["]"]
-		false
-	else
-		true
-	end
-end
-
 #Returns help string for Brat executable
 def show_help
 	puts <<-END
@@ -315,46 +113,25 @@ Usage: brat [options] [file_name]
 Possible options:
 -a    Force recompilation of everything
 -c    Only compile, do not run
--f    Ignore existing .n file
 -h    Show this help information
--i    Disable JIT
 -k    Don't erase intermediate files (implies -f)
--p    Prettify Neko code (implies -k)
--r    Report Neko stats
 -s    Skip checking for out-of-date files
 -t    Report running time
--w    Start Neko web server in current directory
--z    Don't strip debug information
 	END
 end
 
 #Full path to Brat executable
 $program_path = File.dirname(File.expand_path(__FILE__))
 
-#Set up paths for Neko
-ENV['LD_LIBRARY_PATH'] ||= ""
-ENV['LD_LIBRARY_PATH'] += ":#$program_path/lib/:" << Dir.pwd
-ENV['NEKOPATH'] ||= ""
-ENV['NEKOPATH'] += ":#$program_path/lib/:#$program_path/core/:#$program_path/stdlib/:" << Dir.pwd
-ENV['PATH'] ||= ""
-ENV['PATH'] += ":#$program_path/bin/:" << Dir.pwd
-
 $interactive = false
 
-if ARGV.include? '-w'
-	exec "nekotools server #{ARGV[1..-1].join(" ")}"
-elsif ARGV[0]
+if ARGV[0]
 	require 'set'
 	opt_args = Set.new(ARGV.select {|o| o[0,1] == '-' })
 	options = {}
 
-	if opt_args.include? "-d"
-		system "nekoc -d #{ARGV[1]}"
-		exit
-	end
-
 	options[:force] = opt_args.include? "-a"
-	
+
 	options[:skip_check] = opt_args.include? '-s'
 
 	if opt_args.include? '-h'
@@ -369,23 +146,12 @@ elsif ARGV[0]
 	if not File.exist? file_name
 		abort "No such file: #{ARGV[-1]}"
 	end
-	
-	options[:stats] = opt_args.include? '-r'
-	
-	options[:nostrip] = opt_args.include? '-z'
-	
-	options[:interp] = opt_args.include? '-i'
 
 	options[:run] = !opt_args.include?('-c')
 
-	options[:keep_intermediate] = options[:pretty] = opt_args.include?('-p')
-	
-	options[:keep_intermediate] ||= opt_args.include? '-k'
-
-	if opt_args.include? '-f' or options[:force] or options[:keep_intermediate]
+	if opt_args.include? '-f' or options[:force]
 		bare_name = file_name.sub(/\.brat$/, "")
-		File.delete(bare_name + ".n") rescue nil
-		File.delete(bare_name + ".neko") rescue nil
+		File.delete(bare_name + ".lua") rescue nil
 	end
 
 	if opt_args.include? "-t"
@@ -397,7 +163,6 @@ elsif ARGV[0]
 	else
 		brat file_name, options
 	end
-
 else
-	brat_interactive
+	abort "At least provide a file name."
 end

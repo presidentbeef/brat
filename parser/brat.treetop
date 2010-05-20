@@ -5,25 +5,9 @@ grammar BaseBrat
  	line+ {
 		def brat
 			Treetop::Runtime::SyntaxNode.clear_variables
-			<<-NEKO
-			@brat = $loader.loadmodule("core", $loader);
-			this = @brat.base_object;
-			object = @brat.base_object;
-			array = @brat.base_array;
-			hash = @brat.base_hash;
-			number = @brat.base_number;
-			string = @brat.base_string;
-			regex = @brat.base_regex;
-			symbol = @brat.base_symbol;
-			exception = @brat.base_exception;
-			export = function(object, name) {
-				if($objget(name, $hash("@neko_string")) != null)
-					$objset($exports, $hash(@brat.to_identifier(name.@value)), object);
-				else
-					$throw(exception.argument_error("export", "a string", $string(name)));
-			}
+			<<-LUA
 			#{self.inner_brat}
-			NEKO
+			LUA
 		end
 
 		def inner_brat
