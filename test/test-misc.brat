@@ -1,0 +1,148 @@
+include 'assert'
+setup name: "misc test" {
+	test "while" {
+		assert_equal 3 { n = 0; while { n = n + 1; n < 3 }; n }
+		assert_equal 3 { n = 0; while { n < 3 }, { n = n + 1 }; n }
+	}
+
+	test "and" {
+		assert_false { false && true }
+		assert_false { true && false }
+		assert { true && true }
+		assert_equal 2 { n = true? {true && {"hi";false}}, 1, 2 }
+		assert { true && { true } }
+	}
+
+	test "or" {
+		assert { false || true }
+		assert { true || false }
+		assert { 2 || 1 }
+		assert_equal 2 { true? false || false, 1, 2 }
+		assert_false { false || { false } }
+		assert { false || { true } }
+	}
+
+	test "random" {
+		assert { r = random 1; true? r == 0 || r == 1 }
+		assert { r = random 0; true? r == 0 }
+	}
+
+	test "include" {
+		assert { include 'set'; set.new }
+		assert { include 'thread', 'queue'; has_method? :pop }
+	}
+
+	test "mixed_identifer" {
+		assert_equal 1 { h1 = 1; h2 = 2; h3h3h3h3h3h3 = 4; h1 }
+		assert_equal 1 { h! = 1; h! }
+		assert_equal 1 { h? = 1; h? }
+	}
+
+	test "true" {
+		assert_equal 1 { true? false, 0, 1 }
+		assert_equal 1 { true? false, 0 {1} }
+		assert_equal 2 { true? true, {2} {1} }
+		assert { true? 0 }
+		assert { true? }
+		assert_equal 0 { true? (true? 1), 0 }
+		assert_equal 0 { true? {true? 1} {0} }
+		assert_equal 0 { true? true?, 0, 1 }
+		assert_equal 0 { true? true.true?, 0, 1 }
+		assert_equal 1 { true? false.true?, 0, 1 }
+		assert_equal 1 { true? null.true?, 0, 1 }
+	}
+
+	test "false" {
+		assert_equal 0 { false? false, 0, 1 }
+		assert_equal 0 { false? {false}, 0, {1} }
+		assert_equal 1 { false? {true} {2} {1} }
+		assert_false { false? 0 }
+		assert_false { false? }
+		assert_equal 0 { false? (false? 1), 0 }
+		assert_equal 0 { false? {false? 1} {0} }
+		assert_equal 0 { false? false?, 0, 1 }
+		assert_equal 0 { false? true.false?, 0, 1 }
+		assert_equal 0 { true? false.false?, 0, 1 }
+		assert_equal 0 { true? null.false?, 0, 1 }
+	}
+
+	test "null" {
+		assert_equal 0 { null? null, 0, 1 }
+		assert_equal 0 { null? {null}, 0, {1} }
+		assert_equal 1 { null? {true} {2} {1} }
+		assert_false { null? 0 }
+		assert { (null? null) }
+		assert_equal 0 { true? (null? null), 0 }
+		assert_false { null? {true? 1}, {0} }
+		assert_equal 0 { false? null?, 0, 1 }
+		assert_equal 0 { true? null.null?, 0, 1 }
+	}
+
+	test "variable_scope" {
+		assert_equal 4 { t = object.new; t.test = { n = 3}; n = 4; t.test; n }
+	}
+
+	test "variable_set" {
+		assert_equal "x" { t = "x"; t }
+	}
+
+	test "assignment_return" {
+		assert_equal 5 { x = 5 }
+		assert_equal 5 { x = []; x[5] = 5 }
+		assert_equal 1 { a = object.new; a.b = 1 }
+	}
+
+	test "my" {
+		assert_equal 1 { x = object.new; x.v = 1; x.y = { my.v}; x.y }
+		assert_equal 3 { x = object.new; x.y = 3; x.z = {y| my.y}; x.z 4 }
+	}
+
+	test "comments" {
+		assert_equal 1 { x = 1; #x = 6
+				x }
+		assert_equal 1 { x = 1; #* x = 6 */
+				x }
+		assert_equal 1 { x = 1; #*
+				x = 6
+				*#
+				x }
+	}
+
+	test "nested_comments" {
+		assert_equal 1 { x = 1; #* x = 3 *# }
+		assert_equal 1 { x = 1; #*
+				x = 3
+				*# }
+		assert_equal 1 { x = 1; #*
+				 #*
+				x = 3
+				*#
+				*# }
+	}
+
+	test "symbol_compare" {
+		assert { a = :a; b = :a; a == b }
+		assert_false { :b == :a }
+	}
+
+	test "protect" {
+		assert { protect { throw 'TEST!' }; true }
+	}
+
+	test "rescue" {
+		assert_equal "hello" { protect { throw 'eep' } rescue: { e | 'hello' } }
+		assert_equal "hello" { protect { throw 'eep' } rescue: { 'hello' } }
+	}
+
+	test "exceptions" {
+		assert_equal "standard error" { protect { throw exception.new } rescue: { e | e.type } }
+		assert_equal "argument error" { f = { }; protect { f 1 } rescue: { e | e.type } }
+		assert_equal "argument error" { f = { }; protect { throw exception.argument_error 'f', 2, 1 } rescue: { e | e.type } }
+		assert_equal "name error" { protect { f } rescue: { e | e.type } }
+		assert_equal "name error" { protect { throw exception.name_error 'f' } rescue: { e | e.type } }
+		assert_equal "null error" { protect { throw exception.null_error 'f', 'call null' } rescue: { e | e.type } }
+		assert_equal "method error" { protect { throw exception.no_method 'o', 'f' } rescue: { e | e.type } }
+		assert_equal "hello" { f = { }; protect { f 1 }; 'hello' }
+	}
+
+}

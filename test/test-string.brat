@@ -1,0 +1,120 @@
+include 'assert'
+setup name: "string tests" {
+	test "string_split" {
+		assert_equal ["he","","o"] { "hello".split "l" }
+		assert_equal ["h","llo"] { "hello".split "e" }
+		assert_equal ["hello"] { "hello".split "z" }
+		assert_equal ["hello"] { "hello".split }
+		assert_equal [""] { "hello".split "hello" }
+		assert_equal [] { "".split "hello" }
+		assert_equal ["h","e","l","l","o"] { "hello".split "" }
+	}
+
+	test "string" {
+		assert_equal "a" { "a" }
+		assert_equal 1 { a = "a"; b = [a : 1]; b["a"] }
+	}
+
+	test "string_interpolation" {
+		assert_equal "abc" { "a#{"b"}c" }
+		assert_equal "abc" { "a#{  "b"  }c" }
+		assert_equal "abc" { "a#{  "b" ;  }c" }
+		assert_equal "abc" { f = { "b" }; "a#{ f }c" }
+		assert_equal "abc" { f = { "c" }; "a#{ f; "b" }c" }
+		assert_equal "abc" { f = { "c" }; c = "c"; "#{"a"}#{ f; "b" }#{ c }" }
+		assert_equal "a-b c" { f = { "c" }; c = "c"; "#{"a"}-#{ f; "b" } #{ c }" }
+		assert_equal "a-b c" { f = { "c" }; b = null; c = null; a = { b = { c = "c"; "b" }; "a" }; "#{a}-#{ f; b } #{ c }" }
+	}
+
+	test "string_indexing" {
+		assert_equal "b" { b = "abc"; b[1] }
+		assert_equal "abc" { "zabcdef"[1,3] }
+		assert_equal "abc" { "zabcdef"[-6,-4] }
+		assert_equal "ef" { "zabcdef"[10,5] }
+	}
+
+	test "string_sub" {
+		assert_equal "b" { "a".sub /a/, "b" }
+		assert_equal "axdx" { "acdc".sub /c/, "x" }
+		assert_equal "hewo worwd" { "hello world".sub /l+/, "w" }
+		assert_equal "hewo worwd" { a = "hello world"; a.sub /l+/, "w" }
+		assert_equal 10 { a = "hello world"; a.sub!(/l+/, "w").length }
+		assert_equal "hecko world" { a = "hello world"; a.sub /hell/, { m | "heck" } }
+		assert_equal "chaaxa" { a = "cheese"; a.sub /(e|s)/, { m | true? m == "s", "x", "a" } }
+		assert_equal "cheese" { a = "cheese"; a.sub /(e|s)/, { m | true? m == "s", "x", "a" }; a }
+	}
+
+	test "string_sub!" {
+		assert_equal "b" { "a".sub! /a/, "b" }
+		assert_equal "axdx" { a = "acdc"; a.sub! /c/, "x"; a }
+		assert_equal "hewo worwd" { "hello world".sub! /l+/, "w" }
+		assert_equal "hewo worwd" { a = "hello world"; a.sub! /l+/, "w"; a }
+		assert_equal 10 { a = "hello world"; a.sub! /l+/, "w"; a.length }
+		assert_equal "hecko world" { a = "hello world"; a.sub! /hell/, { m | "heck" } }
+		assert_equal "chaaxa" { a = "cheese"; a.sub! /(e|s)/, { m | true? m == "s", "x", "a" } }
+		assert_equal "chaaxa" { a = "cheese"; a.sub! /(e|s)/, { m | true? m == "s", "x", "a" }; a }
+	}
+
+	test "string_sub_first" {
+		assert_equal "b" { "a".sub_first /a/, "b" }
+		assert_equal "axdc" { "acdc".sub_first /c/, "x" }
+		assert_equal "hewo world" { "hello world".sub_first /l+/, "w" }
+		assert_equal "hewo world" { a = "hello world"; a.sub_first /l+/, "w" }
+		assert_equal "hello world" { a = "hello world"; a.sub_first /l+/, "w"; a }
+		assert_equal 10 { a = "hello world"; b = a.sub_first /l+/, "w"; b.length }
+	}
+
+	test "string_sub_first!" {
+		assert_equal "b" { "a".sub_first! /a/, "b" }
+		assert_equal "axdc" { "acdc".sub_first! /c/, "x" }
+		assert_equal "hewo world" { "hello world".sub_first! /l+/, "w" }
+		assert_equal "hewo world" { a = "hello world"; a.sub_first! /l+/, "w" }
+		assert_equal "hewo world" { a = "hello world"; a.sub_first! /l+/, "w"; a }
+		assert_equal 10 { a = "hello world"; a.sub_first! /l+/, "w"; a.length }
+	}
+
+	test "string_set" {
+		assert_equal 'b' { a = "abcde"; a[3] = "b"; a[3] }
+		assert_equal 'b' { a = "abcde"; a[-3] = "b"; a[2] }
+	}
+
+	test "string_add" {
+		assert_equal "abcd" { "a" + "b" + "c" + "d" }
+		assert_equal "a" { a = "a"; a + "b" + "c" + "d"; a }
+		assert_equal 4 { c = "a" + "b" + "c" + "d"; c.length }
+	}
+
+	test "string_concat" {
+		assert_equal "abcd" { "a" << "b" << "c" << "d" }
+		assert_equal "abcd" { a = "a"; a << "b" << "c" << "d"; a }
+		assert_equal 4 { a = "a"; a << "b" << "c" << "d"; a.length }
+	}
+
+	test "string_multiply" {
+		assert_equal "aaaa" { "a" * 4 }
+		assert_equal 40 { ("a" * 40).length }
+		assert_equal 0 { ("a" * 0).length }
+	}
+
+	test "string_to_f" {
+		assert_equal 0.5 { "0.5".to_f }
+		assert_equal 1.5 { 1 + "0.5".to_f }
+		assert_equal 10000000000000 { "10000000000000".to_f }
+	}
+
+	test "string_to_i" {
+		assert_equal 0 { "0.5".to_i }
+		assert_equal 2 { 1 + "1.5".to_i }
+		assert_equal 10000000000000 { "10000000000000".to_i }
+	}
+
+	test "string_compare" {
+		assert { a = "hello!"; b = "hello!"; a == b }
+		assert_false { "'ello, mate" == "sup?" }
+		assert { "a" < "b" }
+		assert { "b" >= "a" }
+		assert { "a" <= "b" }
+		assert_false { "a" == 1 }
+	}
+
+}
