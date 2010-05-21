@@ -600,4 +600,31 @@ function number:_percent (lhs, rhs)
 
 	return lhs % rhs
 end
+
+array = object:new()
+
+array._lua_array = {}
+
+function array:new (...)
+	local na = new_brat(self)
+	na._lua_array = {...}
+	return na
+end
+
+function array:set (index, value)
+	self._lua_array[index] = value
+	return value
+end
+
+function array:get (index)
+	local val = self._lua_array[index]
+	if val == nil then
+		return object.__null
+	else
+		return val
+	end
+end
+
+function array:length ()
+	return #self.__lua_array
 end
