@@ -6,6 +6,10 @@ grammar BaseBrat
 		def brat
 			Treetop::Runtime::SyntaxNode.clear_variables
 			<<-LUA
+			require "core/core"
+			local object = object
+			local array = array
+			local number = number
 			#{self.inner_brat}
 			LUA
 		end
@@ -130,13 +134,19 @@ grammar BaseBrat
   rule array
   	"[" spaceorbreak array_inner spaceorbreak "]" {
 		def brat
-			"@brat.base_array.new(#{array_inner.brat})"
+			inner = array_inner.brat
+			@result = array_inner.result
+			"local #@result \ndo\n" <<
+				inner <<
+				"end\n" <<
+				"#@result = array:new(#{array_inner.result})\n"
 		end
 	}
 	/
 	"[" spaceorbreak "]" {
 		def brat
-			"@brat.base_array.new()"
+			next_temp
+			"local #@result = array:new()\n"
 		end
 	}
   end
@@ -145,15 +155,16 @@ grammar BaseBrat
 	first:expression rest:(((spaceorbreak "," spaceorbreak) / ( space / eol)+) e:expression)* {
 		def brat
 			next_temp
-			output = "{ var #@result = $amake(#{rest.elements.length + 1});"
-
-			output << "#@result[0] = {#{first.brat}};"
+			output = "#@result = {}\ndo\n"
+			output << first.brat << "\n"
+			output << "#@result[0] = #{first.result}\n"
 
 			rest.elements.each_with_index do |r, i|
+				output << r.e.brat << "\n"
 				output <<  "#@result[#{i + 1}] = {#{r.e.brat}}"
 			end
 
-			output << "#@result }"
+			output << "end\n"
 		end
 	}
   end
@@ -338,15 +349,10 @@ grammar BaseBrat
 
   #Matches floats
   rule float
-	'-' i:pos_integer "." d:pos_integer {
+	'-'? [0-9]+ "." [0-9]+ {
 		def brat
-			"number.@stof(\"-#{i.text_value}.#{d.text_value}\");"
-		end
-	}
-	/
-  	i:pos_integer "." d:pos_integer {
-		def brat
-			"number.@stof(\"#{i.text_value}.#{d.text_value}\");"
+			next_temp
+			"local #@result = #{text_value}\n"
 		end
 	}
   end
@@ -354,30 +360,10 @@ grammar BaseBrat
   #Matches integers
 
   rule integer
-	pos_integer
-	/
-	'-' [0-9]+ {
+	'-'? [0-9]+ {
 		def brat
 			next_temp
-			if text_value.to_i > -1073741823
-				"#{text_value};"
-			else
-				"number.@stoi(\"#{text_value}\");"
-			end
-		end
-	}
-  end
-
-
-  rule pos_integer
-	[0-9]+ {
-		def brat
-			next_temp
-			if text_value.to_i < 1073741824
-				"#{text_value};"
-			else
-				"number.@stoi(\"#{text_value}\");"
-			end
+			"local #@result = #{text_value}\n"
 		end
 	}
   end
