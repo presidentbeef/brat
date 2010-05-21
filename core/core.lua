@@ -68,7 +68,6 @@ end
 function object:squish (obj)
 	for k,v in pairs(obj) do
 		if k:find("_", 1, true) ~= 1 then
-			print(k, v)
 			self[k] = v
 		end
 	end
