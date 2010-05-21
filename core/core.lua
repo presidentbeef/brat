@@ -1,11 +1,19 @@
 --Helper functions
 new_brat = function (parent_object)
 	local nb = { _parent = parent_object }
+	local get_parent = function (table, key)
+		if table.parent ~= nil then
+			return table.parent[key]
+		else
+			return nil
+		end
+	end
+
 	local mt = getmetatable(nb)
 	if mt then
-		mt["__index"] = parent_object
+		mt["__index"] = get_parent
 	else
-		setmetatable(nb, { __index = parent_object })
+		setmetatable(nb, { __index = get_parent })
 	end
 	return nb
 end
@@ -15,6 +23,7 @@ object = {}
 
 function object:new (...)
 	local nb = new_brat(self)
+	nb.parent = self
 	if nb["init"] then
 		nb:init(...)
 	end
