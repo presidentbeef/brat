@@ -689,3 +689,24 @@ function string:to_unders ()
 	return self
 end
 
+--Exception objects
+
+exception = object:new()
+
+function exception:new(message, error_type)
+	if message == nil then
+		message = "Unspecified exception"
+	end
+
+	if error_type == nil then
+		error_type = "standard error"
+	end
+
+	message = string:new(message)
+	error_type = string:new(error_type)
+
+	local e = object:new()
+	e.error_undermessage = function () return message end
+	e.type = function() return error_type end
+	return e
+end
