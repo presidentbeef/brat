@@ -660,4 +660,32 @@ function array:to_unders ()
 	return string:new(s)
 end
 
+--String objects
+
+string = object:new()
+
+function string:new (s)
+	if s == nil then
+		s = ""
+	end
+
+	local ns = new_brat(self)
+	ns._lua_string = s
+
+	if type(s) == "string" then
+		ns._lua_string = s
+	elseif type(s) == "table" then
+		if s._lua_string == nil then
+			error("error")
+		else
+			ns._lua_string = s._lua_string
+		end
+	end
+
+	return ns
+end
+
+function string:to_unders ()
+	return self
+end
 
