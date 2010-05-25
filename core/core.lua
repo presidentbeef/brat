@@ -136,7 +136,7 @@ function object:methods ()
 		m = {}
 	end
 
-	local i = 0
+	local i = 1
 	for k,v in pairs(self) do
 		k = unescape_identifier(k)
 		if k:find("_", 1, true) ~= 1 then
@@ -145,9 +145,24 @@ function object:methods ()
 		end
 	end
 
+	return array:new(unpack(m))
+end
+
+function object:local_undermethods ()
+	local m = {}
+
+	local i = 1
+	for k,v in pairs(self) do
+		k = unescape_identifier(k)
+		if k:find("_", 1, true) ~= 1 then
+			m[i] = base_string:new(k)
+			i = i + 1
+		end
+	end
 
 	return array:new(unpack(m))
 end
+
 
 object.__null = object:new()
 object.__true = object:new()
