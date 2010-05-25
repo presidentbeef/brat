@@ -10,6 +10,7 @@ grammar BaseBrat
 			local object = object
 			local array = array
 			local number = number
+			local string = base_string
 			#{self.inner_brat}
 			LUA
 		end

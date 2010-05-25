@@ -110,7 +110,7 @@ function object:new (...)
 end
 
 function object:to_unders ()
-	return string:new("object")
+	return base_string:new("object")
 end
 
 function object:methods ()
@@ -118,7 +118,7 @@ function object:methods ()
 	local i = 0
 	for k,v in pairs(self) do
 		print(k)
-		m[i] = string:new(k)
+		m[i] = base_string:new(k)
 		i = i + 1
 	end
 
@@ -737,21 +737,22 @@ function array:to_unders ()
 	local i = 1
 	local len = #self._lua_array
 	local a = self._lua_array
-	
+
 	while (i < len) do
 		s = s .. tostring(a[i]) .. ", "
 		i = i + 1
 	end
 
 	s = s .. tostring(a[len]) .. "]"
-	return string:new(s)
+	return base_string:new(s)
 end
+
 
 --String objects
 
-string = object:new()
+base_string = object:new()
 
-function string:new (s)
+function base_string:new (s)
 	if s == nil then
 		s = ""
 	end
@@ -772,7 +773,7 @@ function string:new (s)
 	return ns
 end
 
-function string:to_unders ()
+function base_string:to_unders ()
 	return self
 end
 
@@ -789,8 +790,8 @@ function exception:new(message, error_type)
 		error_type = "standard error"
 	end
 
-	message = string:new(message)
-	error_type = string:new(error_type)
+	message = base_string:new(message)
+	error_type = base_string:new(error_type)
 
 	local e = object:new()
 	e.error_undermessage = function () return message end
