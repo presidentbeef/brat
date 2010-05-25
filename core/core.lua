@@ -2,10 +2,10 @@ package.cpath = package.cpath .. ";./lib/?.so"
 
 --Helper functions
 local new_brat = function (parent_object)
-	local nb = { parent = parent_object }
+	local nb = { parent = function () return parent_object end }
 	local get_parent = function (table, key)
-		if table.parent ~= nil then
-			return table.parent[key]
+		if table:parent() ~= nil then
+			return table:parent()[key]
 		else
 			return nil
 		end
@@ -100,9 +100,12 @@ end
 
 object = {}
 
+function object:parent()
+	return object.__null
+end
+
 function object:new (...)
 	local nb = new_brat(self)
-	nb.parent = self
 	if nb["init"] then
 		nb:init(...)
 	end
