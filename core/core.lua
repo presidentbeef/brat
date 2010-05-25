@@ -789,6 +789,25 @@ function base_string:to_unders ()
 	return self
 end
 
+function base_string:_less_greater_equal (rhs)
+	if type(rhs) ~= "table" or rhs._lua_string == nil then
+		error("Cannot compare")
+	end
+
+	local lhs = self._lua_string
+	rhs = rhs._lua_string
+
+	if lhs > rhs then
+		return 1
+	elseif lhs < rhs then
+		return -1
+	elseif lhs == rhs then
+		return 0
+	else
+		error("Error comparing numbers")
+	end
+end
+
 --Exception objects
 
 exception = object:new()
