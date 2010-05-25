@@ -117,13 +117,22 @@ function object:to_unders ()
 end
 
 function object:methods ()
-	local m = {}
+	local m
+	if self:parent() ~= object.__null then
+		m = self:parent():methods()._lua_array
+	else
+		m = {}
+	end
+
 	local i = 0
 	for k,v in pairs(self) do
-		print(k)
-		m[i] = base_string:new(k)
-		i = i + 1
+		k = unescape_identifier(k)
+		if k:find("_", 1, true) ~= 1 then
+			m[i] = base_string:new(k)
+			i = i + 1
+		end
 	end
+
 
 	return array:new(unpack(m))
 end
