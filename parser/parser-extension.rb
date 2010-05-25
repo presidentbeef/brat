@@ -4,25 +4,25 @@ class Treetop::Runtime::SyntaxNode
 	attr_reader :result
 	
 	#Operator precedence. Lower values are lower precedence.
-	Precedence = {"@oror"=>1, 
-			"@and@and"=>2, 
-			"@less@equal@greater"=>3, 
-			"@equal@equal"=>3, 
-			"@notequal"=>3, 
-			"@tilde"=>3, 
-			"@bang@tilde"=>3, 
-			"@less@equal"=>4, 
-			"@equal@greater"=>4, 
-			"@less"=>4, 
-			"@greater"=>4, 
-			"@less@less"=>5, 
-			"@greater@greater"=>6, 
-			"@plus"=>7, 
-			"@minus"=>8, 
-			"@star"=>9, 
-			"@forward"=>9, 
-			"@percent"=>9, 
-			"@star@star"=>10
+	Precedence = {"_oror"=>1, 
+			"_and_and"=>2, 
+			"_less_equal_greater"=>3, 
+			"_equal_equal"=>3, 
+			"_notequal"=>3, 
+			"_tilde"=>3, 
+			"_bang@tilde"=>3, 
+			"_less_equal"=>4, 
+			"_equal@greater"=>4, 
+			"_less"=>4, 
+			"_greater"=>4, 
+			"_less_less"=>5, 
+			"_greater_greater"=>6, 
+			"_plus"=>7, 
+			"_minus"=>8, 
+			"_star"=>9, 
+			"_forward"=>9, 
+			"_percent"=>9, 
+			"_star_star"=>10
 	}
 
 	def var_exist? v, include_outer = false
@@ -70,7 +70,7 @@ class Treetop::Runtime::SyntaxNode
 			@@current_scope[v] ||= outer_scope
 		else
 			#puts "Adding #{v} to scope"
-			@@current_scope[v] ||= "@temp#{@@temp += 1}" 
+			@@current_scope[v] ||= "_temp#{@@temp += 1}" 
 		end
 	end
 
@@ -107,14 +107,14 @@ class Treetop::Runtime::SyntaxNode
 
 	def self.clear_variables
 		@@variables = []
-		@@current_scope = { :variable => "@temp0", :next_index => 0, :used => Set.new }
+		@@current_scope = { :variable => "_temp0", :next_index => 0, :used => Set.new }
 		@@variables << @current_scope
 		@@scope_index = 0
 		@@temp = 1
 	end
 
 	def next_temp
-		@result = "@temp#{@@temp += 1}"
+		@result = "_temp#{@@temp += 1}"
 	end
 
 	def output_environment
@@ -122,7 +122,7 @@ class Treetop::Runtime::SyntaxNode
 		if @@current_scope[:next_index] == 0 #nothing to put in array
 			""
 		else
-			"var #{env_var} = $amake(#{@@current_scope[:next_index]});\n"
+			"local #{env_var} = $amake(#{@@current_scope[:next_index]});\n"
 		end
 	end
 
@@ -130,27 +130,13 @@ class Treetop::Runtime::SyntaxNode
 		temp = var_exist?(object) || object
 
 		call_number = <<-NEKO
-			if(#{has_field("number", method)}) {
-				var arg_len = $nargs(number.#{method});
-				if(arg_len == -1 || arg_len == #{arg_length + 1}) {
-					number.#{method}(#{temp}#{ arg_length > 0 ? ", " : ""}#{arguments});
-				}
-				else if(arg_len == 1 || arg_len == 0) {
-					var @n = @brat.new_brat(number);
-					@n.my = function() { #{temp} };
-					$call(number.#{method}, @n, $array(#{arguments}));
-				}
-				else if(arg_len == -2) {
-					number.#{method}($array(#{temp}, #{arguments}));
-				}
-				else
-					$throw(exception.argument_error("number.#{nice_id method}",  $string(arg_len - 1), #{arg_length}));
-			}
-			else if(#{has_field("number", "no@undermethod")}) {
+			if #{has_field("number", method)} then
+					var _n = @brat.new_brat(number);
+					_n.my = function() { #{temp} };
+			elseif #{has_field("number", "no_undermethod")} then
 				#{call_no_method "number", method, "#{temp}, #{arguments}", arg_length}
-			}
 			else
-				$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
+				error(exception.method_error("#{nice_id object}", "#{nice_id method}"));
 			NEKO
 
 		if temp.to_i.to_s == temp
@@ -179,7 +165,7 @@ class Treetop::Runtime::SyntaxNode
 					$throw(exception.method_error("#{nice_id object}", "#{nice_id method}"));
 			}
 			else if($typeof(#{temp}) == $tfunction) {
-				var @f = @brat.base_function.new(#{temp});
+				local _f = @brat.base_function.new(#{temp});
 				if(#{has_field("@f", method)}) {
 					var arg_len = $nargs(@f.#{method});
 					if(arg_len == -1 || arg_len == #{arg_length}) {
@@ -217,7 +203,7 @@ class Treetop::Runtime::SyntaxNode
 		arg_length += 1
 		if object.nil?
 			<<-NEKO
-			var @nma = $nargs(#{no_meth});
+			local _nma = $nargs(#{no_meth});
 			if(@nma == #{arg_length})
 			#{no_meth}(#{arguments})
 			else if(@nma == -2)
@@ -227,13 +213,13 @@ class Treetop::Runtime::SyntaxNode
 			NEKO
 		else
 			<<-NEKO
-			var @nma = $nargs(#{object}.no@undermethod);
-			if(@nma == #{arg_length})
-			#{object}.no@undermethod(#{arguments})
-			else if(@nma == -2)
-			#{object}.no@undermethod($array(#{arguments}));
+			local _nma = $nargs(#{object}.no@undermethod);
+			if(_nma == #{arg_length})
+			#{object}.no_undermethod(#{arguments})
+			else if(_nma == -2)
+			#{object}.no_undermethod($array(#{arguments}));
 			else
-				$throw(exception.argument_error("#{nice_id object}.no_method", $string(@nma), #{arg_length}));
+				$throw(exception.argument_error("#{nice_id object}.no_method", $string(_nma), #{arg_length}));
 			NEKO
 		end
 	end
@@ -477,8 +463,8 @@ class Treetop::Runtime::SyntaxNode
 			"under" => "_", 
 			"dollar" => "$" }
 
-	ID_CONVERT_RE_OP = /@(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)/
-	ID_CONVERT_RE_KW = /@(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)/
+	ID_CONVERT_RE_OP = /_(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)/
+	ID_CONVERT_RE_KW = /_(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)/
 
 	def nice_id identifier
 		identifier.gsub(ID_CONVERT_RE_OP) do
@@ -491,7 +477,7 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def has_field object, field_name
-		"$objget(#{object}, $hash(\"#{field_name}\")) != null"
+		"#{object}[#{field_name}] ~= null"
 	end
 
 	def check_variables
