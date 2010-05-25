@@ -1,6 +1,6 @@
 --Helper functions
 new_brat = function (parent_object)
-	local nb = { _parent = parent_object }
+	local nb = { parent = parent_object }
 	local get_parent = function (table, key)
 		if table.parent ~= nil then
 			return table.parent[key]
@@ -9,12 +9,20 @@ new_brat = function (parent_object)
 		end
 	end
 
-	local mt = getmetatable(nb)
-	if mt then
-		mt["__index"] = get_parent
-	else
-		setmetatable(nb, { __index = get_parent })
+	local to_s = function (table)
+		return table:to_unders()._lua_string
 	end
+
+	local mt = getmetatable(nb)
+
+	if mt == nil then
+		mt = {}
+	end
+
+	mt["__index"] = get_parent
+	mt["__tostring"] = to_s
+
+	setmetatable(nb, mt)
 	return nb
 end
 
