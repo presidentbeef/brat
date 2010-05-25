@@ -771,6 +771,34 @@ function array:length ()
 	return #self._lua_array
 end
 
+function array:_dup ()
+	return array:new(unpack(self._lua_array))
+end
+
+function array:sort ()
+	local a = self._lua_array
+	if #a <= 1 then
+		return self:_dup()
+	end
+
+	a = {unpack(a)}
+
+	table.sort(a, compare)
+	
+	return array:new(unpack(a))
+end
+
+function array:sort_bang ()
+	local a = self._lua_array
+	if #a <= 1 then
+		return self:_dup()
+	end
+
+	table.sort(a, compare)
+	
+	return self
+end
+
 function array:to_unders ()
 	local s = "["
 	local i = 1
