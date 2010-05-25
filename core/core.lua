@@ -26,7 +26,76 @@ local new_brat = function (parent_object)
 	return nb
 end
 
+
+--Functions for identifier conversion
+
+require "rex_onig"
+local orex = rex_onig
+rex_onig = nil
+
+local escape_ops = { ["!"] = "_bang",
+["*"] = "_star",
+["-"] = "_minus",
+["+"] = "_plus",
+["|"] = "_or",
+["&"] = "_and",
+["@"] = "_at",
+["~"] = "_tilde",
+["^"] = "_up",
+["/"] = "_forward",
+["\\"] = "_back",
+["?"] = "_question",
+["<"] = "_less",
+[">"] = "_greater",
+["="] = "_equal",
+["%"] = "_percent",
+["_"] = "_under",
+["$"] = "_dollar" 
+}
+
+local unescape_ops = { ["bang"] = "!", 
+["star"] = "*", 
+["minus"] = "-", 
+["plus"] = "+", 
+["or"] = "|" , 
+["and"] = "&", 
+["at"] = "@", 
+["tilde"] = "~", 
+["up"] = "^", 
+["forward"] = "/", 
+["back"] = "\\", 
+["question"] = "?", 
+["less"] = "<", 
+["greater"] = ">", 
+["notequal"] = "!=", 
+["equal"] = "=", 
+["percent"] = "%", 
+["under"] = "_", 
+["dollar"] = "$" 
+}
+
+local esc_symbols = orex.new("!=|>=|<=|\\||[!?\\-*+^@~\\/\\\\><$_%|&=]")
+local esc_keywords = orex.new("\\b(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\\b")
+
+local escape_identifier = function (name)
+	name = orex.gsub(name, esc_symbols, escape_ops)
+	name = orex.gsub(name, esc_keywords, function (word) return "__" .. word end)
+
+	return name
+end
+
+local unesc_symbols = orex.new("_(bang|star|minus|plus|or|and|at|tilde|up|forward|back|question|less|greater|equal|percent|under|dollar)")
+local unesc_keywords = orex.new("__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)")
+
+local unescape_identifier = function (name)
+	name = orex.gsub(name, unesc_keywords, function (word) return string.sub(word, 1) end)
+	name = orex.gsub(name, unesc_symbols, unescape_ops)
+
+	return name
+end
+
 --Object, the basis of all things in Brat
+
 object = {}
 
 function object:new (...)
