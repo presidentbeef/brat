@@ -844,7 +844,7 @@ function base_string:to_unders ()
 	return self
 end
 
-function base_string:_less_greater_equal (rhs)
+function base_string:_less_equal_greater (rhs)
 	if type(rhs) ~= "table" or rhs._lua_string == nil then
 		error("Cannot compare")
 	end
