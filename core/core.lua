@@ -1,5 +1,5 @@
 --Helper functions
-new_brat = function (parent_object)
+local new_brat = function (parent_object)
 	local nb = { parent = parent_object }
 	local get_parent = function (table, key)
 		if table.parent ~= nil then
