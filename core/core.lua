@@ -38,6 +38,22 @@ function object:new (...)
 	return nb
 end
 
+function object:to_unders ()
+	return string:new("object")
+end
+
+function object:methods ()
+	local m = {}
+	local i = 0
+	for k,v in pairs(self) do
+		print(k)
+		m[i] = string:new(k)
+		i = i + 1
+	end
+
+	return array:new(unpack(m))
+end
+
 object.__null = object:new()
 object.__true = object:new()
 object.__false = object:new()
