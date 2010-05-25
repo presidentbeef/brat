@@ -642,5 +642,22 @@ function array:get (index)
 end
 
 function array:length ()
-	return #self.__lua_array
+	return #self._lua_array
 end
+
+function array:to_unders ()
+	local s = "["
+	local i = 1
+	local len = #self._lua_array
+	local a = self._lua_array
+	
+	while (i < len) do
+		s = s .. tostring(a[i]) .. ", "
+		i = i + 1
+	end
+
+	s = s .. tostring(a[len]) .. "]"
+	return string:new(s)
+end
+
+
