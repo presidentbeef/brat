@@ -54,6 +54,8 @@ function object:_true ()
 	return object.__true
 end
 
+--This function is for determining if a Brat value is true or false
+--and returns a Lua true or false
 is_true = function (bool)
 	if bool == object.__null or bool == object.__false then
 		return false
@@ -484,6 +486,7 @@ function object:call_undermethod (name, ...)
 	end
 end
 
+--The comparable squish-in
 comparable = object:new()
 
 function comparable:_greater (rhs)
@@ -530,6 +533,8 @@ function comparable:_greater_equal (rhs)
 		return object.__false
 	end
 end
+
+--The number object, for all things numbers
 
 number = object:new()
 
@@ -607,6 +612,10 @@ function number:_percent (lhs, rhs)
 
 	return lhs % rhs
 end
+
+--The array object
+--Going to keep these separate from hash tables, every if Lua thinks they
+--are the same
 
 array = object:new()
 
