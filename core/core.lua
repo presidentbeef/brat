@@ -1,3 +1,5 @@
+package.cpath = package.cpath .. ";./lib/?.so"
+
 --Helper functions
 local new_brat = function (parent_object)
 	local nb = { parent = parent_object }
