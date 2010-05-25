@@ -28,6 +28,18 @@ local new_brat = function (parent_object)
 	return nb
 end
 
+--Used for table.sort. Must return false when lhs < rhs
+local compare = function (lhs, rhs)
+	if type(lhs) == "table" and type(rhs) == "table" then
+		if lhs._less_equal_greater ~= nil then
+			return lhs:_less_equal_greater(rhs) == -1
+		end
+	elseif type(lhs) == "number" and type(rhs) == "number" then
+		return number:_less_equal_greater(lhs, rhs) == -1
+	end
+
+	return false
+end
 
 --Functions for identifier conversion
 
