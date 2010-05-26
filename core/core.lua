@@ -124,6 +124,10 @@ function object:new (...)
 	return nb
 end
 
+function object:my ()
+	return self
+end
+
 function object:to_unders ()
 	return base_string:new("object")
 end

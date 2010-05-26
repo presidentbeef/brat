@@ -352,8 +352,8 @@ grammar BaseBrat
   rule float
 	'-'? [0-9]+ "." [0-9]+ {
 		def brat
-			@result = text_value
-			""
+			next_temp
+			"local #@result = #{text_value}\n"
 		end
 	}
   end
@@ -363,8 +363,8 @@ grammar BaseBrat
   rule integer
 	'-'? [0-9]+ {
 		def brat
-			@result = text_value
-			""
+			next_temp
+			"local #@result = #{text_value}\n"
 		end
 	}
   end
