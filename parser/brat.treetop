@@ -4,7 +4,6 @@ grammar BaseBrat
   rule program
  	line+ {
 		def brat
-			Treetop::Runtime::SyntaxNode.clear_variables
 			<<-LUA
 			require "core/core"
 			local object = object
@@ -17,9 +16,7 @@ grammar BaseBrat
 
 		def inner_brat
 			Treetop::Runtime::SyntaxNode.clear_variables
-			elements.each {|e| e.check_variables }
-			output = elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";")
-			output_environment << output
+			elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";")
 		end
 	}
 	/
@@ -279,29 +276,15 @@ grammar BaseBrat
 		def brat
 			var = lhs.brat
 			temp = var_exist? var
-			@result = temp
-			if temp.include? "["
-				"#{temp} = {#{rhs.brat}};"
-			elsif $interactive
-				var_add var
-				"#{var} = {#{rhs.brat}};"
+			output = rhs.brat << "\n"
+			if temp
+				output << "#{temp} = #{rhs.result}\n"
 			else
-				"var #{temp} = {#{rhs.brat}};"
+				temp = var_add var
+				output << "local #{temp} = #{rhs.result}\n"
 			end
-		end
-
-		def check_variables
-			id = lhs.brat
-			unless var_exist? id
-				var = var_exist? id, true
-				if var
-					var_add id, var
-				else
-					var_add id
-				end
-			end
-
-			rhs.check_variables
+			@result = temp
+			output
 		end
 	}
   end
@@ -352,8 +335,8 @@ grammar BaseBrat
   rule float
 	'-'? [0-9]+ "." [0-9]+ {
 		def brat
-			next_temp
-			"local #@result = #{text_value}\n"
+			@result = text_value
+			""
 		end
 	}
   end
@@ -363,8 +346,8 @@ grammar BaseBrat
   rule integer
 	'-'? [0-9]+ {
 		def brat
-			next_temp
-			"local #@result = #{text_value}\n"
+			@result = text_value
+			""
 		end
 	}
   end
@@ -450,7 +433,7 @@ grammar BaseBrat
   rule function_definition
 	"{" space? fa:formal_args space? l:line* space? "}" {
 		def brat
-			next_scope
+			new_scope
 			if fa.respond_to? :brat
 				args = fa.brat
 			else
@@ -498,13 +481,6 @@ grammar BaseBrat
 			pop_scope
 
 			output
-		end
-
-		def check_variables
-			new_scope
-			fa.check_variables
-			l.elements.each {|e| e.check_variables }
-			end_scope
 		end
 	}
   end
