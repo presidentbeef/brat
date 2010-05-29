@@ -10,13 +10,15 @@ grammar BaseBrat
 			local array = array
 			local number = number
 			local string = base_string
+			base_string = nil
+			local exception = exception
 			#{self.inner_brat}
 			LUA
 		end
 
 		def inner_brat
 			Treetop::Runtime::SyntaxNode.clear_variables
-			elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join(";")
+			elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join("\n")
 		end
 	}
 	/
@@ -29,13 +31,11 @@ grammar BaseBrat
 	/
  	~(space?) e:expression ~(space?) ~(comment?) ~( eof / eol / eob)  {
 		def brat
-			if e.respond_to? :brat
+			if e.respond_to? :no_result_brat
+				e.no_result_brat
+			elsif e.respond_to? :brat
 				e.brat
 			end
-		end
-
-		def result
-			e.result
 		end
 	}
 	/
