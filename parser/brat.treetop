@@ -452,33 +452,29 @@ grammar BaseBrat
 
 
 
-			inner_function = l.elements.map {|e| e.brat}.join(";");
+			elements = l.elements.map {|e| e.brat }
 
-			#Empty functions should return null object instead of Neko null
+			unless elements.empty?
+				l.elements.reverse_each do |e|
+					if e.result
+						elements << "return #{l.elements.last.result}\n"
+						break
+					end
+				end
+			end
+
+			inner_function = elements.join("\n");
+
+			#Empty functions should return null object instead of Lua null
 			if inner_function.strip.gsub(";", "").length == 0
-				inner_function = "@brat.base_object.@@null";
+				inner_function = "return object:null()\n"
 			end
 
-			if variables[-1].length == 1
-				environment = ""
-			else
-				environment = output_environment
-			end
-
-			if fa.respond_to? :var_args
-				next_temp
-				output << "var #@result = "
-			end
-
-			output << "function(#{args}) { \n" <<
-				environment <<
+			next_temp
+			output << "local #@result = function (#{args}) \n" <<
 				inside <<
 				inner_function <<
-				"};"
-
-			if fa.respond_to? :var_args
-				output << "@brat.brat_var_args(#@result);\n"
-			end
+				"end\n"
 
 			pop_scope
 
@@ -497,11 +493,7 @@ grammar BaseBrat
 		def function_header
 			output = ""
 			plain_formals.args.each do |a|
-				if var_used? a
-					output << "#{var_exist? a} = #{a};"
-				else
-					output << "var #{var_exist? a} = #{a};"
-				end
+				output << "local #{var_exist? a} = #{a}\n"
 			end
 			output
 		end
@@ -813,7 +805,9 @@ grammar BaseBrat
 		end
 
 		def plain
-			@args = [i.brat] + rest_formal.plain
+			name = i.brat
+			var_add name
+			@args = [name] + rest_formal.plain
 			@args.join(", ")
 		end
 
@@ -1045,9 +1039,9 @@ grammar BaseBrat
   	lhs:method_chain i:(identifier / operator) a:arg_list {
 		def brat
 			next_temp
-			"var #@result = {#{lhs.brat}}" << 
+			lhs.brat << 
 			a.brat <<
-			call_method(@result, i.brat, a.list, a.length) << ";"
+			call_method(@result, lhs.result, i.brat, a.list, a.length) << ";"
 		end
 
 		def no_result_brat
@@ -1062,13 +1056,17 @@ grammar BaseBrat
 	m:identifier a:arg_list {
 		def brat
 			name = m.brat
-			a.brat << get_value(name, a.list, a.length) << ";"
+			next_temp
+			"local #@result\n" <<
+				a.brat << 
+				get_value(@result, name, a.list, a.length) << "\n"
 		end
 
 		def no_result_brat
-			name = m.brat
-			a.brat <<
-			get_value_clean(name, a.list, a.length) << ";"
+			self.brat
+			#name = m.brat
+			#a.brat <<
+			#get_value_clean(name, a.list, a.length) << ";"
 		end
 
 		def check_variables
@@ -1387,9 +1385,8 @@ grammar BaseBrat
 				e.brat
 				named_args << e
 			else
-				next_temp
-				output << "var #@result = {#{e.brat}};"
-				args << @result
+				output << e.brat << "\n"
+				args << e.result
 			end
 
 			o.elements.each do |elem|
@@ -1398,9 +1395,8 @@ grammar BaseBrat
 						elem.arg_first.brat
 						named_args << elem.arg_first
 					else
-						next_temp
-						output << "var #@result = {#{elem.arg_first.brat}};"
-						args << @result
+						output << elem.arg_first.brat << "\n"
+						args << elem.arg_first.brat
 					end
 				end
 			end
