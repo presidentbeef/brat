@@ -31,11 +31,13 @@ grammar BaseBrat
 	/
  	~(space?) e:expression ~(space?) ~(comment?) ~( eof / eol / eob)  {
 		def brat
-			if e.respond_to? :no_result_brat
-				e.no_result_brat
-			elsif e.respond_to? :brat
+			if e.respond_to? :brat
 				e.brat
 			end
+		end
+
+		def result
+			e.result
 		end
 	}
 	/
