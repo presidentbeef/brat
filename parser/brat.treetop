@@ -12,6 +12,7 @@ grammar BaseBrat
 			local string = base_string
 			base_string = nil
 			local exception = exception
+			self = object
 			#{self.inner_brat}
 			LUA
 		end
