@@ -71,7 +71,7 @@ class Treetop::Runtime::SyntaxNode
 			if #{has_field("number", method)} then
 				local _n = number:new()
 				function _n:my () return #{temp} end
-				#{res_var} =  _n:#{method}(#{temp}, #{arguments})
+				#{res_var} =  _n:#{method}(#{temp}#{arg_length > 0 ? "," : ""}#{arguments})
 			elseif #{has_field("number", "no_undermethod")} then
 				#{call_no_method res_var, "number", method, "#{temp}, #{arguments}", arg_length}
 			else
