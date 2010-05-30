@@ -198,7 +198,11 @@ function object:_print (...)
 	io.output(io.stdout)
 	local input = {...}
 	for k,v in pairs(input) do
-		input[k] = tostring(v)
+		if type(v) == "function" then
+			input[k] = _function:to_unders(v)._lua_string
+		else
+			input[k] = tostring(v)
+		end
 	end
 	io.write(unpack(input))
 	return object.__null
