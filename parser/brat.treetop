@@ -505,7 +505,7 @@ grammar BaseBrat
   rule formal_args
 	space? plain_formals space? "|" !"|" {
 		def brat
-			plain_formals.plain
+			plain_formals.brat
 		end
 
 		def function_header
@@ -819,13 +819,9 @@ grammar BaseBrat
 		attr_reader :args
 
 		def brat
-			self.plain
-		end
-
-		def plain
 			name = i.brat
 			var_add name
-			@args = [name] + rest_formal.plain
+			@args = [name] + rest_formal.brat
 			(["_self"] + @args).join(", ")
 		end
 
@@ -842,17 +838,9 @@ grammar BaseBrat
 		def brat
 			if elements.length > 0
 				elements.map do |e|
-					var_add e.identifier.brat
-				end
-			else
-				[]
-			end
-		end
-
-		def plain
-			if elements.length > 0
-				elements.map do |e|
-					e.identifier.brat
+					name = e.identifier.brat
+					var_add name
+					name
 				end
 			else
 				[]
@@ -1061,14 +1049,15 @@ grammar BaseBrat
 			next_temp
 			lhs.brat << 
 			a.brat <<
-			call_method(@result, lhs.result, i.brat, a.list, a.length) << ";"
+			call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
 		end
 
 		def no_result_brat
-			next_temp
-			"var #@result = {#{lhs.brat}}" << 
-			a.brat <<
-			call_method(@result, i.brat, a.list, a.length) 
+			self.brat
+			#next_temp
+			#"var #@result = {#{lhs.brat}}" << 
+			#a.brat <<
+			#call_method(@result, i.brat, a.list, a.length) 
 		end
 
 	}
@@ -1420,7 +1409,7 @@ grammar BaseBrat
 						named_args << elem.arg_first
 					else
 						output << elem.arg_first.brat << "\n"
-						args << elem.arg_first.brat
+						args << elem.arg_first.result
 					end
 				end
 			end
