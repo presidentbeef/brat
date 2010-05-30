@@ -182,7 +182,7 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def escape_identifier identifier
-		escape_operator(identifier).gsub(/\b(true|false|if|then|else|do|while|break|continue|switch|default|null|var|try|catch|return|function|this)\b/i) {|m| "_" + $1 }
+		escape_operator(identifier).gsub(/\b(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while|print|error|assert|collectgarbage|dofile|getfenv|getmetatable|ipairs|load|loadfile|loadstring|next|pairs|pcall|rawequal|rawget|rawset|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\b/i) {|m| "_" + $1 }
 	end
 
 	def escape_operator op
@@ -232,7 +232,7 @@ class Treetop::Runtime::SyntaxNode
 			"dollar" => "$" }
 
 	ID_CONVERT_RE_OP = /_(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)/
-	ID_CONVERT_RE_KW = /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)/
+	ID_CONVERT_RE_KW = /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while|print|error|assert|collectgarbage|dofile|getfenv|getmetatable|ipairs|load|loadfile|loadstring|next|pairs|pcall|rawequal|rawget|rawset|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)/
 
 	def nice_id identifier
 		identifier.gsub(ID_CONVERT_RE_OP) do
