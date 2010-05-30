@@ -5,6 +5,12 @@ module BratBaseTest
 	end
 
 	def parse input
+		input = <<-LUA
+		brat_test_function = {
+			#{input}
+		}
+		object.p(brat_test_function)
+		LUA
 		result = @parser.parse(input)
 		unless result
 			$stderr.puts @parser.failure_reason
@@ -15,20 +21,18 @@ module BratBaseTest
 
 	def brat input
 		out = parse(input).brat
-		File.open('.test.neko.tmp', 'w') {|f| f.puts "//" << caller[3] << "\n" << "@test = function() { " << out << "}; @brat.base_object.p(@test());"}
-		result = `nekoc .test.neko.tmp && neko .test.neko.n`
-		`cp .test.neko.tmp test.neko.last_error` unless $? == 0
-		File.delete(".test.neko.n")
-		File.delete(".test.neko.tmp")
+		File.open('.test.lua.tmp', 'w') {|f| f.puts "--" << caller[3] << "\n" << out }
+		result = `lua .test.lua.tmp`
+		`cp .test.lua.tmp test.lua.last_error` unless $? == 0
+		#File.delete(".test.lua.tmp")
 		result.split("\n").last.strip
 	end
 
 	def assert_fail code
 		out = parse(code).brat
-		File.open('.test.neko.tmp', 'w') {|f| f.puts "//" << caller[3] << "\n" << "@test = function() { " << out << "}; @brat.base_object.p(@test());"}
-		`nekoc .test.neko.tmp 2> /dev/null && neko .test.neko.n 2> /dev/null`
-		File.delete(".test.neko.n")
-		File.delete(".test.neko.tmp")
+		File.open('.test.lua.tmp', 'w') {|f| f.puts "--" << caller[3] << "\n" << out }
+		`lua .test.lua.tmp 2> /dev/null`
+		File.delete(".test.lua.tmp")
 		assert_not_equal $?, 0
 	end
 
