@@ -12,7 +12,7 @@ grammar BaseBrat
 			local string = base_string
 			base_string = nil
 			local exception = exception
-			self = object
+			_self = object
 			#{self.inner_brat}
 			LUA
 		end
@@ -245,35 +245,39 @@ grammar BaseBrat
   rule assignment
  	lhs:field_access space "=" spaceorbreak rhs:(function_definition / method_access) {
 		def brat
-			next_temp
-			lhs_result = @result
-			next_temp
-			rhs_result = @result
-			"var #{lhs_result} = {#{lhs.brat}};" <<
-			"var #{rhs_result} = {#{rhs.brat}};"  <<
-			"if($typeof(#{lhs_result}) == $tobject)" <<
-				"$objset(#{lhs_result}, $hash(\"#{lhs.i.brat}\"), #{rhs_result});" <<
-			"else if(number.@is_number(#{lhs_result}))" <<
-				"$objset(number, $hash(\"#{lhs.i.brat}\"), #{rhs_result});" <<
-			"else $throw(\"Cannot set method on \" + $string(#{lhs_result}));" << 
-			"#@result;"
+			output = lhs.brat << "\n" << rhs.brat << "\n"	
+			lhs_result = lhs.result
+			rhs_result = rhs.result
+			@result = rhs.result
+
+			output << <<-LUA
+				if type(#{lhs_result}) == "table" then
+					#{lhs_result}["#{lhs.i.brat}"] = #{rhs_result}
+				elseif type(#{lhs_result}) == "number" then
+					number["#{lhs.i.brat}"] =  #{rhs_result}
+				else
+					error("Cannot set method on " .. #{lhs_result})
+				end
+			LUA
 		end
 	}
 	/
  	lhs:field_access space "=" spaceorbreak rhs:expression {
 		def brat
-			next_temp
-			lhs_result = @result
-			next_temp
-			rhs_result = @result
-			"var #{lhs_result} = {#{lhs.brat}};" <<
-			"var #{rhs_result} = {#{rhs.brat}};"  <<
-			"if($typeof(#{lhs_result}) == $tobject)" <<
-				"$objset(#{lhs_result}, $hash(\"#{lhs.i.brat}\"), function() { #{rhs_result}});" <<
-			"else if(number.@is_number(#{lhs_result}))" <<
-				"$objset(number, $hash(\"#{lhs.i.brat}\"), function() { #{rhs_result} });" <<
-			"else $throw(\"Cannot set method on \" + $string(#{lhs_result}));" << 
-			"#@result;"
+			output = lhs.brat << "\n" << rhs.brat << "\n"	
+			lhs_result = lhs.result
+			rhs_result = rhs.result
+			@result = rhs.result
+
+			output << <<-LUA
+				if type(#{lhs_result}) == "table" then
+					#{lhs_result}["#{lhs.i.brat}"] = function () return #{rhs_result} end
+				elseif type(#{lhs_result}) == "number" then
+					number["#{lhs.i.brat}"] = function () return #{rhs_result} end
+				else
+					error("Cannot set method on " .. #{lhs_result})
+				end
+			LUA
 		end
 	}
 	/
@@ -299,6 +303,10 @@ grammar BaseBrat
   	m:method_chain i:(identifier / operator) {
 		def brat
 			m.brat
+		end
+
+		def result
+			m.result
 		end
 	}
   end
@@ -442,7 +450,7 @@ grammar BaseBrat
 			if fa.respond_to? :brat
 				args = fa.brat
 			else
-				args = ""
+				args = "_self"
 			end
 
 			if fa.respond_to? :function_header
@@ -811,7 +819,7 @@ grammar BaseBrat
 			name = i.brat
 			var_add name
 			@args = [name] + rest_formal.plain
-			@args.join(", ")
+			(["_self"] + @args).join(", ")
 		end
 
 		def check_variables
@@ -1109,14 +1117,14 @@ grammar BaseBrat
   rule method_chain
  	(e:method_lhs ".")+ {
 		def brat
-			next_temp
-			output = "var #@result = {#{elements.first.e.brat}}"
+			output = elements.first.e.brat
+			@result = elements.first.e.result
 			meth = args = nil
 			elements[1..-1].each do |elem|
 				meth = elem.e.identifier.brat
 				args = elem.e.arg_list
 				output << args.brat
-				output << "#@result = " << call_method(@result, meth, args.list, args.length) << ";"
+				output << call_method(@result, @result, meth, args.list, args.length) << "\n"
 				if not elem.e.a.elements.empty?
 					elem.e.a.elements.each do |ele|
 						output << ele.inner_arg_list.brat
@@ -1145,26 +1153,30 @@ grammar BaseBrat
 			temp = var_exist? name
 
 			output <<
-			"var #@result;" <<
+			"local #@result\n" <<
 			if temp
-				<<-NEKO
-				var @t = $typeof(#{temp});
-				if(@t == $tobject || @t == $tint || @brat.is_num(#{temp})) {
-					#@result = #{temp};
-				} else if($typeof(#{temp}) == $tfunction) {
-					#@result = #{invoke(temp, arg_list.list, arg_list.length)};
-				} else if(#{temp} == null) { $throw(exception.null_error("#{nice_id name}", "cannot call method on it")); }
-				else { $throw(exception.method_error("this", "#{nice_id name}")) };
-				NEKO
+				<<-LUA
+				local _t = type(#{temp});
+				if _t == "table" or _t == "number" then
+					#@result = #{temp}
+				elseif _t == "function" then 
+					#{invoke(@result, temp, arg_list.list, arg_list.length)}
+				elseif #{temp} == nil then
+					 error(exception.null_error("#{nice_id name}", "cannot call method on it"))
+				else
+					error(exception.method_error("this", "#{nice_id name}"))
+				end
+				LUA
 			else
-				<<-NEKO
-				if($objget(this, $hash("#{name}")) != null) {
-					#@result = #{call_method("this", name, arg_list.list, arg_list.length)}
-				}
-				else if(#{name} != null) {
-				#@result = #{name};
-				} else { $throw(exception.method_error("this", "#{nice_id name}")) };
-				NEKO
+				<<-LUA
+				if _self["#{name}"] ~= nil then
+					#{call_method(@result, "_self", name, arg_list.list, arg_list.length)}
+				elseif #{name} ~= null then
+					#@result = #{name};
+				else
+					error(exception.method_error("this", "#{nice_id name}"))
+				end
+				LUA
 			end
 
 			last = @result
