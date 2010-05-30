@@ -475,7 +475,7 @@ grammar BaseBrat
 			unless elements.empty?
 				l.elements.reverse_each do |e|
 					if e.result
-						elements << "return #{l.elements.last.result}\n"
+						elements << "return #{e.result}\n"
 						break
 					end
 				end
