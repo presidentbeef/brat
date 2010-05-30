@@ -932,10 +932,10 @@ grammar BaseBrat
 		def brat
 			next_temp
 			final_result = @result
-			output = "var #{final_result}; { "
-			output << lhs.brat
-			next_temp
-			output << "var #@result = {#{rhs.brat}};"
+			output = "local #{final_result} \n do \n" <<
+				lhs.brat <<
+				rhs.brat
+			@result = rhs.result
 			in_stack = lhs.stack
 			in_stack << @result
 			out_stack = []
@@ -961,18 +961,20 @@ grammar BaseBrat
 			end
 
 			out_stack.each do |e|
-				if e[0,5] == "@temp" || e.to_i.to_s == e
+				if e[0,5] == "_temp" || e.to_i.to_s == e
 					res_stack.push e
 				else
 					r = res_stack.pop
 					l = res_stack.pop
 					next_temp
-					output << "var #@result = " << call_method(l, e, r, 1) << ";"
+					output << "local #@result\n" << call_method(@result, l, e, r, 1) << "\n"
 					res_stack.push @result
 				end
 			end
 	
-			output << "#{res_stack.pop};  }"
+			output << "#{final_result} = #{res_stack.pop} \nend\n"
+			@result = final_result
+			output
 		end
 	}
   end
@@ -985,9 +987,8 @@ grammar BaseBrat
 			@stack = []
 			output = ""
 			elements.each do |e|
-				next_temp
-				output << "var #@result = {#{e.lhs.brat}};"
-				@stack << @result
+				output << e.lhs.brat << "\n"
+				@stack << e.lhs.result
 				@stack << e.op.brat
 			end
 			output
@@ -1017,8 +1018,9 @@ grammar BaseBrat
 	/
 	i:identifier a:simple_arg_list {
 		def brat
+			next_temp
 			a.brat <<
-			invoke(i.brat, a.list, a.length)
+			invoke(@result, i.brat, a.list, a.length)
 		end
 
 		def check_variables
@@ -1036,7 +1038,7 @@ grammar BaseBrat
 	/
 	i:identifier ~(&space) {
 		def brat
-			get_value(i.brat, "", 0)
+			get_value(next_temp, i.brat, "", 0)
 		end
 
 		def check_variables
@@ -1178,7 +1180,7 @@ grammar BaseBrat
 				<<-LUA
 				if _self["#{name}"] ~= nil then
 					#{call_method(@result, "_self", name, arg_list.list, arg_list.length)}
-				elseif #{name} ~= null then
+				elseif #{name} ~= nil then
 					#@result = #{name};
 				else
 					error(exception.method_error("this", "#{nice_id name}"))
