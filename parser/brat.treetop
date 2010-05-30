@@ -369,27 +369,32 @@ grammar BaseBrat
   rule string
     '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
 		def brat
+			next_temp
 			if content.elements.empty?
-				"string.new(#{text_value});"
+				"local #@result = string:new(#{text_value});"
 			else
+				output = ""
 				text = '"'
 				content.elements.each do |e|
 					if e.respond_to? :brat
-						text << "\" + $string({#{e.brat}}) + \""
+						output << e.brat << "\n"
+						text << "\" .. tostring(#{e.result}) .. \""
 					else
 						text << e.text_value
 					end
 				end
 
-				"string.new(#{text << '"'});"
+				output <<
+					"local #@result = string:new(#{text << '"'})\n"
 			end
 		end
 	}
 	/
 	"'" content:(("\\'" / "\\\\" / !"'" . )*) "'" {
 		def brat
+			next_temp
 			string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
-			"string.new(\"#{string}\");"
+			"local #@result = string:new(\"#{string}\")\n"
 		end
 	}
   end
@@ -400,11 +405,13 @@ grammar BaseBrat
 			output = ""
 			if first.respond_to? :brat
 				output << first.brat
+				@result = first.result
 			end
 
 			rest.elements.each do |e|
 				if e.expression.respond_to? :brat
 					output << e.expression.brat
+					@result = e.expression.result
 				end
 			end
 
