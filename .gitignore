@@ -2,3 +2,6 @@
 core.brat.neko
 brat.rb
 /test.brat
+/test.lua
+.test.lua.tmp
+test.lua.last_error
