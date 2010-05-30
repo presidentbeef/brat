@@ -196,12 +196,17 @@ end
 
 function object:_print (...)
 	io.output(io.stdout)
-	io.write(...)
+	local input = {...}
+	for k,v in pairs(input) do
+		input[k] = tostring(v)
+	end
+	io.write(unpack(input))
 	return object.__null
 end
 
 function object:p (...)
-	print(...)
+	self:_print(...)
+	print()
 	return object.__null
 end
 
