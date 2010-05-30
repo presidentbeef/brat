@@ -867,6 +867,14 @@ function base_string:_less_equal_greater (rhs)
 	end
 end
 
+function base_string:_plus (rhs)
+	if type(rhs) ~= "table" or rhs._lua_string == nil then
+		error("Cannot add string to non-string")
+	end
+
+	return self:new(self._lua_string .. rhs._lua_string)
+end
+
 --Exception objects
 
 exception = object:new()
@@ -888,3 +896,4 @@ function exception:new(message, error_type)
 	e.type = function() return error_type end
 	return e
 end
+
