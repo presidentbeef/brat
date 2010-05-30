@@ -96,7 +96,7 @@ class Treetop::Runtime::SyntaxNode
 			elseif type(#{temp}) == "function" then
 				local _f = _function:new(#{temp})
 				if #{has_field("_f", method)} then 
-					#{res_var} = _f.#{method}(#{arguments})
+					#{res_var} = _f:#{method}(#{arguments})
 				elseif #{has_field("_f", "no_undermethod")} then
 					#{call_no_method res_var, "_f", method, arguments, arg_length}
 				else
@@ -138,14 +138,20 @@ class Treetop::Runtime::SyntaxNode
 		no_meth = var_exist?("no_undermethod") || "no_undermethod"
 		output = <<-LUA
 		if type(#{temp}) == "function" then
-			#{res_var} = #{temp}(#{arguments})
+			#{if arg_length > 0
+				"#{res_var} = #{temp}(_self, #{arguments})\n"
+			else
+
+				"#{res_var} = #{temp}(_self)\n"
+			end
+			}
 		elseif #{temp} == nil then
-			if #{has_field("self", object)} then
-				#{call_method(res_var, "self", object, arguments, arg_length)}
-			elseif type(self) == "number" then
+			if #{has_field("_self", object)} then
+				#{call_method(res_var, "_self", object, arguments, arg_length)}
+			elseif type(_self) == "number" then
 				#{call_method(res_var, "number", object, arguments, arg_length)}
-			elseif #{has_field("self", "no_undermethod")} then
-				#{call_no_method res_var, "self", object, arguments, arg_length}
+			elseif #{has_field("_self", "no_undermethod")} then
+				#{call_no_method res_var, "_self", object, arguments, arg_length}
 			elseif type(#{no_meth}) == "function" then
 				#{call_no_method res_var, nil, object, arguments, arg_length}
 			else
@@ -159,18 +165,18 @@ class Treetop::Runtime::SyntaxNode
 		end
 	end
 
-	def invoke method, arguments, arg_length
+	def invoke res_var, method, arguments, arg_length
 		#\n$print("Calling ", #{method}, " with (", #{arguments}, ")\\n");
 		temp = var_exist?(method) || method
 		<<-LUA
 		if #{temp} == nil then
 			if #{has_field("this", "no_undermethod")} then
-				#{call_no_method "this", method, arguments, arg_length}
+				#{call_no_method res_var, "_self", method, arguments, arg_length}
 			else
 				error(exception.null_error("#{nice_id method}", "invoke method"))
 			end
 		else 
-			#{temp}(#{arguments})
+			#{res_var} = #{temp}(#{arguments})
 		end
 		LUA
 	end
