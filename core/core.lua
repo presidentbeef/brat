@@ -813,6 +813,9 @@ function array:sort_bang ()
 end
 
 function array:to_unders ()
+	if #self._lua_array == 0 then
+		return base_string:new("[]")
+	end
 	local s = "["
 	local i = 1
 	local len = #self._lua_array
