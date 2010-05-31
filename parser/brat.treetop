@@ -159,7 +159,7 @@ grammar BaseBrat
 			next_temp
 			output = "#@result = {}\ndo\n"
 			output << first.brat << "\n"
-			output << "#@result[0] = #{first.result}\n"
+			output << "#@result[1] = #{first.result}\n"
 
 			rest.elements.each_with_index do |r, i|
 				output << r.e.brat << "\n"
