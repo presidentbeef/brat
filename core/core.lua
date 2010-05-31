@@ -760,21 +760,28 @@ end
 
 array = object:new()
 
-array._lua_array = {}
+local array_instance = new_brat(array)
+
+array_instance._lua_array = {}
 
 function array:new (...)
-	local na = new_brat(self)
-	na._lua_array = {...}
+	local na = new_brat(array_instance)
+	local args = {...}
+	if #args == 1 and type(args[1]) == "table" and not args[1]._is_an_object then
+		na._lua_array = args[1]
+	else
+		na._lua_array = args
+	end
 	return na
 end
 
-function array:set (index, value)
-	self._lua_array[index] = value
+function array_instance:set (index, value)
+	self._lua_array[index + 1] = value
 	return value
 end
 
-function array:get (index)
-	local val = self._lua_array[index]
+function array_instance:get (index)
+	local val = self._lua_array[index + 1]
 	if val == nil then
 		return object.__null
 	else
@@ -782,15 +789,15 @@ function array:get (index)
 	end
 end
 
-function array:length ()
+function array_instance:length ()
 	return #self._lua_array
 end
 
-function array:_dup ()
+function array_instance:_dup ()
 	return array:new(unpack(self._lua_array))
 end
 
-function array:sort ()
+function array_instance:sort ()
 	local a = self._lua_array
 	if #a <= 1 then
 		return self:_dup()
@@ -803,7 +810,7 @@ function array:sort ()
 	return array:new(unpack(a))
 end
 
-function array:sort_bang ()
+function array_instance:sort_bang ()
 	local a = self._lua_array
 	if #a <= 1 then
 		return self:_dup()
@@ -814,10 +821,13 @@ function array:sort_bang ()
 	return self
 end
 
-function array:to_unders ()
+function array_instance:to_unders ()
 	if #self._lua_array == 0 then
 		return base_string:new("[]")
+	elseif #self._lua_array == 1 then
+		return base_string:new("[" .. tostring(self._lua_array[1]) .. "]")
 	end
+
 	local s = "["
 	local i = 1
 	local len = #self._lua_array
@@ -837,12 +847,14 @@ end
 
 base_string = object:new()
 
+local string_instance = new_brat(base_string)
+
 function base_string:new (s)
 	if s == nil then
 		s = ""
 	end
 
-	local ns = new_brat(self)
+	local ns = new_brat(string_instance)
 	ns._lua_string = s
 
 	if type(s) == "string" then
@@ -858,11 +870,11 @@ function base_string:new (s)
 	return ns
 end
 
-function base_string:to_unders ()
+function string_instance:to_unders ()
 	return self
 end
 
-function base_string:_less_equal_greater (rhs)
+function string_instance:_less_equal_greater (rhs)
 	if type(rhs) ~= "table" or rhs._lua_string == nil then
 		error("Cannot compare")
 	end
@@ -881,7 +893,7 @@ function base_string:_less_equal_greater (rhs)
 	end
 end
 
-function base_string:_plus (rhs)
+function string_instance:_plus (rhs)
 	if type(rhs) ~= "table" or rhs._lua_string == nil then
 		error("Cannot add string to non-string")
 	end
