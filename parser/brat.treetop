@@ -10,7 +10,6 @@ grammar BaseBrat
 			local array = array
 			local number = number
 			local string = base_string
-			base_string = nil
 			local exception = exception
 			_self = object
 			#{self.inner_brat}
@@ -468,8 +467,6 @@ grammar BaseBrat
 		
 			output = ""
 
-
-
 			elements = l.elements.map {|e| e.brat }
 
 			unless elements.empty?
@@ -489,10 +486,22 @@ grammar BaseBrat
 			end
 
 			next_temp
-			output << "local #@result = function (#{args}) \n" <<
-				inside <<
-				inner_function <<
-				"end\n"
+
+			#Have to check for when there are no formal arguments
+			if fa.respond_to? :max
+				max = fa.max
+				min = fa.min
+			else
+				max = 0
+				min = 0
+			end
+
+			output << <<-LUA
+				local #@result = function (#{args})
+					#{inside}
+					#{inner_function}
+				end
+			LUA
 
 			pop_scope
 
@@ -504,6 +513,8 @@ grammar BaseBrat
   #Matches formal arguments in a function definition
   rule formal_args
 	space? plain_formals space? "|" !"|" {
+		attr_reader :max, :min
+
 		def brat
 			plain_formals.brat
 		end
@@ -513,6 +524,8 @@ grammar BaseBrat
 			plain_formals.args.each do |a|
 				output << "local #{var_exist? a} = #{a}\n"
 			end
+			@max = plain_formals.args.length
+			@min = @max
 			output
 		end
 
@@ -522,7 +535,7 @@ grammar BaseBrat
 	}
 	/
 	space? default_args space? "|" !"|" {
-		attr_reader :var_args
+		attr_reader :var_args, :max, :min
 
 		def brat
 			"@args"	
@@ -530,6 +543,10 @@ grammar BaseBrat
 
 		def function_header name = "function"
 			default_args.brat
+
+			@max = default_args.args.length
+			@min = 0
+
 			output = "var @arg_len = $asize(@args);" <<
 				"if(@arg_len > #{default_args.args.length})" <<
 					"$throw(exception.argument_error(\"function\", \"up to #{default_args.args.length}\"));"
@@ -561,15 +578,18 @@ grammar BaseBrat
 			end
 			output << "}\n"
 
+
 		end
 	}
 	/
 	space? variable_args space? "|"	!"|" {
-		attr_reader :var_args
+		attr_reader :var_args, :max, :min
 
 		def brat
 			param = variable_args.i.brat
 			@param = var_add param
+			@min = -1
+			@max  = -1
 			"@args"
 		end
 
@@ -583,18 +603,20 @@ grammar BaseBrat
 	}
 	/
 	space? plain_formals space? "," space? variable_args space? "|"	!"|"  {
-		attr_reader :var_args
+		attr_reader :var_args, :max, :min
 
 		def brat
 			param = variable_args.i.brat
 			@param = var_add param
-
+		
 			"@args"
 		end
 
 		def function_header
 			plain_formals.brat
 			req_args = plain_formals.args.length
+			@min = req_args
+			@max = -1
 			i = 0
 			output = "if($asize(@args) < #{req_args}) $throw(exception.new(\"function\", \"at least #{req_args}\"));\n"
 
@@ -614,11 +636,10 @@ grammar BaseBrat
 			plain_formals.check_variables
 			var_add variable_args.i.brat
 		end
-
 	}
 	/
 	space? default_args space? "," space? variable_args space? "|" !"|" {
-		attr_reader :var_args
+		attr_reader :var_args, :max, :min
 
 		def brat
 			param = variable_args.i.brat
@@ -629,6 +650,8 @@ grammar BaseBrat
 
 		def function_header
 			default_args.brat
+			@min = 0
+			@max = -1
 			output = "var @arg_len = $asize(@args);\n"
 
 			#Check and set default args
@@ -680,7 +703,7 @@ grammar BaseBrat
 	}
 	/
 	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" !"|" {
-		attr_reader :var_args
+		attr_reader :var_args, :max, :min
 
 		def brat
 			param = variable_args.i.brat
@@ -694,6 +717,8 @@ grammar BaseBrat
 			default_args.brat
 			def_args = default_args.args.length
 			req_args = plain_formals.args.length
+			@min = req_args
+			@max = -1
 			output = "var @arg_len = $asize(@args);" <<
 				"if($asize(@args) < #{req_args}) $throw(exception.argument_error(\"function\", \"at least #{req_args}\"));"
 
@@ -753,7 +778,7 @@ grammar BaseBrat
 	}
 	/
   	space? plain_formals space? "," space? default_args space? "|" !"|" {
-		attr_reader :var_args
+		attr_reader :var_args, :max, :min
 
 		def brat
 			"@args"
@@ -764,6 +789,8 @@ grammar BaseBrat
 			default_args.brat
 			def_args = default_args.args.length
 			req_args = plain_formals.args.length
+			@max = def_args + req_args
+			@min = req_args
 			output = "var @arg_len = $asize(@args);" <<
 				"if($asize(@args) < #{req_args}) $throw(exception.argument_error(\"function\", \"at least #{req_args}\"));\n" <<
 				"if(@arg_len > #{def_args + req_args})" <<
@@ -1256,14 +1283,20 @@ grammar BaseBrat
 			name = m.brat
 			temp = var_exist? name
 			if temp
-				temp
+				@result = temp
+				""
 			else	
 				next_temp
-				output ="if(#{name} == null) {" <<
-					"var #@result = $objget(this, $hash(\"#{name}\"));" <<
-					"if(#@result == null) $throw(exception.null_error(\"#{nice_id name}\", \"access it\"));" <<
-					"#@result;" <<
-				"} else { #{name} };\n"
+				<<-LUA
+				if #{name} == nil then
+					local #@result = _self["#{name}"]
+					if #@result == nil then
+						error(exception.null_error("#{nice_id name}", "access it"))
+					end
+				else
+					#@result = #{name}
+				end
+				LUA
 			end
 		end
 
@@ -1282,10 +1315,14 @@ grammar BaseBrat
   	o:method_invocation "->" m:(identifier / operator) {
 		def brat
 			name = m.brat
-			next_temp
-			"var #@result = {#{o.brat}};" <<
-			"#@result = $objget(#@result, $hash(\"#{name}\"));" <<
-			"if(#@result == null) $throw(exception.method_error(\"#{nice_id o.text_value}\", \"#{nice_id name}\")); #@result; \n"
+			output = o.brat
+			@result = o.result
+			output << <<-LUA
+				#@result = #@result["#{name}"]
+				if #@result == nil then
+					error(exception.method_error("#{nice_id o.text_value}", "#{nice_id name}"))
+				end
+			LUA
 		end
 	}
   end
