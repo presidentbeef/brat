@@ -431,7 +431,8 @@ grammar BaseBrat
   rule symbol
 	":" id:(identifier / operator / number)+ {
 		def brat
-			"symbol.new(\"#{id.text_value}\");"
+			next_temp
+			"local #@result = string:new(\"#{id.text_value}\");"
 		end
 	} 
   end
