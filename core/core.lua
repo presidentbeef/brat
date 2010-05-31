@@ -112,6 +112,8 @@ end
 
 object = {}
 
+object._is_an_object = true
+
 function object:parent()
 	return object.__null
 end
