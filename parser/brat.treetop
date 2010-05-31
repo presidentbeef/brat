@@ -163,7 +163,7 @@ grammar BaseBrat
 
 			rest.elements.each_with_index do |r, i|
 				output << r.e.brat << "\n"
-				output <<  "#@result[#{i + 1}] = {#{r.e.brat}}"
+				output <<  "#@result[#{i + 2}] = #{r.e.result}\n"
 			end
 
 			output << "end\n"
