@@ -171,8 +171,17 @@ end
 
 
 object.__null = object:new()
+function object.__null:to_unders ()
+	return base_string:new("null")
+end
 object.__true = object:new()
+function object.__true:to_unders ()
+	return base_string:new("true")
+end
 object.__false = object:new()
+function object.__false:to_unders ()
+	return base_string:new("false")
+end
 
 function object:null ()
 	return object.__null
@@ -758,9 +767,10 @@ end
 --Going to keep these separate from hash tables, every if Lua thinks they
 --are the same
 
-array = object:new()
 
-local array_instance = new_brat(array)
+local array_instance = object:new()
+
+array = new_brat(array_instance)
 
 array_instance._lua_array = {}
 
@@ -993,6 +1003,10 @@ function string_instance:_plus (rhs)
 	return self:new(self._lua_string .. rhs._lua_string)
 end
 
+function string_instance:__hash ()
+	return self._lua_string
+end
+
 --Exception objects
 
 exception = object:new()
@@ -1014,4 +1028,3 @@ function exception:new(message, error_type)
 	e.type = function() return error_type end
 	return e
 end
-
