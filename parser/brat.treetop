@@ -165,13 +165,14 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			temp_var = next_temp
 			next_temp
-			output = "#@result = {}\ndo\n"
-			output << first.brat(temp_var) << "\n"
-			output << "#@result[1] = #{first.result}\n"
+			output = "#@result = {}\ndo\n" <<
+				"local #{temp_var}\n" <<
+				first.brat(temp_var) << "\n" <<
+				"#@result[1] = #{first.result}\n"
 
 			rest.elements.each_with_index do |r, i|
-				output << r.e.brat(temp_var) << "\n"
-				output <<  "#@result[#{i + 2}] = #{r.e.result}\n"
+				output << r.e.brat(temp_var) << "\n" <<
+					"#@result[#{i + 2}] = #{r.e.result}\n"
 			end
 
 			output << "end\n"
