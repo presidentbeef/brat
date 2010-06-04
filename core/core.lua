@@ -171,17 +171,8 @@ end
 
 
 object.__null = object:new()
-function object.__null:to_unders ()
-	return base_string:new("null")
-end
 object.__true = object:new()
-function object.__true:to_unders ()
-	return base_string:new("true")
-end
 object.__false = object:new()
-function object.__false:to_unders ()
-	return base_string:new("false")
-end
 
 function object:null ()
 	return object.__null
@@ -851,19 +842,111 @@ function array_instance:to_unders ()
 	return base_string:new(s)
 end
 
+function array_instance:__hash ()
+	return self:to_unders()._lua_string
+end
+
+--Hash objects
+
+local hash_instance = object:new()
+
+hash = new_brat(hash_instance)
+
+function hash:new (arg)
+	local nh = new_brat(self)
+	if type(arg) == "table" and arg._lua_hash then
+		nh._lua_hash = arg._lua_hash
+		nh._key_hash = arg._key_hash
+	elseif type(arg) == "table" then
+		local key_map = {}
+		local key
+		for k,v in pairs(arg) do
+			if type(k) == "table" and type(k.__hash) == "function" then
+				key = k:__hash()
+				key_map[key] = k
+			end
+		end
+
+		nh._lua_hash = arg
+		nh._key_hash = key_map
+	elseif arg == nil then
+		nh._lua_hash = {}
+		nh._key_hash = {}
+	else
+		error("argument error")
+	end
+
+	return nh
+end
+
+function hash_instance:get (index)
+	local val = self._lua_hash[index]
+	print("gettin value for " .. tostring(index))
+	if val then
+		return val
+	elseif type(index) == "table" and type(index.__hash) == "function" then
+		index = self._key_hash[index:__hash()]
+		val = self._lua_hash[index]
+
+		if val then
+			return val
+		end
+	end
+
+	return object.__null
+end
+
+function hash_instance:set (index, value)
+
+	if type(index) == "table" and type(index.__hash) == "function" then
+		local key = index:__hash()
+		self._key_hash[key] = index
+		self._lua_hash[index] = value
+	end
+		
+	self._lua_hash[index] = value
+
+	return value
+end
+
+require 'md5'
+
+local md5_hash = md5.digest
+md5 = nil
+
+function hash_instance:__hash ()
+	local h = {}
+	local i = 1
+	for k,v in pairs(self._lua_hash) do
+		h[i] = tostring(k) .. tostring(v)
+		i = i + 1
+	end
+
+	table.sort(h)
+	local s = ""
+	while i > 1 do
+		i = i - 1
+		s = s .. h[i]
+	end
+
+	print(s)
+	return md5_hash(s)
+end
 
 --String objects
 
-base_string = object:new()
+local string_instance = object:new()
 
-local string_instance = new_brat(base_string)
+string_instance._lua_string = ""
+
+base_string = new_brat(string_instance)
 
 function base_string:new (s)
 	if s == nil then
 		s = ""
 	end
 
-	local ns = new_brat(string_instance)
+	local ns = new_brat(self)
 	ns._lua_string = s
 
 	if type(s) == "string" then
