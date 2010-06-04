@@ -121,14 +121,20 @@ grammar BaseBrat
   rule hash
 	"[" space? ":" space? "]" {
 		def brat(res_var = nil)
-			next_temp
-			"local @#result = hash:new()" 
+			@result = res_var || next_temp
+			if res_var
+				"@#result = hash:new()" 
+			else
+				"local @#result = hash:new()" 
+			end
 		end
 	}
 	/
   	"[" spaceorbreak hash_inner spaceorbreak "]" {
 		def brat(res_var = nil)
-			hash_inner.brat
+			output = hash_inner.brat(res_var)
+			@result = hash_inner.result
+			output
 		end
 	}
   end
@@ -177,17 +183,21 @@ grammar BaseBrat
   rule hash_inner
 	first:hash_argument rest:(((spaceorbreak "," spaceorbreak) / (space / eol)+) n:hash_argument)* {
 		def brat(res_var = nil)
-			next_temp
-			output = "{ var #@result = $hnew(#{rest.elements.length + 1});"
-			first.brat
-			output << "@brat.hset(#@result, #{first.index}, #{first.value});"
+			key_temp = next_temp
+			val_temp = next_temp
+			@result = res_var || next_temp
+			output = "local #@result = {}\n do \n" <<
+				"local #{key_temp}\nlocal #{val_temp}\n" <<
+				first.brat(key_temp, val_temp) <<
+				"#@result[#{first.index}] = #{first.value}\n"
+
 			rest.elements.each do |e|
 				elem = e.n
-				elem.brat
-				output << "@brat.hset(#@result, #{elem.index}, #{elem.value});"
+				output << elem.brat(key_temp, val_temp) << "\n" <<
+					"#@result[#{elem.index}] = #{elem.value}\n"
 			end
 
-			output << "@brat.make_hash(#@result) }"
+			output << "#@result = hash:new(#@result)\nend\n"
 		end
 	}
   end
@@ -197,17 +207,21 @@ grammar BaseBrat
 	i:((identifier / operator) (identifier / operator / number)*) ":" spaceorbreak e:expression {
 		attr_reader :index, :value
 
-		def brat(res_var = nil)
-			@index = "symbol.new(\"#{i.text_value}\")"
-			@value = "{#{e.brat}}"
+		def brat(key_temp, val_temp)
+			output = e.brat(val_temp)
+			@index = "string:new(\"#{i.text_value}\")"
+			@value = e.result
+			output
 		end
 	}
 	/
   	i:expression spaceorbreak ":" spaceorbreak v:expression {
 		attr_reader :index, :value
-		def brat(res_var = nil)
-			@index = "{#{i.brat}}"
-			@value = "{#{v.brat}}"
+		def brat(key_temp, val_temp)
+			output = i.brat(key_temp) << "\n" << v.brat(val_temp) << "\n"
+			@index = i.result
+			@value = v.result
+			output
 		end
 	}
   end
@@ -217,7 +231,10 @@ grammar BaseBrat
   	a:indexed_expression "[" i:expression "]" space? "=" spaceorbreak v:expression {
 		def brat(res_var = nil)
 			next_temp
-			"{var #@result; {#{a.brat}}.__set({#{i.brat}}, #@result = {#{v.brat}}); #@result}"
+			v.brat << "\n" << 
+				a.brat << "\n" << 
+				i.brat << "\n" << 
+				"local #@result = #{a.result}:set(#{i.result}, #{v.result})\n"
 		end
 	}
   end
@@ -226,18 +243,22 @@ grammar BaseBrat
   rule index_get
   	e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
 		def brat(res_var = nil)
-			next_temp
-			output = "{ var #@result = {#{e.brat}};"
+			@result = res_var || next_temp
+			output = "local #@result\ndo\n" <<
+				e.brat << "\n" <<
+				"#@result = #{e.result}\n"
+
 			a.elements.each do |elem|
-				output << elem.inner_arg_list.brat
-				output << "#@result = #@result.__get(#{elem.inner_arg_list.list});" 
-			end
-			unless args.respond_to? :nothing?
-				output << args.brat
-				output << invoke(@result, args.list, args.length) << ";"
+				output << elem.inner_arg_list.brat << "\n" <<
+					"#@result = #@result:get(#{elem.inner_arg_list.list})\n" 
 			end
 
-			output << " }"
+			unless args.respond_to? :nothing?
+				output << args.brat << "\n" <<
+					invoke(@result, @result, args.list, args.length) << "\n"
+			end
+
+			output << "end\n"
 		end
 	}
   end
