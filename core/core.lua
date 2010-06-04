@@ -171,8 +171,17 @@ end
 
 
 object.__null = object:new()
+function object.__null:to_unders ()
+	return base_string:new("null")
+end
 object.__true = object:new()
+function object.__true:to_unders ()
+	return base_string:new("true")
+end
 object.__false = object:new()
+function object.__false:to_unders ()
+	return base_string:new("false")
+end
 
 function object:null ()
 	return object.__null
