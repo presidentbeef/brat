@@ -11,6 +11,7 @@ grammar BaseBrat
 			local number = number
 			local string = base_string
 			local exception = exception
+			local hash = hash
 			_self = object
 			#{self.inner_brat}
 			LUA
@@ -394,7 +395,11 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			@result = res_var || next_temp
 			if content.elements.empty?
-				"local #@result = string:new(#{text_value});"
+				if res_var
+					"#@result = string:new(#{text_value});"
+				else
+					"local #@result = string:new(#{text_value});"
+				end
 			else
 				output = ""
 				text = '"'
@@ -407,8 +412,11 @@ grammar BaseBrat
 					end
 				end
 
-				output <<
-					"local #@result = string:new(#{text << '"'})\n"
+				if res_var
+					output << "#@result = string:new(#{text << '"'})\n"
+				else
+					output << "local #@result = string:new(#{text << '"'})\n"
+				end
 			end
 		end
 	}
@@ -417,7 +425,11 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			@result = res_var || next_temp
 			string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
-			"local #@result = string:new(\"#{string}\")\n"
+			if res_var
+				"#@result = string:new(\"#{string}\")\n"
+			else
+				"local #@result = string:new(\"#{string}\")\n"
+			end
 		end
 	}
   end
@@ -455,8 +467,13 @@ grammar BaseBrat
   rule symbol
 	":" id:(identifier / operator / number)+ {
 		def brat(res_var = nil)
-			@result = res_var || next_temp
-			"local #@result = string:new(\"#{id.text_value}\");"
+			if res_var
+				@result = res_var
+				"#@result = string:new(\"#{id.text_value}\")\n"
+			else
+				next_temp
+				"local #@result = string:new(\"#{id.text_value}\")\n"
+			end
 		end
 	} 
   end
