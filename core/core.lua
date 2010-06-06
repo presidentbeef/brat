@@ -891,7 +891,6 @@ end
 
 function hash_instance:get (index)
 	local val = self._lua_hash[index]
-	print("gettin value for " .. tostring(index))
 	if val then
 		return val
 	elseif type(index) == "table" and type(index.__hash) == "function" then
