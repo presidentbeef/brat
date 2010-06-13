@@ -31,7 +31,7 @@ class Treetop::Runtime::SyntaxNode
 		else
 			@@variables.reverse_each do |vars|
 				if vars[v]
-					return var[v]
+					return vars[v]
 				end
 			end
 			false
