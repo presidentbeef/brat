@@ -1002,8 +1002,107 @@ function string_instance:_plus (rhs)
 	return self:new(self._lua_string .. rhs._lua_string)
 end
 
+function string_instance:gsub (pattern, replacement)
+	if type(pattern) == "table" then
+		if pattern._lua_string then
+			error("Not accepting strings yet")
+		elseif pattern._lua_regex then
+			pattern = pattern._lua_regex
+		else
+			error(exception.argument_error("string.gsub", "regular expression", tostring(pattern)))
+		end
+	else
+		error(exception.argument_error("string.gsub", "regular expression", tostring(pattern)))
+	end
+
+	if type(replacement) == "table" then
+		if replacement._lua_string then
+			replacement = replacement._lua_string
+		elseif replacement._lua_hash then
+			local r = {}
+			for k,v in pairs(replacement._lua_hash) do
+				r[k._lua_string] = v._lua_string
+			end
+			replacement = r
+		else
+			error(exception.argument_error("string.gsub", "string", tostring(replacement)))
+		end
+	elseif type(replacement) == "function" then
+		local f = replacement
+		replacement = function (s)
+			local s = base_string:new(s)
+			local r = f(s,s)
+			if r._lua_string then
+				return r._lua_string
+			elseif r == object.__null then
+				return nil
+			else
+				return r
+			end
+		end
+	else
+		error(exception.argument_error("string.gsub", "string", tostring(replacement)))
+	end
+
+	local ns = orex.gsub(self._lua_string, pattern, replacement)
+	return base_string:new(ns)
+end
+
 function string_instance:__hash ()
 	return self._lua_string
+end
+
+--Regular expressions
+
+local regex_instance = object:new()
+
+regex = new_brat(regex_instance)
+
+function regex:new (string)
+	if type(string) == "string" then
+	elseif type(string) == "table" and string._lua_string ~= nil then
+		string = string._lua_string
+	else
+		error(exception.argument_error("regex.new", "string", string))
+	end
+
+	local nr = new_brat(self)
+	nr._lua_regex = orex.new("(" .. string .. ")")
+	nr._regex_string = string
+	return nr
+end
+
+function regex_instance:to_unders ()
+	return base_string:new("/" .. self._regex_string .. "/")
+end
+
+function regex_instance:match (string)
+	if type(string) == "string" then
+	elseif type(string) == "table" and string._lua_string ~= nil then
+		string = string._lua_string
+	else
+		error(exception.argument_error("regex.match", "string", string))
+	end
+
+	local result = {self._lua_regex:match(string)}
+
+	if #result == 1 and result == nil then
+		return object.__false
+	else
+		return regex:_make_result(result)
+	end
+end
+
+regex_instance._tilde = regex_instance.match
+
+function regex:_make_result (result)
+	local r = {}
+
+	for k,v in ipairs(result) do
+		r[k] = base_string:new(v)
+	end
+
+	return array:new(r)
 end
 
 --Exception objects

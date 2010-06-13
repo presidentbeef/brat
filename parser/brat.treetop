@@ -12,6 +12,7 @@ grammar BaseBrat
 			local string = base_string
 			local exception = exception
 			local hash = hash
+			local regex = regex
 			_self = object
 			#{self.inner_brat}
 			LUA
@@ -98,7 +99,13 @@ grammar BaseBrat
   rule regex
 	"/" r:(!"/" . / "\\/")* "/" {
 		def brat(res_var = nil)
-			"regex.new(\"#{r.text_value}\")"
+			if res_var
+				@result = res_var
+				"#@result = regex:new(\"#{r.text_value}\")\n"
+			else
+				next_temp
+				"local #@result = regex:new(\"#{r.text_value}\")\n"
+			end
 		end
 	}
   end
