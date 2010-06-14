@@ -316,12 +316,13 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			var = lhs.brat
 			temp = var_exist? var
-			output = rhs.brat << "\n"
 			if temp
-				output << "#{temp} = #{rhs.result}\n"
+				output = rhs.brat << "\n#{temp} = #{rhs.result}\n"
 			else
 				temp = var_add var
-				output << "local #{temp} = #{rhs.result}\n"
+				output = "local #{temp}\n" <<
+					 rhs.brat(temp) << 
+					"\n#{temp} = #{rhs.result}\n"
 			end
 			@result = temp
 			output
