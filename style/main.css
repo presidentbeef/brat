@@ -137,6 +137,24 @@ pre {
 	color: #AAAAAA;
 }
 
+.permalink {
+	font-family: verdana, arial, sans-serif;
+  	font-size: 0.9em;
+	border-top: 1px dashed #AAAAAA;
+	text-align: right;
+	margin-bottom: 5px;
+	color: #aaa;
+}
+
+.permalink a {
+	text-decoration: none;
+	border-bottom: 1px dotted #AAAAAA;
+}
+
+.disqus_thead {
+	border-top: 1px dashed #AAAAAA;
+}
+
 .highlight { background: #ffffff; }
 .highlight .c { color: #999988; font-style: italic } /* Comment */
 .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
