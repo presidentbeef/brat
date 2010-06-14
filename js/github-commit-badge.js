@@ -33,6 +33,10 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		var myUser = badgeData["username"];
 		var myRepo = badgeData["repo"];
 		var myEval = eval ( data );
+		var added = myEval.commit.added || [];
+		var modified = myEval.commit.modified || [];
+		var removed = myEval.commit.removed || [];
+
 		
 		// outline-class is used for the badge with the border
 		var myBadge = document.createElement("div");
@@ -70,12 +74,12 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		// myDiffStat shows how many files were added/removed/changed
 		var myDiffStat = document.createElement("div");
 		myDiffStat.setAttribute("class", "github-commit-badge-diffstat");
-		myDiffStat.innerHTML = "(" + myEval.commit.added.length + " <span class=\"github-commit-badge-diffadded\">added<\/span>, " 
-			+ myEval.commit.removed.length + " <span class=\"github-commit-badge-diffremoved\">removed<\/span>, " 
-			+ myEval.commit.modified.length + " <span class=\"github-commit-badge-diffchanged\">changed<\/span>) ";
+		myDiffStat.innerHTML = "(" + added.length + " <span class=\"github-commit-badge-diffadded\">added<\/span>, " 
+			+ removed.length + " <span class=\"github-commit-badge-diffremoved\">removed<\/span>, " 
+			+ modified.length + " <span class=\"github-commit-badge-diffchanged\">changed<\/span>) ";
 		
 		// only show the "Show files" button if the commit actually added/removed/modified any files at all
-		if (myEval.commit.added.length != "0" || myEval.commit.removed.length != "0" || myEval.commit.modified.length != "0") {
+		if (added.length != "0" || removed.length != "0" || modified.length != "0") {
 			myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href=\"\" class=\"github-commit-badge-showMoreLink\" id=\"showMoreLink" + myUser + myRepo + "\">Show files<\/a>";
 		};
 
@@ -87,7 +91,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		var myAddedFileList = document.createElement("div");
 		myAddedFileList.innerHTML = "<span class=\"github-commit-badge-diffadded\">Added:<\/span>";
 		var myList = document.createElement("ul");
-		jQuery.each(myEval.commit.added, function(j, myAdded) {
+		jQuery.each(added, function(j, myAdded) {
 			var myFile = document.createElement("li");
 			myFile.appendChild(document.createTextNode(myAdded.filename));
 			myList.appendChild(myFile);
@@ -97,7 +101,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		var myRemovedFileList = document.createElement("div");
 		myRemovedFileList.innerHTML = "<span class=\"github-commit-badge-diffremoved\">Removed:<\/span>";
 		var myList = document.createElement("ul");
-		jQuery.each(myEval.commit.removed, function(j, myRemoved) {
+		jQuery.each(removed, function(j, myRemoved) {
 			var myFile = document.createElement("li");
 			myFile.appendChild(document.createTextNode(myRemoved.filename));
 			myList.appendChild(myFile);
@@ -107,7 +111,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		var myModifiedFileList = document.createElement("div");
 		myModifiedFileList.innerHTML = "<span class=\"github-commit-badge-diffchanged\">Changed:<\/span>";
 		var myList = document.createElement("ul");
-		jQuery.each(myEval.commit.modified, function(j, myModified) {
+		jQuery.each(modified, function(j, myModified) {
 			var myFile = document.createElement("li");
 			myFile.appendChild(document.createTextNode(myModified.filename));
 			myList.appendChild(myFile);
@@ -115,13 +119,13 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myModifiedFileList.appendChild(myList);
 		
 		// add the 3 sections only if they have files in them
-		if (myEval.commit.added.length > 0 ) {
+		if (added.length > 0 ) {
 			myFileList.appendChild(myAddedFileList);
 		};
-		if (myEval.commit.removed.length > 0 ) {
+		if (removed.length > 0 ) {
 			myFileList.appendChild(myRemovedFileList);
 		};
-		if (myEval.commit.modified.length > 0 ) {
+		if (modified.length > 0 ) {
 			myFileList.appendChild(myModifiedFileList);
 		};
 
