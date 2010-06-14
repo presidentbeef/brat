@@ -710,9 +710,21 @@ function number:_and_and (lhs, rhs)
 	end
 end
 
+function number:_equal_equal (lhs, rhs)
+	if type(rhs) ~= "number" then
+		error("Cannot compare number to " .. type(rhs))
+	end
+
+	if lhs == rhs then
+			return object.__true
+	else
+			return object.__false
+	end
+end
+
 function number:_less_equal_greater (lhs, rhs)
 	if type(rhs) ~= "number" then
-		error("Cannot compare number to this thing")
+		error("Cannot compare number to " .. type(rhs))
 	end
 
 	if lhs > rhs then
