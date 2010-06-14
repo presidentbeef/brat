@@ -25,19 +25,14 @@ print "hello world"
 ## Creating a new object
 
 {% highlight ruby %}
-y = new
+y = object.new
 {% endhighlight %}
 
 Subclassing:
 
 {% highlight ruby %}
+y = object.new
 x = y.new
-{% endhighlight %}
-
-Cloning (sets superclass to y's superclass and copies methods):
-
-{% highlight ruby %}
-x = y.clone
 {% endhighlight %}
 
 ## Setting 'fields'
@@ -50,12 +45,14 @@ p person.name
 
 ## Defining functions
 
-_Functions return their last value_
-
 {% highlight ruby %}
 hello = { p "hello again, world" }
+{% endhighlight %}
 
-greet = { first, last | p "oh, hi ", first, " ", last }
+Functions return their last value. Parameters go in a list before a `|`
+
+{% highlight ruby %}
+add = { lhs, rhs | rhs + lhs }
 {% endhighlight %}
 
 You may also have functions with default arguments, variable arguments, or a mix of those and required arguments. Using an asterisk `*` on the final formal parameter will gather up remaining arguments into an array.
@@ -80,14 +77,16 @@ at_most_two "hello"  # hellotwo
 
 ## Calling a function
 
-_Parentheses are optional_
+Parentheses are optional, as are commas (sort of).
 
 {% highlight ruby %}
-greet "justin", "collins"
+greet = { first, last | p "Greetings, ", first, " ", last } 
+
+greet "jane", "moe"
 
 greet("john", "doe")
 
-p "hello", " ", "world"
+greet "someone" "else"
 {% endhighlight %}
 
 You can also use a hash-like notation to automatically pass in a hashtable of values. This hashtable will always be assigned to the _last_ parameter in the function.
@@ -98,7 +97,7 @@ a = { x,y,z | p x, y, z["a"]}
 a 1, "a":3, 2
 {% endhighlight %}
 
-Multiple functions (or closures, or blocks) can be passed in without commas:
+Multiple functions (or closures, or blocks) can be passed in like this:
 
 {% highlight ruby %}
 a = { x,y,z | p "Ignoring everything..." }
@@ -156,11 +155,17 @@ test.z
 
 ## Strings
 
-Go in the double "quotes."
+Go in single or double "quotes."
 
 {% highlight ruby %}
 a = "hello"
 p a
+{% endhighlight %}
+
+You can do string interpolation with double quotes like this:
+
+{% highlight ruby %}
+p "2 + 4 = #{2 + 4}"
 {% endhighlight %}
 
 ## Booleans
@@ -195,11 +200,11 @@ false? { null? a }
 
 ## Numbers
 
-Numbers are numbers. Most of the usual operators with the typical precedence are defined for them, too. Numbers in Brat have arbitrary precision (there is no MAX_INT or whatever).
+Numbers are numbers. Most of the usual operators with the typical precedence are defined for them, too.
 
 ## Arrays
 
-Arrays are zero-based, dynamically resized lists which can contain anything. Note that the maximum length for an array is 2<sup>30</sup> elements. 
+Arrays are zero-based, dynamically resized lists which can contain anything.
 
 {% highlight ruby %}
 a = array.new
@@ -208,7 +213,7 @@ a[0] = 3
 
 p a[0]
 
-b = [1, 2, 3, a, "b", { c | c}]
+b = [1, 2, 3, a, "b", { c | c }]
 
 p b[5] "hello world"
 {% endhighlight %}
@@ -253,7 +258,7 @@ p a.%(3)
 
 ##  Regular Expressions 
 
-Regular expressions use the PCRE library. They live in between `/` and another `/`.
+Regular expressions live in between `/` and another `/`.
 
 {% highlight ruby %}
 a = /hel+o/
@@ -283,4 +288,4 @@ Brat does not have any keywords.
 
 ## Semicolons
 
-Semicolons are optional line enders and no one will cry if you don't use them.
+Semicolons are optional line enders and no one will cry if you don't use them. They may if you do, though.
