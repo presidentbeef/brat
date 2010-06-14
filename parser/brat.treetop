@@ -13,7 +13,7 @@ grammar BaseBrat
 			local exception = exception
 			local hash = hash
 			local regex = regex
-			_self = object
+			local _self = object
 			#{self.inner_brat}
 			LUA
 		end
