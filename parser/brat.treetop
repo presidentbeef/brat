@@ -1481,21 +1481,21 @@ grammar BaseBrat
 			args = []
 			named_args = []
 
+			output << e.brat << "\n"
+
 			if e.respond_to? :named_argument?
-				e.brat
 				named_args << e
 			else
-				output << e.brat << "\n"
 				args << e.result
 			end
 
 			o.elements.each do |elem|
 				if elem.respond_to? :brat
+					output << elem.arg_first.brat << "\n"
+
 					if elem.arg_first.respond_to? :named_argument?
-						elem.arg_first.brat
 						named_args << elem.arg_first
 					else
-						output << elem.arg_first.brat << "\n"
 						args << elem.arg_first.result
 					end
 				end
@@ -1504,12 +1504,11 @@ grammar BaseBrat
 			unless named_args.empty?
 				next_temp
 				args << @result
-				output << "var #@result = {"
-				output << "#@result = $hnew(#{named_args.length});"
+				output << "local #@result = {}\n"
 				named_args.map do |e|
-					output << "@brat.hset(#@result, #{e.key}, #{e.value});"
+					output << "#@result[#{e.key}] = #{e.value}\n"
 				end
-				output << "@brat.make_hash(#@result)};"
+				output << "#@result = hash:new(#@result)\n"
 			end
 
 			@list = args.join(',')
@@ -1561,7 +1560,9 @@ grammar BaseBrat
 
 		def brat(res_var = nil)
 			@key = "string:new(\"#{i.text_value}\")"
-			@value = "{#{e.brat}}"
+			output = e.brat
+			@value = e.result
+			output
 		end
 
 		def named_argument?
@@ -1573,8 +1574,10 @@ grammar BaseBrat
 		attr_reader :key, :value
 
 		def brat(res_var = nil)
-			@key = "{#{i.brat}}"
-			@value = "{#{e.brat}}"
+			output = i.brat << "\n" << e.brat
+			@key = i.result
+			@value = e.result
+			output
 		end
 
 		def named_argument?
