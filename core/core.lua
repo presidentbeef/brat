@@ -294,7 +294,7 @@ function object:_notequal (rhs)
 	return self:_not(self:_equal_equal(rhs))
 end
 
-function object:_true_question (...)
+function object:true_question (...)
 	local args = {...}
 	local len = #args
 	if len == 0 then
@@ -321,7 +321,7 @@ end
 function object:_1_true_question (obj)
 	local condition
 	if type(obj) == "function" then
-		condition = obj()
+		condition = obj(self)
 	else
 		condition = obj
 	end
@@ -335,12 +335,12 @@ end
 
 function object:_2_true_question (condition, true_branch)
 	if type(condition) == "function" then
-		condition = condition()
+		condition = condition(self)
 	end
 
 	if is_true(condition) then
 		if type(true_branch) == "function" then
-			return true_branch()
+			return true_branch(self)
 		else
 			return true_branch
 		end
@@ -351,25 +351,25 @@ end
 
 function object:_3_true_question (condition, true_branch, false_branch)
 	if type(condition) == "function" then
-		condition = condition()
+		condition = condition(self)
 	end
 
 	if is_true(condition) then
 		if type(true_branch) == "function" then
-			return true_branch()
+			return true_branch(self)
 		else
 			return true_branch
 		end
 	else
 		if type(false_branch) == "function" then
-			return false_branch()
+			return false_branch(self)
 		else
 			return false_branch
 		end
 	end
 end
 
-function object:_false_question (...)
+function object:false_question (...)
 	local args = {...}
 	local len = #args
 	if len == 0 then
@@ -396,7 +396,7 @@ end
 function object:_1_false_question (obj)
 	local condition
 	if type(obj) == "function" then
-		condition = obj()
+		condition = obj(self)
 	else
 		condition = obj
 	end
@@ -410,12 +410,12 @@ end
 
 function object:_2_false_question (condition, true_branch)
 	if type(condition) == "function" then
-		condition = condition()
+		condition = condition(self)
 	end
 
 	if not is_true(condition) then
 		if type(true_branch) == "function" then
-			return true_branch()
+			return true_branch(self)
 		else
 			return true_branch
 		end
@@ -426,18 +426,18 @@ end
 
 function object:_3_false_question (condition, true_branch, false_branch)
 	if type(condition) == "function" then
-		condition = condition()
+		condition = condition(self)
 	end
 
 	if not is_true(condition) then
 		if type(true_branch) == "function" then
-			return true_branch()
+			return true_branch(self)
 		else
 			return true_branch
 		end
 	else
 		if type(false_branch) == "function" then
-			return false_branch()
+			return false_branch(self)
 		else
 			return false_branch
 		end
@@ -471,7 +471,7 @@ end
 function object:_1_null_question (obj)
 	local condition
 	if type(obj) == "function" then
-		condition = obj()
+		condition = obj(self)
 	else
 		condition = obj
 	end
@@ -485,12 +485,12 @@ end
 
 function object:_2_true_question (condition, true_branch)
 	if type(condition) == "function" then
-		condition = condition()
+		condition = condition(self)
 	end
 
 	if condition == object.__null then
 		if type(true_branch) == "function" then
-			return true_branch()
+			return true_branch(self)
 		else
 			return true_branch
 		end
@@ -501,18 +501,18 @@ end
 
 function object:_3_null_question (condition, true_branch, false_branch)
 	if type(condition) == "function" then
-		condition = condition()
+		condition = condition(self)
 	end
 
 	if condition == object.__null then
 		if type(true_branch) == "function" then
-			return true_branch()
+			return true_branch(self)
 		else
 			return true_branch
 		end
 	else
 		if type(false_branch) == "function" then
-			return false_branch()
+			return false_branch(self)
 		else
 			return false_branch
 		end
@@ -531,17 +531,17 @@ function object:_while (...)
 	local args = {...}
 	local arglen = #args
 	if arglen == 1 then
-		while is_true(args[1]()) do
+		while is_true(args[1](self)) do
 			--nothing
 		end
 	elseif arglen == 2 then
 		if type(args[1]) == "function" then
-			while is_true(args[1]()) do
+			while is_true(args[1](self)) do
 				args[2]()
 			end
 		else
 			while is_true(args[1]) do
-				args[2]()
+				args[2](self)
 			end
 		end
 	else
