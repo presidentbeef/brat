@@ -1098,7 +1098,7 @@ function regex_instance:match (string)
 
 	local result = {self._lua_regex:match(string)}
 
-	if #result == 1 and result == nil then
+	if #result == 0 then
 		return object.__false
 	else
 		return regex:_make_result(result)
