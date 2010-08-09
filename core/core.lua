@@ -797,6 +797,20 @@ function array:new (...)
 	return na
 end
 
+function array:each (block)
+	for k,v in pairs(self._lua_array) do
+		block(self, v)
+	end
+	return self
+end
+
+function array:each_underwith_underindex (block)
+	for k,v in pairs(self._lua_array) do
+		block(self, k, v)
+	end
+	return self
+end
+
 function array_instance:set (index, value)
 	self._lua_array[index + 1] = value
 	return value
