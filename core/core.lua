@@ -787,7 +787,7 @@ array = new_brat(array_instance)
 array_instance._lua_array = {}
 
 function array:new (...)
-	local na = new_brat(array_instance)
+	local na = new_brat(self)
 	local args = {...}
 	if #args == 1 and type(args[1]) == "table" and not args[1]._is_an_object then
 		na._lua_array = args[1]
