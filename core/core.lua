@@ -227,7 +227,7 @@ end
 
 function object:squish (obj)
 	for k,v in pairs(obj) do
-		if k:find("_", 1, true) ~= 1 then
+		if k ~= "parent" then
 			self[k] = v
 		end
 	end
