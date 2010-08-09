@@ -1254,13 +1254,10 @@ grammar BaseBrat
 				LUA
 			end
 
-			last = @result
 			if not a.elements.empty?
 				a.elements.each do |elem|
 					output << elem.inner_arg_list.brat
-					next_temp
-					output << "var #@result = #{last}.__get(#{elem.inner_arg_list.list});"
-					last = @result
+					output << "#@result = #@result:get(#{elem.inner_arg_list.list});"
 				end
 			end
 			output
