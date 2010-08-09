@@ -950,8 +950,25 @@ function hash_instance:__hash ()
 		s = s .. h[i]
 	end
 
-	print(s)
 	return md5_hash(s)
+end
+
+function hash_instance:to_unders()
+	local contents = {}
+	for k,v in pairs(self._lua_hash) do
+		table.insert(contents, tostring(k) .. ": " .. tostring(v))
+	end
+
+	local i = 1
+	local len = #contents
+	local s = "["
+	while i < len do
+		s = s .. contents[i] .. ", "
+		i = i + 1
+	end
+	s = s .. contents[len] .. "]"
+
+	return base_string:new(s)
 end
 
 --String objects
