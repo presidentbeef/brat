@@ -783,6 +783,25 @@ function number:_percent (lhs, rhs)
 	return lhs % rhs
 end
 
+function number:times (num, block)
+	local index = 0
+	while index < num do
+		block(self, index)
+		index = index + 1
+	end
+	return num
+end
+
+function number:to (num, stop, block)
+	local index = num
+	while index <= stop do
+		block(self, index)
+		index = index + 1
+	end
+
+	return stop
+end
+
 --The array object
 --Going to keep these separate from hash tables, every if Lua thinks they
 --are the same
