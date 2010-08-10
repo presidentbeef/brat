@@ -171,7 +171,7 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			temp_var = next_temp
 			next_temp
-			output = "#@result = {}\ndo\n" <<
+			output = "local #@result = {}\ndo\n" <<
 				"local #{temp_var}\n" <<
 				first.brat(temp_var) << "\n" <<
 				"#@result[1] = #{first.result}\n"
@@ -970,7 +970,6 @@ grammar BaseBrat
 			end
 
 			out_stack.each do |e|
-				p lhs if e.nil?
 				if e[0,5] == "_temp" || e.to_i.to_s == e
 					res_stack.push e
 				else
@@ -1054,6 +1053,7 @@ grammar BaseBrat
   	lhs:method_chain i:(identifier / operator) a:arg_list {
 		def brat(res_var = nil)
 			next_temp
+			"local #@result\n" <<
 			lhs.brat << 
 			a.brat <<
 			call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
@@ -1075,7 +1075,8 @@ grammar BaseBrat
 			output << m.brat(res_var) << "\n" <<
 			a.brat << "\n"
 			@result = res_var || m.result
-			output << invoke(@result, m.result, a.list, a.length)
+			output << "local #@result\n" <<
+			invoke(@result, m.result, a.list, a.length)
 		end
 	}
 	/
@@ -1084,7 +1085,8 @@ grammar BaseBrat
 			output = f.brat(res_var) << "\n" <<
 			a.brat << "\n"
 			@result = res_var || f.result
-			output << invoke(@result, f.result, a.list, a.length)
+			output << "local #@result\n" <<
+			invoke(@result, f.result, a.list, a.length)
 		end
 	}
 
@@ -1164,7 +1166,7 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			next_temp
 			output = a.brat << "\n" <<
-			"#@result = #{a.result}"
+			"local #@result = #{a.result}"
 
 			a_rest.elements.each do |elem|
 				output << elem.inner_arg_list.brat
@@ -1180,7 +1182,8 @@ grammar BaseBrat
 			output = f.brat(res_var) << "\n" <<
 			a.brat << "\n"
 			@result = res_var || f.result
-			output << invoke(@result, f.result, a.list, a.length)
+			output << "local #@result\n" <<
+			invoke(@result, f.result, a.list, a.length)
 		end
 	}
 	/
