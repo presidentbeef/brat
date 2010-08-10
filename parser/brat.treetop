@@ -61,7 +61,9 @@ grammar BaseBrat
 	assignment / 
 	paren_exp ~(!("." / "(")) { 
 		def brat(res_var = nil)
-			paren_exp.brat
+			output = paren_exp.brat
+			@result = paren_exp.result
+			output
 		end 
 	}
 	/ 
@@ -343,14 +345,14 @@ grammar BaseBrat
   rule paren_exp
   	'(' ~(space?) expression ~(space?) ')' {
 		def brat(res_var = nil)
-			output = expression.brat
+			output = expression.brat res_var
 			@result = expression.result
 			output
 		end
 	}
   end
 
-  #Matches an identifier, which is any letterfollowed by letters, digits,
+  #Matches an identifier, which is any letter followed by letters, digits,
   #and some symbols.
   #Also mangles anything that is a Lua keyword.
   rule identifier
