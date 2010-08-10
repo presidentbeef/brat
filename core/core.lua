@@ -783,6 +783,14 @@ function number:_percent (lhs, rhs)
 	return lhs % rhs
 end
 
+function number:_up (lhs, rhs)
+	if type(rhs) ~= "number" then
+		error("Cannot use " .. type(rhs) .. " as an exponent")
+	end
+
+	return lhs ^ rhs
+end
+
 function number:times (num, block)
 	local index = 0
 	while index < num do
