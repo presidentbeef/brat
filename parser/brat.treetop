@@ -1299,10 +1299,12 @@ grammar BaseBrat
 	a:array a_rest:("[" space? inner_arg_list space? "]")+ {
 		def brat(res_var = nil)
 			next_temp
-			output = "var #@result = {#{a.brat}}"
+			output = a.brat << "\n" <<
+			"#@result = #{a.result}"
+
 			a_rest.elements.each do |elem|
 				output << elem.inner_arg_list.brat
-				output << "#@result = #{@result}.__get(#{elem.inner_arg_list.list});"
+				output << "#@result = #{@result}:get(#{elem.inner_arg_list.list})\n"
 			end
 			output
 		end
