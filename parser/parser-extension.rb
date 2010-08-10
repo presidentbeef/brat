@@ -253,13 +253,4 @@ class Treetop::Runtime::SyntaxNode
 	def has_field object, field_name
 		"#{object}[\"#{field_name}\"] ~= nil"
 	end
-
-	def check_variables
-		unless elements.nil?
-			elements.each do |e|
-				e.check_variables if e.respond_to? :check_variables
-			end
-		end
-	end
-
 end

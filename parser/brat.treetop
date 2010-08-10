@@ -63,10 +63,6 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			paren_exp.brat
 		end 
-
-		def no_result_brat
-			paren_exp.no_result_brat
-		end
 	}
 	/ 
 	unary_operation / method_access / method_invocation / number / string / symbol / function_definition / array / hash 
@@ -351,14 +347,6 @@ grammar BaseBrat
 			@result = expression.result
 			output
 		end
-
-		def no_result_brat
-			if expression.respond_to? :no_result_brat
-				expression.no_result_brat
-			else
-				expression.brat
-			end
-		end
 	}
   end
 
@@ -462,14 +450,6 @@ grammar BaseBrat
 
 			output
 		end
-
-		def check_variables
-			first.check_variables
-			rest.elements.each do |e|
-				e.expression.check_variables
-			end
-		end
-
 	} 
   end
 
@@ -580,10 +560,6 @@ grammar BaseBrat
 			@min = @max
 			output
 		end
-
-		def check_variables
-			plain_formals.check_variables
-		end
 	}
 	/
 	space? default_args space? "|" !"|" {
@@ -648,10 +624,6 @@ grammar BaseBrat
 		def function_header
 			"#{@param} = @brat.base_array.new(@args);\n"
 		end
-
-		def check_variables
-			var_add variable_args.i.brat
-		end
 	}
 	/
 	space? plain_formals space? "," space? variable_args space? "|"	!"|"  {
@@ -682,11 +654,6 @@ grammar BaseBrat
 			end
 
 			output << "#{@param} = @brat.base_array.new($asub(@args, #{i}, $asize(@args) - #{i}));" 
-		end
-
-		def check_variables
-			plain_formals.check_variables
-			var_add variable_args.i.brat
 		end
 	}
 	/
@@ -746,11 +713,6 @@ grammar BaseBrat
 			output << "if(@arg_len > #{num_names}) {" <<
 				"#{@param} = @brat.base_array.new($asub(@args, #{num_names}, $asize(@args) - #{num_names}));" <<
 				"} else { #{@param} = @brat.base_array.new();}"
-		end
-
-		def check_variables
-			var_add variable_args.i.brat
-			default_args.check_variables
 		end
 	}
 	/
@@ -903,11 +865,6 @@ grammar BaseBrat
 			@args = [name] + rest_formal.brat
 			(["_self"] + @args).join(", ")
 		end
-
-		def check_variables
-			var_add i.brat
-			rest_formal.check_variables
-		end
 	}
   end
 
@@ -923,12 +880,6 @@ grammar BaseBrat
 				end
 			else
 				[]
-			end
-		end
-
-		def check_variables
-			elements.each do |e|
-				var_add e.identifier.brat
 			end
 		end
 	}
@@ -947,13 +898,6 @@ grammar BaseBrat
 			end
 			""
 		end
-
-		def check_variables
-			first.check_variables
-			rest.elements.each do |e|
-				e.default_arg.check_variables
-			end
-		end
 	}
   end
 
@@ -967,11 +911,6 @@ grammar BaseBrat
 
 		def var_name
 			var_exist?(@var_name) || @var_name
-		end
-
-		def check_variables
-			var_add i.brat
-			v.check_variables
 		end
 	}
   end
@@ -1029,6 +968,7 @@ grammar BaseBrat
 			end
 
 			out_stack.each do |e|
+				p lhs if e.nil?
 				if e[0,5] == "_temp" || e.to_i.to_s == e
 					res_stack.push e
 				else
@@ -1097,18 +1037,6 @@ grammar BaseBrat
 			a.brat <<
 			invoke(@result, i.brat, a.list, a.length)
 		end
-
-		def check_variables
-			id = i.brat
-			unless var_exist? id
-				var = var_exist? id, true
-				if var
-					var_add id, var
-				end
-			end
-
-			a.check_variables
-		end
 	}
 	/
 	i:identifier ~(&space) {
@@ -1116,17 +1044,6 @@ grammar BaseBrat
 			@result = res_var || next_temp
 			get_value(@result, i.brat, "", 0)
 		end
-
-		def check_variables
-			id = i.brat
-			unless var_exist? id
-				var = var_exist? id, true
-				if var
-					var_add id, var
-				end
-			end
-		end
-
 	}
   end
 
@@ -1139,15 +1056,6 @@ grammar BaseBrat
 			a.brat <<
 			call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
 		end
-
-		def no_result_brat
-			self.brat
-			#next_temp
-			#"var #@result = {#{lhs.brat}}" << 
-			#a.brat <<
-			#call_method(@result, i.brat, a.list, a.length) 
-		end
-
 	}
 	/
 	m:identifier a:arg_list {
@@ -1157,25 +1065,6 @@ grammar BaseBrat
 			"local #@result\n" <<
 				a.brat << 
 				get_value(@result, name, a.list, a.length)
-		end
-
-		def no_result_brat
-			self.brat
-			#name = m.brat
-			#a.brat <<
-			#get_value_clean(name, a.list, a.length) << ";"
-		end
-
-		def check_variables
-			id = m.brat
-			unless var_exist? id
-				var = var_exist? id, true
-				if var
-					var_add id, var
-				end
-			end
-
-			a.check_variables
 		end
 	}
 	/
@@ -1219,12 +1108,6 @@ grammar BaseBrat
 				end
 			end
 			output
-		end
-
-		def check_variables
-			elements.each do |e|
-				e.check_variables
-			end
 		end
 	}
   end
@@ -1273,23 +1156,6 @@ grammar BaseBrat
 			end
 			output
 		end
-
-		def check_variables
-			id = identifier.brat
-
-			unless var_exist? id
-				var = var_exist? id, true
-				if var
-					var_add id, var
-				end
-			end
-		
-			arg_list.check_variables			
-
-			a.elements.each do |e|
-				e.inner_arg_list.check_variables
-			end
-		end
 	}
 	/
 	a:array a_rest:("[" space? inner_arg_list space? "]")+ {
@@ -1303,13 +1169,6 @@ grammar BaseBrat
 				output << "#@result = #{@result}:get(#{elem.inner_arg_list.list})\n"
 			end
 			output
-		end
-
-		def check_variables
-			a.check_variables
-			a_rest.elements.each do |e|
-				e.inner_arg_list.check_variables
-			end
 		end
 	}
 	/
@@ -1358,17 +1217,6 @@ grammar BaseBrat
 					#@result = #{name}
 				end
 				LUA
-			end
-		end
-
-		def check_variables
-			id = m.brat
-
-			unless var_exist? id
-				var = var_exist? id, true
-				if var
-					var_add id, var
-				end
 			end
 		end
 	}
@@ -1525,13 +1373,6 @@ grammar BaseBrat
 			@list = args.join(',')
 			@length = args.length
 			output
-		end
-
-		def check_variables
-			e.check_variables
-			o.elements.each do |elem|
-				elem.arg_first.check_variables
-			end
 		end
 	}
   end
