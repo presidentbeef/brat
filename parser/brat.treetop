@@ -1317,10 +1317,11 @@ grammar BaseBrat
 	/
 	f:function_definition !space a:simple_arg_list {
 		def brat(res_var = nil)
-			next_temp
-			"var #@result = {#{f.brat}}" <<
-			a.brat <<
-			invoke(@result, a.list, a.length) << ";"
+			
+			output = f.brat(res_var) << "\n" <<
+			a.brat << "\n"
+			@result = res_var || f.result
+			output << invoke(@result, f.result, a.list, a.length)
 		end
 	}
 	/
