@@ -537,7 +537,7 @@ function object:_while (...)
 	elseif arglen == 2 then
 		if type(args[1]) == "function" then
 			while is_true(args[1](self)) do
-				args[2]()
+				args[2](self)
 			end
 		else
 			while is_true(args[1]) do
