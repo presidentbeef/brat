@@ -168,6 +168,13 @@ class Treetop::Runtime::SyntaxNode
 	def invoke res_var, method, arguments, arg_length
 		#\n$print("Calling ", #{method}, " with (", #{arguments}, ")\\n");
 		temp = var_exist?(method) || method
+
+		if arg_length == 0
+			arguments = "_self"
+		else
+			arguments = "_self, " << arguments
+		end
+
 		<<-LUA
 		if #{temp} == nil then
 			if #{has_field("this", "no_undermethod")} then
