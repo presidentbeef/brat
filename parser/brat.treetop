@@ -362,7 +362,7 @@ grammar BaseBrat
 
   #Matches an identifier, which is any letterfollowed by letters, digits,
   #and some symbols.
-  #Also mangles anything that is a Neko keyword.
+  #Also mangles anything that is a Lua keyword.
   rule identifier
 	[a-zA-Z] (!"->" !space [a-zA-Z0-9_!?\-*+^&@~/\\><$_%])* {
 		def brat(res_var = nil)
@@ -984,8 +984,9 @@ grammar BaseBrat
 	op:operator !space rhs:unary_rhs_expression {
 		def brat(res_var = nil)  
 			next_temp
-			"var #@result = {#{rhs.brat}};" <<
-			call_method(@result, op.brat, "", 0) << ";"
+			rhs.brat <<
+			"local #@result = #{rhs.result}\n" <<
+			call_method(@result, @result, op.brat, "", 0) << "\n"
 		end
 	}
   end
