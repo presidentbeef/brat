@@ -483,7 +483,7 @@ function object:_1_null_question (obj)
 	end
 end
 
-function object:_2_true_question (condition, true_branch)
+function object:_2_null_question (condition, true_branch)
 	if type(condition) == "function" then
 		condition = condition(self)
 	end
