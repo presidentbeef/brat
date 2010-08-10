@@ -767,6 +767,14 @@ function number:_forward (lhs, rhs)
 	return lhs / rhs
 end
 
+function number:_star (lhs, rhs)
+	if type(rhs) ~= "number" then
+		error("Cannot multiply number by " .. type(rhs))
+	end
+
+	return lhs * rhs
+end
+
 function number:_percent (lhs, rhs)
 	if type(rhs) ~= "number" then
 		error("Modulo needs a number, not " .. type(rhs))
