@@ -1069,15 +1069,11 @@ grammar BaseBrat
   	lhs:method_chain i:(identifier / operator) a:simple_arg_list {
 		def brat(res_var = nil)
 			output = lhs.brat res_var
-			if res_var
-				@result = res_var
-			else
-				@result = lhs.result
-			end
+			@result = res_var || lhs.result
 
 			output << "\n" <<
 			a.brat << "\n" <<
-			call_method(@result, lhs.result, i.brat, a.list, a.length) << ";"
+			call_method(@result, lhs.result, i.brat, a.list, a.length)
 		end
 	}
 	/
@@ -1097,7 +1093,7 @@ grammar BaseBrat
 	/
 	i:identifier a:simple_arg_list {
 		def brat(res_var = nil)
-			next_temp
+			@result = res_var || next_temp
 			a.brat <<
 			invoke(@result, i.brat, a.list, a.length)
 		end
@@ -1185,17 +1181,19 @@ grammar BaseBrat
 	/
 	m:paren_exp a:arg_list {
 		def brat(res_var = nil)
-			m.brat(res_var) << "\n" <<
-			a.brat << "\n" <<
-			invoke(m.result, m.result, a.list, a.length)
+			output << m.brat(res_var) << "\n" <<
+			a.brat << "\n"
+			@result = res_var || m.result
+			output << invoke(@result, m.result, a.list, a.length)
 		end
 	}
 	/
 	f:function_definition !space a:simple_arg_list {
 		def brat(res_var = nil)
-			f.brat(res_var) << "\n" <<
-			a.brat << "\n" <<
-			invoke(f.result, f.result, a.list, a.length)
+			output = f.brat(res_var) << "\n" <<
+			a.brat << "\n"
+			@result = res_var || f.result
+			output << invoke(@result, f.result, a.list, a.length)
 		end
 	}
 
