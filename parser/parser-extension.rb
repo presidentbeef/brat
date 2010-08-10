@@ -166,7 +166,6 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def invoke res_var, method, arguments, arg_length
-		#\n$print("Calling ", #{method}, " with (", #{arguments}, ")\\n");
 		temp = var_exist?(method) || method
 
 		if arg_length == 0

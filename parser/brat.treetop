@@ -1000,7 +1000,7 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			next_temp
 			final_result = @result
-			output = "local #{final_result} \n do \n" <<
+			output = "local #{final_result} \n do\n" <<
 				lhs.brat <<
 				rhs.brat
 			@result = rhs.result
@@ -1068,20 +1068,31 @@ grammar BaseBrat
   rule method_with_parens
   	lhs:method_chain i:(identifier / operator) a:simple_arg_list {
 		def brat(res_var = nil)
-			next_temp
-			"var #@result = {#{lhs.brat}};" <<
-			a.brat <<
-			call_method(@result, i.brat, a.list, a.length) << ";"
+			output = lhs.brat res_var
+			if res_var
+				@result = res_var
+			else
+				@result = lhs.result
+			end
+
+			output << "\n" <<
+			a.brat << "\n" <<
+			call_method(@result, lhs.result, i.brat, a.list, a.length) << ";"
 		end
 	}
 	/
   	lhs:method_chain i:(identifier / operator) &space {
 		def brat(res_var = nil)
-			next_temp
-			"var #@result = {#{lhs.brat}};" <<
-			"#@result = " << call_method(@result, i.brat, "", 0) << ";"
+			output = lhs.brat res_var
+			if res_var
+				@result = res_var
+			else
+				@result = lhs.result
+			end
+	
+			output <<
+			call_method(@result, lhs.result, i.brat, "", 0)
 		end
-
 	}
 	/
 	i:identifier a:simple_arg_list {
@@ -1106,7 +1117,8 @@ grammar BaseBrat
 	/
 	i:identifier ~(&space) {
 		def brat(res_var = nil)
-			get_value(next_temp, i.brat, "", 0)
+			@result = res_var || next_temp
+			get_value(@result, i.brat, "", 0)
 		end
 
 		def check_variables
