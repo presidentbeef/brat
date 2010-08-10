@@ -657,15 +657,6 @@ function comparable:_less (rhs)
 	end
 end
 
-function comparable:_less (lhs, rhs)
-	local cmp = self:_less_equal_greater(lhs, rhs)
-	if cmp == -1 then
-		return object.__true
-	else
-		return object.__false
-	end
-end
-
 function comparable:_less_equal (rhs)
 	local cmp = self:_less_equal_greater(rhs)
 	if cmp < 1 then
@@ -687,8 +678,6 @@ end
 --The number object, for all things numbers
 
 number = object:new()
-
-number:squish(comparable)
 
 function number:_is_number (num)
 	if type(num) == "number" then
@@ -735,6 +724,42 @@ function number:_less_equal_greater (lhs, rhs)
 		return 0
 	else
 		error("Error comparing numbers")
+	end
+end
+
+function number:_greater (lhs, rhs)
+	local cmp = self:_less_equal_greater(lhs, rhs)
+	if cmp == 1 then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
+function number:_less (lhs, rhs)
+	local cmp = self:_less_equal_greater(lhs, rhs)
+	if cmp == -1 then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
+function number:_less_equal (lhs, rhs)
+	local cmp = self:_less_equal_greater(lhs, rhs)
+	if cmp < 1 then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
+function number:_greater_equal (lhs, rhs)
+	local cmp = self:_less_equal_greater(lhs, rhs)
+	if cmp > -1 then
+		return object.__true
+	else
+		return object.__false
 	end
 end
 
