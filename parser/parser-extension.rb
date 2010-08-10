@@ -245,7 +245,7 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def has_field object, field_name
-		"#{object}[\"#{field_name}\"] ~= null"
+		"#{object}[\"#{field_name}\"] ~= nil"
 	end
 
 	def check_variables
