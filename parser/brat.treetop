@@ -1185,10 +1185,9 @@ grammar BaseBrat
 	/
 	m:paren_exp a:arg_list {
 		def brat(res_var = nil)
-			next_temp
-			"var #@result = {#{m.brat}}" <<
-			a.brat <<
-			invoke(@result, a.list, a.length) << ";"
+			m.brat(res_var) << "\n" <<
+			a.brat << "\n" <<
+			invoke(m.result, m.result, a.list, a.length) << ";"
 		end
 	}
 	/
