@@ -1546,17 +1546,17 @@ grammar BaseBrat
 
   #Matches the rest of the arguments
   rule arg_next
-  	~((space / eol)*) "," ~((space / eol)*) arg_first {
+  	~((space / eol_not_semicolon)*) "," ~((space / eol_not_semicolon)*) arg_first {
 		def brat(res_var = nil)
 		end
 	}
 	/
-	~((space / eol)*) arg_first:function_definition {
+	~((space / eol_not_semicolon)*) arg_first:function_definition {
 		def brat(res_var = nil)
 		end
 	} 
 	/
-	~((space / eol)*) arg_first:named_argument {
+	~((space / eol_not_semicolon)*) arg_first:named_argument {
                def brat(res_var = nil)
                end
 	}
@@ -1617,6 +1617,14 @@ grammar BaseBrat
   #Matches end-of-lines, which can be \n, ;, or \r\n
   rule eol
 	("\n" / ";" / "\r\n")+ {
+		def brat(res_var = nil)
+			"\n"
+		end
+	}
+  end
+
+  rule eol_not_semicolon
+	("\n" / "\r\n")+ {
 		def brat(res_var = nil)
 			"\n"
 		end
