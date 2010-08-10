@@ -1160,7 +1160,7 @@ grammar BaseBrat
 			next_temp
 			"local #@result\n" <<
 				a.brat << 
-				get_value(@result, name, a.list, a.length) << "\n"
+				get_value(@result, name, a.list, a.length)
 		end
 
 		def no_result_brat
@@ -1187,16 +1187,15 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			m.brat(res_var) << "\n" <<
 			a.brat << "\n" <<
-			invoke(m.result, m.result, a.list, a.length) << ";"
+			invoke(m.result, m.result, a.list, a.length)
 		end
 	}
 	/
 	f:function_definition !space a:simple_arg_list {
 		def brat(res_var = nil)
-			next_temp
-			"var #@result = {#{f.brat}}" <<
-			a.brat <<
-			invoke(@result, a.list, a.length) << ";"
+			f.brat(res_var) << "\n" <<
+			a.brat << "\n" <<
+			invoke(f.result, f.result, a.list, a.length)
 		end
 	}
 
