@@ -347,7 +347,9 @@ grammar BaseBrat
   rule paren_exp
   	'(' ~(space?) expression ~(space?) ')' {
 		def brat(res_var = nil)
-			expression.brat
+			output = expression.brat
+			@result = expression.result
+			output
 		end
 
 		def no_result_brat
