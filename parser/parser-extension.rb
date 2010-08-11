@@ -75,7 +75,7 @@ class Treetop::Runtime::SyntaxNode
 			elseif #{has_field("number", "no_undermethod")} then
 				#{call_no_method res_var, "number", method, "#{temp}, #{arguments}", arg_length}
 			else
-				error(exception.method_error("#{nice_id object}", "#{nice_id method}"))
+				error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
 			end
 			LUA
 
@@ -84,14 +84,14 @@ class Treetop::Runtime::SyntaxNode
 		else
 			<<-LUA
 			if #{temp} == nil then
-				error(exception.null_error("#{nice_id object}", "invoke #{nice_id method} on it"))
+				error(exception:null_error("#{nice_id object}", "invoke #{nice_id method} on it"))
 			elseif(type(#{temp}) == "table") then
 				if #{has_field(temp, method)} then
 					#{res_var} = #{temp}:#{method}(#{arguments})
 				elseif #{has_field(temp, "no_undermethod")} then
 					#{call_no_method res_var, temp, method, arguments, arg_length}
 				else
-					error(exception.method_error("#{nice_id object}", "#{nice_id method}"))
+					error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
 				end
 			elseif type(#{temp}) == "function" then
 				local _f = _function:new(#{temp})
@@ -100,7 +100,7 @@ class Treetop::Runtime::SyntaxNode
 				elseif #{has_field("_f", "no_undermethod")} then
 					#{call_no_method res_var, "_f", method, arguments, arg_length}
 				else
-					error(exception.method_error("#{nice_id object}", "#{nice_id method}"))
+					error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
 				end
 			elseif type(#{temp}) == "number" then
 				#{call_number}
@@ -125,7 +125,7 @@ class Treetop::Runtime::SyntaxNode
 		if object.nil?
 			"#{res_var} = #{no_meth}(#{arguments})"
 		else
-			"#{res_var} = #{object}.no_undermethod(#{arguments})"
+			"#{res_var} = #{object}:no_undermethod(#{arguments})"
 		end
 	end
 
@@ -155,11 +155,11 @@ class Treetop::Runtime::SyntaxNode
 			elseif type(#{no_meth}) == "function" then
 				#{call_no_method res_var, nil, object, arguments, arg_length}
 			else
-				error(exception.name_error("#{nice_id object}"))
+				error(exception:name_error("#{nice_id object}"))
 			end
 		LUA
 		if arg_length > 0
-			output << "else error(exception.new(\"Tried to invoke non-method: #{nice_id object}\")) end\n"
+			output << "else error(exception:new(\"Tried to invoke non-method: #{nice_id object}\")) end\n"
 		else
 			output << "else #{res_var} = #{temp} end\n"
 		end
@@ -179,7 +179,7 @@ class Treetop::Runtime::SyntaxNode
 			if #{has_field("this", "no_undermethod")} then
 				#{call_no_method res_var, "_self", method, arguments, arg_length}
 			else
-				error(exception.null_error("#{nice_id method}", "invoke method"))
+				error(exception:null_error("#{nice_id method}", "invoke method"))
 			end
 		else 
 			#{res_var} = #{temp}(#{arguments})

@@ -1112,10 +1112,10 @@ function string_instance:gsub (pattern, replacement)
 		elseif pattern._lua_regex then
 			pattern = pattern._lua_regex
 		else
-			error(exception.argument_error("string.gsub", "regular expression", tostring(pattern)))
+			error(exception:argument_error("string.gsub", "regular expression", tostring(pattern)))
 		end
 	else
-		error(exception.argument_error("string.gsub", "regular expression", tostring(pattern)))
+		error(exception:argument_error("string.gsub", "regular expression", tostring(pattern)))
 	end
 
 	if type(replacement) == "table" then
@@ -1128,7 +1128,7 @@ function string_instance:gsub (pattern, replacement)
 			end
 			replacement = r
 		else
-			error(exception.argument_error("string.gsub", "string", tostring(replacement)))
+			error(exception:argument_error("string.gsub", "string", tostring(replacement)))
 		end
 	elseif type(replacement) == "function" then
 		local f = replacement
@@ -1144,7 +1144,7 @@ function string_instance:gsub (pattern, replacement)
 			end
 		end
 	else
-		error(exception.argument_error("string.gsub", "string", tostring(replacement)))
+		error(exception:argument_error("string.gsub", "string", tostring(replacement)))
 	end
 
 	local ns = orex.gsub(self._lua_string, pattern, replacement)
@@ -1166,7 +1166,7 @@ function regex:new (string)
 	elseif type(string) == "table" and string._lua_string ~= nil then
 		string = string._lua_string
 	else
-		error(exception.argument_error("regex.new", "string", string))
+		error(exception:argument_error("regex.new", "string", string))
 	end
 
 	local nr = new_brat(self)
@@ -1184,7 +1184,7 @@ function regex_instance:match (string)
 	elseif type(string) == "table" and string._lua_string ~= nil then
 		string = string._lua_string
 	else
-		error(exception.argument_error("regex.match", "string", string))
+		error(exception:argument_error("regex.match", "string", string))
 	end
 
 	local result = {self._lua_regex:match(string)}
@@ -1210,7 +1210,9 @@ end
 
 --Exception objects
 
-exception = object:new()
+local exception_instance = object:new()
+
+exception = new_brat(exception_instance)
 
 function exception:new(message, error_type)
 	if message == nil then
@@ -1224,8 +1226,37 @@ function exception:new(message, error_type)
 	message = base_string:new(message)
 	error_type = base_string:new(error_type)
 
-	local e = object:new()
+	local e = new_brat(self)
 	e.error_undermessage = function () return message end
 	e.type = function() return error_type end
 	return e
+end
+
+function exception._handler (exp)
+	print(debug.traceback(tostring(exp), 3))
+	return nil
+end
+
+function exception_instance:to_unders ()
+	if self.error_undermessage ~= nil then
+		return self.error_undermessage()
+	else
+		return base_string:new("Generic error")
+	end
+end
+
+function exception:argument_error (method, expected, given) 
+	return self:new("Argument error: " .. method .. " expected " .. expected .. " argument(s) but was given " .. given .. ".", "argument error")
+end
+
+function exception:method_error (object, method_name)
+	return self:new("Method error: " .. tostring(object) .. " has no method called '" .. method_name .. "'.", "method error")
+end
+
+function exception:null_error (name, cannot)
+	return self:new("Null error: " .. name .. " is null, cannot " .. cannot .. ".", "null error")
+end
+
+function exception:name_error (name)
+	return self:new("Name error: No such method or local variable '" .. name .. "'.", "name error")
 end

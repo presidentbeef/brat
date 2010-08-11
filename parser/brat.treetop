@@ -6,15 +6,20 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			<<-LUA
 			require "core/core"
-			local object = object
-			local array = array
-			local number = number
-			local string = base_string
-			local exception = exception
-			local hash = hash
-			local regex = regex
-			local _self = object
-			#{self.inner_brat}
+			local _main = function ()
+				local object = object
+				local array = array
+				local number = number
+				local string = base_string
+				local exception = exception
+				local hash = hash
+				local regex = regex
+				local _self = object
+
+				#{self.inner_brat}
+			end
+
+			xpcall(_main, exception._handler)
 			LUA
 		end
 
