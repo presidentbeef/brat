@@ -917,6 +917,12 @@ function array_instance:sort_bang ()
 	return self
 end
 
+function array_instance:_less_less (obj)
+	table.insert(self._lua_array, obj)
+
+	return self
+end
+
 function array_instance:to_unders ()
 	if #self._lua_array == 0 then
 		return base_string:new("[]")
