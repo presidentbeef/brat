@@ -176,7 +176,7 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			temp_var = next_temp
 			next_temp
-			output = "local #@result = {}\ndo\n" <<
+			output = "#@result = {}\n" <<
 				"local #{temp_var}\n" <<
 				first.brat(temp_var) << "\n" <<
 				"#@result[1] = #{first.result}\n"
@@ -186,7 +186,7 @@ grammar BaseBrat
 					"#@result[#{i + 2}] = #{r.e.result}\n"
 			end
 
-			output << "end\n"
+			output
 		end
 	}
   end
