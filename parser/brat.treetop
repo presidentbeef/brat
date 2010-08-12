@@ -134,9 +134,9 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			@result = res_var || next_temp
 			if res_var
-				"@#result = hash:new()" 
+				"#@result = hash:new()" 
 			else
-				"local @#result = hash:new()" 
+				"local #@result = hash:new()" 
 			end
 		end
 	}
