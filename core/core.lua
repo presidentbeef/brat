@@ -1028,6 +1028,9 @@ function hash_instance:__hash ()
 end
 
 function hash_instance:to_unders()
+	if #self._lua_hash == 0 then
+		return base_string:new("[:]")
+	end
 	local contents = {}
 	for k,v in pairs(self._lua_hash) do
 		table.insert(contents, tostring(k) .. ": " .. tostring(v))
@@ -1040,6 +1043,7 @@ function hash_instance:to_unders()
 		s = s .. contents[i] .. ", "
 		i = i + 1
 	end
+		
 	s = s .. contents[len] .. "]"
 
 	return base_string:new(s)
