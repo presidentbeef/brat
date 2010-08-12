@@ -19,7 +19,12 @@ grammar BaseBrat
 				#{self.inner_brat}
 			end
 
-			xpcall(_main, exception._handler)
+			local _result = xpcall(_main, exception._handler)
+			if not _result then
+				os.exit(-1)
+			else
+				os.exit(0)
+			end
 			LUA
 		end
 
