@@ -552,310 +552,78 @@ grammar BaseBrat
   #Matches formal arguments in a function definition
   rule formal_args
 	space? plain_formals space? "|" !"|" {
-		attr_reader :max, :min
-
 		def brat(res_var = nil)
 			plain_formals.brat
-		end
-
-		def function_header
-			output = ""
-			plain_formals.args.each do |a|
-				output << "local #{var_exist? a} = #{a}\n"
-			end
-			@max = plain_formals.args.length
-			@min = @max
-			output
 		end
 	}
 	/
 	space? default_args space? "|" !"|" {
-		attr_reader :var_args, :max, :min
-
 		def brat(res_var = nil)
-			"@args"	
+			default_args.brat
+			(["_self"].concat default_args.arg_names).join(",")
 		end
 
-		def function_header name = "function"
-			default_args.brat
-
-			@max = default_args.args.length
-			@min = 0
-
-			output = "var @arg_len = $asize(@args);" <<
-				"if(@arg_len > #{default_args.args.length})" <<
-					"$throw(exception.argument_error(\"function\", \"up to #{default_args.args.length}\"));"
-
-			#Check and set default args
-			names = default_args.arg_names
-			names.each do |n|
-				unless n.match /\[\d+\]/
-					output << "var #{n};"
-				end
-			end
-			i = default_args.args.length
-			default_args.args.reverse.each do |a|
-				output << "if(@arg_len < #{i}) {\n #{a}\n"
-				i -= 1
-			end
-			output << ("}" * default_args.args.length) << "\n"
-
-			#Set args passed in
-			output << "switch @arg_len {\n"
-
-			num_names = names.length
-			num_names.times do |l|
-				output << "#{num_names - l} => {"
-				names[0, num_names - l].each_with_index do |n, i|
-					output << "#{n} = @args[#{i}];"
-				end
-				output << "}\n"
-			end
-			output << "}\n"
-
-
+		def function_header
+			default_args.set_args
 		end
 	}
 	/
 	space? variable_args space? "|"	!"|" {
-		attr_reader :var_args, :max, :min
-
 		def brat(res_var = nil)
-			param = variable_args.i.brat
-			@param = var_add param
-			@min = -1
-			@max  = -1
-			"@args"
+			@param = var_add variable_args.i.brat
+			"_self, ..."
 		end
 
 		def function_header
-			"#{@param} = @brat.base_array.new(@args);\n"
+			"#@param = array:new(...)\n"
 		end
 	}
 	/
 	space? plain_formals space? "," space? variable_args space? "|"	!"|"  {
-		attr_reader :var_args, :max, :min
-
 		def brat(res_var = nil)
-			param = variable_args.i.brat
-			@param = var_add param
-		
-			"@args"
+			@param = var_add variable_args.i.brat
+			plain_formals.brat << ", ..."
 		end
 
 		def function_header
-			plain_formals.brat
-			req_args = plain_formals.args.length
-			@min = req_args
-			@max = -1
-			i = 0
-			output = "if($asize(@args) < #{req_args}) $throw(exception.new(\"function\", \"at least #{req_args}\"));\n"
-
-			plain_formals.args.each do |a|
-				if var_used? a
-					output << "#{var_exist? a} = @args[#{i}];\n"
-				else
-					output << "var #{var_exist? a} = @args[#{i}];\n"
-				end
-				i += 1
-			end
-
-			output << "#{@param} = @brat.base_array.new($asub(@args, #{i}, $asize(@args) - #{i}));" 
+			"#@param = array:new(...)\n"
 		end
 	}
 	/
 	space? default_args space? "," space? variable_args space? "|" !"|" {
-		attr_reader :var_args, :max, :min
-
 		def brat(res_var = nil)
-			param = variable_args.i.brat
-			@param = var_add param
-
-			"@args"
+			@param = var_add variable_args.i.brat
+			default_args.brat
+			(default_args.arg_names.unshift("_self") << ["..."]).join(",")
 		end
 
 		def function_header
-			default_args.brat
-			@min = 0
-			@max = -1
-			output = "var @arg_len = $asize(@args);\n"
-
-			#Check and set default args
-			names = default_args.arg_names
-			names.each do |n|
-				unless n.match /\[\d+\]/
-					output << "var #{n};"
-				end
-			end
-			i = default_args.args.length
-			default_args.args.reverse.each do |a|
-				output << "if(@arg_len < #{i}) {\n #{a};\n"
-				i -= 1
-			end
-
-			output << ("}" * default_args.args.length) << "\n"
-
-			#Set args passed in
-			output << "switch @arg_len {\n"
-
-			num_names = names.length
-			num_names.times do |l|
-				output << "#{num_names - l} => {"
-				names[0, num_names - l].each_with_index do |n, i|
-					output << "#{n} = @args[#{i}];"
-				end
-				output << "}\n"
-			end
-		
-			#This is if there are more args than defaults
-			output << "default => { "
-			names.each_with_index do |n, i|
-				output << "#{n} = @args[#{i}];"
-			end
-			output << "}\n"
-
-			#Close switch statement
-			output << "}\n"
-
-			output << "if(@arg_len > #{num_names}) {" <<
-				"#{@param} = @brat.base_array.new($asub(@args, #{num_names}, $asize(@args) - #{num_names}));" <<
-				"} else { #{@param} = @brat.base_array.new();}"
+			default_args.set_args << "\n" <<
+			"#@param = array:new(...)\n"
 		end
 	}
 	/
 	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" !"|" {
-		attr_reader :var_args, :max, :min
-
 		def brat(res_var = nil)
-			param = variable_args.i.brat
-			@param = var_add param
-
-			"@args"
+			@param = var_add variable_args.i.brat
+			default_args.brat
+			plain_formals.brat << "," << default_args.arg_names.join(",") << ", ..."
 		end
 
 		def function_header
-			plain_formals.brat
-			default_args.brat
-			def_args = default_args.args.length
-			req_args = plain_formals.args.length
-			@min = req_args
-			@max = -1
-			output = "var @arg_len = $asize(@args);" <<
-				"if($asize(@args) < #{req_args}) $throw(exception.argument_error(\"function\", \"at least #{req_args}\"));"
-
-			i = 0
-			plain_formals.args.each do |a|
-				if var_used? a
-					output << "#{var_exist? a} = @args[#{i}];\n"
-				else
-					output << "var #{var_exist? a} = @args[#{i}];\n"
-				end
-				i += 1
-			end
-
-			#Check and set default args
-			names = default_args.arg_names
-			names.each do |n|
-				unless n.match /\[\d+\]/
-					output << "var #{n};"
-				end
-			end
-
-			i = def_args
-			default_args.args.reverse.each do |a|
-				output << "if(@arg_len < #{i + req_args}) {\n #{a};\n"
-				i -= 1
-			end
-
-			output << ("}" * default_args.args.length) << "\n"
-
-			#Set args passed in
-			output << "switch @arg_len {\n"
-
-			num_names = names.length
-			num_names.times do |l|
-				output << "#{num_names - l + req_args} => {"
-				names[0, num_names - l].each_with_index do |n, i|
-					output << "#{n} = @args[#{i + req_args}];"
-				end
-				output << "}\n"
-			end
-			
-			#This is if there are more args than defaults
-			output << "default => { if(@arg_len > #{req_args + def_args}) {"
-			names.each_with_index do |n, i|
-				output << "#{n} = @args[#{i + req_args}];"
-			end
-			output << "}}\n"
-
-			#Close switch statement
-			output << "}\n"
-
-			other_args = def_args + req_args
-			output << "if(@arg_len > #{other_args}) {" <<
-				"#{@param} = @brat.base_array.new($asub(@args, #{other_args}, $asize(@args) - #{other_args}));" <<
-				"} else { #{@param} = @brat.base_array.new();}"
+			default_args.set_args << "\n" <<
+			"#@param = array:new(...)\n"
 		end
 	}
 	/
   	space? plain_formals space? "," space? default_args space? "|" !"|" {
-		attr_reader :var_args, :max, :min
-
 		def brat(res_var = nil)
-			"@args"
+			default_args.brat
+			plain_formals.brat << "," << default_args.arg_names.join(",")
 		end
 
 		def function_header
-			plain_formals.brat
-			default_args.brat
-			def_args = default_args.args.length
-			req_args = plain_formals.args.length
-			@max = def_args + req_args
-			@min = req_args
-			output = "var @arg_len = $asize(@args);" <<
-				"if($asize(@args) < #{req_args}) $throw(exception.argument_error(\"function\", \"at least #{req_args}\"));\n" <<
-				"if(@arg_len > #{def_args + req_args})" <<
-					"$throw(exception.argument_error(\"function\", \"up to #{def_args + req_args}\"));"
-
-			i = 0
-			plain_formals.args.each do |a|
-				if var_used? a
-					output << "#{var_exist? a} = @args[#{i}];\n"
-				else
-					output << "var #{var_exist? a} = @args[#{i}];\n"
-				end
-				i += 1
-			end
-
-			#Check and set default args
-			names = default_args.arg_names
-			names.each do |n|
-				unless n.match /\[\d+\]/
-					output << "var #{n};"
-				end
-			end
-			i = def_args
-			default_args.args.reverse.each do |a|
-				output << "if(@arg_len < #{i + req_args}) {\n #{a};\n"
-				i -= 1
-			end
-
-			output << ("}" * default_args.args.length) << "\n"
-
-			#Set args passed in
-			output << "switch @arg_len {\n"
-
-			names = default_args.arg_names
-			num_names = names.length
-			num_names.times do |l|
-				output << "#{num_names - l + req_args} => {"
-				names[0, num_names - l].each_with_index do |n, i|
-					output << "#{n} = @args[#{i + req_args}];"
-				end
-				output << "}\n"
-			end
-			#Close switch statement
-			output << "}\n"
+			default_args.set_args
 		end
 	}
 	/
@@ -867,8 +635,7 @@ grammar BaseBrat
 		attr_reader :args
 
 		def brat(res_var = nil)
-			name = i.brat
-			var_add name
+			name = var_add i.brat
 			@args = [name] + rest_formal.brat
 			(["_self"] + @args).join(", ")
 		end
@@ -879,14 +646,8 @@ grammar BaseBrat
   rule rest_formal
   	(space? "," space? identifier ~(!(space "=")))* {
 		def brat(res_var = nil)
-			if elements.length > 0
-				elements.map do |e|
-					name = e.identifier.brat
-					var_add name
-					name
-				end
-			else
-				[]
+			elements.map do |e|
+				var_add e.identifier.brat
 			end
 		end
 	}
@@ -905,6 +666,10 @@ grammar BaseBrat
 			end
 			""
 		end
+
+		def set_args
+			@args.join("\n")
+		end
 	}
   end
 
@@ -913,7 +678,14 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			@var_name = i.brat
 			var_add @var_name
-			"#{var_name} = { #{v.brat} };"
+			<<-LUA
+				if #{var_name} == nil then
+					do
+						#{v.brat}
+						#{var_name} = #{v.result}
+					end
+				end
+			LUA
 		end
 
 		def var_name
