@@ -5,10 +5,10 @@ class BratNumberTests < Test::Unit::TestCase
 
 	def test_number_times
 		assert_result "5", "5.times { :a }"
-		assert_result "[a,a,a]", "a = []; 3.times { a << :a }; a"
+		assert_result "[a, a, a]", "a = []; 3.times { a << :a }; a"
 		assert_result "[]", "a = []; 0.times { a << :a }; a"
-		assert_result "[0,1,2]", "a = []; 3.times { i | a << i }; a"
-		assert_result "[0,1,2]", "a = []; 3.times { i | a << i.to_s }; a"
+		assert_result "[0, 1, 2]", "a = []; 3.times { i | a << i }; a"
+		assert_result "[0, 1, 2]", "a = []; 3.times { i | a << i.to_s }; a"
 	end
 
 	def test_addition_subtraction

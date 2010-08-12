@@ -18,16 +18,16 @@ class BratContainerTests < Test::Unit::TestCase
 	def test_array_indexing
 		assert_result "b", 'b = ["a", "b", "c"]; b[1]'
 		assert_result "null",'b = ["a", "b", "c"]; b[-5]' 
-		assert_result "[a,b,c]", '["z", "a", "b", "c", "d", "e", "f"][1,3]'
-		assert_result "[a,b,c]", '["z", "a", "b", "c", "d", "e", "f"][-6,-4]'
+		assert_result "[a, b, c]", '["z", "a", "b", "c", "d", "e", "f"][1,3]'
+		assert_result "[a, b, c]", '["z", "a", "b", "c", "d", "e", "f"][-6,-4]'
 		assert_result "[]", '["z", "a", "b", "c", "d", "e", "f"][10,15]'
 		assert_result "null", "[][1]"
-		assert_result "[e,f]", '["z", "a", "b", "c", "d", "e", "f"][10,5]'
+		assert_result "[e, f]", '["z", "a", "b", "c", "d", "e", "f"][10,5]'
 	end
 
 	def test_array_set
 		assert_result "b", 'a = [1,2,3]; a[1] = "b"; a[1]'
-		assert_fail 'a = [1,2,3]; a[-4] = 4'
+		assert_fail 'a = [1, 2, 3]; a[-4] = 4'
 		assert_result 'null', 'a = [1,2,3]; a[7] = 5; a[5]'
 		assert_result "b", 'a = [1,2,3]; a[-1] = "b"; a[2]'
 	end
@@ -38,26 +38,26 @@ class BratContainerTests < Test::Unit::TestCase
 	end
 
 	def test_array_reverse
-		assert_result "[1,2,3]", "[3,2,1].reverse"
-		assert_result "[1,2,3]", "a = [1,2,3];a.reverse;a"
-		assert_result "[3,2,1]", "a = [1,2,3];a.reverse!;a"
+		assert_result "[1, 2, 3]", "[3,2,1].reverse"
+		assert_result "[1, 2, 3]", "a = [1,2,3];a.reverse;a"
+		assert_result "[3, 2, 1]", "a = [1,2,3];a.reverse!;a"
 	end
 
 	def test_array_concat
-		assert_result "[a,b,c,d]", '["a"] + ["b"] + ["c"] + ["d"]'
+		assert_result "[a, b, c, d]", '["a"] + ["b"] + ["c"] + ["d"]'
 	end
 
 	def test_array_push
-		assert_result "[a,b,c,d]", '["a"] << "b" << "c" << "d"'
+		assert_result "[a, b, c, d]", '["a"] << "b" << "c" << "d"'
 	end
 
 	def test_array_map
-		assert_result "[2,3,4]", "a = [1,2,3]; a.map {i| i + 1 }"
+		assert_result "[2, 3, 4]", "a = [1,2,3]; a.map {i| i + 1 }"
 		assert_result "[]", "a = []; a.map {i| i + 1 }"
 	end
 
 	def test_array_map_with_index
-		assert_result "[[0,a],[1,b],[2,c]]", "b = [:a, :b, :c]; b.map_with_index { obj, index | [index, obj] }"
+		assert_result "[[0, a], [1, b], [2, c]]", "b = [:a, :b, :c]; b.map_with_index { obj, index | [index, obj] }"
 		assert_result "[]", "a = []; a.map_with_index {i, in | i + 1 }"
 	end
 
@@ -77,12 +77,12 @@ class BratContainerTests < Test::Unit::TestCase
 	end
 
 	def test_array_each
-		assert_result "[1,2,3]", "b = []; [1,2,3].each { i | b << i }; b "
+		assert_result "[1, 2, 3]", "b = []; [1,2,3].each { i | b << i }; b "
 		assert_result "[]", "b = []; [].each { i | b << i }; b "
 	end
 
 	def test_array_each_with_index
-		assert_result "[0,a,1,b,2,c]", "a = [];b = [:a, :b, :c]; b.each_with_index { obj, index | a << index << obj }; a"
+		assert_result "[0, a, 1, b, 2, c]", "a = [];b = [:a, :b, :c]; b.each_with_index { obj, index | a << index << obj }; a"
 		assert_result "[]", "b = []; [].each_with_index { i, in | b << i }; b "
 	end
 
@@ -93,7 +93,7 @@ class BratContainerTests < Test::Unit::TestCase
 	end
 
 	def test_array_select
-		assert_result "[1,2]", "[1,2,3].select { i | i < 3 }"
+		assert_result "[1, 2]", "[1,2,3].select { i | i < 3 }"
 		assert_result "[]", "[].select { i | i < 3 }"
 	end
 
@@ -102,11 +102,11 @@ class BratContainerTests < Test::Unit::TestCase
 	end
 
 	def test_array_delete_first
-		assert_result "[1,2,3]", "[1,2,3,4].delete_first 4;"
-		assert_result "[2,3,4]", "[1,2,3,4].delete_first 1"
-		assert_result "[1,2,3]", "[1,2,3].delete_first 4"
-		assert_result "[1,2,3,4]", "[1,1,2,3,4].delete_first 1"
-		assert_result "[1,3]", "[1,2,3].delete_first 2"
+		assert_result "[1, 2, 3]", "[1,2,3,4].delete_first 4;"
+		assert_result "[2, 3, 4]", "[1,2,3,4].delete_first 1"
+		assert_result "[1, 2, 3]", "[1,2,3].delete_first 4"
+		assert_result "[1, 2, 3, 4]", "[1,1,2,3,4].delete_first 1"
+		assert_result "[1, 3]", "[1,2,3].delete_first 2"
 	end
 
 	def test_array_include?
@@ -136,18 +136,18 @@ class BratContainerTests < Test::Unit::TestCase
 	end
 
 	def test_array_sort
-		assert_result "[1,2,3]", "[3,2,1].sort"
-		assert_result "[3,2,1]", "a = [3,2,1]; a.sort; a"
-		assert_result '[a,b,c]', 'a = ["b", "c", "a"]; a.sort'
-		assert_result '[b,c,a]', 'a = ["b", "c", "a"]; a.sort; a'
+		assert_result "[1, 2, 3]", "[3,2,1].sort"
+		assert_result "[3, 2, 1]", "a = [3,2,1]; a.sort; a"
+		assert_result '[a, b, c]', 'a = ["b", "c", "a"]; a.sort'
+		assert_result '[b, c, a]', 'a = ["b", "c", "a"]; a.sort; a'
 		assert_fail "a = new; [a,a].sort"
 	end
 
 	def test_array_sort!
-		assert_result "[1,2,3]", "[3,2,1].sort!"
-		assert_result "[1,2,3]", "a = [3,2,1]; a.sort!; a"
-		assert_result '[a,b,c]', 'a = ["b", "c", "a"]; a.sort!'
-		assert_result '[a,b,c]', 'a = ["b", "c", "a"]; a.sort!; a'
+		assert_result "[1, 2, 3]", "[3,2,1].sort!"
+		assert_result "[1, 2, 3]", "a = [3,2,1]; a.sort!; a"
+		assert_result '[a, b, c]', 'a = ["b", "c", "a"]; a.sort!'
+		assert_result '[a, b, c]', 'a = ["b", "c", "a"]; a.sort!; a'
 	end
 
 	def test_array_compare
@@ -176,8 +176,8 @@ class BratContainerTests < Test::Unit::TestCase
 	end
 
 	def test_hash_string
-		assert_result "{}", "[:]"
-		assert_result "{a : b}", "[a: :b]"
+		assert_result "[:]", "[:]"
+		assert_result "[a: b]", "[a: :b]"
 	end
 
 	def test_hash_key?
