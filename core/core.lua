@@ -985,6 +985,33 @@ function array_instance:sort_bang ()
 	return self
 end
 
+function array_instance:join (separator, final)
+	if #self._lua_array == 0 then
+		return base_string:new("")
+	elseif #self._lua_array == 1 then
+		return base_string:new(tostring(self._lua_array[1]))
+	end
+
+	if separator == nil then
+		separator = ""
+	elseif type(separator) == "table" then
+		separator = separator._lua_string
+	end
+
+	local s = ""
+	local i = 1
+	local len = #self._lua_array
+	local a = self._lua_array
+
+	while (i < len) do
+		s = s .. tostring(a[i]) .. separator
+		i = i + 1
+	end
+
+	s = s .. tostring(a[len])
+	return base_string:new(s)
+end
+
 function array_instance:_less_less (obj)
 	table.insert(self._lua_array, obj)
 
@@ -992,23 +1019,7 @@ function array_instance:_less_less (obj)
 end
 
 function array_instance:to_unders ()
-	if #self._lua_array == 0 then
-		return base_string:new("[]")
-	elseif #self._lua_array == 1 then
-		return base_string:new("[" .. tostring(self._lua_array[1]) .. "]")
-	end
-
-	local s = "["
-	local i = 1
-	local len = #self._lua_array
-	local a = self._lua_array
-
-	while (i < len) do
-		s = s .. tostring(a[i]) .. ", "
-		i = i + 1
-	end
-
-	s = s .. tostring(a[len]) .. "]"
+	local s = "[" .. self:join(", ")._lua_string .. "]"
 	return base_string:new(s)
 end
 
