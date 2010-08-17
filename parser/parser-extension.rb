@@ -192,7 +192,7 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def escape_operator op
-		op.gsub(/(!=|>=|<=|[!?\-*+^@~\/\\><$_%|&=~])/) do
+		op.gsub(/([!?\-*+^@~\/\\><$_%|&=~])/) do
 			OP_ESCAPE[$1]
 		end
 	end
