@@ -917,9 +917,9 @@ grammar BaseBrat
 				elseif _t == "function" then 
 					#{invoke(@result, temp, arg_list.list, arg_list.length)}
 				elseif #{temp} == nil then
-					 error(exception.null_error("#{nice_id name}", "cannot call method on it"))
+					 error(exception:null_error("#{nice_id name}", "cannot call method on it"))
 				else
-					error(exception.method_error("this", "#{nice_id name}"))
+					error(exception:method_error("this", "#{nice_id name}"))
 				end
 				LUA
 			else
@@ -929,7 +929,7 @@ grammar BaseBrat
 				elseif #{name} ~= nil then
 					#@result = #{name};
 				else
-					error(exception.method_error("this", "#{nice_id name}"))
+					error(exception:method_error("this", "#{nice_id name}"))
 				end
 				LUA
 			end
@@ -995,10 +995,11 @@ grammar BaseBrat
 			else	
 				next_temp
 				<<-LUA
+				local #@result
 				if #{name} == nil then
-					local #@result = _self["#{name}"]
+					#@result = _self["#{name}"]
 					if #@result == nil then
-						error(exception.null_error("#{nice_id name}", "access it"))
+						error(exception:null_error("#{nice_id name}", "access it"))
 					end
 				else
 					#@result = #{name}
@@ -1016,7 +1017,7 @@ grammar BaseBrat
 			output << <<-LUA
 				#@result = #@result["#{name}"]
 				if #@result == nil then
-					error(exception.method_error("#{nice_id o.text_value}", "#{nice_id name}"))
+					error(exception:method_error("#{nice_id o.text_value}", "#{nice_id name}"))
 				end
 			LUA
 		end
