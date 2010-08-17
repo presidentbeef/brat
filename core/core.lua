@@ -977,7 +977,7 @@ end
 function array_instance:sort_bang ()
 	local a = self._lua_array
 	if #a <= 1 then
-		return self:_dup()
+		return self
 	end
 
 	table.sort(a, compare)
