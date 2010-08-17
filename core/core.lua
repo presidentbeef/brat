@@ -831,6 +831,10 @@ function number:to (num, stop, block)
 	return stop
 end
 
+function number:to_unders (num)
+	return base_string:new(tostring(num))
+end
+
 --The array object
 --Going to keep these separate from hash tables, every if Lua thinks they
 --are the same
