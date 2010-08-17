@@ -209,11 +209,7 @@ function object:_print (...)
 	io.output(io.stdout)
 	local input = {...}
 	for k,v in pairs(input) do
-		if type(v) == "function" then
-			input[k] = _function:to_unders(v)._lua_string
-		else
 			input[k] = tostring(v)
-		end
 	end
 	io.write(unpack(input))
 	return object.__null
@@ -247,7 +243,7 @@ function object:parent ()
 	end
 end
 
-function object:_function_question (obj)
+function object:function_question (obj)
 	if type(obj) == "function" then
 		return object.__true
 	else
