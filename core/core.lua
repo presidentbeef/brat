@@ -872,12 +872,61 @@ function array_instance:set (index, value)
 	return value
 end
 
-function array_instance:get (index)
-	local val = self._lua_array[index + 1]
-	if val == nil then
-		return object.__null
+function array_instance:get (start_index, end_index)
+	local len = #self._lua_array
+	if end_index == nil then
+		if start_index < 0 then
+			start_index = len + start_index
+		end
+
+		local val = self._lua_array[start_index + 1]
+		if val == nil then
+			return object.__null
+		else
+			return val
+		end
 	else
-		return val
+		if start_index < 0 then
+			start_index = len + start_index
+		end
+
+		if end_index < 0 then
+			end_index = len + end_index
+		end
+
+		if start_index < 0 then
+			start_index = 0
+		end
+
+		if end_index < 0 then
+			end_index = 0
+		end
+
+		if start_index > end_index then
+			local temp = start_index
+			start_index = end_index
+			end_index = temp
+		end
+
+		if start_index >= len then
+			return array:new()
+		end
+
+		if end_index > len then
+			end_index = len
+		end
+
+		local index = start_index
+		local new_index = 1
+		local new_array = {}
+
+		while index <= end_index do
+			new_array[new_index] = self._lua_array[index + 1]
+			index = index + 1
+			new_index = new_index + 1
+		end
+
+		return array:new(new_array)
 	end
 end
 
