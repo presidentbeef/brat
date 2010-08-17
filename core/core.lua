@@ -112,6 +112,24 @@ end
 
 object = {}
 
+init_object = function (o)
+	local mt = getmetatable(o)
+
+	if mt == nil then
+		mt = {}
+	end
+
+	local to_s = function (table)
+		return table:to_unders()._lua_string
+	end
+	
+	mt["__tostring"] = to_s
+
+	setmetatable(o, mt)
+end
+
+init_object(object)
+
 object._is_an_object = true
 
 function object:parent()
@@ -131,7 +149,8 @@ function object:my ()
 end
 
 function object:to_unders ()
-	return base_string:new("object")
+	local meths = self:local_undermethods()
+	return base_string:new("object" .. tostring(meths:sort_bang()))
 end
 
 function object:methods ()
