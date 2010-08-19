@@ -885,9 +885,80 @@ end
 
 function array:each_underwith_underindex (block)
 	for k,v in pairs(self._lua_array) do
-		block(self, k, v)
+		block(self, v, k - 1)
 	end
 	return self
+end
+
+function array_instance:empty_question ()
+	if #self._lua_array == 0 then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
+function array_instance:first ()
+	if #self._lua_array == 0 then
+		return object.__null
+	else
+		return self._lua_array[1]
+	end
+end
+
+function array_instance:last ()
+	if #self._lua_array == 0 then
+		return object.__null
+	else
+		return self._lua_array[#self._lua_array]
+	end
+end
+
+function array_instance:rest ()
+	if #self._lua_array == 0 then
+		return object.__null
+	else
+		return self:get(1,-1)
+	end
+end
+
+function array_instance:reverse_bang ()
+	local len = #self._lua_array
+	
+	if len < 2 then
+		return self
+	end
+
+	local index = 1
+	local temp = nil
+	local stop = len / 2
+	local a = self._lua_array
+	while index <= stop do
+		temp = a[index]
+		a[index] = a[len - index + 1]
+		a[len - index + 1] = temp
+		index = index + 1
+	end
+
+	return self
+end
+
+function array_instance:reverse ()
+	local len = #self._lua_array
+
+	if len < 2 then
+		return self
+	end
+
+	local index = 1
+	local a = self._lua_array
+	local b = {}
+	while index <= len do
+		b[index] = a[len - index + 1]
+		index = index + 1
+	end
+
+	return self:new(b)
 end
 
 function array_instance:set (index, value)
@@ -1016,6 +1087,32 @@ function array_instance:_less_less (obj)
 	table.insert(self._lua_array, obj)
 
 	return self
+end
+
+function array_instance:_plus (obj)
+	if obj._lua_array == nil then
+		error(exception:argument_error("array.+", "array", tostring(obj)))
+	end
+
+	local index = 1
+	local rhs = obj._lua_array
+	local lhs = self._lua_array
+	local na = {}
+
+	local len = #lhs
+	while index <= len do
+		table.insert(na, lhs[index])
+		index = index + 1
+	end
+
+	len = #rhs
+	index = 1
+	while index <= len do
+		table.insert(na, rhs[index])
+		index = index + 1
+	end
+
+	return self:new(na)
 end
 
 function array_instance:to_unders ()
