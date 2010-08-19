@@ -1,6 +1,7 @@
 require 'test/unit'
 require 'rubygems'
 require 'treetop'
+$: << "."
 Dir.glob("test/test-*.rb").each do |t|
 	require t
 end
