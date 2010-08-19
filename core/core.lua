@@ -1292,17 +1292,17 @@ function string_instance:_plus (rhs)
 	return self:new(self._lua_string .. rhs._lua_string)
 end
 
-function string_instance:gsub (pattern, replacement)
+function string_instance:sub (pattern, replacement)
 	if type(pattern) == "table" then
 		if pattern._lua_string then
 			error("Not accepting strings yet")
 		elseif pattern._lua_regex then
 			pattern = pattern._lua_regex
 		else
-			error(exception:argument_error("string.gsub", "regular expression", tostring(pattern)))
+			error(exception:argument_error("string.sub", "regular expression", tostring(pattern)))
 		end
 	else
-		error(exception:argument_error("string.gsub", "regular expression", tostring(pattern)))
+		error(exception:argument_error("string.sub", "regular expression", tostring(pattern)))
 	end
 
 	if type(replacement) == "table" then
@@ -1315,7 +1315,7 @@ function string_instance:gsub (pattern, replacement)
 			end
 			replacement = r
 		else
-			error(exception:argument_error("string.gsub", "string", tostring(replacement)))
+			error(exception:argument_error("string.sub", "string", tostring(replacement)))
 		end
 	elseif type(replacement) == "function" then
 		local f = replacement
@@ -1331,7 +1331,7 @@ function string_instance:gsub (pattern, replacement)
 			end
 		end
 	else
-		error(exception:argument_error("string.gsub", "string", tostring(replacement)))
+		error(exception:argument_error("string.sub", "string", tostring(replacement)))
 	end
 
 	local ns = orex.gsub(self._lua_string, pattern, replacement)
