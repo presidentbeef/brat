@@ -229,10 +229,10 @@ class BratFunctionTests < Test::Unit::TestCase
 	end
 
 	def test_method
-		assert_result "#function:0", "{ p hi }"
-		assert_result "#function:1", "{x| p x }"
-		assert_result "#function:2", "{x, y| p x, y }"
-		assert_result "5", "x = {y| y }; x 5"
+		assert_result "true", "function? { p hi }"
+		assert_result "true", "function? {x| p x }"
+		assert_result "true", "function? {x, y| p x, y }"
+		assert_result "5", "x = {y | y }; x 5"
 	end
 
 	def test_chained_method
@@ -246,9 +246,9 @@ class BratFunctionTests < Test::Unit::TestCase
 	end
 
 	def test_method_access
-		assert_result "#function:0", "x = new;x.x = { 1 }; x->x"
+		assert_result "true", "x = new;x.x = { 1 }; function? x->x"
 		assert_result "1", "x = new; y = new; x.y = { 1 }; y.x = x->y; y.x"
-		assert_result "#function:0", "x = new; x.->> = {}; x->->>"
+		assert_result "true", "x = new; x.->> = {}; function? x->->>"
 	end
 
 	def test_method_invocation_assignment

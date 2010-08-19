@@ -13,11 +13,11 @@ class BratObjectTest < Test::Unit::TestCase
 	end
 
 	def test_new
-		assert_result "#object< >", "new"
+		assert_result "object[parent]", "new"
 	end
 
 	def test_new_object
-		assert_result "#object< y >", "x = new; x.y = 1; x"
+		assert_result "object[parent, y]", "x = new; x.y = 1; x"
 	end
 
 	def test_init
@@ -48,7 +48,7 @@ class BratObjectTest < Test::Unit::TestCase
 	def test_squish
 		assert_result "a", 'a = new; b = new; a.a = "a"; b.squish a; b.a'
 		assert_result "2", 'a = new; b = new; a.a = { x | x + 1}; b.squish a;a.a = "hi";b.a 1'
-		assert_result "[2,1]", 'a = new; b = new; a.a = [1,2]; b.squish a; a.a.reverse!;b.a'
+		assert_result "[2, 1]", 'a = new; b = new; a.a = [1,2]; b.squish a; a.a.reverse!;b.a'
 	end
 
 	def test_object_get_method

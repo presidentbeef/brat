@@ -26,7 +26,7 @@ class BratContainerTests < Test::Unit::TestCase
 	end
 
 	def test_array_set
-		assert_result "b", 'a = [1,2,3]; a[1] = "b"; a[1]'
+		assert_result "b", 'a = [1, 2, 3]; a[1] = "b"; a[1]'
 		assert_fail 'a = [1, 2, 3]; a[-4] = 4'
 		assert_result 'null', 'a = [1,2,3]; a[7] = 5; a[5]'
 		assert_result "b", 'a = [1,2,3]; a[-1] = "b"; a[2]'

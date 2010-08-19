@@ -25,7 +25,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_array_map
-		assert_result "[2,3,4]", "array.first = { my[0] }
+		assert_result "[2, 3, 4]", "array.first = { my[0] }
 					array.rest = { my[1,-1] }
 					array.map = {f|
 					        true? my.length <= 0
@@ -44,7 +44,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 	
 	def test_how_are_you_map
-		assert_result '[How, are ,you?]', 'array.first = { my[0] }
+		assert_result '[How,  are , you?]', 'array.first = { my[0] }
 					array.rest = { my[1,-1] }
 					array.map = {f|
 					        true? my.length <= 0
@@ -100,7 +100,7 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_hideous 
-		assert_result "#object< -!_+~%~+_!- <------||==@ >", <<-NEKO
+		assert_result "object[-!_+~%~+_!-, <------||==@, @==||------>, parent]", <<-NEKO
 		a_!?-*+^&@1~\\\\><$ = new
 		a_!?-*+^&@1~\\\\><$.-!_+~%~+_!- = {d0~!@><?&&<>\\/+-*^&% | d0~!@><?&&<>\\/+-*^&%}
 		a_!?-*+^&@1~\\\\><$.@==||------> = { a_!?-*+^&@1~\\\\><$ }
