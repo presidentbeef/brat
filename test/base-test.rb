@@ -25,7 +25,7 @@ module BratBaseTest
 		result = `lua .test.lua.tmp`
 		`cp .test.lua.tmp test.lua.last_error` unless $? == 0
 		#File.delete(".test.lua.tmp")
-		result.split("\n").last.strip
+		result.split("\n").first.strip
 	end
 
 	def assert_fail code
