@@ -1218,6 +1218,10 @@ function hash_instance:keys ()
 	return array:new(keys)
 end
 
+function hash_instance:length ()
+	return self:keys():length()
+end
+
 function hash_instance:to_unders()
 	local contents = {}
 	for k,v in pairs(self._lua_hash) do
