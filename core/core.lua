@@ -1209,6 +1209,15 @@ function hash_instance:__hash ()
 	return md5_hash(s)
 end
 
+function hash_instance:keys ()
+	local keys = {}
+	for k,v in pairs(self._lua_hash) do
+		table.insert(keys, k)
+	end
+
+	return array:new(keys)
+end
+
 function hash_instance:to_unders()
 	local contents = {}
 	for k,v in pairs(self._lua_hash) do
