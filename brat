@@ -25,7 +25,7 @@ def brat_to_lua input
 	tree = parser.parse(input)
 	if tree.nil? or not tree.respond_to? :brat
 		if input.strip == ""
-			"nil"
+			"return nil"
 		else
 			raise "Error during parsing:\n#{parser.failure_reason}"
 		end
