@@ -48,6 +48,14 @@ grammar BaseBrat
 			end
 		end
 
+		def respond_to? arg
+			e.respond_to? arg
+		end
+
+		def return_result
+			e.return_result
+		end
+
 		def result
 			e.result
 		end
@@ -511,15 +519,15 @@ grammar BaseBrat
 		
 			output = ""
 
-			elements = l.elements.map {|e| e.brat }
+			elements = l.elements[0..-2].map {|e| e.brat }
 
-			unless elements.empty?
-				l.elements.reverse_each do |e|
-					if e.result
-						elements << "return #{e.result}\n"
-						break
-					end
-				end
+			last = l.elements.last
+
+			if last.respond_to? :return_result
+				elements << last.return_result
+			elsif last
+				elements << last.brat
+				elements << "return #{last.result}"
 			end
 
 			inner_function = elements.join("\n");
@@ -840,6 +848,12 @@ grammar BaseBrat
 			a.brat <<
 			call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
 		end
+
+		def return_result
+			lhs.brat <<
+			a.brat <<
+			call_method(nil, lhs.result, i.brat, a.list, a.length)
+		end
 	}
 	/
 	m:identifier a:arg_list {
@@ -849,6 +863,11 @@ grammar BaseBrat
 			"local #@result\n" <<
 				a.brat << 
 				get_value(@result, name, a.list, a.length)
+		end
+
+		def return_result
+			a.brat <<
+			get_value(nil, m.brat, a.list, a.length)
 		end
 	}
 	/
@@ -860,6 +879,12 @@ grammar BaseBrat
 			output << "local #@result\n" <<
 			invoke(@result, m.result, a.list, a.length)
 		end
+
+		def return_result
+			m.brat << "\n" <<
+			a.brat << "\n" <<
+			invoke(nil, m.result, a.list, a.length)
+		end
 	}
 	/
 	f:function_definition !space a:simple_arg_list {
@@ -869,6 +894,12 @@ grammar BaseBrat
 			@result = res_var || f.result
 			output << "local #@result\n" <<
 			invoke(@result, f.result, a.list, a.length)
+		end
+
+		def return_result
+			f.brat(res_var) << "\n" <<
+			a.brat << "\n" <<
+			invoke(nil, f.result, a.list, a.length)
 		end
 	}
 
