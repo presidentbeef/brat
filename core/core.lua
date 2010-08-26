@@ -894,6 +894,19 @@ function enumerable:all_question (block)
 	end
 end
 
+function enumerable:_select (block)
+	local new_array = {}
+	local f = function (_self, item)
+		if is_true(block(_self, item)) then
+			table.insert(new_array, item)
+		end
+	end
+
+	self:each(f)
+
+	return array:new(new_array)
+end
+
 --The array object
 --Going to keep these separate from hash tables, every if Lua thinks they
 --are the same
