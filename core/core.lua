@@ -1417,6 +1417,18 @@ function string_instance:sub (pattern, replacement)
 	return base_string:new(ns)
 end
 
+function string_instance:sub_bang (pattern, replacement)
+	if type(pattern) ~= "table" or not pattern._lua_regex then
+		error(exception:argument_error("string.sub!", "regular expression", tostring(pattern)))
+	elseif (type(replacement) == "table" and replacement._lua_string == nil) and type(replacement) ~= "function" then
+		error(exception:argument_error("string.sub!", "string", tostring(replacement)))
+	end
+
+	self._lua_string = self:sub(pattern, replacement)._lua_string
+
+	return self
+end
+
 function string_instance:__hash ()
 	return self._lua_string
 end
