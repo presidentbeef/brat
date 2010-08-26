@@ -854,12 +854,36 @@ function number:to_unders (num)
 	return base_string:new(tostring(num))
 end
 
+--Enumerable squish-in
+
+enumerable = new_brat(object)
+
+function enumerable:any_question (block)
+	local flag = false
+	local f = function (_self, item)
+		if is_true(block(_self, item)) then
+			flag = true
+		else
+			flag = false
+		end
+	end
+
+	self:each(f)
+
+	if flag then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
 --The array object
 --Going to keep these separate from hash tables, every if Lua thinks they
 --are the same
 
-
 local array_instance = object:new()
+
+array_instance:squish(enumerable)
 
 array = new_brat(array_instance)
 
