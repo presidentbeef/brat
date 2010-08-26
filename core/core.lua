@@ -876,17 +876,29 @@ function array:new (...)
 	return na
 end
 
-function array:each (block)
-	for k,v in pairs(self._lua_array) do
-		block(self, v)
+function array_instance:each (block)
+	local k = 1
+	local len = #self._lua_array
+	local a = self._lua_array
+
+	while k <= len do
+		block(self, a[k])
+		k = k + 1
 	end
+
 	return self
 end
 
-function array:each_underwith_underindex (block)
-	for k,v in pairs(self._lua_array) do
-		block(self, v, k - 1)
+function array_instance:each_underwith_underindex (block)
+	local k = 1
+	local len = #self._lua_array
+	local a = self._lua_array
+
+	while k <= len do
+		block(self, a[k], k - 1)
+		k = k + 1
 	end
+
 	return self
 end
 
