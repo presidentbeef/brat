@@ -1340,6 +1340,10 @@ function base_string:new (s)
 	return ns
 end
 
+function base_string:length ()
+	return #self._lua_string
+end
+
 function string_instance:to_unders ()
 	return self
 end
