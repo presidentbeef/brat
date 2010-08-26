@@ -902,6 +902,60 @@ function array_instance:each_underwith_underindex (block)
 	return self
 end
 
+function array_instance:map (block)
+	local k = 1
+	local len = #self._lua_array
+	local a = self._lua_array
+	local new_array = {}
+
+	while k <= len do
+		table.insert(new_array, block(self, a[k]))
+		k = k + 1
+	end
+
+	return array:new(new_array)
+end
+
+function array_instance:map_bang (block)
+	local k = 1
+	local len = #self._lua_array
+	local a = self._lua_array
+
+	while k <= len do
+		a[k] = block(self, a[k])
+		k = k + 1
+	end
+
+	return self
+end
+
+function array_instance:map_underwith_underindex (block)
+	local k = 1
+	local len = #self._lua_array
+	local a = self._lua_array
+	local new_array = {}
+
+	while k <= len do
+		table.insert(new_array, block(self, a[k], k - 1))
+		k = k + 1
+	end
+
+	return array:new(new_array)
+end
+
+function array_instance:map_underwith_underindex_bang (block)
+	local k = 1
+	local len = #self._lua_array
+	local a = self._lua_array
+
+	while k <= len do
+		a[k] = block(self, a[k], k - 1)
+		k = k + 1
+	end
+
+	return self
+end
+
 function array_instance:empty_question ()
 	if #self._lua_array == 0 then
 		return object.__true
