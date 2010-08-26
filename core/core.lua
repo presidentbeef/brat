@@ -877,6 +877,23 @@ function enumerable:any_question (block)
 	end
 end
 
+function enumerable:all_question (block)
+	local flag = true
+	local f = function (_self, item)
+		if not is_true(block(_self, item)) then
+			flag = false
+		end
+	end
+
+	self:each(f)
+
+	if flag then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
 --The array object
 --Going to keep these separate from hash tables, every if Lua thinks they
 --are the same
