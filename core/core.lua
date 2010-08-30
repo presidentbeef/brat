@@ -861,7 +861,7 @@ enumerable = new_brat(object)
 function enumerable:any_question (block)
 	local flag = false
 	local f = function (_self, item)
-		if is_true(block(_self, item)) then
+		if not flag and is_true(block(_self, item)) then
 			flag = true
 		else
 			flag = false
@@ -880,7 +880,7 @@ end
 function enumerable:all_question (block)
 	local flag = true
 	local f = function (_self, item)
-		if not is_true(block(_self, item)) then
+		if flag and not is_true(block(_self, item)) then
 			flag = false
 		end
 	end
