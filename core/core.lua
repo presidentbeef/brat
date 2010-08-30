@@ -1333,6 +1333,34 @@ function array_instance:delete_underfirst (item)
 	return self
 end
 
+function array_instance:include_question (item)
+	local a = self._lua_array
+	local len = #a
+	if len == 0 then
+		return object.__false
+	end
+
+	local found = false
+	local k = 0
+	while k <= len do
+		if a[k] == item then
+			found = true
+			break
+		elseif type(a[k]) == "table" and a[k]._is_an_object and a[k]:_equal_equal(item) then
+			found = true
+			break
+		end
+
+		k = k + 1
+	end
+
+	if found then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
 --Hash objects
 
 local hash_instance = object:new()
