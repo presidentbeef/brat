@@ -1283,6 +1283,11 @@ function array_instance:_equal_equal (rhs)
 	end
 end
 
+function array_instance:clear ()
+	self._lua_array = {}
+	return self
+end
+
 --Hash objects
 
 local hash_instance = object:new()
