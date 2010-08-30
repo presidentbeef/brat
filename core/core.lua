@@ -1244,6 +1244,45 @@ function array_instance:__hash ()
 	return self:to_unders()._lua_string
 end
 
+function array_instance:_equal_equal (rhs)
+	if type(rhs) ~= "table" or rhs._lua_array == nil then
+		return object.__false
+	elseif rhs._lua_array == #self._lua_array then
+		return object.__true
+	elseif #rhs._lua_array ~= #self._lua_array then
+		return object.__false
+	else
+		local k = 1
+		local lhs = self._lua_array
+		local rhs = rhs._lua_array
+		local len = #lhs
+		local match = true
+		while k <= len do
+			if rhs[k] ~= lhs[k] then
+				if type(rhs[k]) == "table" and 
+					type(lhs[k]) == "table" and
+					lhs[k]._is_an_object and
+					rhs[k]._is_an_object and
+					is_true(lhs[k]:_equal_equal(rhs[k])) then
+
+					--next
+				else
+					match = false
+					break
+				end
+			end
+
+			k = k + 1
+		end
+
+		if match then
+			return object.__true
+		else
+			return object.__false
+		end
+	end
+end
+
 --Hash objects
 
 local hash_instance = object:new()
@@ -1417,7 +1456,7 @@ function string_instance:_less_equal_greater (rhs)
 	elseif lhs == rhs then
 		return 0
 	else
-		error("Error comparing numbers")
+		error("Error comparing strings")
 	end
 end
 
