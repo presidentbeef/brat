@@ -1099,6 +1099,18 @@ function array_instance:reverse ()
 end
 
 function array_instance:set (index, value)
+	if type(index) ~= "number" then
+		error(exception:argument_error("array[]", "valid index", index))
+	end
+
+	if index < 0 then
+		index = #self._lua_array + index
+	end
+
+	if index < 0 then
+		error(exception:argument_error("array[]", "valid index", index))
+	end
+
 	self._lua_array[index + 1] = value
 	return value
 end
