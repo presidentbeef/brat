@@ -1288,6 +1288,34 @@ function array_instance:clear ()
 	return self
 end
 
+function array_instance:delete_underfirst (item)
+	local a = self._lua_array
+	local len = #a
+	if len == 0 then
+		return self
+	end
+
+	local found = false
+	local k = 0
+	while k <= len do
+		if a[k] == item then
+			found = true
+			break
+		elseif type(a[k]) == "table" and a[k]._is_an_object and a[k]:_equal_equal(item) then
+			found = true
+			break
+		end
+
+		k = k + 1
+	end
+
+	if found then
+		table.remove(a, k)
+	end
+
+	return self
+end
+
 --Hash objects
 
 local hash_instance = object:new()
