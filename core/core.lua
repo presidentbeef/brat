@@ -894,6 +894,23 @@ function enumerable:all_question (block)
 	end
 end
 
+function enumerable:find (block)
+	local found = false
+	local f = function (self, item)
+		if not found and is_true(block(self, item)) then
+			found = item
+		end
+	end
+
+	self:each(f)
+
+	if found then
+		return found
+	else
+		return object.__null
+	end
+end
+
 function enumerable:_select (block)
 	local new_array = {}
 	local f = function (_self, item)
