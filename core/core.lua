@@ -1458,6 +1458,14 @@ function hash_instance:map (block)
 	return array:new(a)
 end
 
+function hash_instance:each_underkey (block)
+	for k,v in pairs(self._lua_hash) do
+		block(self, k)
+	end
+
+	return self
+end
+
 require 'md5'
 
 local md5_hash = md5.digest
