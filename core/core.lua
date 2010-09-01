@@ -1,4 +1,6 @@
 package.cpath = package.cpath .. ";./lib/?.so"
+local type = type
+local pairs = pairs
 
 --Helper functions
 local new_brat = function (parent_object)
@@ -1423,7 +1425,6 @@ function hash_instance:get (index)
 end
 
 function hash_instance:set (index, value)
-
 	if type(index) == "table" and type(index.__hash) == "function" then
 		local key = index:__hash()
 		self._key_hash[key] = index
@@ -1431,6 +1432,17 @@ function hash_instance:set (index, value)
 	end
 		
 	self._lua_hash[index] = value
+
+	return value
+end
+
+function hash_instance:delete (index)
+	if type(index) == "table" and type(index.__hash) == "function" then
+		local key = index:__hash()
+		self._key_hash[key] = nil
+	end
+		
+	self._lua_hash[index] = nil
 
 	return value
 end
