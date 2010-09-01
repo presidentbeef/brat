@@ -1556,7 +1556,7 @@ end
 
 local string_instance = object:new()
 
-string_instance._lua_string = ""
+string_instance:squish(comparable)
 
 base_string = new_brat(string_instance)
 
