@@ -1447,6 +1447,17 @@ function hash_instance:delete (index)
 	return value
 end
 
+function hash_instance:map (block)
+	local a = {}
+	local i = 1
+	for k,v in pairs(self._lua_hash) do
+		a[i] = block(self, k, v)
+		i = i + 1
+	end
+
+	return array:new(a)
+end
+
 require 'md5'
 
 local md5_hash = md5.digest
