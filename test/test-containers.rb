@@ -225,6 +225,7 @@ class BratContainerTests < Test::Unit::TestCase
 
 	def test_hash_empty?
 		assert_result 'false', 'a = ["a" : 1, "b" : 2, 3 : 4]; a.empty?'
+		assert_result 'true', '[:].empty?'
 		assert_result 'true', 'a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select {k,v| v == 5 }; b.empty?'
 	end
 end

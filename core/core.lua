@@ -1471,6 +1471,41 @@ function hash_instance:length ()
 	return self:keys():length()
 end
 
+function hash_instance:_select (block)
+	local result = {}
+	for k,v in pairs(self._lua_hash) do
+		if is_true(block(self, k, v)) then
+			result[k] = v
+		end
+	end
+
+	return hash:new(result)
+end
+
+function hash_instance:empty_question ()
+	if next(self._lua_hash) == nil then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
+function hash_instance:key_question (item)
+	local val = self._lua_hash[item]
+	if val then
+		return object.__true
+	elseif type(item) == "table" and type(item.__hash) == "function" then
+		item = self._key_hash[item:__hash()]
+		val = self._lua_hash[item]
+
+		if val then
+			return object.__true
+		end
+	end
+
+	return object.__false
+end
+
 function hash_instance:to_unders()
 	local contents = {}
 	for k,v in pairs(self._lua_hash) do
