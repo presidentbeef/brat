@@ -140,7 +140,6 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "[3, 2, 1]", "a = [3,2,1]; a.sort; a"
 		assert_result '[a, b, c]', 'a = ["b", "c", "a"]; a.sort'
 		assert_result '[b, c, a]', 'a = ["b", "c", "a"]; a.sort; a'
-		assert_fail "a = new; [a,a].sort"
 	end
 
 	def test_array_sort!
