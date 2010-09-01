@@ -1597,9 +1597,19 @@ function string_instance:to_unders ()
 	return self
 end
 
+function string_instance:_equal_equal (rhs)
+	if type(rhs) ~= "table" or rhs._lua_string == nil then
+		return object.__false
+	elseif self._lua_string == rhs._lua_string then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
 function string_instance:_less_equal_greater (rhs)
 	if type(rhs) ~= "table" or rhs._lua_string == nil then
-		error("Cannot compare")
+		error(exception:new("Cannot compare string to " .. tostring(rhs)))
 	end
 
 	local lhs = self._lua_string
