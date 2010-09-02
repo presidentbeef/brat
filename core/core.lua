@@ -1708,6 +1708,14 @@ function string_instance:sub_bang (pattern, replacement)
 	return self
 end
 
+function string_instance:_star (num)
+	if type(num) ~= "number" then
+		error(exception:argument_error("string.*", "number", tostring(num)))
+	end
+
+	return base_string:new(string.rep(self._lua_string, num))
+end
+
 function string_instance:__hash ()
 	return self._lua_string
 end
