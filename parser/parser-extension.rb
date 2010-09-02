@@ -75,11 +75,10 @@ class Treetop::Runtime::SyntaxNode
 
 		call_number = <<-LUA
 			if #{has_field("number", method)} then
-				local _n = number:new()
-				function _n:my () return #{temp} end
-				#{action}  _n:#{method}(#{temp}#{arg_length > 0 ? "," : ""}#{arguments})
+				local _n = number:new(#{temp})
+				#{action}  _n:#{method}(#{arguments})
 			elseif #{has_field("number", "no_undermethod")} then
-				#{call_no_method res_var, "number", method, "#{temp}, #{arguments}", arg_length}
+				#{call_no_method res_var, "number", method, arguments, arg_length}
 			else
 				error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
 			end

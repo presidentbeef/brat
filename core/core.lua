@@ -37,7 +37,8 @@ local compare = function (lhs, rhs)
 			return lhs:_less_equal_greater(rhs) == -1
 		end
 	elseif type(lhs) == "number" and type(rhs) == "number" then
-		return number:_less_equal_greater(lhs, rhs) == -1
+		local lhs = number:new(lhs)
+		return lhs:_less_equal_greater(rhs) == -1
 	end
 
 	return false
@@ -683,44 +684,52 @@ end
 
 --The number object, for all things numbers
 
-number = object:new()
+local number_instance = object:new()
 
-function number:_is_number (num)
-	if type(num) == "number" then
-		return true
-	else
-		return false
-	end
+number_instance:squish(comparable)
+
+number = new_brat(number_instance)
+
+function number:new(num)
+	local n = new_brat(self)
+	n._lua_number = num
+	return n
 end
 
-function number:_or_or (lhs, rhs)
+function number_instance:my ()
+	return self._lua_number
+end
+
+function number_instance:_or_or (rhs)
 	return object.__true
 end
 
-function number:_and_and (lhs, rhs)
+function number_instance:_and_and (rhs)
 	if is_true(rhs) then
-		return object.__true
+		return rhs
 	else
 		return object.__false
 	end
 end
 
-function number:_equal_equal (lhs, rhs)
+function number_instance:_equal_equal (rhs)
 	if type(rhs) ~= "number" then
-		error("Cannot compare number to " .. type(rhs))
+			return object.__false
 	end
 
-	if lhs == rhs then
+	if self._lua_number == rhs then
 			return object.__true
 	else
 			return object.__false
 	end
 end
 
-function number:_less_equal_greater (lhs, rhs)
+function number_instance:_less_equal_greater (rhs)
 	if type(rhs) ~= "number" then
 		error("Cannot compare number to " .. type(rhs))
 	end
+
+	local lhs = self._lua_number
 
 	if lhs > rhs then
 		return 1
@@ -733,106 +742,71 @@ function number:_less_equal_greater (lhs, rhs)
 	end
 end
 
-function number:_greater (lhs, rhs)
-	local cmp = self:_less_equal_greater(lhs, rhs)
-	if cmp == 1 then
-		return object.__true
-	else
-		return object.__false
-	end
-end
-
-function number:_less (lhs, rhs)
-	local cmp = self:_less_equal_greater(lhs, rhs)
-	if cmp == -1 then
-		return object.__true
-	else
-		return object.__false
-	end
-end
-
-function number:_less_equal (lhs, rhs)
-	local cmp = self:_less_equal_greater(lhs, rhs)
-	if cmp < 1 then
-		return object.__true
-	else
-		return object.__false
-	end
-end
-
-function number:_greater_equal (lhs, rhs)
-	local cmp = self:_less_equal_greater(lhs, rhs)
-	if cmp > -1 then
-		return object.__true
-	else
-		return object.__false
-	end
-end
-
-function number:_plus (lhs, rhs)
+function number_instance:_plus (rhs)
 	if type(rhs) ~= "number" then
 		error("Cannot add number to " .. type(rhs))
 	end
 
-	return lhs + rhs
+	return self._lua_number + rhs
 end
 
-function number:_minus (lhs, ...)
-	local args = {...}
-	if #args == 0 then
-		return -lhs
+function number_instance:_minus (rhs)
+	if rhs == nil then
+		return -self._lua_number
 	else
-		if type(args[1]) ~= "number" then
-			error("Cannot subtract" .. type(args[1]) .. " from number")
+		if type(rhs) ~= "number" then
+			error("Cannot subtract" .. type(rhs) .. " from number")
 		end
 
-		return lhs - args[1]
+		return self._lua_number - rhs
 	end
 end
 
-function number:_forward (lhs, rhs)
+function number_instance:_forward (rhs)
 	if type(rhs) ~= "number" then
 		error("Cannot divide number by " .. type(rhs))
 	end
 
-	return lhs / rhs
+	return self._lua_number / rhs
 end
 
-function number:_star (lhs, rhs)
+function number_instance:_star (rhs)
 	if type(rhs) ~= "number" then
 		error("Cannot multiply number by " .. type(rhs))
 	end
 
-	return lhs * rhs
+	return self._lua_number * rhs
 end
 
-function number:_percent (lhs, rhs)
+function number_instance:_percent (rhs)
 	if type(rhs) ~= "number" then
 		error("Modulo needs a number, not " .. type(rhs))
 	end
 
-	return lhs % rhs
+	return self._lua_number % rhs
 end
 
-function number:_up (lhs, rhs)
+function number_instance:_up (rhs)
 	if type(rhs) ~= "number" then
 		error("Cannot use " .. type(rhs) .. " as an exponent")
 	end
 
-	return lhs ^ rhs
+	return self._lua_number ^ rhs
 end
 
-function number:times (num, block)
+function number_instance:times (block)
 	local index = 0
-	while index < num do
+	local limit = self._lua_number
+	while index < limit do
 		block(self, index)
 		index = index + 1
 	end
-	return num
+
+	return limit
 end
 
-function number:to (num, stop, block)
-	local index = num
+function number_instance:to (stop, block)
+	local index = self._lua_number
 	while index <= stop do
 		block(self, index)
 		index = index + 1
@@ -841,8 +815,8 @@ function number:to (num, stop, block)
 	return stop
 end
 
-function number:to_unders (num)
-	return base_string:new(tostring(num))
+function number_instance:to_unders ()
+	return base_string:new(tostring(self._lua_number))
 end
 
 --Enumerable squish-in
