@@ -920,7 +920,7 @@ grammar BaseBrat
 				if not elem.e.a.elements.empty?
 					elem.e.a.elements.each do |ele|
 						output << ele.inner_arg_list.brat
-						output << "#@result = #{@result}.__get(#{ele.inner_arg_list.list});"
+						output << "#@result = #{@result}:get(#{ele.inner_arg_list.list});"
 					end
 				end
 			end
