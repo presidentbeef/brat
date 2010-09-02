@@ -363,7 +363,7 @@ function object:_2_true_question (condition, true_branch)
 			return true_branch
 		end
 	else
-		return condition
+		return object.__false
 	end
 end
 
@@ -438,7 +438,7 @@ function object:_2_false_question (condition, true_branch)
 			return true_branch
 		end
 	else
-		return condition
+		return object.__false
 	end
 end
 
@@ -513,7 +513,7 @@ function object:_2_null_question (condition, true_branch)
 			return true_branch
 		end
 	else
-		return condition
+		return object.__false
 	end
 end
 
