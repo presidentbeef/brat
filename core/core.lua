@@ -1681,6 +1681,25 @@ function string_instance:__hash ()
 	return self._lua_string
 end
 
+function string_instance:to_underi (base)
+	local n = tonumber(self._lua_string, base)
+	if n then
+		return math.floor(n)
+	else
+		return object.__null
+	end
+end
+
+function string_instance:to_underf ()
+	local n = tonumber(self._lua_string)
+
+	if n then
+		return n
+	else
+		return object.__null
+	end
+end
+
 --Regular expressions
 
 local regex_instance = object:new()
