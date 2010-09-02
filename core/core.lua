@@ -606,17 +606,6 @@ function object:_or_or (rhs)
 	end
 end
 
-function object:_check_equal (lhs, rhs)
-	local t = type(lhs)
-	if t == "table" then
-		return is_true(lhs:_equal_equal(rhs))
-	elseif t == "number" then
-		return is_true(number:_equal_equal(lhs, rhs))
-	else
-		error("Cannot compare.")
-	end
-end
-
 function object:add_undermethod (name, func)
 	name = to_identifier(name)
 	self[name] = func
@@ -935,8 +924,6 @@ local array_instance = object:new()
 array_instance:squish(enumerable)
 
 array = new_brat(array_instance)
-
-array_instance._lua_array = {}
 
 function array:new (...)
 	local na = new_brat(self)
