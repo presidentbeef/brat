@@ -134,7 +134,7 @@ class Treetop::Runtime::SyntaxNode
 
 		arg_length += 1
 		if object.nil?
-			"#{action} #{no_meth}(#{arguments})"
+			"#{action} #{no_meth}(_self, #{arguments})"
 		else
 			"#{action} #{object}:no_undermethod(#{arguments})"
 		end
