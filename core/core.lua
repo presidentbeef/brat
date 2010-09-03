@@ -1749,6 +1749,16 @@ function string_instance:set (index, value)
 	return value
 end
 
+function string_instance:_less_less (value)
+	if type(value) ~= "table" or value._lua_string == nil then
+		error(exception:argument_error("string <<", "string", tostring(value)))
+	end
+
+	self._lua_string = self._lua_string .. value._lua_string
+
+	return self
+end
+
 function string_instance:__hash ()
 	return self._lua_string
 end
