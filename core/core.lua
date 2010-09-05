@@ -819,6 +819,14 @@ function number_instance:to_unders ()
 	return base_string:new(tostring(self._lua_number))
 end
 
+function number_instance:to_underi ()
+	return math.floor(self._lua_number) 
+end
+
+function number_instance:to_underf ()
+	return self._lua_number
+end
+
 --Enumerable squish-in
 
 enumerable = new_brat(object)

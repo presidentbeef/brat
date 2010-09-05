@@ -67,7 +67,7 @@ class BratNumberTests < Test::Unit::TestCase
 		assert_result "10000000", "10000000 * 1"
 		assert_result "20000000", "10000000 * 2"
 		assert_result "20000000", "2 * 10000000"
-		assert_result "213971023970000000000", "10000000000 * 21397102397"
+		assert_result "2.1397102397e+20", "10000000000 * 21397102397"
 	end
 
 	def test_modulo
@@ -110,13 +110,13 @@ class BratNumberTests < Test::Unit::TestCase
 
 	def test_number_to_f
 		assert_result "5.5", "5.5.to_f"
-		assert_result "192380129731123.3", "192380129731123.3.to_f"
+		assert_result "1.9238012973112e+14", "192380129731123.3.to_f"
 	end
 
 	def test_number_to_i
 		assert_result "5", "5.5.to_i"
 		assert_result "0", "(1 / 2).to_i"
-		assert_result "192380129731123", "192380129731123.3.to_i"
+		assert_result "1.9238012973112e+14", "192380129731123.3.to_i"
 	end
 
 
