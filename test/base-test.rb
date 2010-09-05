@@ -5,12 +5,12 @@ module BratBaseTest
 	end
 
 	def parse input
-		input = <<-LUA
+		input = <<-BRAT
 		brat_test_function = {
 			#{input}
 		}
 		object.p(brat_test_function)
-		LUA
+		BRAT
 		result = @parser.parse(input)
 		unless result
 			$stderr.puts @parser.failure_reason
