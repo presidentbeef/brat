@@ -625,7 +625,7 @@ function object:get_undermethod (name)
 	return self[name]
 end
 
-function object:has_undermethod (name)
+function object:has_undermethod_question (name)
 	name = to_identifier(name)
 	if self[name] ~= nil then
 		return object.__true
