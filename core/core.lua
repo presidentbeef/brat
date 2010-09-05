@@ -308,7 +308,7 @@ function object:_equal_equal (rhs)
 	end
 end
 
-function object:_notequal (rhs)
+function object:_bang_equal (rhs)
 	return self:_not(self:_equal_equal(rhs))
 end
 
