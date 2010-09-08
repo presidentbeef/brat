@@ -765,7 +765,7 @@ grammar BaseBrat
 			end
 
 			out_stack.each do |e|
-				if e[0,5] == "_temp" || e.to_i.to_s == e || e.to_f.to_s == e
+				if e[0,5] == "_temp" || e.to_i.to_s == e || (Float(e) rescue nil)
 					res_stack.push e
 				else
 					r = res_stack.pop
