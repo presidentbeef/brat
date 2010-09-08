@@ -1454,6 +1454,24 @@ function hash_instance:each_underkey (block)
 	return self
 end
 
+function hash_instance:_plus (rhs)
+	if type(rhs) ~= "table" or rhs._lua_hash == nil then
+		error(exception:argument_error("hash.+", "hash", tostring(rhs)))
+	end
+
+	local new_hash = hash:new()
+
+	for k,v in pairs(self._lua_hash) do
+		new_hash:set(k, v)
+	end
+
+	for k,v in pairs(rhs._lua_hash) do
+		new_hash:set(k, v)
+	end
+
+	return new_hash
+end
+
 require 'md5'
 
 local md5_hash = md5.digest
