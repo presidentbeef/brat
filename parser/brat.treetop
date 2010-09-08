@@ -6,6 +6,7 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			<<-LUA
 			require "core/core"
+			_exports = {}
 			local _main = function ()
 				local object = object
 				local array = array
