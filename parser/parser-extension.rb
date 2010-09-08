@@ -199,7 +199,7 @@ class Treetop::Runtime::SyntaxNode
 
 		<<-LUA
 		if #{temp} == nil then
-			if #{has_field("this", "no_undermethod")} then
+			if #{has_field("_self", "no_undermethod")} then
 				#{call_no_method res_var, "_self", method, arguments, arg_length}
 			else
 				_error(exception:null_error("#{nice_id method}", "invoke method"))

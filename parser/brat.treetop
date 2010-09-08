@@ -956,7 +956,7 @@ grammar BaseBrat
 				elseif #{temp} == nil then
 					_error(exception:null_error("#{nice_id name}", "cannot call method on it"))
 				else
-					_error(exception:method_error("this", "#{nice_id name}"))
+					_error(exception:method_error("self", "#{nice_id name}"))
 				end
 				LUA
 			else
@@ -966,7 +966,7 @@ grammar BaseBrat
 				elseif #{name} ~= nil then
 					#@result = #{name};
 				else
-					error(exception:method_error("this", "#{nice_id name}"))
+					_error(exception:method_error("self", "#{nice_id name}"))
 				end
 				LUA
 			end
