@@ -673,6 +673,35 @@ function object:with_underthis (block)
 	return block(self)
 end
 
+function object:protect (block, options)
+	if options == nil then
+		local status, result = pcall(block, self)
+		if status then
+			return result
+		else
+			return object.__null
+		end
+	elseif type(options) == "table" and options._lua_hash ~= nil then
+		if type(options:get(base_string:new("rescue"))) == "function" then
+			local f = function()
+				return block(self)
+			end
+
+			local handler = function(err)
+				return options:get(base_string:new("rescue"))(self, err)
+			end
+
+			local status, result = xpcall(f, handler)
+
+			return result
+		else
+			error(exception:argument_error("protect", "function", tostring(options)))
+		end
+	else
+		error(exception:argument_error("protect", "hash", tostring(options)))
+	end
+end
+
 --The comparable squish-in
 comparable = object:new()
 
