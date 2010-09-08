@@ -240,7 +240,7 @@ is_true = function (bool)
 	end
 end
 
-function object:_print (...)
+function object:print (...)
 	io.output(io.stdout)
 	local input = {...}
 	for k,v in pairs(input) do
@@ -251,7 +251,7 @@ function object:_print (...)
 end
 
 function object:p (...)
-	self:_print(...)
+	self:print(...)
 	print()
 	return object.__null
 end
