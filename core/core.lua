@@ -702,6 +702,10 @@ function object:protect (block, options)
 	end
 end
 
+function object:throw (err)
+	error(err, 2)
+end
+
 --The comparable squish-in
 comparable = object:new()
 
