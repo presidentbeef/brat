@@ -708,6 +708,94 @@ function object:throw (err)
 	error(err, 2)
 end
 
+function object:include (file, name)
+	if type(file) == "table" and file._lua_string then
+		file = file._lua_string
+	end
+
+	if type(file) ~= "string" then
+		error(exception:argument_error("include", "string", tostring(file)))
+	end
+
+	if type(name) == "table" and name._lua_string then
+		name = name._lua_string
+	end
+
+	if name and type(name) ~= "string" then
+		error(exception:argument_error("include", "string", tostring(file)))
+	end
+
+	require(file)
+
+	local env = getfenv(2)
+
+	if name then
+		for k,v in pairs(_exports) do
+			 if k == name then
+				env[k] = v
+			end
+		end
+	else
+		for k,v in pairs(_exports) do
+			env[k] = v
+		end
+	end
+
+	return object.__true
+end
+
+function object:import (file, name)
+	if type(file) == "table" and file._lua_string then
+		file = file._lua_string
+	end
+
+	if type(file) ~= "string" then
+		error(exception:argument_error("include", "string", tostring(file)))
+	end
+
+	if type(name) == "table" and name._lua_string then
+		name = name._lua_string
+	end
+
+	if name and type(name) ~= "string" then
+		error(exception:argument_error("include", "string", tostring(file)))
+	end
+
+
+	require(file)
+
+	if name then
+		if _exports[name] then
+			return _exports[name]
+		else
+			return object.__null
+		end
+	else
+		local imported = hash:new()
+		
+		for k,v in pairs(_exports) do
+			imported:set(base_string:new(k), v)
+		end
+
+		return imported
+	end
+
+end
+
+function object:export (obj, name)
+	if type(name) == "table" and name._lua_string then
+		name = name._lua_string
+	end
+
+	if type(name) ~= "string" then
+		error(exception:argument_error("export", "string", tostring(name)))
+	end
+
+	_exports[name] = obj
+
+	return object.__true
+end
+
 --The comparable squish-in
 comparable = object:new()
 
