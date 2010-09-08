@@ -300,6 +300,15 @@ function object:random (...)
 		object._random_seed = true
 	end
 
+	local args = {...}
+	if args[2] == nil then
+		if args[1] == 0 then
+			return 0
+		elseif type(args[1]) == "number" and args[1] < 1 then
+			error(exception:argument_error("random", "number > 0", tostring(args[1])))
+		end
+	end
+
 	return math.random(...)
 end
 
