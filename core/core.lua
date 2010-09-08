@@ -1,9 +1,11 @@
 package.cpath = package.cpath .. ";./lib/?.so"
+package.path = package.path .. ";./stdlib/?.lua"
+
 local type = type
 local pairs = pairs
 
 --Helper functions
-local new_brat = function (parent_object)
+new_brat = function (parent_object)
 	local nb = { parent = function () return parent_object end }
 	local get_parent = function (table, key)
 		if table:parent() ~= nil then
