@@ -59,10 +59,10 @@ class BratExamplesTest < Test::Unit::TestCase
 	end
 
 	def test_how_are_you_auto_reply
-		assert_result "I am fine, thank you!", 'How = {x| p "How", x[0], x[1] }
+		assert_result "How are you? I am fine, thank you!", 'How = {x| print "How", x[0], x[1] }
 						are = {x| [" are "] + x }
 						you? = ["you?"]
-						I = {x| "I" + x[0] + x[1] + x[2] + x[3] }
+						I = {x| " I" + x[0] + x[1] + x[2] + x[3] }
 						am = {x, y| [" am"] + x + y }
 						fine = [" fine, "]
 						thank = {x| ["thank"] + x }
