@@ -1396,8 +1396,11 @@ end
 function hash_instance:set (index, value)
 	if type(index) == "table" and type(index.__hash) == "function" then
 		local key = index:__hash()
+		if self._key_hash[key] then
+			self._lua_hash[self._key_hash[key]] = nil
+		end
+
 		self._key_hash[key] = index
-		self._lua_hash[index] = value
 	end
 		
 	self._lua_hash[index] = value
