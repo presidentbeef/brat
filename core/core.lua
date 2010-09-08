@@ -1958,18 +1958,26 @@ function exception_instance:to_unders ()
 	end
 end
 
-function exception:argument_error (method, expected, given) 
-	return self:new("Argument error: " .. method .. " expected " .. expected .. " argument(s) but was given " .. given .. ".", "argument error")
+function exception:argument_undererror (method, expected, given) 
+	return self:new("Argument error: " .. tostring(method) .. " expected " .. tostring(expected) .. " argument(s) but was given " .. tostring(given) .. ".", "argument error")
 end
 
-function exception:method_error (object, method_name)
-	return self:new("Method error: " .. tostring(object) .. " has no method called '" .. method_name .. "'.", "method error")
+exception.argument_error = exception.argument_undererror
+
+function exception:method_undererror (object, method_name)
+	return self:new("Method error: " .. tostring(object) .. " has no method called '" .. tostring(method_name) .. "'.", "method error")
 end
 
-function exception:null_error (name, cannot)
-	return self:new("Null error: " .. name .. " is null, cannot " .. cannot .. ".", "null error")
+exception.method_error = exception.method_undererror
+
+function exception:null_undererror (name, cannot)
+	return self:new("Null error: " .. tostring(name) .. " is null, cannot " .. tostring(cannot) .. ".", "null error")
 end
 
-function exception:name_error (name)
-	return self:new("Name error: No such method or local variable '" .. name .. "'.", "name error")
+exception.null_error = exception.null_undererror
+
+function exception:name_undererror (name)
+	return self:new("Name error: No such method or local variable '" .. tostring(name) .. "'.", "name error")
 end
+
+exception.name_error = exception.name_undererror
