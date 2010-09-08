@@ -12,7 +12,7 @@ class BratMiscTests < Test::Unit::TestCase
 		assert_result "false", "false && true"
 		assert_result "false", "true && false"
 		assert_result "true", "true && true"
-		assert_result "2", "n = true? {true && {p \"hi\";false}}, 1, 2"
+		assert_result "2", "n = true? {true && {null; false}}, 1, 2"
 		assert_result "true", "true && { true }"
 	end
 

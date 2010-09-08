@@ -585,7 +585,7 @@ end
 function object:_and_and (rhs)
 	if is_true(self) then
 		if type(rhs) == "function" then
-			if is_true(rhs()) then
+			if is_true(rhs(self)) then
 				return object.__true
 			else
 				return object.__false
@@ -606,7 +606,7 @@ function object:_or_or (rhs)
 	if is_true(self) then
 		return object.__true
 	elseif type(rhs) == "function" then
-		if is_true(rhs()) then
+		if is_true(rhs(self)) then
 			return object.__true
 		else
 			return object.__false
@@ -723,14 +723,6 @@ end
 
 function number_instance:_or_or (rhs)
 	return object.__true
-end
-
-function number_instance:_and_and (rhs)
-	if is_true(rhs) then
-		return rhs
-	else
-		return object.__false
-	end
 end
 
 function number_instance:_equal_equal (rhs)
