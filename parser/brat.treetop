@@ -15,6 +15,11 @@ grammar BaseBrat
 				local hash = hash
 				local regex = regex
 				local _self = object
+				local _type = type
+				local _error = error
+				local _tostring = tostring
+
+				setfenv(1, {})
 
 				#{self.inner_brat}
 			end
@@ -298,12 +303,12 @@ grammar BaseBrat
 			@result = rhs.result
 
 			output << <<-LUA
-				if type(#{lhs_result}) == "table" then
+				if _type(#{lhs_result}) == "table" then
 					#{lhs_result}["#{lhs.i.brat}"] = #{rhs_result}
-				elseif type(#{lhs_result}) == "number" then
+				elseif _type(#{lhs_result}) == "number" then
 					number["#{lhs.i.brat}"] =  #{rhs_result}
 				else
-					error("Cannot set method on " .. #{lhs_result})
+					_error("Cannot set method on " .. #{lhs_result})
 				end
 			LUA
 		end
@@ -317,12 +322,12 @@ grammar BaseBrat
 			@result = rhs.result
 
 			output << <<-LUA
-				if type(#{lhs_result}) == "table" then
+				if _type(#{lhs_result}) == "table" then
 					#{lhs_result}["#{lhs.i.brat}"] = function () return #{rhs_result} end
-				elseif type(#{lhs_result}) == "number" then
+				elseif _type(#{lhs_result}) == "number" then
 					number["#{lhs.i.brat}"] = function () return #{rhs_result} end
 				else
-					error("Cannot set method on " .. #{lhs_result})
+					_error("Cannot set method on " .. #{lhs_result})
 				end
 			LUA
 		end
@@ -424,7 +429,7 @@ grammar BaseBrat
 				content.elements.each do |e|
 					if e.respond_to? :brat
 						output << e.brat << "\n"
-						text << "\" .. tostring(#{e.result}) .. \""
+						text << "\" .. _tostring(#{e.result}) .. \""
 					else
 						text << e.text_value
 					end
@@ -942,15 +947,15 @@ grammar BaseBrat
 			"local #@result\n" <<
 			if temp
 				<<-LUA
-				local _t = type(#{temp});
+				local _t = _type(#{temp});
 				if _t == "table" or _t == "number" then
 					#@result = #{temp}
 				elseif _t == "function" then 
 					#{invoke(@result, temp, arg_list.list, arg_list.length)}
 				elseif #{temp} == nil then
-					 error(exception:null_error("#{nice_id name}", "cannot call method on it"))
+					_error(exception:null_error("#{nice_id name}", "cannot call method on it"))
 				else
-					error(exception:method_error("this", "#{nice_id name}"))
+					_error(exception:method_error("this", "#{nice_id name}"))
 				end
 				LUA
 			else

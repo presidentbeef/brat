@@ -80,7 +80,7 @@ class Treetop::Runtime::SyntaxNode
 			elseif #{has_field("number", "no_undermethod")} then
 				#{call_no_method res_var, "number", method, arguments, arg_length}
 			else
-				error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
+				_error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
 			end
 			LUA
 
@@ -89,28 +89,28 @@ class Treetop::Runtime::SyntaxNode
 		else
 			<<-LUA
 			if #{temp} == nil then
-				error(exception:null_error("#{nice_id object}", "invoke #{nice_id method} on it"))
-			elseif(type(#{temp}) == "table") then
+				_error(exception:null_error("#{nice_id object}", "invoke #{nice_id method} on it"))
+			elseif(_type(#{temp}) == "table") then
 				if #{has_field(temp, method)} then
 					#{action} #{temp}:#{method}(#{arguments})
 				elseif #{has_field(temp, "no_undermethod")} then
 					#{call_no_method res_var, temp, method, arguments, arg_length}
 				else
-					error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
+					_error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
 				end
-			elseif type(#{temp}) == "function" then
+			elseif _type(#{temp}) == "function" then
 				local _f = _function:new(#{temp})
 				if #{has_field("_f", method)} then 
 					#{action} _f:#{method}(#{arguments})
 				elseif #{has_field("_f", "no_undermethod")} then
 					#{call_no_method res_var, "_f", method, arguments, arg_length}
 				else
-					error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
+					_error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
 				end
-			elseif type(#{temp}) == "number" then
+			elseif _type(#{temp}) == "number" then
 				#{call_number}
 			else
-				error("Tried to invoke method on something strange")
+				_error("Tried to invoke method on something strange")
 			end
 			LUA
 		end
@@ -154,7 +154,7 @@ class Treetop::Runtime::SyntaxNode
 
 		no_meth = var_exist?("no_undermethod") || "no_undermethod"
 		output = <<-LUA
-		if type(#{temp}) == "function" then
+		if _type(#{temp}) == "function" then
 			#{if arg_length > 0
 				"#{action} #{temp}(_self, #{arguments})\n"
 			else
@@ -165,18 +165,18 @@ class Treetop::Runtime::SyntaxNode
 		elseif #{temp} == nil then
 			if #{has_field("_self", object)} then
 				#{call_method(res_var, "_self", object, arguments, arg_length)}
-			elseif type(_self) == "number" then
+			elseif _type(_self) == "number" then
 				#{call_method(res_var, "number", object, arguments, arg_length)}
 			elseif #{has_field("_self", "no_undermethod")} then
 				#{call_no_method res_var, "_self", object, arguments, arg_length}
-			elseif type(#{no_meth}) == "function" then
+			elseif _type(#{no_meth}) == "function" then
 				#{call_no_method res_var, nil, object, arguments, arg_length}
 			else
-				error(exception:name_error("#{nice_id object}"))
+				_error(exception:name_error("#{nice_id object}"))
 			end
 		LUA
 		if arg_length > 0
-			output << "else error(exception:new(\"Tried to invoke non-method: #{nice_id object}\")) end\n"
+			output << "else _error(exception:new(\"Tried to invoke non-method: #{nice_id object}\")) end\n"
 		else
 			output << "else #{action} #{temp} end\n"
 		end
@@ -202,7 +202,7 @@ class Treetop::Runtime::SyntaxNode
 			if #{has_field("this", "no_undermethod")} then
 				#{call_no_method res_var, "_self", method, arguments, arg_length}
 			else
-				error(exception:null_error("#{nice_id method}", "invoke method"))
+				_error(exception:null_error("#{nice_id method}", "invoke method"))
 			end
 		else 
 			#{action} #{temp}(#{arguments})
@@ -211,7 +211,7 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def escape_identifier identifier
-		escape_operator(identifier).gsub(/\b(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while|print|error|assert|collectgarbage|dofile|getfenv|getmetatable|ipairs|load|loadfile|loadstring|next|pairs|pcall|rawequal|rawget|rawset|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\b/i) {|m| "_" + $1 }
+		escape_operator(identifier).gsub(/\b(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b/i) {|m| "_" + $1 }
 	end
 
 	def escape_operator op
@@ -261,7 +261,7 @@ class Treetop::Runtime::SyntaxNode
 			"dollar" => "$" }
 
 	ID_CONVERT_RE_OP = /_(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)/
-	ID_CONVERT_RE_KW = /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while|print|error|assert|collectgarbage|dofile|getfenv|getmetatable|ipairs|load|loadfile|loadstring|next|pairs|pcall|rawequal|rawget|rawset|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)/
+	ID_CONVERT_RE_KW = /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)/
 
 	def nice_id identifier
 		identifier.gsub(ID_CONVERT_RE_OP) do
