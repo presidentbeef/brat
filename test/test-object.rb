@@ -42,7 +42,7 @@ class BratObjectTest < Test::Unit::TestCase
 	def test_object_local_methods
 		assert_result "true", 'a = new; a.b = { }; a.local_methods.include? "b"'
 		assert_result "false", 'a = new; a.b = { }; a.local_methods.include? "new"'
-		assert_result "1", 'a = new; a.b = { }; a.local_methods.length'
+		assert_result "2", 'a = new; a.b = { }; a.local_methods.length'
 	end
 
 	def test_squish
