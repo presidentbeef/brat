@@ -204,6 +204,7 @@ class BratContainerTests < Test::Unit::TestCase
 
 	def test_hash_delete
 		assert_result 'false', 'a = ["a" : 1, "b" : 2, 3 : 4]; a.delete "a"; a.key? "a"'
+		assert_result '2', 'a = ["a" : 1, "b" : 2, 3 : 4]; a.delete "a"; a.length'
 	end
 
 	def test_hash_length

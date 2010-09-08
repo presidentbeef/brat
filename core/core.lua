@@ -1558,6 +1558,7 @@ end
 function hash_instance:delete (index)
 	if type(index) == "table" and type(index.__hash) == "function" then
 		local key = index:__hash()
+		index = self._key_hash[key]
 		self._key_hash[key] = nil
 	end
 		
