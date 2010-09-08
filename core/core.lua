@@ -1339,10 +1339,12 @@ function array_instance:include_question (item)
 	local found = false
 	local k = 0
 	while k <= len do
-		if a[k] == item then
-			found = true
-			break
-		elseif type(a[k]) == "table" and a[k]._is_an_object and a[k]:_equal_equal(item) then
+		if type(a[k]) == "table" and a[k]._is_an_object then
+			if is_true(a[k]:_equal_equal(item)) then
+				found = true
+				break
+			end
+		elseif a[k] == item then
 			found = true
 			break
 		end
