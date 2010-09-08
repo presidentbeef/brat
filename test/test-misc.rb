@@ -30,8 +30,7 @@ class BratMiscTests < Test::Unit::TestCase
 	end
 
 	def test_include
-		assert_result "[]", "include 'set'; set.new"
-		assert_result "true", "include 'thread', 'queue'; has_method? :pop"
+		assert_result "Set:[]", "include 'set'; set.new"
 	end
 
 	def test_mixed_identifer
