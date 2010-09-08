@@ -660,6 +660,10 @@ function object:call_undermethod (name, ...)
 	end
 end
 
+function object:with_underthis (block)
+	return block(self)
+end
+
 --The comparable squish-in
 comparable = object:new()
 
