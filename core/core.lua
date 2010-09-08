@@ -622,7 +622,11 @@ end
 
 function object:get_undermethod (name)
 	name = to_identifier(name)
-	return self[name]
+	if self[name] == nil then
+		return object.__null
+	else
+		return self[name]
+	end
 end
 
 function object:has_undermethod_question (name)
