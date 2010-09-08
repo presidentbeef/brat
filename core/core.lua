@@ -92,7 +92,7 @@ local unescape_ops = { ["bang"] = "!",
 }
 
 local esc_symbols = orex.new("!=|>=|<=|\\||[!?\\-*+^@~\\/\\\\><$_%|&=]")
-local esc_keywords = orex.new("\\b(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while|print|error|assert|collectgarbage|dofile|getfenv|getmetatable|ipairs|load|loadfile|loadstring|next|pairs|pcall|rawequal|rawget|rawset|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\\b")
+local esc_keywords = orex.new("\\b(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\\b")
 
 local escape_identifier = function (name)
 	name = orex.gsub(name, esc_symbols, escape_ops)
@@ -102,7 +102,7 @@ local escape_identifier = function (name)
 end
 
 local unesc_symbols = orex.new("_(bang|star|minus|plus|or|and|at|tilde|up|forward|back|question|less|greater|equal|percent|under|dollar)")
-local unesc_keywords = orex.new("__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while|print|error|assert|collectgarbage|dofile|getfenv|getmetatable|ipairs|load|loadfile|loadstring|next|pairs|pcall|rawequal|rawget|rawset|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)")
+local unesc_keywords = orex.new("__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)")
 
 local unescape_identifier = function (name)
 	name = orex.gsub(name, unesc_keywords, function (word) return string.sub(word, 1) end)
@@ -110,6 +110,19 @@ local unescape_identifier = function (name)
 
 	return name
 end
+
+local to_identifier = function (str)
+	if type(str) == "table" and str._lua_string ~= nil then
+		str = str._lua_string
+	end
+
+	if type(str) ~= "string" then
+		error(exception:new("Cannot convert " .. tostring(str) .. " to an identifier"))
+	end
+
+	return escape_identifier(str)
+end
+
 
 --Object, the basis of all things in Brat
 
@@ -888,7 +901,7 @@ function enumerable:find (block)
 	end
 end
 
-function enumerable:_select (block)
+function enumerable:select (block)
 	local new_array = {}
 	local f = function (_self, item)
 		if is_true(block(_self, item)) then
@@ -1512,7 +1525,7 @@ function hash_instance:length ()
 	return self:keys():length()
 end
 
-function hash_instance:_select (block)
+function hash_instance:select (block)
 	local result = {}
 	for k,v in pairs(self._lua_hash) do
 		if is_true(block(self, k, v)) then
