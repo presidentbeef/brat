@@ -749,8 +749,8 @@ grammar BaseBrat
 			next_temp
 			final_result = @result
 			output = "local #{final_result} \n do\n" <<
-				lhs.brat <<
-				rhs.brat
+				rhs.brat <<
+				lhs.brat
 			@result = rhs.result
 			in_stack = lhs.stack
 			in_stack << @result
