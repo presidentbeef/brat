@@ -5,7 +5,7 @@ grammar BaseBrat
  	line+ {
 		def brat(res_var = nil)
 			<<-LUA
-			require "core/core"
+			require "core"
 			_exports = {}
 			local _main = function ()
 				local object = object

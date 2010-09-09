@@ -1,6 +1,3 @@
-package.cpath = package.cpath .. ";./lib/?.so"
-package.path = package.path .. ";./stdlib/?.lua"
-
 local type = type
 local pairs = pairs
 

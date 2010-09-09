@@ -20,19 +20,22 @@ module BratBaseTest
 	end
 
 	def brat input
-		out = parse(input).brat
-		File.open('.test.lua.tmp', 'w') {|f| f.puts "--" << caller[3] << "\n" << out }
-		result = `lua .test.lua.tmp`
-		`cp .test.lua.tmp test.lua.last_error` unless $? == 0
-		#File.delete(".test.lua.tmp")
-		result.split("\n").first.strip
+		out = <<-LUA
+			package.cpath = package.cpath .. ";./lib/?.so"
+			package.path = package.path .. ";./core/?.lua;./stdlib/?.lua"
+		LUA
+		out << parse(input).brat
+		result = nil
+		IO.popen("lua -", "r+") do |lua|
+			lua.print(out)
+			lua.close_write
+			result = lua.readlines
+		end
+		result.first.strip
 	end
 
 	def assert_fail code
-		out = parse(code).brat
-		File.open('.test.lua.tmp', 'w') {|f| f.puts "--" << caller[3] << "\n" << out }
-		`lua .test.lua.tmp 2> /dev/null`
-		File.delete(".test.lua.tmp")
+		brat code
 		assert_not_equal $?, 0
 	end
 

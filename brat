@@ -1,168 +1,47 @@
-#!/usr/bin/env ruby
-BRAT_VERSON = 20090410
+#!/usr/bin/env lua
+--Set up paths so we can access Brat runtime files
+local program_path = debug.getinfo(1, "S").short_src
+program_path = program_path:match("(.+/)brat.lua$")
 
-#This is for Ruby 1.8.6 compatibility
-unless 0.respond_to? :even?
-	class Fixnum
-		def even?
-			self % 2 == 0
-		end
-	end
+if program_path == nil then
+	program_path = "./"
 end
 
-#Compiles parser if it needs to be. Returns false if compilation does not occur, otherwise returns result of compilation.
-def compile_parser force = false
-	if force or not File.exist? "#$program_path/parser/brat.rb" or newer? "#$program_path/parser/brat.treetop", "#$program_path/parser/brat.rb"
-		system "cd #$program_path/parser && tt brat.treetop"
-	else
-		false
-	end
+package.cpath = package.cpath .. ";" .. program_path .. "lib/?.so"
+package.path = package.path .. ";" .. program_path .. "core/?.lua;" .. program_path .. "stdlib/?.lua"
+
+require "lfs"
+
+local abort = function (message)
+	print(message)
+	os.exit(-1)
 end
 
-#Parses Brat input and returns Lua code from the parser.
-def brat_to_lua input
-	parser = BaseBratParser.new
-	tree = parser.parse(input)
-	if tree.nil? or not tree.respond_to? :brat
-		if input.strip == ""
-			"return nil"
-		else
-			raise "Error during parsing:\n#{parser.failure_reason}"
-		end
-	else
-		tree.brat
-	end
+if #arg == 0 then
+	abort("Please supply name of Brat file")
 end
 
-#Checks if file1 is newer than file2
-def newer? file1, file2
-	File.mtime(file1) > File.mtime(file2)
+file_name = arg[#arg]:match("(.+).brat")
+
+if file_name == nil then
+	abort("File to execute should end in .brat")
 end
 
-#Compiles and runs code from a single Brat file
-def brat orig_file_name, options
-	require 'rubygems'
-	require 'treetop'
+brat_file_name = file_name .. ".brat"
+lua_file_name = file_name .. ".lua"
 
-	force = options[:force]
-	new_parser = compile_parser(force) unless options[:skip_check]
+brat_modified = lfs.attributes(brat_file_name, "modification")
 
-	require "#$program_path/parser/brat"
-	require "#$program_path/parser/parser-extension"
-
-	unless options[:skip_check]
-		force = force || new_parser
-	end
-
-	options[:force] = force
-
-	file_name = compile_brat_file orig_file_name, options
-
-	return if not options[:run]
-
-	if not system "lua #{file_name}.lua"
-		abort "Running program returned error number: #{$?}"
-	end
+--.brat file does not exist
+if brat_modified == nil then
+	abort("Could not open " .. brat_file_name)
 end
 
-#Compiles a Brat file to Lua, returns base name of file
-def compile_brat_file orig_file_name, options = {}
-	if orig_file_name.match /\.brat$/i
-		file_name = orig_file_name[0..-6]
-	else
-		file_name = orig_file_name
-	end
+lua_modified = lfs.attributes(lua_file_name, "modification")
 
-	force = options[:force]
-
-	if force or not File.exist?(file_name + ".lua") or newer? orig_file_name, file_name + ".lua"
-		brat_input = File.read orig_file_name
-
-		begin
-			lua = brat_to_lua brat_input
-		rescue RuntimeError => e
-			puts e
-			exit
-		end
-
-		File.open(file_name + ".lua", "w") {|f| f.puts lua }
-	end
-
-	file_name
+if lua_modified == nil or brat_modified > lua_modified then
+	os.remove(file_name .. ".lua")
+	os.execute("ruby " .. program_path .. "/parser/parse.rb " .. brat_file_name .. " " .. lua_file_name)
 end
 
-#Returns Lua code for Brat input
-def inner_brat input
-	parser = BaseBratParser.new
-	tree = parser.parse(input)
-	if tree.nil? or not tree.respond_to? :brat
-		if input.strip == ""
-			"null"
-		else
-			raise "Error during parsing:\n#{parser.failure_reason}"
-		end
-	else
-		tree.inner_brat
-	end
-end
-
-#Returns help string for Brat executable
-def show_help
-	puts <<-END
-Usage: brat [options] [file_name]
-Possible options:
--a    Force recompilation of everything
--c    Only compile, do not run
--h    Show this help information
--k    Don't erase intermediate files (implies -f)
--s    Skip checking for out-of-date files
--t    Report running time
-	END
-end
-
-#Full path to Brat executable
-$program_path = File.dirname(File.expand_path(__FILE__))
-
-$interactive = false
-
-if ARGV[0]
-	require 'set'
-	opt_args = Set.new(ARGV.select {|o| o[0,1] == '-' })
-	options = {}
-
-	options[:force] = opt_args.include? "-a"
-
-	options[:skip_check] = opt_args.include? '-s'
-
-	if opt_args.include? '-h'
-		show_help
-		exit
-	elsif opt_args.include? ARGV[-1]
-		brat_interactive options
-	end
-
-	file_name = Dir.pwd + "/" + ARGV[-1]
-
-	if not File.exist? file_name
-		abort "No such file: #{ARGV[-1]}"
-	end
-
-	options[:run] = !opt_args.include?('-c')
-
-	if opt_args.include? '-f' or options[:force]
-		bare_name = file_name.sub(/\.brat$/, "")
-		File.delete(bare_name + ".lua") rescue nil
-	end
-
-	if opt_args.include? "-t"
-		require 'benchmark'
-		time = Benchmark.measure do
-			brat file_name, options
-		end
-		$stderr.puts time.format('Time: %t %r')
-	else
-		brat file_name, options
-	end
-else
-	abort "At least provide a file name."
-end
+dofile(file_name .. ".lua")
