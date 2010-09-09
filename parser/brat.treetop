@@ -76,6 +76,9 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			""
 		end
+
+		def empty_line
+		end
 	}
   end
 
@@ -136,13 +139,19 @@ grammar BaseBrat
   rule comment
   	space? "#*" (!"*#" (comment / .))* "*#" {
 		def brat(res_var = nil)
-			""
+			"--comment"
+		end
+
+		def comment
 		end
 	}
 	/
 	space? "#" (!(eol/eof) .)* {
 		def brat(res_var = nil)
-			""
+			"--comment"
+		end
+
+		def comment
 		end
 	}
   end
@@ -525,7 +534,9 @@ grammar BaseBrat
 		
 			output = ""
 
-			elements = l.elements[0..-2].map {|e| e.brat }
+			l.elements.reject! { |e| e.respond_to? :comment or e.respond_to? :empty_line }
+
+			elements = l.elements[0..-2].map { |e| e.brat }
 
 			last = l.elements.last
 
