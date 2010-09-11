@@ -2081,17 +2081,25 @@ function exception:new(message, error_type)
 		error_type = "standard error"
 	end
 
-	message = base_string:new(message)
+	local msg = base_string:new(message)
+	local stack_trace = base_string:new(debug.traceback(message, 3))
 	error_type = base_string:new(error_type)
 
 	local e = new_brat(self)
-	e.error_undermessage = function () return message end
+	e.error_undermessage = function () return msg end
+	e.stack_undertrace = function()
+		return stack_trace
+	end
 	e.type = function() return error_type end
 	return e
 end
 
 function exception._handler (exp)
-	print(debug.traceback(tostring(exp), 3))
+	if type(exp) == "table" then
+		print(exp:stack_undertrace())
+	else
+		print(debug.traceback(exp, 3))
+	end
 	return nil
 end
 
