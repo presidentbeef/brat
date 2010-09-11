@@ -1979,7 +1979,7 @@ function regex:new (string)
 	end
 
 	local nr = new_brat(self)
-	nr._lua_regex = orex.new("(" .. string .. ")")
+	nr._lua_regex = orex.new(string)
 	nr._regex_string = string
 	return nr
 end
