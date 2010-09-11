@@ -4,13 +4,13 @@ class BratStringTests < Test::Unit::TestCase
 	include BratBaseTest
 
 	def test_string_split
-		assert_result "[he,,o]", '"hello".split "l"'
-		assert_result "[h,llo]", '"hello".split "e"'
+		assert_result "[he, o]", '"hello".split "l"'
+		assert_result "[h, llo]", '"hello".split "e"'
 		assert_result "[hello]", '"hello".split "z"'
 		assert_result "[hello]", '"hello".split'
 		assert_result "[]", '"hello".split "hello"'
 		assert_result "[]", '"".split "hello"'
-		assert_result "[h,e,l,l,o]", '"hello".split ""'
+		assert_result "[h, e, l, l, o]", '"hello".split ""'
 	end
 
 	def test_string
