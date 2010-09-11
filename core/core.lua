@@ -1060,6 +1060,32 @@ function array:new (...)
 	return na
 end
 
+function array_instance:compact ()
+	return self:copy():compact_bang()
+end
+
+function array_instance:compact_bang ()
+	local result = {}
+	for k,v in pairs(self._lua_array) do
+		if v and v ~= object.__null then
+			table.insert(result, v)
+		end
+	end
+
+	self._lua_array = result
+
+	return self
+end
+
+function array_instance:copy ()
+	local result = {}
+	for k,v in pairs(self._lua_array) do
+		table.insert(result, v)
+	end
+
+	return array:new(result)
+end
+
 function array_instance:each (block)
 	local k = 1
 	local len = #self._lua_array
