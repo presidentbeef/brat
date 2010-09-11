@@ -1931,6 +1931,29 @@ function string_instance:set (index, value)
 	return value
 end
 
+function string_instance:split (sep)
+	if sep == nil then
+		sep = orex.new("\\s+")
+	elseif type(sep) == "table" then
+		if sep._lua_string then
+			sep = sep._lua_string
+		elseif sep._lua_regex then
+			sep = sep._lua_regex
+		end
+	elseif type(sep) ~= "string" then
+		error(exception:argument_error("string.split", "string or regex", tostring(sep)))
+	end
+
+	local result = {}
+	for value in orex.split(self._lua_string, sep) do
+		if value and value ~= "" then
+			table.insert(result, value)
+		end
+	end
+
+	return array:new(result)
+end
+
 function string_instance:_less_less (value)
 	if type(value) ~= "table" or value._lua_string == nil then
 		error(exception:argument_error("string <<", "string", tostring(value)))
