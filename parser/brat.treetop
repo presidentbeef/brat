@@ -585,6 +585,10 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			plain_formals.brat
 		end
+
+		def function_header 
+			plain_formals.check_args true
+		end
 	}
 	/
 	space? default_args space? "|" !"|" {
@@ -616,6 +620,7 @@ grammar BaseBrat
 		end
 
 		def function_header
+			plain_formals.check_args << "\n" <<
 			"#@param = array:new(...)\n"
 		end
 	}
@@ -641,6 +646,7 @@ grammar BaseBrat
 		end
 
 		def function_header
+			plain_formals.check_args << "\n" <<
 			default_args.set_args << "\n" <<
 			"#@param = array:new(...)\n"
 		end
@@ -653,6 +659,7 @@ grammar BaseBrat
 		end
 
 		def function_header
+			plain_formals.check_args << "\n" <<
 			default_args.set_args
 		end
 	}
@@ -668,6 +675,31 @@ grammar BaseBrat
 			name = var_add i.brat
 			@args = [name] + rest_formal.brat
 			(["_self"] + @args).join(", ")
+		end
+
+
+		def check_args only_plain = false
+			return "" if args.length == 0
+
+			if only_plain
+				minimum = 1
+			else
+				minimum = "'at least #{args.length}'"
+			end
+			
+			output = <<-LUA
+				if #{args.first} == nil then
+					_error(exception:argument_error("function", #{minimum}, 0))
+			LUA
+
+			args[1..-1].each_with_index do |arg, index|
+				output << <<-LUA
+					elseif #{args.first} == nil then
+						_error(exception:argument_error("function", #{minimum}, #{index}))
+				LUA
+			end
+
+			output << "\nend"
 		end
 	}
   end
