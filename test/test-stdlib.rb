@@ -3,19 +3,17 @@ require 'test/base-test'
 class BratStdlibTests < Test::Unit::TestCase
 	include BratBaseTest
 
-=begin
 	def test_directory
 		require 'fileutils'
 		FileUtils.rmdir ".test_dir" if File.exists? ".test_dir"
 		FileUtils.rmdir ".test_dir2" if File.exists? ".test_dir2"
-		assert_result "null", 'f = import "file", "make_dir"; f ".test_dir"'
-		assert_result "true", 'f = import "file", "file_exists?"; f ".test_dir"'
-		assert_result "dir", 'f = import "file", "file_type"; f ".test_dir"'
-		assert_result "true", 'f = import "file", "file_rename"; f ".test_dir", ".test_dir2"'
-		assert_result "true", 'f = import "file", "delete_dir"; f ".test_dir2"'
-		assert_result "false", 'f = import "file", "file_exists?"; f ".test_dir2"'
+		assert_result "true", 'include :file; file.make_dir ".test_dir"'
+		assert_result "true", 'include :file; file.exists? ".test_dir"'
+		assert_result "directory", 'include :file; file.type ".test_dir"'
+		assert_result "true", 'include :file; file.rename ".test_dir", ".test_dir2"'
+		assert_result "true", 'include :file; file.delete ".test_dir2"'
+		assert_result "false", 'include :file; file.exists? ".test_dir2"'
 	end
-=end
 
 	def test_set_new
 		assert_result "true", 'include "set"; s = set.new; s.empty?'
