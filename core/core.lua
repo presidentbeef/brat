@@ -721,7 +721,7 @@ function object:include (file, name)
 	if name and type(name) ~= "string" then
 		error(exception:argument_error("include", "string", tostring(file)))
 	end
-
+	
 	require(file)
 
 	local env = getfenv(2)
@@ -2095,7 +2095,7 @@ function exception:new(message, error_type)
 end
 
 function exception._handler (exp)
-	if type(exp) == "table" then
+	if type(exp) == "table" and exp.stack_undertrace then
 		print(exp:stack_undertrace())
 	else
 		print(debug.traceback(exp, 3))
