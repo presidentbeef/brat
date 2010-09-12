@@ -36,12 +36,12 @@ module BratBaseTest
 
 	def assert_fail code
 		brat code
-		assert_not_equal $?, 0
+		assert_not_equal 0, $?
 	end
 
 	def assert_result result, code
 		brat_result = brat(code)
-		assert_equal $?, 0
+		assert_equal 0, $?
 		assert_equal result, brat_result
 	end
 end
