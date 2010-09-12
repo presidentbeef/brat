@@ -23,7 +23,7 @@ test_manager.run = {
 
 	my.tests.each_with_index { t, i |
 		print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
-		protect { t.run } rescue: { err | failures << [ name: t.name, message: err.error_message ] }
+		protect { t.run } rescue: { err | failures << [ name: t.name, message: err.message ] }
 		num_tests = num_tests + 1
 		num_assertions = num_assertions + t.assertions
 	}
