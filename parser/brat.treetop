@@ -5,6 +5,7 @@ grammar BaseBrat
  	line+ {
 		def brat(res_var = nil)
 			<<-LUA
+			require "coxpcall"
 			if package.loaded.core then
 				local _lib = true
 			else
@@ -31,7 +32,7 @@ grammar BaseBrat
 				#{self.inner_brat}
 			end
 
-			local _result = xpcall(_main, exception._handler)
+			local _result = coxpcall(_main, exception._handler)
 			if not _lib then
 				if not _result then
 					os.exit(-1)

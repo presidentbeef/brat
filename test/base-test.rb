@@ -22,7 +22,7 @@ module BratBaseTest
 	def brat input
 		out = <<-LUA
 			package.cpath = package.cpath .. ";./lib/?.so"
-			package.path = package.path .. ";./core/?.lua;./stdlib/?.lua"
+			package.path = package.path .. ";./core/?.lua;./stdlib/?.lua;./lib/?.lua"
 		LUA
 		out << parse(input).brat
 		result = nil

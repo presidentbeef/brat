@@ -8,7 +8,7 @@ if program_path == nil then
 end
 
 package.cpath = package.cpath .. ";" .. program_path .. "lib/?.so"
-package.path = package.path .. ";" .. program_path .. "core/?.lua;" .. program_path .. "stdlib/?.lua"
+package.path = package.path .. ";" .. program_path .. "core/?.lua;" .. program_path .. "stdlib/?.lua;" .. program_path .. "lib/?.lua"
 
 require "lfs"
 
