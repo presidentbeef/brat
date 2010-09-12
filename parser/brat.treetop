@@ -5,7 +5,13 @@ grammar BaseBrat
  	line+ {
 		def brat(res_var = nil)
 			<<-LUA
-			require "core"
+			if package.loaded.core then
+				local _lib = true
+			else
+				local _lib = false
+				require "core"
+			end
+
 			_exports = {}
 			local _main = function ()
 				local object = object
@@ -26,10 +32,12 @@ grammar BaseBrat
 			end
 
 			local _result = xpcall(_main, exception._handler)
-			if not _result then
-				os.exit(-1)
-			else
-				os.exit(0)
+			if not _lib then
+				if not _result then
+					os.exit(-1)
+				else
+					os.exit(0)
+				end
 			end
 			LUA
 		end
