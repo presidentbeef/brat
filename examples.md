@@ -37,7 +37,7 @@ n = 1
 while { n <= 10 } 
       {
           p n
-	  n = n + 1
+				  n = n + 1
       }
 {% endhighlight %}
 
@@ -45,7 +45,7 @@ while { n <= 10 }
 
 {% highlight ruby %}
 fact = { x |
-        true? x == 0, 1, { x * fact(x - 1)}
+        true? x == 0, 1, { x * fact(x - 1) }
 }
 
 p fact 5
@@ -74,7 +74,7 @@ tak = { x, y, z |
                  { tak tak(x - 1, y, z), tak(y - 1, z, x), tak(z - 1, x, y) } 
 }
 
-tak 18, 12, 6
+tak 18 12 6
 {% endhighlight %}
 
 ## Extending Objects
@@ -85,8 +85,8 @@ tak 18, 12, 6
 array.second = { my[1] }
 array.middle = { my[1,-2] }
 
-p [1,2,3].second
-p [1,2,3,4].middle
+p [1 2 3].second
+p [1 2 3 4].middle
 {% endhighlight %}
 
 ## Let's get functional? 
@@ -96,11 +96,11 @@ _Note: array.map is actually defined already, but let's ignore that._
 {% highlight ruby %}
 array.map = { f |
         true? my.length <= 0
-                {[]}
-                { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }
+                { [] }
+                { true? my.length == 1, { [f my.first] }, { [f my.first] + my.rest.map ->f } }
 }
 
-p [1,2,3].map { x | x + 1}
+p [1 2 3].map { x | x + 1}
 {% endhighlight %}
 
 ## Reverse Complement FASTA 

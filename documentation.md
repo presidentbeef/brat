@@ -10,9 +10,7 @@ layout: default
 * [Overview](overview.html)
 * [Features](features.html)
 * [Setup](setup.html)
-* [Commandline Options](options.html)
 * [Examples](examples.html)
-* [Modules](modules.html)
 
 ### Core Objects
 
@@ -31,4 +29,3 @@ layout: default
 * [file](docs/file.html)
 * [set](docs/set.html)
 * [subprocess](docs/subprocess.html)
-* [thread](docs/thread_lib.html)

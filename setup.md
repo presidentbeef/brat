@@ -8,8 +8,8 @@ layout: default
 Please have on hand:
 
 * Linux (for now)
+* [Lua](http://www.lua.org) 5.1
 * A relatively modern Ruby (let's say 1.8.6 and up)
-* You will need Ruby to be compiled with readline to use the interactive mode
 * [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
 * [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
 * Git if you want to check it out of the repository directly - `sudo urpmi git-core`
@@ -20,15 +20,7 @@ Please follow the following steps, in the order in which they are ordered:
 
 1. [Clone or download](http://github.com/presidentbeef/brat/tree/master) the latest Brat version.
 
-This may be all you need to do if you are using a 32-bit Linux and the included binaries work for you.
-
-If not, you may wish to compile it all yourself:
-
-1. Install [libgc](http://www.hpl.hp.com/personal/Hans_Boehm/gc/) - `sudo urpmi libgc1 libgc-devel` (or the equivalent for your platform)
-2. Install [GMP](http://gmplib.org/) - `sudo urpmi libgmp libgmp-devel`
-3. Run `sh ./build.sh` to compile Neko and Brat (it is fine to skip any libraries it may ask about) 
-
-If you want to compile a 64-bit version: First, be aware that there seem to be some issues with it. Second, modify `src/neko/Makefile` and uncomment the flags for 64-bit compilation.
+This may be all you need to do if you are using a 32-bit Linux and the included binaries work for you. Maybe.
 
 ## Testing
 
@@ -51,7 +43,3 @@ If you want to be able to run Brat from anywhere, you can add it to your path. F
 ## More Testing
 
 Run `ruby test/test.rb` to run the test suite. SWEET.
-
-## More Fun
-
-Try using Brat interactively by starting it without passing in a file name: `./brat`

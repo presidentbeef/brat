@@ -53,6 +53,8 @@ Functions return their last value. Parameters go in a list before a `|`
 
 {% highlight ruby %}
 add = { lhs, rhs | rhs + lhs }
+
+p add 1 2
 {% endhighlight %}
 
 You may also have functions with default arguments, variable arguments, or a mix of those and required arguments. Using an asterisk `*` on the final formal parameter will gather up remaining arguments into an array.
@@ -94,7 +96,7 @@ You can also use a hash-like notation to automatically pass in a hashtable of va
 {% highlight ruby %}
 a = { x,y,z | p x, y, z["a"]}
 
-a 1, "a":3, 2
+a 1, "a": 3, 2
 {% endhighlight %}
 
 Multiple functions (or closures, or blocks) can be passed in like this:
@@ -220,7 +222,7 @@ p b[5] "hello world"
 
 ## Hashes
 
-Hashtables, associative arrays, maps, dictionaries...whatever you want to call them, these are lists which can be indexed by an arbitrary value.
+Hash tables, associative arrays, maps, dictionaries...whatever you want to call them, these are lists which can be indexed by an arbitrary value.
 
 {% highlight ruby %}
 a = hash.new
