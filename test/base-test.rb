@@ -41,7 +41,6 @@ module BratBaseTest
 
 	def assert_result result, code
 		brat_result = brat(code)
-		assert_equal 0, $?
 		assert_equal result, brat_result
 	end
 end

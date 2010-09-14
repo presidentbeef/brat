@@ -1933,15 +1933,6 @@ function string_instance:get (start_index, end_index)
 	end
 end
 
-function string_instance:reverse ()
-	return base_string:new(self._lua_string:reverse())
-end
-
-function string_instance:reverse_bang ()
-	self._lua_string = self._lua_string:reverse()
-	return self
-end
-
 function string_instance:set (index, value)
 	local len = #self._lua_string
 	if index < 0 then
