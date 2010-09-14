@@ -7,7 +7,7 @@ current=$(pwd)
 if [ "$base" = "$self" ] ; then
 	path=$current
 else
-	path="$current/$base"
+	path=$base
 fi ;
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$path/lib
