@@ -13,6 +13,18 @@ class BratStringTests < Test::Unit::TestCase
 		assert_result "[h, e, l, l, o]", '"hello".split ""'
 	end
 
+	def test_string_reverse
+		assert_result "dcba", "'abcd'.reverse"
+		assert_result "abcd", "'abcd'.reverse.reverse"
+		assert_result "abcd", "a = 'abcd'; a.reverse;a"
+	end
+
+	def test_string_reverse!
+		assert_result "dcba", "'abcd'.reverse!"
+		assert_result "abcd", "'abcd'.reverse!.reverse!"
+		assert_result "dcba", "a = 'abcd'; a.reverse!;a"
+	end
+
 	def test_string
 		assert_result "a", '"a"'
 		assert_result "1", 'a = "a"; b = [a : 1]; b["a"]'
