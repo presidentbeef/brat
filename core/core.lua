@@ -141,6 +141,7 @@ init_object = function (o)
 	mt["__tostring"] = to_s
 
 	setmetatable(o, mt)
+
 end
 
 init_object(object)
@@ -705,6 +706,33 @@ function object:throw (err)
 	error(err, 2)
 end
 
+--Searchs load paths for a file with name + .brat and compiles it to Lua
+function object:_compile (name)
+	local check_and_compile = function (self, path)
+		if type(path) == "table" and path._lua_string then
+			path = path._lua_string
+		end
+
+		if type(path) ~= "string" then
+			error(exception:argument_error("load_path", "string", path))
+		end
+
+		local file_name = path .. "/" .. name
+
+		if lfs.attributes(file_name .. ".brat", "modified") then
+			compile_file(file_name)
+		end
+	end
+
+	local load_paths = object:load_underpath()
+
+	if type(load_paths.each) ~= "function" then
+		error(exception:new("include expects enumerable for load_path"))
+	end
+
+	load_paths:each(check_and_compile)
+end
+
 function object:include (file, name)
 	if type(file) == "table" and file._lua_string then
 		file = file._lua_string
@@ -721,7 +749,9 @@ function object:include (file, name)
 	if name and type(name) ~= "string" then
 		error(exception:argument_error("include", "string", tostring(file)))
 	end
-	
+
+	self:_compile(file)
+
 	require(file)
 
 	local env = getfenv(2)
@@ -758,6 +788,7 @@ function object:import (file, name)
 		error(exception:argument_error("include", "string", tostring(file)))
 	end
 
+	self:_compile(file)
 
 	require(file)
 
@@ -1044,6 +1075,7 @@ end
 --The array object
 --Going to keep these separate from hash tables, every if Lua thinks they
 --are the same
+--
 
 local array_instance = object:new()
 
@@ -2155,3 +2187,11 @@ function exception:name_undererror (name)
 end
 
 exception.name_error = exception.name_undererror
+
+--Small object addendum which had to wait for other stuff to be defined
+
+local load_path = array:new({base_string:new('.'), base_string:new(program_path .. 'stdlib')})
+
+function object:load_underpath ()
+	return load_path
+end

@@ -36,16 +36,6 @@ compile_file = function (file_name)
 	end
 end
 
-local compile_stdlib = function ()
-	local stdlib = program_path .. "stdlib/"
-	for file in lfs.dir(stdlib) do
-		local name = file:match("(.+).brat")
-		if name then
-			compile_file(stdlib .. name)
-		end
-	end
-end
-
 if #arg == 0 then
 	abort("Please supply name of Brat file")
 end
@@ -55,7 +45,6 @@ file_name = arg[#arg]:match("(.+).brat")
 if file_name == nil then
 	abort("File to execute should end in .brat")
 else
-	compile_stdlib()
 	compile_file(file_name)
 	dofile(file_name .. ".lua")
 end
