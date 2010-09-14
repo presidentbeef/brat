@@ -54,8 +54,8 @@ Please have on hand:
 
 Please follow the following steps, in the order in which they are ordered. Otherwise, results are not guaranteed.
 
-   1. [Clone or download](http://github.com/presidentbeef/brat/) the latest Brat version: `git clone git@github.com:presidentbeef/brat.git`
-   2. Checkout the linux-install branch via `git checkout linux-install`
+   1. [Clone or download](http://github.com/presidentbeef/brat/tree/linux-install) the latest Brat version: `git clone git://github.com/presidentbeef/brat.git`
+   2. Checkout the linux-install branch via `git checkout origin/linux-install` if you used git
    3. Run `sh ./build.sh`
    4. Run `sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
 
