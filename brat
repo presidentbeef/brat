@@ -17,6 +17,35 @@ local abort = function (message)
 	os.exit(-1)
 end
 
+compile_file = function (file_name)
+	brat_file_name = file_name .. ".brat"
+	lua_file_name = file_name .. ".lua"
+
+	brat_modified = lfs.attributes(brat_file_name, "modification")
+
+	--.brat file does not exist
+	if brat_modified == nil then
+		abort("Could not open " .. brat_file_name)
+	end
+
+	lua_modified = lfs.attributes(lua_file_name, "modification")
+
+	if lua_modified == nil or brat_modified > lua_modified then
+		os.remove(file_name .. ".lua")
+		os.execute("ruby " .. program_path .. "/parser/parse.rb " .. brat_file_name .. " " .. lua_file_name)
+	end
+end
+
+local compile_stdlib = function ()
+	local stdlib = program_path .. "stdlib/"
+	for file in lfs.dir(stdlib) do
+		local name = file:match("(.+).brat")
+		if name then
+			compile_file(stdlib .. name)
+		end
+	end
+end
+
 if #arg == 0 then
 	abort("Please supply name of Brat file")
 end
@@ -25,23 +54,8 @@ file_name = arg[#arg]:match("(.+).brat")
 
 if file_name == nil then
 	abort("File to execute should end in .brat")
+else
+	compile_stdlib()
+	compile_file(file_name)
+	dofile(file_name .. ".lua")
 end
-
-brat_file_name = file_name .. ".brat"
-lua_file_name = file_name .. ".lua"
-
-brat_modified = lfs.attributes(brat_file_name, "modification")
-
---.brat file does not exist
-if brat_modified == nil then
-	abort("Could not open " .. brat_file_name)
-end
-
-lua_modified = lfs.attributes(lua_file_name, "modification")
-
-if lua_modified == nil or brat_modified > lua_modified then
-	os.remove(file_name .. ".lua")
-	os.execute("ruby " .. program_path .. "/parser/parse.rb " .. brat_file_name .. " " .. lua_file_name)
-end
-
-dofile(file_name .. ".lua")
