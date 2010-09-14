@@ -42,7 +42,9 @@ end
 
 file_name = arg[#arg]:match("(.+).brat")
 
-if file_name == nil then
+if arg[#arg] == "-!" then
+	loadstring(io.read("*a"))()
+elseif file_name == nil then
 	abort("File to execute should end in .brat")
 else
 	compile_file(file_name)

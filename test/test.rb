@@ -10,3 +10,6 @@ $stderr.puts "Loading parser..."
 Treetop.load 'parser/brat'
 
 require 'parser/parser-extension'
+
+ENV["LD_LIBRARY_PATH"] ||= ""
+ENV["LD_LIBRARY_PATH"] = ENV["LD_LIBRARY_PATH"] + ":./lib"

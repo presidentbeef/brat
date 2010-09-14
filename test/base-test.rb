@@ -26,7 +26,7 @@ module BratBaseTest
 		LUA
 		out << parse(input).brat
 		result = nil
-		IO.popen("lua -", "r+") do |lua|
+		IO.popen("./brat -!", "r+") do |lua|
 			lua.print(out)
 			lua.close_write
 			result = lua.readlines
