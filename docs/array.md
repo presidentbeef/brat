@@ -18,7 +18,6 @@ methlist:
 - map
 - map_with_index
 - new
-- reserve
 - rest
 - reverse
 - reverse!
@@ -119,11 +118,6 @@ Invokes the block for each element in the array, passing in the index as well, a
 >_array_.new
 
 Creates a new array object.
-
-### reserve
->_array_.reserve _size_
-
-Arrays in Brat currently use the 'double capacity when running out of space' method of resizing arrays. This method expands the array such that it has _size_ 'extra' slots. If you are intending on appending a ton of items to an array, reserving the space first will make it much, much faster.
 
 ### rest
 >_array_.rest

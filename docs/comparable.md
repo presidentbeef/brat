@@ -1,7 +1,7 @@
 ---
 layout: doc
 lib: core
-object: enumerable
+object: comparable
 desc: "Comparable is a squish-in that uses the <=> operator for comparisons."
 methlist:
 - ">" 
@@ -18,7 +18,7 @@ This squish-in relies on the object having a `<=>` function defined. This functi
 first_letter = new
 first_letter.init = { str | my.str = str }
 first_letter.<=> = { s | s.str[0] <=> my.str[0] }
-first_letter.squish import "comparable"
+first_letter.squish comparable
 
 a = first_letter.new "hello"
 b = first_letter.new "world"

@@ -20,7 +20,6 @@ layout: default
 * [object](docs/object.html)
 * [regular expression](docs/regex.html)
 * [string](docs/string.html)
-* [symbol](docs/symbol.html) 
 
 ### Standard Libraries
 
