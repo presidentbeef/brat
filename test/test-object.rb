@@ -20,6 +20,13 @@ class BratObjectTest < Test::Unit::TestCase
 		assert_result "object[parent, y]", "x = new; x.y = 1; x"
 	end
 
+	def test_inheritance
+		assert_result "something awesome", "a = object.new; a.b = 'something awesome'; b = a.new; b.b"
+		assert_result "something awesome", "a = object.new; a.b = 'something awesome'; b = a.new; b.b = 'something less awesome'; a.b"
+		assert_result "a bird", "string.popinjay = 'a bird'; 'say what'.popinjay"
+		assert_result "tahw yas", "string.length = { my.reverse }; 'say what'.length"
+	end
+
 	def test_init
 		assert_result "something", 'x = new; x.init = { my.test = "something" };x.new.test'
 		assert_result "something", 'x = new; x.init = { arg | my.test = arg };y = x.new "something"; y.test'

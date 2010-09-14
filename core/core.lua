@@ -838,10 +838,12 @@ local number_instance = object:new()
 
 number_instance:squish(comparable)
 
-number = new_brat(number_instance)
+number = object:new()
 
 function number:new(num)
-	local n = new_brat(self)
+	local n = new_brat(number_instance)
+	n:squish(self)
+
 	n._lua_number = num
 	return n
 end
@@ -1047,10 +1049,12 @@ local array_instance = object:new()
 
 array_instance:squish(enumerable)
 
-array = new_brat(array_instance)
+array = object:new()
 
 function array:new (...)
-	local na = new_brat(self)
+	local na = new_brat(array_instance)
+	na:squish(self)
+
 	local args = {...}
 	if #args == 1 and type(args[1]) == "table" and not args[1]._is_an_object then
 		na._lua_array = args[1]
@@ -1518,10 +1522,12 @@ end
 
 local hash_instance = object:new()
 
-hash = new_brat(hash_instance)
+hash = object:new()
 
 function hash:new (arg)
-	local nh = new_brat(self)
+	local nh = new_brat(hash_instance)
+	nh:squish(self)
+
 	if type(arg) == "table" and arg._lua_hash then
 		nh._lua_hash = arg._lua_hash
 		nh._key_hash = arg._key_hash
@@ -1743,14 +1749,15 @@ local string_instance = object:new()
 
 string_instance:squish(comparable)
 
-base_string = new_brat(string_instance)
+base_string = object:new()
 
 function base_string:new (s)
 	if s == nil then
 		s = ""
 	end
 
-	local ns = new_brat(self)
+	local ns = new_brat(string_instance)
+	ns:squish(self)
 	ns._lua_string = s
 
 	if type(s) == "string" then
@@ -1766,7 +1773,7 @@ function base_string:new (s)
 	return ns
 end
 
-function base_string:length ()
+function string_instance:length ()
 	return #self._lua_string
 end
 
@@ -1933,6 +1940,15 @@ function string_instance:get (start_index, end_index)
 	end
 end
 
+function string_instance:reverse ()
+	return base_string:new(self._lua_string:reverse())
+end
+
+function string_instance:reverse_bang ()
+	self._lua_string = self._lua_string:reverse()
+	return self
+end
+
 function string_instance:set (index, value)
 	local len = #self._lua_string
 	if index < 0 then
@@ -2017,7 +2033,7 @@ end
 
 local regex_instance = object:new()
 
-regex = new_brat(regex_instance)
+regex = object:new()
 
 function regex:new (string)
 	if type(string) == "string" then
@@ -2027,9 +2043,12 @@ function regex:new (string)
 		error(exception:argument_error("regex.new", "string", string))
 	end
 
-	local nr = new_brat(self)
+	local nr = new_brat(regex_instance)
+	nr:squish(self)
+
 	nr._lua_regex = orex.new(string)
 	nr._regex_string = string
+	
 	return nr
 end
 
@@ -2070,7 +2089,7 @@ end
 
 local exception_instance = object:new()
 
-exception = new_brat(exception_instance)
+exception = object:new()
 
 function exception:new(message, error_type)
 	if message == nil then
@@ -2085,7 +2104,9 @@ function exception:new(message, error_type)
 	local stack_trace = base_string:new(debug.traceback(message, 3))
 	error_type = base_string:new(error_type)
 
-	local e = new_brat(self)
+	local e = new_brat(exception_instance)
+	e:squish(self)
+
 	e.error_undermessage = function () return msg end
 	e.stack_undertrace = function()
 		return stack_trace
