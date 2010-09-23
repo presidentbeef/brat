@@ -37,7 +37,7 @@ If you would rather have your conditions be separated out, you could define it t
 * Objects use a prototyping system and are completely open
 * Built in hash tables and dynamic arrays
 * Very flexible unary and binary operators
-* Tail calls are optimized to make infinite loops faster (and more inifinite)
+* Tail calls are optimized to make infinite loops faster (and more infinite)
 
 # Requirements
 
@@ -55,10 +55,10 @@ Please have on hand:
 Please follow the following steps, in the order in which they are ordered. Otherwise, results are not guaranteed.
 
    1. [Clone or download](http://github.com/presidentbeef/brat/tree/linux-install) the latest Brat version: `git clone git://github.com/presidentbeef/brat.git`
+      * Change to new directory: `cd brat` if you used git
    2. Checkout the linux-install branch via `git checkout origin/linux-install` if you used git
-	 3. Change to new directory: `cd brat` if you used git
-   4. Run `sh ./build.sh`
-   5. Run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
+   3. Run `sh ./build.sh`
+   4. Run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
 
 # Testing
 
