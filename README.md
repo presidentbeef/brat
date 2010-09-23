@@ -43,7 +43,7 @@ If you would rather have your conditions be separated out, you could define it t
 
 Please have on hand:
 
-* Linux (for now)
+* Linux or OS X
 * The usual development tools (like `make` and `gcc`)
 * A relatively modern Ruby (let's say 1.8.6 and up)
 * [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
@@ -54,11 +54,26 @@ Please have on hand:
 
 Please follow the following steps, in the order in which they are ordered. Otherwise, results are not guaranteed.
 
-   1. [Clone or download](http://github.com/presidentbeef/brat/tree/linux-install) the latest Brat version: `git clone git://github.com/presidentbeef/brat.git`
-      * Change to new directory: `cd brat` if you used git
-   2. Checkout the linux-install branch via `git checkout origin/linux-install` if you used git
+With Git:
+
+   1. Clone the latest Brat version: `git clone git://github.com/presidentbeef/brat.git`
+   2. Change to new directory: `cd brat` if you used git
+   3. Checkout the appropriate install branch
+      * For Linux, checkout the linux-install branch via `git checkout origin/linux-install`
+      * For Mac OS X, checkout the osx-install branch via `git checkout origin/osx-install`
    3. Run `sh ./build.sh`
-   4. Run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
+   4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
+
+
+Without Git:
+
+   1. Download the latest install branch (click "Download Source" and then whichever archive type you want)
+      * For [Linux](http://github.com/presidentbeef/brat/blob/linux-install/brat)
+      * For [Mac OS X](http://github.com/presidentbeef/brat/blob/osx-install/brat)
+   2. Decompress the archive (`tar xf presidentbeef-brat*.tar.gz` or `unzip presidentbeef-brat*.zip`)
+   3. Change to the new directory (it will be something like `presidentbeef-brat-421918f`)
+   3. Run `sh ./build.sh`
+   4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
 
 # Testing
 
@@ -68,7 +83,7 @@ Try out your newly discovered power thusly:
    2. In that file, type something like: `p "OK COMPUTER"`
    3. Save and close it
    4. Return to the comfort of your command line
-   5. Type `brat test.brat`
+   5. Type `brat test.brat` (or `./brat test.brat` if you did not run the install script)
    6. Cross fingers
    7. Press enter
    8. Marvel or weep, as appropriate 
