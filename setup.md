@@ -3,43 +3,43 @@ title: Brat Setup and Installation
 layout: default
 ---
 
-## Requirements
+# Requirements
 
 Please have on hand:
 
-* Linux (for now)
-* [Lua](http://www.lua.org) 5.1
+* Linux or OS X
+* The usual development tools (like `make` and `gcc`)
 * A relatively modern Ruby (let's say 1.8.6 and up)
 * [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
 * [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
-* Git if you want to check it out of the repository directly - `sudo urpmi git-core`
+* Git if you want to check it out of the repository directly - `sudo urpmi git-core` (or the equivalent for your platform)
 
-## Installation
+# Installation
 
-Please follow the following steps, in the order in which they are ordered:
+Please follow the following steps, in the order in which they are ordered. Otherwise, results are not guaranteed.
 
-1. [Clone or download](http://github.com/presidentbeef/brat/tree/master) the latest Brat version.
+### With Git:
 
-This may be all you need to do if you are using a 32-bit Linux and the included binaries work for you. Maybe.
+   1. Clone the latest Brat version: `git clone git://github.com/presidentbeef/brat.git`
+   2. Change to new directory: `cd brat` if you used git
+   3. Checkout the appropriate install branch
+      * For Linux, checkout the linux-install branch via `git checkout origin/linux-install`
+      * For Mac OS X, checkout the osx-install branch via `git checkout origin/osx-install`
+   3. Run `sh ./build.sh`
+   4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
 
-## Testing
 
-Try out your newly discovered power thusly:
+### Without Git:
 
-1. Type `cd brat` (or wherever you tucked it away)
-2. Create a new file, perhaps called `test.brat`
-3. In that file, type something like: `p "OK COMPUTER"`
-4. Save and close it
-5. Return to the comfort of your command line
-6. Type `./brat test.brat`
-7. Cross fingers
-8. Press enter
-9. Marvel or weep, as appropriate 
+   1. Download the latest install branch (click "Download Source" and then whichever archive type you want)
+      * For [Linux](http://github.com/presidentbeef/brat/blob/linux-install/brat)
+      * For [Mac OS X](http://github.com/presidentbeef/brat/blob/osx-install/brat)
+   2. Decompress the archive (`tar xf presidentbeef-brat*.tar.gz` or `unzip presidentbeef-brat*.zip`)
+   3. Change to the new directory (it will be something like `presidentbeef-brat-421918f`)
+   3. Run `sh ./build.sh`
+   4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
 
-## For Convenience
-
-If you want to be able to run Brat from anywhere, you can add it to your path. For example, if you had put Brat in your home directory under `brat/` you would do `export PATH=$PATH:$HOME/brat/`
-
-## More Testing
+# More Testing
 
 Run `ruby test/test.rb` to run the test suite. SWEET.
+
