@@ -12,7 +12,7 @@ layout: default
 		Badges[0] = new Object;
 		Badges[0]["username"] = "presidentbeef";
 		Badges[0]["repo"] = "brat";
-		Badges[0]["branch"] = "moonbrat";
+		Badges[0]["branch"] = "master";
 	</script>
 	<script type="text/javascript" src="js/github-commit-badge.js">
 	</script>
