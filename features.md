@@ -14,7 +14,3 @@ layout: default
 * Built-in hash tables and dynamic arrays
 * Very flexible unary and binary operators
 * Functions may have default and variable length arguments
-
-## Current Limitations
-
-* Only running on Linux at the moment
