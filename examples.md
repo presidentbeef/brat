@@ -37,7 +37,7 @@ n = 1
 while { n <= 10 } 
       {
           p n
-				  n = n + 1
+          n = n + 1
       }
 {% endhighlight %}
 
