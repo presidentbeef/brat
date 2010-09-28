@@ -1154,6 +1154,18 @@ function array_instance:map (block)
 	local a = self._lua_array
 	local new_array = {}
 
+	if type(block) == "table" and block._lua_string then
+		local method = to_identifier(block._lua_string)
+		block = function(_self, item)
+			if type(item) == "number" then
+				local n = number:new(item)
+				return n[method](n)
+			else
+				return item[method](item)
+			end
+		end
+	end
+
 	while k <= len do
 		table.insert(new_array, block(self, a[k]))
 		k = k + 1
@@ -1166,6 +1178,18 @@ function array_instance:map_bang (block)
 	local k = 1
 	local len = #self._lua_array
 	local a = self._lua_array
+
+	if type(block) == "table" and block._lua_string then
+		local method = to_identifier(block._lua_string)
+		block = function(_self, item)
+			if type(item) == "number" then
+				local n = number:new(item)
+				return n[method](n)
+			else
+				return item[method](item)
+			end
+		end
+	end
 
 	while k <= len do
 		a[k] = block(self, a[k])

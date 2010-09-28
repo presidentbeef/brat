@@ -68,6 +68,20 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "[]", "a = []; a.map {i| i + 1 }"
 	end
 
+	def test_array_map!
+		assert_result "[2, 3, 4]", "a = [1,2,3]; a.map! {i| i + 1 }; a"
+		assert_result "[]", "a = []; a.map! {i| i + 1 }; a"
+	end
+
+	def test_array_map_string
+		assert_result "[2, 3, 4]", "a = ['1','2','3']; a.map(:to_i).map {i| i + 1 }"
+		assert_result "[dcba, zyxw]", "[:abcd, :wxyz].map(:reverse)"
+	end
+
+	def test_array_map!_string
+		assert_result "[dcba, zyxw]", "a = [:abcd, :wxyz]; a.map! :reverse; a"
+	end
+
 	def test_array_map_with_index
 		assert_result "[[0, a], [1, b], [2, c]]", "b = [:a, :b, :c]; b.map_with_index { obj, index | [index, obj] }"
 		assert_result "[]", "a = []; a.map_with_index {i, in | i + 1 }"
