@@ -84,7 +84,7 @@ class Treetop::Runtime::SyntaxNode
 			end
 			LUA
 
-		if temp.to_i.to_s == temp or (Float(temp) rescue nil)
+		if number? temp
 			call_number
 		else
 			<<-LUA
@@ -136,7 +136,7 @@ class Treetop::Runtime::SyntaxNode
 
 	def get_value res_var, object, arguments, arg_length
 		temp = var_exist?(object) || object
-		if temp.to_i.to_s == temp or (Float(temp) rescue nil) #it's a number literal
+		if number? temp
 			return temp
 		end
 
@@ -269,5 +269,9 @@ class Treetop::Runtime::SyntaxNode
 
 	def has_field object, field_name
 		"#{object}.#{field_name} ~= nil"
+	end
+
+	def number? item
+		e.to_i.to_s == e || (Float(e) rescue false)
 	end
 end
