@@ -272,6 +272,10 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def number? item
-		e.to_i.to_s == e || (Float(e) rescue false)
+		begin
+			!!(Integer(item) || Float(item))
+		rescue
+			false
+		end
 	end
 end
