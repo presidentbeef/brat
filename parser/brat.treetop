@@ -1014,7 +1014,7 @@ grammar BaseBrat
 			else
 				<<-LUA
 				if _self["#{name}"] ~= nil then
-					#{call_method(@result, "_self", name, arg_list.list, arg_list.length)}
+					#@result = _self:#{name}(#{arg_list.list})
 				elseif #{name} ~= nil then
 					#@result = #{name};
 				else

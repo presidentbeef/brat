@@ -158,7 +158,7 @@ class Treetop::Runtime::SyntaxNode
 			}
 		elseif #{temp} == nil then
 			if #{has_field("_self", object)} then
-				#{call_method(res_var, "_self", object, arguments, arg_length)}
+				#{action} _self:#{object}(#{arguments})
 			elseif _type(_self) == "number" then
 				#{call_method(res_var, "number", object, arguments, arg_length)}
 			elseif #{has_field("_self", "no_undermethod")} then
