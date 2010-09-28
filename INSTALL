@@ -1,0 +1,49 @@
+### PREREQUISITES
+
+To build and run Brat, you will need:
+
++ Ruby
+
+To install Ruby, use your package manager or go to http://ruby-lang.org to download and install.
+
++ RubyGems
+
+Gems comes with Ruby 1.9. Otherwise, use your package manager or head over to http://rubygems.org/ to download and install.
+
++ Treetop
+
+Install Treetop via Ruby Gems:
+
+  sudo gem install treetop
+
++ libopenssl (and development headers)
+
+Install via your package manager. For example, in Mandriva:
+
+  sudo urpmi libopenssl libopenssl-devel
+
+### INSTALLATION
+
+There are two scripts in the to facilitate building Brat: build.sh and install.sh
+
+First run build.sh:
+
+  ./build.sh
+
+If all goes well, you will have a local version of Brat which you can run.
+
+Try running the tests via:
+
+  ruby test/test.rb
+
+To install to your system:
+
+  sudo ./install.sh
+
+The default location is in /usr. If you want to install Brat somewhere else, you can specify it as an argument to install.sh:
+
+  sudo ./install.sh /usr/local
+
+To uninstall, should the need ever arise (unlikely):
+
+  sudo ./uninstall.sh
