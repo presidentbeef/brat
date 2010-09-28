@@ -11,5 +11,7 @@ else
 fi ;
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$path/lib
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$path/lib
+export PATH=$PATH:$path/bin/lua/bin
 
-$path/bin/brat $@
+lua $path/bin/brat $@
