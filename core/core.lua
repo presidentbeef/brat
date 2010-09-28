@@ -2045,7 +2045,7 @@ function string_instance:split (sep)
 	local result = {}
 	for value in orex.split(self._lua_string, sep) do
 		if value and value ~= "" then
-			table.insert(result, value)
+			table.insert(result, base_string:new(value))
 		end
 	end
 
