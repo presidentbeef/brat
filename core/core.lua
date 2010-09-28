@@ -313,7 +313,7 @@ function object:random (...)
 end
 
 function object:g ()
-	return io.stdin:read()
+	return base_string:new(io.stdin:read())
 end
 
 function object:_equal_equal (rhs)
