@@ -1327,6 +1327,44 @@ function array_instance:reverse ()
 	return self:new(b)
 end
 
+function array_instance:shuffle ()
+	local new_array = {}
+	local a = self._lua_array
+	local len = #a
+	local index = 1
+
+	while index <= len do
+		new_array[index] = a[index]
+		index = index + 1
+	end
+
+	return array:new(new_array):shuffle_bang()
+end
+
+function array_instance:shuffle_bang ()
+	local a = self._lua_array
+	local index = #a
+	local random_index
+	local temp
+	local random = math.random
+
+	if not object._random_seed then
+		math.randomseed(os.time())
+		object._random_seed = true
+	end
+	
+	while index > 1 do
+		random_index = random(index)
+		temp = a[index]
+		a[index] = a[random_index]
+		a[random_index] = temp
+
+		index = index - 1
+	end
+
+	return self
+end
+
 function array_instance:set (index, value)
 	if type(index) ~= "number" then
 		error(exception:argument_error("array[]", "valid index", index))
