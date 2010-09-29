@@ -47,3 +47,7 @@ The default location is in /usr. If you want to install Brat somewhere else, you
 To uninstall, should the need ever arise (unlikely):
 
   sudo ./uninstall.sh
+
+### Syntax highlighting
+
+For VIM, copy extras/brat.vim to ~/.vim/syntax/
