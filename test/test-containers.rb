@@ -61,6 +61,19 @@ class BratContainerTests < Test::Unit::TestCase
 
 	def test_array_push
 		assert_result "[a, b, c, d]", '["a"] << "b" << "c" << "d"'
+		assert_result "[a, b, c, d]", '["a"].push("b").push("c").push("d")'
+		assert_result "[a, b, c, d]", 'a = ["a"]; a.push("b").push("c").push("d"); a'
+	end
+
+	def test_array_pop
+		assert_result "3", '[1,2,3].pop'
+		assert_result "2", 'a = [1,2,3]; a.pop; a.length'
+		assert_result "[1, 2]", "a = [1,2,3]; a.pop; a"
+		assert_result "null", "a = []; a.pop"
+		assert_result "[3, 2]", "a = [1,2,3]; a.pop(2)"
+		assert_result "[1]", "a = [1,2,3]; a.pop(2); a"
+		assert_result "[1]", "a = [1]; a.pop(2)"
+		assert_result "[]", "a = []; a.pop(2); a"
 	end
 
 	def test_array_map

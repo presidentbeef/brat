@@ -1280,6 +1280,42 @@ function array_instance:last ()
 	end
 end
 
+function array_instance:pop (number)
+	if number == nil then
+		if #self._lua_array == 0 then
+			return object.__null
+		else
+			return table.remove(self._lua_array)
+		end
+	else
+		if #self._lua_array == 0 then
+			return array:new({})
+		else
+			local new_array = {}
+			local index = 1
+			local item
+
+			while index <= number do
+				item = table.remove(self._lua_array)
+				if item == nil then
+					break
+				else
+					table.insert(new_array, item)
+				end
+
+				index = index + 1
+			end
+
+			return array:new(new_array)
+		end
+	end
+end
+
+function array_instance:push (item)
+	table.insert(self._lua_array, item)
+	return self
+end
+
 function array_instance:rest ()
 	if #self._lua_array == 0 then
 		return object.__null
