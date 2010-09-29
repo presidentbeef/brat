@@ -982,22 +982,41 @@ end
 
 function number_instance:to (stop, block)
 	local index = self._lua_number
+	if stop < self._lua_number then
+		if block == nil then
+			local a = {}
+			while index >= stop do
+				table.insert(a, index)
+				index = index - 1
+			end
 
-	if block == nil then
-		local a = {}
-		while index <= stop do
-			table.insert(a, index)
-			index = index + 1
-		end
-
-		return array:new(a)
-	else
-		while index <= stop do
-			block(self, index)
-			index = index + 1
-		end
+			return array:new(a)
+		else
+			while index >= stop do
+				block(self, index)
+				index = index - 1
+			end
 	
-		return stop
+			return stop
+		end
+
+	else
+		if block == nil then
+			local a = {}
+			while index <= stop do
+				table.insert(a, index)
+				index = index + 1
+			end
+	
+			return array:new(a)
+		else
+			while index <= stop do
+				block(self, index)
+				index = index + 1
+			end
+		
+			return stop
+		end
 	end
 end
 
