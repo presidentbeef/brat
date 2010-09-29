@@ -818,7 +818,7 @@ grammar BaseBrat
 			end
 
 			out_stack.each do |e|
-				if e[0,5] == "_temp" || e.to_i.to_s == e || (Float(e) rescue nil)
+				if e[0,5] == "_temp" || number?(e)
 					res_stack.push e
 				else
 					r = res_stack.pop
@@ -858,7 +858,7 @@ grammar BaseBrat
   	lhs:method_chain i:(identifier / operator) a:simple_arg_list {
 		def brat(res_var = nil)
 			output = lhs.brat res_var
-			@result = res_var || lhs.result
+			@result = res_var || next_temp
 
 			output << "\n" <<
 			a.brat << "\n" <<
@@ -869,11 +869,7 @@ grammar BaseBrat
   	lhs:method_chain i:(identifier / operator) &space {
 		def brat(res_var = nil)
 			output = lhs.brat res_var
-			if res_var
-				@result = res_var
-			else
-				@result = lhs.result
-			end
+			@result = res_var || next_temp
 	
 			output <<
 			call_method(@result, lhs.result, i.brat, "", 0)
@@ -933,7 +929,7 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			output << m.brat(res_var) << "\n" <<
 			a.brat << "\n"
-			@result = res_var || m.result
+			@result = res_var || next_temp
 			output << "local #@result\n" <<
 			invoke(@result, m.result, a.list, a.length)
 		end
@@ -969,6 +965,13 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			output = elements.first.e.brat
 			@result = elements.first.e.result
+
+			if number? @result
+				n = @result
+				next_temp
+				output << "local #@result = #{n}\n"
+			end
+
 			meth = args = nil
 			elements[1..-1].each do |elem|
 				meth = elem.e.identifier.brat
