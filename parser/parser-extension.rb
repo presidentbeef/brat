@@ -273,8 +273,8 @@ class Treetop::Runtime::SyntaxNode
 
 	def number? item
 		begin
-			!!(Integer(item) || Float(item))
-		rescue
+			!!(item.to_s.to_i == item || Float(item))
+		rescue Exception => e
 			false
 		end
 	end
