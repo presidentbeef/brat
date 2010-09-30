@@ -1965,6 +1965,24 @@ function string_instance:to_unders ()
 	return self
 end
 
+function string_instance:downcase ()
+	return base_string:new(string.lower(self._lua_string))
+end
+
+function string_instance:downcase_bang ()
+	self._lua_string = string.lower(self._lua_string)
+	return self
+end
+
+function string_instance:upcase ()
+	return base_string:new(string.upper(self._lua_string))
+end
+
+function string_instance:upcase_bang ()
+	self._lua_string = string.upper(self._lua_string)
+	return self
+end
+
 function string_instance:_equal_equal (rhs)
 	if type(rhs) ~= "table" or rhs._lua_string == nil then
 		return object.__false

@@ -30,6 +30,18 @@ class BratStringTests < Test::Unit::TestCase
 		assert_result "1", 'a = "a"; b = [a : 1]; b["a"]'
 	end
 
+	def test_string_downcase
+		assert_result "hello!", "'HELLO!'.downcase"
+		assert_result "hello!", "a = 'HELLO!'; a.downcase!; a"
+		assert_result "HELLO!", "a = 'HELLO!'; a.downcase; a"
+	end
+
+	def test_string_upcase
+		assert_result "HELLO!", "'hElLo!'.upcase"
+		assert_result "HELLO!", "a = 'heLlO!'; a.upcase!; a"
+		assert_result "hello!", "a = 'hello!'; a.upcase; a"
+	end
+
 	def test_string_interpolation
 		assert_result "abc", '"a#{"b"}c"'
 		assert_result "abc", '"a#{  "b"  }c"'
