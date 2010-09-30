@@ -1092,7 +1092,7 @@ grammar BaseBrat
 				if #{name} == nil then
 					#@result = _self["#{name}"]
 					if #@result == nil then
-						error(exception:null_error("#{nice_id name}", "access it"))
+						_error(exception:null_error("#{nice_id name}", "access it"))
 					end
 				else
 					#@result = #{name}
@@ -1110,7 +1110,7 @@ grammar BaseBrat
 			output << <<-LUA
 				#@result = #@result["#{name}"]
 				if #@result == nil then
-					error(exception:method_error("#{nice_id o.text_value}", "#{nice_id name}"))
+					_error(exception:method_error("#{nice_id o.text_value}", "#{nice_id name}"))
 				end
 			LUA
 		end
