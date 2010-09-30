@@ -133,12 +133,13 @@ grammar BaseBrat
   rule regex
 	"/" r:(!"/" . / "\\/")* "/" {
 		def brat(res_var = nil)
+			reg = r.text_value.gsub("\\", "\\\\\\\\")
 			if res_var
 				@result = res_var
-				"#@result = regex:new(\"#{r.text_value}\")\n"
+				"#@result = regex:new(\"#{reg}\")\n"
 			else
 				next_temp
-				"local #@result = regex:new(\"#{r.text_value}\")\n"
+				"local #@result = regex:new(\"#{reg}\")\n"
 			end
 		end
 	}

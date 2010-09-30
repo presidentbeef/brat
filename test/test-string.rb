@@ -48,6 +48,15 @@ class BratStringTests < Test::Unit::TestCase
 		assert_result "ef", '"zabcdef"[10,5]'
 	end
 
+=begin
+#Can't figure out backslashes
+	def test_string_sub_special
+		assert_result "helloworld", "'  he llo   w orl d  '.sub /\\s/ ' '"
+		assert_result "hello world",  '"he  l  l  o w  or  ld".gsub(/\s{2,}/, "")'
+		assert_result "wello world",  '"hello world".gsub(/^\w/, "w")'
+	end
+=end
+
 	def test_string_sub
 		assert_result "b", '"a".sub /a/, "b"'
 		assert_result "axdx", '"acdc".sub /c/, "x"'
