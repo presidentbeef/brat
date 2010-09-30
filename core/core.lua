@@ -1178,6 +1178,30 @@ function array_instance:each_underwith_underindex (block)
 	return self
 end
 
+function array_instance:index_underof (item)
+	local k = 1
+	local len = #self._lua_array
+	local a = self._lua_array
+
+	if type(item) == "number" then
+		while k <= len do
+			if item == a[k] then
+				return k - 1
+			end
+			k = k + 1
+		end
+	else
+		while k <= len do
+			if is_true(item:_equal_equal(a[k])) then
+				return k - 1
+			end
+			k = k + 1
+		end
+	end
+
+	return object.__null
+end
+
 function array_instance:map (block)
 	local k = 1
 	local len = #self._lua_array

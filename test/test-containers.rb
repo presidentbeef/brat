@@ -37,6 +37,12 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "[e, f]", '["z", "a", "b", "c", "d", "e", "f"][10,5]'
 	end
 
+	def test_array_index_of
+		assert_result "1", "[1,2,3,4,5].index_of 2"
+		assert_result "3", "[1,:2,3,:4,5].index_of :4"
+		assert_result "null", "[:1,:2,:3,:4,:5].index_of :hello"
+	end
+
 	def test_array_set
 		assert_result "b", 'a = [1, 2, 3]; a[1] = "b"; a[1]'
 		assert_fail 'a = [1, 2, 3]; a[-4] = 4'
