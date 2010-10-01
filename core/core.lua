@@ -945,6 +945,18 @@ function number_instance:_forward (rhs)
 	return self._lua_number / rhs
 end
 
+function number_instance:tan ()
+	return math.tan(self._lua_number)
+end
+
+function number_instance:cos ()
+	return math.cos(self._lua_number)
+end
+
+function number_instance:sin ()
+	return math.sin(self._lua_number)
+end
+
 function number_instance:_star (rhs)
 	if type(rhs) ~= "number" then
 		error("Cannot multiply number by " .. type(rhs))
