@@ -1,0 +1,14 @@
+#* http://rosettacode.org/wiki/Hash_from_two_arrays
+	Use one array as the keys and the other as the values for a hash table
+*#
+
+zip = { keys, values |
+	h = [:]
+	keys.each_with_index { key, index |
+		h[key] = values[index]
+	}
+
+	h
+}
+
+p zip [1,2,3] [:a :b :c]

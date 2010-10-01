@@ -1,0 +1,11 @@
+#* http://rosettacode.org/wiki/Palindrome
+	Test if a string is a palindrome
+*#
+
+palindrome? = { str | 
+	str = str.downcase.sub(/\s+/, "")
+	str == str.reverse 
+}
+
+p "Palindrome? In girum imus nocte et consumimur igni"
+p palindrome? "In girum imus nocte et consumimur igni"

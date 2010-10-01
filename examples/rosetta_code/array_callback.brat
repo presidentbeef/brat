@@ -1,0 +1,11 @@
+#* http://rosettacode.org/wiki/Apply_a_callback_to_an_array
+	Apply a function to each element in an array
+*#
+
+[:a, :b, :c, :d, :e].each { element |
+	p element
+}
+
+#Alternatively:
+[:a, :b, :c, :d, :e].each(->p)
+

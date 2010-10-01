@@ -1,0 +1,6 @@
+#* http://rosettacode.org/wiki/A%2BB
+	Take in a space-separated pair of integers and return the sum
+*#
+
+numbers = g.split[0,1].map(:to_i)
+p numbers[0] + numbers[1]
