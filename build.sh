@@ -2,6 +2,7 @@
 LUA=lua-5.1.4
 ONIG=onig-5.9.2
 LREX=lrexlib-2.4.0
+LPTY=lpty-0.9-1
 
 `which ruby > /dev/null`
 if  [ "$?" -ne "0" ] 
@@ -60,7 +61,6 @@ fi
 make install INSTALL_TOP=$BRATPATH/bin/lua
 
 echo Building Oniguruma
-#Build Oniguruma
 cd $SRC/$ONIG
 ./configure && make
 
@@ -86,7 +86,6 @@ then
 fi
 
 echo Building lrexlib
-#Back to build lrexlib
 cd $SRC/$LREX
 make
 
@@ -97,21 +96,35 @@ cd $LIB
 ln -s rex_onig.so.2.4 rex_onig.so
 
 echo Building luafilesystem
-#Back to build luafilesystem
 cd $SRC/luafilesystem
 make
 
-#Copy to lib/
 cp -f src/lfs.so $LIB
 
 echo Building md5
-#Back to md5
 cd $SRC/md5
 make
 cp -f md5.so $LIB
 
+echo Building readline
+cd $SRC/readline
+
+if [ "$SYSTEM" = "linux" ]
+then
+	gcc -fPIC -shared readline.c -o readline.so
+elif [ "$SYSTEM" = "osx" ]
+then
+	gcc -bundle -undefined dynamic_lookup readline.c -o readline.so
+fi
+
+mv -f readline.so $LIB
+
+echo Building lpty
+cd $SRC/$LPTY
+make
+cp -f lpty.so $LIB
+
 echo Building parser
-#Up to parser
 cd $BRATPATH/parser
 tt brat.treetop
 
@@ -131,4 +144,8 @@ make clean
 
 cd $SRC/md5
 make clean
+
+cd $SRC/$LPTY
+make clean
+
 cd $BRATPATH
