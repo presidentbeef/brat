@@ -87,6 +87,10 @@ Try out your newly discovered power thusly:
 
 Run `ruby test/test.rb` to run the test suite. SWEET.
 
+# More fun
+
+Running Brat without specifying a file will launch interactive mode.
+
 # Even more fun
 
 Take a look at [some examples](http://presidentbeef.github.com/brat/examples.html) of Brat code.

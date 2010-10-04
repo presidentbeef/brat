@@ -5,28 +5,12 @@ grammar BaseBrat
  	line+ {
 		def brat(res_var = nil)
 			<<-LUA
-			require "coxpcall"
-			if package.loaded.core then
-				local _lib = true
-			else
-				local _lib = false
-				require "core"
-			end
+				#{file_header}
 
 			_exports = {}
 			local _main = function ()
-				local object = object
-				local array = array
-				local number = number
-				local string = base_string
-				local exception = exception
-				local hash = hash
-				local regex = regex
-				local _self = object
-				local _type = type
-				local _error = error
-				local _tostring = tostring
-
+				#{method_header}
+	
 				setfenv(1, {})
 
 				#{self.inner_brat}
@@ -41,6 +25,58 @@ grammar BaseBrat
 				end
 			end
 			LUA
+		end
+
+		def file_header
+			<<-LUA
+			require "coxpcall"
+			if package.loaded.core then
+				local _lib = true
+			else
+				local _lib = false
+				require "core"
+			end
+			LUA
+		end
+
+		def method_header
+			<<-LUA
+				local object = object
+				local array = array
+				local number = number
+				local string = base_string
+				local exception = exception
+				local hash = hash
+				local regex = regex
+				local _self = object
+				local _type = type
+				local _error = error
+				local _tostring = tostring
+			LUA
+		end
+
+		def interactive_brat
+			$interactive = true
+			elements.reject! { |e| e.respond_to? :comment or e.respond_to? :empty_line or not e.respond_to? :brat }
+
+			code = elements[0..-2].map { |e| e.brat }
+
+			last = elements.last
+
+			if last.respond_to? :return_result
+				code << last.return_result
+			elsif last
+				code << last.brat
+				code << "return #{last.result}"
+			end
+
+			lua = code.join("\n")
+
+			if lua.strip.gsub(";", "").length == 0
+				lua = "return object:null()\n"
+			end
+
+			lua
 		end
 
 		def inner_brat
@@ -361,8 +397,12 @@ grammar BaseBrat
 				output = rhs.brat << "\n#{temp} = #{rhs.result}\n"
 			else
 				temp = var_add var
-				output = "local #{temp}\n" <<
-					 rhs.brat(temp) << 
+				output = ""
+				unless $interactive and not $inside_function
+					output << "local #{temp}\n"
+				end
+				
+				output << rhs.brat(temp) << 
 					"\n#{temp} = #{rhs.result}\n"
 			end
 			@result = temp
@@ -529,6 +569,9 @@ grammar BaseBrat
   rule function_definition
 	"{" space? fa:formal_args space? l:line* space? "}" {
 		def brat(res_var = nil)
+			already_inside_function = $inside_function
+			$inside_function = true
+
 			new_scope
 			if fa.respond_to? :brat
 				args = fa.brat
@@ -557,7 +600,7 @@ grammar BaseBrat
 				elements << "return #{last.result}"
 			end
 
-			inner_function = elements.join("\n");
+			inner_function = elements.join("\n")
 
 			#Empty functions should return null object instead of Lua null
 			if inner_function.strip.gsub(";", "").length == 0
@@ -583,6 +626,8 @@ grammar BaseBrat
 			LUA
 
 			pop_scope
+
+			$inside_function = false unless already_inside_function
 
 			output
 		end

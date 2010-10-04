@@ -17,6 +17,81 @@ local abort = function (message)
 	os.exit(-1)
 end
 
+local interactive = function ()
+	require "lpty"
+
+	local parser = lpty.new{no_local_echo = true}
+	parser:startproc("ruby", program_path .. "/parser/parse.rb", "--interactive")
+	
+	local readline = require "readline"
+
+	local input
+	local line = 1
+	local parsed
+	local parsed_function
+	local output
+	local lua_code
+	local current_env = getfenv()
+	require "core"
+	local interactive_env = {
+		require = require;
+		package = package;
+		print = print;
+		object = object;
+		array = array;
+		number = number;
+		string = base_string;
+		exception = exception;
+		hash = hash;
+		regex = regex;
+		_self = object;
+		_type = type;
+		_error = error;
+		_tostring = tostring;
+	}
+
+	local rescue = function (obj, err)
+		return err
+	end
+
+	local protect_options = hash:new({ [base_string:new("rescue")] = rescue })
+
+	print("# Interactive Brat")
+
+	while true do
+		input = readline.readline("brat:" .. line .. "> ")
+
+		if input == nil or input == "quit" then
+			parser:endproc()
+			return
+		elseif input ~= "" and not input:match("^%s+$") then
+			line = line + 1
+			readline.add_history(input)
+
+			parser:send(input)
+			parser:send("\n\1\n")
+
+			parsed = ""
+
+			while true do
+				lua_code = parser:read()
+				if lua_code:sub(-1) == "\1" then
+					parsed = parsed .. lua_code:sub(0, -2)
+					break
+				else
+					parsed = parsed .. lua_code
+				end
+			end
+
+			parsed_function = assert(loadstring(parsed, "interactive"))
+
+			setfenv(parsed_function, interactive_env)
+
+			print("#=> " .. tostring(object:protect(parsed_function, protect_options)))
+		end
+	end
+end
+
 compile_file = function (file_name)
 	brat_file_name = file_name .. ".brat"
 	lua_file_name = file_name .. ".lua"
@@ -32,12 +107,13 @@ compile_file = function (file_name)
 
 	if lua_modified == nil or brat_modified > lua_modified then
 		os.remove(file_name .. ".lua")
-		os.execute("ruby " .. program_path .. "/parser/parse.rb " .. brat_file_name .. " " .. lua_file_name)
+		os.execute("ruby " .. program_path .. "/parser/parse.rb -i " .. brat_file_name .. " -o " .. lua_file_name)
 	end
 end
 
 if #arg == 0 then
-	abort("Please supply name of Brat file")
+	interactive()
+	abort("Exiting")
 end
 
 file_name = arg[#arg]:match("(.+).brat")
