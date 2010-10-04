@@ -5,6 +5,8 @@ BRATLIB=$PREFIX/lib/brat/
 
 mkdir $BRATLIB
 
+tt parser/brat.treetop
+
 cp -fv brat $BRATLIB
 cp -rfv bin/ $BRATLIB
 cp -rfv core/ $BRATLIB
