@@ -135,6 +135,7 @@ make clean
 
 cd $SRC/$ONIG
 make clean
+rm -rf $SRC/$ONIG/.deps
 
 cd $SRC/$LREX
 make clean
