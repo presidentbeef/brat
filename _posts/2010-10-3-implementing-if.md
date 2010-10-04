@@ -33,9 +33,9 @@ if = <span class="Special">{</span> condition, options = <span class="Special">[
 
 What's going on here? First, we are defining a method named `if` which has one required parameter (the condition) and a second parameter which defaults to an empty hash table.
 
-Inside the method, we first check if the options hash has values for `":then` and `:else`. If they do, we save that value. Otherwise, we use `true` and `false` for defaults.
+Inside the method, we first check if the options hash has values for `:then` and `:else`. If they do, we save that value. Otherwise, we use `true` and `false` for defaults.
 
-Next we use the built-in `true?` method to actually test the condition. If it is true, we want to return the value of `then`. Otherwise, we return the value of `else`.
+Next we use the built-in `true?` method to actually test the condition. If it is true, we want to return the value of `then`. Otherwise, we return the value of `else`. If either of those values is a function, then it is the return value of the function that is returned.
 
 You can use it like this:
 
@@ -53,7 +53,7 @@ p if <span class="Constant">1</span> &lt; <span class="Constant">2</span>
     <span class="Special">&quot;</span><span class="Constant">This makes no sense</span><span class="Special">&quot;</span>
 </pre>
 
-Both of these examples are taking advantage of Brat's syntax to make our new `if` seem natural. The "naked" hash syntax will gather all `key : value` pairs into a single hash table and pass it in as the final arguments. The `key: value` syntax makes `key` into a string automatically. Because we are careful about our condition and hash values, we can omit any commas (passing in functions also helps this). Because the "naked" hash syntax can only be used for method arguments, we can throw in some line breaks.
+Both of these examples are taking advantage of Brat's syntax to make our new `if` seem natural. The "naked" hash syntax will gather all `key : value` pairs into a single hash table and pass it in as the final arguments. The `key: value` syntax (note the missing space) makes `key` into a string automatically. Because we are careful about our condition and hash values, we can omit any commas (passing in functions also helps this). Because the "naked" hash syntax can only be used for method arguments, we can throw in some line breaks.
 
 We can also use it in a completely awkward way:
 
