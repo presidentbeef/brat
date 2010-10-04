@@ -24,6 +24,11 @@ if = <span class="Special">{</span> condition, options = <span class="Special">[
   else = true? options.key?(<span class="Constant">:else</span>)
     <span class="Special">{</span> options<span class="Special">[</span><span class="Constant">:else</span><span class="Special">]</span> <span class="Special">}</span>
     <span class="Special">{</span> true <span class="Special">}</span>
+
+  true? condition
+    <span class="Special">{</span> then <span class="Special">}</span>
+    <span class="Special">{</span> else <span class="Special">}</span>
+<span class="Special">}</span>
 </pre>
 
 What's going on here? First, we are defining a method named `if` which has one required parameter (the condition) and a second parameter which defaults to an empty hash table.
