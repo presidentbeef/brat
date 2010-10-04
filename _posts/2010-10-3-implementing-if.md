@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Example: Your own 'if'
+title: "Example: Your own 'if'"
 ---
 
 <style type="text/css">
