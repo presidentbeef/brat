@@ -8,7 +8,6 @@ title: "Example: Your own 'if'"
 .Constant { color: #ff6060; }
 .Special { color: #ff40ff; }
 pre { font-family: monospace; color: #fff; background-color: #000; padding: 10px}
-body { font-family: monospace; color: #000000; background-color: #ffffff; }
 -->
 </style>
 
@@ -17,19 +16,14 @@ Brat comes with three built-in conditionals: `true?`, `false?`, and `null?`. Of 
 In any case, let's say one did wanted a more traditional `if...then...else` structure. How might that be achieved in Brat? Maybe like this:
 
 <pre>
-if = <font color="#ff40ff">{</font>&nbsp;condition, options = <font color="#ff40ff">[</font>:<font color="#ff40ff">]</font>&nbsp;|<br>
-&nbsp;&nbsp;then = true? options.key?(<font color="#ff6060">:then</font>)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ff40ff">{</font>&nbsp;options<font color="#ff40ff">[</font><font color="#ff6060">:then</font><font color="#ff40ff">]</font>&nbsp;<font color="#ff40ff">}</font>&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ff40ff">{</font>&nbsp;false <font color="#ff40ff">}</font><br>
-<br>
-&nbsp;&nbsp;else = true? options.key?(<font color="#ff6060">:else</font>) <br> 
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ff40ff">{</font>&nbsp;options<font color="#ff40ff">[</font><font color="#ff6060">:else</font><font color="#ff40ff">]</font>&nbsp;<font color="#ff40ff">}</font>&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ff40ff">{</font>&nbsp;true <font color="#ff40ff">}</font><br>
-<br>
-&nbsp;&nbsp;true? condition<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ff40ff">{</font>&nbsp;then <font color="#ff40ff">}</font><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ff40ff">{</font>&nbsp;else <font color="#ff40ff">}</font><br>
-<font color="#ff40ff">}</font><br>
+if = <span class="Special">{</span> condition, options = <span class="Special">[</span>:<span class="Special">]</span> |
+  then = true? options.key?(<span class="Constant">:then</span>)
+    <span class="Special">{</span> options<span class="Special">[</span><span class="Constant">:then</span><span class="Special">]</span> <span class="Special">}</span>
+    <span class="Special">{</span> false <span class="Special">}</span>
+
+  else = true? options.key?(<span class="Constant">:else</span>)
+    <span class="Special">{</span> options<span class="Special">[</span><span class="Constant">:else</span><span class="Special">]</span> <span class="Special">}</span>
+    <span class="Special">{</span> true <span class="Special">}</span>
 </pre>
 
 What's going on here? First, we are defining a method named `if` which has one required parameter (the condition) and a second parameter which defaults to an empty hash table.
