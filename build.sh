@@ -110,10 +110,10 @@ cd $SRC/readline
 
 if [ "$SYSTEM" = "linux" ]
 then
-	gcc -fPIC -shared readline.c -o readline.so
+	gcc -I../$LUA/include -fPIC -shared readline.c -o readline.so
 elif [ "$SYSTEM" = "osx" ]
 then
-	gcc -bundle -undefined dynamic_lookup readline.c -o readline.so
+	gcc -I../$LUA/include -bundle -undefined dynamic_lookup readline.c -o readline.so
 fi
 
 mv -f readline.so $LIB
