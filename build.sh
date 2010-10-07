@@ -17,10 +17,9 @@ then
 	echo Could not find RubyGems. Please install it.
 fi
 
-treetop=`gem which treetop`
-notfound="Can't find ruby library file or shared library treetop"
+`gem list | grep treetop`
 
-if [ "$treetop" = "$notfound" ]
+if [ "$?" -ne "0" ]
 then
 	echo Could not find Treetop gem. Please install it via: gem install treetop
 	exit
