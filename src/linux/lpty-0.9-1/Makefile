@@ -1,8 +1,8 @@
 # Prototype Makefile, works on Linux, everywhere else roll your own.
 
 CFLAGS=-O2 -fPIC
-INCDIRS=-I/usr/local/include
-LIBDIRS=-L/usr/local/lib
+INCDIRS=-I../lua-5.1.4/include
+LIBDIRS=-L../lua-5.1.4/lib
 LDFLAGS=-shared
 
 all: lpty.so
