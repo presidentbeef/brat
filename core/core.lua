@@ -754,17 +754,19 @@ function object:include (file, name)
 
 	require(file)
 
-	local env = getfenv(2)
+	local status, env = pcall(getfenv, 3)
 
-	if name then
-		for k,v in pairs(_exports) do
-			 if k == name then
+	if status then
+		if name then
+			for k,v in pairs(_exports) do
+				 if k == name then
+					env[k] = v
+				end
+			end
+		else
+			for k,v in pairs(_exports) do
 				env[k] = v
 			end
-		end
-	else
-		for k,v in pairs(_exports) do
-			env[k] = v
 		end
 	end
 
