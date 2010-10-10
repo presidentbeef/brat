@@ -32,6 +32,7 @@ local interactive = function ()
 	local output
 	local lua_code
 	local current_env = getfenv()
+	_exports = {}
 	require "core"
 	local interactive_env = {
 		require = require;
@@ -48,6 +49,7 @@ local interactive = function ()
 		_type = type;
 		_error = error;
 		_tostring = tostring;
+		_exports = _exports;
 	}
 
 	local rescue = function (obj, err)
@@ -88,6 +90,12 @@ local interactive = function ()
 			setfenv(parsed_function, interactive_env)
 
 			print("#=> " .. tostring(object:protect(parsed_function, protect_options)))
+
+			for k,v in pairs(_exports) do
+				interactive_env[k] = v
+			end
+
+			_exports = {}
 		end
 	end
 end
