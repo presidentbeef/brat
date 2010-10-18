@@ -3,6 +3,18 @@ require 'test/base-test'
 class BratStringTests < Test::Unit::TestCase
 	include BratBaseTest
 
+	def test_string_chomp
+		assert_result "hello", '"hello\\n".chomp'
+		assert_result "hello", '"hello\\r\\n".chomp'
+		assert_result "hello", '"hello\\n\\r\\n".chomp'
+	end
+
+	def test_string_chomp!
+		assert_result "hello", '"hello\\n".chomp!'
+		assert_result "hello", 'a = "hello\\r\\n"; a.chomp!'
+		assert_result "hello", 'a = "hello\\n\\r\\n"; a.chomp!; a'
+	end
+
 	def test_string_split
 		assert_result "[he, o]", '"hello".split "l"'
 		assert_result "[h, llo]", '"hello".split "e"'
