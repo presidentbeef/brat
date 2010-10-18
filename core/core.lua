@@ -1979,6 +1979,15 @@ function string_instance:to_unders ()
 	return self
 end
 
+function string_instance:chomp ()
+	return base_string:new(string.gsub(self._lua_string, "[\n\r]+$", ""))
+end
+
+function string_instance:chomp_bang ()
+	self._lua_string = string.gsub(self._lua_string, "[\n\r]+$", "")
+	return self
+end
+
 function string_instance:downcase ()
 	return base_string:new(string.lower(self._lua_string))
 end
