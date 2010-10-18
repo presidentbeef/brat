@@ -1042,6 +1042,10 @@ function number_instance:to_underi ()
 	return math.floor(self._lua_number) 
 end
 
+function number_instance:to_underhex ()
+	return base_string:new(string.format("%x", self._lua_number))
+end
+
 function number_instance:to_underf ()
 	return self._lua_number
 end
