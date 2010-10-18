@@ -50,6 +50,11 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "b", 'a = [1,2,3]; a[-1] = "b"; a[2]'
 	end
 
+	def test_array_nested_set
+		assert_result "b", 'a = []; a[0] = []; a[0][1] = "b"; a[0][1]'
+		assert_result "b", 'a = []; a[0] = []; a[0][1] = []; a[0][1][2] = "b"; a[0][1][2]'
+	end
+
 	def test_array_method
 		assert_result "2", "z = new; z.test = { [1,2,3] }; z.test[1]"
 		assert_result "1", "y = {x| x}; z = [->y]; z[0] 1"

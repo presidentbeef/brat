@@ -315,13 +315,26 @@ grammar BaseBrat
 
   #Setting value via index (e.g., "a[1] = b")
   rule index_set
-  	a:indexed_expression "[" i:expression "]" space? "=" spaceorbreak v:expression {
+  	e:indexed_expression a:("[" i:expression "]")+ space? "=" spaceorbreak v:expression {
 		def brat(res_var = nil)
-			next_temp
-			v.brat << "\n" << 
-				a.brat << "\n" << 
-				i.brat << "\n" << 
-				"local #@result = #{a.result}:set(#{i.result}, #{v.result})\n"
+			@result = res_var || next_temp
+
+			output = "local #@result\ndo\n" <<
+				e.brat << "\n" <<
+				"#@result = #{e.result}\n"
+
+			indices = a.elements[0..-2]
+			final = a.elements.last
+
+			indices.each do |elem|
+				output << elem.i.brat << "\n" <<
+					"#@result = #@result:get(#{elem.i.result})\n" 
+			end
+
+			output << 
+				v.brat << "\n" << 
+				final.i.brat << "\n" << 
+				"#@result = #@result:set(#{final.i.result}, #{v.result})\nend\n"
 		end
 	}
   end
