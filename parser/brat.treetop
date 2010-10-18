@@ -30,10 +30,11 @@ grammar BaseBrat
 		def file_header
 			<<-LUA
 			require "coxpcall"
+			local _lib
 			if package.loaded.core then
-				local _lib = true
+				_lib = true
 			else
-				local _lib = false
+				_lib = false
 				require "core"
 			end
 			LUA
