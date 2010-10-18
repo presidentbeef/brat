@@ -12,7 +12,7 @@ class Treetop::Runtime::SyntaxNode
 			"_tilde" => 3,
 			"_bang_tilde" => 3,
 			"_less_equal" => 4,
-			"_equal_greater" => 4,
+			"_greater_equal" => 4,
 			"_less" => 4,
 			"_greater" => 4,
 			"_less_less" => 5,
