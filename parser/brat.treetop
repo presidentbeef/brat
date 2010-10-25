@@ -261,6 +261,8 @@ grammar BaseBrat
 					"#@result[#{i + 2}] = #{r.e.result}\n"
 			end
 
+			unset temp_var
+
 			output
 		end
 	}
@@ -283,6 +285,9 @@ grammar BaseBrat
 				output << elem.brat(key_temp, val_temp) << "\n" <<
 					"#@result[#{elem.index}] = #{elem.value}\n"
 			end
+
+			unset key_temp
+			unset val_temp
 
 			output << "#@result = hash:new(#@result)\nend\n"
 		end
@@ -329,6 +334,8 @@ grammar BaseBrat
 			indices.each do |elem|
 				output << elem.i.brat << "\n" <<
 					"#@result = #@result:get(#{elem.i.result})\n" 
+
+				unset elem.i.result
 			end
 
 			output << 
@@ -491,6 +498,7 @@ grammar BaseBrat
     '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
 		def brat(res_var = nil)
 			@result = res_var || next_temp
+
 			if content.elements.empty?
 				if res_var
 					"#@result = string:new(#{text_value});"
@@ -500,14 +508,19 @@ grammar BaseBrat
 			else
 				output = ""
 				text = '"'
+			
+				results = [] #for unsetting
 				content.elements.each do |e|
 					if e.respond_to? :brat
 						output << e.brat << "\n"
 						text << "\" .. _tostring(#{e.result}) .. \""
+						results << e.result
 					else
 						text << e.text_value
 					end
 				end
+
+				results.each { |r| unset r }
 
 				if res_var
 					output << "#@result = string:new(#{text << '"'})\n"
@@ -543,6 +556,7 @@ grammar BaseBrat
 			rest.elements.each do |e|
 				if e.expression.respond_to? :brat
 					output << e.expression.brat
+					unset @result
 					@result = e.expression.result
 				end
 			end
@@ -878,13 +892,15 @@ grammar BaseBrat
 			end
 
 			out_stack.each do |e|
-				if e[0,5] == "_temp" || number?(e)
+				if temp?(e) || number?(e)
 					res_stack.push e
 				else
 					r = res_stack.pop
 					l = res_stack.pop
 					next_temp
 					output << "local #@result\n" << call_method(@result, l, e, r, 1) << "\n"
+					unset l if temp? l
+					unset r if temp? r
 					res_stack.push @result
 				end
 			end
@@ -923,6 +939,10 @@ grammar BaseBrat
 			output << "\n" <<
 			a.brat << "\n" <<
 			call_method(@result, lhs.result, i.brat, a.list, a.length)
+
+			a.unset_args if a.respond_to? :unset_args
+
+			output
 		end
 	}
 	/
@@ -939,8 +959,12 @@ grammar BaseBrat
 	i:identifier a:simple_arg_list {
 		def brat(res_var = nil)
 			@result = res_var || next_temp
-			a.brat <<
+			output = a.brat <<
 			invoke(@result, i.brat, a.list, a.length)
+
+			a.unset_args if a.respond_to? :unset_args
+
+			output
 		end
 	}
 	/
@@ -957,10 +981,14 @@ grammar BaseBrat
   	lhs:method_chain i:(identifier / operator) a:arg_list {
 		def brat(res_var = nil)
 			next_temp
-			"local #@result\n" <<
+			output = "local #@result\n" <<
 			lhs.brat << 
 			a.brat <<
 			call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
+
+			a.unset_args if a.respond_to? :unset_args
+
+			output
 		end
 
 		def return_result
@@ -974,9 +1002,13 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			name = m.brat
 			next_temp
-			"local #@result\n" <<
+			output = "local #@result\n" <<
 				a.brat << 
 				get_value(@result, name, a.list, a.length)
+
+			a.unset_args if a.respond_to? :unset_args
+
+			output
 		end
 
 		def return_result
@@ -992,6 +1024,10 @@ grammar BaseBrat
 			@result = res_var || next_temp
 			output << "local #@result\n" <<
 			invoke(@result, m.result, a.list, a.length)
+			
+			a.unset_args if a.respond_to? :unset_args
+
+			output
 		end
 
 		def return_result
@@ -1008,6 +1044,10 @@ grammar BaseBrat
 			@result = res_var || f.result
 			output << "local #@result\n" <<
 			invoke(@result, f.result, a.list, a.length)
+
+			a.unset_args if a.respond_to? :unset_args
+
+			output
 		end
 
 		def return_result
@@ -1038,10 +1078,12 @@ grammar BaseBrat
 				args = elem.e.arg_list
 				output << args.brat
 				output << call_method(@result, @result, meth, args.list, args.length) << "\n"
+				args.unset_args if args.respond_to? :unset_args
 				if not elem.e.a.elements.empty?
 					elem.e.a.elements.each do |ele|
 						output << ele.inner_arg_list.brat
 						output << "#@result = #{@result}:get(#{ele.inner_arg_list.list});"
+						ele.inner_arg_list.unset_args if ele.inner_arg_list.respond_to? :unset_args
 					end
 				end
 			end
@@ -1118,6 +1160,10 @@ grammar BaseBrat
 			@result = res_var || f.result
 			output << "local #@result\n" <<
 			invoke(@result, f.result, a.list, a.length)
+			
+			a.unset_args if a.respond_to? :unset_args
+
+			output
 		end
 	}
 	/
@@ -1190,6 +1236,10 @@ grammar BaseBrat
 		def list
 			inner_arg_list.list
 		end
+
+		def unset_args
+			inner_arg_list.unset_args
+		end
 	}
 	/
 	'(' empty_list ')' {
@@ -1219,6 +1269,9 @@ grammar BaseBrat
 			inner_arg_list.list
 		end
 
+		def unset_args
+			inner_arg_list.unset_args
+		end
 	}
 	/
 	![(] ~(&(space?)) {
@@ -1254,6 +1307,10 @@ grammar BaseBrat
 		def list
 			inner_arg_list.list
 		end
+
+		def unset_args
+			inner_arg_list.unset_args
+		end
 	}
 	/
 	'(' empty_list ')' {
@@ -1274,7 +1331,7 @@ grammar BaseBrat
   #Matches the inside of the argument list
   rule inner_arg_list
   	e:arg_first o:arg_next* {
-		attr_reader :length, :list
+		attr_reader :length, :list, :args
 		def brat(res_var = nil)
 			output = ""
 			args = []
@@ -1306,13 +1363,20 @@ grammar BaseBrat
 				output << "local #@result = {}\n"
 				named_args.map do |e|
 					output << "#@result[#{e.key}] = #{e.value}\n"
+					unset e.key
+					unset e.value
 				end
 				output << "#@result = hash:new(#@result)\n"
 			end
 
 			@list = args.join(',')
 			@length = args.length
+			@args = args
 			output
+		end
+
+		def unset_args
+			@args.each { |a| unset a }
 		end
 	}
   end
