@@ -229,7 +229,7 @@ grammar BaseBrat
   rule array
   	"[" spaceorbreak array_inner spaceorbreak "]" {
 		def brat(res_var = nil)
-			inner = array_inner.brat
+			inner = array_inner.brat(res_var)
 			@result = array_inner.result
 			"local #@result \ndo\n" <<
 				inner <<
@@ -250,7 +250,7 @@ grammar BaseBrat
 	first:expression rest:(((spaceorbreak "," spaceorbreak) / ( space / eol)+) e:expression)* {
 		def brat(res_var = nil)
 			temp_var = next_temp
-			next_temp
+			@result = res_var || next_temp
 			output = "#@result = {}\n" <<
 				"local #{temp_var}\n" <<
 				first.brat(temp_var) << "\n" <<
