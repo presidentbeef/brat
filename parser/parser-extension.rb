@@ -55,13 +55,30 @@ class Treetop::Runtime::SyntaxNode
 	end
 
 	def self.clear_variables
+		@@unset = []
 		@@variables = []
 		@@variables << {}
 		@@temp = 0
 	end
 
 	def next_temp
-		@result = "_temp#{@@temp += 1}"
+		temp = @@unset.pop
+		@result = temp || "_temp#{@@temp += 1}"
+	end
+
+	def unset temp
+		@@unset << temp if temp? temp and not named? temp
+	end
+
+	def named? temp
+		@@variables.reverse_each do |v|
+			return true if v.values.include? temp
+		end
+		false
+	end
+
+	def temp? item
+		item[0,5] == "_temp"
 	end
 
 	def call_method res_var, object, method, arguments, arg_length
