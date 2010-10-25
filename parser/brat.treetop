@@ -635,8 +635,6 @@ grammar BaseBrat
 				inner_function = "return object:null()\n"
 			end
 
-			next_temp
-
 			#Have to check for when there are no formal arguments
 			if fa.respond_to? :max
 				max = fa.max
@@ -646,12 +644,15 @@ grammar BaseBrat
 				min = 0
 			end
 
-			output << <<-LUA
-				local #@result = function (#{args})
-					#{inside}
-					#{inner_function}
-				end
-			LUA
+			if res_var
+				@result = res_var
+				output << "#{res_var} = function (#{args})\n"
+			else
+				next_temp
+				output << "local #@result = function (#{args})\n"
+			end
+			
+			output << inside << "\n" << inner_function << "\nend\n"
 
 			pop_scope
 
