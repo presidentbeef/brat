@@ -380,6 +380,10 @@ grammar BaseBrat
 
 			output << "end\n"
 		end
+
+		def no_result
+			self.brat("_dummy_")
+		end
 	}
   end
 
@@ -691,7 +695,7 @@ grammar BaseBrat
 		end
 
 		def no_result
-			self.brat "local _dummy_"
+			self.brat "_dummy_"
 		end
 	}
   end
@@ -1049,7 +1053,7 @@ grammar BaseBrat
 		def no_result
 			output = lhs.brat <<
 				a.brat <<
-				call_method("local _dummy_", lhs.result, i.brat, a.list, a.length)
+				call_method("_dummy_", lhs.result, i.brat, a.list, a.length)
 
 			unset lhs.result
 			a.unset_args
@@ -1078,7 +1082,7 @@ grammar BaseBrat
 
 		def no_result
 			output = a.brat <<
-				get_value("local _dummy_", m.brat, a.list, a.length)
+				get_value("_dummy_", m.brat, a.list, a.length)
 		
 			a.unset_args
 
