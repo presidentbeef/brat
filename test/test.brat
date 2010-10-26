@@ -1,12 +1,9 @@
-include "subprocess"
-include "assert"
+include :file
+include :assert
 
-["misc", "examples", "containers", "function", "misc", "number", "parser", "string"].each { file |
-	file = "test-" << file
-	true? subprocess.command("./brat -c -f test/#{file}.brat") == 0 {
-		protect {
-			import("test/#{file}")
-		} rescue: { e | p "Error importing test/#{file}.brat: #{e.error_message}" }
+[:misc :examples :containers :function :misc :number :parser :string].each { name |
+		true? file.exists?	"test/test-#{name}.lua"
+			{ file.delete "test/test-#{name}.lua" }
+
+		protect {	import "test/test-#{name}" } rescue: { e | p e }
 	}
-	{ p "Error compiling test/#{file}.brat" }
-}
