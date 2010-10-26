@@ -520,7 +520,11 @@ grammar BaseBrat
 			else
 				output = ""
 				text = '"'
+	
+				output << "local #@result\n" unless res_var
 			
+				output << "do\n"
+
 				results = [] #for unsetting
 				content.elements.each do |e|
 					if e.respond_to? :brat
@@ -534,11 +538,8 @@ grammar BaseBrat
 
 				results.each { |r| unset r }
 
-				if res_var
-					output << "#@result = string:new(#{text << '"'})\n"
-				else
-					output << "local #@result = string:new(#{text << '"'})\n"
-				end
+				output << "#@result = string:new(#{text << '"'})\n"
+				output << "end\n"
 			end
 		end
 	}
