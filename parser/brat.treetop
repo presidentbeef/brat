@@ -134,7 +134,7 @@ grammar BaseBrat
 	assignment / 
 	paren_exp ~(!("." / "(")) { 
 		def brat(res_var = nil)
-			output = paren_exp.brat
+			output = paren_exp.brat(res_var)
 			@result = paren_exp.result
 			output
 		end 
@@ -231,7 +231,7 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			inner = array_inner.brat(res_var)
 			@result = array_inner.result
-			"local #@result \ndo\n" <<
+			output = "local #@result \ndo\n" <<
 				inner <<
 				"end\n" <<
 				"#@result = array:new(#{array_inner.result})\n"
@@ -240,8 +240,8 @@ grammar BaseBrat
 	/
 	"[" spaceorbreak "]" {
 		def brat(res_var = nil)
-			next_temp
-			"local #@result = array:new()\n"
+				@result = res_var || next_temp
+				"local #@result = array:new()\n"
 		end
 	}
   end
@@ -325,8 +325,9 @@ grammar BaseBrat
 			@result = res_var || next_temp
 
 			output = "local #@result\ndo\n" <<
-				e.brat << "\n" <<
-				"#@result = #{e.result}\n"
+				e.brat << "\n"
+
+			output <<	"#@result = #{e.result}\n"
 
 			indices = a.elements[0..-2]
 			final = a.elements.last
@@ -407,6 +408,9 @@ grammar BaseBrat
 					_error("Cannot set method on " .. #{lhs_result})
 				end
 			LUA
+
+			unset lhs_result
+			output
 		end
 	}
 	/
@@ -415,7 +419,8 @@ grammar BaseBrat
 			var = lhs.brat
 			temp = var_exist? var
 			if temp
-				output = rhs.brat << "\n#{temp} = #{rhs.result}\n"
+				output = rhs.brat(temp) 
+				output << "\n#{temp} = #{rhs.result}\n" unless temp == rhs.result
 			else
 				temp = var_add var
 				output = ""
@@ -423,8 +428,9 @@ grammar BaseBrat
 					output << "local #{temp}\n"
 				end
 				
-				output << rhs.brat(temp) << 
-					"\n#{temp} = #{rhs.result}\n"
+				output << rhs.brat(temp)
+
+				output << "\n#{temp} = #{rhs.result}\n" unless temp == rhs.result
 			end
 			@result = temp
 			output
@@ -849,10 +855,13 @@ grammar BaseBrat
   rule unary_operation
 	op:operator !space rhs:unary_rhs_expression {
 		def brat(res_var = nil)  
-			next_temp
-			rhs.brat <<
-			"local #@result = #{rhs.result}\n" <<
-			call_method(@result, @result, op.brat, "", 0) << "\n"
+			@result = res_var || next_temp
+			output = rhs.brat(@result)
+			if @result != rhs.result
+				output  << "local #@result = #{rhs.result}\n"
+			end
+
+			output << call_method(@result, @result, op.brat, "", 0) << "\n"
 		end
 	}
   end
@@ -862,11 +871,13 @@ grammar BaseBrat
 	lhs:binary_operation_chain rhs:expression
 	 {
 		def brat(res_var = nil)
-			next_temp
-			final_result = @result
-			output = "local #{final_result} \n do\n" <<
-				rhs.brat <<
-				lhs.brat
+			final_result = res_var || next_temp
+			if res_var.nil?
+				output = "local #{final_result} \n"
+			else
+				output = ""
+			end
+			output << "do\n" <<	rhs.brat <<	lhs.brat
 			@result = rhs.result
 			in_stack = lhs.stack
 			in_stack << @result
@@ -981,9 +992,9 @@ grammar BaseBrat
   rule method_invocation
   	lhs:method_chain i:(identifier / operator) a:arg_list {
 		def brat(res_var = nil)
-			next_temp
+			@result = res_var || next_temp
 			output = "local #@result\n" <<
-			lhs.brat << 
+			lhs.brat(@result) << 
 			a.brat <<
 			call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
 
@@ -1064,7 +1075,7 @@ grammar BaseBrat
   rule method_chain
  	(e:method_lhs ".")+ {
 		def brat(res_var = nil)
-			output = elements.first.e.brat
+			output = elements.first.e.brat(res_var)
 			@result = elements.first.e.result
 
 			if number? @result
@@ -1097,13 +1108,14 @@ grammar BaseBrat
   rule method_lhs
   	identifier !space arg_list a:("[" inner_arg_list "]")* {
 		def brat(res_var = nil)
-			next_temp
+			@result = res_var || next_temp
 			output = arg_list.brat
 			name = identifier.brat
 			temp = var_exist? name
 
+			output <<	"local #@result\n" unless res_var
+
 			output <<
-			"local #@result\n" <<
 			if temp
 				<<-LUA
 				local _t = _type(#{temp});
@@ -1129,10 +1141,13 @@ grammar BaseBrat
 				LUA
 			end
 
+			arg_list.unset_args if arg_list.respond_to? :unset_args
+
 			if not a.elements.empty?
 				a.elements.each do |elem|
 					output << elem.inner_arg_list.brat
 					output << "#@result = #@result:get(#{elem.inner_arg_list.list});"
+					elem.inner_arg_list.unset_args
 				end
 			end
 			output
@@ -1141,13 +1156,14 @@ grammar BaseBrat
 	/
 	a:array a_rest:("[" space? inner_arg_list space? "]")+ {
 		def brat(res_var = nil)
-			next_temp
-			output = a.brat << "\n" <<
-			"local #@result = #{a.result}"
+			@result = res_var || next_temp
+			output = a.brat(@result) << "\n"
+			output << "local #@result = #{a.result}" unless @result == a.result
 
 			a_rest.elements.each do |elem|
 				output << elem.inner_arg_list.brat
 				output << "#@result = #{@result}:get(#{elem.inner_arg_list.list})\n"
+				elem.inner_arg_list.unset_args
 			end
 			output
 		end
