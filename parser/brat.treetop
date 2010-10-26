@@ -375,7 +375,7 @@ grammar BaseBrat
 			unless args.respond_to? :nothing?
 				output << args.brat << "\n" <<
 					invoke(@result, @result, args.list, args.length) << "\n"
-				args.unset_args if args.respond_to? :unset_args
+				args.unset_args
 			end
 
 			output << "end\n"
@@ -988,7 +988,7 @@ grammar BaseBrat
 			a.brat << "\n" <<
 			call_method(@result, lhs.result, i.brat, a.list, a.length)
 
-			a.unset_args if a.respond_to? :unset_args
+			a.unset_args
 
 			output
 		end
@@ -1011,7 +1011,7 @@ grammar BaseBrat
 			output = a.brat <<
 			invoke(@result, i.brat, a.list, a.length)
 
-			a.unset_args if a.respond_to? :unset_args
+			a.unset_args
 
 			output
 		end
@@ -1035,7 +1035,7 @@ grammar BaseBrat
 			a.brat <<
 			call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
 
-			a.unset_args if a.respond_to? :unset_args
+			a.unset_args
 
 			output
 		end
@@ -1052,7 +1052,7 @@ grammar BaseBrat
 				call_method("local _dummy_", lhs.result, i.brat, a.list, a.length)
 
 			unset lhs.result
-			a.unset_args if a.respond_to? :unset_args
+			a.unset_args
 
 			output
 		end
@@ -1066,7 +1066,7 @@ grammar BaseBrat
 				a.brat << 
 				get_value(@result, name, a.list, a.length)
 
-			a.unset_args if a.respond_to? :unset_args
+			a.unset_args
 
 			output
 		end
@@ -1080,7 +1080,7 @@ grammar BaseBrat
 			output = a.brat <<
 				get_value("local _dummy_", m.brat, a.list, a.length)
 		
-			a.unset_args if a.respond_to? :unset_args
+			a.unset_args
 
 			output
 		end
@@ -1094,7 +1094,7 @@ grammar BaseBrat
 			output << "local #@result\n" <<
 			invoke(@result, m.result, a.list, a.length)
 			
-			a.unset_args if a.respond_to? :unset_args
+			a.unset_args
 
 			output
 		end
@@ -1114,7 +1114,7 @@ grammar BaseBrat
 			output << "local #@result\n" <<
 			invoke(@result, f.result, a.list, a.length)
 
-			a.unset_args if a.respond_to? :unset_args
+			a.unset_args
 
 			output
 		end
@@ -1147,12 +1147,12 @@ grammar BaseBrat
 				args = elem.e.arg_list
 				output << args.brat
 				output << call_method(@result, @result, meth, args.list, args.length) << "\n"
-				args.unset_args if args.respond_to? :unset_args
+				args.unset_args
 				if not elem.e.a.elements.empty?
 					elem.e.a.elements.each do |ele|
 						output << ele.inner_arg_list.brat
 						output << "#@result = #{@result}:get(#{ele.inner_arg_list.list});"
-						ele.inner_arg_list.unset_args if ele.inner_arg_list.respond_to? :unset_args
+						ele.inner_arg_list.unset_args
 					end
 				end
 			end
@@ -1198,7 +1198,7 @@ grammar BaseBrat
 				LUA
 			end
 
-			arg_list.unset_args if arg_list.respond_to? :unset_args
+			arg_list.unset_args
 
 			if not a.elements.empty?
 				a.elements.each do |elem|
@@ -1235,7 +1235,7 @@ grammar BaseBrat
 			output << "local #@result\n" <<
 			invoke(@result, f.result, a.list, a.length)
 			
-			a.unset_args if a.respond_to? :unset_args
+			a.unset_args
 
 			output
 		end
@@ -1328,6 +1328,8 @@ grammar BaseBrat
 		def list
 			""
 		end
+		
+		def unset_args; end
 	}
 	/
   	space inner_arg_list {
@@ -1364,6 +1366,8 @@ grammar BaseBrat
 		def nothing?
 			true
 		end
+		
+		def unset_args; end
 	}
   end
 
