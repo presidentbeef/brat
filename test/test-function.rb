@@ -18,6 +18,10 @@ class BratFunctionTests < Test::Unit::TestCase
 		assert_result "2", "a = { first = 1, second = 2 | second }; a 3"
 		assert_result "4", "a = { first = 1, second = 2 | second }; a 2, 4"
 	end
+	
+	def test_null_default_arg	
+		assert_result "null", "a = { first = null | first }; a"
+	end
 
 	def test_required_and_default_args
 		assert_fail "a = { first, second = 2 | second }; a"
