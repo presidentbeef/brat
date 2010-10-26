@@ -353,8 +353,13 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			@result = res_var || next_temp
 
-			output = "local #@result\ndo\n" <<
-				e.brat << "\n"
+			if res_var
+				output = ""
+			else
+				output = "local #@result\n"
+			end
+
+			output << "do\n" << e.brat << "\n"
 
 			output <<	"#@result = #{e.result}\n"
 
@@ -373,6 +378,10 @@ grammar BaseBrat
 				final.i.brat << "\n" << 
 				"#@result = #@result:set(#{final.i.result}, #{v.result})\nend\n"
 		end
+
+		def no_result
+			self.brat("_dummy_")
+		end
 	}
   end
 
@@ -380,8 +389,15 @@ grammar BaseBrat
   rule index_get
   	e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
 		def brat(res_var = nil)
-			@result = res_var || next_temp
-			output = "local #@result\ndo\n" <<
+			if res_var
+				@result = res_var
+				output = ""
+			else
+				next_temp
+				output = "local #@result\n"
+			end
+
+			output << "do\n" <<
 				e.brat << "\n" <<
 				"#@result = #{e.result}\n"
 
