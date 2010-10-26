@@ -775,6 +775,8 @@ function object:include (file, name)
 
 	self:_compile(file)
 
+	package.loaded[file] = false
+
 	require(file)
 
 	local status, env = pcall(getfenv, 3)
@@ -814,6 +816,8 @@ function object:import (file, name)
 	end
 
 	self:_compile(file)
+
+	package.loaded[file] = false
 
 	require(file)
 
