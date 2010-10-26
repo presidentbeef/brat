@@ -1115,8 +1115,7 @@ grammar BaseBrat
 			output = f.brat(res_var) << "\n" <<
 			a.brat << "\n"
 			@result = res_var || f.result
-			output << "local #@result\n" <<
-			invoke(@result, f.result, a.list, a.length)
+			output << invoke(@result, f.result, a.list, a.length)
 
 			a.unset_args
 
@@ -1236,8 +1235,7 @@ grammar BaseBrat
 			output = f.brat(res_var) << "\n" <<
 			a.brat << "\n"
 			@result = res_var || f.result
-			output << "local #@result\n" <<
-			invoke(@result, f.result, a.list, a.length)
+			output << invoke(@result, f.result, a.list, a.length)
 			
 			a.unset_args
 
