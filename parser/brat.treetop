@@ -359,11 +359,13 @@ grammar BaseBrat
 			a.elements.each do |elem|
 				output << elem.inner_arg_list.brat << "\n" <<
 					"#@result = #@result:get(#{elem.inner_arg_list.list})\n" 
+				elem.inner_arg_list.unset_args
 			end
 
 			unless args.respond_to? :nothing?
 				output << args.brat << "\n" <<
 					invoke(@result, @result, args.list, args.length) << "\n"
+				args.unset_args if args.respond_to? :unset_args
 			end
 
 			output << "end\n"
@@ -389,6 +391,10 @@ grammar BaseBrat
 					_error("Cannot set method on " .. #{lhs_result})
 				end
 			LUA
+
+			unset lhs_result
+
+			output
 		end
 	}
 	/
@@ -1008,12 +1014,23 @@ grammar BaseBrat
 			a.brat <<
 			call_method(nil, lhs.result, i.brat, a.list, a.length)
 		end
+
+		def no_result
+			output = lhs.brat <<
+				a.brat <<
+				call_method("local _dummy_", lhs.result, i.brat, a.list, a.length)
+
+			unset lhs.result
+			a.unset_args if a.respond_to? :unset_args
+
+			output
+		end
 	}
 	/
 	m:identifier a:arg_list {
 		def brat(res_var = nil)
 			name = m.brat
-			next_temp
+			@result = res_var || next_temp
 			output = "local #@result\n" <<
 				a.brat << 
 				get_value(@result, name, a.list, a.length)
