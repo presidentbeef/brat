@@ -82,7 +82,13 @@ grammar BaseBrat
 
 		def inner_brat
 			Treetop::Runtime::SyntaxNode.clear_variables
-			elements.map {|e| "   " << e.brat if e.respond_to? :brat }.compact.join("\n")
+			elements.map do |e| 
+				if e.respond_to? :no_result
+					"   " << e.no_result
+				elsif e.respond_to? :brat
+					"   " << e.brat
+				end
+			end.compact.join("\n")
 		end
 	}
 	/
@@ -110,6 +116,10 @@ grammar BaseBrat
 
 		def result
 			e.result
+		end
+
+		def no_result
+			e.no_result
 		end
 	}
 	/
@@ -630,7 +640,13 @@ grammar BaseBrat
 
 			l.elements.reject! { |e| e.respond_to? :comment or e.respond_to? :empty_line }
 
-			elements = l.elements[0..-2].map { |e| e.brat }
+			elements = l.elements[0..-2].map do |e|
+				if e.respond_to? :no_result
+					e.no_result
+				else
+					e.brat
+				end
+			end
 
 			last = l.elements.last
 
@@ -672,6 +688,10 @@ grammar BaseBrat
 			$inside_function = false unless already_inside_function
 
 			output
+		end
+
+		def no_result
+			self.brat "local _dummy_"
 		end
 	}
   end
@@ -837,14 +857,15 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			@var_name = i.brat
 			var_add @var_name
-			<<-LUA
-				if #{var_name} == nil then
-					do
-						#{v.brat}
-						#{var_name} = #{v.result}
-					end
-				end
-			LUA
+
+			"if #{var_name} == nil then\n do\n" <<
+					v.brat(var_name) <<
+					if var_name == v.result
+						""
+					else
+						"#{var_name} = #{v.result}"
+					end <<
+					"\nend\nend\n"
 		end
 
 		def var_name
@@ -869,6 +890,10 @@ grammar BaseBrat
 			end
 
 			output << call_method(@result, @result, op.brat, "", 0) << "\n"
+		end
+
+		def no_result
+			self.brat("_dummy_")
 		end
 	}
   end
@@ -928,6 +953,10 @@ grammar BaseBrat
 			@result = final_result
 			output
 		end
+
+		def no_result
+			self.brat "_dummy_"
+		end
 	}
   end
 
@@ -963,6 +992,7 @@ grammar BaseBrat
 
 			output
 		end
+
 	}
 	/
   	lhs:method_chain i:(identifier / operator) &space {
@@ -1044,6 +1074,15 @@ grammar BaseBrat
 		def return_result
 			a.brat <<
 			get_value(nil, m.brat, a.list, a.length)
+		end
+
+		def no_result
+			output = a.brat <<
+				get_value("local _dummy_", m.brat, a.list, a.length)
+		
+			a.unset_args if a.respond_to? :unset_args
+
+			output
 		end
 	}
 	/
