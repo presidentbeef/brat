@@ -247,6 +247,7 @@ function object:print (...)
 			input[k] = tostring(v)
 	end
 	io.write(unpack(input))
+	io.flush()
 	return object.__null
 end
 
