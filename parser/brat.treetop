@@ -1068,8 +1068,15 @@ grammar BaseBrat
   rule method_invocation
   	lhs:method_chain i:(identifier / operator) a:arg_list {
 		def brat(res_var = nil)
-			@result = res_var || next_temp
-			output = "local #@result\n" <<
+			if res_var
+				@result = res_var
+				output = ""
+			else
+				next_temp
+				output = "local #@result\n"
+			end
+
+			output <<
 			lhs.brat(@result) << 
 			a.brat <<
 			call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
@@ -1100,10 +1107,16 @@ grammar BaseBrat
 	m:identifier a:arg_list {
 		def brat(res_var = nil)
 			name = m.brat
-			@result = res_var || next_temp
-			output = "local #@result\n" <<
-				a.brat << 
-				get_value(@result, name, a.list, a.length)
+			if res_var
+				@result = res_var
+				output = ""
+			else
+				next_temp
+				output = "local #@result\n"
+			end
+
+			output <<	a.brat << 
+			get_value(@result, name, a.list, a.length)
 
 			a.unset_args
 
@@ -1129,9 +1142,14 @@ grammar BaseBrat
 		def brat(res_var = nil)
 			output << m.brat(res_var) << "\n" <<
 			a.brat << "\n"
-			@result = res_var || next_temp
-			output << "local #@result\n" <<
-			invoke(@result, m.result, a.list, a.length)
+			if res_var
+				@result = res_var
+			else
+				next_temp
+				output << "local #@result\n"
+			end
+
+			output << invoke(@result, m.result, a.list, a.length)
 			
 			a.unset_args
 
