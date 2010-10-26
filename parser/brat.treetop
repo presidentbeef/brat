@@ -239,19 +239,38 @@ grammar BaseBrat
   rule array
   	"[" spaceorbreak array_inner spaceorbreak "]" {
 		def brat(res_var = nil)
-			inner = array_inner.brat(res_var)
-			@result = array_inner.result
-			output = "local #@result \ndo\n" <<
+			@result = res_var || next_temp
+			inner = array_inner.brat(@result)
+			if res_var
+				output = "do\n" <<
 				inner <<
-				"end\n" <<
-				"#@result = array:new(#{array_inner.result})\n"
+				"#@result = array:new(#{array_inner.result})\n" <<
+				"end\n"
+			else
+				output = "local #@result \ndo\n" <<
+				inner <<
+				"#@result = array:new(#{array_inner.result})\n" <<
+				"end\n"
+			end
+		end
+
+		def no_result
+			self.brat "_dummy_"
 		end
 	}
 	/
 	"[" spaceorbreak "]" {
 		def brat(res_var = nil)
 				@result = res_var || next_temp
-				"local #@result = array:new()\n"
+				if res_var
+					"#@result = array:new()\n"
+				else
+					"local #@result = array:new()\n"
+				end
+		end
+
+		def no_result
+			self.brat "_dummy_"
 		end
 	}
   end
