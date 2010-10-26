@@ -5,7 +5,6 @@ local file = new_brat(file_instance)
 require 'lfs'
 
 local fs = lfs
-lfs = nil
 
 function file:delete (path)
 	if type(path) == "table" and path._lua_string then
