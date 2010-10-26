@@ -121,8 +121,16 @@ class BratMiscTests < Test::Unit::TestCase
 	end
 
 	def test_rescue
-		assert_result "hello", "protect { throw 'eep' } rescue: { e | 'hello' }"
+		assert_result "eep", "protect { throw 'eep' } rescue: { e | e }"
 		assert_result "hello", "protect { throw 'eep' } rescue: { 'hello' }"
+	end
+
+	def test_ensure
+		assert_result "hello", "x = 1; protect { throw 'eep' } ensure: { x = 'hello' }; x"
+		assert_result "hello", "x = 1; protect {'no error' } ensure: { x = 'hello' }; x"
+		assert_result "3", "x = 1; protect { throw 'eep' } rescue: { x = x + 1 } ensure: { x = x + 1 }; x"
+		assert_result "3", "x = 1; protect { throw 'eep' } rescue: { x = x * 2 } ensure: { x = x + 1 }; x"
+		assert_result "2", "x = 1; protect { 'no error' } rescue: { x = x * 2 } ensure: { x = x + 1 }; x"
 	end
 
 	def test_exceptions

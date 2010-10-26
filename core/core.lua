@@ -683,21 +683,43 @@ function object:protect (block, options)
 			return object.__null
 		end
 	elseif type(options) == "table" and options._lua_hash ~= nil then
-		if type(options:get(base_string:new("rescue"))) == "function" then
-			local f = function()
-				return block(self)
-			end
+		local ensure = options:get(base_string:new("ensure"))
+		local rescue = options:get(base_string:new("rescue"))
 
-			local handler = function(err)
-				return options:get(base_string:new("rescue"))(self, err)
-			end
+		if not is_true(rescue) then
+			rescue = nil
+		end
 
-			local status, result = xpcall(f, handler)
+		if not  is_true(ensure) then
+			ensure = nil
+		end
 
-			return result
-		else
+		if (rescue and type(rescue) ~= "function") or (ensure and type(ensure) ~= "function") then
 			error(exception:argument_error("protect", "function", tostring(options)))
 		end
+
+		local f = function()
+			return block(self)
+		end
+
+		local handler
+
+		if rescue then
+			handler = function(err)
+				return rescue(self, err)
+			end
+		else
+			handler = function(err)
+			end
+		end
+
+		local status, result = xpcall(f, handler)
+
+		if ensure then
+			ensure(self)
+		end
+
+		return result
 	else
 		error(exception:argument_error("protect", "hash", tostring(options)))
 	end
