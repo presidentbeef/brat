@@ -4,6 +4,7 @@ class BratContainerTests < Test::Unit::TestCase
 
 	def test_array
 		assert_result "1", "x = array.new; x[0] = 1; x[0]"
+		assert_result "11", "x = array.new; x[10] = :jello; x.length"
 		assert_result "3", "x = [1,2,3]; x.length"
 		assert_result "a", "y = { 3}; x = [1, \"a\", y]; x[1]"
 		assert_result "b", '["a", "b", "c"][1]'
@@ -19,6 +20,7 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "[a, 2, c]", "[:a 2 :c null].compact"
 		assert_result "[a, 2, c, null]", "a = [:a 2 :c null];a.compact;a"
 		assert_result "[a, 2, c]", "a = [:a null, 2 :c ];a.compact!;a"
+		assert_result "[a, 2, c, 10]", "a = [:a null, 2 :c ];a[10] = 10;a.compact!;a"
 	end
 
 	def test_array_copy
@@ -35,6 +37,7 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "[]", '["z", "a", "b", "c", "d", "e", "f"][10,15]'
 		assert_result "null", "[][1]"
 		assert_result "[e, f]", '["z", "a", "b", "c", "d", "e", "f"][10,5]'
+		assert_result "[null, null, null, a]", "a = []; a[5] = :a; a[-1, -4]"
 	end
 
 	def test_array_index_of

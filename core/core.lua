@@ -1168,6 +1168,8 @@ function array:new (...)
 	else
 		na._lua_array = args
 	end
+
+	na._length = #na._lua_array
 	return na
 end
 
@@ -1177,13 +1179,18 @@ end
 
 function array_instance:compact_bang ()
 	local result = {}
-	for k,v in pairs(self._lua_array) do
-		if v and v ~= object.__null then
-			table.insert(result, v)
+	local len = self._length
+	local a = self._lua_array
+	local index = 1
+	while index <= len do
+		if a[index] and a[index] ~= object.__null then
+			table.insert(result, a[index])
 		end
+		index = index + 1
 	end
 
 	self._lua_array = result
+	self._length = #result
 
 	return self
 end
@@ -1199,7 +1206,7 @@ end
 
 function array_instance:each (block)
 	local k = 1
-	local len = #self._lua_array
+	local len = self._length
 	local a = self._lua_array
 
 	while k <= len do
@@ -1212,7 +1219,7 @@ end
 
 function array_instance:each_underwith_underindex (block)
 	local k = 1
-	local len = #self._lua_array
+	local len = self._length
 	local a = self._lua_array
 
 	while k <= len do
@@ -1224,7 +1231,7 @@ function array_instance:each_underwith_underindex (block)
 end
 
 function array_instance:reverse_undereach (block)
-	local len = #self._lua_array
+	local len = self._length
 	local k = len
 	local a = self._lua_array
 
@@ -1239,7 +1246,7 @@ end
 
 function array_instance:index_underof (item)
 	local k = 1
-	local len = #self._lua_array
+	local len = self._length
 	local a = self._lua_array
 
 	if type(item) == "number" then
@@ -1262,7 +1269,7 @@ function array_instance:index_underof (item)
 end
 
 function array_instance:rindex_underof (item)
-	local len = #self._lua_array
+	local len = self._length
 	local k = len
 	local a = self._lua_array
 
@@ -1287,7 +1294,7 @@ end
 
 function array_instance:map (block)
 	local k = 1
-	local len = #self._lua_array
+	local len = self._length
 	local a = self._lua_array
 	local new_array = {}
 
@@ -1304,7 +1311,11 @@ function array_instance:map (block)
 	end
 
 	while k <= len do
-		table.insert(new_array, block(self, a[k]))
+		if a[k] == nil then
+			table.insert(new_array, block(self, object.__null))
+		else
+			table.insert(new_array, block(self, a[k]))
+		end
 		k = k + 1
 	end
 
@@ -1313,7 +1324,7 @@ end
 
 function array_instance:map_bang (block)
 	local k = 1
-	local len = #self._lua_array
+	local len = self._length
 	local a = self._lua_array
 
 	if type(block) == "table" and block._lua_string then
@@ -1329,6 +1340,10 @@ function array_instance:map_bang (block)
 	end
 
 	while k <= len do
+		if a[k] == nil then
+			a[k] = object.__null
+		end
+
 		a[k] = block(self, a[k])
 		k = k + 1
 	end
@@ -1338,12 +1353,16 @@ end
 
 function array_instance:map_underwith_underindex (block)
 	local k = 1
-	local len = #self._lua_array
+	local len = self._length
 	local a = self._lua_array
 	local new_array = {}
 
 	while k <= len do
-		table.insert(new_array, block(self, a[k], k - 1))
+		if a[k] == nil then
+			table.insert(new_array, block(self, object.__null, k - 1))
+		else
+			table.insert(new_array, block(self, a[k], k - 1))
+		end
 		k = k + 1
 	end
 
@@ -1352,10 +1371,13 @@ end
 
 function array_instance:map_underwith_underindex_bang (block)
 	local k = 1
-	local len = #self._lua_array
+	local len = self._length
 	local a = self._lua_array
 
 	while k <= len do
+		if a[k] == nil then
+			a[k] = object.__null
+		end
 		a[k] = block(self, a[k], k - 1)
 		k = k + 1
 	end
@@ -1364,7 +1386,7 @@ function array_instance:map_underwith_underindex_bang (block)
 end
 
 function array_instance:empty_question ()
-	if #self._lua_array == 0 then
+	if self._length == 0 then
 		return object.__true
 	else
 		return object.__false
@@ -1372,7 +1394,7 @@ function array_instance:empty_question ()
 end
 
 function array_instance:first ()
-	if #self._lua_array == 0 then
+	if self._length == 0 or self._lua_array[1] == nil then
 		return object.__null
 	else
 		return self._lua_array[1]
@@ -1380,22 +1402,27 @@ function array_instance:first ()
 end
 
 function array_instance:last ()
-	if #self._lua_array == 0 then
+	if self._length == 0 or self._lua_array[self._length] == nil then
 		return object.__null
 	else
-		return self._lua_array[#self._lua_array]
+		return self._lua_array[self._length]
 	end
 end
 
 function array_instance:pop (number)
 	if number == nil then
-		if #self._lua_array == 0 then
+		if self._length == 0 then
 			return object.__null
 		else
-			return table.remove(self._lua_array)
+			local res = table.remove(self._lua_array, self._length)
+			if res == nil then
+				res = object.__null
+			end
+			self._length = self._length - 1
+			return res
 		end
 	else
-		if #self._lua_array == 0 then
+		if self._length == 0 then
 			return array:new({})
 		else
 			local new_array = {}
@@ -1403,11 +1430,12 @@ function array_instance:pop (number)
 			local item
 
 			while index <= number do
-				item = table.remove(self._lua_array)
-				if item == nil then
+				item = table.remove(self._lua_array, self._length)
+				self._length = self._length - 1
+				table.insert(new_array, item)
+
+				if self._length == 0 then
 					break
-				else
-					table.insert(new_array, item)
 				end
 
 				index = index + 1
@@ -1419,12 +1447,13 @@ function array_instance:pop (number)
 end
 
 function array_instance:push (item)
-	table.insert(self._lua_array, item)
+	self._length = self._length + 1
+	table.insert(self._lua_array, self._length, item)
 	return self
 end
 
 function array_instance:rest ()
-	if #self._lua_array == 0 then
+	if self._length == 0 then
 		return object.__null
 	else
 		return self:get(1,-1)
@@ -1432,7 +1461,7 @@ function array_instance:rest ()
 end
 
 function array_instance:reverse_bang ()
-	local len = #self._lua_array
+	local len = self._length
 	
 	if len < 2 then
 		return self
@@ -1453,7 +1482,7 @@ function array_instance:reverse_bang ()
 end
 
 function array_instance:reverse ()
-	local len = #self._lua_array
+	local len = self._length
 
 	if len < 2 then
 		return self
@@ -1514,7 +1543,7 @@ function array_instance:set (index, value)
 	end
 
 	if index < 0 then
-		index = #self._lua_array + index
+		index = self._length + index
 	end
 
 	if index < 0 then
@@ -1522,11 +1551,14 @@ function array_instance:set (index, value)
 	end
 
 	self._lua_array[index + 1] = value
+	if index > self._length then
+		self._length = index + 1
+	end
 	return value
 end
 
 function array_instance:get (start_index, end_index)
-	local len = #self._lua_array
+	local len = self._length
 	if end_index == nil then
 		if start_index < 0 then
 			start_index = len + start_index
@@ -1565,16 +1597,22 @@ function array_instance:get (start_index, end_index)
 			return array:new()
 		end
 
-		if end_index > len then
-			end_index = len
+		if end_index >= len then
+			end_index = len - 1
 		end
 
 		local index = start_index
 		local new_index = 1
 		local new_array = {}
+		local val
 
 		while index <= end_index do
-			new_array[new_index] = self._lua_array[index + 1]
+			val = self._lua_array[index + 1]
+			if val == nil then
+				new_array[new_index] = object.__null
+			else
+				new_array[new_index] = val
+			end
 			index = index + 1
 			new_index = new_index + 1
 		end
@@ -1584,7 +1622,7 @@ function array_instance:get (start_index, end_index)
 end
 
 function array_instance:length ()
-	return #self._lua_array
+	return self._length
 end
 
 function array_instance:_dup ()
@@ -1616,9 +1654,9 @@ function array_instance:sort_bang ()
 end
 
 function array_instance:join (separator, final)
-	if #self._lua_array == 0 then
+	if self._length == 0 then
 		return base_string:new("")
-	elseif #self._lua_array == 1 then
+	elseif self._length== 1 then
 		return base_string:new(tostring(self._lua_array[1]))
 	end
 
@@ -1630,20 +1668,31 @@ function array_instance:join (separator, final)
 
 	local s = ""
 	local i = 1
-	local len = #self._lua_array
+	local len = self._length
 	local a = self._lua_array
+	local obj = nil
 
 	while (i < len) do
-		s = s .. tostring(a[i]) .. separator
+		obj = a[i]
+		if obj == nil then
+			obj = object.__null
+		end
+		s = s .. tostring(obj) .. separator
 		i = i + 1
 	end
 
-	s = s .. tostring(a[len])
+	obj = a[len]
+	if obj == nil then
+		obj = object.__null
+	end
+	s = s .. tostring(obj)
+
 	return base_string:new(s)
 end
 
 function array_instance:_less_less (obj)
-	table.insert(self._lua_array, obj)
+	self._length = self._length + 1
+	table.insert(self._lua_array, self._length, obj)
 
 	return self
 end
@@ -1658,16 +1707,16 @@ function array_instance:_plus (obj)
 	local lhs = self._lua_array
 	local na = {}
 
-	local len = #lhs
+	local len = self._length
 	while index <= len do
-		table.insert(na, lhs[index])
+		table.insert(na, index, lhs[index])
 		index = index + 1
 	end
 
-	len = #rhs
+	len = obj._length
 	index = 1
 	while index <= len do
-		table.insert(na, rhs[index])
+		table.insert(na, index + self._length, rhs[index])
 		index = index + 1
 	end
 
@@ -1686,15 +1735,15 @@ end
 function array_instance:_equal_equal (rhs)
 	if type(rhs) ~= "table" or rhs._lua_array == nil then
 		return object.__false
-	elseif rhs._lua_array == #self._lua_array then
+	elseif rhs._lua_array == self._lua_array then
 		return object.__true
-	elseif #rhs._lua_array ~= #self._lua_array then
+	elseif rhs._length ~= self._length then
 		return object.__false
 	else
 		local k = 1
 		local lhs = self._lua_array
 		local rhs = rhs._lua_array
-		local len = #lhs
+		local len = self._length
 		local match = true
 		while k <= len do
 			if rhs[k] ~= lhs[k] then
@@ -1724,12 +1773,13 @@ end
 
 function array_instance:clear ()
 	self._lua_array = {}
+	self._length = 0
 	return self
 end
 
 function array_instance:delete_underfirst (item)
 	local a = self._lua_array
-	local len = #a
+	local len = self._length
 	if len == 0 then
 		return self
 	end
@@ -1750,6 +1800,7 @@ function array_instance:delete_underfirst (item)
 
 	if found then
 		table.remove(a, k)
+		self._length = self._length - 1
 	end
 
 	return self
