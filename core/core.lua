@@ -1261,6 +1261,30 @@ function array_instance:index_underof (item)
 	return object.__null
 end
 
+function array_instance:rindex_underof (item)
+	local len = #self._lua_array
+	local k = len
+	local a = self._lua_array
+
+	if type(item) == "number" then
+		while k >= 1 do
+			if item == a[k] then
+				return k - 1
+			end
+			k = k - 1
+		end
+	else
+		while k >= 1 do
+			if is_true(item:_equal_equal(a[k])) then
+				return k - 1
+			end
+			k = k - 1
+		end
+	end
+
+	return object.__null
+end
+
 function array_instance:map (block)
 	local k = 1
 	local len = #self._lua_array
