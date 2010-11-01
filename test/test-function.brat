@@ -5,7 +5,6 @@ setup name: "function tests" {
 		assert_equal 1 { t = {x, y, z| z}; t 3, 2, 1 }
 		assert_equal "hello" { t = {x, y, z| z}; a = 1; b = 2; c = "hello"; t a, b, c }
 	}
-
 	test "var_args" {
 		assert_equal 1 { a = { *args | args[0] }; a 1,2,3,4 }
 		assert { a = { *args | args.empty?  }; a }
@@ -90,7 +89,6 @@ setup name: "function tests" {
 	test "operation6" {
 		assert_equal 1 { a = object.new;a.+ = {x| x + 1}; a + 0 }
 	}
-
 	test "operation7" {
 		assert_equal 1 { a = object.new;a.^ = {x| x + 1}; a ^ 0 }
 	}
@@ -229,13 +227,6 @@ setup name: "function tests" {
 		assert_equal 2 { a = { x | y = x + 1; true? (x < 3) { a(x + 1) }; y }; a(1) }
 	}
 
-	test "method" {
-		assert_equal 0 { { p hi }.arity }
-		assert_equal 1 { {x| p x }.arity }
-		assert_equal 2 { {x, y| p x, y }.arity }
-		assert_equal 5 { x = {y| y }; x 5 }
-	}
-
 	test "chained_method" {
 		assert_equal 4 { x = object.new; x.y = object.new; x.y.z = object.new; x.y.z.z = {r| r}; x.y.z.z 4 }
 		assert_equal 4 { x = object.new; x.y = object.new; x.y.z = [1,2,3]; x.y.z[1].+ 2 }
@@ -289,3 +280,4 @@ setup name: "function tests" {
 		assert_equal 4 { f = { *args | args[3] }; g = { x, y | y }; f 1 :b 'b' g 3 4 }
 	}
 }
+
