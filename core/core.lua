@@ -1223,6 +1223,20 @@ function array_instance:each_underwith_underindex (block)
 	return self
 end
 
+function array_instance:reverse_undereach (block)
+	local len = #self._lua_array
+	local k = len
+	local a = self._lua_array
+
+	while k >= 1 do
+		block(self, a[k])
+		k = k - 1
+	end
+
+	return self
+end
+
+
 function array_instance:index_underof (item)
 	local k = 1
 	local len = #self._lua_array

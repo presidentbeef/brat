@@ -136,6 +136,11 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "[]", "b = []; [].each_with_index { i, in | b << i }; b "
 	end
 
+	def test_array_reverse_each
+		assert_result "[3, 2, 1]", "b = []; [1,2,3].reverse_each { i | b << i }; b "
+		assert_result "[]", "b = []; [].reverse_each { i | b << i }; b "
+	end
+
 	def test_array_empty
 		assert_result "true", "[].empty?"
 		assert_result "false", "[1,2].empty?"
