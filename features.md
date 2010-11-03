@@ -6,6 +6,7 @@ layout: default
 
 * Compiles to [Lua](http://nekovm.org/)
 * Parser is in [Ruby](http://ruby-lang.org) using [TreeTop](http://treetop.rubyforge.org/)
+* Interactive shell
 * Typeless, and pretty much classless
 * Everything is object, except functions
 * And functions are closures, which can be attached to objects to make methods
