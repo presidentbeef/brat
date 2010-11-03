@@ -27,6 +27,7 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "a", "a = [:a]; b = a.copy;  b[0]"
 		assert_result "a", "a = [:a]; b = a.copy; a[0] = 1; b[0]"
 		assert_result "a", "a = [:a]; b = a.copy; b[0] = 1; a[0]"
+		assert_result "11", "a = []; a[10] = 2; b = a.copy; b.length"
 	end
 
 	def test_array_indexing

@@ -1197,11 +1197,19 @@ end
 
 function array_instance:copy ()
 	local result = {}
-	for k,v in pairs(self._lua_array) do
-		table.insert(result, v)
+	local len = self._length
+	local a = self._lua_array
+	local index = 1
+
+	while index <= len do
+		table.insert(result, index, a[index])
+		index = index + 1
 	end
 
-	return array:new(result)
+	local na = array:new(result)
+	na._length = len
+
+	return na
 end
 
 function array_instance:each (block)
