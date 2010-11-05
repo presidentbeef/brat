@@ -2171,6 +2171,14 @@ function string_instance:_plus (rhs)
 	return self:new(self._lua_string .. rhs._lua_string)
 end
 
+function string_instance:match (regx)
+	if type(regx) ~= "table" or regx._lua_regex == nil then
+		error(exception:argument_error("string.match", "regex", tostring(regx)))
+	end
+
+	return regx:match(self)
+end
+
 function string_instance:sub (pattern, replacement, limit)
 	if type(pattern) == "table" then
 		if pattern._lua_string then
