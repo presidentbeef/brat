@@ -142,7 +142,7 @@ grammar BaseBrat
   rule expression
 	regex / binary_operation / index_set / index_get / 
 	assignment / 
-	paren_exp ~(!("." / "(")) { 
+	paren_exp ~(!("." / "(" / "->")) { 
 		def brat(res_var = nil)
 			output = paren_exp.brat(res_var)
 			@result = paren_exp.result
@@ -1348,6 +1348,20 @@ grammar BaseBrat
 				end
 			LUA
 		end
+	}
+	/
+	e:paren_exp "->" m:(identifier / operator) {
+	def brat(res_var = nil)
+		name = m.brat
+		output = e.brat
+		@result = e.result
+		output << <<-LUA
+			#@result = #@result["#{name}"]
+			if #@result == nil then
+				_error(exception:method_error("#{nice_id e.text_value}", "#{nice_id name}"))
+			end
+		LUA
+	end
 	}
   end
 
