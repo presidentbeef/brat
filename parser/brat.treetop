@@ -1140,7 +1140,7 @@ grammar BaseBrat
 	/
 	m:paren_exp a:arg_list {
 		def brat(res_var = nil)
-			output << m.brat(res_var) << "\n" <<
+			output = m.brat(res_var) << "\n" <<
 			a.brat << "\n"
 			if res_var
 				@result = res_var
