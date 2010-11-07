@@ -228,6 +228,24 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "true", "a = new; b = new; c = [a,b]; d = [a,b]; c == d"
 	end
 
+	def test_array_unique
+		assert_result "[1, 2, 3]", "a = [1 2 3]; a.unique.sort"
+		assert_result "[1, 2, 3]", "a = [3 1 2 1 2 3]; a.unique.sort"
+		assert_result "[1, 2, 3]", "a = [3 1 2 1 2 3]; a.unique.sort"
+		assert_result "false", "a = [3 1 2 1 2 3]; a.unique; a.sort == [1 2 3]"
+		assert_result "4", "b = object.new; a = [b, :sup 1 :sup :hello b, 1]; a.unique.length"
+		assert_result "3", "a = []; a[10] = 11; a[4] = :hello; a[2] = :hello; a.unique.length"
+	end
+
+	def test_array_unique!
+		assert_result "true", "a = [1 2 3]; a.unique!; a == [1 2 3]"
+		assert_result "true", "a = [3 1 2 1 2 3]; a.unique!; a == [1 2 3]"
+		assert_result "true", "a = [3 1 2 1 2 3]; a.unique!; a == [1 2 3]"
+		assert_result "true", "a = [3 1 2 1 2 3]; a.unique!; a == [1 2 3]"
+		assert_result "4", "b = object.new; a = [b, :sup 1 :sup :hello b, 1]; a.unique!; a.length"
+		assert_result "3", "a = []; a[10] = 11; a[4] = :hello; a[2] = :hello; a.unique!; a.length"
+	end
+
 	def test_array_join
 		assert_result "a, b, c", '["a", "b", "c"].join ", "'
 		assert_result "1, 2, 3", '[1, 2, 3].join ", "'

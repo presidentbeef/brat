@@ -1872,6 +1872,47 @@ function array_instance:include_question (item)
 	end
 end
 
+function array_instance:unique ()
+	local h = hash:new()
+	local a = self._lua_array
+	local len = self._length
+	local item
+	local index = 1
+
+	while index <= len do
+		item = a[index]
+		if item == nil then
+			item = object.__null
+		end
+		h:set(item, true)
+		index = index + 1
+	end
+
+	return h:keys()
+end
+
+function array_instance:unique_bang ()
+	local h = hash:new()
+	local a = self._lua_array
+	local len = self._length
+	local item
+	local index = 1
+
+	while index <= len do
+		item = a[index]
+		if item == nil then
+			item = object.__null
+		end
+		h:set(item, true)
+		index = index + 1
+	end
+
+	self._lua_array =  h:keys()._lua_array
+	self._length = #self._lua_array
+
+	return self
+end
+
 --Hash objects
 
 local hash_instance = object:new()
