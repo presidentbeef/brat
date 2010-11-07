@@ -16,7 +16,7 @@ function parseDate(dateTime) {	// thanks to lachlanhardy
 
 	dateTime = dateTime.substring(0,19) + "Z";
 	var theirTime = dateTime.substring(11,13);
-	var ourTime = parseInt(theirTime) + 7 + timeZone;
+	var ourTime = parseInt(theirTime) + 8 + timeZone;
 	if (ourTime > 24) {
 		ourTime = ourTime - 24;
 	};
@@ -51,7 +51,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myDiffLine.setAttribute("class", "github-commit-badge-diffline");
 	
 		var myLink = document.createElement("a");
-		myLink.setAttribute("href",myEval.commit.url);
+		myLink.setAttribute("href", "https://github.com/" + myEval.commit.url);
 		myLink.setAttribute("class", "github-commit-badge-badge");
 		myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,10,"")));
 		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " committed "));
