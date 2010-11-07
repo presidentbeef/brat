@@ -2,7 +2,7 @@
 layout: doc
 lib: core
 object: string
-desc: "String literals live between double quotes."
+desc: "String literals live between single or double quotes."
 methlist:
 - "+"
 - dice
@@ -10,6 +10,8 @@ methlist:
 - length
 - set
 - split
+- strip
+- strip!
 - sub
 - sub!
 - sub_first
@@ -64,6 +66,16 @@ a.split       #["hello,", "there"]
 a.split ", "  #["hello", "there"]
 a.split "z"   #["hello, there"]
 {% endhighlight %}
+
+### strip
+>_string_.strip
+
+Returns a new string with leading and trailing whitespace removed.
+
+### strip!
+>_string_.strip!
+
+Removes leading and trailing whitespace from string.
 
 ### sub
 >_string_.sub _regex_, _string_  
