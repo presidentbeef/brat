@@ -182,7 +182,8 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "true", "[1,2,3].include? 3"
 		assert_result "true", "a = new; b = [a]; b.include? a"
 		assert_result "false", "a = 1; b = [a]; b.include? 2"
-		assert_result "false", "a = 1; b = []; b.include? 2"
+		assert_result "false", "b = []; b.include? 2"
+		assert_result "true", "b = []; b[10] = 2; b.include? 2"
 		assert_result "false", "a = ['a', 'b', 'c']; a.include? 'd'"
 	end
 

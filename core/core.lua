@@ -1844,7 +1844,7 @@ end
 
 function array_instance:include_question (item)
 	local a = self._lua_array
-	local len = #a
+	local len = self._length
 	if len == 0 then
 		return object.__false
 	end
