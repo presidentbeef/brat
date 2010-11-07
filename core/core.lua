@@ -1461,8 +1461,8 @@ function array_instance:push (item)
 end
 
 function array_instance:rest ()
-	if self._length == 0 then
-		return object.__null
+	if self._length < 2 then
+		return array:new()
 	else
 		return self:get(1,-1)
 	end
