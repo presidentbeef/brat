@@ -136,6 +136,8 @@ class BratContainerTests < Test::Unit::TestCase
 	def test_array_rest
 		assert_result "2", "a = [1,2,3]; a.rest.length"
 		assert_result "3" , "[1,2,3].rest.rest.first"
+		assert_result "[]" , "[1].rest"
+		assert_result "[]" , "[].rest"
 	end
 
 	def test_array_each
