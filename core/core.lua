@@ -160,6 +160,26 @@ function object:new (...)
 	return nb
 end
 
+function object:array_question ()
+	return object.__false
+end
+
+function object:hash_question ()
+	return object.__false
+end
+
+function object:number_question ()
+	return object.__false
+end
+
+function object:regex_question ()
+	return object.__false
+end
+
+function object:string_question (rhs)
+	return object.__false
+end
+
 function object:my ()
 	return self
 end
@@ -908,6 +928,10 @@ function number:new(num)
 	return n
 end
 
+function number_instance:number_question ()
+	return object.__true
+end
+
 function number_instance:my ()
 	return self._lua_number
 end
@@ -1171,6 +1195,10 @@ function array:new (...)
 
 	na._length = #na._lua_array
 	return na
+end
+
+function array_instance:array_question ()
+	return object.__true
 end
 
 function array_instance:compact ()
@@ -1879,6 +1907,10 @@ function hash:new (arg)
 	return nh
 end
 
+function hash_instance:hash_question ()
+	return object.__true
+end
+
 function hash_instance:get (index)
 	local val = self._lua_hash[index]
 	if val then
@@ -2125,6 +2157,10 @@ end
 function string_instance:strip_bang ()
 	self._lua_string = orex.gsub(self._lua_string, string_instance.__stripper, "")
 	return self
+end
+
+function string_instance:string_question ()
+	return object.__true
 end
 
 function string_instance:downcase ()
@@ -2422,6 +2458,10 @@ function regex:new (string)
 	nr._regex_string = string
 	
 	return nr
+end
+
+function regex_instance:regex_question ()
+	return object.__true
 end
 
 function regex_instance:to_unders ()

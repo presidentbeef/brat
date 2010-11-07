@@ -142,4 +142,29 @@ class BratMiscTests < Test::Unit::TestCase
 		assert_result "method error", "protect { throw exception.no_method 'o', 'f' } rescue: { e | e.type }"
 		assert_result "hello", "f = { }; protect { f 1 }; 'hello'"
 	end
+
+	def test_array_test
+		assert_result "true", "[].array?"
+		assert_result "false", "'hello'.array?"
+	end
+
+	def test_string_test
+		assert_result "true", "''.string?"
+		assert_result "false", "[].string?"
+	end
+
+	def test_number_test
+		assert_result "true", "1.number?"
+		assert_result "false", "[].number?"
+	end
+
+	def test_regex_test
+		assert_result "true", "(//).regex?"
+		assert_result "false", "1.regex?"
+	end
+
+	def test_hash_test
+		assert_result "true", "[:].hash?"
+		assert_result "false", "1.hash?"
+	end
 end
