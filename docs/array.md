@@ -42,6 +42,8 @@ methlist:
 - shuffle!
 - sort
 - sort!
+- unique
+- unique!
 ---
 
 ### Manipulating Arrays
@@ -262,3 +264,13 @@ Returns a copy of the array which has been sorted in ascending order. Throws an 
 >_array_.sort!
 
 Sorts the array in ascending order. Throws an error if items cannot be compared for sorting.
+
+### unique
+>_array_.unique
+
+Returns a new array with no repeated values.
+
+### unique!
+>_array_.unique!
+
+Removes all duplicate values from the array
