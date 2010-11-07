@@ -1,0 +1,7 @@
+#* http://rosettacode.org/wiki/Execute_a_system_command
+ Execute an external command
+*#
+
+include :subprocess
+
+subprocess.run :ls
