@@ -24,6 +24,16 @@ class BratMiscTests < Test::Unit::TestCase
 		assert_result "false", "false || { false }"
 		assert_result "true", "false || { true }"
 	end
+
+	def test_when
+		assert_result "hello", "when true, 'hello'"
+		assert_result "hello", "when { true } { 'hello' }"
+		assert_result "null", "when { false } { 'hello' }"
+		assert_result "goodbye", "when { false } { 'hello' } { true } { 'goodbye' }"
+		assert_result "goodbye", "when false, 'hello', true, 'goodbye'"
+		assert_fail "when false, 'hello', true, 'goodbye', 'farewell'"
+	end
+
 	def test_random
 		assert_result "true", 'r = random 1; true? r == 0 || r == 1'
 		assert_result "true", 'r = random 0; true? r == 0'

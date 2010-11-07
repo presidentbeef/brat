@@ -873,6 +873,37 @@ function object:export (obj, name)
 	return object.__true
 end
 
+function object:when (...)
+	local args = {...}
+	local len = #args
+	if len % 2 == 1 then
+		error(exception:argument_error("when", "an even number of", len))
+	end
+
+	local index = 1
+	local cond
+	local result = object.__null
+	while index <= len do
+		cond = args[index]
+
+		if type(cond) == "function" then
+			cond = cond(self)
+		end
+
+		if is_true(cond) then
+			result = args[index + 1]
+			if type(result) == "function" then
+				result = result(self)
+			end
+			break
+		end
+
+		index = index + 2
+	end
+
+	return result
+end
+
 --The comparable squish-in
 comparable = object:new()
 
