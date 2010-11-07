@@ -2116,6 +2116,17 @@ function string_instance:chomp_bang ()
 	return self
 end
 
+string_instance.__stripper = orex.new("(^\\s+)|(\\s+$)")
+
+function string_instance:strip ()
+	return base_string:new(orex.gsub(self._lua_string, string_instance.__stripper, ""))
+end
+
+function string_instance:strip_bang ()
+	self._lua_string = orex.gsub(self._lua_string, string_instance.__stripper, "")
+	return self
+end
+
 function string_instance:downcase ()
 	return base_string:new(string.lower(self._lua_string))
 end

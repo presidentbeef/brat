@@ -15,6 +15,20 @@ class BratStringTests < Test::Unit::TestCase
 		assert_result "hello", 'a = "hello\\n\\r\\n"; a.chomp!; a'
 	end
 
+	def test_string_strip
+		assert_result "hello", "' hello '.strip"
+		assert_result "hel lo", "' hel lo '.strip"
+		assert_result "hel lo", '"\\n hel lo\\n\\t ".strip'
+		assert_result "12", 'a = "\\n hel lo \\n\\t "; a.strip; a.length'
+	end
+
+	def test_string_strip!
+		assert_result "hello", "' hello '.strip!"
+		assert_result "hel lo", "a = ' hel lo '.strip!; a"
+		assert_result "hel lo", 'a = "\\n hel lo\\n\\t "; a.strip!; a'
+		assert_result "6", 'a = "\\n hel lo\\n\\t "; a.strip!; a.length'
+	end
+
 	def test_string_split
 		assert_result "[he, o]", '"hello".split "l"'
 		assert_result "[h, llo]", '"hello".split "e"'
