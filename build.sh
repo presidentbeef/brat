@@ -44,13 +44,15 @@ fi
 
 BRATPATH=`pwd`
 SRC=$BRATPATH/src/$SYSTEM
+COMMON=$BRATPATH/src/common
 LIB=$BRATPATH/lib
+export LUA_SRC_PATH=$BRATPATH/src/common/$LUA
 
 cd $SRC
 
 echo Building Lua
 #Build Lua
-cd $LUA
+cd $LUA_SRC_PATH
 
 if [ "$SYSTEM" = "osx" ]
 then
@@ -64,7 +66,7 @@ fi
 make install INSTALL_TOP=$BRATPATH/bin/lua
 
 echo Building Oniguruma
-cd $SRC/$ONIG
+cd $COMMON/$ONIG
 ./configure && make
 
 if [ "$SYSTEM" = "osx" ]
@@ -74,8 +76,8 @@ then
 
 	#Do symbolic links
 	cd $LIB
-	ln -s libonig.2.0.0.dylib libonig.2.dylib
-	ln -s libonig.2.0.0.dylib libonig.dylib
+	ln -s -f libonig.2.0.0.dylib libonig.2.dylib
+	ln -s -f libonig.2.0.0.dylib libonig.dylib
 
 elif [ "$SYSTEM" = "linux" ]
 then
@@ -84,8 +86,8 @@ then
 
 	#Do symbolic links
 	cd $LIB
-	ln -s libonig.so.2.0.0 libonig.so.2
-	ln -s libonig.so.2.0.0 libonig.so
+	ln -s -f libonig.so.2.0.0 libonig.so.2
+	ln -s -f libonig.so.2.0.0 libonig.so
 fi
 
 echo Building lrexlib
@@ -94,9 +96,9 @@ make
 
 #Copy lrexlib to lib/
 cp -f src/oniguruma/rex_onig.so.2.4 $LIB
-cp -f src/onigurum/librex_onig.a $LIB
+#cp -f src/onigurum/librex_onig.a $LIB
 cd $LIB
-ln -s rex_onig.so.2.4 rex_onig.so
+ln -s -f rex_onig.so.2.4 rex_onig.so
 
 echo Building luafilesystem
 cd $SRC/luafilesystem
@@ -110,7 +112,7 @@ make
 cp -f md5.so $LIB
 
 echo Building readline
-cd $SRC/readline
+cd $COMMON/readline
 
 if [ "$SYSTEM" = "linux" ]
 then
@@ -133,10 +135,10 @@ tt brat.treetop
 
 echo Cleaning up...
 
-cd $SRC/$LUA
+cd $LUA_SRC_PATH
 make clean
 
-cd $SRC/$ONIG
+cd $COMMON/$ONIG
 make clean
 rm -rf $SRC/$ONIG/.deps
 
