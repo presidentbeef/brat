@@ -155,3 +155,8 @@ cd $SRC/$LPTY
 make clean
 
 cd $BRATPATH
+
+for f in stdlib/*.brat
+do
+	./brat $f
+done
