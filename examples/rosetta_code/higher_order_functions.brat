@@ -1,0 +1,13 @@
+#* Higher-order functions
+	Pass a function as an argument
+	http://rosettacode.org/wiki/Higher-order_functions
+
+	Note: most of Brat works by passing in "anonymous functions" as arguments
+	to methods (e.g., array.map)
+*#
+
+add = { a, b | a + b }
+
+doit = { f, a, b | f a, b }
+
+p doit ->add 1 2 #prints 3
