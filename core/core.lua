@@ -1132,6 +1132,22 @@ function number_instance:to_underf ()
 	return self._lua_number
 end
 
+local native_operations = { _plus = number_instance._plus;
+	_minus = number_instance._minus;
+	_star = number_instance._star;
+	_up = number_instance._up;
+	_percent = number_instance._percent;
+	_forward = number_instance._forward;
+	_less = number_instance._less;
+	_less_greater = number_instance._less_greater;
+	_greater = number_instance._greater;
+	_greater_equal = number_instance._greater_equal;
+	_equal_equal = number_instance._equal_equal }
+
+number._unchanged = function (method)
+	return native_operations[method] == number_instance[method] and rawget(number, method) == nil
+end
+
 --Enumerable squish-in
 
 enumerable = new_brat(object)

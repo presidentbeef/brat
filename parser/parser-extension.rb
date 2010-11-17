@@ -101,6 +101,26 @@ class Treetop::Runtime::SyntaxNode
 			end
 			LUA
 
+		#Optimize binary operations on native numbers
+		if arg_length == 1 and
+			["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal",
+				"_percent", "_plus", "_minus", "_forward", "_star", "_up"].include? method
+
+			if number? arguments
+				check_rhs = ""
+			else
+				check_rhs = "and _type(#{arguments}) == 'number'" 
+			end
+				
+			call_number = <<-LUA
+			if number._unchanged('#{method}') #{check_rhs} then
+				#{inline_number_operation action, object, method, arguments}
+			else
+		 		#{call_number}
+			end	
+			LUA
+		end
+
 		if number? temp
 			call_number
 		else
@@ -126,6 +146,22 @@ class Treetop::Runtime::SyntaxNode
 			LUA
 		end
 	end
+
+	def inline_number_operation action, lhs, method, rhs
+		if ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"].include? method
+			<<-LUA
+			if #{lhs} #{nice_id method} #{rhs} then
+				#{action} object.__true
+			else
+				#{action} object.__false
+			end
+			LUA
+		else
+			"#{action} #{lhs} #{nice_id method} #{rhs}"
+		end
+	end
+
+
 
 	def call_no_method res_var, object, method, arguments, arg_length
 		method = nice_id method
