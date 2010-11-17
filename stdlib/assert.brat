@@ -1,4 +1,40 @@
-# Very simple testing library.
+#* Very simple testing library.
+
+To use, first:
+
+	include :assert
+
+Then use the setup method to wrap all your tests up:
+
+	setup { }
+
+Within the setup block you may have a series of tests.
+
+Inside the tests, you can use assert, assert_equal, assert_false, 
+assert_null, and assert_match:
+
+	setup {
+
+		test "test name goes here" {
+			assert { 5 > 10 }
+
+			assert_equal "hello" :hello
+
+			assert_false { :cats > :dogs }
+
+			assert_null null
+
+			assert_match /\d{3}-\d{3}-\d{4}/ "378-555-1010"
+		}
+}
+
+Additionally, you can supply a name for the entire test suite:
+
+	setup name: "sweet tests" {
+		#...
+	}
+
+*#
 
 test_manager = new
 test_context = new
