@@ -31,6 +31,7 @@ methlist:
 - new
 - pop
 - push
+- reduce
 - rest
 - reverse
 - reverse!
@@ -209,6 +210,23 @@ If a number of elements are specified, _pop_ will return an array with at most _
 >_array_.push _item_
 
 Pushes _item_ onto the end of the array (same as `<<`). 
+
+### reduce
+>_array_.reduce _initial_, { _memo_, _item_ | _block_ }
+>_array_.reduce { _memo_, _item_ | _block_ }
+>_array_.reduce _initial_, _method_
+>_array_.reduce _method_
+
+Combines elements in _array_.
+
+There are several forms of _reduce_: one that provides an initial value for _memo_, one that does not, and two that just provide a method name instead of a function.
+
+These are all equivalent:
+
+	1.to(10).reduce 0 { sum, item | sum + item }
+	1.to(10).reduce { sum, item | sum + item }
+	1.to(10).reduce 0 :+
+	1.to(10).reduce :+
 
 ### rest
 >_array_.rest
