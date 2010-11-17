@@ -212,9 +212,9 @@ If a number of elements are specified, _pop_ will return an array with at most _
 Pushes _item_ onto the end of the array (same as `<<`). 
 
 ### reduce
->_array_.reduce _initial_, { _memo_, _item_ | _block_ }
->_array_.reduce { _memo_, _item_ | _block_ }
->_array_.reduce _initial_, _method_
+>_array_.reduce _initial_, { _memo_, _item_ | _block_ }  
+>_array_.reduce { _memo_, _item_ | _block_ }  
+>_array_.reduce _initial_, _method_  
 >_array_.reduce _method_
 
 Combines elements in _array_.
