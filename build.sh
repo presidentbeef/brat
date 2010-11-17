@@ -4,20 +4,23 @@ ONIG=onig-5.9.2
 LREX=lrexlib-2.4.0
 LPTY=lpty-0.9-1
 
-`which ruby > /dev/null`
+
+which ruby > /dev/null
+
 if  [ "$?" -ne "0" ] 
 then
 	echo Ruby not found in path. Please install Ruby or add it to your path.
 	exit
 fi
 
-`which gem > /dev/null`
+which gem > /dev/null
+
 if [ "$?" = "127" ]
 then
 	echo Could not find RubyGems. Please install it.
 fi
 
-`gem list | grep treetop`
+gem which treetop > /dev/null
 
 if [ "$?" -ne "0" ]
 then
