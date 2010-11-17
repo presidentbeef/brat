@@ -4,6 +4,7 @@ ONIG=onig-5.9.2
 LREX=lrexlib-2.4.0
 LPTY=lpty-0.9-1
 
+set -e
 
 which ruby > /dev/null
 
