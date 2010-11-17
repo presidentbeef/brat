@@ -1,6 +1,6 @@
 # makefile for message digest library for Lua
 
-LUA= ../lua-5.1.4
+LUA= $(LUA_SRC_PATH)
 LUAINC= $(LUA)/include
 LUALIB= $(LUA)/lib
 LUABIN= $(LUA)/bin

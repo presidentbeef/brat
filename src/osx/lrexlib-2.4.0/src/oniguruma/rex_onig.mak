@@ -6,8 +6,8 @@ include ../defaults.mak
 # ===========================================================================
 
 # These are default values.
-INC = -I../../../onig-5.9.2 -I../../../lua-5.1.4/include
-LIB = -L../../../../../lib -lonig
+INC = -I../../../../common/onig-5.9.2 -I$(LUA_SRC_PATH)/include
+LIB = -L$(LUA_SRC_PATH)/lib -lonig
 
 # If the default settings don't work for your system,
 # try to uncomment and edit the settings below.

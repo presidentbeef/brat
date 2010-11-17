@@ -6,7 +6,7 @@ include ../defaults.mak
 # ===========================================================================
 
 # These are default values.
-INC = -I../../../onig-5.9.2 -I../../../lua-5.1.4/include
+INC = -I../../../../common/onig-5.9.2 -I../../../../common/lua-5.1.4/include
 LIB = -L../../../../../lib -lonig
 
 # If the default settings don't work for your system,

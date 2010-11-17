@@ -1,8 +1,8 @@
 # Prototype Makefile, works on Linux, everywhere else roll your own.
 
 CFLAGS=-O2 -fPIC
-INCDIRS=-I/usr/local/include
-LIBDIRS=-L/usr/local/lib
+INCDIRS=-I$(LUA_SRC_PATH)/include
+LIBDIRS=-L$(LUA_SRC_PATH)/lib
 LDFLAGS=-bundle -undefined dynamic_lookup
 
 all: lpty.so
