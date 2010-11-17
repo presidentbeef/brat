@@ -1,0 +1,7 @@
+utf32_le.lo: enc/utf32_le.c regenc.h config.h oniguruma.h
+
+regenc.h:
+
+config.h:
+
+oniguruma.h:

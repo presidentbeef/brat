@@ -1,0 +1,7 @@
+ascii.lo: enc/ascii.c regenc.h config.h oniguruma.h
+
+regenc.h:
+
+config.h:
+
+oniguruma.h:

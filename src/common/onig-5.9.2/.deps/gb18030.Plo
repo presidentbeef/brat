@@ -1,0 +1,7 @@
+gb18030.lo: enc/gb18030.c regenc.h config.h oniguruma.h
+
+regenc.h:
+
+config.h:
+
+oniguruma.h:

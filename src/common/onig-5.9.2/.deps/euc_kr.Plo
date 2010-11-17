@@ -1,0 +1,7 @@
+euc_kr.lo: enc/euc_kr.c regenc.h config.h oniguruma.h
+
+regenc.h:
+
+config.h:
+
+oniguruma.h:

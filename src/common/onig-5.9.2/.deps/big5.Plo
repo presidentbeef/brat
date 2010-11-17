@@ -1,0 +1,7 @@
+big5.lo: enc/big5.c regenc.h config.h oniguruma.h
+
+regenc.h:
+
+config.h:
+
+oniguruma.h:
