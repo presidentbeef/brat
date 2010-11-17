@@ -1405,6 +1405,45 @@ function array_instance:map (block)
 	return array:new(new_array)
 end
 
+function array_instance:reduce (identity, block)
+	if block == nil then
+		block = identity
+		identity = self:get(0)
+	end
+
+	if type(block) == "table" and block._lua_string then
+		local method = to_identifier(block._lua_string)
+		block = function (self, result, item)
+			if type(result) == "number" then
+				local n = number:new(result)
+				return n[method](n, item)
+			else
+				return result[method](result, item)
+			end
+		end
+	end
+
+	if self._length <= 1 then
+		return identity
+	else
+		local len = self._length
+		local a = self._lua_array
+		local item = nil
+		local index = 2
+		local result = a[1]
+		while index <= len do
+			item = a[index]
+			if item == nil then
+				item = object.__null
+			end
+			result = block(self, result, item)
+			index = index + 1
+		end
+
+		return result
+	end
+end
+
 function array_instance:map_bang (block)
 	local k = 1
 	local len = self._length

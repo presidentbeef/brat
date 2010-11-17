@@ -123,6 +123,18 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "[]", "a = []; a.map_with_index {i, in | i + 1 }"
 	end
 
+	def test_array_reduce
+		assert_result "45", "5.to(10).reduce { sum, n | sum + n }"
+		assert_result "151200", "(5).to(10).reduce 1 { product, n | product * n }"
+		assert_result "sheep", "[:cat :sheep :dog :bear].reduce { longest, word | true? longest.length > word.length, { longest } { word } }"
+	end
+
+	def test_array_reduce_with_string
+		assert_result "45", "5.to(10).reduce :+"
+		assert_result "151200", "5.to(10).reduce :*"
+		assert_result "manbearpig", "[:man :bear :pig].reduce :+"
+	end
+
 	def test_array_first
 		assert_result "1", "a = [1,2,3]; a.first"
 		assert_result "1", "[1,2,3].first"
