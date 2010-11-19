@@ -126,12 +126,22 @@ class BratContainerTests < Test::Unit::TestCase
 	def test_array_reduce
 		assert_result "45", "5.to(10).reduce { sum, n | sum + n }"
 		assert_result "151200", "(5).to(10).reduce 1 { product, n | product * n }"
+		assert_result "1", "[1].reduce { sum, n | sum + n }"
+		assert_result "1", "[1].reduce 0 { sum, n | sum + n }"
+		assert_result "0", "[1].reduce 0 { product, n | product * n }"
+		assert_result "0", "[].reduce 0 { product, n | product * n }"
+		assert_result "null", "[].reduce { product, n | product * n }"
 		assert_result "sheep", "[:cat :sheep :dog :bear].reduce { longest, word | true? longest.length > word.length, { longest } { word } }"
 	end
 
 	def test_array_reduce_with_string
 		assert_result "45", "5.to(10).reduce :+"
 		assert_result "151200", "5.to(10).reduce :*"
+		assert_result "1", "[1].reduce :+"
+		assert_result "1", "[1].reduce 0 :+"
+		assert_result "0", "[1].reduce 0 :*"
+		assert_result "0", "[].reduce 0 :*"
+		assert_result "null", "[].reduce :*"
 		assert_result "manbearpig", "[:man :bear :pig].reduce :+"
 	end
 
