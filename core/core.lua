@@ -2442,7 +2442,7 @@ function string_instance:get (start_index, end_index)
 		if val == nil then
 			return object.__null
 		else
-			return val
+			return base_string:new(val)
 		end
 	else
 		if start_index < 0 then
