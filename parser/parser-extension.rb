@@ -141,7 +141,7 @@ class Treetop::Runtime::SyntaxNode
 			elseif #{temp} == nil then
 				_error(exception:null_error("#{nice_id object}", "invoke #{nice_id method} on it"))
 			else
-				_error("Tried to invoke method on something strange")
+				_error("Tried to invoke method on something strange: " .. _tostring(#{temp}))
 			end
 			LUA
 		end
