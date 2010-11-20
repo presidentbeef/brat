@@ -215,6 +215,10 @@ class BratContainerTests < Test::Unit::TestCase
 		assert_result "false", "[].any? { x | x > 4 }"
 	end
 
+	def test_array_each_while
+		assert_result "2", "x = 0; [1, 2, 3].each_while { e | x = e; e < 2 }; x"
+	end
+
 	def test_array_find
 		assert_result "3", "[1,2,3].find { x | x > 2 }"
 		assert_result "null", "[1,2,3].find { x | x > 4 }"
