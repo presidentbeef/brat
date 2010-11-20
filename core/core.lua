@@ -726,6 +726,9 @@ function object:protect (block, options)
 
 		if rescue then
 			handler = function(err)
+				if type(err) ~= "table" then
+					err = exception:new(tostring(err))
+				end
 				return rescue(self, err)
 			end
 		else
