@@ -90,6 +90,8 @@ test_context.init = { name, block |
 
 test_context.run = { my.tests }
 
+test_context.p = { }
+
 test_context.assert = { condition, message = null |
 	my.assertions = my.assertions + 1
 	false? condition, {
