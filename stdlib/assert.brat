@@ -105,6 +105,13 @@ test_context.assert_equal = { expected, actual |
 	assert { e == r } "expected #{e}, but was #{r}"
 }
 
+test_context.assert_fail = { condition |
+	failed = false
+	protect { condition } rescue: { failed = true }
+
+	assert failed
+}
+
 test_context.assert_false = { condition |
 	r = condition
 	assert { false? r } "expected #{r} to be false"
