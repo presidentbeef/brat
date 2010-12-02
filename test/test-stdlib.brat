@@ -1,44 +1,46 @@
 include 'assert'
-setup name: "stdlib tests" {
+setup name: "stdlib" {
 	test "directory" {
-		assert_null { f = import "file", "make_dir"; f ".test_dir" }
-		assert { f = import "file", "file_exists?"; f ".test_dir" }
-		assert_equal "dir" { f = import "file", "file_type"; f ".test_dir" }
-		assert { f = import "file", "file_rename"; f ".test_dir", ".test_dir2" }
-		assert { f = import "file", "delete_dir"; f ".test_dir2" }
-		assert_false { f = import "file", "file_exists?"; f ".test_dir2" }
+		assert { include :file; file.make_dir ".test_dir" }
+		assert { include :file; file.exists? ".test_dir" }
+		assert_equal "directory" { include :file; file.type ".test_dir" }
+		assert { include :file; file.rename ".test_dir", ".test_dir2" }
+		assert { include :file; file.delete ".test_dir2" }
+		assert_false { include :file; file.exists? ".test_dir2" }
 	}
 
 	test "set_new" {
-		assert { squish import "set"; s = set.new; s.empty? }
-		assert_equal 3 { squish import "set"; s = set.new 1,1,2,3; s.length }
-		assert_equal 3 { squish import "set"; s = set.new [1,1,3,4]; s.length }
+		assert { include "set"; s = set.new; s.empty? }
+		assert_equal 3 { include "set"; s = set.new 1,1,2,3; s.length }
+		assert_equal 3 { include "set"; s = set.new [1,1,3,4]; s.length }
 	}
 
 	test "set_add" {
-		assert { squish import "set"; s = set.new; s.add 1; s.include? 1 }
-		assert_equal 1 { squish import "set"; s = set.new 1; s.add 1; s.length }
-		assert_equal 2 { squish import "set"; s = set.new 1; s.add "1"; s.length }
-		assert_equal 2 { squish import "set"; s = set.new "a"; s.add "b"; s.length }
+		assert { include "set"; s = set.new; s.add 1; s.include? 1 }
+		assert_equal 1 { include "set"; s = set.new 1; s.add 1; s.length }
+		assert_equal 2 { include "set"; s = set.new 1; s.add "1"; s.length }
+		assert_equal 2 { include "set"; s = set.new "a"; s.add "b"; s.length }
 	}
 
 	test "set_delete" {
-		assert_false { squish import "set"; s = set.new; a = object.new; s.add a; s.delete a; s.include? a }
-		assert_equal 1 { squish import "set"; s = set.new 1; a = []; s.add a; s.delete a; s.length }
-		assert_equal 1 { squish import "set"; s = set.new 1; s.add "1"; s.delete 1; s.length }
-		assert_equal 1 { squish import "set"; s = set.new "a"; s.add "b"; s.delete "b"; s.length }
-		assert { squish import "set"; s = set.new; a = object.new; s.add a; s.delete a; s.empty? }
+		assert_false { include "set"; s = set.new; a = object.new; s.add a; s.delete a; s.include? a }
+		assert_equal 1 { include "set"; s = set.new 1; a = []; s.add a; s.delete a; s.length }
+		assert_equal 1 { include "set"; s = set.new 1; s.add "1"; s.delete 1; s.length }
+		assert_equal 1 { include "set"; s = set.new "a"; s.add "b"; s.delete "b"; s.length }
+		assert { include "set"; s = set.new; a = object.new; s.add a; s.delete a; s.empty? }
 	}
 
 	test "set_clear" {
-		assert { squish import "set"; s = set.new; a = object.new; s << a << 1 << 2 << a; s.clear; s.empty? }
+		assert { include "set"; s = set.new; a = object.new; s << a << 1 << 2 << a; s.clear; s.empty? }
 	}
 
 	test "set_compare" {
-		assert_false { squish import 'set'; s = set.new 1,2,3; t = 1; s == t }
-		assert_false { squish import 'set'; s = set.new 1,2,3; t = set.new 1,2,3,4,6,7,8,9,10; t == s }
-		assert_false { squish import 'set'; s = set.new 1,2,3; t = set.new 1,2,4; s == t }
-		assert { squish import 'set'; s = set.new 1,2,3; t = set.new 1,2,3; s == t }
-		assert { squish import 'set'; s = set.new 1,2,3; s == s }
+		assert_false { include 'set'; s = set.new 1,2,3; t = 1; s == t }
+		assert_false { include 'set'; s = set.new 1,2,3; t = set.new 1,2,3,4,6,7,8,9,10; t == s }
+		assert_false { include 'set'; s = set.new 1,2,3; t = set.new 1,2,4; s == t }
+		assert { include 'set'; s = set.new 1,2,3; t = set.new 1,2,3; s == t }
+		assert { include 'set'; s = set.new 1,2,3; s == s }
 	}
+
 }
+

@@ -1,10 +1,10 @@
 include 'assert'
-
-setup name: "function tests" {
+setup name: "functions" {
 	test "simple_args" {
 		assert_equal 1 { t = {x, y, z| z}; t 3, 2, 1 }
 		assert_equal "hello" { t = {x, y, z| z}; a = 1; b = 2; c = "hello"; t a, b, c }
 	}
+
 	test "var_args" {
 		assert_equal 1 { a = { *args | args[0] }; a 1,2,3,4 }
 		assert { a = { *args | args.empty?  }; a }
@@ -14,6 +14,10 @@ setup name: "function tests" {
 		assert_equal 2 { a = { first = 1, second = 2 | second }; a }
 		assert_equal 2 { a = { first = 1, second = 2 | second }; a 3 }
 		assert_equal 4 { a = { first = 1, second = 2 | second }; a 2, 4 }
+	}
+
+	test "null_default_arg	" {
+		assert_null { a = { first = null | first }; a }
 	}
 
 	test "required_and_default_args" {
@@ -50,13 +54,13 @@ setup name: "function tests" {
 		assert_equal 1 { a = object.new; a.! = {b| b }; a ! 1 }
 		assert_equal 2 { a = object.new; a.? = {b| 2}; a ? "hello" }
 		assert_equal 2 { array.@ = {i|
-					my[i]
-				}
-				a = [[[1,2,3]]]; a @ 0 @ 0 @ 1 }
+			my[i]
+		}
+		a = [[[1,2,3]]]; a @ 0 @ 0 @ 1 }
 		assert_equal 2 { array.@ = {i|
-					my[i]
-					}
-					a = [[[1,2,3]]]; c = object.new;c.a = 0; c.b = 1; a @ c.a @ c.a @ c.b }
+			my[i]
+		}
+		a = [[[1,2,3]]]; c = object.new;c.a = 0; c.b = 1; a @ c.a @ c.a @ c.b }
 		assert { [1,2,3].length == 3 }
 		assert { a = { x | x }; a(true) || false }
 		assert { "hello".length > 3 }
@@ -89,6 +93,7 @@ setup name: "function tests" {
 	test "operation6" {
 		assert_equal 1 { a = object.new;a.+ = {x| x + 1}; a + 0 }
 	}
+
 	test "operation7" {
 		assert_equal 1 { a = object.new;a.^ = {x| x + 1}; a ^ 0 }
 	}
@@ -180,22 +185,22 @@ setup name: "function tests" {
 	test "closure_args" {
 		assert_equal "b" { true? false, {"a"} {"b"} }
 		assert_equal "b" { true? false 
- 					{"a"} 
-					 {"b"} }
-		assert_equal "b" { true? false, {"a"} 
-					 {"b"} }
+			{"a"} 
+			{"b"} }
+			assert_equal "b" { true? false, {"a"} 
+				{"b"} }
 	}
 
 	test "no_method_immediate" {
-		assert_equal :abc { a = object.new; a.no_method = { *args | args[0] }; a.abc }
+		assert_equal "abc" { a = object.new; a.no_method = { *args | args[0] }; a.abc }
 	}
 
 	test "no_method_ancestor" {
-		assert_equal :abc { a = object.new; a.no_method = { *args | args[0] }; b = a.new; b.abc }
+		assert_equal "abc" { a = object.new; a.no_method = { *args | args[0] }; b = a.new; b.abc }
 	}
 
 	test "no_method_local" {
-		assert_equal :abc { no_method = { *args | args[0] }; abc }
+		assert_equal "abc" { a = object.new; a.with_this { no_method = { *args | args[0] }; abc } }
 	}
 
 	test "simple_method_call" {
@@ -227,6 +232,13 @@ setup name: "function tests" {
 		assert_equal 2 { a = { x | y = x + 1; true? (x < 3) { a(x + 1) }; y }; a(1) }
 	}
 
+	test "method" {
+		assert { function? { p hi } }
+		assert { function? {x| p x } }
+		assert { function? {x, y| p x, y } }
+		assert_equal 5 { x = {y | y }; x 5 }
+	}
+
 	test "chained_method" {
 		assert_equal 4 { x = object.new; x.y = object.new; x.y.z = object.new; x.y.z.z = {r| r}; x.y.z.z 4 }
 		assert_equal 4 { x = object.new; x.y = object.new; x.y.z = [1,2,3]; x.y.z[1].+ 2 }
@@ -238,21 +250,13 @@ setup name: "function tests" {
 	}
 
 	test "method_access" {
-		assert_equal "#function:0" { x = object.new;x.x = { 1 }; (x->x).to_s }
+		assert { x = object.new;x.x = { 1 }; function? x->x }
 		assert_equal 1 { x = object.new; y = object.new; x.y = { 1 }; y.x = x->y; y.x }
-		assert_equal "#function:0" { x = object.new; x.->> = {}; (x->->>).to_s }
+		assert { x = object.new; x.->> = {}; function? x->->> }
 	}
 
 	test "method_invocation_assignment" {
 		assert_equal 5 { a = { x | x }; b = [->a]; c = b[0] 5; c }
-	}
-
-	test "method_arity" {
-		assert_equal 0 { f = { }; method_arity ->f }
-		assert_equal 2 { f = { x, y | }; method_arity ->f }
-		assert_equal -1 { f = { x, y = 1 | }; method_arity ->f }
-		assert_equal -1 { f = { x, *y | }; method_arity ->f }
-		assert_equal -1 { f = { x, y = 1, *z | }; method_arity ->f }
 	}
 
 	test "function?" {
@@ -279,5 +283,5 @@ setup name: "function tests" {
 		assert_equal 4 { f = { *args | args[3] }; a = []; f 1 a[0] = 3 'b' 4 }
 		assert_equal 4 { f = { *args | args[3] }; g = { x, y | y }; f 1 :b 'b' g 3 4 }
 	}
-}
 
+}

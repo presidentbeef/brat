@@ -1,9 +1,10 @@
 include :file
 include :assert
 
-[:misc :examples :containers :function :misc :number :parser :string].each { name |
-		true? file.exists?	"test/test-#{name}.lua"
+[:examples :containers :function :misc :number :parser :regex :string].each { name |
+		true? file.exists?("test/test-#{name}.lua")
 			{ file.delete "test/test-#{name}.lua" }
 
-		protect {	import "test/test-#{name}" } rescue: { e | p e }
+		protect {	p "Loading #{name} tests..."; import "test/test-#{name}" } rescue: { e | p e }
+		p "-" * 50
 	}

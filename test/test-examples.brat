@@ -9,7 +9,7 @@ setup name: "examples test" {
 	}
 
 	test "array_map" {
-		assert_equal [2,3,4] { array.first = { my[0] }; array.rest = { my[1,-1] }; array.map = {f| true? my.length <= 0 {[]} { true? my.length == 1, {[f my.first]}, {[f my.first] + my.rest.map ->f} }}; [1,2,3].map({x| x + 1}) }
+		assert_equal [2,3,4] { array.my_first = { my[0] }; array.my_rest = { my[1,-1] }; array.my_map = {f| true? my.length <= 0 {[]} { true? my.length == 1, {[f my.my_first]}, {[f my.my_first] + my.my_rest.my_map ->f} }}; [1,2,3].my_map({x| x + 1}) }
 	}
 
 	test "how_are_you_easy" {
@@ -17,7 +17,7 @@ setup name: "examples test" {
 	}
 
 	test "how_are_you_map" {
-		assert_equal ["How", " are ","you?"] { array.first = { my[0] }; array.rest = { my[1,-1] }; array.map = {f| true? my.length <= 0 {[]} { true? my.length == 1 {[f my.first]} {[f my.first] + my.rest.map ->f} }}; how = {x| x.map {y| y }}; are = {x| x}; you? = ["How", " are ", "you?"]; how are you? }
+		assert_equal ["How", " are ","you?"] { array.my_first = { my[0] }; array.my_rest = { my[1,-1] }; array.my_map = {f| true? my.length <= 0 {[]} { true? my.length == 1 {[f my.my_first]} {[f my.my_first] + my.my_rest.my_map ->f} }}; how = {x| x.my_map {y| y }}; are = {x| x}; you? = ["How", " are ", "you?"]; how are you? }
 	}
 
 	test "how_are_you_auto_reply" {
@@ -45,7 +45,7 @@ setup name: "examples test" {
 	}
 
 	test "hideous " {
-		assert_equal "#object< -!_+~%~+_!- <------||==@ >" { a_!?-*+^&@1~\\\\><$ = object.new; a_!?-*+^&@1~\\\\><$.-!_+~%~+_!- = {d0~!@><?&&<>\\/+-*^&% | d0~!@><?&&<>\\/+-*^&%};                a_!?-*+^&@1~\\\\><$.@==||------> = { a_!?-*+^&@1~\\\\><$ };                a_!?-*+^&@1~\\\\><$.<------||==@ = { ->@==||------> };               (@==||------>a_!?-*+^&@1~\\\\><$ -!_+~%~+_!- a_!?-*+^&@1~\\\\><$.<------||==@).to_s }
+		assert_equal "object[-!_+~%~+_!-, <------||==@, @==||------>, parent]" { a_!?-*+^&@1~\\\\><$ = object.new; a_!?-*+^&@1~\\\\><$.-!_+~%~+_!- = {d0~!@><?&&<>\\/+-*^&% | d0~!@><?&&<>\\/+-*^&%};                a_!?-*+^&@1~\\\\><$.@==||------> = { a_!?-*+^&@1~\\\\><$ };                a_!?-*+^&@1~\\\\><$.<------||==@ = { ->@==||------> };               (@==||------>a_!?-*+^&@1~\\\\><$ -!_+~%~+_!- a_!?-*+^&@1~\\\\><$.<------||==@).to_s }
 	}
 
 	}

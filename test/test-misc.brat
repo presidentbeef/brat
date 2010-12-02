@@ -1,5 +1,5 @@
 include 'assert'
-setup name: "misc test" {
+setup name: "miscellaneous" {
 	test "while" {
 		assert_equal 3 { n = 0; while { n = n + 1; n < 3 }; n }
 		assert_equal 3 { n = 0; while { n < 3 }, { n = n + 1 }; n }
@@ -9,7 +9,7 @@ setup name: "misc test" {
 		assert_false { false && true }
 		assert_false { true && false }
 		assert { true && true }
-		assert_equal 2 { n = true? {true && {"hi";false}}, 1, 2 }
+		assert_equal 2 { n = true? {true && {null; false}}, 1, 2 }
 		assert { true && { true } }
 	}
 
@@ -22,14 +22,21 @@ setup name: "misc test" {
 		assert { false || { true } }
 	}
 
+	test "when" {
+		assert_equal "hello" { when true, 'hello' }
+		assert_equal "hello" { when { true } { 'hello' } }
+		assert_null { when { false } { 'hello' } }
+		assert_equal "goodbye" { when { false } { 'hello' } { true } { 'goodbye' } }
+		assert_equal "goodbye" { when false, 'hello', true, 'goodbye' }
+	}
+
 	test "random" {
 		assert { r = random 1; true? r == 0 || r == 1 }
 		assert { r = random 0; true? r == 0 }
 	}
 
 	test "include" {
-		assert { include 'set'; set.new }
-		assert { include 'thread', 'queue'; has_method? :pop }
+		assert_equal "Set:[]" { include 'set'; set.new.to_s }
 	}
 
 	test "mixed_identifer" {
@@ -98,25 +105,25 @@ setup name: "misc test" {
 	}
 
 	test "comments" {
-		assert_equal 1 { x = 1; #x = 6
-				x }
-		assert_equal 1 { x = 1; #* x = 6 */
-				x }
-		assert_equal 1 { x = 1; #*
-				x = 6
-				*#
+		assert_equal 1 { x = 1; #x = 6 
+			x }
+		assert_equal 1 { x = 1; #* x = 6 */ 
+			x }
+		assert_equal 1 { x = 1; #* 
+			x = 6 
+				*# 
 				x }
 	}
 
 	test "nested_comments" {
 		assert_equal 1 { x = 1; #* x = 3 *# }
 		assert_equal 1 { x = 1; #*
-				x = 3
+			x = 3 
 				*# }
 		assert_equal 1 { x = 1; #*
-				 #*
-				x = 3
-				*#
+#* 
+			x = 3 
+				*# 
 				*# }
 	}
 
@@ -130,19 +137,52 @@ setup name: "misc test" {
 	}
 
 	test "rescue" {
-		assert_equal "hello" { protect { throw 'eep' } rescue: { e | 'hello' } }
+		assert_equal "eep" { protect { throw 'eep' } rescue: { e | e } }
 		assert_equal "hello" { protect { throw 'eep' } rescue: { 'hello' } }
+	}
+
+	test "ensure" {
+		assert_equal "hello" { x = 1; protect { throw 'eep' } ensure: { x = 'hello' }; x }
+		assert_equal "hello" { x = 1; protect {'no error' } ensure: { x = 'hello' }; x }
+		assert_equal 3 { x = 1; protect { throw 'eep' } rescue: { x = x + 1 } ensure: { x = x + 1 }; x }
+		assert_equal 3 { x = 1; protect { throw 'eep' } rescue: { x = x * 2 } ensure: { x = x + 1 }; x }
+		assert_equal 2 { x = 1; protect { 'no error' } rescue: { x = x * 2 } ensure: { x = x + 1 }; x }
 	}
 
 	test "exceptions" {
 		assert_equal "standard error" { protect { throw exception.new } rescue: { e | e.type } }
-		assert_equal "argument error" { f = { }; protect { f 1 } rescue: { e | e.type } }
-		assert_equal "argument error" { f = { }; protect { throw exception.argument_error 'f', 2, 1 } rescue: { e | e.type } }
 		assert_equal "name error" { protect { f } rescue: { e | e.type } }
+		assert_equal "argument error" { f = { }; protect { throw exception.argument_error 'f', 2, 1 } rescue: { e | e.type } }
 		assert_equal "name error" { protect { throw exception.name_error 'f' } rescue: { e | e.type } }
 		assert_equal "null error" { protect { throw exception.null_error 'f', 'call null' } rescue: { e | e.type } }
 		assert_equal "method error" { protect { throw exception.no_method 'o', 'f' } rescue: { e | e.type } }
 		assert_equal "hello" { f = { }; protect { f 1 }; 'hello' }
 	}
 
+	test "array_test" {
+		assert { [].array? }
+		assert_false { 'hello'.array? }
+	}
+
+	test "string_test" {
+		assert { ''.string? }
+		assert_false { [].string? }
+	}
+
+	test "number_test" {
+		assert { 1.number? }
+		assert_false { [].number? }
+	}
+
+	test "regex_test" {
+		assert { (//).regex? }
+		assert_false { 1.regex? }
+	}
+
+	test "hash_test" {
+		assert { [:].hash? }
+		assert_false { 1.hash? }
+	}
+
 }
+
