@@ -1241,6 +1241,35 @@ function enumerable:max ()
 	end
 end
 
+function enumerable:min ()
+	local m
+	local f = function (self, item)
+		local t = type(item)
+
+		if m == nil then
+			m = item
+		elseif t == "table" then
+			if item:_less_equal_greater(m) == -1 then
+				m = item
+			end
+		elseif t == "number" and type(m) == "number" then
+			if item < m then
+				m = item
+			end
+		else
+			error(exception:new("Cannot compare " .. tostring(item) .. " to " .. tostring(m)))
+		end
+	end
+
+	self:each(f)
+
+	if m == nil then
+		return object.__null
+	else
+		return m
+	end
+end
+
 function enumerable:select (block)
 	local new_array = {}
 	local f = function (_self, item)

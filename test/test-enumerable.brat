@@ -5,5 +5,13 @@ setup name: :enumerable {
 		assert_equal 14 { [1 6 2 8 3 5 8 10 14 0 2 14].max }
 		assert_equal :yellow { [:aardvark :yellow :pink :dog :moon].max }
 		assert_fail { [:aardvark 10 :dog :moon].max }
+		assert_null { [].max }
+	}
+
+	test "max" {
+		assert_equal -2 { [1 6 2 8 3 5 8 10 14 0 -2 14].min }
+		assert_equal :aardvark { [:aardvark :yellow :pink :dog :moon].min }
+		assert_fail { [:aardvark 10 :dog :moon].min }
+		assert_null { [].min }
 	}
 }
