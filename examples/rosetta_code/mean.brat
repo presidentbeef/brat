@@ -1,0 +1,10 @@
+#* http://rosettacode.org/wiki/Averages/Arithmetic_mean
+	Calculate mean of a list of numbers
+*#
+
+
+mean = { list |
+	true? list.empty?, 0, {	list.reduce(0, :+) / list.length }
+}
+
+p mean 1.to 10
