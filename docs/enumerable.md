@@ -7,6 +7,8 @@ methlist:
 - any?
 - all?
 - find
+- max
+- min
 - select
 - sort
 ---
@@ -25,6 +27,16 @@ Returns true if, for every object in the collection, the block returns true.
 >_enum_.find { _obj_ | _block_ }
 
 Returns the first object for which the block returns true.
+
+### max
+> _enum_.max
+
+Returns maximum value in enumerable. All items in the enumerable must be comparable.
+
+### min
+> _enum_.min
+
+Returns minimum value in enumerable. All items in the enumerable must be comparable.
 
 ### select
 >_enum_.select { _obj_ | _block_ }
