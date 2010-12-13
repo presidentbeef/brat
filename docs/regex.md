@@ -2,7 +2,7 @@
 layout: doc
 lib: core
 object: regex 
-desc: Regular expressions use the PCRE library. They live in between / and another /. They are rather limited at the moment.
+desc: Regular expressions use the Oniguruma library. They live in between / and another /. They are rather limited at the moment.
 methlist:
 - "~"
 - match
@@ -17,7 +17,7 @@ Same as _match_.
 ### match
 >_regex_.match _string_
 
-Returns true if the regular expression matches the string.
+Returns a list of matched subexpressions if the regular expression can match the string.
 
 ### new
 >regex.new _string_
