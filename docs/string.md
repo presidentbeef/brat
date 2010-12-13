@@ -5,9 +5,16 @@ object: string
 desc: "String literals live between single or double quotes."
 methlist:
 - "+"
+- chomp
+- chomp!
 - dice
+- downcase
+- downcase!
 - get
 - length
+- match
+- reverse
+- reverse!
 - set
 - split
 - strip
@@ -18,6 +25,8 @@ methlist:
 - sub_first!
 - to_f
 - to_i
+- upcase
+- upcase!
 ---
 
 ### \+
@@ -25,8 +34,18 @@ methlist:
 
 Concatentates two strings.
 
+### chomp
+> _string_.chomp
+
+Returns a new string with trailing newlines and carriage returns removed.
+
+### chomp
+> _string_.chomp!
+
+Removes trailing newlines and carriage returns.
+
 ### dice
->_string_.dice
+> _string_.dice
 
 Returns an array with each letter as an element.
 
@@ -34,6 +53,16 @@ Returns an array with each letter as an element.
 a = "hello"
 a.dice   #["h", "e", "l", "l", "o"]
 {% endhighlight %}
+
+### downcase
+> _string_.downcase
+
+Returns a new string with all letters converted to lowercase.
+
+### downcase!
+> _string_.downcase!
+
+Lowercasses all letters in the string.
 
 ### get
 >_string_.get _index_  
@@ -48,6 +77,26 @@ a[3,4]     #"lo"
 a[-4, -2]  #"ell"
 a[-4, 3]   #"ell"
 {% endhighlight %}
+
+### length
+> _string_.length
+
+Returns the length of the string.
+
+### match
+> _string_.match _regex_
+
+Returns an array of regular expression matches.
+
+### reverse
+> _string_.reverse
+
+Returns a reversed copy of the string.
+
+### reverse!
+> _string_.reverse!
+
+Reverses the string.
 
 ### set
 >_string_.set _index_, _character_
@@ -110,3 +159,13 @@ Interprets the string as a floating point number.
 >_string_.to\_i
 
 Interprets the string as an integer.
+
+### upcase
+> _string_.upcase
+
+Returns a new string with all letters uppercased.
+
+### upcase!
+> _string_.upcase!
+
+Upcases all letters in the string.
