@@ -14,6 +14,7 @@ methlist:
 - copy
 - delete_first
 - each
+- each_while
 - each_with_index
 - empty?
 - find
@@ -121,6 +122,11 @@ Deletes the first element of the array which is equal to _item_.
 >_array_.each { _item_ | _block_ }
 
 Invokes the block for each item in the array.
+
+### each\_while
+>_array_.each\_while { _item_ | _block_ }
+
+Invokes block for each item. Stops when _block_ returns `false` or `nil`.
 
 ### each\_with\_index
 >_array_.each\_with\_index { _item_, _index_ | _block_ }
