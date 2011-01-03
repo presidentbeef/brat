@@ -119,6 +119,45 @@ compile_file = function (file_name)
 	end
 end
 
+run_string = function (string)
+	require "lpty"
+
+	local parser = lpty.new{no_local_echo = true}
+	parser:startproc("ruby", program_path .. "/parser/parse.rb")
+	parser:send(string)
+	parser:send("\004")
+
+	local parsed =""
+
+	while true do
+		lua_code = parser:read(2)
+		if lua_code == nil then
+			break
+		elseif lua_code:sub(-1) == "\1" then
+			parsed = parsed .. lua_code:sub(0, -2)
+			break
+		else
+			parsed = parsed .. lua_code
+		end
+	end
+	
+	require "core"
+
+	parsed_function = assert(loadstring(parsed, "string"))
+
+	local rescue = function (obj, err)
+		return err
+	end
+
+	local protect_options = hash:new({ [base_string:new("rescue")] = rescue })
+
+	local result = tostring(object:protect(parsed_function, protect_options))
+
+	parser:endproc()
+
+	return result
+end
+
 if #arg == 0 then
 	interactive()
 	abort("Exiting")
@@ -128,6 +167,8 @@ file_name = arg[#arg]:match("(.+).brat")
 
 if arg[#arg] == "-!" then
 	loadstring(io.read("*a"))()
+elseif arg[#arg] == "-" then
+	run_string(io.read("*a"))
 elseif file_name == nil then
 	abort("File to execute should end in .brat")
 else
