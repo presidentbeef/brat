@@ -93,4 +93,8 @@ function set_instance:to_unders ()
 	return base_string:new("Set:" .. tostring(self._internal_hash:keys():to_unders()))
 end
 
+function set_instance:to_underarray ()
+	return self._internal_hash:keys()
+end
+
 object:export(set, "set")

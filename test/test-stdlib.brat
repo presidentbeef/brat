@@ -42,5 +42,9 @@ setup name: "stdlib" {
 		assert { include 'set'; s = set.new 1,2,3; s == s }
 	}
 
+	test "set.to_array" {
+		assert_equal [1 2 3] { include 'set'; s = set.new 1 2 3; s.to_array.sort }
+		assert_equal [:b :e :f] { include 'set'; s = set.new :b :e :f; s.to_array.sort }
+	}
 }
 
