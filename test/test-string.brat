@@ -1,5 +1,22 @@
 include 'assert'
 setup name: "string tests" {
+	test "string.alpha?" {
+		assert { "hello".alpha? }
+		assert { "h".alpha? }
+		assert_false { "123".alpha? }
+		assert_false { "".alpha? }
+		assert_false { "abc!cba".alpha? }
+	}
+
+	test "string.alphanum?" {
+		assert { "hello".alphanum? }
+		assert { "h".alphanum? }
+		assert { "123".alphanum? }
+		assert { "1abc123cba1".alphanum? }
+		assert_false { "".alphanum? }
+		assert_false { "abc!cba".alphanum? }
+	}
+
 	test "string_chomp" {
 		assert_equal "hello" { "hello\n".chomp }
 		assert_equal "hello" { "hello\r\n".chomp }
@@ -12,11 +29,11 @@ setup name: "string tests" {
 		assert_equal "hello" { a = "hello\n\r\n"; a.chomp!; a }
 	}
 
-  test "string.dice" {
-    assert_equal [:a :b :c] { "abc".dice }
-    assert_equal [] { "".dice }
-    assert_equal [:h :e :l :l :o] { "hello".dice }
-  }
+	test "string.dice" {
+		assert_equal [:a :b :c] { "abc".dice }
+		assert_equal [] { "".dice }
+		assert_equal [:h :e :l :l :o] { "hello".dice }
+	}
 
 	test "string_strip" {
 		assert_equal "hello" { ' hello '.strip }
@@ -179,11 +196,11 @@ setup name: "string tests" {
 		assert_false { "a" == 1 }
 	}
 
-  test "string.include?" {
-    assert { "blah blah blah".include? :blah }
-    assert { "blah blah blah".include? /(blah ?){3}/ }
-    assert_false { "blah blah blah".include? :blarg }
-    assert_false { "blah blah blah".include? /(blah ?){4}/ }
-  }
+	test "string.include?" {
+		assert { "blah blah blah".include? :blah }
+		assert { "blah blah blah".include? /(blah ?){3}/ }
+		assert_false { "blah blah blah".include? :blarg }
+		assert_false { "blah blah blah".include? /(blah ?){4}/ }
+	}
 }
 

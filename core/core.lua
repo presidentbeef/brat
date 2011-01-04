@@ -137,7 +137,7 @@ init_object = function (o)
 	local to_s = function (table)
 		return table:to_unders()._lua_string
 	end
-	
+
 	mt["__tostring"] = to_s
 
 	setmetatable(o, mt)
@@ -268,7 +268,7 @@ function object:print (...)
 	io.output(io.stdout)
 	local input = {...}
 	for k,v in pairs(input) do
-			input[k] = tostring(v)
+		input[k] = tostring(v)
 	end
 	io.write(unpack(input))
 	io.flush()
@@ -811,7 +811,7 @@ function object:include (file, name)
 	if status then
 		if name then
 			for k,v in pairs(_exports) do
-				 if k == name then
+				if k == name then
 					env[k] = v
 				end
 			end
@@ -856,7 +856,7 @@ function object:import (file, name)
 		end
 	else
 		local imported = hash:new()
-		
+
 		for k,v in pairs(_exports) do
 			imported:set(base_string:new(k), v)
 		end
@@ -980,13 +980,13 @@ end
 
 function number_instance:_equal_equal (rhs)
 	if type(rhs) ~= "number" then
-			return object.__false
+		return object.__false
 	end
 
 	if self._lua_number == rhs then
-			return object.__true
+		return object.__true
 	else
-			return object.__false
+		return object.__false
 	end
 end
 
@@ -1099,7 +1099,7 @@ function number_instance:to (stop, block)
 				block(self, index)
 				index = index - 1
 			end
-	
+
 			return stop
 		end
 
@@ -1110,14 +1110,14 @@ function number_instance:to (stop, block)
 				table.insert(a, index)
 				index = index + 1
 			end
-	
+
 			return array:new(a)
 		else
 			while index <= stop do
 				block(self, index)
 				index = index + 1
 			end
-		
+
 			return stop
 		end
 	end
@@ -1411,18 +1411,18 @@ function array_instance:reject_bang (block)
 	local k = 1
 	local len = self._length
 	local a = self._lua_array
-  local new_array = {}
+	local new_array = {}
 
 	while k <= len do
 		if not is_true(block(self, a[k])) then
 			table.insert(new_array, a[k])
-    end
+		end
 
 		k = k + 1
 	end
 
-  self._lua_array = new_array
-  self._length = #new_array
+	self._lua_array = new_array
+	self._length = #new_array
 
 	return self
 end
@@ -1444,18 +1444,18 @@ function array_instance:select_bang (block)
 	local k = 1
 	local len = self._length
 	local a = self._lua_array
-  local new_array = {}
+	local new_array = {}
 
 	while k <= len do
 		if is_true(block(self, a[k])) then
 			table.insert(new_array, a[k])
-    end
+		end
 
 		k = k + 1
 	end
 
-  self._lua_array = new_array
-  self._length = #new_array
+	self._lua_array = new_array
+	self._length = #new_array
 
 	return self
 end
@@ -1718,7 +1718,7 @@ end
 
 function array_instance:reverse_bang ()
 	local len = self._length
-	
+
 	if len < 2 then
 		return self
 	end
@@ -1780,7 +1780,7 @@ function array_instance:shuffle_bang ()
 		math.randomseed(os.time())
 		object._random_seed = true
 	end
-	
+
 	while index > 1 do
 		random_index = random(index)
 		temp = a[index]
@@ -1832,21 +1832,21 @@ function array_instance:get (start_index, end_index)
 		end
 
 		if end_index < 0 then
-			end_index = len + end_index
-		end
+		end_index = len + end_index
+	end
 
-		if start_index < 0 then
-			start_index = 0
-		end
+	if start_index < 0 then
+		start_index = 0
+	end
 
-		if end_index < 0 then
-			end_index = 0
-		end
+	if end_index < 0 then
+	end_index = 0
+end
 
-		if start_index > end_index then
-			local temp = start_index
-			start_index = end_index
-			end_index = temp
+if start_index > end_index then
+	local temp = start_index
+	start_index = end_index
+end_index = temp
 		end
 
 		if start_index >= len then
@@ -1854,27 +1854,27 @@ function array_instance:get (start_index, end_index)
 		end
 
 		if end_index >= len then
-			end_index = len - 1
-		end
-
-		local index = start_index
-		local new_index = 1
-		local new_array = {}
-		local val
-
-		while index <= end_index do
-			val = self._lua_array[index + 1]
-			if val == nil then
-				new_array[new_index] = object.__null
-			else
-				new_array[new_index] = val
-			end
-			index = index + 1
-			new_index = new_index + 1
-		end
-
-		return array:new(new_array)
+		end_index = len - 1
 	end
+
+	local index = start_index
+	local new_index = 1
+	local new_array = {}
+	local val
+
+	while index <= end_index do
+		val = self._lua_array[index + 1]
+		if val == nil then
+			new_array[new_index] = object.__null
+		else
+			new_array[new_index] = val
+		end
+		index = index + 1
+		new_index = new_index + 1
+	end
+
+	return array:new(new_array)
+end
 end
 
 function array_instance:length ()
@@ -1894,7 +1894,7 @@ function array_instance:sort ()
 	a = {unpack(a)}
 
 	table.sort(a, compare)
-	
+
 	return array:new(unpack(a))
 end
 
@@ -1905,7 +1905,7 @@ function array_instance:sort_bang ()
 	end
 
 	table.sort(a, compare)
-	
+
 	return self
 end
 
@@ -2197,7 +2197,7 @@ function hash_instance:set (index, value)
 
 		self._key_hash[key] = index
 	end
-		
+
 	self._lua_hash[index] = value
 
 	return value
@@ -2209,7 +2209,7 @@ function hash_instance:delete (index)
 		index = self._key_hash[key]
 		self._key_hash[key] = nil
 	end
-		
+
 	self._lua_hash[index] = nil
 
 	return value
@@ -2356,7 +2356,7 @@ function hash_instance:to_unders()
 		s = s .. contents[i] .. ", "
 		i = i + 1
 	end
-		
+
 	s = s .. contents[len] .. "]"
 
 	return base_string:new(s)
@@ -2424,6 +2424,22 @@ function string_instance:string_question ()
 	return object.__true
 end
 
+function string_instance:alpha_question ()
+	if self._lua_string:match("^%a+$") then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
+function string_instance:alphanum_question ()
+	if self._lua_string:match("^%w+$") then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
 function string_instance:downcase ()
 	return base_string:new(string.lower(self._lua_string))
 end
@@ -2480,21 +2496,21 @@ function string_instance:_plus (rhs)
 end
 
 function string_instance:include_question (pattern)
-  if type(pattern) == "table" then
-    if pattern._lua_regex then
-      if is_true(self:match(pattern)) then
-        return object.__true
-      else
-        return object.__false
-      end
-    elseif pattern._lua_string then
-      if string.find(self._lua_string, pattern._lua_string, 1, true) then
-        return object.__true
-      else
-        return object.__false
-      end
-    end
-  end
+	if type(pattern) == "table" then
+		if pattern._lua_regex then
+			if is_true(self:match(pattern)) then
+				return object.__true
+			else
+				return object.__false
+			end
+		elseif pattern._lua_string then
+			if string.find(self._lua_string, pattern._lua_string, 1, true) then
+				return object.__true
+			else
+				return object.__false
+			end
+		end
+	end
 
 	error(exception:argument_error("string.include?", "string or regex", tostring(regx)))
 end
@@ -2600,21 +2616,21 @@ function string_instance:get (start_index, end_index)
 		end
 
 		if end_index < 0 then
-			end_index = len + end_index
-		end
+		end_index = len + end_index
+	end
 
-		if start_index < 0 then
-			start_index = 0
-		end
+	if start_index < 0 then
+		start_index = 0
+	end
 
-		if end_index < 0 then
-			end_index = 0
-		end
+	if end_index < 0 then
+	end_index = 0
+end
 
-		if start_index > end_index then
-			local temp = start_index
-			start_index = end_index
-			end_index = temp
+if start_index > end_index then
+	local temp = start_index
+	start_index = end_index
+end_index = temp
 		end
 
 		if start_index >= len then
@@ -2622,11 +2638,11 @@ function string_instance:get (start_index, end_index)
 		end
 
 		if end_index > len then
-			end_index = len
-		end
-
-		return base_string:new(string.sub(self._lua_string, start_index + 1, end_index + 1))
+		end_index = len
 	end
+
+	return base_string:new(string.sub(self._lua_string, start_index + 1, end_index + 1))
+end
 end
 
 function string_instance:reverse ()
@@ -2663,7 +2679,7 @@ function string_instance:set (index, value)
 end
 
 function string_instance:dice ()
-  return self:split("")
+	return self:split("")
 end
 
 function string_instance:split (sep)
@@ -2741,7 +2757,7 @@ function regex:new (string)
 
 	nr._lua_regex = orex.new(string)
 	nr._regex_string = string
-	
+
 	return nr
 end
 
