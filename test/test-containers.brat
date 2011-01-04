@@ -179,6 +179,11 @@ setup name: "containers" {
 		assert_false { a = [1,2]; a.empty? }
 	}
 
+  test "array.reject!" {
+    assert_equal [] { [].reject! { n | n > 4 } }
+    assert_equal [1 2 3 4] { a = 1.to 10; a.reject! { n | n > 4 }; a }
+  }
+
 	test "array_select" {
 		assert_equal [1, 2] { [1,2,3].select { i | i < 3 } }
 		assert_equal [] { [].select { i | i < 3 } }

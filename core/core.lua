@@ -1407,6 +1407,26 @@ function array_instance:each_underwith_underindex (block)
 	return self
 end
 
+function array_instance:reject_bang (block)
+	local k = 1
+	local len = self._length
+	local a = self._lua_array
+  local new_array = {}
+
+	while k <= len do
+		if not is_true(block(self, a[k])) then
+			table.insert(new_array, a[k])
+    end
+
+		k = k + 1
+	end
+
+  self._lua_array = new_array
+  self._length = #new_array
+
+	return self
+end
+
 function array_instance:reverse_undereach (block)
 	local len = self._length
 	local k = len
