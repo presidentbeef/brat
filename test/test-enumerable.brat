@@ -8,10 +8,14 @@ setup name: :enumerable {
 		assert_null { [].max }
 	}
 
-	test "max" {
+	test "min" {
 		assert_equal -2 { [1 6 2 8 3 5 8 10 14 0 -2 14].min }
 		assert_equal :aardvark { [:aardvark :yellow :pink :dog :moon].min }
 		assert_fail { [:aardvark 10 :dog :moon].min }
 		assert_null { [].min }
 	}
+
+  test "reject" {
+    assert_equal [1 2 3 4] { 1.to(10).reject { n | n > 4 } }
+  }
 }

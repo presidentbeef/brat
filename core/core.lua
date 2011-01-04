@@ -1283,6 +1283,19 @@ function enumerable:select (block)
 	return array:new(new_array)
 end
 
+function enumerable:reject (block)
+	local new_array = {}
+	local f = function (_self, item)
+		if not is_true(block(_self, item)) then
+			table.insert(new_array, item)
+		end
+	end
+
+	self:each(f)
+
+	return array:new(new_array)
+end
+
 --The array object
 --Going to keep these separate from hash tables, every if Lua thinks they
 --are the same
