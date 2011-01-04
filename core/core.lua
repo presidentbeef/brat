@@ -2479,6 +2479,26 @@ function string_instance:_plus (rhs)
 	return self:new(self._lua_string .. rhs._lua_string)
 end
 
+function string_instance:include_question (pattern)
+  if type(pattern) == "table" then
+    if pattern._lua_regex then
+      if is_true(self:match(pattern)) then
+        return object.__true
+      else
+        return object.__false
+      end
+    elseif pattern._lua_string then
+      if string.find(self._lua_string, pattern._lua_string, 1, true) then
+        return object.__true
+      else
+        return object.__false
+      end
+    end
+  end
+
+	error(exception:argument_error("string.include?", "string or regex", tostring(regx)))
+end
+
 function string_instance:match (regx)
 	if type(regx) ~= "table" or regx._lua_regex == nil then
 		error(exception:argument_error("string.match", "regex", tostring(regx)))

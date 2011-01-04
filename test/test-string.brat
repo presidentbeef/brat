@@ -173,5 +173,11 @@ setup {
 		assert_false { "a" == 1 }
 	}
 
+  test "string.include?" {
+    assert { "blah blah blah".include? :blah }
+    assert { "blah blah blah".include? /(blah ?){3}/ }
+    assert_false { "blah blah blah".include? :blarg }
+    assert_false { "blah blah blah".include? /(blah ?){4}/ }
+  }
 }
 
