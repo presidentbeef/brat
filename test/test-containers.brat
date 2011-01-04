@@ -189,6 +189,11 @@ setup name: "containers" {
 		assert_equal [] { [].select { i | i < 3 } }
 	}
 
+	test "array_select!" {
+		assert_equal [1 2 3 4] { a = 1.to 10; a.select! { i | i < 5 }; a }
+		assert_equal [] { a = []; a.select! { i | i < 3 }; a }
+	}
+
 	test "array_clear" {
 		assert_equal [] { [1,2,3,4].clear }
 	}
