@@ -2662,6 +2662,10 @@ function string_instance:set (index, value)
 	return value
 end
 
+function string_instance:dice ()
+  return self:split("")
+end
+
 function string_instance:split (sep)
 	if sep == nil then
 		sep = orex.new("\\s+")

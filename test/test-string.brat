@@ -12,6 +12,12 @@ setup name: "string tests" {
 		assert_equal "hello" { a = "hello\n\r\n"; a.chomp!; a }
 	}
 
+  test "string.dice" {
+    assert_equal [:a :b :c] { "abc".dice }
+    assert_equal [] { "".dice }
+    assert_equal [:h :e :l :l :o] { "hello".dice }
+  }
+
 	test "string_strip" {
 		assert_equal "hello" { ' hello '.strip }
 		assert_equal "hel lo" { ' hel lo '.strip }
