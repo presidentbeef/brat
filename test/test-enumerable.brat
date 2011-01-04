@@ -1,6 +1,6 @@
 include :assert
 
-setup name: :enumerable {
+setup name: "enumerable tests" {
 	test "max" {
 		assert_equal 14 { [1 6 2 8 3 5 8 10 14 0 2 14].max }
 		assert_equal :yellow { [:aardvark :yellow :pink :dog :moon].max }

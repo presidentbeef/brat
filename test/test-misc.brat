@@ -1,5 +1,5 @@
 include 'assert'
-setup name: "miscellaneous" {
+setup name: "miscellaneous tests" {
 	test "while" {
 		assert_equal 3 { n = 0; while { n = n + 1; n < 3 }; n }
 		assert_equal 3 { n = 0; while { n < 3 }, { n = n + 1 }; n }

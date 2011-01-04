@@ -1,5 +1,5 @@
 include 'assert'
-setup name: "containers" {
+setup name: "container tests" {
 	test "array" {
 		assert_equal 1 { x = array.new; x[0] = 1; x[0] }
 		assert_equal 11 { x = array.new; x[10] = :jello; x.length }

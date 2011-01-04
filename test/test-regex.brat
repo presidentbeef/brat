@@ -1,5 +1,5 @@
 include 'assert'
-setup name: "regex" {
+setup name: "regex tests" {
 	test "regex_match" {
 		assert { true? (/a/).match :a }
 		assert { a = /^a/; true? a.match :abcdefg }
