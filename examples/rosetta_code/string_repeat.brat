@@ -1,0 +1,5 @@
+#* http://rosettacode.org/wiki/Repeat_a_string
+	Repeat a string
+*#
+
+p "ha" * 5
