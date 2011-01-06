@@ -1,0 +1,5 @@
+#* http://rosettacode.org/wiki/Reverse_a_string
+	Reverse a string
+*#
+
+p "olleh".reverse
