@@ -979,11 +979,9 @@ function number_instance:_or_or (rhs)
 end
 
 function number_instance:_equal_equal (rhs)
-	if type(rhs) ~= "number" then
-		return object.__false
-	end
-
 	if self._lua_number == rhs then
+		return object.__true
+	elseif type(rhs) == "table" and self._lua_number == rhs._lua_number then
 		return object.__true
 	else
 		return object.__false
@@ -1272,9 +1270,27 @@ end
 
 function enumerable:select (block)
 	local new_array = {}
-	local f = function (_self, item)
-		if is_true(block(_self, item)) then
-			table.insert(new_array, item)
+	local f
+
+	if type(block) == "table" and block._lua_string then
+		f = function (_self, item)
+			local meth
+			
+			if type(item) == "number" then
+				meth = number:new(item):get_undermethod(block)
+			else
+				meth = item:get_undermethod(block)
+			end
+
+			if is_true(meth(item)) then
+				table.insert(new_array, item)
+			end
+		end
+	else
+		f = function (_self, item)
+			if is_true(block(_self, item)) then
+				table.insert(new_array, item)
+			end
 		end
 	end
 
@@ -1285,9 +1301,28 @@ end
 
 function enumerable:reject (block)
 	local new_array = {}
-	local f = function (_self, item)
-		if not is_true(block(_self, item)) then
-			table.insert(new_array, item)
+	local f
+
+	if type(block) == "table" and block._lua_string then
+		f = function (_self, item)
+			local meth
+
+			if type(item) == "number" then
+				meth = number:new(item):get_undermethod(block)
+			else
+				meth = item:get_undermethod(block)
+			end
+
+			if not is_true(meth(item)) then
+				table.insert(new_array, item)
+			end
+		end
+	else
+
+		f = function (_self, item)
+			if not is_true(block(_self, item)) then
+				table.insert(new_array, item)
+			end
 		end
 	end
 
@@ -1412,9 +1447,26 @@ function array_instance:reject_bang (block)
 	local len = self._length
 	local a = self._lua_array
 	local new_array = {}
+	local f
+
+	if type(block) == "function" then
+		f = block
+	elseif type(block) == "table" and block._lua_string then
+		f = function (_self, item)
+			local meth
+
+			if type(item) == "number" then
+				meth = number:new(item):get_undermethod(block)
+			else
+				meth = item:get_undermethod(block)
+			end
+
+			return meth(item)
+		end
+	end
 
 	while k <= len do
-		if not is_true(block(self, a[k])) then
+		if not is_true(f(self, a[k])) then
 			table.insert(new_array, a[k])
 		end
 
@@ -1445,9 +1497,26 @@ function array_instance:select_bang (block)
 	local len = self._length
 	local a = self._lua_array
 	local new_array = {}
+	local f
+
+	if type(block) == "function" then
+		f = block
+	elseif type(block) == "table" and block._lua_string then
+		f = function (_self, item)
+			local meth
+
+			if type(item) == "number" then
+				meth = number:new(item):get_undermethod(block)
+			else
+				meth = item:get_undermethod(block)
+			end
+
+			return meth(item)
+		end
+	end
 
 	while k <= len do
-		if is_true(block(self, a[k])) then
+		if is_true(f(self, a[k])) then
 			table.insert(new_array, a[k])
 		end
 
