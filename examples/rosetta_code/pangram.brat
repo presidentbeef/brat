@@ -1,0 +1,27 @@
+#* http://rosettacode.org/wiki/Pangram_checker
+	Check if a string contains all letters at least once.
+*#
+
+pangram? = { sentence |
+	letters = [:a :b :c :d :e :f :g :h :i :j :k :l :m
+		:n :o :p :q :r :s :t :u :v :w :x :y :z]
+
+		sentence.downcase!
+
+		letters.reject! { l |
+			sentence.include? l
+		}
+
+	letters.empty?
+}
+
+p pangram? 'The quick brown fox jumps over the lazy dog.' # true
+p pangram? 'Probably not a pangram.'	#false
+
+### Alternative, probably less efficient version
+alt_pangram? = { sentence |
+	sentence.downcase.dice.unique.select(:alpha?).length == 26
+}
+
+p alt_pangram? 'The quick brown fox jumps over the lazy dog.' #true
+p alt_pangram? 'Probably not a pangram.' #false
