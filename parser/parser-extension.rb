@@ -22,7 +22,7 @@ class Treetop::Runtime::SyntaxNode
 			"_star" => 9, 
 			"_forward" => 9, 
 			"_percent" => 9, 
-			"_star_star" => 10
+			"_up" => 10
 	}
 
 	def var_exist? v
