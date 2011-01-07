@@ -1,0 +1,6 @@
+#* http://rosettacode.org/wiki/Increment_a_numerical_string
+	Increment a string containing an integer
+*#
+
+#Convert to integer, increment, then back to string
+("100".to_i + 1).to_s
