@@ -1,0 +1,11 @@
+#* http://rosettacode.org/wiki/Exponentiation_operator#
+	Reimplement the exponentiation operator
+*#
+
+#Numbers are weird
+1.parent.^ = { rhs |
+	num = my
+	1.to(rhs).reduce 1 { m, n | m = m * num }
+}
+
+p 2 ^ 5
