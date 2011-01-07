@@ -1,0 +1,5 @@
+#* http://rosettacode.org/wiki/Hello_world/Text
+	Output 'Goodbye, world!' to console
+*#
+
+p "Goodbye, world!"
