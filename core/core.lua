@@ -1019,7 +1019,7 @@ function number_instance:_minus (rhs)
 		return -self._lua_number
 	else
 		if type(rhs) ~= "number" then
-			error("Cannot subtract" .. type(rhs) .. " from number")
+			error("Cannot subtract " .. type(rhs) .. " from number")
 		end
 
 		return self._lua_number - rhs
