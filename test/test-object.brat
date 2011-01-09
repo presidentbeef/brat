@@ -39,6 +39,11 @@ setup name: "object tests" {
 		assert { x = object.new; y = x.new; y.parent == x }
 	}
 
+	test "object.call_method" {
+		assert_equal 50 { 10.call_method :* 5 }
+		assert_equal 10 { 1.to(10).call_method :last }
+	}
+
 	test "object_del_method" {
 		assert_null { a = object.new; a.what?! = { "what" }; a.del_method "what?!";a.get_method "what?!" }
 		assert_equal "what" { a = object.new; a.what?! = { "what" }; b = a.new; b.del_method "what?!";b.what?! }

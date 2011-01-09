@@ -690,7 +690,7 @@ function object:call_undermethod (name, ...)
 	if self[name] == nil then
 		error("No such method to call.")
 	else
-		self[name](self, ...)
+		return self[name](self, ...)
 	end
 end
 
