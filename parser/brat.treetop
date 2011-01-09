@@ -521,7 +521,7 @@ grammar BaseBrat
   #and some symbols.
   #Also mangles anything that is a Lua keyword.
   rule identifier
-	[a-zA-Z] (!"->" !space [a-zA-Z0-9_!?\-*+^&@~/\\><$_%])* {
+	[a-zA-Z] (!"->" !space [a-zA-Z0-9_!?\-*+^&@~/\\><$%])* {
 		def brat(res_var = nil)
 			escape_identifier text_value
 		end
