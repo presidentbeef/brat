@@ -20,7 +20,14 @@ setup name: "object tests" {
 		assert_equal "something awesome" { a = object.new; a.b = 'something awesome'; b = a.new; b.b }
 		assert_equal "something awesome" { a = object.new; a.b = 'something awesome'; b = a.new; b.b = 'something less awesome'; a.b }
 		assert_equal "a bird" { string.popinjay = 'a bird'; 'say what'.popinjay }
-		assert_equal "tahw yas" { string.length = { my.reverse }; 'say what'.length }
+		assert_equal "tahw yas" { 
+			s = ''
+			save = s.parent->length
+			string.length = { my.reverse };
+			r = 'say what'.length;
+			string.length = ->save
+			r
+		}
 	}
 
 	test "init" {
