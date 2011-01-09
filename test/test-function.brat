@@ -67,7 +67,7 @@ setup name: "function tests" {
 	}
 
 	test "index_operation" {
-		assert_equal 6 { number.^ = {x| my + 1 + x }; a = [1,2,3]; a[1] ^ a[2] }
+		assert_equal 6 { number.^^ = {x| my + 1 + x }; a = [1,2,3]; a[1] ^^ a[2] }
 	}
 
 	test "operation1" {
