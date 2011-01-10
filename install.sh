@@ -20,7 +20,8 @@ cp -rfv lib/ $BRATLIB
 cp -rfv parser/ $BRATLIB
 cp -rfv stdlib/ $BRATLIB
 
-echo "$BRATLIB/brat \$@" > $PREFIX/bin/brat
+echo "#!/bin/sh
+$BRATLIB/brat \$@" > $PREFIX/bin/brat
 chmod +x $PREFIX/bin/brat
 
 echo "----------------------------------------------"
