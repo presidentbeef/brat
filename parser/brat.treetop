@@ -1175,7 +1175,7 @@ grammar BaseBrat
 			output
 		end
 
-		def return_result
+		def return_result(res_var = nil)
 			f.brat(res_var) << "\n" <<
 			a.brat << "\n" <<
 			invoke(nil, f.result, a.list, a.length)
@@ -1471,6 +1471,9 @@ grammar BaseBrat
 
 		def list
 			""
+		end
+
+		def unset_args
 		end
 	}
   end

@@ -284,4 +284,11 @@ setup name: "function tests" {
 		assert_equal 4 { f = { *args | args[3] }; g = { x, y | y }; f 1 :b 'b' g 3 4 }
 	}
 
+	test "invoking a function literal - zero args" {
+		assert_equal 6 { { 1 + 2 + 3 }() }
+	}
+
+	test "invoking a function literal - with args" {
+		assert_equal 6 { { x, y, z | x + y + z }(1 2 3) }
+	}
 }
