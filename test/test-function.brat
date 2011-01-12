@@ -291,4 +291,19 @@ setup name: "function tests" {
 	test "invoking a function literal - with args" {
 		assert_equal 6 { { x, y, z | x + y + z }(1 2 3) }
 	}
+
+	test "assign function literal invocation" {
+		assert_equal 6 { 
+			f = { x, y, z | x + y + z }(1 2 3)
+			f 
+		}
+	}
+
+	test "object assign function literal invocation" {
+		assert_equal 6 { 
+			o = object.new
+			o.f = { x, y, z | x + y + z }(1 2 3)
+			o.f 
+		}
+	}
 }

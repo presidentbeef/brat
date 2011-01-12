@@ -424,7 +424,7 @@ grammar BaseBrat
 
   #Matches assignment using "=" operator
   rule assignment
- 	lhs:field_access space "=" spaceorbreak rhs:(function_definition / method_access) {
+ 	lhs:field_access space "=" spaceorbreak !function_literal_invocation rhs:(function_definition / method_access) {
 		def brat(res_var = nil)
 			output = lhs.brat << "\n" << rhs.brat << "\n"	
 			lhs_result = lhs.result
@@ -1162,18 +1162,22 @@ grammar BaseBrat
 			invoke(nil, m.result, a.list, a.length)
 		end
 	}
-	/
-	f:function_definition !space a:simple_arg_list {
-		def brat(res_var = nil)
-			output = f.brat(res_var) << "\n" <<
-			a.brat << "\n"
-			@result = res_var || f.result
-			output << invoke(@result, f.result, a.list, a.length)
+	/ function_literal_invocation
 
-			a.unset_args
+  end
 
-			output
-		end
+	rule function_literal_invocation
+		f:function_definition !space a:simple_arg_list {
+			def brat(res_var = nil)
+				output = f.brat(res_var) << "\n" <<
+				a.brat << "\n"
+				@result = res_var || f.result
+				output << invoke(@result, f.result, a.list, a.length)
+	
+				a.unset_args
+
+				output
+			end
 
 		def return_result(res_var = nil)
 			f.brat(res_var) << "\n" <<
@@ -1181,8 +1185,7 @@ grammar BaseBrat
 			invoke(nil, f.result, a.list, a.length)
 		end
 	}
-
-  end
+	end
 
   #Matches a method chain, up to the last "."
   rule method_chain
