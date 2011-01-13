@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Sorting_algorithms/Bogosort
-	Sort randomly until the array is sorted
+	Shuffle array until it is sorted
 *#
 
 bogosort = { a |

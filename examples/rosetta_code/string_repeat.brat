@@ -2,4 +2,4 @@
 	Repeat a string
 *#
 
-p "ha" * 5
+p "ha" * 5  #Prints hahahahaha

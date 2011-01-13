@@ -4,4 +4,4 @@
 
 include :subprocess
 
-subprocess.run :ls
+p subprocess.run :ls  #Lists files in directory

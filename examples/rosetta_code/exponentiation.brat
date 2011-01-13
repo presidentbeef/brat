@@ -8,4 +8,4 @@
 	1.to(rhs).reduce 1 { m, n | m = m * num }
 }
 
-p 2 ^ 5
+p 2 ^ 5  #Prints 32

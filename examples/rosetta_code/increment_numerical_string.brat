@@ -3,4 +3,4 @@
 *#
 
 #Convert to integer, increment, then back to string
-("100".to_i + 1).to_s
+p ("100".to_i + 1).to_s  #Prints 101

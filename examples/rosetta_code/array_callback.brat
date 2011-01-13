@@ -7,5 +7,5 @@
 }
 
 #Alternatively:
-[:a, :b, :c, :d, :e].each(->p)
+[:a, :b, :c, :d, :e].each ->p
 

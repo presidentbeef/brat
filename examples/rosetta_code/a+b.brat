@@ -1,6 +1,7 @@
 #* http://rosettacode.org/wiki/A%2BB
-	Take in a space-separated pair of integers and return the sum
+	Take in a space-separated pair of integers and return the sum.
+	No input validation.
 *#
 
 numbers = g.split[0,1].map(:to_i)
-p numbers[0] + numbers[1]
+p numbers[0] + numbers[1]  #Prints the sum of the input

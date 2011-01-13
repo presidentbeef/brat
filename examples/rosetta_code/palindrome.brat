@@ -8,4 +8,4 @@ palindrome? = { str |
 }
 
 p "Palindrome? In girum imus nocte et consumimur igni"
-p palindrome? "In girum imus nocte et consumimur igni"
+p palindrome? "In girum imus nocte et consumimur igni"  #Prints true

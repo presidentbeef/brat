@@ -2,4 +2,4 @@
 	Filter elements from an array
 *#
 
-p [1 2 3 4 5 5 6 7 8 9 10].select { x | x % 2 == 0 }
+p 1.to(10).select { x | x % 2 == 0 }  #Prints [2, 4, 6, 8, 10]

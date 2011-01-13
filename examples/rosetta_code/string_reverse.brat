@@ -2,4 +2,4 @@
 	Reverse a string
 *#
 
-p "olleh".reverse
+p "olleh".reverse  #Prints hello

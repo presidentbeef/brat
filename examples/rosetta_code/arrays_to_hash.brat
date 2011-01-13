@@ -11,4 +11,4 @@ zip = { keys, values |
 	h
 }
 
-p zip [1,2,3] [:a :b :c]
+p zip [1,2,3] [:a :b :c]  #Prints [1: a, 2: b, 3: c]

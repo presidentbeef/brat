@@ -15,13 +15,13 @@ pangram? = { sentence |
 	letters.empty?
 }
 
-p pangram? 'The quick brown fox jumps over the lazy dog.' # true
-p pangram? 'Probably not a pangram.'	#false
+p pangram? 'The quick brown fox jumps over the lazy dog.' #Prints true
+p pangram? 'Probably not a pangram.'	#Prints false
 
 ### Alternative, probably less efficient version
 alt_pangram? = { sentence |
 	sentence.downcase.dice.unique.select(:alpha?).length == 26
 }
 
-p alt_pangram? 'The quick brown fox jumps over the lazy dog.' #true
-p alt_pangram? 'Probably not a pangram.' #false
+p alt_pangram? 'The quick brown fox jumps over the lazy dog.' #Prints true
+p alt_pangram? 'Probably not a pangram.' #Prints false

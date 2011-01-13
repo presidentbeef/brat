@@ -4,4 +4,4 @@
 
 multiply = { x, y | x * y }
 
-p multiply 3 14
+p multiply 3 14  #Prints 42
