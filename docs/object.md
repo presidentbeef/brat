@@ -8,6 +8,7 @@ methlist:
 - "&&"
 - "||"
 - add_method
+- array?
 - call_method
 - del_method
 - export
@@ -17,6 +18,7 @@ methlist:
 - g
 - get_method
 - import
+- load_path
 - local_methods
 - methods
 - method_arity
@@ -24,12 +26,15 @@ methlist:
 - new
 - not
 - null?
+- number?
 - object?
 - p
 - print
 - random
+- regex?
 - sleep
 - squish
+- string?
 - to_s
 - true?
 - while
@@ -52,6 +57,11 @@ Logical 'or'.
 >_object_.add\_method _name_, _block_
 
 Adds a new method to the object. Name can be a symbol or a string.
+
+### array?
+>_object_.array?
+
+Returns true if the _object_ is an array.
 
 ### call\_method
 >_object_.call\_method _name_
@@ -101,6 +111,17 @@ Returns the method with the given name (can be a string or a symbol).
 
 Imports the exports from a given file. If the name of an object or function is given as a parameter, it will import just the item matching that name.
 
+### include
+>include _file_  
+>include _file, _name_
+
+Just like _import_, but puts imported functions into the current object. This is probably more useful than _import_ for most contexts.
+
+### load\_path
+>load_path
+
+Returns an array of strings representing the paths used to find files for _import_ or _include_.
+
 ### local\_methods
 >_object_.local\_methods
 
@@ -138,6 +159,11 @@ Logical not.
 
 Checks if the current object is null or if the condition given is null.
 
+### number?
+>_object_.number?
+
+Returns true if the _object_ is a number.
+
 ### object?
 >object? _value_
 
@@ -158,6 +184,11 @@ Prints out any number of arguments, but with no new line.
 
 Returns a number _i_, where 0 <= i < _max_.
 
+### regex?
+>_object_.regex?
+
+Returns true if _object_ is a regular expression.
+
 ### sleep
 >sleep _seconds_
 
@@ -167,6 +198,11 @@ Causes the current thread to sleep for the given number of seconds.
 >_object_.squish _object2_
 
 Squishes the methods of the given object into the current object.
+
+### string?
+>_object_.string?
+
+Returns true if _object_ is a string.
 
 ### to\_s
 >_object_.to\_s

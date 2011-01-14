@@ -5,12 +5,15 @@ object: string
 desc: "String literals live between single or double quotes."
 methlist:
 - "+"
+- alpha?
+- alphanum?
 - chomp
 - chomp!
 - dice
 - downcase
 - downcase!
 - get
+- include?
 - length
 - match
 - reverse
@@ -33,6 +36,16 @@ methlist:
 > _string1_ \+ _string2_
 
 Concatentates two strings.
+
+### alpha?
+> _string_.alpha?
+
+Returns true if all characters in the string are letters.
+
+### alphanum?
+> _string_.alphanum?
+
+Returns true if all characters in the string are letters or digits.
 
 ### chomp
 > _string_.chomp
@@ -77,6 +90,11 @@ a[3,4]     #"lo"
 a[-4, -2]  #"ell"
 a[-4, 3]   #"ell"
 {% endhighlight %}
+
+### include?
+> _string_.include? _string_or_regex_
+
+Returns true if the string includes the given string or regular expression.
 
 ### length
 > _string_.length

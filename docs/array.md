@@ -33,12 +33,13 @@ methlist:
 - pop
 - push
 - reduce
+- reject!
 - rest
 - reverse
 - reverse!
 - reverse_each
 - rindex_of
-- select
+- select!
 - set
 - shuffle
 - shuffle!
@@ -234,6 +235,16 @@ These are all equivalent:
 	1.to(10).reduce 0 :+
 	1.to(10).reduce :+
 
+### reject!
+>_array_.reject! _method_    
+>_array_.reject! { _item_ | _block_ }
+
+The first form calls _method_ on each element of the array and removes any elements where that _method_ returns true.
+
+The second form removes any element for which the function returns true.
+
+There is also a non-destructive form called [reject](http://presidentbeef.github.com/brat/docs/enumerable.html#reject).
+
 ### rest
 >_array_.rest
 
@@ -259,10 +270,16 @@ Invokes block for each item in the array, but starts at the end.
 
 Returns the last index of the item found in the array, or null if there is no such item.
 
-### select
->_array_.select { _item_ | _block_ }
+### select!
+>_array_.select! _method_    
+>_array_.select! { _item_ | _block_ }
 
-Returns a new array containing only those _item_s for which _block_ returned true.
+The first form takes the name of a _method_ that will be called on elements of the array.
+All elements whose methods return false will be removed from the array.
+
+The second form removes all _item_s for which _block_ returned false.
+
+There is also a non-destructive form called [select](http://presidentbeef.github.com/brat/docs/enumerable.html#select).
 
 ### set
 >_array_.set _index_, _item_

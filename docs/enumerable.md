@@ -9,6 +9,7 @@ methlist:
 - find
 - max
 - min
+- reject
 - select
 - sort
 ---
@@ -39,9 +40,20 @@ Returns maximum value in enumerable. All items in the enumerable must be compara
 Returns minimum value in enumerable. All items in the enumerable must be comparable.
 
 ### select
+>_enum_.reject _method_    
+>_enum_.reject { _obj_ | _block_ }
+
+If passed a method name, invokes _method_ on each element and returns an array containing any objects for which the _method_ returns false.
+
+If passed a function, returns an array containing all objects for which the _block_ returns false.
+
+### select
+>_enum_.select _method_    
 >_enum_.select { _obj_ | _block_ }
 
-Returns an array containing all objects for which the block returns true.
+If passed a method name, invokes _method_ on each element and returns an array containing any objects for which the _method_ returns true.
+
+If passed a function, returns an array containing all objects for which the _block_ returns true.
 
 ### sort
 >_enum_.sort
