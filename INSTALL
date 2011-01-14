@@ -34,7 +34,7 @@ If all goes well, you will have a local version of Brat which you can run.
 
 Try running the tests via:
 
-  ruby test/test.rb
+  ./brat test/test.brat
 
 To install to your system:
 
