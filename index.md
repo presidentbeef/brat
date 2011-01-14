@@ -20,7 +20,7 @@ layout: default
 
 ## What It Is
 
-Brat is a little toy language that _just doesn't care_. It is dynamically typed, with objects, first-class functions, and simple syntax.
+Brat is a little toy language that _just doesn't care_. It is dynamically typed with objects, first-class functions, and simple syntax.
 
 ## Where It Is
 
@@ -48,9 +48,9 @@ world.hello!
 
 Here's one to say hello to you:
 
-{% highlight javascript %}
+{% highlight ruby %}
 world = new
-world.greet = { name | p "Hello, ", name, "!"}
+world.greet = { name | p "Hello, #{name}!"}
 print "What is your name? "
 your_name = g
 world.greet your_name
