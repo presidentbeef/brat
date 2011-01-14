@@ -3,7 +3,7 @@
 *#
 
 shuffle = { a |
-	(a.length - 1).to 1, { i |
+	(a.length - 1).to 1 { i |
 		random_index = random(0, i)
 		temp = a[i]
 		a[i] = a[random_index]

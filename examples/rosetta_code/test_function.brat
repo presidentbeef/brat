@@ -5,7 +5,7 @@
 include :assert
 
 palindrome? = { str | 
-	str = str.downcase.sub(/\s+/, "")
+	str = str.downcase.sub /\s+/ ""
 	str == str.reverse 
 }
 
