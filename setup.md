@@ -36,8 +36,8 @@ Please follow the following steps, in the order in which they are ordered. Other
 
 # More Testing
 
-Run `ruby test/test.rb` to run the test suite. SWEET.
+Run `brat test/test.brat` to run the test suite. SWEET.
 
 # Interactive Brat
 
-Brat will run in interactive mode if not files are specified.
+Brat will run in interactive mode if no files are specified.
