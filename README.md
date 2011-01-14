@@ -85,7 +85,7 @@ Try out your newly discovered power thusly:
 
 # More Testing
 
-Run `ruby test/test.rb` to run the test suite. SWEET.
+Run `brat test/test.brat` to run the test suite. SWEET.
 
 # More fun
 
