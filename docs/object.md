@@ -37,6 +37,7 @@ methlist:
 - string?
 - to_s
 - true?
+- when
 - while
 - with_this
 ---
@@ -216,6 +217,11 @@ Returns a string representation of the object.
 >true? _condition_, _truebranch_, _elsebranch_
 
 Checks if the current object is true (and anything but null or false will be true) or if the condition given is true.
+
+### when
+>when _condition_, _result_, ...
+
+This is a variation of a switch or case statement. _when_ takes any number of conditions and results. It then tests each condition and returns the result corresponding to the first true condition.
 
 ### while
 >while _block_  
