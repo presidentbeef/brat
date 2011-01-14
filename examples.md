@@ -4,7 +4,7 @@ layout: default
 ---
 ## Examples
 
-Some examples of Brat code.
+There are some examples of Brat code below, but many more are available on [Rosetta Code](http://rosettacode.org/wiki/Category:Brat).
 
 ## Hello, World 
 
@@ -16,7 +16,7 @@ p "Hello, world"
 
 {% highlight ruby %}
 print "Hello! What is your name? "
-p "Nice to meet you, ", g, "."
+p "Nice to meet you, #{g}."
 {% endhighlight %}
 
 ## Print numbers 1 to 10 
@@ -45,7 +45,7 @@ while { n <= 10 }
 
 {% highlight ruby %}
 fact = { x |
-        true? x == 0, 1, { x * fact(x - 1) }
+        true? x == 0 1 { x * fact(x - 1) }
 }
 
 p fact 5
@@ -101,40 +101,6 @@ array.map = { f |
 }
 
 p [1 2 3].map { x | x + 1}
-{% endhighlight %}
-
-## Reverse Complement FASTA 
-
-From the [language shootout](http://shootout.alioth.debian.org/u32q/benchmark.php?test=revcomp&lang=all).
-
-{% highlight ruby %}
-translate = [
-"A":"T", "C":"G", "G":"C", "T":"A", "U":"A", "M":"K", "R":"Y", "W":"W", "S":"S", "Y":"R", 
-"K":"M", "V":"B", "H":"D", "D":"H", "B":"V", "N":"N", "a":"T", "c":"G", "g":"C", "t":"A", 
-"u":"A", "m":"K", "r":"Y", "w":"W", "s":"S", "y":"R", "k":"M", "v":"B", "h":"D", "d":"H", 
-"b":"V", "n":"N"
-]
-
-process_line = { line, index |
-        true? line.length > 0 && (index < line.length)
-                {
-                true? line[0] == ">"
-                        { p line }
-                        { print translate[line[index]]
-                          process_line line, index + 1 }
-                }
-                { p }
-}
-
-reverse_complement = {
-        input = g
-        null? input,
-                null,
-                { process_line input, 0
-                  reverse_complement }
-}
-
-reverse_complement
 {% endhighlight %}
 
 ## For Fun
