@@ -1,7 +1,0 @@
-utf32_be.lo: enc/utf32_be.c regenc.h config.h oniguruma.h
-
-regenc.h:
-
-config.h:
-
-oniguruma.h:

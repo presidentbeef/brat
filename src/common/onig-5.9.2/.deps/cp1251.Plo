@@ -1,7 +1,0 @@
-cp1251.lo: enc/cp1251.c regenc.h config.h oniguruma.h
-
-regenc.h:
-
-config.h:
-
-oniguruma.h:
