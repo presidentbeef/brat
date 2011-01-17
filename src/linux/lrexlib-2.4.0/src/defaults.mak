@@ -8,6 +8,6 @@ LIB_LUA  =
 #INC_LUA  = -I/usr/include/lua5.1
 #LIB_LUA  = -llua
 
-MYCFLAGS = -fPIC -W -Wall -g $(INC_LUA) $(INC_PCRE)
+MYCFLAGS = -fno-stack-protector -fPIC -W -Wall -g $(INC_LUA) $(INC_PCRE)
 AR = ar rcu
 CC = gcc
