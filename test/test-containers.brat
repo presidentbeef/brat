@@ -304,6 +304,11 @@ setup name: "container tests" {
 		assert_equal "a" { x = [b::a]; x[:b]; }
 	}
 
+	test "hash comparison" {
+		assert { [:] == [:] }
+		assert_equal [a: 1 b: 2 c: 3] { [a: 1 b: 2 c: 3] }
+	}
+
 	test "hash_string" {
 		assert_equal "[:]" { [:].to_s }
 		assert_equal "[a: b]" { [a: :b].to_s }

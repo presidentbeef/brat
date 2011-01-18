@@ -2241,6 +2241,31 @@ function hash_instance:hash_question ()
 	return object.__true
 end
 
+function hash_instance:_equal_equal (rhs)
+	if self == rhs then
+		return object.__true
+	elseif type(rhs) ~= "table" or rhs._lua_hash == nil then
+		return object.__false
+	elseif #self._lua_hash ~= #rhs._lua_hash then
+		return object.__false
+	else
+		local vr
+
+		for k,v in pairs(self._lua_hash) do
+			vr = rhs:get(k)
+			if type(v) == "table" and v._equal_equal then
+				if not is_true(v:_equal_equal(vr)) then
+					return object.__false
+				end
+			elseif v ~= vr then
+				return object.__false
+			end
+		end
+
+		return object.__true
+	end
+end
+
 function hash_instance:get (index)
 	local val = self._lua_hash[index]
 	if val then
