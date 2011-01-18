@@ -48,5 +48,177 @@ setup name: "examples test" {
 		assert_equal "object[-!_+~%~+_!-, <------||==@, @==||------>, parent]" { a_!?-*+^&@1~\\\\><$ = object.new; a_!?-*+^&@1~\\\\><$.-!_+~%~+_!- = {d0~!@><?&&<>\\/+-*^&% | d0~!@><?&&<>\\/+-*^&%};                a_!?-*+^&@1~\\\\><$.@==||------> = { a_!?-*+^&@1~\\\\><$ };                a_!?-*+^&@1~\\\\><$.<------||==@ = { ->@==||------> };               (@==||------>a_!?-*+^&@1~\\\\><$ -!_+~%~+_!- a_!?-*+^&@1~\\\\><$.<------||==@).to_s }
 	}
 
+	test "ackermann" {
+		assert_equal 125 {
+			ackermann = { m, n |
+				when { m == 0 } { n + 1 }
+					{ m > 0 && n == 0 } { ackermann(m - 1, 1) }
+					{ m > 0 && n > 0 } { ackermann(m - 1, ackermann(m, n - 1)) }
+			}
+
+			ackermann 3 4
+		}
 	}
 
+	test "array to hash" {
+		assert_equal [1 : :a, 2 : :b, 3 : :c] {
+			zip = { keys, values |
+				h = [:]
+					keys.each_with_index { key, index |
+						h[key] = values[index]
+					}
+
+				h
+			}
+
+			zip [1,2,3] [:a :b :c]
+		}
+	}
+
+	test "exponentiation" {
+		assert_equal 32 {
+			exp = { base, exp |
+				1.to(exp).reduce 1, { m, n | m = m * base }
+			}
+
+			exp 2 5
+		}
+	} 
+
+	test "filter" {
+		assert_equal [2, 4, 6, 8, 10] {
+			1.to(10).select { x | x % 2 == 0 }
+		}
+	}
+
+	test "flatten" {
+		assert_equal 1.to(8) {
+			array.flatten = {
+				true? my.empty?
+				{ [] }
+				{ true? my.first.array?
+					{ my.first.flatten + my.rest.flatten }
+					{ [my.first] + my.rest.flatten }
+				}
+			}
+
+			[[1], 2, [[3,4], 5], [[[]]], [[[6]]], 7, 8, []].flatten
+		}
+	}
+
+	test "function composition" {
+		assert_equal 4 {
+			compose = { f, g | { x | f g x } }
+			add1 = { x | x + 1 }
+			double = { x | x * 2 }
+			b = compose(->double ->add1)
+				b 1
+		}
+	}
+
+	test "hailstone" {
+		assert {
+			hailstone = { num |
+				sequence = [num]
+					while { num != 1 }
+				{ true? num % 2 == 0
+					{ num = num / 2 }
+					{ num = num * 3 + 1 }
+					sequence << num
+				}
+
+				sequence
+			}
+
+			seq = hailstone 27
+				seq[0,3] == [27 82 41 124] && seq[-1, -4] == [8 4 2 1]
+		}
+	}
+
+	test "higher order functions" {
+		assert_equal 3 {
+			add = { a, b | a + b }
+
+			doit = { f, a, b | f a, b }
+
+			doit ->add 1 2
+		}
+	}
+
+	test "increment integer string" {
+		assert_equal "101" {
+			("100".to_i + 1).to_s
+		}
+	}	
+
+	test "mean" {
+		assert_equal 5.5 {
+			mean = { list |
+				true? list.empty?, 0, {	list.reduce(0, :+) / list.length }
+			}
+
+			mean 1.to 10
+		}
+	}
+
+	test "mutual recursion" {
+		female = null #yes, this is necessary
+
+			male = { n |
+				true? n == 0
+				{ 0 }
+				{ n - female male(n - 1) }
+			}
+
+		female = { n |
+			true? n == 0
+			{ 1 }
+			{ n - male female(n - 1 ) }
+		}
+
+		assert_equal [1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9, 10, 11, 11, 12, 13] {
+			0.to(20).map! { n | female n }
+		}
+
+		assert_equal [0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 7, 8, 9, 9, 10, 11, 11, 12, 12] {
+			0.to(20).map! { n | male n }
+		}
+	}
+
+	test "palindrome" {
+		palindrome? = { str | 
+			str = str.downcase.sub(/\s+/, "")
+			str == str.reverse 
+		}
+
+		assert { palindrome? "In girum imus nocte et consumimur igni" }
+		assert { palindrome? "A man a plan a canal Panama" }
+		assert { palindrome? "racecar" }
+		assert_false { palindrome? "No way this is a palindrome" }
+	}
+
+	test "pangram" {
+		pangram? = { sentence |
+			sentence.downcase.dice.unique.select(:alpha?).length == 26
+		}
+
+		assert { pangram? 'The quick brown fox jumps over the lazy dog.' }
+		assert_false { pangram? 'Probably not a pangram.' }
+	}
+
+	test "sum of squares" {
+		assert_equal 385 { 1.to(10).reduce 0 { res, n | res = res + n ^ 2 } } 
+	}
+
+	test "unknown method" {
+		assert_equal "not_real" {
+			example = object.new
+
+			example.no_method = { meth_name, *args |
+				meth_name
+			}
+
+			example.not_real "at all"
+		}
+	}
+}
