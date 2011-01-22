@@ -9,6 +9,6 @@ Also, I have added Brat to [Rosetta Code](http://rosettacode.org/wiki/Category:B
 
 In other news, all Ruby tests have been replaced with tests written in Brat itself. I have also been trying to add tests whenever I make changes to Brat.
 
-Some strange issues have been fixed lately, such as `call_method` not actually returning a value, operator precence of `^`, invocation of function literals works (again?), `hash.==` exists now, and hopefully everything will now compile correctly on Ubuntu.
+Some strange issues have been fixed lately, such as `call_method` not actually returning a value, operator precedence of `^`, invocation of function literals works (again?), `hash.==` exists now, and hopefully everything will now compile correctly on Ubuntu.
 
 Brat continues on its bratty way.
