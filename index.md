@@ -30,6 +30,8 @@ Brat may be obtained using any of the following methods:
 * Download in [zip](http://github.com/presidentbeef/brat/zipball/master) or [tar](http://github.com/presidentbeef/brat/tarball/master) format
 * [Browse](http://github.com/presidentbeef/brat/tree/master) around the source
 
+or, [try it](http://try.brat-lang.org/) in your browser!
+
 ## How It Looks
 
 Here is the Brat 'hello world' program:
