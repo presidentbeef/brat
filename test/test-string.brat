@@ -17,6 +17,14 @@ setup name: "string tests" {
 		assert_false { "abc!cba".alphanum? }
 	}
 
+	test "string.blank?" {
+		assert { "".blank? }
+		assert { " ".blank? }
+		assert { "\t".blank? }
+		assert { "\n".blank? }
+		assert { " \t \n    ".blank? }
+	}
+
 	test "string_chomp" {
 		assert_equal "hello" { "hello\n".chomp }
 		assert_equal "hello" { "hello\r\n".chomp }
