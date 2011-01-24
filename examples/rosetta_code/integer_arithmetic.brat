@@ -1,0 +1,16 @@
+#* http://rosettacode.org/wiki/Arithmetic/Integer
+	Get two integers from the user, and then output the sum, difference, product,
+	quotient, remainder, exponentiation of those numbers.
+*#
+
+print "First number: "
+x = g.to_i
+print "Second number: "
+y = g.to_i
+
+
+#Division uses floating point
+#Remainder uses sign of right hand side
+[:+ :- :* :/ :% :^].each { op |
+	p "#{x} #{op} #{y} = #{x.call_method op, y}"
+}
