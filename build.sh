@@ -112,13 +112,13 @@ cd $COMMON/linenoise
 
 if [ "$SYSTEM" = "linux" ]
 then
-	gcc -fPIC -shared linenoise.c -o linenoise.so
+	gcc -fPIC -shared linenoise.c -o liblinenoise.so
 elif [ "$SYSTEM" = "osx" ]
 then
-	gcc -bundle -undefined dynamic_lookup linenoise.c -o linenoise.so
+	gcc -bundle -undefined dynamic_lookup linenoise.c -o liblinenoise.so
 fi
 
-mv -f linenoise.so $LIB/liblinenoise.so
+mv -f linenoise.so $LIB/
 
 echo Building lpty
 cd $SRC/$LPTY
