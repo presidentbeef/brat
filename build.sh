@@ -1,5 +1,5 @@
 #!/bin/sh
-LUA=lua-5.1.4
+LUA=lua
 ONIG=onig-5.9.2
 LREX=lrexlib-2.4.0
 LPTY=lpty-0.9-1
@@ -54,16 +54,12 @@ echo Building Lua
 #Build Lua
 cd $LUA_SRC_PATH
 
-if [ "$SYSTEM" = "osx" ]
-then
-	make macosx
-elif [ "$SYSTEM" = "linux" ]
-then
-	make linux
-fi
+make PREFIX=$BRATPATH/bin/lua
 
 #Copy to bin/lua
-make install INSTALL_TOP=$BRATPATH/bin/lua
+make install PREFIX=$BRATPATH/bin/lua
+
+mv $BRATPATH/bin/lua/bin/luajit-2.0.0-beta5 $BRATPATH/bin/lua/bin/lua
 
 echo Building Oniguruma
 cd $COMMON/$ONIG
@@ -111,18 +107,18 @@ cd $SRC/md5
 make
 cp -f md5.so $LIB
 
-echo Building readline
-cd $COMMON/readline
+echo Building linenoise
+cd $COMMON/linenoise
 
 if [ "$SYSTEM" = "linux" ]
 then
-	gcc -I../$LUA/include -fPIC -shared readline.c -o readline.so
+	gcc -fPIC -shared linenoise.c -o linenoise.so
 elif [ "$SYSTEM" = "osx" ]
 then
-	gcc -I../$LUA/include -bundle -undefined dynamic_lookup readline.c -o readline.so
+	gcc -bundle -undefined dynamic_lookup linenoise.c -o linenoise.so
 fi
 
-mv -f readline.so $LIB
+mv -f linenoise.so $LIB/liblinenoise.so
 
 echo Building lpty
 cd $SRC/$LPTY
