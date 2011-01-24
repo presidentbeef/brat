@@ -46,13 +46,13 @@ BRATPATH=`pwd`
 SRC=$BRATPATH/src/$SYSTEM
 COMMON=$BRATPATH/src/common
 LIB=$BRATPATH/lib
-export LUA_SRC_PATH=$BRATPATH/src/common/$LUA
+export LUA_SRC_PATH=$BRATPATH/bin/lua/
 
 cd $SRC
 
 echo Building Lua
 #Build Lua
-cd $LUA_SRC_PATH
+cd $COMMON/$LUA
 
 make PREFIX=$BRATPATH/bin/lua
 
@@ -118,7 +118,7 @@ then
 	gcc -bundle -undefined dynamic_lookup linenoise.c -o liblinenoise.so
 fi
 
-mv -f linenoise.so $LIB/
+mv -f liblinenoise.so $LIB/
 
 echo Building lpty
 cd $SRC/$LPTY
@@ -131,7 +131,7 @@ tt brat.treetop
 
 echo Cleaning up...
 
-cd $LUA_SRC_PATH
+cd $COMMON/$LUA
 make clean
 
 cd $COMMON/$ONIG
