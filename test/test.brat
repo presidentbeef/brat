@@ -1,7 +1,7 @@
 include :file
 include :assert
 
-[:examples :containers :function :misc :number :object :parser :regex :string].each { name |
+[:enumerable :examples :containers :function :misc :number :object :parser :regex :string].each { name |
     #Force recompilation
 		true? file.exists?("test/test-#{name}.lua")
 			{ file.delete "test/test-#{name}.lua" }
