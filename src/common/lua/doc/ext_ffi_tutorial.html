@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>FFI Tutorial</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="Author" content="Mike Pall">
+<meta name="Copyright" content="Copyright (C) 2005-2011, Mike Pall">
+<meta name="Language" content="en">
+<link rel="stylesheet" type="text/css" href="bluequad.css" media="screen">
+<link rel="stylesheet" type="text/css" href="bluequad-print.css" media="print">
+</head>
+<body>
+<div id="site">
+<a href="http://luajit.org"><span>Lua<span id="logo">JIT</span></span></a>
+</div>
+<div id="head">
+<h1>FFI Tutorial</h1>
+</div>
+<div id="nav">
+<ul><li>
+<a href="luajit.html">LuaJIT</a>
+<ul><li>
+<a href="install.html">Installation</a>
+</li><li>
+<a href="running.html">Running</a>
+</li></ul>
+</li><li>
+<a href="extensions.html">Extensions</a>
+<ul><li>
+<a href="ext_ffi.html">FFI Library</a>
+<ul><li>
+<a class="current" href="ext_ffi_tutorial.html">FFI Tutorial</a>
+</li><li>
+<a href="ext_ffi_api.html">ffi.* API</a>
+</li><li>
+<a href="ext_ffi_int64.html">64 bit Integers</a>
+</li><li>
+<a href="ext_ffi_semantics.html">FFI Semantics</a>
+</li></ul>
+</li><li>
+<a href="ext_jit.html">jit.* Library</a>
+</li><li>
+<a href="ext_c_api.html">Lua/C API</a>
+</li></ul>
+</li><li>
+<a href="status.html">Status</a>
+<ul><li>
+<a href="changes.html">Changes</a>
+</li></ul>
+</li><li>
+<a href="faq.html">FAQ</a>
+</li><li>
+<a href="http://luajit.org/performance.html">Performance <span class="ext">&raquo;</span></a>
+</li><li>
+<a href="http://luajit.org/download.html">Download <span class="ext">&raquo;</span></a>
+</li></ul>
+</div>
+<div id="main">
+<p>
+TODO
+</p>
+
+<h2 id="load">Loading the FFI Library</h2>
+<p>
+The FFI library is built into LuaJIT by default, but it's not loaded
+and initialized by default. The suggested way to use the FFI library
+is to add the following to the start of every Lua file that needs one
+of its functions:
+</p>
+<pre class="code">
+local ffi = require("ffi")
+</pre>
+<p>
+Please note this doesn't define an <tt>ffi</tt> variable in the table
+of globals &mdash; you really need to use the local variable. The
+<tt>require</tt> function ensures the library is only loaded once.
+</p>
+
+<h2>TODO</h2>
+<br class="flush">
+</div>
+<div id="foot">
+<hr class="hide">
+Copyright &copy; 2005-2011 Mike Pall
+<span class="noprint">
+&middot;
+<a href="contact.html">Contact</a>
+</span>
+</div>
+</body>
+</html>

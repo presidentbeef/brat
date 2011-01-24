@@ -1,5 +1,5 @@
 #!/bin/sh
-LUA=lua-5.1.4
+LUA=lua
 ONIG=onig-5.9.2
 LREX=lrexlib-2.4.0
 LPTY=lpty-0.9-1
@@ -46,24 +46,20 @@ BRATPATH=`pwd`
 SRC=$BRATPATH/src/$SYSTEM
 COMMON=$BRATPATH/src/common
 LIB=$BRATPATH/lib
-export LUA_SRC_PATH=$BRATPATH/src/common/$LUA
+export LUA_SRC_PATH=$BRATPATH/bin/lua/
 
 cd $SRC
 
 echo Building Lua
 #Build Lua
-cd $LUA_SRC_PATH
+cd $COMMON/$LUA
 
-if [ "$SYSTEM" = "osx" ]
-then
-	make macosx
-elif [ "$SYSTEM" = "linux" ]
-then
-	make linux
-fi
+make PREFIX=$BRATPATH/bin/lua
 
 #Copy to bin/lua
-make install INSTALL_TOP=$BRATPATH/bin/lua
+make install PREFIX=$BRATPATH/bin/lua
+
+mv $BRATPATH/bin/lua/bin/luajit-2.0.0-beta5 $BRATPATH/bin/lua/bin/lua
 
 echo Building Oniguruma
 cd $COMMON/$ONIG
@@ -111,18 +107,18 @@ cd $SRC/md5
 make
 cp -f md5.so $LIB
 
-echo Building readline
-cd $COMMON/readline
+echo Building linenoise
+cd $COMMON/linenoise
 
 if [ "$SYSTEM" = "linux" ]
 then
-	gcc -I../$LUA/include -fPIC -shared readline.c -o readline.so
+	gcc -fPIC -shared linenoise.c -o liblinenoise.so
 elif [ "$SYSTEM" = "osx" ]
 then
-	gcc -I../$LUA/include -bundle -undefined dynamic_lookup readline.c -o readline.so
+	gcc -bundle -undefined dynamic_lookup linenoise.c -o liblinenoise.so
 fi
 
-mv -f readline.so $LIB
+mv -f liblinenoise.so $LIB/
 
 echo Building lpty
 cd $SRC/$LPTY
@@ -135,7 +131,7 @@ tt brat.treetop
 
 echo Cleaning up...
 
-cd $LUA_SRC_PATH
+cd $COMMON/$LUA
 make clean
 
 cd $COMMON/$ONIG
