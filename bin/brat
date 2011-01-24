@@ -22,8 +22,18 @@ local interactive = function ()
 
 	local parser = lpty.new{no_local_echo = true}
 	parser:startproc("ruby", program_path .. "/parser/parse.rb", "--interactive")
+
+	local ffi = require "ffi"
+
+	ffi.cdef[[
+	int linenoiseHistoryAdd(const char *line);
+	char *linenoise(const char *prompt);
+	]]
 	
-	local readline = require "readline"
+	local ln = ffi.load("linenoise")
+
+	local get_line = ln.linenoise;
+	local add_line = ln.linenoiseHistoryAdd;
 
 	local input
 	local line = 1
@@ -61,14 +71,14 @@ local interactive = function ()
 	print("# Interactive Brat")
 
 	while true do
-		input = readline.readline("brat:" .. line .. "> ")
+		input = ffi.string(get_line("brat:" .. line .. "> "))
 
 		if input == nil or input == "quit" then
 			parser:endproc()
 			return
 		elseif input ~= "" and not input:match("^%s+$") then
 			line = line + 1
-			readline.add_history(input)
+			add_line(input)
 
 			parser:send(input)
 			parser:send("\n\1\n")
