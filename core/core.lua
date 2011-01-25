@@ -1903,21 +1903,21 @@ function array_instance:get (start_index, end_index)
 		end
 
 		if end_index < 0 then
-		end_index = len + end_index
-	end
+			end_index = len + end_index
+		end
 
-	if start_index < 0 then
-		start_index = 0
-	end
+		if start_index < 0 then
+			start_index = 0
+		end
 
-	if end_index < 0 then
-	end_index = 0
-end
+		if end_index < 0 then
+			end_index = 0
+		end
 
-if start_index > end_index then
-	local temp = start_index
-	start_index = end_index
-end_index = temp
+		if start_index > end_index then
+			local temp = start_index
+			start_index = end_index
+			end_index = temp
 		end
 
 		if start_index >= len then
@@ -1925,26 +1925,27 @@ end_index = temp
 		end
 
 		if end_index >= len then
-		end_index = len - 1
-	end
-
-	local index = start_index
-	local new_index = 1
-	local new_array = {}
-	local val
-
-	while index <= end_index do
-		val = self._lua_array[index + 1]
-		if val == nil then
-			new_array[new_index] = object.__null
-		else
-			new_array[new_index] = val
+			end_index = len - 1
 		end
-		index = index + 1
-		new_index = new_index + 1
-	end
 
-	return array:new(new_array)
+		local index = start_index
+		local new_index = 1
+		local new_array = {}
+		local val
+
+		while index <= end_index do
+			val = self._lua_array[index + 1]
+			if val == nil then
+				new_array[new_index] = object.__null
+			else
+				new_array[new_index] = val
+			end
+			index = index + 1
+			new_index = new_index + 1
+		end
+
+		return array:new(new_array)
+	end
 end
 end
 
