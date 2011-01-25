@@ -1,0 +1,12 @@
+#* http://rosettacode.org/wiki/Associative_arrays/Creation
+	Create a hash.
+*#
+
+h = [:]  #Empty hash
+
+h[:a] = 1
+h[:b] = [1 2 3]
+
+h2 = [a: 1, b: [1 2 3], 10 : "ten"]  #Initialized hash
+
+h2[:b][2]  #Returns 3
