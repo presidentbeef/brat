@@ -1,0 +1,7 @@
+#* http://rosettacode.org/wiki/String_interpolation_(included)
+	Interpolate a value into a string
+*#
+
+adjective = "little"
+
+p "Mary had a #{adjective} lamb"
