@@ -1876,9 +1876,11 @@ function array_instance:set (index, value)
 	end
 
 	self._lua_array[index + 1] = value
-	if index > self._length then
+
+	if index >= self._length then
 		self._length = index + 1
 	end
+
 	return value
 end
 
