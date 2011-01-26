@@ -337,6 +337,18 @@ function object:random (...)
 	return math.random(...)
 end
 
+function object:ask (prompt)
+	if prompt == nil then
+		return self:g()
+	elseif type(prompt) ~= "table" or prompt._lua_string == nil then
+		error(exception:argument_error("ask", "string", tostring(prompt)))
+	end
+
+	self:print(prompt);
+
+	return self:g()
+end
+
 function object:g ()
 	return base_string:new(io.stdin:read())
 end
