@@ -1959,6 +1959,28 @@ function array_instance:get (start_index, end_index)
 		return array:new(new_array)
 	end
 end
+
+function array_instance:insert (index, value)
+		if type(index) ~= "number" then
+		error(exception:argument_error("array.insert", "valid index", index))
+	end
+
+	if index < 0 then
+		index = self._length + index
+	end
+
+	if index < 0 then
+		error(exception:argument_error("array.insert", "valid index", index))
+	end
+
+	if index < self._length then
+		table.insert(self._lua_array, index + 1, value)
+		self._length = self._length + 1
+	else
+		self:set(index, value)
+	end
+
+	return self
 end
 
 function array_instance:length ()

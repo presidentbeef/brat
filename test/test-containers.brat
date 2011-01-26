@@ -64,6 +64,14 @@ setup name: "container tests" {
 		assert_equal "b" { a = []; a[0] = []; a[0][1] = []; a[0][1][2] = "b"; a[0][1][2] }
 	}
 
+	test "array.insert" {
+		assert_equal [1 2 3] { [1 2].insert 2 3 }
+		assert_equal [1 3 2] { [1 2].insert -1 3 }
+		assert_equal [3 1 2] { [1 2].insert -2 3 }
+		assert_equal [1 2 null, 3] { [1 2].insert 3 3 }
+		assert_fail { [1 2].insert -10 "hello" }
+	}
+
 	test "array_method" {
 		assert_equal 2 { z = object.new; z.test = { [1,2,3] }; z.test[1] }
 		assert_equal 1 { y = {x| x}; z = [->y]; z[0] 1 }
