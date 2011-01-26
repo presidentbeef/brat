@@ -2086,13 +2086,23 @@ function array_instance:_equal_equal (rhs)
 		local len = self._length
 		local match = true
 		while k <= len do
-			if rhs[k] ~= lhs[k] then
-				if type(rhs[k]) == "table" and 
-					type(lhs[k]) == "table" and
-					lhs[k]._is_an_object and
-					rhs[k]._is_an_object and
-					is_true(lhs[k]:_equal_equal(rhs[k])) then
+			local vr = rhs[k]
+			local vl = lhs[k]
 
+			if vr ~= vl then
+				local tr = type(vr)
+				local tl = type(vl)
+
+				if tr == "table" and 
+					tl == "table" and
+					vl._is_an_object and
+					vr._is_an_object and
+					is_true(vl:_equal_equal(vr)) then
+
+					--next
+				elseif vl == nil and vr == object.__null then
+					--next
+				elseif vr == nil and vl == object.__null then
 					--next
 				else
 					match = false
