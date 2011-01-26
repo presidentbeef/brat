@@ -2537,6 +2537,14 @@ function string_instance:alphanum_question ()
 	end
 end
 
+function string_instance:numeric_question ()
+	if self._lua_string:match("^%d+$") then
+		return object.__true
+	else
+		return object.__false
+	end
+end
+
 function string_instance:blank_question()
 	if self._lua_string:match("^%s*$") then
 		return object.__true
