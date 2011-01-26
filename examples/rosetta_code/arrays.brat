@@ -1,0 +1,13 @@
+#* http://rosettacode.org/wiki/Arrays
+	Basic array syntax and use.
+*#
+
+a = ["hello", "world"]
+
+a << "!"  #Append value
+
+a[0] = "goodbye" #Set element
+
+a.insert 1 "cruel" #Insert element
+
+p a.join " "
