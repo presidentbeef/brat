@@ -17,6 +17,16 @@ setup name: "string tests" {
 		assert_false { "abc!cba".alphanum? }
 	}
 
+	test "string.numeric?" {
+		assert { "-10".numeric? } 
+		assert { "1".numeric? }
+		assert { "12381723123".numeric? }
+		assert_false { "hello".numeric? }
+		assert_false { "1  2".numeric? }
+		assert_false { "1123abc13123".numeric? }
+		assert_false { "".numeric? }
+	}
+
 	test "string.blank?" {
 		assert { "".blank? }
 		assert { " ".blank? }

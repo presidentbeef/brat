@@ -2538,7 +2538,7 @@ function string_instance:alphanum_question ()
 end
 
 function string_instance:numeric_question ()
-	if self._lua_string:match("^%d+$") then
+	if self._lua_string:match("^-?%d+$") then
 		return object.__true
 	else
 		return object.__false
