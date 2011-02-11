@@ -1,6 +1,6 @@
 local file_instance = object:new()
 
-local file = new_brat(file_instance)
+local file = object:new()
 
 require 'lfs'
 
