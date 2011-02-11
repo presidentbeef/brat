@@ -161,4 +161,28 @@ function file:open (path, mode, block)
 		return object.__null
 	end
 end
+
+function file:read (path)
+	if type(path) == "table" and path._lua_string then
+		path = path._lua_string
+	end
+
+	if type(path) ~= "string" then
+		error(exception:argument_error("file.read", "string", path))
+	end
+
+	local f = file:open(path)
+
+	if f == object.__null then
+		return object.__null
+	else
+		object:p(f:methods():sort());
+	end
+
+	local res = f:read()
+
+	f:close()
+
+	return res
+end
 object:export(file, "file")
