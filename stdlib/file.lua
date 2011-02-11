@@ -201,4 +201,68 @@ function file:read (path)
 
 	return res
 end
+
+function file_instance:each_underline (block)
+	for line in self._lua_io:lines() do
+		block(self, line)
+	end
+
+	return object.__null
+end
+
+function file_instance:write_underline (output)
+	if type(output) == "table" and output._lua_string then
+		output = output._lua_string
+	end
+
+	if type(output) ~= "string" then
+		error(exception:argument_error("file.write_line", "string", output))
+	end
+
+	self:write(output .. "\n")
+
+	return object.__null
+end
+
+function file_instance:read ()
+	local res = self._lua_io:read("*a")
+
+	if res == nil then
+		return object.__null
+	else
+		return base_string:new(res)
+	end
+end
+
+function file_instance:read_underline ()
+	local res = self._lua_io:read("*l")
+
+	if res == nil then
+		return object.__null
+	else
+		return base_string:new(res)
+	end
+end
+
+function file_instance:write (output)
+	if type(output) == "table" and output._lua_string then
+		output = output._lua_string
+	end
+
+	if type(output) ~= "string" then
+		error(exception:argument_error("file.write", "string", output))
+	end
+
+	self._lua_io:write(output)
+
+	return object.__null
+end
+
+function file_instance:close ()
+	self._lua_io:flush()
+	self._lua_io:close()
+
+	return object.__null
+end
+
 object:export(file, "file")
