@@ -1,0 +1,11 @@
+#* http://rosettacode.org/wiki/Create_a_file
+	Create a file and a directory
+*#
+
+include :file
+
+file.open "output.txt" "w" {}
+file.make_dir "docs"
+
+file.open "/output.txt" "w" {}
+file.make_dir "/docs"
