@@ -112,4 +112,53 @@ function file:type (path)
 	end
 end
 
+function file:open (path, mode, block)
+	if type(path) == "table" and path._lua_string then
+		path = path._lua_string
+	end
+
+	if type(path) ~= "string" then
+		error(exception:argument_error("file.open", "string", path))
+	end
+
+	if mode == nil or mode == object.__null then
+		mode = "r"
+	end
+
+	if type(mode) == "table" and mode._lua_string then
+		mode = mode._lua_string
+	end
+
+	if type(mode) == "function" then
+		block = mode
+		mode = "r"
+	elseif type(mode) ~= "string" then
+		error(exception:argument_error("file.open", "string", mode))
+	end
+
+	local nf = new_brat(file_instance)
+	nf._lua_io = io.open(path, mode)
+
+	if nf._lua_io == nil then
+		return object.__null
+	elseif block == nil then
+		return nf
+	else
+		local opts = {}
+		opts[base_string:new("ensure")] = function (self, err)
+			nf._lua_io:flush()
+			nf._lua_io:close()
+		end
+
+		opts[base_string:new("rescue")] = function (self, err)
+			object:p(err)
+		end
+
+		opts = hash:new(opts)
+
+		object:protect(function (self) block(self, nf) end, opts)
+
+		return object.__null
+	end
+end
 object:export(file, "file")
