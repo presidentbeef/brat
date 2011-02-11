@@ -26,6 +26,22 @@ function file:delete (path)
 	return object.__true
 end
 
+function file:each_underline (path, block)
+	if type(path) == "table" and path._lua_string then
+		path = path._lua_string
+	end
+
+	if type(path) ~= "string" then
+		error(exception:argument_error("file.each_line", "string", path))
+	end
+
+	for line in io.lines(path) do
+		block(self, line)
+	end
+
+	return object.__null
+end
+
 function file:exists_question (path)
 	if type(path) == "table" and path._lua_string then
 		path = path._lua_string
