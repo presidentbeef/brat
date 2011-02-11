@@ -80,6 +80,24 @@ function file:make_underdir (path)
 	return object.__true
 end
 
+function file:read_underlines (path)
+	if type(path) == "table" and path._lua_string then
+		path = path._lua_string
+	end
+
+	if type(path) ~= "string" then
+		error(exception:argument_error("file.each_line", "string", path))
+	end
+
+	local res = {}
+
+	for line in io.lines(path) do
+		table.insert(res, base_string:new(line))
+	end
+
+	return array:new(res)
+end
+
 function file:rename (original, new_name)
 	if type(original) == "table" and original._lua_string then
 		original = original._lua_string
@@ -191,8 +209,6 @@ function file:read (path)
 
 	if f == object.__null then
 		return object.__null
-	else
-		object:p(f:methods():sort());
 	end
 
 	local res = f:read()
