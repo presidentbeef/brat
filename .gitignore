@@ -7,3 +7,4 @@ bin/lua
 stdlib/*.lua
 examples/*.lua
 examples/rosetta_code/*.lua
+lib/*.so*
