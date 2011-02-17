@@ -71,7 +71,11 @@ local interactive = function ()
 	print("# Interactive Brat")
 
 	while true do
-		input = ffi.string(get_line("brat:" .. line .. "> "))
+		input = get_line("brat:" .. line .. "> ")
+
+		if input ~= nil then
+			input = ffi.string(input)
+		end
 
 		if input == nil or input == "quit" then
 			parser:endproc()
