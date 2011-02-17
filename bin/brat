@@ -187,5 +187,12 @@ elseif file_name == nil then
 	abort("File to execute should end in .brat")
 else
 	compile_file(file_name)
-	dofile(file_name .. ".lua")
+
+	lua_file = file_name .. ".lua"
+
+	if lfs.attributes(lua_file, "access") then
+		dofile(lua_file)
+	else
+		print("----------\nCannot execute " .. arg[#arg])
+	end
 end
