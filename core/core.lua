@@ -2441,6 +2441,15 @@ function hash_instance:keys ()
 	return array:new(keys)
 end
 
+function hash_instance:values ()
+	local values = {}
+	for k,v in pairs(self._lua_hash) do
+		table.insert(values, v)
+	end
+
+	return array:new(values)
+end
+
 function hash_instance:length ()
 	return self:keys():length()
 end
