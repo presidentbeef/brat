@@ -1093,6 +1093,26 @@ function number_instance:times (block)
 	return limit
 end
 
+function number_instance:of (item)
+	local num = self._lua_number
+	local i = 0
+	local r = {}
+
+	if type(item) == "function" then
+		while i < num do
+			table.insert(r, item(self))
+			i = i + 1
+		end
+	else
+		while i < num do
+			table.insert(r, item)
+			i = i + 1
+		end
+	end
+
+	return array:new(r)
+end
+
 function number_instance:to (stop, block)
 	local index = self._lua_number
 	if stop < self._lua_number then
