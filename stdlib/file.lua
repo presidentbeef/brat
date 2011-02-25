@@ -36,7 +36,7 @@ function file:each_underline (path, block)
 	end
 
 	for line in io.lines(path) do
-		block(self, line)
+		block(self, base_string:new(line))
 	end
 
 	return object.__null
