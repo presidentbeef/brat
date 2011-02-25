@@ -2048,6 +2048,24 @@ function array_instance:sort ()
 	return array:new(unpack(a))
 end
 
+function array_instance:sort_underby (block)
+	local a = self._lua_array
+	if #a <= 1 then
+		return self:_dup()
+	end
+
+	comp = function(rhs, lhs)
+		return is_true(block(self, rhs, lhs))
+	end
+
+	a = {unpack(a)}
+
+	table.sort(a, comp)
+
+	return array:new(unpack(a))
+end
+
+
 function array_instance:sort_bang ()
 	local a = self._lua_array
 	if #a <= 1 then
