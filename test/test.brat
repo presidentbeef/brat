@@ -2,7 +2,7 @@ include :file
 include :assert
 
 [:array :enumerable :examples :file :function
-	:hash :misc :number :object :parser :regex :string].each { name |
+	:hash :misc :number :object :parser :regex :stdlib :string].each { name |
     #Force recompilation
 		true? file.exists?("test/test-#{name}.lua")
 			{ file.delete "test/test-#{name}.lua" }
