@@ -1679,6 +1679,30 @@ function array_instance:reduce (identity, block)
 	return result
 end
 
+function array_instance:sum ()
+		local index = 1
+		local len = self._length
+		local a = self._lua_array
+		local sum = 0
+		local item = nil
+
+		while index <= len do
+			item = a[index]
+
+			if type(item) == "number" then
+				sum = sum + item
+			elseif item == nil then
+				sum = number.new(sum)._plus(object.__null)
+			else
+				sum = number.new(sum)._plus(item)
+			end
+
+			index = index + 1
+		end
+
+		return sum
+end
+
 function array_instance:map_bang (block)
 	local k = 1
 	local len = self._length
