@@ -7,7 +7,7 @@ PREFIX=/usr/local
 LUA_LIBDIR= $(LUA_SRC_PATH)/lib
 
 # Lua includes directory
-LUA_INC= $(LUA_SRC_PATH)/include
+LUA_INC= $(LUA_INC_PATH)/
 
 # OS dependent
 #LIB_OPTION= -shared #for Linux

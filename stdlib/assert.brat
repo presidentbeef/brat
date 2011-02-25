@@ -79,6 +79,8 @@ test_manager.run = {
 	}
 
 	p "#{num_tests} tests, #{num_assertions} assertions, #{failures.length} failures."
+
+	[tests: num_tests, assertions: num_assertions, failures: failures.length]
 }
 
 

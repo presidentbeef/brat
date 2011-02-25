@@ -1,7 +1,7 @@
 # Prototype Makefile, works on Linux, everywhere else roll your own.
 
 CFLAGS=-O2 -fPIC
-INCDIRS=-I$(LUA_SRC_PATH)/include
+INCDIRS=-I$(LUA_INC_PATH)
 LIBDIRS=-L$(LUA_SRC_PATH)/lib
 LDFLAGS=-bundle -undefined dynamic_lookup
 

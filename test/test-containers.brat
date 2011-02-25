@@ -362,6 +362,11 @@ setup name: "container tests" {
 		assert { a = ["a" : 1, "b" : 2, 3 : 4]; a.keys.include?("a") && (a.keys.length == 3) }
 	}
 
+	test "hash.values" {
+		assert_equal [:a :b :c] { [1: :a 2: :b 3: :c].values.sort }
+		assert_equal [] { [:].values }
+	}
+
 	test "hash_plus" {
 		assert_equal 3 { a = [a: 1, b: 2, c: 3]; b = [b:3, d:4]; c = a + b; c[:b] }
 		assert_equal 4 { a = [a: 1, b: 2, c: 3]; b = [b:3, d:4]; c = a + b; c.length }
