@@ -274,6 +274,12 @@ setup name: "container tests" {
 		assert_equal [:a, :b, :c] { a = ["b", "c", "a"]; a.sort!; a }
 	}
 
+	test "array.sum" {
+		assert_equal 0 { [].sum }
+		assert_equal 1 { [1].sum }
+		assert_equal 3 { [1 2].sum }
+	}
+
 	test "array_compare" {
 		assert { [1,2,3] == [1,2,3] }
 		assert_false { [1,3,2] == [1,2,3] }
