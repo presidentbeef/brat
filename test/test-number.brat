@@ -118,5 +118,13 @@ setup name: "number tests" {
 		assert_equal "1.9238012973112e+14" { 192380129731123.3.to_i.to_s }
 	}
 
+	test "number.to" {
+		assert_equal [1 2 3 4 5 6] { 1.to 6 }
+		assert_equal [6 5 4 3 2 1] { 6.to 1 }
+		assert_equal [-1 0 1] { (-1).to 1 }
+		assert_equal [1 2 3 4 5 6] { a = []; 1.to 6 { n | a << n }; a  }
+		assert_equal [6 5 4 3 2 1] { a = []; 6.to 1 { n | a << n }; a  }
+		assert_equal [-1 0 1] { a = []; (-1).to 1 { n | a << n }; a  }
+	}
 }
 
