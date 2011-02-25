@@ -263,6 +263,10 @@ setup name: "container tests" {
 		assert_equal [:b, :c, :a] { a = ["b", "c", "a"]; a.sort; a }
 	}
 
+	test "array.sort_by" {
+		assert_equal ["aaa", "aa", "a"] { ["a", "aaa", "aa"].sort_by { a, b | a.length > b.length } }
+	}
+
 	test "array_sort!" {
 		assert_equal [1, 2, 3] { [3,2,1].sort! }
 		assert_equal [1, 2, 3] { a = [3,2,1]; a.sort!; a }
