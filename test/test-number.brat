@@ -126,5 +126,12 @@ setup name: "number tests" {
 		assert_equal [6 5 4 3 2 1] { a = []; 6.to 1 { n | a << n }; a  }
 		assert_equal [-1 0 1] { a = []; (-1).to 1 { n | a << n }; a  }
 	}
+	
+	test "number.of" {
+		assert_equal [:a :a :a :a] { 4.of :a }
+		assert_equal [:a :a :a :a] { 4.of { :a } }
+		assert_equal [1 2 3 4] { x = 0; 4.of { x = x + 1; x } }
+		assert_equal [] { 0.of :anything }
+	}
 }
 
