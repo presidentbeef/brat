@@ -90,6 +90,8 @@ your_name = g
 world.greet your_name
 {% endhighlight %}
 
+A growing number of examples are also available on [Rosetta Code](http://rosettacode.org/wiki/Brat).
+
 ## Why You Should Use Brat
 
 An arbitrary number of reasons to use Brat:
