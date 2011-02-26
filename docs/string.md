@@ -16,6 +16,7 @@ methlist:
 - include?
 - length
 - match
+- numeric?
 - reverse
 - reverse!
 - set
@@ -105,6 +106,11 @@ Returns the length of the string.
 > _string_.match _regex_
 
 Returns an array of regular expression matches.
+
+### numeric?
+>_string_.numeric?
+
+Returns true if the string only contains numbers.
 
 ### reverse
 > _string_.reverse

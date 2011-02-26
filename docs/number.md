@@ -16,6 +16,7 @@ methlist:
 - "%"
 - "^"
 - cos
+- of
 - sin
 - tan
 - "times"
@@ -71,6 +72,14 @@ Perform exponentiation.
 
 Returns the cosine of _number_.
 
+### of
+>_number_.of _item_  
+>_number_.of { _block_ }
+
+Returns an array containing the given number of _item_s.
+
+If a block is given, then it will be called _number_ times with the results being returned in an array.
+
 ### sin
 >_number_.sin
 
@@ -87,7 +96,7 @@ Returns the tangent of _number_.
 Perform the given block _number_ times.
 
 ### to
->_number_.to { _end_ | _block_ }
+>_number_.to { _end_ | _block_ }  
 >_number_.to _end_
 
 If called with a function, this will call _block_ for each number from _number_ to _end_ in steps of 1. If _end_ is less than _number_, proceeds backwards.

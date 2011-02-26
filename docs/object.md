@@ -9,6 +9,7 @@ methlist:
 - "||"
 - add_method
 - array?
+- ask
 - call_method
 - del_method
 - export
@@ -63,6 +64,11 @@ Adds a new method to the object. Name can be a symbol or a string.
 >_object_.array?
 
 Returns true if the _object_ is an array.
+
+### ask
+>ask _prompt_
+
+Like _g_, but prints out the prompt first, then returns input from stdin.
 
 ### call\_method
 >_object_.call\_method _name_

@@ -22,6 +22,7 @@ methlist:
 - get
 - include?
 - index_of
+- insert
 - join
 - last
 - length
@@ -45,6 +46,8 @@ methlist:
 - shuffle!
 - sort
 - sort!
+- sort_by
+- sum
 - unique
 - unique!
 ---
@@ -164,6 +167,11 @@ Checks if the array contains the given item.
 >_array_.index\_of _item_
 
 Returns the index of the first item found in the array. If the item is not in the array, returns null.
+
+### insert
+>_array_.insert _index_, _item_
+
+Inserts _item_ into the _array_ at the given _index_.
 
 ### join
 >_array_.join _separator_
@@ -305,6 +313,16 @@ Returns a copy of the array which has been sorted in ascending order. Throws an 
 >_array_.sort!
 
 Sorts the array in ascending order. Throws an error if items cannot be compared for sorting.
+
+### sort_by
+>_array_.sort_by { _a_, _b_ | _block_ }
+
+_sort_by_ allows one to control how items in the array are sorted. The supplied block should return _true_ when _a_ < _b_ and false otherwise.
+
+### sum
+>_array_.sum
+
+Returns the sum of the items in the array. Only works if the array only contains numbers.
 
 ### unique
 >_array_.unique

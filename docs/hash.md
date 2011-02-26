@@ -15,6 +15,7 @@ methlist:
 - length
 - map
 - set
+- values
 ---
 
 ### Manipulating Hashes
@@ -88,3 +89,8 @@ Invokes the block for each key, value pair in the array and returns a new hash c
 >_hash_.set _index_, _item_
 
 Sets the given index in the hash to the given item.
+
+### values
+>_hash_.values
+
+Returns an array of values from the hash, in no particular order.
