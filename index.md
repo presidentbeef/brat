@@ -18,6 +18,38 @@ layout: default
 	</script>
 </div>
 
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 1,
+  interval: 6000,
+  width: 250,
+  height: 300,
+  theme: {
+    shell: {
+      background: '#d6d6d6',
+      color: '#ffffff'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#2e2e2e',
+      links: '#6b6b6b'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: false,
+    live: false,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('bratlang').start();
+</script>
+
 ## What It Is
 
 Brat is a little toy language that _just doesn't care_. It is dynamically typed with objects, first-class functions, and simple syntax.
