@@ -4,7 +4,7 @@ layout: default
 ---
 ## Current Features
 
-* Compiles to [Lua](http://nekovm.org/)
+* Compiles to [Lua](http://lua.org/) and runs on [LuaJIT](http://luajit.org)
 * Parser is in [Ruby](http://ruby-lang.org) using [TreeTop](http://treetop.rubyforge.org/)
 * Interactive shell
 * Typeless, and pretty much classless
