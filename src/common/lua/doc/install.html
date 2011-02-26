@@ -62,8 +62,6 @@ td.compatno {
 </li><li>
 <a href="ext_ffi_api.html">ffi.* API</a>
 </li><li>
-<a href="ext_ffi_int64.html">64 bit Integers</a>
-</li><li>
 <a href="ext_ffi_semantics.html">FFI Semantics</a>
 </li></ul>
 </li><li>
@@ -166,8 +164,8 @@ open a terminal window and change to this directory. Now unpack the archive
 and change to the newly created directory:
 </p>
 <pre class="code">
-tar zxf LuaJIT-2.0.0-beta5.tar.gz
-cd LuaJIT-2.0.0-beta5</pre>
+tar zxf LuaJIT-2.0.0-beta6.tar.gz
+cd LuaJIT-2.0.0-beta6</pre>
 <h3>Building LuaJIT</h3>
 <p>
 The supplied Makefiles try to auto-detect the settings needed for your
@@ -217,11 +215,11 @@ Obviously the prefixes given during build and installation need to be the same.
 <p style="color: #c00000;">
 Note: to avoid overwriting a previous version, the beta test releases
 only install the LuaJIT executable under the versioned name (i.e.
-<tt>luajit-2.0.0-beta5</tt>). You probably want to create a symlink
+<tt>luajit-2.0.0-beta6</tt>). You probably want to create a symlink
 for convenience, with a command like this:
 </p>
 <pre class="code" style="color: #c00000;">
-sudo ln -sf luajit-2.0.0-beta5&nbsp;/usr/local/bin/luajit
+sudo ln -sf luajit-2.0.0-beta6&nbsp;/usr/local/bin/luajit
 </pre>
 
 <h2 id="windows">Windows Systems</h2>
@@ -392,7 +390,7 @@ See: <tt>man rebase</tt>
 for embedding Lua or LuaJIT into your application.</li>
 <li>Make sure you use <tt>luaL_newstate</tt>. Avoid using
 <tt>lua_newstate</tt>, since this uses the (slower) default memory
-allocator from your system (no support for this on x64).</tt></li>
+allocator from your system (no support for this on x64).</li>
 <li>Make sure you use <tt>luaL_openlibs</tt> and not the old Lua 5.0 style
 of calling <tt>luaopen_base</tt> etc. directly.</li>
 <li>To change or extend the list of standard libraries to load, copy
@@ -419,7 +417,7 @@ simply use whatever <tt>make install</tt> creates. There's a reason
 for all of the files <em>and</em> directories it creates.
 </p>
 <p>
-The build system uses GNU make and autodetects most settings based on
+The build system uses GNU make and auto-detects most settings based on
 the host you're building it on. This should work fine for native builds,
 even when sandboxed. You may need to pass some of the following flags to
 <em>both</em> the <tt>make</tt> and the <tt>make install</tt> command lines
@@ -433,7 +431,7 @@ the <tt>-rpath</tt> of the shared library.</li>
 to a shadow tree instead of the root tree of the build system.</li>
 <li>Have a look at the top-level <tt>Makefile</tt> and <tt>src/Makefile</tt>
 for additional variables to tweak. The following variables <em>may</em> be
-overriden, but it's <em>not</em> recommended, except for special needs
+overridden, but it's <em>not</em> recommended, except for special needs
 like cross-builds:
 <tt>BUILDMODE, CC, HOST_CC, STATIC_CC, DYNAMIC_CC, CFLAGS, HOST_CFLAGS,
 TARGET_CFLAGS, LDFLAGS, HOST_LDFLAGS, TARGET_LDFLAGS, TARGET_SHLDFLAGS,

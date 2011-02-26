@@ -10,7 +10,7 @@
 
 /* -- IR instructions ----------------------------------------------------- */
 
-/* IR instruction definition. Order matters, see below. */
+/* IR instruction definition. Order matters, see below. ORDER IR */
 #define IRDEF(_) \
   /* Guarded assertions. */ \
   /* Must be properly aligned to flip opposites (^1) and (un)ordered (^4). */ \
@@ -33,6 +33,7 @@
   /* Miscellaneous ops. */ \
   _(NOP,	N , ___, ___) \
   _(BASE,	N , lit, lit) \
+  _(HIOP,	S , ref, ref) \
   _(LOOP,	S , ___, ___) \
   _(PHI,	S , ref, ref) \
   _(RENAME,	S , ref, lit) \
@@ -60,21 +61,21 @@
   _(BROL,	N , ref, ref) \
   _(BROR,	N , ref, ref) \
   \
-  /* Arithmetic ops. ORDER ARITH (FPMATH/POWI take the space for MOD/POW). */ \
+  /* Arithmetic ops. ORDER ARITH */ \
   _(ADD,	C , ref, ref) \
   _(SUB,	N , ref, ref) \
   _(MUL,	C , ref, ref) \
   _(DIV,	N , ref, ref) \
-  \
-  _(FPMATH,	N , ref, lit) \
-  _(POWI,	N , ref, ref) \
-  \
+  _(MOD,	N , ref, ref) \
+  _(POW,	N , ref, ref) \
   _(NEG,	N , ref, ref) \
+  \
   _(ABS,	N , ref, ref) \
   _(ATAN2,	N , ref, ref) \
   _(LDEXP,	N , ref, ref) \
   _(MIN,	C , ref, ref) \
   _(MAX,	C , ref, ref) \
+  _(FPMATH,	N , ref, lit) \
   \
   /* Overflow-checking arithmetic ops. */ \
   _(ADDOV,	C , ref, ref) \
@@ -112,11 +113,12 @@
   _(TNEW,	AW, lit, lit) \
   _(TDUP,	AW, ref, ___) \
   _(CNEW,	AW, ref, ref) \
-  _(CNEWP,	NW, ref, ref)  /* CSE is ok, not marked as A. */ \
+  _(CNEWI,	NW, ref, ref)  /* CSE is ok, not marked as A. */ \
   \
-  /* Write barriers. */ \
+  /* Barriers. */ \
   _(TBAR,	S , ref, ___) \
   _(OBAR,	S , ref, ref) \
+  _(XBAR,	S , ___, ___) \
   \
   /* Type conversions. */ \
   _(CONV,	N , ref, lit) \
@@ -128,6 +130,7 @@
   _(CALLN,	N , ref, lit) \
   _(CALLL,	L , ref, lit) \
   _(CALLS,	S , ref, lit) \
+  _(CALLXS,	S , ref, ref) \
   _(CARG,	N , ref, ref) \
   \
   /* End of list. */
@@ -187,7 +190,9 @@ IRFPMDEF(FPMENUM)
   _(UDATA_UDTYPE, offsetof(GCudata, udtype)) \
   _(UDATA_FILE,	sizeof(GCudata)) \
   _(CDATA_TYPEID, offsetof(GCcdata, typeid)) \
-  _(CDATA_PTR, sizeof(GCcdata))
+  _(CDATA_PTR,	sizeof(GCcdata)) \
+  _(CDATA_INT64, sizeof(GCcdata)) \
+  _(CDATA_INT64HI, sizeof(GCcdata) + 4)
 
 typedef enum {
 #define FLENUM(name, ofs)	IRFL_##name,
@@ -212,8 +217,9 @@ IRFLDEF(FLENUM)
 /* CONV mode, stored in op2. */
 #define IRCONV_SRCMASK		0x001f	/* Source IRType. */
 #define IRCONV_DSTMASK		0x03e0	/* Dest. IRType (also in ir->t). */
-#define IRCONV_NUM_INT		((IRT_NUM<<5)|IRT_INT)
-#define IRCONV_INT_NUM		((IRT_INT<<5)|IRT_NUM)
+#define IRCONV_DSH		5
+#define IRCONV_NUM_INT		((IRT_NUM<<IRCONV_DSH)|IRT_INT)
+#define IRCONV_INT_NUM		((IRT_INT<<IRCONV_DSH)|IRT_NUM)
 #define IRCONV_TRUNC		0x0400	/* Truncate number to integer. */
 #define IRCONV_SEXT		0x0800	/* Sign-extend integer to integer. */
 #define IRCONV_MODEMASK		0x0fff
@@ -232,7 +238,7 @@ typedef struct CCallInfo {
 } CCallInfo;
 
 #define CCI_NARGS(ci)		((ci)->flags & 0xff)	/* Extract # of args. */
-#define CCI_NARGS_MAX		16		/* Max. # of args. */
+#define CCI_NARGS_MAX		32			/* Max. # of args. */
 
 #define CCI_OTSHIFT		16
 #define CCI_OPTYPE(ci)		((ci)->flags >> CCI_OTSHIFT)  /* Get op/type. */
@@ -254,8 +260,25 @@ typedef struct CCallInfo {
 
 /* Function definitions for CALL* instructions. */
 #if LJ_HASFFI
+#if LJ_32
+#define ARG2_64		4	/* Treat as 4 32 bit arguments. */
+#define IRCALLDEF_FFI32(_) \
+  _(lj_carith_mul64,	ARG2_64,   N, I64, CCI_NOFPRCLOBBER)
+#else
+#define ARG2_64		2
+#define IRCALLDEF_FFI32(_)
+#endif
 #define IRCALLDEF_FFI(_) \
-  _(lj_cdata_powi64,	3,   N, U64, CCI_NOFPRCLOBBER)
+  IRCALLDEF_FFI32(_) \
+  _(lj_carith_divi64,	ARG2_64,   N, I64, CCI_NOFPRCLOBBER) \
+  _(lj_carith_divu64,	ARG2_64,   N, U64, CCI_NOFPRCLOBBER) \
+  _(lj_carith_modi64,	ARG2_64,   N, I64, CCI_NOFPRCLOBBER) \
+  _(lj_carith_modu64,	ARG2_64,   N, U64, CCI_NOFPRCLOBBER) \
+  _(lj_carith_powi64,	ARG2_64,   N, I64, CCI_NOFPRCLOBBER) \
+  _(lj_carith_powu64,	ARG2_64,   N, U64, CCI_NOFPRCLOBBER) \
+  _(strlen,		1,         N, INTP, 0) \
+  _(memcpy,		3,         S, PTR, 0) \
+  _(memset,		3,         S, PTR, 0)
 #else
 #define IRCALLDEF_FFI(_)
 #endif
@@ -400,6 +423,7 @@ typedef struct IRType1 { uint8_t irt; } IRType1;
 #define irt_isinteger(t)	(irt_typerange((t), IRT_I8, IRT_INT))
 #define irt_isgcv(t)		(irt_typerange((t), IRT_STR, IRT_UDATA))
 #define irt_isaddr(t)		(irt_typerange((t), IRT_LIGHTUD, IRT_UDATA))
+#define irt_isint64(t)		(irt_typerange((t), IRT_I64, IRT_U64))
 
 #if LJ_64
 #define IRT_IS64 \
@@ -571,12 +595,12 @@ typedef union IRIns {
 #define ir_kptr(ir) \
   check_exp((ir)->o == IR_KPTR || (ir)->o == IR_KKPTR, mref((ir)->ptr, void))
 
-LJ_STATIC_ASSERT((int)IRT_GUARD == (int)IRM_W);
-
 /* A store or any other op with a non-weak guard has a side-effect. */
 static LJ_AINLINE int ir_sideeff(IRIns *ir)
 {
   return (((ir->t.irt | ~IRT_GUARD) & lj_ir_mode[ir->o]) >= IRM_S);
 }
+
+LJ_STATIC_ASSERT((int)IRT_GUARD == (int)IRM_W);
 
 #endif

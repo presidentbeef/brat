@@ -3074,14 +3074,12 @@ static void build_subroutines(BuildCtx *ctx, int cmov, int sse)
   |6:
   |  je <5				// x^1 ==> x
   |  jb >7
-  |  push RDa
+  |  neg eax
+  |  call <1
   |  sseconst_1 xmm1, RDa
   |  divsd xmm1, xmm0
-  |  pop RDa
   |  movaps xmm0, xmm1
-  |  neg eax
-  |  cmp eax, 1; je <5			// x^-1 ==> 1/x
-  |  jmp <1				// x^-i ==> (1/x)^i
+  |  ret
   |7:
   |  sseconst_1 xmm0, RDa
   |  ret
@@ -4743,7 +4741,7 @@ static void build_ins(BuildCtx *ctx, BCOp op, int defop, int cmov, int sse)
     break;
 
   case BC_ITERN:
-    |  ins_A	// RA = base, (RB = nresults+1 (2+1), RC = nargs+1 (2+1))
+    |  ins_A	// RA = base, (RB = nresults+1, RC = nargs+1 (2+1))
 #if LJ_HASJIT
     |  // NYI: add hotloop, record BC_ITERN.
 #endif
@@ -5542,6 +5540,7 @@ static void emit_asm_debug(BuildCtx *ctx)
     for (i = 0; i < ctx->nsym; i++) {
       const char *name = ctx->sym[i].name;
       int32_t size = ctx->sym[i+1].ofs - ctx->sym[i].ofs;
+      if (size == 0) continue;
       fprintf(ctx->fp,
 	  "%s.eh:\n"
 	  "LSFDE%d:\n"

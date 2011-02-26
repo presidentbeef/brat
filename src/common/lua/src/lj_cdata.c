@@ -71,6 +71,7 @@ CType *lj_cdata_index(CTState *cts, GCcdata *cd, cTValue *key, uint8_t **pp,
 {
   uint8_t *p = (uint8_t *)cdataptr(cd);
   CType *ct = ctype_get(cts, cd->typeid);
+  ptrdiff_t idx;
 
   /* Resolve reference for cdata object. */
   if (ctype_isref(ct->info)) {
@@ -88,18 +89,29 @@ collect_attrib:
   lua_assert(!ctype_isref(ct->info));  /* Interning rejects refs to refs. */
 
   if (tvisnum(key)) {  /* Numeric key. */
-    ptrdiff_t idx = LJ_64 ? (ptrdiff_t)numV(key) :
-			    (ptrdiff_t)lj_num2int(numV(key));
+    idx = LJ_64 ? (ptrdiff_t)numV(key) : (ptrdiff_t)lj_num2int(numV(key));
+  integer_key:
     if (ctype_ispointer(ct->info)) {
       CTSize sz = lj_ctype_size(cts, ctype_cid(ct->info));  /* Element size. */
       if (sz != CTSIZE_INVALID) {
-	if (ctype_isptr(ct->info))
+	if (ctype_isptr(ct->info)) {
 	  p = (uint8_t *)cdata_getptr(p, ct->size);
-	else if ((ct->info & (CTF_VECTOR|CTF_COMPLEX)))
+	} else if ((ct->info & (CTF_VECTOR|CTF_COMPLEX))) {
+	  if ((ct->info & CTF_COMPLEX)) idx &= 1;
 	  *qual |= CTF_CONST;  /* Valarray elements are constant. */
+	}
 	*pp = p + idx*(int32_t)sz;
 	return ct;
       }
+    }
+  } else if (tviscdata(key)) {  /* Integer cdata key. */
+    GCcdata *cdk = cdataV(key);
+    CType *ctk = ctype_raw(cts, cdk->typeid);
+    if (ctype_isenum(ctk->info)) ctk = ctype_child(cts, ctk);
+    if (ctype_isinteger(ctk->info)) {
+      lj_cconv_ct_ct(cts, ctype_get(cts, CTID_INT_PSZ), ctk,
+		     (uint8_t *)&idx, cdataptr(cdk), 0);
+      goto integer_key;
     }
   } else if (tvisstr(key)) {  /* String key. */
     GCstr *name = strV(key);
@@ -239,40 +251,6 @@ void lj_cdata_set(CTState *cts, CType *d, uint8_t *dp, TValue *o, CTInfo qual)
   }
 
   lj_cconv_ct_tv(cts, d, dp, o, 0);
-}
-
-/* -- 64 bit integer arithmetic helpers ----------------------------------- */
-
-/* 64 bit integer x^k. */
-uint64_t lj_cdata_powi64(uint64_t x, uint64_t k, int isunsigned)
-{
-  uint64_t y = 0;
-  if (k == 0)
-    return 1;
-  if (!isunsigned) {
-    if ((int64_t)k < 0) {
-      if (x == 0)
-	return U64x(7fffffff,ffffffff);
-      else if (x == 1)
-	return 1;
-      else if ((int64_t)x == -1)
-	return (k & 1) ? -1 : 1;
-      else
-	return 0;
-    }
-  }
-  for (; (k & 1) == 0; k >>= 1) x *= x;
-  y = x;
-  if ((k >>= 1) != 0) {
-    for (;;) {
-      x *= x;
-      if (k == 1) break;
-      if (k & 1) y *= x;
-      k >>= 1;
-    }
-    y *= x;
-  }
-  return y;
 }
 
 #endif

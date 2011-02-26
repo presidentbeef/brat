@@ -661,7 +661,32 @@ int lj_record_mm_lookup(jit_State *J, RecordIndex *ix, MMS mm)
     mt = tabref(tabV(&ix->tabv)->metatable);
     mix.tab = emitir(IRT(IR_FLOAD, IRT_TAB), ix->tab, IRFL_TAB_META);
   } else if (tref_isudata(ix->tab)) {
+    int udtype = udataV(&ix->tabv)->udtype;
     mt = tabref(udataV(&ix->tabv)->metatable);
+    /* The metatables of special userdata objects are treated as immutable. */
+    if (udtype != UDTYPE_USERDATA) {
+      cTValue *mo;
+      if (LJ_HASFFI && udtype == UDTYPE_FFI_CLIB) {
+	/* Specialize to the C library namespace object. */
+	emitir(IRTG(IR_EQ, IRT_P32), ix->tab, lj_ir_kptr(J, udataV(&ix->tabv)));
+      } else {
+	/* Specialize to the type of userdata. */
+	TRef tr = emitir(IRT(IR_FLOAD, IRT_U8), ix->tab, IRFL_UDATA_UDTYPE);
+	emitir(IRTGI(IR_EQ), tr, lj_ir_kint(J, udtype));
+      }
+  immutable_mt:
+      mo = lj_tab_getstr(mt, mmname_str(J2G(J), mm));
+      if (!mo || tvisnil(mo))
+	return 0;  /* No metamethod. */
+      /* Treat metamethod or index table as immutable, too. */
+      if (!(tvisfunc(mo) || tvistab(mo)))
+	lj_trace_err(J, LJ_TRERR_BADTYPE);
+      copyTV(J->L, &ix->mobjv, mo);
+      ix->mobj = lj_ir_kgc(J, gcV(mo), tvisfunc(mo) ? IRT_FUNC : IRT_TAB);
+      ix->mtv = mt;
+      ix->mt = TREF_NIL;  /* Dummy value for comparison semantics. */
+      return 1;  /* Got metamethod or index table. */
+    }
     mix.tab = emitir(IRT(IR_FLOAD, IRT_TAB), ix->tab, IRFL_UDATA_META);
   } else {
     /* Specialize to base metatable. Must flush mcode in lua_setmetatable(). */
@@ -670,19 +695,8 @@ int lj_record_mm_lookup(jit_State *J, RecordIndex *ix, MMS mm)
       ix->mt = TREF_NIL;
       return 0;  /* No metamethod. */
     }
-#if LJ_HASFFI
     /* The cdata metatable is treated as immutable. */
-    if (tref_iscdata(ix->tab)) {
-      cTValue *mo = lj_tab_getstr(mt, mmname_str(J2G(J), mm));
-      if (!mo || tvisnil(mo))
-	return 0;  /* No metamethod. */
-      setfuncV(J->L, &ix->mobjv, funcV(mo));
-      ix->mobj = lj_ir_kfunc(J, funcV(mo));  /* Immutable metamethod. */
-      ix->mtv = mt;
-      ix->mt = TREF_NIL;  /* Dummy value for comparison semantics. */
-      return 1;  /* Got cdata metamethod. */
-    }
-#endif
+    if (LJ_HASFFI && tref_iscdata(ix->tab)) goto immutable_mt;
     ix->mt = mix.tab = lj_ir_ktab(J, mt);
     goto nocheck;
   }
@@ -1007,7 +1021,8 @@ TRef lj_record_idx(jit_State *J, RecordIndex *ix)
   xref = rec_idx_key(J, ix);
   xrefop = IR(tref_ref(xref))->o;
   loadop = xrefop == IR_AREF ? IR_ALOAD : IR_HLOAD;
-  oldv = ix->oldv;
+  /* NYI: workaround until lj_meta_tset() inconsistency is solved. */
+  oldv = xrefop == IR_KKPTR ? (cTValue *)ir_kptr(IR(tref_ref(xref))) : ix->oldv;
 
   if (ix->val == 0) {  /* Indexed load */
     IRType t = itype2irt(oldv);
@@ -1341,19 +1356,16 @@ static void rec_comp_prep(jit_State *J)
 }
 
 /* Fixup comparison. */
-static void rec_comp_fixup(jit_State *J, int cond)
+static void rec_comp_fixup(jit_State *J, const BCIns *pc, int cond)
 {
-  BCIns jmpins = J->pc[1];
-  const BCIns *npc = J->pc + 2 + (cond ? bc_j(jmpins) : 0);
+  BCIns jmpins = pc[1];
+  const BCIns *npc = pc + 2 + (cond ? bc_j(jmpins) : 0);
   SnapShot *snap = &J->cur.snap[J->cur.nsnap-1];
   /* Set PC to opposite target to avoid re-recording the comp. in side trace. */
   J->cur.snapmap[snap->mapofs + snap->nent] = SNAP_MKPC(npc);
   J->needsnap = 1;
-  /* Shrink last snapshot if possible. */
-  if (bc_a(jmpins) < J->maxslot) {
-    J->maxslot = bc_a(jmpins);
-    lj_snap_shrink(J);
-  }
+  if (bc_a(jmpins) < J->maxslot) J->maxslot = bc_a(jmpins);
+  lj_snap_shrink(J);  /* Shrink last snapshot if possible. */
 }
 
 /* Record the next bytecode instruction (_before_ it's executed). */
@@ -1369,17 +1381,24 @@ void lj_record_ins(jit_State *J)
   /* Perform post-processing action before recording the next instruction. */
   if (LJ_UNLIKELY(J->postproc != LJ_POST_NONE)) {
     switch (J->postproc) {
+    case LJ_POST_FIXCOMP:  /* Fixup comparison. */
+      pc = frame_pc(&J2G(J)->tmptv);
+      rec_comp_fixup(J, pc, (!tvistruecond(&J2G(J)->tmptv2) ^ (bc_op(*pc)&1)));
+      /* fallthrough */
     case LJ_POST_FIXGUARD:  /* Fixup and emit pending guard. */
+      if (!tvistruecond(&J2G(J)->tmptv2))
+	J->fold.ins.o ^= 1;  /* Flip guard to opposite. */
+      lj_opt_fold(J);  /* Emit pending guard. */
+      /* fallthrough */
+    case LJ_POST_FIXBOOL:
       if (!tvistruecond(&J2G(J)->tmptv2)) {
 	BCReg s;
-	J->fold.ins.o ^= 1;  /* Flip guard to opposite. */
 	for (s = 0; s < J->maxslot; s++)  /* Fixup stack slot (if any). */
 	  if (J->base[s] == TREF_TRUE && tvisfalse(&J->L->base[s])) {
 	    J->base[s] = TREF_FALSE;
 	    break;
 	  }
       }
-      lj_opt_fold(J);  /* Emit pending guard. */
       break;
     default: lua_assert(0); break;
     }
@@ -1389,6 +1408,7 @@ void lj_record_ins(jit_State *J)
   /* Need snapshot before recording next bytecode (e.g. after a store). */
   if (J->needsnap) {
     J->needsnap = 0;
+    lj_snap_purge(J);
     lj_snap_add(J);
     J->mergesnap = 1;
   }
@@ -1438,7 +1458,7 @@ void lj_record_ins(jit_State *J)
   switch (bcmode_c(op)) {
   case BCMvar:
     copyTV(J->L, rcv, &lbase[rc]); ix.key = rc = getslot(J, rc); break;
-  case BCMpri: setitype(rcv, ~rc); rc = TREF_PRI(IRT_NIL+rc); break;
+  case BCMpri: setitype(rcv, ~rc); ix.key = rc = TREF_PRI(IRT_NIL+rc); break;
   case BCMnum: { lua_Number n = proto_knum(J->pt, rc);
     setnumV(rcv, n); ix.key = rc = lj_ir_knumint(J, n); } break;
   case BCMstr: { GCstr *s = gco2str(proto_kgc(J->pt, ~(ptrdiff_t)rc));
@@ -1491,7 +1511,7 @@ void lj_record_ins(jit_State *J)
 	break;
       }
       emitir(IRTG(irop, ta), ra, rc);
-      rec_comp_fixup(J, ((int)op ^ irop) & 1);
+      rec_comp_fixup(J, J->pc, ((int)op ^ irop) & 1);
     }
     break;
 
@@ -1515,7 +1535,7 @@ void lj_record_ins(jit_State *J)
 	rec_mm_equal(J, &ix, (int)op);
 	break;
       }
-      rec_comp_fixup(J, ((int)op & 1) == !diff);
+      rec_comp_fixup(J, J->pc, ((int)op & 1) == !diff);
     }
     break;
 

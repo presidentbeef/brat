@@ -51,6 +51,7 @@ CCOPT= -O2 -fomit-frame-pointer
 #
 CCOPT_X86= -march=i686
 CCOPT_X64=
+CCOPT_ARM=
 CCOPT_PPCSPE=
 #
 CCDEBUG=
@@ -223,11 +224,16 @@ ifneq (,$(findstring LJ_TARGET_X86 ,$(TARGET_TESTARCH)))
   TARGET_CCARCH= x86
   TARGET_XCFLAGS+= $(CCOPT_X86)
 else
+ifneq (,$(findstring LJ_TARGET_ARM ,$(TARGET_TESTARCH)))
+  TARGET_CCARCH= arm
+  TARGET_XCFLAGS+= $(CCOPT_ARM)
+else
 ifneq (,$(findstring LJ_TARGET_PPCSPE ,$(TARGET_TESTARCH)))
   TARGET_CCARCH= ppcspe
   TARGET_XCFLAGS+= $(CCOPT_PPCSPE)
 else
   $(error Unsupported target architecture)
+endif
 endif
 endif
 endif
@@ -325,10 +331,11 @@ LJCORE_O= lj_gc.o lj_err.o lj_char.o lj_bc.o lj_obj.o \
 	  lj_state.o lj_dispatch.o lj_vmevent.o lj_api.o \
 	  lj_lex.o lj_parse.o \
 	  lj_ir.o lj_opt_mem.o lj_opt_fold.o lj_opt_narrow.o \
-	  lj_opt_dce.o lj_opt_loop.o \
+	  lj_opt_dce.o lj_opt_loop.o lj_opt_split.o \
 	  lj_mcode.o lj_snap.o lj_record.o lj_crecord.o lj_ffrecord.o \
 	  lj_asm.o lj_trace.o lj_gdbjit.o \
-	  lj_ctype.o lj_cdata.o lj_cconv.o lj_ccall.o lj_clib.o lj_cparse.o \
+	  lj_ctype.o lj_cdata.o lj_cconv.o lj_ccall.o lj_carith.o lj_clib.o \
+	  lj_cparse.o \
 	  lj_lib.o lj_alloc.o lib_aux.o \
 	  $(LJLIB_O) lib_init.o
 

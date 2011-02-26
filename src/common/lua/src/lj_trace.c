@@ -226,7 +226,7 @@ static void trace_flushroot(jit_State *J, GCtrace *T)
   /* Unlink root trace from chain anchored in prototype. */
   if (pt->trace == T->traceno) {  /* Trace is first in chain. Easy. */
     pt->trace = T->nextroot;
-  } else {  /* Otherwise search in chain of root traces. */
+  } else if (pt->trace) {  /* Otherwise search in chain of root traces. */
     GCtrace *T2 = traceref(J, pt->trace);
     if (T2) {
       for (; T2->nextroot; T2 = traceref(J, T2->nextroot))
@@ -394,6 +394,7 @@ static void trace_start(jit_State *J)
   J->bcskip = 0;
   J->guardemit.irt = 0;
   J->postproc = LJ_POST_NONE;
+  lj_resetsplit(J);
   setgcref(J->cur.startpt, obj2gco(J->pt));
 
   L = J->L;
@@ -592,6 +593,7 @@ static TValue *trace_state(lua_State *L, lua_CFunction dummy, void *ud)
 	}
 	J->loopref = J->chain[IR_LOOP];  /* Needed by assembler. */
       }
+      lj_opt_split(J);
       J->state = LJ_TRACE_ASM;
       break;
 

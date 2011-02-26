@@ -18,6 +18,7 @@
 #include "lj_jit.h"
 #include "lj_iropt.h"
 #include "lj_trace.h"
+#include "lj_carith.h"
 #include "lj_vm.h"
 
 /* Here's a short description how the FOLD engine processes instructions:
@@ -153,7 +154,7 @@ typedef IRRef (LJ_FASTCALL *FoldFunc)(jit_State *J);
 #define gcstep_barrier(J, ref) \
   ((ref) < J->chain[IR_LOOP] && \
    (J->chain[IR_SNEW] || J->chain[IR_TNEW] || J->chain[IR_TDUP] || \
-    J->chain[IR_CNEW] || J->chain[IR_CNEWP] || J->chain[IR_TOSTR]))
+    J->chain[IR_CNEW] || J->chain[IR_CNEWI] || J->chain[IR_TOSTR]))
 
 /* -- Constant folding for FP numbers ------------------------------------- */
 
@@ -183,12 +184,12 @@ LJFOLDF(kfold_fpmath)
   return lj_ir_knum(J, y);
 }
 
-LJFOLD(POWI KNUM KINT)
-LJFOLDF(kfold_powi)
+LJFOLD(POW KNUM KINT)
+LJFOLDF(kfold_numpow)
 {
   lua_Number a = knumleft;
   lua_Number b = cast_num(fright->i);
-  lua_Number y = lj_vm_foldarith(a, b, IR_POWI - IR_ADD);
+  lua_Number y = lj_vm_foldarith(a, b, IR_POW - IR_ADD);
   return lj_ir_knum(J, y);
 }
 
@@ -296,13 +297,17 @@ LJFOLDF(kfold_intcomp0)
 static uint64_t kfold_int64arith(uint64_t k1, uint64_t k2, IROp op)
 {
   switch (op) {
+#if LJ_64 || LJ_HASFFI
   case IR_ADD: k1 += k2; break;
   case IR_SUB: k1 -= k2; break;
+#endif
+#if LJ_HASFFI
   case IR_MUL: k1 *= k2; break;
   case IR_BAND: k1 &= k2; break;
   case IR_BOR: k1 |= k2; break;
   case IR_BXOR: k1 ^= k2; break;
-  default: lua_assert(0); break;
+#endif
+  default: UNUSED(k2); lua_assert(0); break;
   }
   return k1;
 }
@@ -319,6 +324,28 @@ LJFOLDF(kfold_int64arith)
 				    ir_k64(fright)->u64, (IROp)fins->o));
 }
 
+LJFOLD(DIV KINT64 KINT64)
+LJFOLD(MOD KINT64 KINT64)
+LJFOLD(POW KINT64 KINT64)
+LJFOLDF(kfold_int64arith2)
+{
+#if LJ_HASFFI
+  uint64_t k1 = ir_k64(fleft)->u64, k2 = ir_k64(fright)->u64;
+  if (irt_isi64(fins->t)) {
+    k1 = fins->o == IR_DIV ? lj_carith_divi64((int64_t)k1, (int64_t)k2) :
+	 fins->o == IR_MOD ? lj_carith_modi64((int64_t)k1, (int64_t)k2) :
+			     lj_carith_powi64((int64_t)k1, (int64_t)k2);
+  } else {
+    k1 = fins->o == IR_DIV ? lj_carith_divu64(k1, k2) :
+	 fins->o == IR_MOD ? lj_carith_modu64(k1, k2) :
+			     lj_carith_powu64(k1, k2);
+  }
+  return INT64FOLD(k1);
+#else
+  UNUSED(J); lua_assert(0); return FAILFOLD;
+#endif
+}
+
 LJFOLD(BSHL KINT64 KINT)
 LJFOLD(BSHR KINT64 KINT)
 LJFOLD(BSAR KINT64 KINT)
@@ -326,29 +353,43 @@ LJFOLD(BROL KINT64 KINT)
 LJFOLD(BROR KINT64 KINT)
 LJFOLDF(kfold_int64shift)
 {
+#if LJ_HASFFI || LJ_64
   uint64_t k = ir_k64(fleft)->u64;
   int32_t sh = (fright->i & 63);
   switch ((IROp)fins->o) {
   case IR_BSHL: k <<= sh; break;
+#if LJ_HASFFI
   case IR_BSHR: k >>= sh; break;
   case IR_BSAR: k = (uint64_t)((int64_t)k >> sh); break;
   case IR_BROL: k = lj_rol(k, sh); break;
   case IR_BROR: k = lj_ror(k, sh); break;
+#endif
   default: lua_assert(0); break;
   }
   return INT64FOLD(k);
+#else
+  UNUSED(J); lua_assert(0); return FAILFOLD;
+#endif
 }
 
 LJFOLD(BNOT KINT64)
 LJFOLDF(kfold_bnot64)
 {
+#if LJ_HASFFI
   return INT64FOLD(~ir_k64(fleft)->u64);
+#else
+  UNUSED(J); lua_assert(0); return FAILFOLD;
+#endif
 }
 
 LJFOLD(BSWAP KINT64)
 LJFOLDF(kfold_bswap64)
 {
+#if LJ_HASFFI
   return INT64FOLD(lj_bswap64(ir_k64(fleft)->u64));
+#else
+  UNUSED(J); lua_assert(0); return FAILFOLD;
+#endif
 }
 
 LJFOLD(LT KINT64 KINT)
@@ -361,6 +402,7 @@ LJFOLD(ULE KINT64 KINT)
 LJFOLD(UGT KINT64 KINT)
 LJFOLDF(kfold_int64comp)
 {
+#if LJ_HASFFI
   uint64_t a = ir_k64(fleft)->u64, b = ir_k64(fright)->u64;
   switch ((IROp)fins->o) {
   case IR_LT: return CONDFOLD(a < b);
@@ -373,14 +415,21 @@ LJFOLDF(kfold_int64comp)
   case IR_UGT: return CONDFOLD((uint64_t)a > (uint64_t)b);
   default: lua_assert(0); return FAILFOLD;
   }
+#else
+  UNUSED(J); lua_assert(0); return FAILFOLD;
+#endif
 }
 
 LJFOLD(UGE any KINT64)
 LJFOLDF(kfold_int64comp0)
 {
+#if LJ_HASFFI
   if (ir_k64(fright)->u64 == 0)
     return DROPFOLD;
   return NEXTFOLD;
+#else
+  UNUSED(J); lua_assert(0); return FAILFOLD;
+#endif
 }
 
 /* -- Constant folding for strings ---------------------------------------- */
@@ -536,6 +585,13 @@ LJFOLDF(kfold_conv_knum_int_num)
   } else {
     return INTFOLD((int32_t)n);
   }
+}
+
+LJFOLD(CONV KNUM IRCONV_U32_NUM)
+LJFOLDF(kfold_conv_knum_u32_num)
+{
+  lua_assert((fins->op2 & IRCONV_TRUNC));
+  return INTFOLD((int32_t)(uint32_t)knumleft);
 }
 
 LJFOLD(CONV KNUM IRCONV_I64_NUM)
@@ -728,8 +784,8 @@ LJFOLDF(simplify_nummuldiv_negneg)
   return RETRYFOLD;
 }
 
-LJFOLD(POWI any KINT)
-LJFOLDF(simplify_powi_xk)
+LJFOLD(POW any KINT)
+LJFOLDF(simplify_numpow_xk)
 {
   int32_t k = fright->i;
   TRef ref = fins->op1;
@@ -758,8 +814,8 @@ LJFOLDF(simplify_powi_xk)
   return ref;
 }
 
-LJFOLD(POWI KNUM any)
-LJFOLDF(simplify_powi_kx)
+LJFOLD(POW KNUM any)
+LJFOLDF(simplify_numpow_kx)
 {
   lua_Number n = knumleft;
   if (n == 2.0) {  /* 2.0 ^ i ==> ldexp(1.0, tonum(i)) */
@@ -805,6 +861,7 @@ LJFOLDF(simplify_conv_u32_num)
 }
 
 LJFOLD(CONV CONV IRCONV_I64_NUM)  /* _INT or _U32*/
+LJFOLD(CONV CONV IRCONV_U64_NUM)  /* _INT or _U32*/
 LJFOLDF(simplify_conv_i64_num)
 {
   PHIBARRIER(fleft);
@@ -820,23 +877,6 @@ LJFOLDF(simplify_conv_i64_num)
     /* Reduce to a zero-extension. */
     fins->op1 = fleft->op1;
     fins->op2 = (IRT_I64<<5)|IRT_U32;
-    return RETRYFOLD;
-#endif
-  }
-  return NEXTFOLD;
-}
-
-LJFOLD(CONV CONV IRCONV_U64_NUM)  /* _U32*/
-LJFOLDF(simplify_conv_u64_num)
-{
-  PHIBARRIER(fleft);
-  if ((fleft->op2 & IRCONV_SRCMASK) == IRT_U32) {
-#if LJ_TARGET_X64
-    return fleft->op1;
-#else
-    /* Reduce to a zero-extension. */
-    fins->op1 = fleft->op1;
-    fins->op2 = (IRT_U64<<5)|IRT_U32;
     return RETRYFOLD;
 #endif
   }
@@ -877,6 +917,8 @@ LJFOLDF(simplify_conv_sext)
   if (!(fins->op2 & IRCONV_SEXT))
     return NEXTFOLD;
   PHIBARRIER(fleft);
+  if (fleft->o == IR_XLOAD && (irt_isu8(fleft->t) || irt_isu16(fleft->t)))
+    goto ok_reduce;
   if (fleft->o == IR_ADD && irref_isk(fleft->op2)) {
     ofs = (int64_t)IR(fleft->op2)->i;
     ref = fleft->op1;
@@ -886,6 +928,7 @@ LJFOLDF(simplify_conv_sext)
     IRRef lo = J->scev.dir ? J->scev.start : J->scev.stop;
     lua_assert(irt_isint(J->scev.t));
     if (lo && IR(lo)->i + ofs >= 0) {
+    ok_reduce:
 #if LJ_TARGET_X64
       /* Eliminate widening. All 32 bit ops do an implicit zero-extension. */
       return LEFTFOLD;
@@ -1009,8 +1052,11 @@ LJFOLDF(simplify_intmul_k64)
 {
   if (ir_kint64(fright)->u64 == 0)  /* i * 0 ==> 0 */
     return INT64FOLD(0);
+#if LJ_64
+  /* NYI: SPLIT for BSHL and 32 bit backend support. */
   else if (ir_kint64(fright)->u64 < 0x80000000u)
     return simplify_intmul_k(J, (int32_t)ir_kint64(fright)->u64);
+#endif
   return NEXTFOLD;
 }
 
@@ -1019,7 +1065,7 @@ LJFOLD(SUBOV any any)
 LJFOLDF(simplify_intsub)
 {
   if (fins->op1 == fins->op2 && !irt_isnum(fins->t))  /* i - i ==> 0 */
-    return INTFOLD(0);
+    return irt_is64(fins->t) ? INT64FOLD(0) : INTFOLD(0);
   return NEXTFOLD;
 }
 
@@ -1258,6 +1304,7 @@ LJFOLD(BOR BOR KINT64)
 LJFOLD(BXOR BXOR KINT64)
 LJFOLDF(reassoc_intarith_k64)
 {
+#if LJ_HASFFI || LJ_64
   IRIns *irk = IR(fleft->op2);
   if (irk->o == IR_KINT64) {
     uint64_t k = kfold_int64arith(ir_k64(irk)->u64,
@@ -1268,6 +1315,9 @@ LJFOLDF(reassoc_intarith_k64)
     return RETRYFOLD;  /* (i o k1) o k2 ==> i o (k1 o k2) */
   }
   return NEXTFOLD;
+#else
+  UNUSED(J); lua_assert(0); return FAILFOLD;
+#endif
 }
 
 LJFOLD(MIN MIN any)
@@ -1492,7 +1542,7 @@ LJFOLD(BXOR any any)
 LJFOLDF(comm_bxor)
 {
   if (fins->op1 == fins->op2)  /* i xor i ==> 0 */
-    return INTFOLD(0);
+    return irt_is64(fins->t) ? INT64FOLD(0) : INTFOLD(0);
   return fold_comm_swap(J);
 }
 
@@ -1721,18 +1771,34 @@ LJFOLDF(fload_cdata_typeid_kgc)
   return NEXTFOLD;
 }
 
-LJFOLD(FLOAD CNEW IRFL_CDATA_TYPEID)
-LJFOLD(FLOAD CNEWP IRFL_CDATA_TYPEID)
-LJFOLDF(fload_cdata_typeid_cnew)
+/* Get the contents of immutable cdata objects. */
+LJFOLD(FLOAD KGC IRFL_CDATA_PTR)
+LJFOLD(FLOAD KGC IRFL_CDATA_INT64)
+LJFOLDF(fload_cdata_int64_kgc)
 {
-  if (LJ_LIKELY(J->flags & JIT_F_OPT_FOLD))
-    return fleft->op1;  /* No PHI barrier needed. CNEW/CNEWP op1 is const. */
+  if (LJ_LIKELY(J->flags & JIT_F_OPT_FOLD)) {
+    void *p = cdataptr(ir_kcdata(fleft));
+    if (irt_is64(fins->t))
+      return INT64FOLD(*(uint64_t *)p);
+    else
+      return INTFOLD(*(int32_t *)p);
+  }
   return NEXTFOLD;
 }
 
-/* Pointer cdata objects are immutable. */
-LJFOLD(FLOAD CNEWP IRFL_CDATA_PTR)
-LJFOLDF(fload_cdata_ptr_cnew)
+LJFOLD(FLOAD CNEW IRFL_CDATA_TYPEID)
+LJFOLD(FLOAD CNEWI IRFL_CDATA_TYPEID)
+LJFOLDF(fload_cdata_typeid_cnew)
+{
+  if (LJ_LIKELY(J->flags & JIT_F_OPT_FOLD))
+    return fleft->op1;  /* No PHI barrier needed. CNEW/CNEWI op1 is const. */
+  return NEXTFOLD;
+}
+
+/* Pointer and int64 cdata objects are immutable. */
+LJFOLD(FLOAD CNEWI IRFL_CDATA_PTR)
+LJFOLD(FLOAD CNEWI IRFL_CDATA_INT64)
+LJFOLDF(fload_cdata_ptr_int64_cnew)
 {
   if (LJ_LIKELY(J->flags & JIT_F_OPT_FOLD))
     return fleft->op2;  /* Fold even across PHI to avoid allocations. */
@@ -1742,6 +1808,7 @@ LJFOLDF(fload_cdata_ptr_cnew)
 LJFOLD(FLOAD any IRFL_STR_LEN)
 LJFOLD(FLOAD any IRFL_CDATA_TYPEID)
 LJFOLD(FLOAD any IRFL_CDATA_PTR)
+LJFOLD(FLOAD any IRFL_CDATA_INT64)
 LJFOLD(VLOAD any any)  /* Vararg loads have no corresponding stores. */
 LJFOLDX(lj_opt_cse)
 
@@ -1827,6 +1894,8 @@ LJFOLDX(lj_opt_dse_xstore)
 LJFOLD(NEWREF any any)  /* Treated like a store. */
 LJFOLD(CALLS any any)
 LJFOLD(CALLL any any)  /* Safeguard fallback. */
+LJFOLD(CALLXS any any)
+LJFOLD(XBAR)
 LJFOLD(RETF any any)  /* Modifies BASE. */
 LJFOLD(TNEW any any)
 LJFOLD(TDUP any)

@@ -38,8 +38,6 @@ td.abiparam { font-weight: bold; width: 6em; }
 </li><li>
 <a class="current" href="ext_ffi_api.html">ffi.* API</a>
 </li><li>
-<a href="ext_ffi_int64.html">64 bit Integers</a>
-</li><li>
 <a href="ext_ffi_semantics.html">FFI Semantics</a>
 </li></ul>
 </li><li>
@@ -106,7 +104,7 @@ follows:
 </p>
 <pre class="code">
 ffi.cdef[[
-<span style="color:#00a000;font-weight:bold;">typedef struct foo { int a, b; } foo_t;  // Declare a struct and typedef.
+<span style="color:#00a000;">typedef struct foo { int a, b; } foo_t;  // Declare a struct and typedef.
 int dofoo(foo_t *f, int n);  /* Declare an external C function. */</span>
 ]]
 </pre>
@@ -237,12 +235,8 @@ rules</a>.
 </p>
 <p>
 This functions is mainly useful to override the pointer compatibility
-rules or to convert pointers to addresses or vice versa. For maximum
-portability you should convert a pointer to its address as follows:
+checks or to convert pointers to addresses or vice versa.
 </p>
-<pre class="code">
-local addr = tonumber(ffi.cast("intptr_t", ptr))
-</pre>
 
 <h2 id="info">C&nbsp;Type Information</h2>
 <p>
@@ -312,17 +306,17 @@ is converted to a <tt>"const void&nbsp;*"</tt>.
 </p>
 <p>
 In the first syntax, <tt>len</tt> gives the number of bytes to copy.
-In case <tt>src</tt> is a Lua string, the maximum copy length is the
-number of bytes of the string plus a zero-terminator. Caveat: the
-copied data may not be zero-terminated if <tt>len&nbsp;&le;&nbsp;#src</tt>.
+Caveat: if <tt>src</tt> is a Lua string, then <tt>len</tt> must not
+exceed <tt>#src+1</tt>.
 </p>
 <p>
 In the second syntax, the source of the copy must be a Lua string. All
-bytes of the string plus a zero-terminator are copied to <tt>dst</tt>.
+bytes of the string <em>plus a zero-terminator</em> are copied to
+<tt>dst</tt> (i.e. <tt>#src+1</tt> bytes).
 </p>
 <p>
 Performance notice: <tt>ffi.copy()</tt> may be used as a faster
-(inlineable) replacement for the C&nbsp;library functions
+(inlinable) replacement for the C&nbsp;library functions
 <tt>memcpy()</tt>, <tt>strcpy()</tt> and <tt>strncpy()</tt>.
 </p>
 
@@ -334,7 +328,7 @@ zero-filled.
 </p>
 <p>
 Performance notice: <tt>ffi.fill()</tt> may be used as a faster
-(inlineable) replacement for the C&nbsp;library function
+(inlinable) replacement for the C&nbsp;library function
 <tt>memset(dst,&nbsp;c,&nbsp;len)</tt>. Please note the different
 order of arguments!
 </p>
@@ -382,6 +376,45 @@ Contains the target OS name. Same contents as
 <p>
 Contains the target architecture name. Same contents as
 <a href="ext_jit.html#jit_arch"><tt>jit.arch</tt></a>.
+</p>
+
+<h2 id="extended">Extended Standard Library Functions</h2>
+<p>
+The following standard library functions have been extended to work
+with cdata objects:
+</p>
+
+<h3 id="tonumber"><tt>n = tonumber(cdata)</tt></h3>
+<p>
+Converts a number cdata object to a <tt>double</tt> and returns it as
+a Lua number. This is particularly useful for boxed 64&nbsp;bit
+integer values. Caveat: this conversion may incur a precision loss.
+</p>
+
+<h3 id="tostring"><tt>s = tostring(cdata)</tt></h3>
+<p>
+Returns a string representation of the value of 64&nbsp;bit integers
+(<tt><b>"</b>nnn<b>LL"</b></tt> or <tt><b>"</b>nnn<b>ULL"</b></tt>) or
+complex numbers (<tt><b>"</b>re&plusmn;im<b>i"</b></tt>). Otherwise
+returns a string representation of the C&nbsp;type of a ctype object
+(<tt><b>"ctype&lt;</b>type<b>&gt;"</b></tt>) or a cdata object
+(<tt><b>"cdata&lt;</b>type<b>&gt;:&nbsp;</b>address"</tt>).
+</p>
+
+<h2 id="literals">Extensions to the Lua Parser</h2>
+<p>
+The parser for Lua source code treats numeric literals with the
+suffixes <tt>LL</tt> or <tt>ULL</tt> as signed or unsigned 64&nbsp;bit
+integers. Case doesn't matter, but uppercase is recommended for
+readability. It handles both decimal (<tt>42LL</tt>) and hexadecimal
+(<tt>0x2aLL</tt>) literals.
+</p>
+<p>
+The imaginary part of complex numbers can be specified by suffixing
+number literals with <tt>i</tt> or <tt>I</tt>, e.g. <tt>12.5i</tt>.
+Caveat: you'll need to use <tt>1i</tt> to get an imaginary part with
+the value one, since <tt>i</tt> itself still refers to a variable
+named <tt>i</tt>.
 </p>
 <br class="flush">
 </div>

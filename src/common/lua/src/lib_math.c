@@ -129,7 +129,7 @@ static void random_init(RandomState *rs, double d)
 LJLIB_PUSH(top-2)  /* Upvalue holds userdata with RandomState. */
 LJLIB_CF(math_random)		LJLIB_REC(.)
 {
-  int n = cast_int(L->top - L->base);
+  int n = (int)(L->top - L->base);
   RandomState *rs = (RandomState *)(uddata(udataV(lj_lib_upvalue(L, 1))));
   U64double u;
   double d;
@@ -167,7 +167,7 @@ LUALIB_API int luaopen_math(lua_State *L)
   RandomState *rs;
   rs = (RandomState *)lua_newuserdata(L, sizeof(RandomState));
   rs->valid = 0;  /* Use lazy initialization to save some time on startup. */
-  LJ_LIB_REG(L, math);
+  LJ_LIB_REG(L, LUA_MATHLIBNAME, math);
 #if defined(LUA_COMPAT_MOD)
   lua_getfield(L, -1, "fmod");
   lua_setfield(L, -2, "mod");

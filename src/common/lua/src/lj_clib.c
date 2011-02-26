@@ -148,9 +148,13 @@ static void clib_unloadlib(CLibrary *cl)
 {
   if (cl->handle == CLIB_DEFHANDLE) {
     MSize i;
-    for (i = 0; i < CLIB_HANDLE_MAX; i++)
-      if (clib_def_handle[i])
-	FreeLibrary((HINSTANCE)clib_def_handle[i]);
+    for (i = 0; i < CLIB_HANDLE_MAX; i++) {
+      void *h = clib_def_handle[i];
+      if (h) {
+	clib_def_handle[i] = NULL;
+	FreeLibrary((HINSTANCE)h);
+      }
+    }
   } else if (!cl->handle) {
     FreeLibrary((HINSTANCE)cl->handle);
   }
@@ -222,10 +226,6 @@ static void *clib_getsym(CLibrary *cl, const char *name)
 
 /* -- C library indexing -------------------------------------------------- */
 
-/* Namespace for C library indexing. */
-#define CLNS_INDEX \
-  ((1u<<CT_FUNC)|(1u<<CT_EXTERN)|(1u<<CT_CONSTVAL))
-
 #if LJ_TARGET_X86 && LJ_ABI_WIN
 /* Compute argument size for fastcall/stdcall functions. */
 static CTSize clib_func_argsize(CTState *cts, CType *ct)
@@ -241,6 +241,17 @@ static CTSize clib_func_argsize(CTState *cts, CType *ct)
   return n;
 }
 #endif
+
+/* Get redirected or mangled external symbol. */
+static const char *clib_extsym(CTState *cts, CType *ct, GCstr *name)
+{
+  if (ct->sib) {
+    CType *ctf = ctype_get(cts, ct->sib);
+    if (ctype_isxattrib(ctf->info, CTA_REDIR))
+      return strdata(gco2str(gcref(ctf->name)));
+  }
+  return strdata(name);
+}
 
 /* Index a C library by name. */
 TValue *lj_clib_index(lua_State *L, CLibrary *cl, GCstr *name)
@@ -260,7 +271,8 @@ TValue *lj_clib_index(lua_State *L, CLibrary *cl, GCstr *name)
       else
 	setnumV(tv, (lua_Number)(int32_t)ct->size);
     } else {
-      void *p = clib_getsym(cl, strdata(name));
+      const char *sym = clib_extsym(cts, ct, name);
+      void *p = clib_getsym(cl, sym);
       GCcdata *cd;
       lua_assert(ctype_isfunc(ct->info) || ctype_isextern(ct->info));
 #if LJ_TARGET_X86 && LJ_ABI_WIN
@@ -269,8 +281,8 @@ TValue *lj_clib_index(lua_State *L, CLibrary *cl, GCstr *name)
 	CTInfo cconv = ctype_cconv(ct->info);
 	if (cconv == CTCC_FASTCALL || cconv == CTCC_STDCALL) {
 	  CTSize sz = clib_func_argsize(cts, ct);
-	  const char *sym = lj_str_pushf(L,
-	    cconv == CTCC_FASTCALL ? "@%s@%d" : "_%s@%d", strdata(name), sz);
+	  sym = lj_str_pushf(L, cconv == CTCC_FASTCALL ? "@%s@%d" : "_%s@%d",
+			     sym, sz);
 	  L->top--;
 	  p = clib_getsym(cl, sym);
 	}
