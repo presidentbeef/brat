@@ -135,8 +135,8 @@ GCstr *lj_lib_checkstr(lua_State *L, int narg)
   if (o < L->top) {
     if (LJ_LIKELY(tvisstr(o))) {
       return strV(o);
-    } else if (tvisnumber(o)) {
-      GCstr *s = lj_str_fromnumber(L, o);
+    } else if (tvisnum(o)) {
+      GCstr *s = lj_str_fromnum(L, &o->n);
       setstrV(L, o, s);
       return s;
     }
@@ -155,18 +155,14 @@ lua_Number lj_lib_checknum(lua_State *L, int narg)
 {
   TValue *o = L->base + narg-1;
   if (!(o < L->top &&
-	(tvisnumber(o) || (tvisstr(o) && lj_str_tonumber(strV(o), o)))))
+	(tvisnum(o) || (tvisstr(o) && lj_str_tonum(strV(o), o)))))
     lj_err_argt(L, narg, LUA_TNUMBER);
-  return numberVnum(o);
+  return numV(o);
 }
 
 int32_t lj_lib_checkint(lua_State *L, int narg)
 {
-  TValue *o = L->base + narg-1;
-  if (!(o < L->top &&
-	(tvisnumber(o) || (tvisstr(o) && lj_str_tonumber(strV(o), o)))))
-    lj_err_argt(L, narg, LUA_TNUMBER);
-  return numberVint(o);
+  return lj_num2int(lj_lib_checknum(L, narg));
 }
 
 int32_t lj_lib_optint(lua_State *L, int narg, int32_t def)

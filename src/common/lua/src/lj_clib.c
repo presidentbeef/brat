@@ -148,13 +148,9 @@ static void clib_unloadlib(CLibrary *cl)
 {
   if (cl->handle == CLIB_DEFHANDLE) {
     MSize i;
-    for (i = 0; i < CLIB_HANDLE_MAX; i++) {
-      void *h = clib_def_handle[i];
-      if (h) {
-	clib_def_handle[i] = NULL;
-	FreeLibrary((HINSTANCE)h);
-      }
-    }
+    for (i = 0; i < CLIB_HANDLE_MAX; i++)
+      if (clib_def_handle[i])
+	FreeLibrary((HINSTANCE)clib_def_handle[i]);
   } else if (!cl->handle) {
     FreeLibrary((HINSTANCE)cl->handle);
   }

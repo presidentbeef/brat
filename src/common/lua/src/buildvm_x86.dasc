@@ -3074,12 +3074,14 @@ static void build_subroutines(BuildCtx *ctx, int cmov, int sse)
   |6:
   |  je <5				// x^1 ==> x
   |  jb >7
-  |  neg eax
-  |  call <1
+  |  push RDa
   |  sseconst_1 xmm1, RDa
   |  divsd xmm1, xmm0
+  |  pop RDa
   |  movaps xmm0, xmm1
-  |  ret
+  |  neg eax
+  |  cmp eax, 1; je <5			// x^-1 ==> 1/x
+  |  jmp <1				// x^-i ==> (1/x)^i
   |7:
   |  sseconst_1 xmm0, RDa
   |  ret

@@ -82,10 +82,8 @@ LJLIB_CF(table_maxn)
     }
   node = noderef(t->node);
   for (i = (ptrdiff_t)t->hmask; i >= 0; i--)
-    if (!tvisnil(&node[i].val) && tvisnumber(&node[i].key)) {
-      lua_Number n = numberVnum(&node[i].key);
-      if (n > m) m = n;
-    }
+    if (tvisnum(&node[i].key) && numV(&node[i].key) > m)
+      m = numV(&node[i].key);
   setnumV(L->top-1, m);
   return 1;
 }
@@ -156,7 +154,7 @@ LJLIB_CF(table_concat)
       cTValue *o;
       lua_rawgeti(L, 1, i);
       o = L->top-1;
-      if (!(tvisstr(o) || tvisnumber(o)))
+      if (!(tvisstr(o) || tvisnum(o)))
 	lj_err_callerv(L, LJ_ERR_TABCAT, typename(o), i);
       luaL_addvalue(&b);
       if (i++ == e) break;
@@ -273,10 +271,6 @@ LJLIB_CF(table_sort)
 LUALIB_API int luaopen_table(lua_State *L)
 {
   LJ_LIB_REG(L, LUA_TABLIBNAME, table);
-#ifdef LUAJIT_ENABLE_LUA52COMPAT
-  lua_getglobal(L, "unpack");
-  lua_setfield(L, -2, "unpack");
-#endif
   return 1;
 }
 
