@@ -1,0 +1,358 @@
+/*!
+ * jQuery Github Badge
+ * http://www.maverickconceptions.com/2010/09/11/github-badge/
+ * 
+ * Copyright (c) 2010 Lynn Wallenstein
+ * Dual licensed under the MIT and GPL licenses.
+ * http://www.maverickconceptions.com/about/license/
+ */
+
+/* Reset */
+.ghb_badge div, .ghb_badge span,
+.ghb_badge h1, .ghb_badge h2, .ghb_badge p,
+.ghb_badge dl, .ghb_badge dt, .ghb_badge dd, .ghb_badge ol, .ghb_badge ul, .ghb_badge li {
+	margin:0;
+	padding:0;
+	border:0;
+	outline:0;
+	font-size:100%;
+	vertical-align:baseline;
+	background: transparent;
+} 
+
+/* Badge Wrapper */
+.ghb_badge {
+	border: 1px solid #E5E5E5;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	box-shadow: 1px 1px 2px rgba(200,200,201,0.25);
+	-moz-box-shadow: 1px 1px 2px rgba(200,200,201,0.25);
+	-webkit-box-shadow: 1px 1px 2px rgba(200,200,201,0.25);    
+	width: 330px;
+	overflow: hidden;
+	font-size: 13.34px;
+}
+
+/* Globals */
+
+.ghb_badge h2 {
+	display: none;
+	}
+
+	/* Header for user and project badge */
+	.ghb_badge .ghb_badge_header {
+		background: #eaecec;
+		background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0.03, rgb(247,248,249)),color-stop(1, rgb(234,236,236)));
+		background-image: -moz-linear-gradient(center top,rgb(247,248,249) 3%,rgb(234,236,236) 100%);
+		min-height: 3px;
+		padding: 5px 10px;       
+	}
+	.ghb_badge .ghb_badge_header img  {
+		border: none;
+		clear: both;
+		float: right;
+			}
+			.ghb_badge .ghb_badge_header h1, .ghb_badge .ghb_badge_header h1 a  {
+				clear: left;
+				color: #52595D;
+				font-size: 16px;
+				margin-top: 5px;
+				text-decoration: none;
+			}
+			.ghb_badge .ghb_badge_header h1 a:hover {
+				border-bottom: 1px dashed #4183C4;
+					}
+
+					/* User Badge */
+
+					/* Navigation for User Badge */         
+					.ghb_badge .ghb_user_nav{
+						background: #FAFAFB;
+						border-bottom: 1px solid #E1E1E2;
+						font-size: 11px;
+						font-weight: bold;
+						padding: 10px;
+	}
+	.ghb_badge .ghb_user_nav a {
+		color: #000000;
+		margin-right: 15px;
+		padding-bottom:8px;
+		text-decoration: none;
+			}
+			.ghb_badge .ghb_user_nav a:hover {
+				text-decoration: underline;
+					}
+					.ghb_badge .ghb_user_nav a.chosen {
+						background: url("../js/gh-images/filter_selected_bit.gif") no-repeat scroll 50% 100% transparent;
+			}            
+
+
+			/* Info Panel for User Badge */  
+			.ghb_badge .ghb_badge_user_info {
+				clear: both;
+				font-size: 14px;
+				font-weight: bold;
+				margin: 10px auto;
+				padding: 0px 0px 10px 10px;
+	}
+	.ghb_badge .ghb_badge_user_info a {
+		color: #4183C4;
+		}
+		.ghb_badge .ghb_badge_user_info img {
+			border: 1px solid #E1E1E2;
+			clear: both;
+			float: right;
+			margin: 0 10px;
+			padding: 10px;
+			}
+			.ghb_badge .ghb_badge_user_info dl {
+				font-size: 12px;
+				font-weight: bold;            
+				margin-top: 10px;
+			}
+			.ghb_badge .ghb_badge_user_info dt {
+				clear: left;
+				float: left;
+				margin: 0px 15px 0px 0px;
+					}
+					.ghb_badge .ghb_badge_user_info dd {
+						margin: 1px 15px 1px 0px;
+						wrap: nowrap;
+					}
+
+
+					/* Repo List for User Badge */        
+					.ghb_badge .ghb_repo_list {
+						clear: both;
+						margin: 0 auto 0 auto;
+	}
+
+	.ghb_badge .ghb_repo_list {
+		list-style: none;
+			}    
+			.ghb_badge .ghb_repo_list li {
+				display: block;
+				background: url("../js/gh-images/public.png") no-repeat scroll 10px 20px #FFFFFF; /* Smiley Pic */
+				border-bottom: 1px solid #E5E5E5;
+				padding-left: 22px;
+					}
+					.ghb_badge .ghb_repo_list li a {
+						background: url("../js/gh-images/arrow-40.png") no-repeat scroll 97% 50% transparent; /* Arrow next to Repo */
+						color: #4183C4;
+						display: block;
+						font-size: 14px;
+						font-weight: bold;
+						padding: 6px 25px 5px 10px;
+						text-decoration: none;
+							}
+							.ghb_repo_list li a:hover {
+								background: url("../js/gh-images/arrow-80.png") no-repeat scroll 97% 50% transparent; /* Arrow next to Repo when Hovered*/
+								text-decoration: underline;
+									}
+									.ghb_badge .ghb_repo_list li.lastrepo {
+										border-bottom: none;
+							}
+							.ghb_badge .ghb_repo_list li div {
+								display: none;
+								font-size: 10px;
+								padding: 6px 25px 5px 10px;
+							}
+
+							.ghb_badge .ghb_repo_goto {
+								background: #FAFAFB;
+								font-size: 14px;
+								font-weight: bold;
+								padding: 10px;
+	}
+	.ghb_badge .ghb_repo_goto a {
+		color: #999999;
+		margin-right: 15px;
+		text-decoration: none;
+			}
+			.ghb_badge .ghb_repo_goto a:hover {
+				text-decoration: underline;
+					}
+
+
+					/* Repo Badge */            
+
+					/* Navigation for Repo Badge */         
+					.ghb_badge .ghb_repo_nav{
+						background: #FAFAFB;
+						border-bottom: 1px solid #E1E1E2;
+						font-size: 11px;
+						font-weight: bold;
+						padding: 10px;
+	}
+	.ghb_badge .ghb_repo_nav a {
+		color: #000000;
+		margin-right: 15px;
+		padding-bottom: 8px;
+		text-decoration: none;
+			}
+			.ghb_badge .ghb_repo_nav a:hover {
+				text-decoration: underline;
+					}
+					.ghb_badge .ghb_repo_nav a.chosen {
+						background: url("../js/gh-images/filter_selected_bit.gif") no-repeat scroll 50% 100% transparent;
+					} 
+
+					/* Info Panel for Repo Badge */
+					.ghb_badge .ghb_repo_info {
+						clear: both;
+						font-size: 12px;
+						font-weight: normal;
+						margin: 10px auto;
+						padding: 10px;
+	}
+	.ghb_badge .ghb_repo_info a {
+		color: #4183C4;
+		font-weight: bold;
+		}
+		.ghb_badge .ghb_repo_info p {
+			margin-bottom: 10px;
+			}
+			.ghb_badge .ghb_repo_info dl {
+				font-size: 12px;
+				font-weight: bold;            
+				margin-top: 10px;
+			}
+			.ghb_badge .ghb_repo_info dt {
+				clear: left;
+				float: left;
+				margin: 0px 15px 0px 0px;
+					}
+					.ghb_badge .ghb_repo_info dd {
+						margin: 1px 15px 1px 0px;
+						wrap: nowrap;
+					}                                         
+
+					/* Repo Badge Commit Panel */         
+					.ghb_badge .ghb_repo_commits {
+						clear: both;
+	}            
+	.ghb_badge .ghb_commit_list {
+		list-style: none;
+			}    
+			.ghb_badge .ghb_commit_list li {
+				background: url("../js/gh-images/push.png") no-repeat scroll 10px 20px #FFFFFF; /* Smiley Pic */
+				border-bottom: 1px solid #E5E5E5;
+				font-size: 13px;
+				font-weight: bold;
+				padding-left: 22px;
+					}
+					.ghb_badge .ghb_commit_list li.no_records {
+						color: #940a18;
+						padding: 6px 25px 5px 32px;
+							}           
+							.ghb_badge .ghb_commit_list li a {
+								background: url("../js/gh-images/arrow-40.png") no-repeat scroll 97% 50% transparent; /* Arrow next to Repo */
+								color: #4183C4;
+								display: block;
+								padding: 6px 25px 5px 10px;
+								text-decoration: none;
+							}
+							.ghb_commit_list li a:hover {
+								background: url("../js/gh-images/arrow-80.png") no-repeat scroll 97% 50% transparent; /* Arrow next to Repo when Hovered*/
+								text-decoration: underline;
+									}
+									.ghb_badge .ghb_commit_list li.lastrepo {
+										border-bottom: none;
+							}
+							.ghb_badge .ghb_commit_list li span {
+								border-bottom: 1px dotted #666666;
+								color: #515151;
+								cursor: help;
+								font-size: 8px;
+								line-height: 14px;
+								margin:  0 0 5px 5px;
+								white-space: nowrap;
+							}
+							.ghb_badge .ghb_commit_list li a span {
+								color: #515151;
+								text-decoration: none;
+									}              
+									.ghb_badge .ghb_repo_goto_commits {
+										background: #FAFAFB;
+										clear: both;
+										font-size: 14px;
+										font-weight: bold;
+										padding: 10px;
+	}
+	.ghb_badge .ghb_repo_goto_commits a {
+		color: #999999;
+		margin-right: 15px;
+		text-decoration: none;
+			}
+			.ghb_badge .ghb_repo_goto_commits a:hover {
+				text-decoration: underline;
+					}
+
+					/* Repo Badge Issues Panel */             
+					.ghb_repo_issues {
+						clear: both;
+	}     
+	.ghb_badge .ghb_issue_list {
+		list-style: none;
+			}    
+			.ghb_badge .ghb_issue_list li {
+				background: url("../js/gh-images/issues_opened.png") no-repeat scroll 10px 20px #FFFFFF; /* Smiley Pic */
+				border-bottom: 1px solid #E5E5E5;
+				font-size: 14px;
+				font-weight: bold;
+				padding-left: 22px;
+					}
+					.ghb_badge .ghb_issue_list li.no_records {
+						color: #940a18;
+						padding: 6px 25px 5px 32px;
+							}
+							.ghb_badge .ghb_issue_list li a {
+								background: url("../js/gh-images/arrow-40.png") no-repeat scroll 97% 50% transparent; /* Arrow next to Repo */
+								color: #4183C4;
+								display: block;
+								padding: 6px 25px 5px 10px;
+								text-decoration: none;
+							}
+							.ghb_issue_list li a:hover {
+								background: url("../js/gh-images/arrow-80.png") no-repeat scroll 97% 50% transparent; /* Arrow next to Repo when Hovered*/
+								text-decoration: underline;
+									}
+									.ghb_badge .ghb_issue_list li.lastrepo {
+										border-bottom: none;
+							}
+							.ghb_badge .ghb_issue_list li span {
+								border-bottom: 1px dotted #666666;
+								color: #515151;
+								cursor: help;
+								font-size: 8px;
+								line-height: 14px;
+								margin:  0 0 5px 5px;
+								white-space: nowrap;
+							}
+							.ghb_badge .ghb_issue_list li a span {
+								color: #515151;
+								text-decoration: none;
+									} 
+									.ghb_badge .ghb_issue_list li div {
+										display: none;
+										font-size: 10px;
+										font-weight: normal;
+										padding: 6px 25px 5px 10px;
+							}
+
+							.ghb_badge .ghb_repo_goto_issues {
+								background: #FAFAFB;
+								font-size: 14px;
+								font-weight: bold;
+								padding: 10px;
+	}
+	.ghb_badge .ghb_repo_goto_issues a {
+		color: #999999;
+		margin-right: 15px;
+		text-decoration: none;
+			}
+			.ghb_badge .ghb_repo_goto_issues a:hover {
+				text-decoration: underline;
+					}
+

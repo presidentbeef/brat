@@ -2,53 +2,58 @@
 title: The Brat Language
 layout: default
 ---
+<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript">
+</script>
+<script language="javascript" src="js/jquery.tweet.js" type="text/javascript">
+</script>
+<script src="http://widgets.twimg.com/j/2/widget.js">
+</script>
+<script src="js/jquery.github_badge.js">
+</script>
+<link href="style/tweet.css" media="all" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="style/jquery.github_badge.css" />
+
+<script type='text/javascript'>
+    $(document).ready(function(){
+		    $("#github").GitHubBadge({
+	        login: "presidentbeef",
+	        kind: "project",
+	        repo_name: "brat",
+					include_github_logo: false,
+					image_path: "js/gh-images/",
+					commit_count: "1",
+					issue_count: "0",
+					repo_count: "0"
+  	  });
+        $(".tweet").tweet({
+            username: "bratlang",
+            count: 1,
+            loading_text: "loading tweets...",
+						template: function(info) {
+		  	      return info["time"] + info["text"];
+		    	  }
+        });
+    });
+</script>
+
 ## Recent Activity
 
+
+<b>Blog</b>
 [{{ site.posts.first.title }}](/brat/{{ site.posts.first.url }}) - {{ site.posts.first.date | date_to_string }}
 
-<div id="github-commit-badge-container">
-	<script type="text/javascript">
-		var Badges = new Array();
-		Badges[0] = new Object;
-		Badges[0]["username"] = "presidentbeef";
-		Badges[0]["repo"] = "brat";
-		Badges[0]["branch"] = "master";
-	</script>
-	<script type="text/javascript" src="js/github-commit-badge.js">
-	</script>
+<div class="twitter">
+	<b>Twitter</b>
+	<div class="tweet">
+	</div>
 </div>
 
-<script src="http://widgets.twimg.com/j/2/widget.js"></script>
-<script>
-new TWTR.Widget({
-  version: 2,
-  type: 'profile',
-  rpp: 1,
-  interval: 6000,
-  width: 250,
-  height: 300,
-  theme: {
-    shell: {
-      background: '#787678',
-      color: '#ffffff'
-    },
-    tweets: {
-      background: '#ffffff',
-      color: '#2e2e2e',
-      links: '#6b6b6b'
-    }
-  },
-  features: {
-    scrollbar: false,
-    loop: false,
-    live: false,
-    hashtags: true,
-    timestamp: true,
-    avatars: false,
-    behavior: 'all'
-  }
-}).render().setUser('bratlang').start();
-</script>
+<b>GitHub</b>
+<div id="github">
+
+</div>
+
+<div style="clear:both">&nbsp;</div>
 
 ## What It Is
 

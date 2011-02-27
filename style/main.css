@@ -7,7 +7,7 @@
 
 body {
   color: #333;
-  font-family: serif;
+  font-family: times,serif;
   padding-top: 4px;
 }
 
@@ -63,6 +63,11 @@ body {
 
 #body {
   padding: 0 20px 0 10px;
+}
+
+div.twitter {
+	float: right;
+	width: 330px;
 }
 
 h2 {
