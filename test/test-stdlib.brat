@@ -42,6 +42,10 @@ setup name: "stdlib tests" {
 		assert { include 'set'; s = set.new 1,2,3; s == s }
 	}
 
+	test "set.merge" {
+		assert { include :set; s1 = set.new 1 2 3; s2 = set.new 3 4 5; s1.merge s2; s1 == set.new 1 2 3 4 5}
+	}
+
 	test "set.to_array" {
 		assert_equal [1 2 3] { include 'set'; s = set.new 1 2 3; s.to_array.sort }
 		assert_equal [:b :e :f] { include 'set'; s = set.new :b :e :f; s.to_array.sort }

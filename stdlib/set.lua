@@ -24,6 +24,26 @@ function set_instance:_less_less (item)
 	return self
 end
 
+function set_instance:merge (items)
+	if type(items) == "table" then
+		local block = function(s, item)
+			self._internal_hash:set(item, true)
+		end
+
+		if items._internal_hash then
+			items._internal_hash:each_underkey(block)
+		elseif items.each then
+			items:each(block)
+		else
+			error()
+		end
+	else
+		error()
+	end
+
+	return self
+end
+
 set_instance.add = set_instance._less_less
 
 function set_instance:clear ()
