@@ -311,4 +311,10 @@ setup name: "array tests" {
 		assert_equal "a, b, c" { ["a", "b", "c"].join ", " }
 		assert_equal "1, 2, 3" { [1, 2, 3].join ", " }
 	}
+
+	test "array.join with final" {
+		assert_equal "1" { [1].join ", " " and " }
+		assert_equal "1 and 2" { [1 2].join ", " " and " }
+		assert_equal "1, 2 and 3" { [1 2 3].join ", " " and " }
+	}
 }

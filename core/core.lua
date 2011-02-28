@@ -2080,7 +2080,7 @@ end
 function array_instance:join (separator, final)
 	if self._length == 0 then
 		return base_string:new("")
-	elseif self._length== 1 then
+	elseif self._length == 1 then
 		return base_string:new(tostring(self._lua_array[1]))
 	end
 
@@ -2090,33 +2090,38 @@ function array_instance:join (separator, final)
 		separator = separator._lua_string
 	end
 
-	local s = ""
+	if type(final) == "table" then
+		final = final._lua_string
+	end
+
 	local i = 1
 	local len = self._length
 	local a = self._lua_array
 	local obj = nil
+	local contents = {}
 
-	while (i < len) do
+	while i <= len do
 		obj = a[i]
+		
 		if obj == nil then
 			obj = object.__null
 		end
-		s = s .. tostring(obj) .. separator
+
+		contents[i] = tostring(obj)
+
 		i = i + 1
 	end
 
-	obj = a[len]
-	if obj == nil then
-		obj = object.__null
+	if final then
+		return base_string:new(table.concat(contents, separator, 1, len - 1) .. final .. contents[len] )
+	else
+		return base_string:new(table.concat(contents, separator))
 	end
-	s = s .. tostring(obj)
-
-	return base_string:new(s)
 end
 
 function array_instance:_less_less (obj)
 	self._length = self._length + 1
-	table.insert(self._lua_array, self._length, obj)
+	self._lua_array[self._length] = obj
 
 	return self
 end
