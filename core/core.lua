@@ -210,7 +210,7 @@ function object:methods ()
 		end
 	end
 
-	return array:new(unpack(m))
+	return array:new(m)
 end
 
 function object:local_undermethods ()
@@ -225,7 +225,7 @@ function object:local_undermethods ()
 		end
 	end
 
-	return array:new(unpack(m))
+	return array:new(m)
 end
 
 
@@ -2032,7 +2032,21 @@ function array_instance:length ()
 end
 
 function array_instance:_dup ()
-	return array:new(unpack(self._lua_array))
+	return array:new(self:_copy())
+end
+
+function array_instance:_copy ()
+	local na = {}
+	local a = self._lua_array
+	local len = self._length
+	local i = 1
+
+	while i <= len do
+		na[i] = a[i]
+		i = i + 1
+	end
+
+	return na
 end
 
 function array_instance:sort ()
@@ -2041,11 +2055,11 @@ function array_instance:sort ()
 		return self:_dup()
 	end
 
-	a = {unpack(a)}
+	a = self:_copy()
 
 	table.sort(a, compare)
 
-	return array:new(unpack(a))
+	return array:new(a)
 end
 
 function array_instance:sort_underby (block)
@@ -2058,11 +2072,11 @@ function array_instance:sort_underby (block)
 		return is_true(block(self, rhs, lhs))
 	end
 
-	a = {unpack(a)}
+	a = self:_copy()
 
 	table.sort(a, comp)
 
-	return array:new(unpack(a))
+	return array:new(a)
 end
 
 
