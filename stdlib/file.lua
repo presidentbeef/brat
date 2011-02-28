@@ -90,9 +90,11 @@ function file:read_underlines (path)
 	end
 
 	local res = {}
+	local i = 1
 
 	for line in io.lines(path) do
-		table.insert(res, base_string:new(line))
+		res[i] = base_string:new(line)
+		i = i + 1
 	end
 
 	return array:new(res)

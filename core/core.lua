@@ -1095,17 +1095,17 @@ end
 
 function number_instance:of (item)
 	local num = self._lua_number
-	local i = 0
+	local i = 1
 	local r = {}
 
 	if type(item) == "function" then
-		while i < num do
-			table.insert(r, item(self))
+		while i <= num do
+			r[i] = item(self)
 			i = i + 1
 		end
 	else
-		while i < num do
-			table.insert(r, item)
+		while i <= num do
+			r[i] = item
 			i = i + 1
 		end
 	end
@@ -1115,12 +1115,15 @@ end
 
 function number_instance:to (stop, block)
 	local index = self._lua_number
-	if stop < self._lua_number then
+	if stop < index then
 		if block == nil then
 			local a = {}
-			while index >= stop do
-				table.insert(a, index)
-				index = index - 1
+			local i = 1
+			local e = math.abs(stop - index) + 1
+			index = index + 1
+			while i <= e do
+				a[i] = index - i
+				i = i + 1
 			end
 
 			return array:new(a)
@@ -1136,9 +1139,12 @@ function number_instance:to (stop, block)
 	else
 		if block == nil then
 			local a = {}
-			while index <= stop do
-				table.insert(a, index)
-				index = index + 1
+			local i = 1
+			local e = math.abs(stop - index) + 1
+			index = index - 1
+			while i <= e do
+				a[i] = index + i
+				i = i + 1
 			end
 
 			return array:new(a)
@@ -1302,6 +1308,7 @@ end
 
 function enumerable:select (block)
 	local new_array = {}
+	local i = 1
 	local f
 
 	if type(block) == "table" and block._lua_string then
@@ -1315,13 +1322,15 @@ function enumerable:select (block)
 			end
 
 			if is_true(meth(item)) then
-				table.insert(new_array, item)
+				new_array[i] = item
+				i = i + 1
 			end
 		end
 	else
 		f = function (_self, item)
 			if is_true(block(_self, item)) then
-				table.insert(new_array, item)
+				new_array[i] = item
+				i = i + 1
 			end
 		end
 	end
@@ -1334,6 +1343,7 @@ end
 function enumerable:reject (block)
 	local new_array = {}
 	local f
+	local i = 1
 
 	if type(block) == "table" and block._lua_string then
 		f = function (_self, item)
@@ -1346,14 +1356,16 @@ function enumerable:reject (block)
 			end
 
 			if not is_true(meth(item)) then
-				table.insert(new_array, item)
+				new_array[i] = item
+				i = i + 1
 			end
 		end
 	else
 
 		f = function (_self, item)
 			if not is_true(block(_self, item)) then
-				table.insert(new_array, item)
+				new_array[i] = item
+				i = i + 1
 			end
 		end
 	end
@@ -1402,9 +1414,11 @@ function array_instance:compact_bang ()
 	local len = self._length
 	local a = self._lua_array
 	local index = 1
+	local i = 1
 	while index <= len do
 		if a[index] and a[index] ~= object.__null then
-			table.insert(result, a[index])
+			result[i] = a[index]
+			i = i + 1
 		end
 		index = index + 1
 	end
@@ -1422,7 +1436,7 @@ function array_instance:copy ()
 	local index = 1
 
 	while index <= len do
-		table.insert(result, index, a[index])
+		result[index] = a[index]
 		index = index + 1
 	end
 
@@ -1476,6 +1490,7 @@ end
 
 function array_instance:reject_bang (block)
 	local k = 1
+	local i = 1
 	local len = self._length
 	local a = self._lua_array
 	local new_array = {}
@@ -1499,7 +1514,8 @@ function array_instance:reject_bang (block)
 
 	while k <= len do
 		if not is_true(f(self, a[k])) then
-			table.insert(new_array, a[k])
+			new_array[i] = a[k]
+			i = i + 1
 		end
 
 		k = k + 1
@@ -1526,6 +1542,7 @@ end
 
 function array_instance:select_bang (block)
 	local k = 1
+	local i = 1
 	local len = self._length
 	local a = self._lua_array
 	local new_array = {}
@@ -1549,7 +1566,8 @@ function array_instance:select_bang (block)
 
 	while k <= len do
 		if is_true(f(self, a[k])) then
-			table.insert(new_array, a[k])
+			new_array[i] = a[k]
+			i = i + 1
 		end
 
 		k = k + 1
@@ -1629,10 +1647,11 @@ function array_instance:map (block)
 
 	while k <= len do
 		if a[k] == nil then
-			table.insert(new_array, block(self, object.__null))
+			new_array[k] = block(self, object.__null)
 		else
-			table.insert(new_array, block(self, a[k]))
+			new_array[k] = block(self, a[k])
 		end
+
 		k = k + 1
 	end
 
@@ -1740,9 +1759,9 @@ function array_instance:map_underwith_underindex (block)
 
 	while k <= len do
 		if a[k] == nil then
-			table.insert(new_array, block(self, object.__null, k - 1))
+			new_array[k] = block(self, object.__null, k - 1)
 		else
-			table.insert(new_array, block(self, a[k], k - 1))
+			new_array[k] = block(self, a[k], k - 1)
 		end
 		k = k + 1
 	end
@@ -1813,7 +1832,7 @@ function array_instance:pop (number)
 			while index <= number do
 				item = table.remove(self._lua_array, self._length)
 				self._length = self._length - 1
-				table.insert(new_array, item)
+				new_array[index] = item
 
 				if self._length == 0 then
 					break
@@ -1829,7 +1848,7 @@ end
 
 function array_instance:push (item)
 	self._length = self._length + 1
-	table.insert(self._lua_array, self._length, item)
+	self._lua_array[self._length] = item
 	return self
 end
 
@@ -2152,14 +2171,14 @@ function array_instance:_plus (obj)
 
 	local len = self._length
 	while index <= len do
-		table.insert(na, index, lhs[index])
+		na[index] = lhs[index]
 		index = index + 1
 	end
 
 	len = obj._length
 	index = 1
 	while index <= len do
-		table.insert(na, index + self._length, rhs[index])
+		na[index + self._length] = rhs[index]
 		index = index + 1
 	end
 
@@ -2515,8 +2534,10 @@ end
 
 function hash_instance:keys ()
 	local keys = {}
+	local index = 1
 	for k,v in pairs(self._lua_hash) do
-		table.insert(keys, k)
+		keys[index] = k
+		index = index + 1
 	end
 
 	return array:new(keys)
@@ -2524,8 +2545,10 @@ end
 
 function hash_instance:values ()
 	local values = {}
+	local index = 1
 	for k,v in pairs(self._lua_hash) do
-		table.insert(values, v)
+		values[index] = v
+		index = index + 1
 	end
 
 	return array:new(values)
@@ -2572,25 +2595,17 @@ end
 
 function hash_instance:to_unders()
 	local contents = {}
-	for k,v in pairs(self._lua_hash) do
-		table.insert(contents, tostring(k) .. ": " .. tostring(v))
-	end
-
-	if #contents == 0 then
-		return base_string:new("[:]")
-	end
-
 	local i = 1
-	local len = #contents
-	local s = "["
-	while i < len do
-		s = s .. contents[i] .. ", "
+	for k,v in pairs(self._lua_hash) do
+		contents[i] = tostring(k) .. ": " .. tostring(v)
 		i = i + 1
 	end
 
-	s = s .. contents[len] .. "]"
-
-	return base_string:new(s)
+	if i == 1 then
+		return base_string:new("[:]")
+	else
+		return base_string:new("[" .. table.concat(contents, ", ") .. "]")
+	end
 end
 
 --String objects
@@ -2943,9 +2958,11 @@ function string_instance:split (sep)
 	end
 
 	local result = {}
+	local i = 1
 	for value in orex.split(self._lua_string, sep) do
 		if value and value ~= "" then
-			table.insert(result, base_string:new(value))
+			result[i] = base_string:new(value)
+			i = i + 1
 		end
 	end
 
