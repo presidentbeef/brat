@@ -1,0 +1,8 @@
+#* http://rosettacode.org/wiki/Assertions
+	Demonstrate assertions
+*#
+
+squish import :assert :assertions
+
+assert_equal 42 42
+assert_equal 13 42  #Raises an exception
