@@ -83,6 +83,45 @@ test_manager.run = {
 	[tests: num_tests, assertions: num_assertions, failures: failures.length]
 }
 
+assertions = object.new
+
+assertions.assert = { condition, message = null |
+	false? condition, {
+		throw null? message
+			{ "Assertion failed" }
+			{ "Assertion failed: " << message }
+	}
+} 
+
+assertions.assert_equal = { expected, actual |
+	e = expected
+	r = actual
+	assert { e == r } "expected #{e}, but was #{r}"
+}
+
+assertions.assert_fail = { condition |
+	failed = false
+	protect { condition } rescue: { failed = true }
+
+	assert failed
+}
+
+assertions.assert_false = { condition |
+	r = condition
+	assert { false? r } "expected #{r} to be false"
+}
+
+assertions.assert_null = { condition |
+	r = condition
+	assert { null? r } "expected #{r} to be null"
+}
+
+assertions.assert_match = { pattern, actual |
+	r = actual
+	assert pattern.match(r) "#{r} expected to match #{pattern}"
+}
+
+test_context.squish assertions
 
 test_context.init = { name, block |
 	my.name = name
@@ -101,38 +140,12 @@ test_context.assert = { condition, message = null |
 	}
 } 
 
-test_context.assert_equal = { expected, actual |
-	e = expected
-	r = actual
-	assert { e == r } "expected #{e}, but was #{r}"
-}
-
-test_context.assert_fail = { condition |
-	failed = false
-	protect { condition } rescue: { failed = true }
-
-	assert failed
-}
-
-test_context.assert_false = { condition |
-	r = condition
-	assert { false? r } "expected #{r} to be false"
-}
-
-test_context.assert_null = { condition |
-	r = condition
-	assert { null? r } "expected #{r} to be null"
-}
-
-test_context.assert_match = { pattern, actual |
-	r = actual
-	assert pattern.match(r) "#{r} expected to match #{pattern}"
-}
-
 run_tests = { block |
 	tm = test_manager.new ->block
 	tm.run
 }
+
+export assertions, "assertions"
 
 export { block, options = [:] |
 	p "Loading tests..."
