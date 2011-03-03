@@ -1,0 +1,52 @@
+#* http://hyperpublic.com/challenge/question2
+	
+	Hyperpublic has an internal karma system to determine which users are the most 
+	involved in the ecosystem. Users earn points for the following tasks.
+
+	2 Points – Add Place
+	3 Points – Add Thing
+	17 Points – Tag Object
+	23 Points – Upload Photo
+	42 Points – Twitter Share
+	98 Points – Facebook Share
+	
+	Being addicted to their own product, the Hyperpublic staff has racked up some
+	big karma. The members of the team have the following karma totals:
+
+	Doug – 2349 points
+	Jordan – 2102 points
+	Eric – 2001 points
+	Jonathan – 1747 points
+
+	Amazingly, they've all accomplished these totals in the minimum number of tasks
+	possible in order to reach each amount. For example, if their total was 6 points
+	they would have accomplished this in just 2 tasks (2 "Add Thing" tasks), as
+	opposed to accomplishing it by 3 "Add Place" tasks.
+	
+	Your job is to compute how many total tasks each user has completed.
+*#
+
+karma = ask("Karma: ").to_i
+
+amounts = [98 42 23 17 3 2]
+
+best = []
+
+#Algorithm for determining coin change
+#Dynamic programming solution Shamefully stolen from
+#http://ace.cs.ohiou.edu/~razvan/courses/cs404/lecture19.pdf
+minimum_tasks = { n, k |
+	best[0] = 0
+
+	1.to n, { j |
+		best[j] = 10000
+		0.to k, { i |
+			true? j >= amounts[i] && { (1 + best[j - amounts[i]]) < best[j] }
+				{ best[j] = 1 + best[j - amounts[i]] }
+		}
+	}
+}
+
+minimum_tasks karma, 5
+
+p "Minimum tasks: #{best[karma]}"
