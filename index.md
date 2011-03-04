@@ -39,16 +39,16 @@ layout: default
 ## Recent Activity
 
 
-<b>Blog</b>
+<a href="http://presidentbeef.github.com/brat/blog"><b>Blog</b></a>
 [{{ site.posts.first.title }}](/brat/{{ site.posts.first.url }}) - {{ site.posts.first.date | date_to_string }}
 
 <div class="twitter">
-	<b>Twitter</b>
+	<a href="http://twitter.com/bratlang"><b>Twitter</b></a>
 	<div class="tweet">
 	</div>
 </div>
 
-<b>GitHub</b>
+<a href="http://github.com/presidentbeef/brat"><b>GitHub</b></a>
 <div id="github">
 
 </div>
