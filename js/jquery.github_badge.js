@@ -254,7 +254,7 @@
     $.getJSON(requestURLCommits, function(data){
         var commits = [];
         $.each(data.commits, function (i, obj) {
-            commits.push('<li>' + relative_time(obj.committed_date) + '<a target="_blank" href="'+ obj.url + '">' + obj.message + '</a></li>');
+            commits.push('<li>' + relative_time(obj.committed_date) + '<a target="_blank" href="https://github.com'+ obj.url + '">' + obj.message + '</a></li>');
 
             if ( i === (options.commit_count - 1) ) return false;
         });
