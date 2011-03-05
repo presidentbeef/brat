@@ -11,6 +11,7 @@ methlist:
 - empty?
 - include?
 - length
+- merge
 - new
 - to_array
 ---
@@ -49,6 +50,11 @@ Checks if the set is empty.
 >_set_.length
 
 Returns how many items are in the set.
+
+### merge
+>_set_.merge _enum_
+
+Adds items from _enum_ to the set.
 
 ### new
 >set.new  
