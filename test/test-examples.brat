@@ -60,6 +60,19 @@ setup name: "examples test" {
 		}
 	}
 
+	test "accumulator factory" {
+		assert_equal 8.3 { 
+			accumulator = { sum |
+				{ n | sum = sum + n }
+			}
+
+			x = accumulator 1
+			x 5
+			accumulator 3 #Does not affect x
+			x 2.3
+		}
+	}
+
 	test "array to hash" {
 		assert_equal [1 : :a, 2 : :b, 3 : :c] {
 			zip = { keys, values |
