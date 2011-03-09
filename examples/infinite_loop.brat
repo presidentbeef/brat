@@ -1,0 +1,6 @@
+#* http://rosettacode.org/wiki/Loops/Infinite
+	Print "SPAM" in an infinite loop
+*#
+
+while true
+	{ p "SPAM" }
