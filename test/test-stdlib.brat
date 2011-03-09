@@ -1,5 +1,6 @@
-include 'assert'
-setup name: "stdlib tests" {
+include :assert
+
+add_results setup name: "stdlib tests" {
 	test "directory" {
 		assert { include :file; file.make_dir ".test_dir" }
 		assert { include :file; file.exists? ".test_dir" }

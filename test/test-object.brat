@@ -1,5 +1,6 @@
-include 'assert'
-setup name: "object tests" {
+include :assert
+
+add_results setup name: "object tests" {
 	test "object_field" {
 		assert_equal 5 { x = object.new; x.y = 5; x.y }
 		assert_equal 6 { x = object.new; x.y = {n| n}; x.y 6 }

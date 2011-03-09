@@ -1,5 +1,6 @@
-include 'assert'
-setup name: "string tests" {
+include :assert
+
+add_results setup name: "string tests" {
 	test "string.alpha?" {
 		assert { "hello".alpha? }
 		assert { "h".alpha? }

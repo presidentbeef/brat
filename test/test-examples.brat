@@ -1,5 +1,6 @@
-include 'assert'
-setup name: "examples test" {
+include :assert
+
+add_results setup name: "examples test" {
 	test "factorial" {
 		assert_equal 720 { fact = {x | true? x == 0, 1, { x * fact(x - 1)}};	fact 6 }
 	}

@@ -1,6 +1,6 @@
 include :assert
 
-setup name: "enumerable tests" {
+add_results setup name: "enumerable tests" {
 	test "max" {
 		assert_equal 14 { [1 6 2 8 3 5 8 10 14 0 2 14].max }
 		assert_equal :yellow { [:aardvark :yellow :pink :dog :moon].max }
@@ -15,9 +15,9 @@ setup name: "enumerable tests" {
 		assert_null { [].min }
 	}
 
-  test "reject" {
-    assert_equal [1 2 3 4] { 1.to(10).reject { n | n > 4 } }
-  }
+	test "reject" {
+		assert_equal [1 2 3 4] { 1.to(10).reject { n | n > 4 } }
+	}
 
 	test "select with method name" {
 		assert_equal [1 2 3] { [1 :a :b 2 :c 3].select :number? }

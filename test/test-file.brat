@@ -1,6 +1,6 @@
 include :assert
 
-setup name: "test file stdlib" {
+add_results setup name: "test file stdlib" {
 	test "file.open" {
 		assert {
 			include :file

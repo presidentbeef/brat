@@ -1,5 +1,6 @@
-include 'assert'
-setup name: "number tests" {
+include :assert
+
+add_results setup name: "number tests" {
 	test "number_times" {
 		assert_equal 5 { 5.times { :a } }
 		assert_equal [:a, :a, :a] { a = []; 3.times { a << :a }; a }

@@ -1,5 +1,6 @@
-include 'assert'
-setup name: "parser tests" {
+include :assert
+
+add_results setup name: "parser tests" {
 	test "little_program_parse" {
 		{ a = new;a.! = {x| x + 1};a.? = {x| x + 1};a.\\ = {x| x + 1};a.- = {x| x + 1};a.* = {x| x + 1};a.+ = {x| x + 1};a.^ = {x| x + 1};a.@ = {x| x + 1};a.~ = {x| x + 1};a./ = {x| x + 1};a.> = {x| x + 1};a.< = {x| x + 1};a.$ = {x| x + 1};a._ = {x| x + 1};a.% = {x| x + 1};a.!= = {x| x + 1};a.>= = {x| x + 1};a.<= = {x| x + 1};a.|| = {x| x + 1};a.| = {x| x + 1};a.&& = {x| x + 1};a.& = {x| x + 1};a.== = {x| x + 1}}
 	}

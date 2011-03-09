@@ -1,5 +1,6 @@
-include 'assert'
-setup name: "function tests" {
+include :assert
+
+add_results setup name: "function tests" {
 	test "simple_args" {
 		assert_equal 1 { t = {x, y, z| z}; t 3, 2, 1 }
 		assert_equal "hello" { t = {x, y, z| z}; a = 1; b = 2; c = "hello"; t a, b, c }
