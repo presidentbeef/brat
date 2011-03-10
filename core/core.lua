@@ -2613,6 +2613,7 @@ end
 local string_instance = object:new()
 
 string_instance:squish(comparable)
+string_instance:squish(enumerable)
 
 base_string = object:new()
 
@@ -2652,6 +2653,20 @@ end
 
 function string_instance:chomp_bang ()
 	self._lua_string = string.gsub(self._lua_string, "[\n\r]+$", "")
+	return self
+end
+
+function string_instance:each (block)
+	local s = self._lua_string
+	local len = #s
+	local index = 1
+
+	while index <= len do
+		block(self, base_string:new(s:sub(index, index)))
+
+		index = index + 1
+	end
+
 	return self
 end
 
