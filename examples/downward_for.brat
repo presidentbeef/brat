@@ -1,0 +1,6 @@
+#* http://rosettacode.org/wiki/Loops/Downward_for
+	Write a for loop which writes a countdown from 10 to 0.
+*#
+
+#Not really a 'for' loop, but...
+10.to 0 { n | p n }
