@@ -225,5 +225,9 @@ add_results setup name: "string tests" {
 	test "string.each" {
 		assert_equal "hello" { a = []; "hello".each { s | a << s }; a.join }
 	}
+
+	test "string.reverse_each" {
+		assert_equal "olleh" { a = []; "hello".reverse_each { s | a << s }; a.join }
+	}
 }
 

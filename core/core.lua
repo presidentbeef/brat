@@ -2670,6 +2670,20 @@ function string_instance:each (block)
 	return self
 end
 
+function string_instance:reverse_undereach (block)
+	local s = self._lua_string
+	local index = #s
+
+	while index > 0 do
+		block(self, base_string:new(s:sub(index, index)))
+
+		index = index - 1
+	end
+
+	return self
+end
+
+
 string_instance.__stripper = orex.new("(^\\s+)|(\\s+$)")
 
 function string_instance:strip ()
