@@ -1,0 +1,10 @@
+#* http://rosettacode.org/wiki/Strip_comments_from_a_string
+	Truncate string after comment character
+*#
+
+strip_comment = { str |
+	str.sub /(#|;).*$/ ''
+}
+
+p strip_comment "apples, pears # and bananas"
+p strip_comment "apples, pears ; and bananas"
