@@ -1,5 +1,5 @@
-#* Binary trees benchmark from
-  http://shootout.alioth.debian.org/u32/benchmark.php?test=binarytrees&lang=all
+#* http://shootout.alioth.debian.org/u32/benchmark.php?test=binarytrees&lang=all
+  Binary trees benchmark
 *#
 
 item_check = { left, item, right |

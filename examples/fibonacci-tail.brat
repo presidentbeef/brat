@@ -1,3 +1,5 @@
+# Tail recursive Fibonacci function
+
 fib_aux = { x, next, result |
   true? x == 0,
     result,

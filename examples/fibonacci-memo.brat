@@ -1,4 +1,7 @@
+# Fibonacci function using caching
+
 cache = hash.new
+
 fibonacci = { x |
   true? cache.key?(x)
     { cache[x] }

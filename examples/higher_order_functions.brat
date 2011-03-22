@@ -1,6 +1,5 @@
-#* Higher-order functions
+#* http://rosettacode.org/wiki/Higher-order_functions
   Pass a function as an argument
-  http://rosettacode.org/wiki/Higher-order_functions
 
   Note: most of Brat works by passing in "anonymous functions" as arguments
   to methods (e.g., array.map)

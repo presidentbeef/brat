@@ -33,7 +33,7 @@ amounts = [98 42 23 17 3 2]
 best = []
 
 #Algorithm for determining coin change
-#Dynamic programming solution Shamefully stolen from
+#Dynamic programming solution shamefully stolen from
 #http://ace.cs.ohiou.edu/~razvan/courses/cs404/lecture19.pdf
 minimum_tasks = { n, k |
   best[0] = 0

@@ -1,5 +1,9 @@
+#* http://rosettacode.org/wiki/Factorial
+  Recursive factorial function
+*#
+
 fact = { x |
-  true? x == 0 1 { x * fact(x - 1)}
+  true? x == 0 1 { x * fact(x - 1) }
 }
 
 p fact 10

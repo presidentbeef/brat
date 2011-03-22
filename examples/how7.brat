@@ -1,7 +1,8 @@
+# Ask 'How are you?' in an interesting way
+
 How = { x |
   x
-  mood = g
-  p mood, "? Hmm..."
+  p g, "? Hmm..."
 }
 
 are = { x | { print x } }
