@@ -1,21 +1,21 @@
 #* http://rosettacode.org/wiki/Mutual_recursion
-	Two mutually recursive functions that compute members of the 
-	Hofstadter Female and Male sequences:
-	http://en.wikipedia.org/wiki/Hofstadter_sequence#Hofstadter_Female_and_Male_sequences
+  Two mutually recursive functions that compute members of the 
+  Hofstadter Female and Male sequences:
+  http://en.wikipedia.org/wiki/Hofstadter_sequence#Hofstadter_Female_and_Male_sequences
 *#
 
 female = null #yes, this is necessary
 
 male = { n |
-	true? n == 0
-		{ 0 }
-		{ n - female male(n - 1) }
+  true? n == 0
+    { 0 }
+    { n - female male(n - 1) }
 }
 
 female = { n |
-	true? n == 0
-		{ 1 }
-		{ n - male female(n - 1 ) }
+  true? n == 0
+    { 1 }
+    { n - male female(n - 1 ) }
 }
 
 p 0.to(20).map! { n | female n }
@@ -23,6 +23,6 @@ p 0.to(20).map! { n | male n }
 
 
 #* Result:
-	[1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9, 10, 11, 11, 12, 13]
-	[0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 7, 8, 9, 9, 10, 11, 11, 12, 12]
+  [1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9, 10, 11, 11, 12, 13]
+  [0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 7, 8, 9, 9, 10, 11, 11, 12, 12]
 *#

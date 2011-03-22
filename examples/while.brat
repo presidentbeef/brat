@@ -1,12 +1,12 @@
 #* http://rosettacode.org/wiki/Loops/While
-	Demonstrate while loop
+  Demonstrate while loop
 *#
 
 i = 1024
 while { i > 0 } { 
-		p i
-		i = (i / 2).to_i
-	}
+  p i
+  i = (i / 2).to_i
+}
 
 #* Output:
 1024

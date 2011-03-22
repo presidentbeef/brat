@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Filter
-	Filter elements from an array
+  Filter elements from an array
 *#
 
 p 1.to(10).select { x | x % 2 == 0 }  #Prints [2, 4, 6, 8, 10]

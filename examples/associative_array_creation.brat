@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Associative_arrays/Creation
-	Create a hash.
+  Create a hash.
 *#
 
 h = [:]  #Empty hash

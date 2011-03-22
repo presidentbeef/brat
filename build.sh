@@ -10,36 +10,36 @@ which ruby > /dev/null
 
 if  [ "$?" -ne "0" ] 
 then
-	echo Ruby not found in path. Please install Ruby or add it to your path.
-	exit
+  echo Ruby not found in path. Please install Ruby or add it to your path.
+  exit
 fi
 
 which gem > /dev/null
 
 if [ "$?" = "127" ]
 then
-	echo Could not find RubyGems. Please install it.
+  echo Could not find RubyGems. Please install it.
 fi
 
 gem which treetop > /dev/null
 
 if [ "$?" -ne "0" ]
 then
-	echo Could not find Treetop gem. Please install it via: gem install treetop
-	exit
+  echo Could not find Treetop gem. Please install it via: gem install treetop
+  exit
 fi
 
 SYSTEM=`uname`
 
 if [ "$SYSTEM" = "Linux" ]
 then
-	SYSTEM="linux"
+  SYSTEM="linux"
 elif [ "$SYSTEM" = "Darwin" ]
 then
-	SYSTEM="osx"
+  SYSTEM="osx"
 else
-	echo Unsupported system: $SYSTEM
-	exit -1
+  echo Unsupported system: $SYSTEM
+  exit -1
 fi
 
 BRATPATH=`pwd`
@@ -68,23 +68,23 @@ cd $COMMON/$ONIG
 
 if [ "$SYSTEM" = "osx" ]
 then
-	#Copy to lib/
-	cp -f .libs/libonig.2.0.0.dylib $LIB/
+  #Copy to lib/
+  cp -f .libs/libonig.2.0.0.dylib $LIB/
 
-	#Do symbolic links
-	cd $LIB
-	ln -s -f libonig.2.0.0.dylib libonig.2.dylib
-	ln -s -f libonig.2.0.0.dylib libonig.dylib
+  #Do symbolic links
+  cd $LIB
+  ln -s -f libonig.2.0.0.dylib libonig.2.dylib
+  ln -s -f libonig.2.0.0.dylib libonig.dylib
 
 elif [ "$SYSTEM" = "linux" ]
 then
-	#Copy to lib/
-	cp -f .libs/libonig.so.2.0.0 $LIB
+  #Copy to lib/
+  cp -f .libs/libonig.so.2.0.0 $LIB
 
-	#Do symbolic links
-	cd $LIB
-	ln -s -f libonig.so.2.0.0 libonig.so.2
-	ln -s -f libonig.so.2.0.0 libonig.so
+  #Do symbolic links
+  cd $LIB
+  ln -s -f libonig.so.2.0.0 libonig.so.2
+  ln -s -f libonig.so.2.0.0 libonig.so
 fi
 
 echo Building lrexlib
@@ -113,10 +113,10 @@ cd $COMMON/linenoise
 
 if [ "$SYSTEM" = "linux" ]
 then
-	gcc -fPIC -shared linenoise.c -o liblinenoise.so
+  gcc -fPIC -shared linenoise.c -o liblinenoise.so
 elif [ "$SYSTEM" = "osx" ]
 then
-	gcc -bundle -undefined dynamic_lookup linenoise.c -o liblinenoise.so
+  gcc -bundle -undefined dynamic_lookup linenoise.c -o liblinenoise.so
 fi
 
 mv -f liblinenoise.so $LIB/
@@ -155,5 +155,5 @@ cd $BRATPATH
 
 for f in stdlib/*.brat
 do
-	./brat $f
+  ./brat $f
 done

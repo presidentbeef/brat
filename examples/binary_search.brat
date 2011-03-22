@@ -1,19 +1,19 @@
 #* http://rosettacode.org/wiki/Binary_search
-	Basic binary search
+  Basic binary search
 *#
 
 binary_search = { search_array, value, low, high |
-	true? high < low
-		{ null }
-		{
-			mid = ((low + high) / 2).to_i
-			true? search_array[mid] > value
-				{ binary_search search_array, value, low, mid - 1 }
-				{ true? search_array[mid] < value
-					{ binary_search search_array, value, mid + 1, high }
-					{ mid }
-				}
-		}
+  true? high < low
+    { null }
+    {
+      mid = ((low + high) / 2).to_i
+      true? search_array[mid] > value
+        { binary_search search_array, value, low, mid - 1 }
+        { true? search_array[mid] < value
+          { binary_search search_array, value, mid + 1, high }
+          { mid }
+        }
+    }
 }
 
 #Populate array
@@ -31,5 +31,5 @@ p "Looking for #{x}"
 index = binary_search numbers, x, 0, numbers.length
 
 null? index
-	{ p "Not found" }
-	{ p "Found at index: #{index}" }
+  { p "Not found" }
+  { p "Found at index: #{index}" }

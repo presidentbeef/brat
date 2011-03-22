@@ -4,28 +4,28 @@ include :assert
 overall_results = [tests: 0 assertions: 0 failures: 0]
 
 object.add_results = { r |
-	r.each { k, v |
-		overall_results[k] = overall_results[k] + v	
-	}
+  r.each { k, v |
+    overall_results[k] = overall_results[k] + v 
+  }
 }
 
 [:array :enumerable :examples :file :function
-	:hash :misc :number :object :parser :regex :stdlib :string].each { name |
-	
-	#Force recompilation
-	true? file.exists?("test/test-#{name}.lua")
-		{ file.delete "test/test-#{name}.lua" }
+  :hash :misc :number :object :parser :regex :stdlib :string].each { name |
+  
+  #Force recompilation
+  true? file.exists?("test/test-#{name}.lua")
+    { file.delete "test/test-#{name}.lua" }
 
-	protect { p "Loading #{name} tests..."; import "test/test-#{name}" } rescue: { e | p e }
-	p "-" * 50
-	
-	#Clean up Lua files
-	true? file.exists?("test/test-#{name}.lua")
-		{ file.delete "test/test-#{name}.lua" }
+  protect { p "Loading #{name} tests..."; import "test/test-#{name}" } rescue: { e | p e }
+  p "-" * 50
+  
+  #Clean up Lua files
+  true? file.exists?("test/test-#{name}.lua")
+    { file.delete "test/test-#{name}.lua" }
 
 }
 
 p "Overall results: #{overall_results[:tests]} tests, #{overall_results[:assertions]} assertions, #{overall_results[:failures]} failures."
 
 true? overall_results[:failures] == 0
-	{ p "All systems are go!" }
+  { p "All systems are go!" }

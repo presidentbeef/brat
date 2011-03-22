@@ -1,87 +1,87 @@
 include :assert
 
 add_results setup name: "object tests" {
-	test "object_field" {
-		assert_equal 5 { x = object.new; x.y = 5; x.y }
-		assert_equal 6 { x = object.new; x.y = {n| n}; x.y 6 }
-	}
+  test "object_field" {
+    assert_equal 5 { x = object.new; x.y = 5; x.y }
+    assert_equal 6 { x = object.new; x.y = {n| n}; x.y 6 }
+  }
 
-	test "new" {
-		assert_equal "object[parent]" { object.new.to_s }
-	}
+  test "new" {
+    assert_equal "object[parent]" { object.new.to_s }
+  }
 
-	test "new_object" {
-		assert_equal "object[parent, y]" { x = object.new; x.y = 1; x.to_s }
-	}
+  test "new_object" {
+    assert_equal "object[parent, y]" { x = object.new; x.y = 1; x.to_s }
+  }
 
-	test "inheritance" {
-		assert_equal "something awesome" { a = object.new; a.b = 'something awesome'; b = a.new; b.b }
-		assert_equal "something awesome" { a = object.new; a.b = 'something awesome'; b = a.new; b.b = 'something less awesome'; a.b }
-		assert_equal "a bird" { string.popinjay = 'a bird'; 'say what'.popinjay }
-		assert_equal "tahw yas" { 
-			s = ''
-			save = s.parent->length
-			string.length = { my.reverse };
-			r = 'say what'.length;
-			string.length = ->save
-			r
-		}
-	}
+  test "inheritance" {
+    assert_equal "something awesome" { a = object.new; a.b = 'something awesome'; b = a.new; b.b }
+    assert_equal "something awesome" { a = object.new; a.b = 'something awesome'; b = a.new; b.b = 'something less awesome'; a.b }
+    assert_equal "a bird" { string.popinjay = 'a bird'; 'say what'.popinjay }
+    assert_equal "tahw yas" { 
+      s = ''
+      save = s.parent->length
+      string.length = { my.reverse };
+      r = 'say what'.length;
+      string.length = ->save
+      r
+    }
+  }
 
-	test "init" {
-		assert_equal "something" { x = object.new; x.init = { my.test = "something" };x.new.test }
-		assert_equal "something" { x = object.new; x.init = { arg | my.test = arg };y = x.new "something"; y.test }
-	}
+  test "init" {
+    assert_equal "something" { x = object.new; x.init = { my.test = "something" };x.new.test }
+    assert_equal "something" { x = object.new; x.init = { arg | my.test = arg };y = x.new "something"; y.test }
+  }
 
-	test "parent" {
-		assert { x = object.new; y = x.new; y.parent == x }
-	}
+  test "parent" {
+    assert { x = object.new; y = x.new; y.parent == x }
+  }
 
-	test "object.call_method" {
-		assert_equal 50 { 10.call_method :* 5 }
-		assert_equal 10 { 1.to(10).call_method :last }
-	}
+  test "object.call_method" {
+    assert_equal 50 { 10.call_method :* 5 }
+    assert_equal 10 { 1.to(10).call_method :last }
+  }
 
-	test "object_del_method" {
-		assert_null { a = object.new; a.what?! = { "what" }; a.del_method "what?!";a.get_method "what?!" }
-		assert_equal "what" { a = object.new; a.what?! = { "what" }; b = a.new; b.del_method "what?!";b.what?! }
-	}
+  test "object_del_method" {
+    assert_null { a = object.new; a.what?! = { "what" }; a.del_method "what?!";a.get_method "what?!" }
+    assert_equal "what" { a = object.new; a.what?! = { "what" }; b = a.new; b.del_method "what?!";b.what?! }
+  }
 
-	test "object_methods" {
-		assert { a = object.new; a.b = { }; a.methods.include? "b" }
-		assert { a = object.new; a.b = { }; a.methods.include? "new" }
-	}
+  test "object_methods" {
+    assert { a = object.new; a.b = { }; a.methods.include? "b" }
+    assert { a = object.new; a.b = { }; a.methods.include? "new" }
+  }
 
-	test "object_local_methods" {
-		assert { a = object.new; a.b = { }; a.local_methods.include? "b" }
-		assert_false { a = object.new; a.b = { }; a.local_methods.include? "new" }
-		assert_equal 2 { a = object.new; a.b = { }; a.local_methods.length }
-	}
+  test "object_local_methods" {
+    assert { a = object.new; a.b = { }; a.local_methods.include? "b" }
+    assert_false { a = object.new; a.b = { }; a.local_methods.include? "new" }
+    assert_equal 2 { a = object.new; a.b = { }; a.local_methods.length }
+  }
 
-	test "squish" {
-		assert_equal "a" { a = object.new; b = object.new; a.a = "a"; b.squish a; b.a }
-		assert_equal 2 { a = object.new; b = object.new; a.a = { x | x + 1}; b.squish a;a.a = "hi";b.a 1 }
-		assert_equal [2, 1] { a = object.new; b = object.new; a.a = [1,2]; b.squish a; a.a.reverse!;b.a }
-	}
+  test "squish" {
+    assert_equal "a" { a = object.new; b = object.new; a.a = "a"; b.squish a; b.a }
+    assert_equal 2 { a = object.new; b = object.new; a.a = { x | x + 1}; b.squish a;a.a = "hi";b.a 1 }
+    assert_equal [2, 1] { a = object.new; b = object.new; a.a = [1,2]; b.squish a; a.a.reverse!;b.a }
+  }
 
-	test "object_get_method" {
-		assert_equal "that" { a = object.new; a.what?! = { "that" }; c = a.get_method :what?!; c }
-		assert_equal "that" { a = object.new; a.what?! = { "that" }; c = a.get_method "what?!"; c }
-		assert_equal "that" { a = object.new; a.what?! = { "that" }; w = :what?!; c = a.get_method w; c }
-		assert_equal "that" { a = object.new; a.what?! = { "that" }; b = a.new; w = :what?!; c = b.get_method w; c }
-	}
+  test "object_get_method" {
+    assert_equal "that" { a = object.new; a.what?! = { "that" }; c = a.get_method :what?!; c }
+    assert_equal "that" { a = object.new; a.what?! = { "that" }; c = a.get_method "what?!"; c }
+    assert_equal "that" { a = object.new; a.what?! = { "that" }; w = :what?!; c = a.get_method w; c }
+    assert_equal "that" { a = object.new; a.what?! = { "that" }; b = a.new; w = :what?!; c = b.get_method w; c }
+  }
 
-	test "object_has_method?" {
-		assert { a = object.new; a.wh_at?! = { "that" }; a.has_method? "wh_at?!" }
-	}
+  test "object_has_method?" {
+    assert { a = object.new; a.wh_at?! = { "that" }; a.has_method? "wh_at?!" }
+  }
 
-	test "object_add_method" {
-		assert_equal "that" { a = object.new; a.add_method "what?!", { "that" }; a.what?! }
-		assert_equal "that" { a = object.new; a.add_method :what?!, { "that" }; b = a.new; b.what?! }
-	}
+  test "object_add_method" {
+    assert_equal "that" { a = object.new; a.add_method "what?!", { "that" }; a.what?! }
+    assert_equal "that" { a = object.new; a.add_method :what?!, { "that" }; b = a.new; b.what?! }
+  }
 
-	test "object_with_this" {
-		assert_equal 1 { a = object.new; a.x = 1; a.with_this { x } }
-	}
+  test "object_with_this" {
+    assert_equal 1 { a = object.new; a.x = 1; a.with_this { x } }
+  }
 
 }

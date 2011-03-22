@@ -2,1651 +2,1651 @@ grammar BaseBrat
 
   #Wrap up program
   rule program
- 	line+ {
-		def brat(res_var = nil)
-			<<-LUA
-				#{file_header}
+  line+ {
+    def brat(res_var = nil)
+      <<-LUA
+        #{file_header}
 
-			_exports = {}
-			local _main = function ()
-				#{method_header}
-	
-				setfenv(1, {})
+      _exports = {}
+      local _main = function ()
+        #{method_header}
+  
+        setfenv(1, {})
 
-				#{self.inner_brat}
-			end
+        #{self.inner_brat}
+      end
 
-			local _result = coxpcall(_main, exception._handler)
-			if not _lib then
-				if not _result then
-					os.exit(-1)
-				else
-					os.exit(0)
-				end
-			end
-			LUA
-		end
+      local _result = coxpcall(_main, exception._handler)
+      if not _lib then
+        if not _result then
+          os.exit(-1)
+        else
+          os.exit(0)
+        end
+      end
+      LUA
+    end
 
-		def file_header
-			<<-LUA
-			require "coxpcall"
-			local _lib
-			if package.loaded.core then
-				_lib = true
-			else
-				_lib = false
-				require "core"
-			end
-			LUA
-		end
+    def file_header
+      <<-LUA
+      require "coxpcall"
+      local _lib
+      if package.loaded.core then
+        _lib = true
+      else
+        _lib = false
+        require "core"
+      end
+      LUA
+    end
 
-		def method_header
-			<<-LUA
-				local object = object
-				local array = array
-				local number = number
-				local string = base_string
-				local exception = exception
-				local hash = hash
-				local regex = regex
-				local _self = object
-				local _type = type
-				local _error = error
-				local _tostring = tostring
-			LUA
-		end
+    def method_header
+      <<-LUA
+        local object = object
+        local array = array
+        local number = number
+        local string = base_string
+        local exception = exception
+        local hash = hash
+        local regex = regex
+        local _self = object
+        local _type = type
+        local _error = error
+        local _tostring = tostring
+      LUA
+    end
 
-		def interactive_brat
-			$interactive = true
-			elements.reject! { |e| e.respond_to? :comment or e.respond_to? :empty_line or not e.respond_to? :brat }
+    def interactive_brat
+      $interactive = true
+      elements.reject! { |e| e.respond_to? :comment or e.respond_to? :empty_line or not e.respond_to? :brat }
 
-			code = elements[0..-2].map { |e| e.brat }
+      code = elements[0..-2].map { |e| e.brat }
 
-			last = elements.last
+      last = elements.last
 
-			if last.respond_to? :return_result
-				code << last.return_result
-			elsif last
-				code << last.brat
-				code << "return #{last.result}"
-			end
+      if last.respond_to? :return_result
+        code << last.return_result
+      elsif last
+        code << last.brat
+        code << "return #{last.result}"
+      end
 
-			lua = code.join("\n")
+      lua = code.join("\n")
 
-			if lua.strip.gsub(";", "").length == 0
-				lua = "return object:null()\n"
-			end
+      if lua.strip.gsub(";", "").length == 0
+        lua = "return object:null()\n"
+      end
 
-			lua
-		end
+      lua
+    end
 
-		def inner_brat
-			Treetop::Runtime::SyntaxNode.clear_variables
-			elements.map do |e| 
-				if e.respond_to? :no_result
-					"   " << e.no_result
-				elsif e.respond_to? :brat
-					"   " << e.brat
-				end
-			end.compact.join("\n")
-		end
-	}
-	/
-	eof
+    def inner_brat
+      Treetop::Runtime::SyntaxNode.clear_variables
+      elements.map do |e| 
+        if e.respond_to? :no_result
+          "   " << e.no_result
+        elsif e.respond_to? :brat
+          "   " << e.brat
+        end
+      end.compact.join("\n")
+    end
+  }
+  /
+  eof
   end
 
   #Matches a single expression, comment, or an empty line
   rule line
-	~comment 
-	/
- 	~(space?) e:expression ~(space?) ~(comment?) ~( eof / eol / eob)  {
-		def brat(res_var = nil)
-			if e.respond_to? :brat
-				e.brat
-			end
-		end
+  ~comment 
+  /
+  ~(space?) e:expression ~(space?) ~(comment?) ~( eof / eol / eob)  {
+    def brat(res_var = nil)
+      if e.respond_to? :brat
+        e.brat
+      end
+    end
 
-		def respond_to? arg
-			e.respond_to? arg
-		end
+    def respond_to? arg
+      e.respond_to? arg
+    end
 
-		def return_result
-			e.return_result
-		end
+    def return_result
+      e.return_result
+    end
 
-		def result
-			e.result
-		end
+    def result
+      e.result
+    end
 
-		def no_result
-			e.no_result
-		end
-	}
-	/
-	~empty_line
+    def no_result
+      e.no_result
+    end
+  }
+  /
+  ~empty_line
   end
 
   #Matches an empty line
   rule empty_line
-  	space? ~eol {
-		def brat(res_var = nil)
-			""
-		end
+    space? ~eol {
+    def brat(res_var = nil)
+      ""
+    end
 
-		def empty_line
-		end
-	}
+    def empty_line
+    end
+  }
   end
 
   #Expressions! Which is basically everything
   rule expression
-	regex / binary_operation / index_set / index_get / 
-	assignment / 
-	paren_exp ~(!("." / "(" / "->")) { 
-		def brat(res_var = nil)
-			output = paren_exp.brat(res_var)
-			@result = paren_exp.result
-			output
-		end 
-	}
-	/ 
-	unary_operation / method_access / method_invocation / number / string / symbol / function_definition / array / hash 
+  regex / binary_operation / index_set / index_get / 
+  assignment / 
+  paren_exp ~(!("." / "(" / "->")) { 
+    def brat(res_var = nil)
+      output = paren_exp.brat(res_var)
+      @result = paren_exp.result
+      output
+    end 
+  }
+  / 
+  unary_operation / method_access / method_invocation / number / string / symbol / function_definition / array / hash 
   end
 
   #Expressions which can be followed by []
   rule indexed_expression
- 	array / hash / paren_exp / unary_operation / method_invocation / string
+  array / hash / paren_exp / unary_operation / method_invocation / string
   end
 
   #Expressions which can be used as lhs of "." method calls
   rule method_target_expression
- 	array / hash / paren_exp / number / string / regex / symbol / unary_operation
+  array / hash / paren_exp / number / string / regex / symbol / unary_operation
   end
  
   #Expressions which can be used as the lhs of a binary expression 
   rule binary_lhs_expression
-	method_with_parens / index_get / paren_exp / number / string / array / hash / regex / symbol / unary_operation / method_invocation
+  method_with_parens / index_get / paren_exp / number / string / array / hash / regex / symbol / unary_operation / method_invocation
   end
 
   rule unary_rhs_expression
- 	index_get / paren_exp / number / string / array / hash / method_invocation / regex / symbol
+  index_get / paren_exp / number / string / array / hash / method_invocation / regex / symbol
   end
 
   rule default_arg_rhs_expression
-	index_get / paren_exp / method_access / method_invocation / number / unary_operation / string / symbol / function_definition / array / hash
+  index_get / paren_exp / method_access / method_invocation / number / unary_operation / string / symbol / function_definition / array / hash
   end
 
   #Matches regular expression literals
   rule regex
-	"/" r:(!"/" . / "\\/")* "/" {
-		def brat(res_var = nil)
-			reg = r.text_value.gsub("\\", "\\\\\\\\")
-			if res_var
-				@result = res_var
-				"#@result = regex:new(\"#{reg}\")\n"
-			else
-				next_temp
-				"local #@result = regex:new(\"#{reg}\")\n"
-			end
-		end
-	}
+  "/" r:(!"/" . / "\\/")* "/" {
+    def brat(res_var = nil)
+      reg = r.text_value.gsub("\\", "\\\\\\\\")
+      if res_var
+        @result = res_var
+        "#@result = regex:new(\"#{reg}\")\n"
+      else
+        next_temp
+        "local #@result = regex:new(\"#{reg}\")\n"
+      end
+    end
+  }
   end
 
   #Matches comments
   rule comment
-  	space? "#*" (!"*#" (comment / .))* "*#" {
-		def brat(res_var = nil)
-			"--comment"
-		end
+    space? "#*" (!"*#" (comment / .))* "*#" {
+    def brat(res_var = nil)
+      "--comment"
+    end
 
-		def comment
-		end
-	}
-	/
-	space? "#" (!(eol/eof) .)* {
-		def brat(res_var = nil)
-			"--comment"
-		end
+    def comment
+    end
+  }
+  /
+  space? "#" (!(eol/eof) .)* {
+    def brat(res_var = nil)
+      "--comment"
+    end
 
-		def comment
-		end
-	}
+    def comment
+    end
+  }
   end
 
   #Matches hash table literals
   rule hash
-	"[" space? ":" space? "]" {
-		def brat(res_var = nil)
-			@result = res_var || next_temp
-			if res_var
-				"#@result = hash:new()" 
-			else
-				"local #@result = hash:new()" 
-			end
-		end
-	}
-	/
-  	"[" spaceorbreak hash_inner spaceorbreak "]" {
-		def brat(res_var = nil)
-			output = hash_inner.brat(res_var)
-			@result = hash_inner.result
-			output
-		end
-	}
+  "[" space? ":" space? "]" {
+    def brat(res_var = nil)
+      @result = res_var || next_temp
+      if res_var
+        "#@result = hash:new()" 
+      else
+        "local #@result = hash:new()" 
+      end
+    end
+  }
+  /
+    "[" spaceorbreak hash_inner spaceorbreak "]" {
+    def brat(res_var = nil)
+      output = hash_inner.brat(res_var)
+      @result = hash_inner.result
+      output
+    end
+  }
   end
 
   #Matches array literals
   rule array
-  	"[" spaceorbreak array_inner spaceorbreak "]" {
-		def brat(res_var = nil)
-			@result = res_var || next_temp
-			inner = array_inner.brat(@result)
-			if res_var
-				output = "do\n" <<
-				inner <<
-				"#@result = array:new(#{array_inner.result})\n" <<
-				"end\n"
-			else
-				output = "local #@result \ndo\n" <<
-				inner <<
-				"#@result = array:new(#{array_inner.result})\n" <<
-				"end\n"
-			end
-		end
+    "[" spaceorbreak array_inner spaceorbreak "]" {
+    def brat(res_var = nil)
+      @result = res_var || next_temp
+      inner = array_inner.brat(@result)
+      if res_var
+        output = "do\n" <<
+        inner <<
+        "#@result = array:new(#{array_inner.result})\n" <<
+        "end\n"
+      else
+        output = "local #@result \ndo\n" <<
+        inner <<
+        "#@result = array:new(#{array_inner.result})\n" <<
+        "end\n"
+      end
+    end
 
-		def no_result
-			self.brat "_dummy_"
-		end
-	}
-	/
-	"[" spaceorbreak "]" {
-		def brat(res_var = nil)
-				@result = res_var || next_temp
-				if res_var
-					"#@result = array:new()\n"
-				else
-					"local #@result = array:new()\n"
-				end
-		end
+    def no_result
+      self.brat "_dummy_"
+    end
+  }
+  /
+  "[" spaceorbreak "]" {
+    def brat(res_var = nil)
+        @result = res_var || next_temp
+        if res_var
+          "#@result = array:new()\n"
+        else
+          "local #@result = array:new()\n"
+        end
+    end
 
-		def no_result
-			self.brat "_dummy_"
-		end
-	}
+    def no_result
+      self.brat "_dummy_"
+    end
+  }
   end
 
   rule array_inner
-	first:expression rest:(((spaceorbreak "," spaceorbreak) / ( space / eol)+) e:expression)* {
-		def brat(res_var = nil)
-			temp_var = next_temp
-			@result = res_var || next_temp
-			output = "#@result = {}\n" <<
-				"local #{temp_var}\n" <<
-				first.brat(temp_var) << "\n" <<
-				"#@result[1] = #{first.result}\n"
+  first:expression rest:(((spaceorbreak "," spaceorbreak) / ( space / eol)+) e:expression)* {
+    def brat(res_var = nil)
+      temp_var = next_temp
+      @result = res_var || next_temp
+      output = "#@result = {}\n" <<
+        "local #{temp_var}\n" <<
+        first.brat(temp_var) << "\n" <<
+        "#@result[1] = #{first.result}\n"
 
-			rest.elements.each_with_index do |r, i|
-				output << r.e.brat(temp_var) << "\n" <<
-					"#@result[#{i + 2}] = #{r.e.result}\n"
-			end
+      rest.elements.each_with_index do |r, i|
+        output << r.e.brat(temp_var) << "\n" <<
+          "#@result[#{i + 2}] = #{r.e.result}\n"
+      end
 
-			unset temp_var
+      unset temp_var
 
-			output
-		end
-	}
+      output
+    end
+  }
   end
 
   #Inside of a hash literal
   rule hash_inner
-	first:hash_argument rest:(((spaceorbreak "," spaceorbreak) / (space / eol)+) n:hash_argument)* {
-		def brat(res_var = nil)
-			key_temp = next_temp
-			val_temp = next_temp
-			@result = res_var || next_temp
-			output = "local #@result = {}\n do \n" <<
-				"local #{key_temp}\nlocal #{val_temp}\n" <<
-				first.brat(key_temp, val_temp) <<
-				"#@result[#{first.index}] = #{first.value}\n"
+  first:hash_argument rest:(((spaceorbreak "," spaceorbreak) / (space / eol)+) n:hash_argument)* {
+    def brat(res_var = nil)
+      key_temp = next_temp
+      val_temp = next_temp
+      @result = res_var || next_temp
+      output = "local #@result = {}\n do \n" <<
+        "local #{key_temp}\nlocal #{val_temp}\n" <<
+        first.brat(key_temp, val_temp) <<
+        "#@result[#{first.index}] = #{first.value}\n"
 
-			rest.elements.each do |e|
-				elem = e.n
-				output << elem.brat(key_temp, val_temp) << "\n" <<
-					"#@result[#{elem.index}] = #{elem.value}\n"
-			end
+      rest.elements.each do |e|
+        elem = e.n
+        output << elem.brat(key_temp, val_temp) << "\n" <<
+          "#@result[#{elem.index}] = #{elem.value}\n"
+      end
 
-			unset key_temp
-			unset val_temp
+      unset key_temp
+      unset val_temp
 
-			output << "#@result = hash:new(#@result)\nend\n"
-		end
-	}
+      output << "#@result = hash:new(#@result)\nend\n"
+    end
+  }
   end
 
   #Single member of a hash table
   rule hash_argument
-	i:((identifier / operator) (identifier / operator / number)*) ":" spaceorbreak e:expression {
-		attr_reader :index, :value
+  i:((identifier / operator) (identifier / operator / number)*) ":" spaceorbreak e:expression {
+    attr_reader :index, :value
 
-		def brat(key_temp, val_temp)
-			output = e.brat(val_temp)
-			@index = "string:new(\"#{i.text_value}\")"
-			@value = e.result
-			output
-		end
-	}
-	/
-  	i:expression spaceorbreak ":" spaceorbreak v:expression {
-		attr_reader :index, :value
-		def brat(key_temp, val_temp)
-			output = i.brat(key_temp) << "\n" << v.brat(val_temp) << "\n"
-			@index = i.result
-			@value = v.result
-			output
-		end
-	}
+    def brat(key_temp, val_temp)
+      output = e.brat(val_temp)
+      @index = "string:new(\"#{i.text_value}\")"
+      @value = e.result
+      output
+    end
+  }
+  /
+    i:expression spaceorbreak ":" spaceorbreak v:expression {
+    attr_reader :index, :value
+    def brat(key_temp, val_temp)
+      output = i.brat(key_temp) << "\n" << v.brat(val_temp) << "\n"
+      @index = i.result
+      @value = v.result
+      output
+    end
+  }
   end
 
   #Setting value via index (e.g., "a[1] = b")
   rule index_set
-  	e:indexed_expression a:("[" i:expression "]")+ space? "=" spaceorbreak v:expression {
-		def brat(res_var = nil)
-			@result = res_var || next_temp
+    e:indexed_expression a:("[" i:expression "]")+ space? "=" spaceorbreak v:expression {
+    def brat(res_var = nil)
+      @result = res_var || next_temp
 
-			if res_var
-				output = ""
-			else
-				output = "local #@result\n"
-			end
+      if res_var
+        output = ""
+      else
+        output = "local #@result\n"
+      end
 
-			output << "do\n" << e.brat << "\n"
+      output << "do\n" << e.brat << "\n"
 
-			output <<	"#@result = #{e.result}\n"
+      output << "#@result = #{e.result}\n"
 
-			indices = a.elements[0..-2]
-			final = a.elements.last
+      indices = a.elements[0..-2]
+      final = a.elements.last
 
-			indices.each do |elem|
-				output << elem.i.brat << "\n" <<
-					"#@result = #@result:get(#{elem.i.result})\n" 
+      indices.each do |elem|
+        output << elem.i.brat << "\n" <<
+          "#@result = #@result:get(#{elem.i.result})\n" 
 
-				unset elem.i.result
-			end
+        unset elem.i.result
+      end
 
-			output << 
-				v.brat << "\n" << 
-				final.i.brat << "\n" << 
-				"#@result = #@result:set(#{final.i.result}, #{v.result})\nend\n"
-		end
+      output << 
+        v.brat << "\n" << 
+        final.i.brat << "\n" << 
+        "#@result = #@result:set(#{final.i.result}, #{v.result})\nend\n"
+    end
 
-		def no_result
-			self.brat("_dummy_")
-		end
-	}
+    def no_result
+      self.brat("_dummy_")
+    end
+  }
   end
 
   #Retrieving value via index (e.g., "a[1]")
   rule index_get
-  	e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
-		def brat(res_var = nil)
-			if res_var
-				@result = res_var
-				output = ""
-			else
-				next_temp
-				output = "local #@result\n"
-			end
+    e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
+    def brat(res_var = nil)
+      if res_var
+        @result = res_var
+        output = ""
+      else
+        next_temp
+        output = "local #@result\n"
+      end
 
-			output << "do\n" <<
-				e.brat << "\n" <<
-				"#@result = #{e.result}\n"
+      output << "do\n" <<
+        e.brat << "\n" <<
+        "#@result = #{e.result}\n"
 
-			a.elements.each do |elem|
-				output << elem.inner_arg_list.brat << "\n" <<
-					"#@result = #@result:get(#{elem.inner_arg_list.list})\n" 
-				elem.inner_arg_list.unset_args
-			end
+      a.elements.each do |elem|
+        output << elem.inner_arg_list.brat << "\n" <<
+          "#@result = #@result:get(#{elem.inner_arg_list.list})\n" 
+        elem.inner_arg_list.unset_args
+      end
 
-			unless args.respond_to? :nothing?
-				output << args.brat << "\n" <<
-					invoke(@result, @result, args.list, args.length) << "\n"
-				args.unset_args
-			end
+      unless args.respond_to? :nothing?
+        output << args.brat << "\n" <<
+          invoke(@result, @result, args.list, args.length) << "\n"
+        args.unset_args
+      end
 
-			output << "end\n"
-		end
+      output << "end\n"
+    end
 
-		def no_result
-			self.brat("_dummy_")
-		end
-	}
+    def no_result
+      self.brat("_dummy_")
+    end
+  }
   end
 
   #Matches assignment using "=" operator
   rule assignment
- 	lhs:field_access space "=" spaceorbreak !function_literal_invocation rhs:(function_definition / method_access) {
-		def brat(res_var = nil)
-			output = lhs.brat << "\n" << rhs.brat << "\n"	
-			lhs_result = lhs.result
-			rhs_result = rhs.result
-			@result = rhs.result
+  lhs:field_access space "=" spaceorbreak !function_literal_invocation rhs:(function_definition / method_access) {
+    def brat(res_var = nil)
+      output = lhs.brat << "\n" << rhs.brat << "\n" 
+      lhs_result = lhs.result
+      rhs_result = rhs.result
+      @result = rhs.result
 
-			output << <<-LUA
-				if _type(#{lhs_result}) == "table" then
-					#{lhs_result}["#{lhs.i.brat}"] = #{rhs_result}
-				elseif _type(#{lhs_result}) == "number" then
-					number["#{lhs.i.brat}"] =  #{rhs_result}
-				else
-					_error("Cannot set method on " .. #{lhs_result})
-				end
-			LUA
+      output << <<-LUA
+        if _type(#{lhs_result}) == "table" then
+          #{lhs_result}["#{lhs.i.brat}"] = #{rhs_result}
+        elseif _type(#{lhs_result}) == "number" then
+          number["#{lhs.i.brat}"] =  #{rhs_result}
+        else
+          _error("Cannot set method on " .. #{lhs_result})
+        end
+      LUA
 
-			unset lhs_result
+      unset lhs_result
 
-			output
-		end
-	}
-	/
- 	lhs:field_access space "=" spaceorbreak rhs:expression {
-		def brat(res_var = nil)
-			output = lhs.brat << "\n" << rhs.brat << "\n"	
-			lhs_result = lhs.result
-			rhs_result = rhs.result
-			@result = rhs.result
+      output
+    end
+  }
+  /
+  lhs:field_access space "=" spaceorbreak rhs:expression {
+    def brat(res_var = nil)
+      output = lhs.brat << "\n" << rhs.brat << "\n" 
+      lhs_result = lhs.result
+      rhs_result = rhs.result
+      @result = rhs.result
 
-			output << <<-LUA
-				if _type(#{lhs_result}) == "table" then
-					#{lhs_result}["#{lhs.i.brat}"] = function () return #{rhs_result} end
-				elseif _type(#{lhs_result}) == "number" then
-					number["#{lhs.i.brat}"] = function () return #{rhs_result} end
-				else
-					_error("Cannot set method on " .. #{lhs_result})
-				end
-			LUA
+      output << <<-LUA
+        if _type(#{lhs_result}) == "table" then
+          #{lhs_result}["#{lhs.i.brat}"] = function () return #{rhs_result} end
+        elseif _type(#{lhs_result}) == "number" then
+          number["#{lhs.i.brat}"] = function () return #{rhs_result} end
+        else
+          _error("Cannot set method on " .. #{lhs_result})
+        end
+      LUA
 
-			unset lhs_result
-			output
-		end
-	}
-	/
-	lhs:identifier space "=" spaceorbreak rhs:expression {
-		def brat(res_var = nil)
-			var = lhs.brat
-			temp = var_exist? var
-			if temp
-				output = rhs.brat(temp) 
-				output << "\n#{temp} = #{rhs.result}\n" unless temp == rhs.result
-			else
-				temp = var_add var
-				output = ""
-				unless $interactive and not $inside_function
-					output << "local #{temp}\n"
-				end
-				
-				output << rhs.brat(temp)
+      unset lhs_result
+      output
+    end
+  }
+  /
+  lhs:identifier space "=" spaceorbreak rhs:expression {
+    def brat(res_var = nil)
+      var = lhs.brat
+      temp = var_exist? var
+      if temp
+        output = rhs.brat(temp) 
+        output << "\n#{temp} = #{rhs.result}\n" unless temp == rhs.result
+      else
+        temp = var_add var
+        output = ""
+        unless $interactive and not $inside_function
+          output << "local #{temp}\n"
+        end
+        
+        output << rhs.brat(temp)
 
-				output << "\n#{temp} = #{rhs.result}\n" unless temp == rhs.result
-			end
-			@result = temp
-			output
-		end
-	}
+        output << "\n#{temp} = #{rhs.result}\n" unless temp == rhs.result
+      end
+      @result = temp
+      output
+    end
+  }
   end
 
   #Matches a lhs that is a field access (e.g., "a.b")
   rule field_access
-  	m:method_chain i:(identifier / operator) {
-		def brat(res_var = nil)
-			m.brat
-		end
+    m:method_chain i:(identifier / operator) {
+    def brat(res_var = nil)
+      m.brat
+    end
 
-		def result
-			m.result
-		end
-	}
+    def result
+      m.result
+    end
+  }
   end
 
   #Matches a parenthesized expression
   rule paren_exp
-  	'(' ~(space?) expression ~(space?) ')' {
-		def brat(res_var = nil)
-			output = expression.brat res_var
-			@result = expression.result
-			output
-		end
-	}
+    '(' ~(space?) expression ~(space?) ')' {
+    def brat(res_var = nil)
+      output = expression.brat res_var
+      @result = expression.result
+      output
+    end
+  }
   end
 
   #Matches an identifier, which is any letter followed by letters, digits,
   #and some symbols.
   #Also mangles anything that is a Lua keyword.
   rule identifier
-	[a-zA-Z] (!"->" !space [a-zA-Z0-9_!?\-*+^&@~/\\><$%])* {
-		def brat(res_var = nil)
-			escape_identifier text_value
-		end
-	}
+  [a-zA-Z] (!"->" !space [a-zA-Z0-9_!?\-*+^&@~/\\><$%])* {
+    def brat(res_var = nil)
+      escape_identifier text_value
+    end
+  }
   end
 
   #Matches a number
   rule number
-  	float / integer 
+    float / integer 
   end
 
   #Matches floats
   rule float
-	'-'? [0-9]+ "." [0-9]+ {
-		def brat(res_var = nil)
-			@result = text_value
-			""
-		end
-	}
+  '-'? [0-9]+ "." [0-9]+ {
+    def brat(res_var = nil)
+      @result = text_value
+      ""
+    end
+  }
   end
 
   #Matches integers
 
   rule integer
-	'-'? [0-9]+ {
-		def brat(res_var = nil)
-			@result = text_value
-			""
-		end
-	}
+  '-'? [0-9]+ {
+    def brat(res_var = nil)
+      @result = text_value
+      ""
+    end
+  }
   end
 
   #Matches doubly-quoted strings
   rule string
     '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
-		def brat(res_var = nil)
-			@result = res_var || next_temp
+    def brat(res_var = nil)
+      @result = res_var || next_temp
 
-			if content.elements.empty?
-				if res_var
-					"#@result = string:new(#{text_value});"
-				else
-					"local #@result = string:new(#{text_value});"
-				end
-			else
-				output = ""
-				text = '"'
-	
-				output << "local #@result\n" unless res_var
-			
-				output << "do\n"
+      if content.elements.empty?
+        if res_var
+          "#@result = string:new(#{text_value});"
+        else
+          "local #@result = string:new(#{text_value});"
+        end
+      else
+        output = ""
+        text = '"'
+  
+        output << "local #@result\n" unless res_var
+      
+        output << "do\n"
 
-				results = [] #for unsetting
-				content.elements.each do |e|
-					if e.respond_to? :brat
-						output << e.brat << "\n"
-						text << "\" .. _tostring(#{e.result}) .. \""
-						results << e.result
-					else
-						text << e.text_value
-					end
-				end
+        results = [] #for unsetting
+        content.elements.each do |e|
+          if e.respond_to? :brat
+            output << e.brat << "\n"
+            text << "\" .. _tostring(#{e.result}) .. \""
+            results << e.result
+          else
+            text << e.text_value
+          end
+        end
 
-				results.each { |r| unset r }
+        results.each { |r| unset r }
 
-				output << "#@result = string:new(#{text << '"'})\n"
-				output << "end\n"
-			end
-		end
-	}
-	/
-	"'" content:(("\\'" / "\\\\" / !"'" . )*) "'" {
-		def brat(res_var = nil)
-			@result = res_var || next_temp
-			string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
-			if res_var
-				"#@result = string:new(\"#{string}\")\n"
-			else
-				"local #@result = string:new(\"#{string}\")\n"
-			end
-		end
-	}
+        output << "#@result = string:new(#{text << '"'})\n"
+        output << "end\n"
+      end
+    end
+  }
+  /
+  "'" content:(("\\'" / "\\\\" / !"'" . )*) "'" {
+    def brat(res_var = nil)
+      @result = res_var || next_temp
+      string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
+      if res_var
+        "#@result = string:new(\"#{string}\")\n"
+      else
+        "local #@result = string:new(\"#{string}\")\n"
+      end
+    end
+  }
   end
 
   rule string_interpolation
-	~"#" "{" ~(space?) first:expression? ~(space?) rest:((~eol ~(space?) expression ~(space?))*) ~(eol?) ~(space?) ~"}" {
-		def brat(res_var = nil)
-			output = ""
-			if first.respond_to? :brat
-				output << first.brat
-				@result = first.result
-			end
+  ~"#" "{" ~(space?) first:expression? ~(space?) rest:((~eol ~(space?) expression ~(space?))*) ~(eol?) ~(space?) ~"}" {
+    def brat(res_var = nil)
+      output = ""
+      if first.respond_to? :brat
+        output << first.brat
+        @result = first.result
+      end
 
-			rest.elements.each do |e|
-				if e.expression.respond_to? :brat
-					output << e.expression.brat
-					unset @result
-					@result = e.expression.result
-				end
-			end
+      rest.elements.each do |e|
+        if e.expression.respond_to? :brat
+          output << e.expression.brat
+          unset @result
+          @result = e.expression.result
+        end
+      end
 
-			output
-		end
-	} 
+      output
+    end
+  } 
   end
 
   #Like symbols in Scheme or Ruby
   rule symbol
-	":" id:(identifier / operator / number)+ {
-		def brat(res_var = nil)
-			if res_var
-				@result = res_var
-				"#@result = string:new(\"#{id.text_value}\")\n"
-			else
-				next_temp
-				"local #@result = string:new(\"#{id.text_value}\")\n"
-			end
-		end
-	} 
+  ":" id:(identifier / operator / number)+ {
+    def brat(res_var = nil)
+      if res_var
+        @result = res_var
+        "#@result = string:new(\"#{id.text_value}\")\n"
+      else
+        next_temp
+        "local #@result = string:new(\"#{id.text_value}\")\n"
+      end
+    end
+  } 
   end
 
   rule symbol_convert
-	identifier
-	/
-	operator
-	/
-	number {
-		def brat(res_var = nil)
-			n.text_value
-		end
-	}
+  identifier
+  /
+  operator
+  /
+  number {
+    def brat(res_var = nil)
+      n.text_value
+    end
+  }
   end
 
   #Matches function definitions
   rule function_definition
-	"{" space? fa:formal_args space? l:line* space? "}" {
-		def brat(res_var = nil)
-			already_inside_function = $inside_function
-			$inside_function = true
+  "{" space? fa:formal_args space? l:line* space? "}" {
+    def brat(res_var = nil)
+      already_inside_function = $inside_function
+      $inside_function = true
 
-			new_scope
-			if fa.respond_to? :brat
-				args = fa.brat
-			else
-				args = "_self"
-			end
+      new_scope
+      if fa.respond_to? :brat
+        args = fa.brat
+      else
+        args = "_self"
+      end
 
-			if fa.respond_to? :function_header
-				inside = fa.function_header
-			else
-				inside = ""
-			end
-		
-			output = ""
+      if fa.respond_to? :function_header
+        inside = fa.function_header
+      else
+        inside = ""
+      end
+    
+      output = ""
 
-			l.elements.reject! { |e| e.respond_to? :comment or e.respond_to? :empty_line }
+      l.elements.reject! { |e| e.respond_to? :comment or e.respond_to? :empty_line }
 
-			elements = l.elements[0..-2].map do |e|
-				if e.respond_to? :no_result
-					e.no_result
-				else
-					e.brat
-				end
-			end
+      elements = l.elements[0..-2].map do |e|
+        if e.respond_to? :no_result
+          e.no_result
+        else
+          e.brat
+        end
+      end
 
-			last = l.elements.last
+      last = l.elements.last
 
-			if last.respond_to? :return_result
-				elements << last.return_result
-			elsif last
-				elements << last.brat
-				elements << "return #{last.result}"
-			end
+      if last.respond_to? :return_result
+        elements << last.return_result
+      elsif last
+        elements << last.brat
+        elements << "return #{last.result}"
+      end
 
-			inner_function = elements.join("\n")
+      inner_function = elements.join("\n")
 
-			#Empty functions should return null object instead of Lua null
-			if inner_function.strip.gsub(";", "").length == 0
-				inner_function = "return object:null()\n"
-			end
+      #Empty functions should return null object instead of Lua null
+      if inner_function.strip.gsub(";", "").length == 0
+        inner_function = "return object:null()\n"
+      end
 
-			#Have to check for when there are no formal arguments
-			if fa.respond_to? :max
-				max = fa.max
-				min = fa.min
-			else
-				max = 0
-				min = 0
-			end
+      #Have to check for when there are no formal arguments
+      if fa.respond_to? :max
+        max = fa.max
+        min = fa.min
+      else
+        max = 0
+        min = 0
+      end
 
-			if res_var
-				@result = res_var
-				output << "#{res_var} = function (#{args})\n"
-			else
-				next_temp
-				output << "local #@result = function (#{args})\n"
-			end
-			
-			output << inside << "\n" << inner_function << "\nend\n"
+      if res_var
+        @result = res_var
+        output << "#{res_var} = function (#{args})\n"
+      else
+        next_temp
+        output << "local #@result = function (#{args})\n"
+      end
+      
+      output << inside << "\n" << inner_function << "\nend\n"
 
-			pop_scope
+      pop_scope
 
-			$inside_function = false unless already_inside_function
+      $inside_function = false unless already_inside_function
 
-			output
-		end
+      output
+    end
 
-		def no_result
-			self.brat "_dummy_"
-		end
-	}
+    def no_result
+      self.brat "_dummy_"
+    end
+  }
   end
 
   #Matches formal arguments in a function definition
   rule formal_args
-	space? plain_formals space? "|" !"|" {
-		def brat(res_var = nil)
-			plain_formals.brat
-		end
+  space? plain_formals space? "|" !"|" {
+    def brat(res_var = nil)
+      plain_formals.brat
+    end
 
-		def function_header 
-			plain_formals.check_args true
-		end
-	}
-	/
-	space? default_args space? "|" !"|" {
-		def brat(res_var = nil)
-			default_args.brat
-			(["_self"].concat default_args.arg_names).join(",")
-		end
+    def function_header 
+      plain_formals.check_args true
+    end
+  }
+  /
+  space? default_args space? "|" !"|" {
+    def brat(res_var = nil)
+      default_args.brat
+      (["_self"].concat default_args.arg_names).join(",")
+    end
 
-		def function_header
-			default_args.set_args
-		end
-	}
-	/
-	space? variable_args space? "|"	!"|" {
-		def brat(res_var = nil)
-			@param = var_add variable_args.i.brat
-			"_self, ..."
-		end
+    def function_header
+      default_args.set_args
+    end
+  }
+  /
+  space? variable_args space? "|" !"|" {
+    def brat(res_var = nil)
+      @param = var_add variable_args.i.brat
+      "_self, ..."
+    end
 
-		def function_header
-			"#@param = array:new(...)\n"
-		end
-	}
-	/
-	space? plain_formals space? "," space? variable_args space? "|"	!"|"  {
-		def brat(res_var = nil)
-			@param = var_add variable_args.i.brat
-			plain_formals.brat << ", ..."
-		end
+    def function_header
+      "#@param = array:new(...)\n"
+    end
+  }
+  /
+  space? plain_formals space? "," space? variable_args space? "|" !"|"  {
+    def brat(res_var = nil)
+      @param = var_add variable_args.i.brat
+      plain_formals.brat << ", ..."
+    end
 
-		def function_header
-			plain_formals.check_args << "\n" <<
-			"#@param = array:new(...)\n"
-		end
-	}
-	/
-	space? default_args space? "," space? variable_args space? "|" !"|" {
-		def brat(res_var = nil)
-			@param = var_add variable_args.i.brat
-			default_args.brat
-			(default_args.arg_names.unshift("_self") << ["..."]).join(",")
-		end
+    def function_header
+      plain_formals.check_args << "\n" <<
+      "#@param = array:new(...)\n"
+    end
+  }
+  /
+  space? default_args space? "," space? variable_args space? "|" !"|" {
+    def brat(res_var = nil)
+      @param = var_add variable_args.i.brat
+      default_args.brat
+      (default_args.arg_names.unshift("_self") << ["..."]).join(",")
+    end
 
-		def function_header
-			default_args.set_args << "\n" <<
-			"#@param = array:new(...)\n"
-		end
-	}
-	/
-	space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" !"|" {
-		def brat(res_var = nil)
-			@param = var_add variable_args.i.brat
-			default_args.brat
-			plain_formals.brat << "," << default_args.arg_names.join(",") << ", ..."
-		end
+    def function_header
+      default_args.set_args << "\n" <<
+      "#@param = array:new(...)\n"
+    end
+  }
+  /
+  space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" !"|" {
+    def brat(res_var = nil)
+      @param = var_add variable_args.i.brat
+      default_args.brat
+      plain_formals.brat << "," << default_args.arg_names.join(",") << ", ..."
+    end
 
-		def function_header
-			plain_formals.check_args << "\n" <<
-			default_args.set_args << "\n" <<
-			"#@param = array:new(...)\n"
-		end
-	}
-	/
-  	space? plain_formals space? "," space? default_args space? "|" !"|" {
-		def brat(res_var = nil)
-			default_args.brat
-			plain_formals.brat << "," << default_args.arg_names.join(",")
-		end
+    def function_header
+      plain_formals.check_args << "\n" <<
+      default_args.set_args << "\n" <<
+      "#@param = array:new(...)\n"
+    end
+  }
+  /
+    space? plain_formals space? "," space? default_args space? "|" !"|" {
+    def brat(res_var = nil)
+      default_args.brat
+      plain_formals.brat << "," << default_args.arg_names.join(",")
+    end
 
-		def function_header
-			plain_formals.check_args << "\n" <<
-			default_args.set_args
-		end
-	}
-	/
-	!"|"
+    def function_header
+      plain_formals.check_args << "\n" <<
+      default_args.set_args
+    end
+  }
+  /
+  !"|"
   end
 
   rule plain_formals
-	i:identifier rest_formal {
-		attr_reader :args
+  i:identifier rest_formal {
+    attr_reader :args
 
-		def brat(res_var = nil)
-			name = var_add i.brat
-			@args = [name] + rest_formal.brat
-			(["_self"] + @args).join(", ")
-		end
+    def brat(res_var = nil)
+      name = var_add i.brat
+      @args = [name] + rest_formal.brat
+      (["_self"] + @args).join(", ")
+    end
 
 
-		def check_args only_plain = false
-			return "" if args.length == 0
+    def check_args only_plain = false
+      return "" if args.length == 0
 
-			if only_plain
-				minimum = 1
-			else
-				minimum = "'at least #{args.length}'"
-			end
-			
-			output = <<-LUA
-				if #{args.first} == nil then
-					_error(exception:argument_error("function", #{minimum}, 0))
-			LUA
+      if only_plain
+        minimum = 1
+      else
+        minimum = "'at least #{args.length}'"
+      end
+      
+      output = <<-LUA
+        if #{args.first} == nil then
+          _error(exception:argument_error("function", #{minimum}, 0))
+      LUA
 
-			args[1..-1].each_with_index do |arg, index|
-				output << <<-LUA
-					elseif #{args.first} == nil then
-						_error(exception:argument_error("function", #{minimum}, #{index}))
-				LUA
-			end
+      args[1..-1].each_with_index do |arg, index|
+        output << <<-LUA
+          elseif #{args.first} == nil then
+            _error(exception:argument_error("function", #{minimum}, #{index}))
+        LUA
+      end
 
-			output << "\nend"
-		end
-	}
+      output << "\nend"
+    end
+  }
   end
 
   #Matches list items in a formal argument list
   rule rest_formal
-  	(space? "," space? identifier ~(!(space "=")))* {
-		def brat(res_var = nil)
-			elements.map do |e|
-				var_add e.identifier.brat
-			end
-		end
-	}
+    (space? "," space? identifier ~(!(space "=")))* {
+    def brat(res_var = nil)
+      elements.map do |e|
+        var_add e.identifier.brat
+      end
+    end
+  }
   end
 
   rule default_args
-	first:default_arg rest:(space? "," space? default_arg)* {
-		attr_reader :args, :arg_names
+  first:default_arg rest:(space? "," space? default_arg)* {
+    attr_reader :args, :arg_names
 
-		def brat(res_var = nil)
-			@args = [first.brat]
-			@arg_names = [first.var_name]
-			rest.elements.each do |e|
-				@args << e.default_arg.brat
-				@arg_names << e.default_arg.var_name
-			end
-			""
-		end
+    def brat(res_var = nil)
+      @args = [first.brat]
+      @arg_names = [first.var_name]
+      rest.elements.each do |e|
+        @args << e.default_arg.brat
+        @arg_names << e.default_arg.var_name
+      end
+      ""
+    end
 
-		def set_args
-			@args.join("\n")
-		end
-	}
+    def set_args
+      @args.join("\n")
+    end
+  }
   end
 
   rule default_arg
-	i:identifier space "=" space v:default_arg_rhs_expression {
-		def brat(res_var = nil)
-			@var_name = i.brat
-			var_add @var_name
+  i:identifier space "=" space v:default_arg_rhs_expression {
+    def brat(res_var = nil)
+      @var_name = i.brat
+      var_add @var_name
 
-			"if #{var_name} == nil then\n do\n" <<
-					v.brat(var_name) <<
-					if var_name == v.result
-						""
-					else
-						"#{var_name} = #{v.result}"
-					end <<
-					"\nend\nend\n"
-		end
+      "if #{var_name} == nil then\n do\n" <<
+          v.brat(var_name) <<
+          if var_name == v.result
+            ""
+          else
+            "#{var_name} = #{v.result}"
+          end <<
+          "\nend\nend\n"
+    end
 
-		def var_name
-			var_exist?(@var_name) || @var_name
-		end
-	}
+    def var_name
+      var_exist?(@var_name) || @var_name
+    end
+  }
   end
 
   rule variable_args
-  	"*" i:identifier
+    "*" i:identifier
   end
 
   #Matches a unary operation, which requires a symbol to be
   #immediately followed by an expression.
   rule unary_operation
-	op:operator !space rhs:unary_rhs_expression {
-		def brat(res_var = nil)  
-			@result = res_var || next_temp
-			output = rhs.brat(@result)
-			if @result != rhs.result
-				output  << "local #@result = #{rhs.result}\n"
-			end
+  op:operator !space rhs:unary_rhs_expression {
+    def brat(res_var = nil)  
+      @result = res_var || next_temp
+      output = rhs.brat(@result)
+      if @result != rhs.result
+        output  << "local #@result = #{rhs.result}\n"
+      end
 
-			output << call_method(@result, @result, op.brat, "", 0) << "\n"
-		end
+      output << call_method(@result, @result, op.brat, "", 0) << "\n"
+    end
 
-		def no_result
-			self.brat("_dummy_")
-		end
-	}
+    def no_result
+      self.brat("_dummy_")
+    end
+  }
   end
 
   #Matches binary operations.
   rule binary_operation
-	lhs:binary_operation_chain rhs:expression
-	 {
-		def brat(res_var = nil)
-			final_result = res_var || next_temp
-			if res_var.nil?
-				output = "local #{final_result} \n"
-			else
-				output = ""
-			end
-			output << "do\n" <<	rhs.brat <<	lhs.brat
-			@result = rhs.result
-			in_stack = lhs.stack
-			in_stack << @result
-			out_stack = []
-			op_stack = []
-			res_stack = []
-			val = true
-			in_stack.each do |e|
-				if val
-					out_stack.push e
-					val = false
-				else
-					prec = precedence(e)
-					while op_stack.length > 0 && prec <= precedence(op_stack.last) do
-						out_stack.push op_stack.pop
-					end
-					op_stack.push e
-					val = true
-				end
-			end
+  lhs:binary_operation_chain rhs:expression
+   {
+    def brat(res_var = nil)
+      final_result = res_var || next_temp
+      if res_var.nil?
+        output = "local #{final_result} \n"
+      else
+        output = ""
+      end
+      output << "do\n" << rhs.brat << lhs.brat
+      @result = rhs.result
+      in_stack = lhs.stack
+      in_stack << @result
+      out_stack = []
+      op_stack = []
+      res_stack = []
+      val = true
+      in_stack.each do |e|
+        if val
+          out_stack.push e
+          val = false
+        else
+          prec = precedence(e)
+          while op_stack.length > 0 && prec <= precedence(op_stack.last) do
+            out_stack.push op_stack.pop
+          end
+          op_stack.push e
+          val = true
+        end
+      end
 
-			while not op_stack.empty?
-				out_stack.push op_stack.pop
-			end
+      while not op_stack.empty?
+        out_stack.push op_stack.pop
+      end
 
-			out_stack.each do |e|
-				if temp?(e) || number?(e)
-					res_stack.push e
-				else
-					r = res_stack.pop
-					l = res_stack.pop
-					next_temp
-					output << "local #@result\n" << call_method(@result, l, e, r, 1) << "\n"
-					unset l if temp? l
-					unset r if temp? r
-					res_stack.push @result
-				end
-			end
-	
-			output << "#{final_result} = #{res_stack.pop} \nend\n"
-			@result = final_result
-			output
-		end
+      out_stack.each do |e|
+        if temp?(e) || number?(e)
+          res_stack.push e
+        else
+          r = res_stack.pop
+          l = res_stack.pop
+          next_temp
+          output << "local #@result\n" << call_method(@result, l, e, r, 1) << "\n"
+          unset l if temp? l
+          unset r if temp? r
+          res_stack.push @result
+        end
+      end
+  
+      output << "#{final_result} = #{res_stack.pop} \nend\n"
+      @result = final_result
+      output
+    end
 
-		def no_result
-			self.brat "_dummy_"
-		end
-	}
+    def no_result
+      self.brat "_dummy_"
+    end
+  }
   end
 
   #Matches several binary operations
   rule binary_operation_chain
-	(lhs:binary_lhs_expression ~space op:operator ~space)+ {
-		attr_reader :stack
-		def brat(res_var = nil)	
-			@stack = []
-			output = ""
-			elements.each do |e|
-				output << e.lhs.brat << "\n"
-				@stack << e.lhs.result
-				@stack << e.op.brat
-			end
-			output
-		end
-	}
+  (lhs:binary_lhs_expression ~space op:operator ~space)+ {
+    attr_reader :stack
+    def brat(res_var = nil) 
+      @stack = []
+      output = ""
+      elements.each do |e|
+        output << e.lhs.brat << "\n"
+        @stack << e.lhs.result
+        @stack << e.op.brat
+      end
+      output
+    end
+  }
   end
 
   #Matches method calls which must have parentheses or no arguments
   rule method_with_parens
-  	lhs:method_chain i:(identifier / operator) a:simple_arg_list {
-		def brat(res_var = nil)
-			output = lhs.brat res_var
-			@result = res_var || next_temp
+    lhs:method_chain i:(identifier / operator) a:simple_arg_list {
+    def brat(res_var = nil)
+      output = lhs.brat res_var
+      @result = res_var || next_temp
 
-			output << "\n" <<
-			a.brat << "\n" <<
-			call_method(@result, lhs.result, i.brat, a.list, a.length)
+      output << "\n" <<
+      a.brat << "\n" <<
+      call_method(@result, lhs.result, i.brat, a.list, a.length)
 
-			a.unset_args
+      a.unset_args
 
-			output
-		end
+      output
+    end
 
-	}
-	/
-  	lhs:method_chain i:(identifier / operator) &space {
-		def brat(res_var = nil)
-			output = lhs.brat res_var
-			@result = res_var || next_temp
-	
-			output <<
-			call_method(@result, lhs.result, i.brat, "", 0)
-		end
-	}
-	/
-	i:identifier a:simple_arg_list {
-		def brat(res_var = nil)
-			@result = res_var || next_temp
-			output = a.brat <<
-			invoke(@result, i.brat, a.list, a.length)
+  }
+  /
+    lhs:method_chain i:(identifier / operator) &space {
+    def brat(res_var = nil)
+      output = lhs.brat res_var
+      @result = res_var || next_temp
+  
+      output <<
+      call_method(@result, lhs.result, i.brat, "", 0)
+    end
+  }
+  /
+  i:identifier a:simple_arg_list {
+    def brat(res_var = nil)
+      @result = res_var || next_temp
+      output = a.brat <<
+      invoke(@result, i.brat, a.list, a.length)
 
-			a.unset_args
+      a.unset_args
 
-			output
-		end
-	}
-	/
-	i:identifier ~(&space) {
-		def brat(res_var = nil)
-			@result = res_var || next_temp
-			get_value(@result, i.brat, "", 0)
-		end
-	}
+      output
+    end
+  }
+  /
+  i:identifier ~(&space) {
+    def brat(res_var = nil)
+      @result = res_var || next_temp
+      get_value(@result, i.brat, "", 0)
+    end
+  }
   end
 
   #Matches method/function invocations
   rule method_invocation
-  	lhs:method_chain i:(identifier / operator) a:arg_list {
-		def brat(res_var = nil)
-			if res_var
-				@result = res_var
-				output = ""
-			else
-				next_temp
-				output = "local #@result\n"
-			end
+    lhs:method_chain i:(identifier / operator) a:arg_list {
+    def brat(res_var = nil)
+      if res_var
+        @result = res_var
+        output = ""
+      else
+        next_temp
+        output = "local #@result\n"
+      end
 
-			output <<
-			lhs.brat(@result) << 
-			a.brat <<
-			call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
+      output <<
+      lhs.brat(@result) << 
+      a.brat <<
+      call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
 
-			a.unset_args
+      a.unset_args
 
-			output
-		end
+      output
+    end
 
-		def return_result
-			lhs.brat <<
-			a.brat <<
-			call_method(nil, lhs.result, i.brat, a.list, a.length)
-		end
+    def return_result
+      lhs.brat <<
+      a.brat <<
+      call_method(nil, lhs.result, i.brat, a.list, a.length)
+    end
 
-		def no_result
-			output = lhs.brat <<
-				a.brat <<
-				call_method("_dummy_", lhs.result, i.brat, a.list, a.length)
+    def no_result
+      output = lhs.brat <<
+        a.brat <<
+        call_method("_dummy_", lhs.result, i.brat, a.list, a.length)
 
-			unset lhs.result
-			a.unset_args
+      unset lhs.result
+      a.unset_args
 
-			output
-		end
-	}
-	/
-	m:identifier a:arg_list {
-		def brat(res_var = nil)
-			name = m.brat
-			if res_var
-				@result = res_var
-				output = ""
-			else
-				next_temp
-				output = "local #@result\n"
-			end
+      output
+    end
+  }
+  /
+  m:identifier a:arg_list {
+    def brat(res_var = nil)
+      name = m.brat
+      if res_var
+        @result = res_var
+        output = ""
+      else
+        next_temp
+        output = "local #@result\n"
+      end
 
-			output <<	a.brat << 
-			get_value(@result, name, a.list, a.length)
+      output << a.brat << 
+      get_value(@result, name, a.list, a.length)
 
-			a.unset_args
+      a.unset_args
 
-			output
-		end
+      output
+    end
 
-		def return_result
-			a.brat <<
-			get_value(nil, m.brat, a.list, a.length)
-		end
+    def return_result
+      a.brat <<
+      get_value(nil, m.brat, a.list, a.length)
+    end
 
-		def no_result
-			output = a.brat <<
-				get_value("_dummy_", m.brat, a.list, a.length)
-		
-			a.unset_args
+    def no_result
+      output = a.brat <<
+        get_value("_dummy_", m.brat, a.list, a.length)
+    
+      a.unset_args
 
-			output
-		end
-	}
-	/
-	m:paren_exp a:simple_arg_list {
-		def brat(res_var = nil)
-			output = m.brat(res_var) << "\n" <<
-			a.brat << "\n"
-			if res_var
-				@result = res_var
-			else
-				next_temp
-				output << "local #@result\n"
-			end
+      output
+    end
+  }
+  /
+  m:paren_exp a:simple_arg_list {
+    def brat(res_var = nil)
+      output = m.brat(res_var) << "\n" <<
+      a.brat << "\n"
+      if res_var
+        @result = res_var
+      else
+        next_temp
+        output << "local #@result\n"
+      end
 
-			output << invoke(@result, m.result, a.list, a.length)
-			
-			a.unset_args
+      output << invoke(@result, m.result, a.list, a.length)
+      
+      a.unset_args
 
-			output
-		end
+      output
+    end
 
-		def return_result
-			m.brat << "\n" <<
-			a.brat << "\n" <<
-			invoke(nil, m.result, a.list, a.length)
-		end
-	}
-	/ function_literal_invocation
+    def return_result
+      m.brat << "\n" <<
+      a.brat << "\n" <<
+      invoke(nil, m.result, a.list, a.length)
+    end
+  }
+  / function_literal_invocation
 
   end
 
-	rule function_literal_invocation
-		f:function_definition !space a:simple_arg_list {
-			def brat(res_var = nil)
-				output = f.brat(res_var) << "\n" <<
-				a.brat << "\n"
-				@result = res_var || f.result
-				output << invoke(@result, f.result, a.list, a.length)
-	
-				a.unset_args
+  rule function_literal_invocation
+    f:function_definition !space a:simple_arg_list {
+      def brat(res_var = nil)
+        output = f.brat(res_var) << "\n" <<
+        a.brat << "\n"
+        @result = res_var || f.result
+        output << invoke(@result, f.result, a.list, a.length)
+  
+        a.unset_args
 
-				output
-			end
+        output
+      end
 
-		def return_result(res_var = nil)
-			f.brat(res_var) << "\n" <<
-			a.brat << "\n" <<
-			invoke(nil, f.result, a.list, a.length)
-		end
-	}
-	end
+    def return_result(res_var = nil)
+      f.brat(res_var) << "\n" <<
+      a.brat << "\n" <<
+      invoke(nil, f.result, a.list, a.length)
+    end
+  }
+  end
 
   #Matches a method chain, up to the last "."
   rule method_chain
- 	(e:method_lhs ".")+ {
-		def brat(res_var = nil)
-			output = elements.first.e.brat(res_var)
-			@result = elements.first.e.result
+  (e:method_lhs ".")+ {
+    def brat(res_var = nil)
+      output = elements.first.e.brat(res_var)
+      @result = elements.first.e.result
 
-			if number? @result
-				n = @result
-				next_temp
-				output << "local #@result = #{n}\n"
-			end
+      if number? @result
+        n = @result
+        next_temp
+        output << "local #@result = #{n}\n"
+      end
 
-			meth = args = nil
-			elements[1..-1].each do |elem|
-				meth = elem.e.identifier.brat
-				args = elem.e.arg_list
-				output << args.brat
-				output << call_method(@result, @result, meth, args.list, args.length) << "\n"
-				args.unset_args
-				if not elem.e.a.elements.empty?
-					elem.e.a.elements.each do |ele|
-						output << ele.inner_arg_list.brat
-						output << "#@result = #{@result}:get(#{ele.inner_arg_list.list});"
-						ele.inner_arg_list.unset_args
-					end
-				end
-			end
-			output
-		end
-	}
+      meth = args = nil
+      elements[1..-1].each do |elem|
+        meth = elem.e.identifier.brat
+        args = elem.e.arg_list
+        output << args.brat
+        output << call_method(@result, @result, meth, args.list, args.length) << "\n"
+        args.unset_args
+        if not elem.e.a.elements.empty?
+          elem.e.a.elements.each do |ele|
+            output << ele.inner_arg_list.brat
+            output << "#@result = #{@result}:get(#{ele.inner_arg_list.list});"
+            ele.inner_arg_list.unset_args
+          end
+        end
+      end
+      output
+    end
+  }
   end
 
   #Matches expressions which can be the targets of method calls
   rule method_lhs
-  	identifier !space arg_list a:("[" inner_arg_list "]")* {
-		def brat(res_var = nil)
-			@result = res_var || next_temp
-			output = arg_list.brat
-			name = identifier.brat
-			temp = var_exist? name
+    identifier !space arg_list a:("[" inner_arg_list "]")* {
+    def brat(res_var = nil)
+      @result = res_var || next_temp
+      output = arg_list.brat
+      name = identifier.brat
+      temp = var_exist? name
 
-			output <<	"local #@result\n" unless res_var
+      output << "local #@result\n" unless res_var
 
-			output <<
-			if temp
-				<<-LUA
-				local _t = _type(#{temp});
-				if _t == "table" or _t == "number" then
-					#@result = #{temp}
-				elseif _t == "function" then 
-					#{invoke(@result, temp, arg_list.list, arg_list.length)}
-				elseif #{temp} == nil then
-					_error(exception:null_error("#{nice_id name}", "cannot call method on it"))
-				else
-					_error(exception:method_error("self", "#{nice_id name}"))
-				end
-				LUA
-			else
-				<<-LUA
-				if _self["#{name}"] ~= nil then
-					#@result = _self:#{name}(#{arg_list.list})
-				elseif #{name} ~= nil then
-					#@result = #{name};
-				else
-					_error(exception:method_error("self", "#{nice_id name}"))
-				end
-				LUA
-			end
+      output <<
+      if temp
+        <<-LUA
+        local _t = _type(#{temp});
+        if _t == "table" or _t == "number" then
+          #@result = #{temp}
+        elseif _t == "function" then 
+          #{invoke(@result, temp, arg_list.list, arg_list.length)}
+        elseif #{temp} == nil then
+          _error(exception:null_error("#{nice_id name}", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "#{nice_id name}"))
+        end
+        LUA
+      else
+        <<-LUA
+        if _self["#{name}"] ~= nil then
+          #@result = _self:#{name}(#{arg_list.list})
+        elseif #{name} ~= nil then
+          #@result = #{name};
+        else
+          _error(exception:method_error("self", "#{nice_id name}"))
+        end
+        LUA
+      end
 
-			arg_list.unset_args
+      arg_list.unset_args
 
-			if not a.elements.empty?
-				a.elements.each do |elem|
-					output << elem.inner_arg_list.brat
-					output << "#@result = #@result:get(#{elem.inner_arg_list.list});"
-					elem.inner_arg_list.unset_args
-				end
-			end
-			output
-		end
-	}
-	/
-	a:array a_rest:("[" space? inner_arg_list space? "]")+ {
-		def brat(res_var = nil)
-			@result = res_var || next_temp
-			output = a.brat(@result) << "\n"
-			output << "local #@result = #{a.result}" unless @result == a.result
+      if not a.elements.empty?
+        a.elements.each do |elem|
+          output << elem.inner_arg_list.brat
+          output << "#@result = #@result:get(#{elem.inner_arg_list.list});"
+          elem.inner_arg_list.unset_args
+        end
+      end
+      output
+    end
+  }
+  /
+  a:array a_rest:("[" space? inner_arg_list space? "]")+ {
+    def brat(res_var = nil)
+      @result = res_var || next_temp
+      output = a.brat(@result) << "\n"
+      output << "local #@result = #{a.result}" unless @result == a.result
 
-			a_rest.elements.each do |elem|
-				output << elem.inner_arg_list.brat
-				output << "#@result = #{@result}:get(#{elem.inner_arg_list.list})\n"
-				elem.inner_arg_list.unset_args
-			end
-			output
-		end
-	}
-	/
-	f:function_definition !space a:simple_arg_list {
-		def brat(res_var = nil)
-			
-			output = f.brat(res_var) << "\n" <<
-			a.brat << "\n"
-			@result = res_var || f.result
-			output << invoke(@result, f.result, a.list, a.length)
-			
-			a.unset_args
+      a_rest.elements.each do |elem|
+        output << elem.inner_arg_list.brat
+        output << "#@result = #{@result}:get(#{elem.inner_arg_list.list})\n"
+        elem.inner_arg_list.unset_args
+      end
+      output
+    end
+  }
+  /
+  f:function_definition !space a:simple_arg_list {
+    def brat(res_var = nil)
+      
+      output = f.brat(res_var) << "\n" <<
+      a.brat << "\n"
+      @result = res_var || f.result
+      output << invoke(@result, f.result, a.list, a.length)
+      
+      a.unset_args
 
-			output
-		end
-	}
-	/
-	f:function_definition &(".") {
-		def brat(res_var = nil)
-			"@brat.base_function.new({#{f.brat}})"
-		end
-	}
-	/
-	method_target_expression {
-		def brat(res_var = nil)
-			super
-		end
-	}
+      output
+    end
+  }
+  /
+  f:function_definition &(".") {
+    def brat(res_var = nil)
+      "@brat.base_function.new({#{f.brat}})"
+    end
+  }
+  /
+  method_target_expression {
+    def brat(res_var = nil)
+      super
+    end
+  }
   end
 
   #Matches the "don't execute this" operator ("->") which just returns the method
   #instead of executing/calling it.
   rule method_access
-  	"->" m:(identifier / operator) {
-		def brat(res_var = nil)
-			name = m.brat
-			temp = var_exist? name
-			if temp
-				@result = temp
-				""
-			else	
-				next_temp
-				<<-LUA
-				local #@result
-				if #{name} == nil then
-					#@result = _self["#{name}"]
-					if #@result == nil then
-						_error(exception:null_error("#{nice_id name}", "access it"))
-					end
-				else
-					#@result = #{name}
-				end
-				LUA
-			end
-		end
-	}
-	/
-  	o:method_invocation "->" m:(identifier / operator) {
-		def brat(res_var = nil)
-			name = m.brat
-			output = o.brat
-			@result = o.result
-			output << <<-LUA
-				#@result = #@result["#{name}"]
-				if #@result == nil then
-					_error(exception:method_error("#{nice_id o.text_value}", "#{nice_id name}"))
-				end
-			LUA
-		end
-	}
-	/
-	e:paren_exp "->" m:(identifier / operator) {
-	def brat(res_var = nil)
-		name = m.brat
-		output = e.brat
-		@result = e.result
-		output << <<-LUA
-			#@result = #@result["#{name}"]
-			if #@result == nil then
-				_error(exception:method_error("#{nice_id e.text_value}", "#{nice_id name}"))
-			end
-		LUA
-	end
-	}
+    "->" m:(identifier / operator) {
+    def brat(res_var = nil)
+      name = m.brat
+      temp = var_exist? name
+      if temp
+        @result = temp
+        ""
+      else  
+        next_temp
+        <<-LUA
+        local #@result
+        if #{name} == nil then
+          #@result = _self["#{name}"]
+          if #@result == nil then
+            _error(exception:null_error("#{nice_id name}", "access it"))
+          end
+        else
+          #@result = #{name}
+        end
+        LUA
+      end
+    end
+  }
+  /
+    o:method_invocation "->" m:(identifier / operator) {
+    def brat(res_var = nil)
+      name = m.brat
+      output = o.brat
+      @result = o.result
+      output << <<-LUA
+        #@result = #@result["#{name}"]
+        if #@result == nil then
+          _error(exception:method_error("#{nice_id o.text_value}", "#{nice_id name}"))
+        end
+      LUA
+    end
+  }
+  /
+  e:paren_exp "->" m:(identifier / operator) {
+  def brat(res_var = nil)
+    name = m.brat
+    output = e.brat
+    @result = e.result
+    output << <<-LUA
+      #@result = #@result["#{name}"]
+      if #@result == nil then
+        _error(exception:method_error("#{nice_id e.text_value}", "#{nice_id name}"))
+      end
+    LUA
+  end
+  }
   end
 
   #Matches an argument list, including no arguments at all
   rule arg_list
-	'(' ~(space?) inner_arg_list ~(space?) ')' {
-		def brat(res_var = nil)
-			inner_arg_list.brat
-		end
+  '(' ~(space?) inner_arg_list ~(space?) ')' {
+    def brat(res_var = nil)
+      inner_arg_list.brat
+    end
 
-		def length
-			inner_arg_list.length
-		end
+    def length
+      inner_arg_list.length
+    end
 
-		def list
-			inner_arg_list.list
-		end
+    def list
+      inner_arg_list.list
+    end
 
-		def unset_args
-			inner_arg_list.unset_args
-		end
-	}
-	/
-	'(' empty_list ')' {
-		def brat(res_var = nil)
-			""
-		end
+    def unset_args
+      inner_arg_list.unset_args
+    end
+  }
+  /
+  '(' empty_list ')' {
+    def brat(res_var = nil)
+      ""
+    end
 
-		def length
-			0
-		end
+    def length
+      0
+    end
 
-		def list
-			""
-		end
-		
-		def unset_args; end
-	}
-	/
-  	space inner_arg_list {
-		def brat(res_var = nil)
-			inner_arg_list.brat
-		end
+    def list
+      ""
+    end
+    
+    def unset_args; end
+  }
+  /
+    space inner_arg_list {
+    def brat(res_var = nil)
+      inner_arg_list.brat
+    end
 
-		def length
-			inner_arg_list.length
-		end
+    def length
+      inner_arg_list.length
+    end
 
-		def list
-			inner_arg_list.list
-		end
+    def list
+      inner_arg_list.list
+    end
 
-		def unset_args
-			inner_arg_list.unset_args
-		end
-	}
-	/
-	![(] ~(&(space?)) {
-		def brat(res_var = nil)
-			""
-		end
+    def unset_args
+      inner_arg_list.unset_args
+    end
+  }
+  /
+  ![(] ~(&(space?)) {
+    def brat(res_var = nil)
+      ""
+    end
 
-		def length
-			0
-		end
+    def length
+      0
+    end
 
-		def list
-			""
-		end
+    def list
+      ""
+    end
 
-		def nothing?
-			true
-		end
-		
-		def unset_args; end
-	}
+    def nothing?
+      true
+    end
+    
+    def unset_args; end
+  }
   end
 
   #Matches an argument list which must be in parentheses, or no arguments at all
   rule simple_arg_list
-	'(' ~(space?) inner_arg_list ~(space?) ')' {
-		def brat(res_var = nil)
-			inner_arg_list.brat
-		end
+  '(' ~(space?) inner_arg_list ~(space?) ')' {
+    def brat(res_var = nil)
+      inner_arg_list.brat
+    end
 
-		def length
-			inner_arg_list.length
-		end
+    def length
+      inner_arg_list.length
+    end
 
-		def list
-			inner_arg_list.list
-		end
+    def list
+      inner_arg_list.list
+    end
 
-		def unset_args
-			inner_arg_list.unset_args
-		end
-	}
-	/
-	'(' empty_list ')' {
-		def brat(res_var = nil)
-			""
-		end
+    def unset_args
+      inner_arg_list.unset_args
+    end
+  }
+  /
+  '(' empty_list ')' {
+    def brat(res_var = nil)
+      ""
+    end
 
-		def length
-			0
-		end
+    def length
+      0
+    end
 
-		def list
-			""
-		end
+    def list
+      ""
+    end
 
-		def unset_args
-		end
-	}
+    def unset_args
+    end
+  }
   end
 
   #Matches the inside of the argument list
   rule inner_arg_list
-  	e:arg_first o:arg_next* {
-		attr_reader :length, :list, :args
-		def brat(res_var = nil)
-			output = ""
-			args = []
-			named_args = []
+    e:arg_first o:arg_next* {
+    attr_reader :length, :list, :args
+    def brat(res_var = nil)
+      output = ""
+      args = []
+      named_args = []
 
-			output << e.brat << "\n"
+      output << e.brat << "\n"
 
-			if e.respond_to? :named_argument?
-				named_args << e
-			else
-				args << e.result
-			end
+      if e.respond_to? :named_argument?
+        named_args << e
+      else
+        args << e.result
+      end
 
-			o.elements.each do |elem|
-				if elem.respond_to? :brat
-					output << elem.arg_first.brat << "\n"
+      o.elements.each do |elem|
+        if elem.respond_to? :brat
+          output << elem.arg_first.brat << "\n"
 
-					if elem.arg_first.respond_to? :named_argument?
-						named_args << elem.arg_first
-					else
-						args << elem.arg_first.result
-					end
-				end
-			end
+          if elem.arg_first.respond_to? :named_argument?
+            named_args << elem.arg_first
+          else
+            args << elem.arg_first.result
+          end
+        end
+      end
 
-			unless named_args.empty?
-				next_temp
-				args << @result
-				output << "local #@result = {}\n"
-				named_args.map do |e|
-					output << "#@result[#{e.key}] = #{e.value}\n"
-					unset e.key
-					unset e.value
-				end
-				output << "#@result = hash:new(#@result)\n"
-			end
+      unless named_args.empty?
+        next_temp
+        args << @result
+        output << "local #@result = {}\n"
+        named_args.map do |e|
+          output << "#@result[#{e.key}] = #{e.value}\n"
+          unset e.key
+          unset e.value
+        end
+        output << "#@result = hash:new(#@result)\n"
+      end
 
-			@list = args.join(',')
-			@length = args.length
-			@args = args
-			output
-		end
+      @list = args.join(',')
+      @length = args.length
+      @args = args
+      output
+    end
 
-		def unset_args
-			@args.each { |a| unset a }
-		end
-	}
+    def unset_args
+      @args.each { |a| unset a }
+    end
+  }
   end
 
   #Matches a single argument
   rule arg_first
-	named_argument / expression
+  named_argument / expression
   end
 
   #Matches the rest of the arguments
   rule arg_next
-  	~((space / eol_not_semicolon)*) "," ~((space / eol_not_semicolon)*) arg_first {
-		def brat(res_var = nil)
-		end
-	}
-	/
-	~((space / eol_not_semicolon)*) arg_first:function_definition {
-		def brat(res_var = nil)
-		end
-	} 
-	/
-	~((space / eol_not_semicolon)*) arg_first:named_argument {
+    ~((space / eol_not_semicolon)*) "," ~((space / eol_not_semicolon)*) arg_first {
+    def brat(res_var = nil)
+    end
+  }
+  /
+  ~((space / eol_not_semicolon)*) arg_first:function_definition {
+    def brat(res_var = nil)
+    end
+  } 
+  /
+  ~((space / eol_not_semicolon)*) arg_first:named_argument {
                def brat(res_var = nil)
                end
-	}
-	/
-	~(space?) arg_first:expression {
-		def brat(res_var = nil)
-		end
-	}
+  }
+  /
+  ~(space?) arg_first:expression {
+    def brat(res_var = nil)
+    end
+  }
   end
  
   #Matches a 'named' argument
   rule named_argument
-	i:((identifier / operator) (identifier / operator / number)*) ":" spaceorbreak e:expression {
-		attr_reader :key, :value
+  i:((identifier / operator) (identifier / operator / number)*) ":" spaceorbreak e:expression {
+    attr_reader :key, :value
 
-		def brat(res_var = nil)
-			@key = "string:new(\"#{i.text_value}\")"
-			output = e.brat
-			@value = e.result
-			output
-		end
+    def brat(res_var = nil)
+      @key = "string:new(\"#{i.text_value}\")"
+      output = e.brat
+      @value = e.result
+      output
+    end
 
-		def named_argument?
-			true
-		end
-	}
-	/
-  	i:expression space? ":" space spaceorbreak e:expression {
-		attr_reader :key, :value
+    def named_argument?
+      true
+    end
+  }
+  /
+    i:expression space? ":" space spaceorbreak e:expression {
+    attr_reader :key, :value
 
-		def brat(res_var = nil)
-			output = i.brat << "\n" << e.brat
-			@key = i.result
-			@value = e.result
-			output
-		end
+    def brat(res_var = nil)
+      output = i.brat << "\n" << e.brat
+      @key = i.result
+      @value = e.result
+      output
+    end
 
-		def named_argument?
-			true
-		end
-	}
+    def named_argument?
+      true
+    end
+  }
   end
 
   #Matches allowable operators and converts them to mangled method names
   rule operator
-	~(!("->" !operator) !("=" !(operator / "="))) ("!=" / ">=" / "<=" / [!?\-*+^@~/\\><$_%\=] / "||" / "|" / "&&" / "&")+ {
-		def brat(res_var = nil)
-			escape_operator(text_value)
-		end
-	}
+  ~(!("->" !operator) !("=" !(operator / "="))) ("!=" / ">=" / "<=" / [!?\-*+^@~/\\><$_%\=] / "||" / "|" / "&&" / "&")+ {
+    def brat(res_var = nil)
+      escape_operator(text_value)
+    end
+  }
   end
 
   #Matches nothing or spaces
   rule empty_list
-  	~(space?)
+    ~(space?)
   end
 
   #Matches end-of-lines, which can be \n, ;, or \r\n
   rule eol
-	("\n" / ";" / "\r\n")+ {
-		def brat(res_var = nil)
-			"\n"
-		end
-	}
+  ("\n" / ";" / "\r\n")+ {
+    def brat(res_var = nil)
+      "\n"
+    end
+  }
   end
 
   rule eol_not_semicolon
-	("\n" / "\r\n")+ {
-		def brat(res_var = nil)
-			"\n"
-		end
-	}
+  ("\n" / "\r\n")+ {
+    def brat(res_var = nil)
+      "\n"
+    end
+  }
   end
 
   #Matches spaces or tabs
   rule space
      (" " / "\t")+ {
-		def brat(res_var = nil)
-			text_value
-		end
-	}
+    def brat(res_var = nil)
+      text_value
+    end
+  }
   end
   
   #Matches the end of the file
   rule eof
-  	~((eol / space)? !.)
+    ~((eol / space)? !.)
   end
 
   #Matches the end of a function
   rule eob
-  	~(space? &"}" space?)
+    ~(space? &"}" space?)
   end
 
   #Matches spaces, eols, or nothing
   rule spaceorbreak
-	space? eol? space?
+  space? eol? space?
   end
 end

@@ -1,10 +1,9 @@
 n = 99
 
 98.times {
-	p n, " bottles of beer on the wall, ", n, " bottles of beer!"
-	n = n - 1
-	p "Take one down, pass it around, ", n, " bottles of beer on the wall."
-
+  p n, " bottles of beer on the wall, ", n, " bottles of beer!"
+  n = n - 1
+  p "Take one down, pass it around, ", n, " bottles of beer on the wall."
 }
 
 p "One bottle of beer on the wall, one bottle of beer!"

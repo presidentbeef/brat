@@ -1,53 +1,53 @@
 #* http://rosettacode.org/wiki/Playing_Cards
-	Simulate a deck of cards
+  Simulate a deck of cards
 *#
 
 card = object.new
 
 card.init = { pip, suit |
-	my.pip = pip
-	my.suit = suit
+  my.pip = pip
+  my.suit = suit
 }
 
 card.suits = [ :Clubs :Hearts :Spades :Diamonds ]
 card.pips = 2.to(10) + [ :Jack :Queen :King :Ace ]
 
 card.to_s = {
-	"#{my.pip} of #{my.suit}"
+  "#{my.pip} of #{my.suit}"
 }
 
 #Allows for sorting
 card.<=> = { rhs |
-	suit_cmp = card.suits.index_of(my.suit) <=> card.suits.index_of(rhs.suit)
-	true? suit_cmp == 0
-		{ card.pips.index_of(my.pip) <=> card.pips.index_of(rhs.pip) }
-		{ suit_cmp }
+  suit_cmp = card.suits.index_of(my.suit) <=> card.suits.index_of(rhs.suit)
+  true? suit_cmp == 0
+    { card.pips.index_of(my.pip) <=> card.pips.index_of(rhs.pip) }
+    { suit_cmp }
 }
 
 deck = object.new
 
 deck.init = {
-	cards = []
-	card.suits.each { suit |
-		card.pips.each { pip |
-			cards << card.new pip, suit
-		}
-	}
+  cards = []
+  card.suits.each { suit |
+    card.pips.each { pip |
+      cards << card.new pip, suit
+    }
+  }
 
-	my.cards = cards
+  my.cards = cards
 }
 
 deck.shuffle = {
-	my.cards.shuffle!
-	my
+  my.cards.shuffle!
+  my
 }
 
 deck.deal = { num |
-	my.cards.pop num
+  my.cards.pop num
 }
 
 deck.to_s = {
-	my.cards.to_s
+  my.cards.to_s
 }
 
 d = deck.new.shuffle

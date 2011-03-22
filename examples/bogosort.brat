@@ -1,11 +1,11 @@
 #* http://rosettacode.org/wiki/Sorting_algorithms/Bogosort
-	Shuffle array until it is sorted
+  Shuffle array until it is sorted
 *#
 
 bogosort = { a |
-	sorted = a.sort #Kinda cheating here
-	while { a != sorted } { a.shuffle! }
-	a
+  sorted = a.sort #Kinda cheating here
+  while { a != sorted } { a.shuffle! }
+  a
 }
 
 p bogosort [15, 6, 2, 9, 1, 3, 41, 19]

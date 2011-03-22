@@ -1,16 +1,16 @@
 #* http://rosettacode.org/wiki/Exponentiation_operator#
-	Reimplement the exponentiation operator
+  Reimplement the exponentiation operator
 *#
 
 #Procedure
 exp = { base, exp |
-	1.to(exp).reduce 1, { m, n | m = m * base }
+  1.to(exp).reduce 1, { m, n | m = m * base }
 }
 
 #Numbers are weird
 1.parent.^ = { rhs |
-	num = my
-	1.to(rhs).reduce 1 { m, n | m = m * num }
+  num = my
+  1.to(rhs).reduce 1 { m, n | m = m * num }
 }
 
 p exp 2 5 #Prints 32

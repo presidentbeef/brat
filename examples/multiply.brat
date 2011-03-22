@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Function_definition
-	Define a function which takes two numbers and multiplies them
+  Define a function which takes two numbers and multiplies them
 *#
 
 multiply = { x, y | x * y }

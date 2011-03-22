@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/String_interpolation_(included)
-	Interpolate a value into a string
+  Interpolate a value into a string
 *#
 
 adjective = "little"

@@ -1,25 +1,25 @@
 #* http://rosettacode.org/wiki/Menu
-	Print a menu of choices.
+  Print a menu of choices.
 *#
 
 menu = { prompt, choices |
-	true? choices.empty?
-	{ "" }
-	{
-		choices.each_with_index { c, i |
-			p "#{i}. #{c}"
-		}
+  true? choices.empty?
+  { "" }
+  {
+    choices.each_with_index { c, i |
+      p "#{i}. #{c}"
+    }
 
-		selection = ask prompt
+    selection = ask prompt
 
-			true? selection.numeric?
-			{ selection = selection.to_i 
-				true? selection < 0 || { selection >= choices.length }
-					{ p "Selection is out of range"; menu prompt, choices }
-					{ choices[selection] }
-			}
-		{ p "Selection must be a number"; menu prompt, choices }
-	}
+      true? selection.numeric?
+      { selection = selection.to_i 
+        true? selection < 0 || { selection >= choices.length }
+          { p "Selection is out of range"; menu prompt, choices }
+          { choices[selection] }
+      }
+    { p "Selection must be a number"; menu prompt, choices }
+  }
 }
 
 p menu "Selection: " ["fee fie" "huff and puff" "mirror mirror" "tick tock"]

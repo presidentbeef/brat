@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Sum_of_a_series
-	 Compute S(x) = 1/x2, from 1 to 1000
+   Compute S(x) = 1/x2, from 1 to 1000
 *#
 
 p 1.to(1000).reduce 0 { sum, x | sum + 1.0 / x ^ 2 }  #Prints 1.6439345666816 
