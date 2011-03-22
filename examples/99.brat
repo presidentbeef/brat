@@ -1,9 +1,10 @@
-n = 99
+#* http://rosettacode.org/wiki/99_Bottles_of_Beer
+  Print out the "99 bottles of beer" song
+*#
 
-98.times {
-  p n, " bottles of beer on the wall, ", n, " bottles of beer!"
-  n = n - 1
-  p "Take one down, pass it around, ", n, " bottles of beer on the wall."
+99.to 2 { n |
+  p "#{n} bottles of beer on the wall, #{n} bottles of beer!"
+  p "Take one down, pass it around, #{n - 1} bottle#{true? n > 2 's' ''} of beer on the wall."
 }
 
 p "One bottle of beer on the wall, one bottle of beer!"
