@@ -1,29 +1,29 @@
 include :assert
 
 add_results setup name: "enumerable tests" {
-	test "max" {
-		assert_equal 14 { [1 6 2 8 3 5 8 10 14 0 2 14].max }
-		assert_equal :yellow { [:aardvark :yellow :pink :dog :moon].max }
-		assert_fail { [:aardvark 10 :dog :moon].max }
-		assert_null { [].max }
-	}
+  test "max" {
+    assert_equal 14 { [1 6 2 8 3 5 8 10 14 0 2 14].max }
+    assert_equal :yellow { [:aardvark :yellow :pink :dog :moon].max }
+    assert_fail { [:aardvark 10 :dog :moon].max }
+    assert_null { [].max }
+  }
 
-	test "min" {
-		assert_equal -2 { [1 6 2 8 3 5 8 10 14 0 -2 14].min }
-		assert_equal :aardvark { [:aardvark :yellow :pink :dog :moon].min }
-		assert_fail { [:aardvark 10 :dog :moon].min }
-		assert_null { [].min }
-	}
+  test "min" {
+    assert_equal -2 { [1 6 2 8 3 5 8 10 14 0 -2 14].min }
+    assert_equal :aardvark { [:aardvark :yellow :pink :dog :moon].min }
+    assert_fail { [:aardvark 10 :dog :moon].min }
+    assert_null { [].min }
+  }
 
-	test "reject" {
-		assert_equal [1 2 3 4] { 1.to(10).reject { n | n > 4 } }
-	}
+  test "reject" {
+    assert_equal [1 2 3 4] { 1.to(10).reject { n | n > 4 } }
+  }
 
-	test "select with method name" {
-		assert_equal [1 2 3] { [1 :a :b 2 :c 3].select :number? }
-	}
+  test "select with method name" {
+    assert_equal [1 2 3] { [1 :a :b 2 :c 3].select :number? }
+  }
 
-	test "reject with method name" {
-		assert_equal [1 2 3] { [1 :a :b 2 :c 3].reject :string? }
-	}
+  test "reject with method name" {
+    assert_equal [1 2 3] { [1 :a :b 2 :c 3].reject :string? }
+  }
 }

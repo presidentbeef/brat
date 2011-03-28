@@ -1,271 +1,271 @@
 include :assert
 
 add_results setup name: "examples test" {
-	test "factorial" {
-		assert_equal 720 { fact = {x | true? x == 0, 1, { x * fact(x - 1)}};	fact 6 }
-	}
+  test "factorial" {
+    assert_equal 720 { fact = {x | true? x == 0, 1, { x * fact(x - 1)}};  fact 6 }
+  }
 
-	test "fibonacci" {
-		assert_equal 55 { fibonacci = { x| true? x == 0, 0 { true? x == 1, 1 { fibonacci(x - 1) + fibonacci(x - 2)}}; }; fibonacci 10 }
-	}
+  test "fibonacci" {
+    assert_equal 55 { fibonacci = { x| true? x == 0, 0 { true? x == 1, 1 { fibonacci(x - 1) + fibonacci(x - 2)}}; }; fibonacci 10 }
+  }
 
-	test "array_map" {
-		assert_equal [2,3,4] { array.my_first = { my[0] }; array.my_rest = { my[1,-1] }; array.my_map = {f| true? my.length <= 0 {[]} { true? my.length == 1, {[f my.my_first]}, {[f my.my_first] + my.my_rest.my_map ->f} }}; [1,2,3].my_map({x| x + 1}) }
-	}
+  test "array_map" {
+    assert_equal [2,3,4] { array.my_first = { my[0] }; array.my_rest = { my[1,-1] }; array.my_map = {f| true? my.length <= 0 {[]} { true? my.length == 1, {[f my.my_first]}, {[f my.my_first] + my.my_rest.my_map ->f} }}; [1,2,3].my_map({x| x + 1}) }
+  }
 
-	test "how_are_you_easy" {
-		assert_equal "How are you?" { how = {x| "How are you?" }; are = {x|};	you? = null; how are you? }
-	}
+  test "how_are_you_easy" {
+    assert_equal "How are you?" { how = {x| "How are you?" }; are = {x|}; you? = null; how are you? }
+  }
 
-	test "how_are_you_map" {
-		assert_equal ["How", " are ","you?"] { array.my_first = { my[0] }; array.my_rest = { my[1,-1] }; array.my_map = {f| true? my.length <= 0 {[]} { true? my.length == 1 {[f my.my_first]} {[f my.my_first] + my.my_rest.my_map ->f} }}; how = {x| x.my_map {y| y }}; are = {x| x}; you? = ["How", " are ", "you?"]; how are you? }
-	}
+  test "how_are_you_map" {
+    assert_equal ["How", " are ","you?"] { array.my_first = { my[0] }; array.my_rest = { my[1,-1] }; array.my_map = {f| true? my.length <= 0 {[]} { true? my.length == 1 {[f my.my_first]} {[f my.my_first] + my.my_rest.my_map ->f} }}; how = {x| x.my_map {y| y }}; are = {x| x}; you? = ["How", " are ", "you?"]; how are you? }
+  }
 
-	test "how_are_you_auto_reply" {
-		assert_equal "I am fine, thank you!" { How = {x| p "How", x[0], x[1] }; are = {x| [" are "] + x }; you? = ["you?"]; I = {x| "I" + x[0] + x[1] + x[2] + x[3] }; am = {x, y| [" am"] + x + y }; fine = [" fine, "]; thank = {x| ["thank"] + x }; you! = [" you!"]; How are you?;	I am fine, thank you! }
-	}
+  test "how_are_you_auto_reply" {
+    assert_equal "I am fine, thank you!" { How = {x| p "How", x[0], x[1] }; are = {x| [" are "] + x }; you? = ["you?"]; I = {x| "I" + x[0] + x[1] + x[2] + x[3] }; am = {x, y| [" am"] + x + y }; fine = [" fine, "]; thank = {x| ["thank"] + x }; you! = [" you!"]; How are you?;  I am fine, thank you! }
+  }
 
-	test "greet" {
-		assert_equal "oh, hi john doe" { greet = {first, last| "oh, hi " + first + " " + last }; greet "john", "doe" }
-	}
+  test "greet" {
+    assert_equal "oh, hi john doe" { greet = {first, last| "oh, hi " + first + " " + last }; greet "john", "doe" }
+  }
 
-	test "my" {
-		assert_equal "hi" { test = object.new; test.y = { my.z = { "hi" } };	test.y;	test.z }
-	}
+  test "my" {
+    assert_equal "hi" { test = object.new; test.y = { my.z = { "hi" } };  test.y; test.z }
+  }
 
-	test "add_not" {
-		assert_false { number.! = {x| not x }; a = [1,2,3]; a[1] ! true }
-	}
+  test "add_not" {
+    assert_false { number.! = {x| not x }; a = [1,2,3]; a[1] ! true }
+  }
 
-	test "null?" {
-		assert_equal "a is null" { a = null; false? { null? a }, { "a is not null" }, { "a is null" } }
-	}
+  test "null?" {
+    assert_equal "a is null" { a = null; false? { null? a }, { "a is not null" }, { "a is null" } }
+  }
 
-	test "tak" {
-		assert_equal 7 { tak = { x, y, z | false? y < x, { z } , { tak tak(x - 1, y, z), tak(y - 1, z, x), tak(z - 1, x, y) } }; tak 18, 12, 6 }
-	}
+  test "tak" {
+    assert_equal 7 { tak = { x, y, z | false? y < x, { z } , { tak tak(x - 1, y, z), tak(y - 1, z, x), tak(z - 1, x, y) } }; tak 18, 12, 6 }
+  }
 
-	test "hideous " {
-		assert_equal "object[-!_+~%~+_!-, <------||==@, @==||------>, parent]" { a_!?-*+^&@1~\\\\><$ = object.new; a_!?-*+^&@1~\\\\><$.-!_+~%~+_!- = {d0~!@><?&&<>\\/+-*^&% | d0~!@><?&&<>\\/+-*^&%};                a_!?-*+^&@1~\\\\><$.@==||------> = { a_!?-*+^&@1~\\\\><$ };                a_!?-*+^&@1~\\\\><$.<------||==@ = { ->@==||------> };               (@==||------>a_!?-*+^&@1~\\\\><$ -!_+~%~+_!- a_!?-*+^&@1~\\\\><$.<------||==@).to_s }
-	}
+  test "hideous " {
+    assert_equal "object[-!_+~%~+_!-, <------||==@, @==||------>, parent]" { a_!?-*+^&@1~\\\\><$ = object.new; a_!?-*+^&@1~\\\\><$.-!_+~%~+_!- = {d0~!@><?&&<>\\/+-*^&% | d0~!@><?&&<>\\/+-*^&%};                a_!?-*+^&@1~\\\\><$.@==||------> = { a_!?-*+^&@1~\\\\><$ };                a_!?-*+^&@1~\\\\><$.<------||==@ = { ->@==||------> };               (@==||------>a_!?-*+^&@1~\\\\><$ -!_+~%~+_!- a_!?-*+^&@1~\\\\><$.<------||==@).to_s }
+  }
 
-	test "ackermann" {
-		assert_equal 125 {
-			ackermann = { m, n |
-				when { m == 0 } { n + 1 }
-					{ m > 0 && n == 0 } { ackermann(m - 1, 1) }
-					{ m > 0 && n > 0 } { ackermann(m - 1, ackermann(m, n - 1)) }
-			}
+  test "ackermann" {
+    assert_equal 125 {
+      ackermann = { m, n |
+        when { m == 0 } { n + 1 }
+          { m > 0 && n == 0 } { ackermann(m - 1, 1) }
+          { m > 0 && n > 0 } { ackermann(m - 1, ackermann(m, n - 1)) }
+      }
 
-			ackermann 3 4
-		}
-	}
+      ackermann 3 4
+    }
+  }
 
-	test "accumulator factory" {
-		assert_equal 8.3 { 
-			accumulator = { sum |
-				{ n | sum = sum + n }
-			}
+  test "accumulator factory" {
+    assert_equal 8.3 { 
+      accumulator = { sum |
+        { n | sum = sum + n }
+      }
 
-			x = accumulator 1
-			x 5
-			accumulator 3 #Does not affect x
-			x 2.3
-		}
-	}
+      x = accumulator 1
+      x 5
+      accumulator 3 #Does not affect x
+      x 2.3
+    }
+  }
 
-	test "array to hash" {
-		assert_equal [1 : :a, 2 : :b, 3 : :c] {
-			zip = { keys, values |
-				h = [:]
-					keys.each_with_index { key, index |
-						h[key] = values[index]
-					}
+  test "array to hash" {
+    assert_equal [1 : :a, 2 : :b, 3 : :c] {
+      zip = { keys, values |
+        h = [:]
+          keys.each_with_index { key, index |
+            h[key] = values[index]
+          }
 
-				h
-			}
+        h
+      }
 
-			zip [1,2,3] [:a :b :c]
-		}
-	}
+      zip [1,2,3] [:a :b :c]
+    }
+  }
 
-	test "exponentiation" {
-		assert_equal 32 {
-			exp = { base, exp |
-				1.to(exp).reduce 1, { m, n | m = m * base }
-			}
+  test "exponentiation" {
+    assert_equal 32 {
+      exp = { base, exp |
+        1.to(exp).reduce 1, { m, n | m = m * base }
+      }
 
-			exp 2 5
-		}
-	} 
+      exp 2 5
+    }
+  } 
 
-	test "filter" {
-		assert_equal [2, 4, 6, 8, 10] {
-			1.to(10).select { x | x % 2 == 0 }
-		}
-	}
+  test "filter" {
+    assert_equal [2, 4, 6, 8, 10] {
+      1.to(10).select { x | x % 2 == 0 }
+    }
+  }
 
-	test "flatten" {
-		assert_equal 1.to(8) {
-			array.flatten = {
-				true? my.empty?
-				{ [] }
-				{ true? my.first.array?
-					{ my.first.flatten + my.rest.flatten }
-					{ [my.first] + my.rest.flatten }
-				}
-			}
+  test "flatten" {
+    assert_equal 1.to(8) {
+      array.flatten = {
+        true? my.empty?
+        { [] }
+        { true? my.first.array?
+          { my.first.flatten + my.rest.flatten }
+          { [my.first] + my.rest.flatten }
+        }
+      }
 
-			[[1], 2, [[3,4], 5], [[[]]], [[[6]]], 7, 8, []].flatten
-		}
-	}
+      [[1], 2, [[3,4], 5], [[[]]], [[[6]]], 7, 8, []].flatten
+    }
+  }
 
-	test "function composition" {
-		assert_equal 4 {
-			compose = { f, g | { x | f g x } }
-			add1 = { x | x + 1 }
-			double = { x | x * 2 }
-			b = compose(->double ->add1)
-				b 1
-		}
-	}
+  test "function composition" {
+    assert_equal 4 {
+      compose = { f, g | { x | f g x } }
+      add1 = { x | x + 1 }
+      double = { x | x * 2 }
+      b = compose(->double ->add1)
+        b 1
+    }
+  }
 
-	test "hailstone" {
-		assert {
-			hailstone = { num |
-				sequence = [num]
-					while { num != 1 }
-				{ true? num % 2 == 0
-					{ num = num / 2 }
-					{ num = num * 3 + 1 }
-					sequence << num
-				}
+  test "hailstone" {
+    assert {
+      hailstone = { num |
+        sequence = [num]
+          while { num != 1 }
+        { true? num % 2 == 0
+          { num = num / 2 }
+          { num = num * 3 + 1 }
+          sequence << num
+        }
 
-				sequence
-			}
+        sequence
+      }
 
-			seq = hailstone 27
-				seq[0,3] == [27 82 41 124] && seq[-1, -4] == [8 4 2 1]
-		}
-	}
+      seq = hailstone 27
+        seq[0,3] == [27 82 41 124] && seq[-1, -4] == [8 4 2 1]
+    }
+  }
 
-	test "happy numbers" {
-	
-		assert_equal [1 7 10 13 19 23 28 31] {
-			set = import :set :set
+  test "happy numbers" {
+  
+    assert_equal [1 7 10 13 19 23 28 31] {
+      set = import :set :set
 
-			happiness = set.new 1
-			sadness = set.new
-	
-			sum_of_squares_of_digits = { num |
-				num.to_s.dice.reduce 0 { sum, n | sum = sum + n.to_i ^ 2 }
-			}
-	
-			happy? = { n, seen = set.new |
-				when {true? happiness.include? n } { happiness.merge seen << n; true }
-						{ true? sadness.include? n } { sadness.merge seen; false }
-						{ true? seen.include? n } { sadness.merge seen; false }
-						{ true } { seen << n; happy? sum_of_squares_of_digits(n), seen }
-			}
+      happiness = set.new 1
+      sadness = set.new
+  
+      sum_of_squares_of_digits = { num |
+        num.to_s.dice.reduce 0 { sum, n | sum = sum + n.to_i ^ 2 }
+      }
+  
+      happy? = { n, seen = set.new |
+        when {true? happiness.include? n } { happiness.merge seen << n; true }
+            { true? sadness.include? n } { sadness.merge seen; false }
+            { true? seen.include? n } { sadness.merge seen; false }
+            { true } { seen << n; happy? sum_of_squares_of_digits(n), seen }
+      }
 
-			num = 1
-			happies = []
+      num = 1
+      happies = []
 
-			while { happies.length < 8 } {
-				true? happy?(num)
-					{ happies << num }
+      while { happies.length < 8 } {
+        true? happy?(num)
+          { happies << num }
 
-				num = num + 1
-			}
+        num = num + 1
+      }
 
-			happies
-		}
-	}
+      happies
+    }
+  }
 
-	test "higher order functions" {
-		assert_equal 3 {
-			add = { a, b | a + b }
+  test "higher order functions" {
+    assert_equal 3 {
+      add = { a, b | a + b }
 
-			doit = { f, a, b | f a, b }
+      doit = { f, a, b | f a, b }
 
-			doit ->add 1 2
-		}
-	}
+      doit ->add 1 2
+    }
+  }
 
-	test "increment integer string" {
-		assert_equal "101" {
-			("100".to_i + 1).to_s
-		}
-	}	
+  test "increment integer string" {
+    assert_equal "101" {
+      ("100".to_i + 1).to_s
+    }
+  } 
 
-	test "mean" {
-		assert_equal 5.5 {
-			mean = { list |
-				true? list.empty?, 0, {	list.reduce(0, :+) / list.length }
-			}
+  test "mean" {
+    assert_equal 5.5 {
+      mean = { list |
+        true? list.empty?, 0, { list.reduce(0, :+) / list.length }
+      }
 
-			mean 1.to 10
-		}
-	}
+      mean 1.to 10
+    }
+  }
 
-	test "mutual recursion" {
-		female = null #yes, this is necessary
+  test "mutual recursion" {
+    female = null #yes, this is necessary
 
-			male = { n |
-				true? n == 0
-				{ 0 }
-				{ n - female male(n - 1) }
-			}
+      male = { n |
+        true? n == 0
+        { 0 }
+        { n - female male(n - 1) }
+      }
 
-		female = { n |
-			true? n == 0
-			{ 1 }
-			{ n - male female(n - 1 ) }
-		}
+    female = { n |
+      true? n == 0
+      { 1 }
+      { n - male female(n - 1 ) }
+    }
 
-		assert_equal [1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9, 10, 11, 11, 12, 13] {
-			0.to(20).map! { n | female n }
-		}
+    assert_equal [1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9, 10, 11, 11, 12, 13] {
+      0.to(20).map! { n | female n }
+    }
 
-		assert_equal [0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 7, 8, 9, 9, 10, 11, 11, 12, 12] {
-			0.to(20).map! { n | male n }
-		}
-	}
+    assert_equal [0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 7, 8, 9, 9, 10, 11, 11, 12, 12] {
+      0.to(20).map! { n | male n }
+    }
+  }
 
-	test "palindrome" {
-		palindrome? = { str | 
-			str = str.downcase.sub(/\s+/, "")
-			str == str.reverse 
-		}
+  test "palindrome" {
+    palindrome? = { str | 
+      str = str.downcase.sub(/\s+/, "")
+      str == str.reverse 
+    }
 
-		assert { palindrome? "In girum imus nocte et consumimur igni" }
-		assert { palindrome? "A man a plan a canal Panama" }
-		assert { palindrome? "racecar" }
-		assert_false { palindrome? "No way this is a palindrome" }
-	}
+    assert { palindrome? "In girum imus nocte et consumimur igni" }
+    assert { palindrome? "A man a plan a canal Panama" }
+    assert { palindrome? "racecar" }
+    assert_false { palindrome? "No way this is a palindrome" }
+  }
 
-	test "pangram" {
-		pangram? = { sentence |
-			sentence.downcase.dice.unique.select(:alpha?).length == 26
-		}
+  test "pangram" {
+    pangram? = { sentence |
+      sentence.downcase.dice.unique.select(:alpha?).length == 26
+    }
 
-		assert { pangram? 'The quick brown fox jumps over the lazy dog.' }
-		assert_false { pangram? 'Probably not a pangram.' }
-	}
+    assert { pangram? 'The quick brown fox jumps over the lazy dog.' }
+    assert_false { pangram? 'Probably not a pangram.' }
+  }
 
-	test "sum of squares" {
-		assert_equal 385 { 1.to(10).reduce 0 { res, n | res = res + n ^ 2 } } 
-	}
+  test "sum of squares" {
+    assert_equal 385 { 1.to(10).reduce 0 { res, n | res = res + n ^ 2 } } 
+  }
 
-	test "unknown method" {
-		assert_equal "not_real" {
-			example = object.new
+  test "unknown method" {
+    assert_equal "not_real" {
+      example = object.new
 
-			example.no_method = { meth_name, *args |
-				meth_name
-			}
+      example.no_method = { meth_name, *args |
+        meth_name
+      }
 
-			example.not_real "at all"
-		}
-	}
+      example.not_real "at all"
+    }
+  }
 }

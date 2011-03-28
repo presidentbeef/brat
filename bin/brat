@@ -4,7 +4,7 @@ program_path = debug.getinfo(1, "S").short_src
 program_path = program_path:match("(.+/)bin/brat$")
 
 if program_path == nil then
-	program_path = "../"
+  program_path = "../"
 end
 
 package.cpath = package.cpath .. ";" .. program_path .. "lib/?.so"
@@ -13,186 +13,186 @@ package.path = package.path .. ";" .. program_path .. "core/?.lua;" .. program_p
 require "lfs"
 
 local abort = function (message)
-	print(message)
-	os.exit(-1)
+  print(message)
+  os.exit(-1)
 end
 
 local interactive = function ()
-	require "lpty"
+  require "lpty"
 
-	local parser = lpty.new{no_local_echo = true}
-	parser:startproc("ruby", program_path .. "/parser/parse.rb", "--interactive")
+  local parser = lpty.new{no_local_echo = true}
+  parser:startproc("ruby", program_path .. "/parser/parse.rb", "--interactive")
 
-	local ffi = require "ffi"
+  local ffi = require "ffi"
 
-	ffi.cdef[[
-	int linenoiseHistoryAdd(const char *line);
-	char *linenoise(const char *prompt);
-	]]
-	
-	local ln = ffi.load("linenoise")
+  ffi.cdef[[
+  int linenoiseHistoryAdd(const char *line);
+  char *linenoise(const char *prompt);
+  ]]
+  
+  local ln = ffi.load("linenoise")
 
-	local get_line = ln.linenoise;
-	local add_line = ln.linenoiseHistoryAdd;
+  local get_line = ln.linenoise;
+  local add_line = ln.linenoiseHistoryAdd;
 
-	local input
-	local line = 1
-	local parsed
-	local parsed_function
-	local output
-	local lua_code
-	local current_env = getfenv()
-	_exports = {}
-	require "core"
-	local interactive_env = {
-		require = require;
-		package = package;
-		print = print;
-		object = object;
-		array = array;
-		number = number;
-		string = base_string;
-		exception = exception;
-		hash = hash;
-		regex = regex;
-		_self = object;
-		_type = type;
-		_error = error;
-		_tostring = tostring;
-		_exports = _exports;
-	}
+  local input
+  local line = 1
+  local parsed
+  local parsed_function
+  local output
+  local lua_code
+  local current_env = getfenv()
+  _exports = {}
+  require "core"
+  local interactive_env = {
+    require = require;
+    package = package;
+    print = print;
+    object = object;
+    array = array;
+    number = number;
+    string = base_string;
+    exception = exception;
+    hash = hash;
+    regex = regex;
+    _self = object;
+    _type = type;
+    _error = error;
+    _tostring = tostring;
+    _exports = _exports;
+  }
 
-	local rescue = function (obj, err)
-		return err
-	end
+  local rescue = function (obj, err)
+    return err
+  end
 
-	local protect_options = hash:new({ [base_string:new("rescue")] = rescue })
+  local protect_options = hash:new({ [base_string:new("rescue")] = rescue })
 
-	print("# Interactive Brat")
+  print("# Interactive Brat")
 
-	while true do
-		input = get_line("brat:" .. line .. "> ")
+  while true do
+    input = get_line("brat:" .. line .. "> ")
 
-		if input ~= nil then
-			input = ffi.string(input)
-		end
+    if input ~= nil then
+      input = ffi.string(input)
+    end
 
-		if input == nil or input == "quit" then
-			parser:endproc()
-			return
-		elseif input ~= "" and not input:match("^%s+$") then
-			line = line + 1
-			add_line(input)
+    if input == nil or input == "quit" then
+      parser:endproc()
+      return
+    elseif input ~= "" and not input:match("^%s+$") then
+      line = line + 1
+      add_line(input)
 
-			parser:send(input)
-			parser:send("\n\1\n")
+      parser:send(input)
+      parser:send("\n\1\n")
 
-			parsed = ""
+      parsed = ""
 
-			while true do
-				lua_code = parser:read()
-				if lua_code:sub(-1) == "\1" then
-					parsed = parsed .. lua_code:sub(0, -2)
-					break
-				else
-					parsed = parsed .. lua_code
-				end
-			end
+      while true do
+        lua_code = parser:read()
+        if lua_code:sub(-1) == "\1" then
+          parsed = parsed .. lua_code:sub(0, -2)
+          break
+        else
+          parsed = parsed .. lua_code
+        end
+      end
 
-			parsed_function = assert(loadstring(parsed, "interactive"))
+      parsed_function = assert(loadstring(parsed, "interactive"))
 
-			setfenv(parsed_function, interactive_env)
+      setfenv(parsed_function, interactive_env)
 
-			print("#=> " .. tostring(object:protect(parsed_function, protect_options)))
+      print("#=> " .. tostring(object:protect(parsed_function, protect_options)))
 
-			for k,v in pairs(_exports) do
-				interactive_env[k] = v
-			end
+      for k,v in pairs(_exports) do
+        interactive_env[k] = v
+      end
 
-			_exports = {}
-		end
-	end
+      _exports = {}
+    end
+  end
 end
 
 compile_file = function (file_name)
-	brat_file_name = file_name .. ".brat"
-	lua_file_name = file_name .. ".lua"
+  brat_file_name = file_name .. ".brat"
+  lua_file_name = file_name .. ".lua"
 
-	brat_modified = lfs.attributes(brat_file_name, "modification")
+  brat_modified = lfs.attributes(brat_file_name, "modification")
 
-	--.brat file does not exist
-	if brat_modified == nil then
-		abort("Could not open " .. brat_file_name)
-	end
+  --.brat file does not exist
+  if brat_modified == nil then
+    abort("Could not open " .. brat_file_name)
+  end
 
-	lua_modified = lfs.attributes(lua_file_name, "modification")
+  lua_modified = lfs.attributes(lua_file_name, "modification")
 
-	if lua_modified == nil or brat_modified > lua_modified then
-		os.remove(file_name .. ".lua")
-		os.execute("ruby " .. program_path .. "/parser/parse.rb -i " .. brat_file_name .. " -o " .. lua_file_name)
-	end
+  if lua_modified == nil or brat_modified > lua_modified then
+    os.remove(file_name .. ".lua")
+    os.execute("ruby " .. program_path .. "/parser/parse.rb -i " .. brat_file_name .. " -o " .. lua_file_name)
+  end
 end
 
 run_string = function (string)
-	require "lpty"
+  require "lpty"
 
-	local parser = lpty.new{no_local_echo = true}
-	parser:startproc("ruby", program_path .. "/parser/parse.rb")
-	parser:send(string)
-	parser:send("\004")
+  local parser = lpty.new{no_local_echo = true}
+  parser:startproc("ruby", program_path .. "/parser/parse.rb")
+  parser:send(string)
+  parser:send("\004")
 
-	local parsed =""
+  local parsed =""
 
-	while true do
-		lua_code = parser:read(2)
-		if lua_code == nil then
-			break
-		elseif lua_code:sub(-1) == "\1" then
-			parsed = parsed .. lua_code:sub(0, -2)
-			break
-		else
-			parsed = parsed .. lua_code
-		end
-	end
-	
-	require "core"
+  while true do
+    lua_code = parser:read(2)
+    if lua_code == nil then
+      break
+    elseif lua_code:sub(-1) == "\1" then
+      parsed = parsed .. lua_code:sub(0, -2)
+      break
+    else
+      parsed = parsed .. lua_code
+    end
+  end
+  
+  require "core"
 
-	parsed_function = assert(loadstring(parsed, "string"))
+  parsed_function = assert(loadstring(parsed, "string"))
 
-	local rescue = function (obj, err)
-		return err
-	end
+  local rescue = function (obj, err)
+    return err
+  end
 
-	local protect_options = hash:new({ [base_string:new("rescue")] = rescue })
+  local protect_options = hash:new({ [base_string:new("rescue")] = rescue })
 
-	local result = tostring(object:protect(parsed_function, protect_options))
+  local result = tostring(object:protect(parsed_function, protect_options))
 
-	parser:endproc()
+  parser:endproc()
 
-	return result
+  return result
 end
 
 if #arg == 0 then
-	interactive()
-	abort("Exiting")
+  interactive()
+  abort("Exiting")
 end
 
 file_name = arg[#arg]:match("(.+).brat")
 
 if arg[#arg] == "-!" then
-	loadstring(io.read("*a"))()
+  loadstring(io.read("*a"))()
 elseif arg[#arg] == "-" then
-	run_string(io.read("*a"))
+  run_string(io.read("*a"))
 elseif file_name == nil then
-	abort("File to execute should end in .brat")
+  abort("File to execute should end in .brat")
 else
-	compile_file(file_name)
+  compile_file(file_name)
 
-	lua_file = file_name .. ".lua"
+  lua_file = file_name .. ".lua"
 
-	if lfs.attributes(lua_file, "access") then
-		dofile(lua_file)
-	else
-		print("----------\nCannot execute " .. arg[#arg])
-	end
+  if lfs.attributes(lua_file, "access") then
+    dofile(lua_file)
+  else
+    print("----------\nCannot execute " .. arg[#arg])
+  end
 end

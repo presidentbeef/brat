@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Number_reversal_game
-	Flip digits until they are sorted from low to high
+  Flip digits until they are sorted from low to high
 *#
 
 sorted = 1.to 9
@@ -8,15 +8,15 @@ numbers = sorted.shuffle
 
 #Make certain numbers are shuffled
 true? numbers == sorted
-	{ while { sorted == numbers.shuffle! } }
+  { while { sorted == numbers.shuffle! } }
 
 turns = 0
 
 while { numbers != sorted } {
-	print "#{numbers} - How many to reverse? "
-	num  = g.to_i
-	numbers = numbers[0, num - 1].reverse + numbers[num, length]
-	turns = turns + 1
+  print "#{numbers} - How many to reverse? "
+  num  = g.to_i
+  numbers = numbers[0, num - 1].reverse + numbers[num, length]
+  turns = turns + 1
 }
 
 p numbers

@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Functional_Composition
-	Create a function which works like: compose(f, g) (x) = f(g(x))
+  Create a function which works like: compose(f, g) (x) = f(g(x))
 *#
 
 compose = { f, g | { x | f g x } }

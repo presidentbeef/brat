@@ -1,0 +1,126 @@
+include :assert
+
+setup name: "test gdbm" {
+	include :gdbm
+  include :file
+		
+  test "gdbm.closed?" {
+		db = gdbm.open "test.gdbm"
+		assert_false db.closed?
+		db.close
+		assert db.closed?
+
+		file.delete "test.gdbm"
+	}
+
+  test "gdbm.delete" {
+    db = gdbm.open "test.gdbm" "wc"
+
+    db["hello"] = "ciao!"
+    assert_equal db["hello"], "ciao!"
+    db.delete "hello"
+    assert_null db["hello"]
+
+    db.close
+    file.delete "test.gdbm"
+  }
+
+  test "gdbm.each" {
+    dessert = [:jello :pudding :cake :pie :ice_cream].sort
+
+    db = gdbm.open "test.gdbm" "wc"
+    dessert.each { v |
+      db[v] = v
+    }
+
+    h = [:]
+    
+    db.each { k, v |
+      h[k] = v
+    }
+
+    db.close
+
+    assert_equal dessert, h.keys.sort
+    assert_equal dessert, h.values.sort
+
+    file.delete "test.gdbm"
+  }
+
+  test "gdbm.each_key" {
+    dessert = [:jello :pudding :cake :pie :ice_cream].sort
+
+    db = gdbm.open "test.gdbm" "wc"
+    dessert.each { v |
+      db[v] = v
+    }
+
+    h = []
+    
+    db.each_key { k |
+      h << k
+    }
+
+    db.close
+
+    assert_equal dessert, h.sort
+
+    file.delete "test.gdbm"
+  }
+
+  test "gdbm.each_value" {
+    dessert = [:jello :pudding :cake :pie :ice_cream].sort
+
+    db = gdbm.open "test.gdbm" "wc"
+    dessert.each { v |
+      db[v] = v
+    }
+
+    h = []
+    
+    db.each_value { v |
+      h << v
+    }
+
+    db.close
+
+    assert_equal dessert, h.sort
+
+    file.delete "test.gdbm"
+  }
+
+  test "gdbm.key?" {
+    db = gdbm.open "test.gdbm" "wc"
+    
+    assert_false db.key? :teest
+    db[:teest] = :yup
+    assert db.key? :teest
+
+    db.close
+    file.delete "test.gdbm"
+  }
+
+  test "gdbm.keys" {
+    db = gdbm.open "test.gdbm" "wc"
+    db[:hello] = :world
+    db[:goodbye] = :moon
+    keys = db.keys
+    db.close
+
+    assert_equal [:goodbye :hello] keys.sort
+
+    file.delete "test.gdbm"
+  }
+
+  test "gdbm.values" {
+    db = gdbm.open "test.gdbm" "wc"
+    db[:hello] = :world
+    db[:goodbye] = :moon
+    values = db.values
+    db.close
+
+    assert_equal [:moon :world] values.sort
+
+    file.delete "test.gdbm"
+  }
+}

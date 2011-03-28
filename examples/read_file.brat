@@ -1,0 +1,7 @@
+#* http://rosettacode.org/wiki/Read_entire_file
+  Read entire file into string
+*#
+
+include :file
+
+file.read file_name

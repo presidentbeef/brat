@@ -1,13 +1,13 @@
 #* http://rosettacode.org/wiki/Catalan_numbers
-	Generate the first 15 Catalan numbers
+  Generate the first 15 Catalan numbers
 *#
 
 catalan = { n |
-	true? n == 0
-		{ 1 }
-		{ (2 * ( 2 * n - 1) / ( n + 1 )) * catalan(n - 1) }
+  true? n == 0
+    { 1 }
+    { (2 * ( 2 * n - 1) / ( n + 1 )) * catalan(n - 1) }
 }
 
 0.to 15 { n |
-	p "#{n} - #{catalan n}"
+  p "#{n} - #{catalan n}"
 }

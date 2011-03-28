@@ -1,101 +1,101 @@
 include :assert
 
 add_results setup name: "test file stdlib" {
-	test "file.open" {
-		assert {
-			include :file
-			f = file.open "test.txt", "w"
-			f.close
-			res = file.exists? "test.txt"
-			file.delete "test.txt"
-			res
-		}
-	}
+  test "file.open" {
+    assert {
+      include :file
+      f = file.open "test.txt", "w"
+      f.close
+      res = file.exists? "test.txt"
+      file.delete "test.txt"
+      res
+    }
+  }
 
-	test "file.delete" {
-		assert_false {
-			include :file
-			file.open "test.txt", "w" {}
-			file.delete "test.txt"
-			file.exists? "test.txt"
-		}
-	}
+  test "file.delete" {
+    assert_false {
+      include :file
+      file.open "test.txt", "w" {}
+      file.delete "test.txt"
+      file.exists? "test.txt"
+    }
+  }
 
-	test "file.write" {
-		assert_equal "hello" {
-			include :file
-			file.open "test.txt", "w" { f |
-				f.write "hello"
-			}
+  test "file.write" {
+    assert_equal "hello" {
+      include :file
+      file.open "test.txt", "w" { f |
+        f.write "hello"
+      }
 
-			res = file.read "test.txt"
+      res = file.read "test.txt"
 
-			file.delete "test.txt"
+      file.delete "test.txt"
 
-			res
-		}
-	}
+      res
+    }
+  }
 
-	test "file.write_line" {
-		assert_equal "hello\n" {
-			include :file
-			file.open "test.txt", "w" { f |
-				f.write_line "hello"
-			}
+  test "file.write_line" {
+    assert_equal "hello\n" {
+      include :file
+      file.open "test.txt", "w" { f |
+        f.write_line "hello"
+      }
 
-			res = file.read "test.txt"
+      res = file.read "test.txt"
 
-			file.delete "test.txt"
+      file.delete "test.txt"
 
-			res
-		}
-	}
+      res
+    }
+  }
 
-	test "file.read_line" {
-		assert_equal "goodbye" {
-			include :file
-			file.open "test.txt", "w" { f |
-				f.write_line "hello"
-				f.write_line "goodbye"
-			}
+  test "file.read_line" {
+    assert_equal "goodbye" {
+      include :file
+      file.open "test.txt", "w" { f |
+        f.write_line "hello"
+        f.write_line "goodbye"
+      }
 
-			res = null
-			file.open "test.txt" { f |
-				f.read_line
-				res = f.read_line
-			}
+      res = null
+      file.open "test.txt" { f |
+        f.read_line
+        res = f.read_line
+      }
 
-			file.delete "test.txt"
+      file.delete "test.txt"
 
-			res
-		}
-	}
+      res
+    }
+  }
 
-	test "file.read_lines" {
-		assert_equal ["hello" "goodbye"] {
-			include :file
-			file.open "test.txt", "w" { f |
-				f.write_line "hello"
-				f.write_line "goodbye"
-			}
+  test "file.read_lines" {
+    assert_equal ["hello" "goodbye"] {
+      include :file
+      file.open "test.txt", "w" { f |
+        f.write_line "hello"
+        f.write_line "goodbye"
+      }
 
-			res = file.read_lines "test.txt"
-			
-			file.delete "test.txt"
+      res = file.read_lines "test.txt"
+      
+      file.delete "test.txt"
 
-			res
-		}
-	}
+      res
+    }
+  }
 
-	test "file.rename" {
-		assert {
-			include :file
-			file.open "test.txt" "w" {}
-			file.rename "test.txt" "text.txt"
+  test "file.rename" {
+    assert {
+      include :file
+      file.open "test.txt" "w" {}
+      file.rename "test.txt" "text.txt"
 
-			res = file.exists?("text.txt") && not file.exists?("test.txt")
-			file.delete "text.txt"
-			res
-		}
-	}
+      res = file.exists?("text.txt") && not file.exists?("test.txt")
+      file.delete "text.txt"
+      res
+    }
+  }
 }

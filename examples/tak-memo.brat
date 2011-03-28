@@ -1,0 +1,25 @@
+#* http://home.pipeline.com/~hbaker1/TakB.html
+  The Tak benchmark with memoization
+*#
+
+cache = [:]
+
+make_key = { x, y, z |
+  "#{x}#{y}#{z}"
+}
+
+tak = { x, y, z | 
+  false? y < x, 
+    z, 
+    {
+      key = make_key x, y, z
+      true? cache.key?(key)
+        { cache[key] }
+        { cache[key] = tak tak(x - 1, y, z), tak(y - 1, z, x), tak(z - 1, x, y) }
+    }
+}
+
+#10 is a good number
+10.times {
+  tak 18 12 6
+}

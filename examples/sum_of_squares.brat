@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Sum_of_squares
-	Square and sum a list of numbers
+  Square and sum a list of numbers
 *#
 
 p 1.to(10).reduce 0 { res, n | res = res + n ^ 2 }  #Prints 385

@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Create_a_file
-	Create a file and a directory
+  Create a file and a directory
 *#
 
 include :file

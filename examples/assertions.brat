@@ -1,5 +1,5 @@
 #* http://rosettacode.org/wiki/Assertions
-	Demonstrate assertions
+  Demonstrate assertions
 *#
 
 squish import :assert :assertions

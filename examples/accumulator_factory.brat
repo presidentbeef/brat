@@ -1,9 +1,9 @@
 #* http://rosettacode.org/wiki/Accumulator_factory
-	A function which returns an accumulator.
+  A function which returns an accumulator.
 *#
 
 accumulator = { sum |
-	{ n | sum = sum + n }
+  { n | sum = sum + n }
 }
 
 x = accumulator 1

@@ -1,0 +1,9 @@
+#* http://rosettacode.org/wiki/Comments
+  This is how you can do comments
+*#
+
+#Single line comment
+
+#* Multi
+   Line
+   Comment *#

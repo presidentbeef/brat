@@ -1,5 +1,7 @@
+# Recursive fibonacci function
+
 fibonacci = { x |
-        true? x < 2, x, { fibonacci(x - 1) + fibonacci(x - 2) }
+  true? x < 2, x, { fibonacci(x - 1) + fibonacci(x - 2) }
 }
 
 p fibonacci 25

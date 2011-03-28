@@ -2,37 +2,37 @@
 
 To use, first:
 
-	include :assert
+  include :assert
 
 Then use the setup method to wrap all your tests up:
 
-	setup { }
+  setup { }
 
 Within the setup block you may have a series of tests.
 
 Inside the tests, you can use assert, assert_equal, assert_false, 
 assert_null, and assert_match:
 
-	setup {
+  setup {
 
-		test "test name goes here" {
-			assert { 5 > 10 }
+    test "test name goes here" {
+      assert { 5 > 10 }
 
-			assert_equal "hello" :hello
+      assert_equal "hello" :hello
 
-			assert_false { :cats > :dogs }
+      assert_false { :cats > :dogs }
 
-			assert_null null
+      assert_null null
 
-			assert_match /\d{3}-\d{3}-\d{4}/ "378-555-1010"
-		}
+      assert_match /\d{3}-\d{3}-\d{4}/ "378-555-1010"
+    }
 }
 
 Additionally, you can supply a name for the entire test suite:
 
-	setup name: "sweet tests" {
-		#...
-	}
+  setup name: "sweet tests" {
+    #...
+  }
 
 *#
 
@@ -40,93 +40,93 @@ test_manager = new
 test_context = new
 
 test_manager.init = { block, name = null |
-	my.tests = []
-	my.name = name
-	block
+  my.tests = []
+  my.name = name
+  block
 }
 
 test_manager.test = { name, block |
-	my.tests << test_context.new(name, ->block)
+  my.tests << test_context.new(name, ->block)
 }
 
 test_manager.run = { 
-	failures = []
-	total_tests = my.tests.length
-	num_tests = 0
-	num_assertions = 0
+  failures = []
+  total_tests = my.tests.length
+  num_tests = 0
+  num_assertions = 0
 
-	null? my.name, { p "Running tests..." } { p "Running #{my.name}..." }
+  null? my.name, { p "Running tests..." } { p "Running #{my.name}..." }
 
-	my.tests.each_with_index { t, i |
-		print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
-		protect { t.run } rescue: { err | failures << [ name: t.name, message: err.to_s ] }
-		num_tests = num_tests + 1
-		num_assertions = num_assertions + t.assertions
-	}
+  my.tests.each_with_index { t, i |
+    print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
+    protect { t.run } rescue: { err | failures << [ name: t.name, message: err.to_s ] }
+    num_tests = num_tests + 1
+    num_assertions = num_assertions + t.assertions
+  }
 
-	p
-	
-	true? failures.empty?, {
-		p "All tests passed!"
-	}
-	{
-		p "Test failure(s):"
-		p
+  p
+  
+  true? failures.empty?, {
+    p "All tests passed!"
+  }
+  {
+    p "Test failure(s):"
+    p
 
-		failures.each_with_index { f, i |
-			p "\t#{i + 1}. '#{f[:name]}': #{f[:message]}\n"
-		}
-	}
+    failures.each_with_index { f, i |
+      p "\t#{i + 1}. '#{f[:name]}': #{f[:message]}\n"
+    }
+  }
 
-	p "#{num_tests} tests, #{num_assertions} assertions, #{failures.length} failures."
+  p "#{num_tests} tests, #{num_assertions} assertions, #{failures.length} failures."
 
-	[tests: num_tests, assertions: num_assertions, failures: failures.length]
+  [tests: num_tests, assertions: num_assertions, failures: failures.length]
 }
 
 assertions = object.new
 
 assertions.assert = { condition, message = null |
-	false? condition, {
-		throw null? message
-			{ "Assertion failed" }
-			{ "Assertion failed: " << message }
-	}
+  false? condition, {
+    throw null? message
+      { "Assertion failed" }
+      { "Assertion failed: " << message }
+  }
 } 
 
 assertions.assert_equal = { expected, actual |
-	e = expected
-	r = actual
-	assert { e == r } "expected #{e}, but was #{r}"
+  e = expected
+  r = actual
+  assert { e == r } "expected #{e}, but was #{r}"
 }
 
 assertions.assert_fail = { condition |
-	failed = false
-	protect { condition } rescue: { failed = true }
+  failed = false
+  protect { condition } rescue: { failed = true }
 
-	assert failed
+  assert failed
 }
 
 assertions.assert_false = { condition |
-	r = condition
-	assert { false? r } "expected #{r} to be false"
+  r = condition
+  assert { false? r } "expected #{r} to be false"
 }
 
 assertions.assert_null = { condition |
-	r = condition
-	assert { null? r } "expected #{r} to be null"
+  r = condition
+  assert { null? r } "expected #{r} to be null"
 }
 
 assertions.assert_match = { pattern, actual |
-	r = actual
-	assert pattern.match(r) "#{r} expected to match #{pattern}"
+  r = actual
+  assert pattern.match(r) "#{r} expected to match #{pattern}"
 }
 
 test_context.squish assertions
 
 test_context.init = { name, block |
-	my.name = name
-	my.tests = ->block
-	my.assertions = 0
+  my.name = name
+  my.tests = ->block
+  my.assertions = 0
 }
 
 test_context.run = { my.tests }
@@ -134,19 +134,19 @@ test_context.run = { my.tests }
 test_context.p = { }
 
 test_context.assert = { condition, message = null |
-	my.assertions = my.assertions + 1
-	false? condition, {
-		throw null? message, "assert failed", message
-	}
+  my.assertions = my.assertions + 1
+  false? condition, {
+    throw null? message, "assert failed", message
+  }
 } 
 
 run_tests = { block |
-	tm = test_manager.new ->block
-	tm.run
+  tm = test_manager.new ->block
+  tm.run
 }
 
 export assertions, "assertions"
 
 export { block, options = [:] |
-	p "Loading tests..."
-	test_manager.new(->block, options[:name]).run }, "setup"
+  p "Loading tests..."
+  test_manager.new(->block, options[:name]).run }, "setup"

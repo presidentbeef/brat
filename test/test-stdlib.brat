@@ -1,55 +1,55 @@
 include :assert
 
 add_results setup name: "stdlib tests" {
-	test "directory" {
-		assert { include :file; file.make_dir ".test_dir" }
-		assert { include :file; file.exists? ".test_dir" }
-		assert_equal "directory" { include :file; file.type ".test_dir" }
-		assert { include :file; file.rename ".test_dir", ".test_dir2" }
-		assert { include :file; file.delete ".test_dir2" }
-		assert_false { include :file; file.exists? ".test_dir2" }
-	}
+  test "directory" {
+    assert { include :file; file.make_dir ".test_dir" }
+    assert { include :file; file.exists? ".test_dir" }
+    assert_equal "directory" { include :file; file.type ".test_dir" }
+    assert { include :file; file.rename ".test_dir", ".test_dir2" }
+    assert { include :file; file.delete ".test_dir2" }
+    assert_false { include :file; file.exists? ".test_dir2" }
+  }
 
-	test "set_new" {
-		assert { include "set"; s = set.new; s.empty? }
-		assert_equal 3 { include "set"; s = set.new 1,1,2,3; s.length }
-		assert_equal 3 { include "set"; s = set.new [1,1,3,4]; s.length }
-	}
+  test "set_new" {
+    assert { include "set"; s = set.new; s.empty? }
+    assert_equal 3 { include "set"; s = set.new 1,1,2,3; s.length }
+    assert_equal 3 { include "set"; s = set.new [1,1,3,4]; s.length }
+  }
 
-	test "set_add" {
-		assert { include "set"; s = set.new; s.add 1; s.include? 1 }
-		assert_equal 1 { include "set"; s = set.new 1; s.add 1; s.length }
-		assert_equal 2 { include "set"; s = set.new 1; s.add "1"; s.length }
-		assert_equal 2 { include "set"; s = set.new "a"; s.add "b"; s.length }
-	}
+  test "set_add" {
+    assert { include "set"; s = set.new; s.add 1; s.include? 1 }
+    assert_equal 1 { include "set"; s = set.new 1; s.add 1; s.length }
+    assert_equal 2 { include "set"; s = set.new 1; s.add "1"; s.length }
+    assert_equal 2 { include "set"; s = set.new "a"; s.add "b"; s.length }
+  }
 
-	test "set_delete" {
-		assert_false { include "set"; s = set.new; a = object.new; s.add a; s.delete a; s.include? a }
-		assert_equal 1 { include "set"; s = set.new 1; a = []; s.add a; s.delete a; s.length }
-		assert_equal 1 { include "set"; s = set.new 1; s.add "1"; s.delete 1; s.length }
-		assert_equal 1 { include "set"; s = set.new "a"; s.add "b"; s.delete "b"; s.length }
-		assert { include "set"; s = set.new; a = object.new; s.add a; s.delete a; s.empty? }
-	}
+  test "set_delete" {
+    assert_false { include "set"; s = set.new; a = object.new; s.add a; s.delete a; s.include? a }
+    assert_equal 1 { include "set"; s = set.new 1; a = []; s.add a; s.delete a; s.length }
+    assert_equal 1 { include "set"; s = set.new 1; s.add "1"; s.delete 1; s.length }
+    assert_equal 1 { include "set"; s = set.new "a"; s.add "b"; s.delete "b"; s.length }
+    assert { include "set"; s = set.new; a = object.new; s.add a; s.delete a; s.empty? }
+  }
 
-	test "set_clear" {
-		assert { include "set"; s = set.new; a = object.new; s << a << 1 << 2 << a; s.clear; s.empty? }
-	}
+  test "set_clear" {
+    assert { include "set"; s = set.new; a = object.new; s << a << 1 << 2 << a; s.clear; s.empty? }
+  }
 
-	test "set_compare" {
-		assert_false { include 'set'; s = set.new 1,2,3; t = 1; s == t }
-		assert_false { include 'set'; s = set.new 1,2,3; t = set.new 1,2,3,4,6,7,8,9,10; t == s }
-		assert_false { include 'set'; s = set.new 1,2,3; t = set.new 1,2,4; s == t }
-		assert { include 'set'; s = set.new 1,2,3; t = set.new 1,2,3; s == t }
-		assert { include 'set'; s = set.new 1,2,3; s == s }
-	}
+  test "set_compare" {
+    assert_false { include 'set'; s = set.new 1,2,3; t = 1; s == t }
+    assert_false { include 'set'; s = set.new 1,2,3; t = set.new 1,2,3,4,6,7,8,9,10; t == s }
+    assert_false { include 'set'; s = set.new 1,2,3; t = set.new 1,2,4; s == t }
+    assert { include 'set'; s = set.new 1,2,3; t = set.new 1,2,3; s == t }
+    assert { include 'set'; s = set.new 1,2,3; s == s }
+  }
 
-	test "set.merge" {
-		assert { include :set; s1 = set.new 1 2 3; s2 = set.new 3 4 5; s1.merge s2; s1 == set.new 1 2 3 4 5}
-	}
+  test "set.merge" {
+    assert { include :set; s1 = set.new 1 2 3; s2 = set.new 3 4 5; s1.merge s2; s1 == set.new 1 2 3 4 5}
+  }
 
-	test "set.to_array" {
-		assert_equal [1 2 3] { include 'set'; s = set.new 1 2 3; s.to_array.sort }
-		assert_equal [:b :e :f] { include 'set'; s = set.new :b :e :f; s.to_array.sort }
-	}
+  test "set.to_array" {
+    assert_equal [1 2 3] { include 'set'; s = set.new 1 2 3; s.to_array.sort }
+    assert_equal [:b :e :f] { include 'set'; s = set.new :b :e :f; s.to_array.sort }
+  }
 }
 

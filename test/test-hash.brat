@@ -1,80 +1,80 @@
 include :assert
 
 add_results setup name: "hash tests" {
-	test "hash" {
-		assert_equal 1 { x = hash.new; x["y"] = 1; x["y"] }
-		assert_equal 1 { x = [:]; x["y"] = 1; x["y"] }
-		assert_equal 1 { x = [ : ]; x["y"] = 1; x["y"] }
-		assert_equal 0 { x = [:]; x.length }
-		assert_equal "a" { x = [1:"a"]; x[1]; }
-		assert_equal 2 { y = [2]; x = [1:y]; x[1][0] }
-		assert_equal "a" { x = [b:"a"]; x[:b]; }
-		assert_equal "a" { x = [b::a]; x[:b]; }
-	}
+  test "hash" {
+    assert_equal 1 { x = hash.new; x["y"] = 1; x["y"] }
+    assert_equal 1 { x = [:]; x["y"] = 1; x["y"] }
+    assert_equal 1 { x = [ : ]; x["y"] = 1; x["y"] }
+    assert_equal 0 { x = [:]; x.length }
+    assert_equal "a" { x = [1:"a"]; x[1]; }
+    assert_equal 2 { y = [2]; x = [1:y]; x[1][0] }
+    assert_equal "a" { x = [b:"a"]; x[:b]; }
+    assert_equal "a" { x = [b::a]; x[:b]; }
+  }
 
-	test "hash comparison" {
-		assert { [:] == [:] }
-		assert_equal [a: 1 b: 2 c: 3] { [a: 1 b: 2 c: 3] }
-	}
+  test "hash comparison" {
+    assert { [:] == [:] }
+    assert_equal [a: 1 b: 2 c: 3] { [a: 1 b: 2 c: 3] }
+  }
 
-	test "hash_string" {
-		assert_equal "[:]" { [:].to_s }
-		assert_equal "[a: b]" { [a: :b].to_s }
-	}
+  test "hash_string" {
+    assert_equal "[:]" { [:].to_s }
+    assert_equal "[a: b]" { [a: :b].to_s }
+  }
 
-	test "hash_key?" {
-		assert { a = ["a" : 1]; a.key? "a" }
-		assert_false { a = ["a" : 1]; a.key? 1 }
-		assert_false { a = [1:"hi"]; a.key? "1" }
-	}
+  test "hash_key?" {
+    assert { a = ["a" : 1]; a.key? "a" }
+    assert_false { a = ["a" : 1]; a.key? 1 }
+    assert_false { a = [1:"hi"]; a.key? "1" }
+  }
 
-	test "hash_each" {
-		assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each { key, val | b << val << key }; b.length == 6 && (b.include? "b") && (b.include? 2) && (b.include? 4) }
-	}
+  test "hash_each" {
+    assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each { key, val | b << val << key }; b.length == 6 && (b.include? "b") && (b.include? 2) && (b.include? 4) }
+  }
 
-	test "hash_each_key" {
-		assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each_key { key | b << key }; b.length == 3 && (b.include? 3) && (b.include? "a") && (b.include? "b") }
-	}
+  test "hash_each_key" {
+    assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each_key { key | b << key }; b.length == 3 && (b.include? 3) && (b.include? "a") && (b.include? "b") }
+  }
 
-	test "hash_each_value" {
-		assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each_value { val | b << val }; b.length == 3 && (b.include? 4) && (b.include? 2) && (b.include? 1) }
-	}
+  test "hash_each_value" {
+    assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = []; a.each_value { val | b << val }; b.length == 3 && (b.include? 4) && (b.include? 2) && (b.include? 1) }
+  }
 
-	test "hash_map" {
-		assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = []; b = a.map { key, val | val}; b.length == 3 && (b.include? 4) && (b.include? 2) && (b.include? 1) }
-	}
+  test "hash_map" {
+    assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = []; b = a.map { key, val | val}; b.length == 3 && (b.include? 4) && (b.include? 2) && (b.include? 1) }
+  }
 
-	test "hash_delete" {
-		assert_false { a = ["a" : 1, "b" : 2, 3 : 4]; a.delete "a"; a.key? "a" }
-		assert_equal 2 { a = ["a" : 1, "b" : 2, 3 : 4]; a.delete "a"; a.length }
-	}
+  test "hash_delete" {
+    assert_false { a = ["a" : 1, "b" : 2, 3 : 4]; a.delete "a"; a.key? "a" }
+    assert_equal 2 { a = ["a" : 1, "b" : 2, 3 : 4]; a.delete "a"; a.length }
+  }
 
-	test "hash_length" {
-		assert_equal 3 { a = ["a" : 1, "b" : 2, 3 : 4]; a.length }
-	}
+  test "hash_length" {
+    assert_equal 3 { a = ["a" : 1, "b" : 2, 3 : 4]; a.length }
+  }
 
-	test "hash_select" {
-		assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select { key, val | val > 1 }; b.key?("b") && (b.length == 2) }
-	}
+  test "hash_select" {
+    assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select { key, val | val > 1 }; b.key?("b") && (b.length == 2) }
+  }
 
-	test "hash_keys" {
-		assert { a = ["a" : 1, "b" : 2, 3 : 4]; a.keys.include?("a") && (a.keys.length == 3) }
-	}
+  test "hash_keys" {
+    assert { a = ["a" : 1, "b" : 2, 3 : 4]; a.keys.include?("a") && (a.keys.length == 3) }
+  }
 
-	test "hash.values" {
-		assert_equal [:a :b :c] { [1: :a 2: :b 3: :c].values.sort }
-		assert_equal [] { [:].values }
-	}
+  test "hash.values" {
+    assert_equal [:a :b :c] { [1: :a 2: :b 3: :c].values.sort }
+    assert_equal [] { [:].values }
+  }
 
-	test "hash_plus" {
-		assert_equal 3 { a = [a: 1, b: 2, c: 3]; b = [b:3, d:4]; c = a + b; c[:b] }
-		assert_equal 4 { a = [a: 1, b: 2, c: 3]; b = [b:3, d:4]; c = a + b; c.length }
-	}
+  test "hash_plus" {
+    assert_equal 3 { a = [a: 1, b: 2, c: 3]; b = [b:3, d:4]; c = a + b; c[:b] }
+    assert_equal 4 { a = [a: 1, b: 2, c: 3]; b = [b:3, d:4]; c = a + b; c.length }
+  }
 
-	test "hash_empty?" {
-		assert_false { a = ["a" : 1, "b" : 2, 3 : 4]; a.empty? }
-		assert { [:].empty? }
-		assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select {k,v| v == 5 }; b.empty? }
-	}
+  test "hash_empty?" {
+    assert_false { a = ["a" : 1, "b" : 2, 3 : 4]; a.empty? }
+    assert { [:].empty? }
+    assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select {k,v| v == 5 }; b.empty? }
+  }
 
 }

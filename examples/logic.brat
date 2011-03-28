@@ -1,11 +1,11 @@
 #* http://rosettacode.org/wiki/Logical_operations
-	Write a function that takes two logical (boolean) values, and outputs the
-	result of "and" and "or" on both arguments as well as "not" on the
-	first arguments.
+  Write a function that takes two logical (boolean) values, and outputs the
+  result of "and" and "or" on both arguments as well as "not" on the
+  first arguments.
 *#
 
 logic = { a, b |
-	p "a and b: #{ a && b }"
-	p "a or b: #{ a || b }"
-	p "not a: #{ not a }"
+  p "a and b: #{ a && b }"
+  p "a or b: #{ a || b }"
+  p "not a: #{ not a }"
 }
