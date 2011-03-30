@@ -1,0 +1,10 @@
+#* http://rosettacode.org/wiki/Integer_sequence
+  Display integers from 1 to infinity (or as close as possible)
+*#
+
+i = 1
+
+while {
+  p i
+  i = i + 1
+}
