@@ -51,3 +51,7 @@ To uninstall, should the need ever arise (unlikely):
 ### Syntax highlighting
 
 For VIM, copy extras/brat.vim to ~/.vim/syntax/
+
+and then add this to ~/.vimrc:
+
+au BufNewFile,BufRead *.brat set filetype=brat
