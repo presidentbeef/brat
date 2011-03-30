@@ -52,3 +52,4 @@ hi link bratFloat Number
 
 " Set syntax name
 let b:current_syntax = "brat"
+autocmd FileType brat set ai sw=2 sts=2 et
