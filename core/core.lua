@@ -1058,6 +1058,10 @@ function number_instance:sin ()
   return math.sin(self._lua_number)
 end
 
+function number_instance:to_underrad ()
+  return math.rad(self._lua_number)
+end
+
 function number_instance:_star (rhs)
   if type(rhs) ~= "number" then
     error("Cannot multiply number by " .. type(rhs))
