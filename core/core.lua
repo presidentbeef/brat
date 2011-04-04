@@ -1592,8 +1592,14 @@ function array_instance:select_bang (block)
   return self
 end
 
-function array_instance:index_underof (item)
-  local k = 1
+function array_instance:index_underof (item, start)
+  local k
+  if start == nil then
+    k = 1
+  else
+    k = start + 1
+  end
+
   local len = self._length
   local a = self._lua_array
 
