@@ -1622,9 +1622,16 @@ function array_instance:index_underof (item, start)
   return object.__null
 end
 
-function array_instance:rindex_underof (item)
+function array_instance:rindex_underof (item, start)
   local len = self._length
-  local k = len
+  
+  local k
+  if start == nil then
+    k = len
+  else
+    k = start + 1
+  end
+
   local a = self._lua_array
 
   if type(item) == "number" then
