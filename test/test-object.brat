@@ -82,6 +82,6 @@ add_results setup name: "object tests" {
 
   test "object_with_this" {
     assert_equal 1 { a = object.new; a.x = 1; a.with_this { x } }
+    assert_equal 5 { a = object.new; a.x = 1; a.with_this { y |  x + y } 4 }
   }
-
 }
