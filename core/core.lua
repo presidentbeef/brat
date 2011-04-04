@@ -2168,7 +2168,7 @@ function array_instance:_less_less (obj)
 end
 
 function array_instance:_plus (obj)
-  if obj._lua_array == nil then
+  if type(obj) ~= "table" or obj._lua_array == nil then
     error(exception:argument_error("array.+", "array", tostring(obj)))
   end
 
