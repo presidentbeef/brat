@@ -706,8 +706,13 @@ function object:call_undermethod (name, ...)
   end
 end
 
-function object:with_underthis (block)
-  return block(self)
+function object:with_underthis (block, ...)
+  local args = {...}
+  if #args == 0 then
+    return block(self)
+  else
+    return block(self, unpack(args))
+  end
 end
 
 function object:protect (block, options)
