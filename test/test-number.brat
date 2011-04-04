@@ -134,5 +134,10 @@ add_results setup name: "number tests" {
     assert_equal [1 2 3 4] { x = 0; 4.of { x = x + 1; x } }
     assert_equal [] { 0.of :anything }
   }
+
+  test "number.to_char" {
+    assert_equal "a" { 97.to_char }
+    assert_equal 97 { 97.to_char.to_byte }
+  }
 }
 
