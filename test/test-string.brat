@@ -206,6 +206,12 @@ add_results setup name: "string tests" {
     assert_equal 10000000000000 { "10000000000000".to_i }
   }
 
+  test "string.to_byte" {
+    assert_equal 97 { "a".to_byte }
+    assert_equal [97 98 99] { "abc".to_byte }
+    assert_equal "!" { "!".to_byte.to_char }
+  }
+
   test "string_compare" {
     assert { a = "hello!"; b = "hello!"; a == b }
     assert_false { "\'ello, mate" == "sup?" }

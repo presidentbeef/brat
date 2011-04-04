@@ -1179,6 +1179,10 @@ function number_instance:to_underf ()
   return self._lua_number
 end
 
+function number_instance:to_underchar ()
+  return base_string:new(string.char(self._lua_number))
+end
+
 local native_operations = { _plus = number_instance._plus;
   _minus = number_instance._minus;
   _star = number_instance._star;
