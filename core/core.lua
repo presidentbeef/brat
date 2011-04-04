@@ -3039,6 +3039,14 @@ function string_instance:to_underf ()
   end
 end
 
+function string_instance:to_underbyte ()
+  if #self._lua_string == 1 then
+    return self._lua_string:byte()
+  else
+    return array:new(self._lua_string:byte(1, #self._lua_string))
+  end
+end
+
 --Regular expressions
 
 local regex_instance = object:new()
