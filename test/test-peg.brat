@@ -1,0 +1,51 @@
+include :assert
+include :peg
+
+add_results setup name: "PEG tests" {
+  parses = { grammar, input, fully = true |
+    parser = peg.new {
+      set :rule grammar
+    }
+
+    assert parser.parse(input, null, fully) "#{input} did not parse"
+  }
+
+  doesnt_parse = { grammar, input, fully = true |
+    parser = peg.new {
+      set :rule grammar
+    }
+
+    assert_false parser.parse(input, null, fully) "#{input} parsed, but was not expected to"
+  }
+
+  test "string literal" {
+    parses { str(:hi) } :hi
+  }
+
+  test "sequence" {
+    parses { seq str(:h) str(:i) } :hi
+  }
+
+  test "many" {
+    parses { many str :l } :llllll
+    parses { many str :l } :l
+    doesnt_parse { many str :l } :x
+  }
+
+  test "maybe" {
+    parses { maybe str :h } :h
+    parses { maybe str :h } :x false
+  }
+
+  test "kleene star" {
+    parses { kleene str :h } :hhhhhhhhh
+    parses { kleene str :h } :h
+    parses { kleene str :h } :nope false
+  }
+
+  test "any" {
+    parses { any str(:h) str(:i) } :h
+    parses { any str(:h) str(:i) } :i
+    doesnt_parse { any str(:h) str(:i) } :n false
+  }
+}

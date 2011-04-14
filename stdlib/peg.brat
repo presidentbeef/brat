@@ -1,0 +1,135 @@
+scanner = object.new
+
+scanner.init = { str |
+  my.str = str
+  my.pos = 0
+}
+
+scanner.scan = { matcher |
+  patch = my.str[my.pos, my.pos + matcher.length - 1]
+
+  true? patch == matcher
+    { 
+      my.pos = my.pos + matcher.length
+      patch
+    }
+}
+
+peg = object.new
+
+peg.init = { gramma |
+  my.named_rules = [:]
+  my.first = null
+  gramma
+}
+
+peg.parse = { str, start_rule = null, fully = false |
+  null? start_rule
+    { start_rule = my.first }
+
+  s = scanner.new str
+  result = my.named_rules[start_rule](s)
+
+  true? { result && { fully } }
+    { s.pos == str.length }
+    { result }
+}
+
+peg.seq = { *rules |
+  { x |
+    matched = false
+
+    rules.each_while { rule |
+      matched = rule x
+    }
+
+    not not matched
+  }
+}
+
+peg.any = { *rules |
+  { x |
+    matched = false
+
+    rules.each_until { opt |
+      matched = opt x
+    }
+
+    matched
+  }
+}
+
+peg.num_of = { rule, min, max |
+  { x |
+    num_matches = 0
+      
+    while {
+      true? rule(x)
+      { num_matches = num_matches + 1 }
+    }
+
+    true? num_matches >= min
+      { null? max
+        { true }
+        { true? num_matches <= max }
+    }
+  }
+}
+
+peg.maybe = { rule |
+  { x |
+    rule x
+    true
+  }
+}
+
+peg.kleene = { rule |
+ { x |
+    num_matches = 0
+      
+    while {
+      true? rule x
+    }
+
+    true
+  }   
+}
+
+peg.many = { rule |
+  { x |
+
+    matched = true? rule x
+    
+    while {
+      true? rule x
+    }
+
+    matched
+  }
+}
+
+peg.str = { literal |
+  { x | x.scan literal }
+}
+
+peg.no! = { rule |
+  { x | false? rule x }
+}
+
+peg.and = { rule |
+  { x |
+    pos = x.pos
+    matched = rule x
+    x.pos = pos
+    matched
+  }
+}
+
+peg.set = { name, rule |
+  null? my.first
+    { my.first = name }
+
+  my.named_rules[name] = ->rule
+}
+
+export peg, "peg"
