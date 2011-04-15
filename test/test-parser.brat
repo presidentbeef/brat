@@ -183,5 +183,12 @@ add_results setup name: "parser tests" {
             a = 1
           } }
   }
+
+  test "variable length argument scope" {
+    f = { *x | x[0] }
+    y = f 1
+    z = f 2
+    assert_false { y == z }
+  }
 }
 

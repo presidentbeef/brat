@@ -474,8 +474,8 @@ grammar BaseBrat
       var = lhs.brat
       temp = var_exist? var
       if temp
-        output = rhs.brat(temp) 
-        output << "\n#{temp} = #{rhs.result}\n" unless temp == rhs.result
+        output = rhs.brat 
+        output << "\n#{temp} = #{rhs.result}\n"
       else
         temp = var_add var
         output = ""
@@ -765,7 +765,7 @@ grammar BaseBrat
     end
 
     def function_header
-      "#@param = array:new(...)\n"
+      "local #@param = array:new(...)\n"
     end
   }
   /
@@ -777,7 +777,7 @@ grammar BaseBrat
 
     def function_header
       plain_formals.check_args << "\n" <<
-      "#@param = array:new(...)\n"
+      "local #@param = array:new(...)\n"
     end
   }
   /
@@ -790,7 +790,7 @@ grammar BaseBrat
 
     def function_header
       default_args.set_args << "\n" <<
-      "#@param = array:new(...)\n"
+      "local #@param = array:new(...)\n"
     end
   }
   /
@@ -804,7 +804,7 @@ grammar BaseBrat
     def function_header
       plain_formals.check_args << "\n" <<
       default_args.set_args << "\n" <<
-      "#@param = array:new(...)\n"
+      "local #@param = array:new(...)\n"
     end
   }
   /

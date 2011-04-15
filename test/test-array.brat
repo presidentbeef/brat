@@ -246,6 +246,10 @@ add_results setup name: "array tests" {
     assert_equal 2 { x = 0; [1, 2, 3].each_while { e | x = e; e < 2 }; x }
   }
 
+  test "array.each_until" {
+    assert_equal 3 { x = 0; [1 2 3 4].each_until { e | x = e; e > 2 }; x }
+  }
+
   test "array_find" {
     assert_equal 3 { [1,2,3].find { x | x > 2 } }
     assert_null { [1,2,3].find { x | x > 4 } }
