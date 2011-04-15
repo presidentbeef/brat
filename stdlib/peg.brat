@@ -1,10 +1,19 @@
+#* Simple implementation of parsing expression grammar.
+  Intended to replace Treetop as the parser for Brat
+  but may be used for other purposes, as well.
+*#
+
+#Scans through a string, moving the "cursor" when a match occurs.
 scanner = object.new
 
+#Initialize with string to match against
 scanner.init = { str |
   my.str = str
   my.pos = 0
 }
 
+#Attempt to match string against current position. Advances position
+#when there is a match.
 scanner.scan = { matcher |
   patch = my.str[my.pos, my.pos + matcher.length - 1]
 
