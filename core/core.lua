@@ -1488,6 +1488,22 @@ function array_instance:each_underwhile (block)
   return self
 end
 
+function array_instance:each_underuntil (block)
+  local k = 1
+  local len = self._length
+  local a = self._lua_array
+
+  while k <= len do
+    if not is_true(block(self, a[k])) then
+      k = k + 1
+    else
+      break
+    end
+  end
+
+  return self
+end
+
 function array_instance:each_underwith_underindex (block)
   local k = 1
   local len = self._length
