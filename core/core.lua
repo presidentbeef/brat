@@ -2852,12 +2852,16 @@ function string_instance:include_question (pattern)
   error(exception:argument_error("string.include?", "string or regex", tostring(regx)))
 end
 
-function string_instance:match (regx)
+function string_instance:match (regx, start_index)
   if type(regx) ~= "table" or regx._lua_regex == nil then
     error(exception:argument_error("string.match", "regex", tostring(regx)))
   end
 
-  return regx:match(self)
+  if start_index then
+    start_index = start_index + 1
+  end
+
+  return regx:match(self, start_index)
 end
 
 function string_instance:sub (pattern, replacement, limit)
@@ -3116,7 +3120,7 @@ function regex_instance:to_unders ()
   return base_string:new("/" .. self._regex_string .. "/")
 end
 
-function regex_instance:match (string)
+function regex_instance:match (string, start_index)
   if type(string) == "string" then
   elseif type(string) == "table" and string._lua_string ~= nil then
     string = string._lua_string
@@ -3124,25 +3128,38 @@ function regex_instance:match (string)
     error(exception:argument_error("regex.match", "string", string))
   end
 
-  local result = {self._lua_regex:match(string)}
+  local result = {self._lua_regex:find(string, start_index)}
 
   if #result == 0 then
     return object.__false
   else
-    return regex:_make_result(result)
+    return regex:_make_result(string, result)
   end
 end
 
 regex_instance._tilde = regex_instance.match
 
-function regex:_make_result (result)
-  local r = {}
+function regex:_make_result (str, result)
+  full_match = base_string:new(str:sub(result[1], result[2]))
 
-  for k,v in ipairs(result) do
-    r[k] = base_string:new(v)
+  local r = {full_match}
+
+  if result[3] then
+    local k = 3
+    local v
+    while k <= #result do
+      v = result[k]
+      if type(v) == "string" then
+        r[k - 1] = base_string:new(v)
+      elseif v == false then
+        r[k - 1] = object.__false
+      end
+
+      k = k + 1
+    end
   end
 
-  return array:new(r)
+  return regex_match:new(result[1] - 1, result[2] - 1, full_match, array:new(r))
 end
 
 --Exception objects
