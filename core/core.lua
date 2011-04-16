@@ -3093,6 +3093,20 @@ end
 
 local regex_instance = object:new()
 
+local regex_match = object:new()
+
+function regex_match:new (start_pos, end_pos, full_match, matches)
+  local rm = new_brat(regex_match)
+
+  function rm:start_underpos () return start_pos end
+  function rm:end_underpos () return end_pos end
+  function rm:full_undermatch () return full_match end
+  function rm:matches () return matches end
+  function rm:get (index) return matches:get(index) end
+
+  return rm
+end
+
 regex = object:new()
 
 function regex:new (string)
