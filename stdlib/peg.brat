@@ -20,10 +20,13 @@ scanner.scan_string = { matcher |
   true? patch == matcher
     { 
       my.pos = my.pos + matcher.length
+      p my.pos
       patch
     }
 }
 
+#Attempt to match regex against current position. Advances position
+#when there is a match.
 scanner.scan_regex = { matcher |
   current = my.pos
   result = my.str.match(matcher, current)
@@ -40,7 +43,55 @@ peg = object.new
 peg.init = { gramma |
   my.named_rules = [:]
   my.first = null
-  gramma
+  my.rule_id = 0
+  my.memo = [:]
+
+  gramma #Actually set up parser
+}
+
+peg.next_id = {
+  my.rule_id = my.rule_id + 1
+}
+
+peg.make_memo = { result, pos |
+  m = object.new
+  m.result = result
+  m.pos = pos
+  m.calls = 1
+  m
+}
+
+peg.make_rule = { rule |
+  id = next_id
+  memo = my.memo
+  memo[id] = [:]
+
+  { x |
+    p "call!"
+    m = memo[id][x.pos]
+    true? m
+      {
+        m.calls = m.calls + 1
+        true? m.calls > 1
+          { p "matched more than once!@!" }
+        x.pos = m.pos
+        m.result
+      }
+      {
+         current = x.pos
+         m = peg.make_memo rule(x) x.pos
+         memo[id][current] = m
+         m.result
+      }
+  }
+}
+
+peg.make_result = { match_pos, matched |
+  result = object.new
+  result.start_pos = match_pos
+  result.end_pos = my.pos
+  result.matched = matched
+  result
 }
 
 #Parse a string
@@ -49,6 +100,8 @@ peg.init = { gramma |
 peg.parse = { str, start_rule = null, fully = false |
   null? start_rule
     { start_rule = my.first }
+
+  my.memo.each_value { v | v.clear }
 
   s = scanner.new str
   result = my.named_rules[start_rule](s)
@@ -60,7 +113,7 @@ peg.parse = { str, start_rule = null, fully = false |
 
 #Match a sequence of rules
 peg.seq = { *rules |
-  { x |
+  make_rule { x |
     matched = false
 
     rules.each_while { rule |
@@ -73,7 +126,7 @@ peg.seq = { *rules |
 
 #Match any of a set of rules
 peg.any = { *rules |
-  { x |
+  make_rule { x |
     matched = false
 
     rules.each_until { opt |
@@ -86,7 +139,7 @@ peg.any = { *rules |
 
 #Match a rule the specified number of times 
 peg.num_of = { rule, min, max |
-  { x |
+  make_rule { x |
     num_matches = 0
       
     while {
@@ -104,7 +157,7 @@ peg.num_of = { rule, min, max |
 
 #Match zero or one occurrences of rule
 peg.maybe = { rule |
-  { x |
+  make_rule { x |
     rule x
     true
   }
@@ -112,7 +165,7 @@ peg.maybe = { rule |
 
 #Match zero or more occurrences of rule
 peg.kleene = { rule |
- { x |
+  make_rule { x |
     num_matches = 0
       
     while {
@@ -125,7 +178,7 @@ peg.kleene = { rule |
 
 #Match one or more occurrences of rule
 peg.many = { rule |
-  { x |
+  make_rule { x |
 
     matched = true? rule x
     
@@ -139,23 +192,23 @@ peg.many = { rule |
 
 #Match a string literally
 peg.str = { literal |
-  { x | x.scan_string literal }
+  make_rule { x | x.scan_string literal }
 }
 
 #Match a regular expression
 peg.reg = { reg_literal |
-  { x | x.scan_regex reg_literal }
+  make_rule { x | x.scan_regex reg_literal }
 }
 
 #Specify that a rule should NOT match
 peg.no! = { rule |
-  { x | false? rule x }
+  make_rule { x | false? rule x }
 }
 
 #Specific that a rule should match, but do not advance
 #position (lookahead)
 peg.and = { rule |
-  { x |
+  make_rule { x |
     pos = x.pos
     matched = rule x
     x.pos = pos
@@ -174,7 +227,7 @@ peg.set = { name, rule |
 #Reference a named rule
 peg.ref = { name |
   rules = my.named_rules
-  { x | rules[name](x) }
+  make_rule { x | rules[name](x) }
 }
 
 export peg, "peg"
