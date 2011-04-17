@@ -115,10 +115,14 @@ peg.parse = { str, start_rule = null, fully = false |
 peg.seq = { *rules |
   make_rule { x |
     matched = false
+    start = x.pos
 
     rules.each_while { rule |
       matched = rule x
     }
+
+    false? matched
+      { x.pos = start }
 
     not not matched
   }
