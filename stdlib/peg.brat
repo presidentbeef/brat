@@ -104,7 +104,11 @@ peg.parse = { str, start_rule = null, fully = false |
   my.memo.each_value { v | v.clear }
 
   s = scanner.new str
-  result = my.named_rules[start_rule](s)
+  rule = my.named_rules[start_rule]
+
+  null? { ->rule } { throw "No such rule: #{start_rule}" }
+
+  result = rule s
 
   true? { result && { fully } }
     { s.pos == str.length }
@@ -231,7 +235,12 @@ peg.set = { name, rule |
 #Reference a named rule
 peg.ref = { name |
   rules = my.named_rules
-  make_rule { x | rules[name](x) }
+  make_rule { x |
+    r = rules[name]
+    null? { ->r }
+      { throw "No such rule: #{name}" }
+    r x
+  }
 }
 
 export peg, "peg"
