@@ -66,4 +66,27 @@ add_results setup name: "PEG tests" {
     assert number_parser.parse("10.0" :number true) "Didin't parse 10.0"
     assert number_parser.parse("10.10" :number true) "Didin't parse 10.10"
   }
+
+  test "simple calculator" {
+    simple_calc = peg.new {
+      set :exp any(ref(:paren) ref(:binary) ref(:number))
+       set :number many(reg(/[0-9]/))
+       set :binary seq(ref(:number) ref(:op) ref(:exp))
+       set :op any(str("+") str("*") str("/") str("-"))
+       set :paren seq(str("(") ref(:exp) str(")"))
+    }
+
+    assert simple_calc.parse("1-(1+1/1+2+3+(4*11))", :exp, true)
+  }
+
+  test "simple backtracking" {
+    path = peg.new {
+      set :a any(ref(:b) ref(:c))
+       set :b seq(str(:x) ref(:d) str(:y))
+       set :c seq(str(:x) ref(:d) str(:z))
+       set :d any(ref(:a) and(reg //))
+    }
+
+    assert path.parse "xxxzzz", :a, true
+  }
 }
