@@ -156,4 +156,10 @@ peg.set = { name, rule |
   my.named_rules[name] = ->rule
 }
 
+#Reference a named rule
+peg.ref = { name |
+  rules = my.named_rules
+  { x | rules[name](x) }
+}
+
 export peg, "peg"
