@@ -2490,6 +2490,13 @@ function hash_instance:set (index, value)
   return value
 end
 
+function hash_instance:clear ()
+  self._key_hash = {}
+  self._lua_hash = {}
+
+  return self
+end
+
 function hash_instance:delete (index)
   if type(index) == "table" and type(index.__hash) == "function" then
     local key = index:__hash()
