@@ -43,6 +43,9 @@ peg.init = { gramma |
   gramma
 }
 
+#Parse a string
+#If no start rule is given, then whichever rule was defined first will be used.
+#By default, the entire string does not have to match.
 peg.parse = { str, start_rule = null, fully = false |
   null? start_rule
     { start_rule = my.first }
@@ -55,6 +58,7 @@ peg.parse = { str, start_rule = null, fully = false |
     { result }
 }
 
+#Match a sequence of rules
 peg.seq = { *rules |
   { x |
     matched = false
@@ -67,6 +71,7 @@ peg.seq = { *rules |
   }
 }
 
+#Match any of a set of rules
 peg.any = { *rules |
   { x |
     matched = false
@@ -79,6 +84,7 @@ peg.any = { *rules |
   }
 }
 
+#Match a rule the specified number of times 
 peg.num_of = { rule, min, max |
   { x |
     num_matches = 0
@@ -96,6 +102,7 @@ peg.num_of = { rule, min, max |
   }
 }
 
+#Match zero or one occurrences of rule
 peg.maybe = { rule |
   { x |
     rule x
@@ -103,6 +110,7 @@ peg.maybe = { rule |
   }
 }
 
+#Match zero or more occurrences of rule
 peg.kleene = { rule |
  { x |
     num_matches = 0
@@ -115,6 +123,7 @@ peg.kleene = { rule |
   }   
 }
 
+#Match one or more occurrences of rule
 peg.many = { rule |
   { x |
 
@@ -128,18 +137,23 @@ peg.many = { rule |
   }
 }
 
+#Match a string literally
 peg.str = { literal |
   { x | x.scan_string literal }
 }
 
+#Match a regular expression
 peg.reg = { reg_literal |
   { x | x.scan_regex reg_literal }
 }
 
+#Specify that a rule should NOT match
 peg.no! = { rule |
   { x | false? rule x }
 }
 
+#Specific that a rule should match, but do not advance
+#position (lookahead)
 peg.and = { rule |
   { x |
     pos = x.pos
@@ -149,6 +163,7 @@ peg.and = { rule |
   }
 }
 
+#Set a named rule
 peg.set = { name, rule |
   null? my.first
     { my.first = name }
