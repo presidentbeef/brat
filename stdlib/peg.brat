@@ -20,7 +20,6 @@ scanner.scan_string = { matcher |
   true? patch == matcher
     { 
       my.pos = my.pos + matcher.length
-      p my.pos
       patch
     }
 }
@@ -57,7 +56,6 @@ peg.make_memo = { result, pos |
   m = object.new
   m.result = result
   m.pos = pos
-  m.calls = 1
   m
 }
 
@@ -67,13 +65,9 @@ peg.make_rule = { rule |
   memo[id] = [:]
 
   { x |
-    p "call!"
     m = memo[id][x.pos]
     true? m
       {
-        m.calls = m.calls + 1
-        true? m.calls > 1
-          { p "matched more than once!@!" }
         x.pos = m.pos
         m.result
       }
