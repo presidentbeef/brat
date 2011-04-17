@@ -14,13 +14,24 @@ scanner.init = { str |
 
 #Attempt to match string against current position. Advances position
 #when there is a match.
-scanner.scan = { matcher |
+scanner.scan_string = { matcher |
   patch = my.str[my.pos, my.pos + matcher.length - 1]
 
   true? patch == matcher
     { 
       my.pos = my.pos + matcher.length
       patch
+    }
+}
+
+scanner.scan_regex = { matcher |
+  current = my.pos
+  result = my.str.match(matcher, current)
+
+  true? result && { current == result.start_pos }
+    {
+      my.pos = result.end_pos + 1
+      result
     }
 }
 
@@ -118,7 +129,11 @@ peg.many = { rule |
 }
 
 peg.str = { literal |
-  { x | x.scan literal }
+  { x | x.scan_string literal }
+}
+
+peg.reg = { reg_literal |
+  { x | x.scan_regex reg_literal }
 }
 
 peg.no! = { rule |

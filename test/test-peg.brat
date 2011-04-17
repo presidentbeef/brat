@@ -48,4 +48,9 @@ add_results setup name: "PEG tests" {
     parses { any str(:h) str(:i) } :i
     doesnt_parse { any str(:h) str(:i) } :n false
   }
+
+  test "regex_literal" {
+    parses { reg /[a-z]+\d+!\d+/ } "omgz11!111"
+    doesnt_parse { reg /[a-z]+\d+!\d+/ } "#omgz11!111"
+  }
 }
