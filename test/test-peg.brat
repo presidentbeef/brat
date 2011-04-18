@@ -49,6 +49,12 @@ add_results setup name: "PEG tests" {
     doesnt_parse { any str(:h) str(:i) } :n false
   }
 
+  test "that's a negative" {
+    parses { seq(str(:h) no(str(:x)) str(:i)) } :hi
+    parses { seq(str(:h) any(no(str(:x)) str(:x))) } :hx
+    doesnt_parse { seq(str(:h) no(str(:x))) } :hx 
+  }
+
   test "regex literal" {
     parses { reg /[a-z]+\d+!\d+/ } "omgz11!111"
     doesnt_parse { reg /[a-z]+\d+!\d+/ } "#omgz11!111"

@@ -203,8 +203,13 @@ peg.reg = { reg_literal |
 }
 
 #Specify that a rule should NOT match
-peg.no! = { rule |
-  make_rule { x | false? rule x }
+peg.no = { rule |
+  make_rule { x |
+    pos = x.pos
+    res = rule x
+    x.pos = pos
+    false? res
+  }
 }
 
 #Specific that a rule should match, but do not advance
