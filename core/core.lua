@@ -3116,7 +3116,7 @@ end
 
 regex = object:new()
 
-function regex:new (string)
+function regex:new (string, options)
   if type(string) == "string" then
   elseif type(string) == "table" and string._lua_string ~= nil then
     string = string._lua_string
@@ -3124,10 +3124,17 @@ function regex:new (string)
     error(exception:argument_error("regex.new", "string", string))
   end
 
+  if options == nil or type(options) == "string" then
+  elseif type(options) == "table" and options._lua_string ~= nil then
+    options = options._lua_string
+  else
+    error(exception:argument_error("regex.new", "string", string))
+  end
+
   local nr = new_brat(regex_instance)
   nr:squish(self)
 
-  nr._lua_regex = orex.new(string)
+  nr._lua_regex = orex.new(string, options)
   nr._regex_string = string
 
   return nr
