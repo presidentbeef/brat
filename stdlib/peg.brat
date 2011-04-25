@@ -80,11 +80,15 @@ peg.make_rule = { rule |
   }
 }
 
-peg.make_result = { match_pos, matched |
+peg.make_result = { match_pos, end_pos, matched |
   result = object.new
   result.start_pos = match_pos
-  result.end_pos = my.pos
+  result.end_pos = end_pos
   result.matched = matched
+  true? matched.array?
+    { result.elements = matched }
+    { result.elements = [matched] }
+
   result
 }
 
@@ -168,13 +172,17 @@ peg.maybe = { rule |
 #Match zero or more occurrences of rule
 peg.kleene = { rule |
   make_rule { x |
-    num_matches = 0
-      
+    matches = []
+    start = x.pos
+    
     while {
-      true? rule x
+      res = rule x
+
+      true? res
+        { matches << res }
     }
 
-    true
+    peg.make_result matches, start, x.pos
   }   
 }
 
