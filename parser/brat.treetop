@@ -178,15 +178,26 @@ grammar BaseBrat
 
   #Matches regular expression literals
   rule regex
-  "/" r:(!"/" . / "\\/")* "/" {
+  "/" r:(!"/" . / "\\/")* "/" opts:[mix]* {
     def brat(res_var = nil)
-      reg = r.text_value.gsub("\\", "\\\\\\\\")
+      reg = r.text_value
+      reg.gsub!("\\", "\\\\\\\\")
+       
+      cf = opts.text_value.split(//)
+      cf.uniq!
+      cf = cf.join
+      cf.tr! 'm', 's'
+
+      unless cf == ""
+        cf = ', ' << cf.inspect
+      end
+
       if res_var
         @result = res_var
-        "#@result = regex:new(\"#{reg}\")\n"
+        "#@result = regex:new(\"#{reg}\"#{cf})\n"
       else
         next_temp
-        "local #@result = regex:new(\"#{reg}\")\n"
+        "local #@result = regex:new(\"#{reg}\"#{cf})\n"
       end
     end
   }

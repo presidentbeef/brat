@@ -1,0 +1,245 @@
+#* Simple implementation of parsing expression grammar.
+  Intended to replace Treetop as the parser for Brat
+  but may be used for other purposes, as well.
+*#
+
+#Scans through a string, moving the "cursor" when a match occurs.
+scanner = object.new
+
+#Initialize with string to match against
+scanner.init = { str |
+  my.str = str
+  my.pos = 0
+}
+
+#Attempt to match string against current position. Advances position
+#when there is a match.
+scanner.scan_string = { matcher |
+  patch = my.str[my.pos, my.pos + matcher.length - 1]
+
+  true? patch == matcher
+    { 
+      my.pos = my.pos + matcher.length
+      patch
+    }
+}
+
+#Attempt to match regex against current position. Advances position
+#when there is a match.
+scanner.scan_regex = { matcher |
+  current = my.pos
+  result = my.str.match(matcher, current)
+
+  true? result && { current == result.start_pos }
+    {
+      my.pos = result.end_pos + 1
+      result
+    }
+}
+
+peg = object.new
+
+peg.init = { gramma |
+  my.named_rules = [:]
+  my.first = null
+  my.rule_id = 0
+  my.memo = [:]
+
+  gramma #Actually set up parser
+}
+
+peg.next_id = {
+  my.rule_id = my.rule_id + 1
+}
+
+peg.make_memo = { result, pos |
+  m = object.new
+  m.result = result
+  m.pos = pos
+  m
+}
+
+peg.make_rule = { rule |
+  id = next_id
+  memo = my.memo
+  memo[id] = [:]
+
+  { x |
+    m = memo[id][x.pos]
+    true? m
+      {
+        x.pos = m.pos
+        m.result
+      }
+      {
+         current = x.pos
+         m = peg.make_memo rule(x) x.pos
+         memo[id][current] = m
+         m.result
+      }
+  }
+}
+
+peg.make_result = { match_pos, matched |
+  result = object.new
+  result.start_pos = match_pos
+  result.end_pos = my.pos
+  result.matched = matched
+  result
+}
+
+#Parse a string
+#If no start rule is given, then whichever rule was defined first will be used.
+#By default, the entire string does not have to match.
+peg.parse = { str, start_rule = null, fully = false |
+  null? start_rule
+    { start_rule = my.first }
+
+  my.memo.each_value { v | v.clear }
+
+  s = scanner.new str
+  rule = my.named_rules[start_rule]
+
+  null? { ->rule } { throw "No such rule: #{start_rule}" }
+
+  result = rule s
+
+  true? { result && { fully } }
+    { s.pos == str.length }
+    { result }
+}
+
+#Match a sequence of rules
+peg.seq = { *rules |
+  make_rule { x |
+    matched = false
+    start = x.pos
+
+    rules.each_while { rule |
+      matched = rule x
+    }
+
+    false? matched
+      { x.pos = start }
+
+    not not matched
+  }
+}
+
+#Match any of a set of rules
+peg.any = { *rules |
+  make_rule { x |
+    matched = false
+
+    rules.each_until { opt |
+      matched = opt x
+    }
+
+    matched
+  }
+}
+
+#Match a rule the specified number of times 
+peg.num_of = { rule, min, max |
+  make_rule { x |
+    num_matches = 0
+      
+    while {
+      true? rule(x)
+      { num_matches = num_matches + 1 }
+    }
+
+    true? num_matches >= min
+      { null? max
+        { true }
+        { true? num_matches <= max }
+    }
+  }
+}
+
+#Match zero or one occurrences of rule
+peg.maybe = { rule |
+  make_rule { x |
+    rule x
+    true
+  }
+}
+
+#Match zero or more occurrences of rule
+peg.kleene = { rule |
+  make_rule { x |
+    num_matches = 0
+      
+    while {
+      true? rule x
+    }
+
+    true
+  }   
+}
+
+#Match one or more occurrences of rule
+peg.many = { rule |
+  make_rule { x |
+
+    matched = true? rule x
+    
+    while {
+      true? rule x
+    }
+
+    matched
+  }
+}
+
+#Match a string literally
+peg.str = { literal |
+  make_rule { x | x.scan_string literal }
+}
+
+#Match a regular expression
+peg.reg = { reg_literal |
+  make_rule { x | x.scan_regex reg_literal }
+}
+
+#Specify that a rule should NOT match
+peg.no = { rule |
+  make_rule { x |
+    pos = x.pos
+    res = rule x
+    x.pos = pos
+    false? res
+  }
+}
+
+#Specific that a rule should match, but do not advance
+#position (lookahead)
+peg.and = { rule |
+  make_rule { x |
+    pos = x.pos
+    matched = rule x
+    x.pos = pos
+    matched
+  }
+}
+
+#Set a named rule
+peg.set = { name, rule |
+  null? my.first
+    { my.first = name }
+
+  my.named_rules[name] = ->rule
+}
+
+#Reference a named rule
+peg.ref = { name |
+  rules = my.named_rules
+  make_rule { x |
+    r = rules[name]
+    null? { ->r }
+      { throw "No such rule: #{name}" }
+    r x
+  }
+}
+
+export peg, "peg"

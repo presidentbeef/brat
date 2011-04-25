@@ -106,9 +106,11 @@ assertions.assert_fail = { condition |
   assert failed
 }
 
-assertions.assert_false = { condition |
+assertions.assert_false = { condition, message = null |
   r = condition
-  assert { false? r } "expected #{r} to be false"
+  null? message
+    { message = "expected #{r} to be false" }
+  assert { false? r } message
 }
 
 assertions.assert_null = { condition |

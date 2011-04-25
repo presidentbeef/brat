@@ -2490,6 +2490,13 @@ function hash_instance:set (index, value)
   return value
 end
 
+function hash_instance:clear ()
+  self._key_hash = {}
+  self._lua_hash = {}
+
+  return self
+end
+
 function hash_instance:delete (index)
   if type(index) == "table" and type(index.__hash) == "function" then
     local key = index:__hash()
@@ -2852,12 +2859,16 @@ function string_instance:include_question (pattern)
   error(exception:argument_error("string.include?", "string or regex", tostring(regx)))
 end
 
-function string_instance:match (regx)
+function string_instance:match (regx, start_index)
   if type(regx) ~= "table" or regx._lua_regex == nil then
     error(exception:argument_error("string.match", "regex", tostring(regx)))
   end
 
-  return regx:match(self)
+  if start_index then
+    start_index = start_index + 1
+  end
+
+  return regx:match(self, start_index)
 end
 
 function string_instance:sub (pattern, replacement, limit)
@@ -3089,9 +3100,23 @@ end
 
 local regex_instance = object:new()
 
+local regex_match = object:new()
+
+function regex_match:new (start_pos, end_pos, full_match, matches)
+  local rm = new_brat(regex_match)
+
+  function rm:start_underpos () return start_pos end
+  function rm:end_underpos () return end_pos end
+  function rm:full_undermatch () return full_match end
+  function rm:matches () return matches end
+  function rm:get (index) return matches:get(index) end
+
+  return rm
+end
+
 regex = object:new()
 
-function regex:new (string)
+function regex:new (string, options)
   if type(string) == "string" then
   elseif type(string) == "table" and string._lua_string ~= nil then
     string = string._lua_string
@@ -3099,10 +3124,17 @@ function regex:new (string)
     error(exception:argument_error("regex.new", "string", string))
   end
 
+  if options == nil or type(options) == "string" then
+  elseif type(options) == "table" and options._lua_string ~= nil then
+    options = options._lua_string
+  else
+    error(exception:argument_error("regex.new", "string", string))
+  end
+
   local nr = new_brat(regex_instance)
   nr:squish(self)
 
-  nr._lua_regex = orex.new(string)
+  nr._lua_regex = orex.new(string, options)
   nr._regex_string = string
 
   return nr
@@ -3116,7 +3148,7 @@ function regex_instance:to_unders ()
   return base_string:new("/" .. self._regex_string .. "/")
 end
 
-function regex_instance:match (string)
+function regex_instance:match (string, start_index)
   if type(string) == "string" then
   elseif type(string) == "table" and string._lua_string ~= nil then
     string = string._lua_string
@@ -3124,25 +3156,38 @@ function regex_instance:match (string)
     error(exception:argument_error("regex.match", "string", string))
   end
 
-  local result = {self._lua_regex:match(string)}
+  local result = {self._lua_regex:find(string, start_index)}
 
   if #result == 0 then
     return object.__false
   else
-    return regex:_make_result(result)
+    return regex:_make_result(string, result)
   end
 end
 
 regex_instance._tilde = regex_instance.match
 
-function regex:_make_result (result)
-  local r = {}
+function regex:_make_result (str, result)
+  full_match = base_string:new(str:sub(result[1], result[2]))
 
-  for k,v in ipairs(result) do
-    r[k] = base_string:new(v)
+  local r = {full_match}
+
+  if result[3] then
+    local k = 3
+    local v
+    while k <= #result do
+      v = result[k]
+      if type(v) == "string" then
+        r[k - 1] = base_string:new(v)
+      elseif v == false then
+        r[k - 1] = object.__false
+      end
+
+      k = k + 1
+    end
   end
 
-  return array:new(r)
+  return regex_match:new(result[1] - 1, result[2] - 1, full_match, array:new(r))
 end
 
 --Exception objects

@@ -6,13 +6,29 @@ add_results setup name: "regex tests" {
     assert { a = /^a/; true? a.match :abcdefg }
     assert { true? (/g$/).match :abcddefg }
     assert_false { true? (/^g/).match :abcdefg }
+    assert_false { :hello.match /hello/, 1 }
+    assert { :hello.match /ello/, 1 }
   }
 
-  test "regex_match_result" {
-    assert_equal [:aaa] { 'baaab'.match /a+/ }
+  test "regex.match result" {
+    assert_equal :aaa { 'baaab'.match(/a+/).full_match }
     assert_false { 'bbbbb'.match /a+/ }
-    assert_equal [:abc] { 'abcdefg'.match /^a../ }
-    assert_equal [:asdj] { '1314asdj123asdj3123'.match /([a-z]+)\d+$/ }
-    assert_equal [:555, :142, :4051] { (/(\d{3})-(\d{3})-(\d{4})/).match 'test text test 555-142-4051test asdoj!' }
+    assert_equal :abc { 'abcdefg'.match(/^a../)[0] }
+    assert_equal :asdj { '1314asdj123asdj3123'.match(/([a-z]+)\d+$/)[1] }
+    assert_equal ["555-142-4051" :555 :142 :4051] { (/(\d{3})-(\d{3})-(\d{4})/).match('test text test 555-142-4051test asdoj!').matches }
+    assert_equal :o { :hellllo.match(/he(l+)(o)?/)[2] }
+    assert_equal 0 { "hello".match(/hello/).start_pos }
+  }
+
+  test "multiline option" {
+    assert_equal 'x\nx' { 'x\nx'.match(/x.*/m).full_match }
+  }
+
+  test "case insensitive" {
+    assert { "XD".match /xD/i }
+  }
+
+  test "extended" {
+    assert { "jello".match /j e l l o/x }
   }
 }
