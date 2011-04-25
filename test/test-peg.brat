@@ -95,4 +95,21 @@ add_results setup name: "PEG tests" {
 
     assert path.parse "xxxzzz", :a, true
   }
+
+  test "recursive reference" {
+    rec = peg.new {
+      set :a seq(str("a") any(ref(:a) str("b")))
+    }
+
+    assert rec.parse "aaab", :a, true
+  }
+
+  test "parse comments" {
+    comment = peg.new {
+     set :comment seq(str("#*") kleene(seq(no(str("*#")) any(ref(:comment) reg(/./m)))) str("*#"))
+    }
+
+    assert comment.parse "#* comment *#" :comment true
+    assert comment.parse "#*\ncomment\n*#" :comment true
+  }
 }
