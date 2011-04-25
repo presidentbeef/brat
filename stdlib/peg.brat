@@ -231,6 +231,8 @@ peg.set = { name, rule |
   my.named_rules[name] = ->rule
 }
 
+#Matches one of anything.
+#Shortcut for peg.reg /./m
 peg.anything = {
   reg /./m
 }
@@ -243,6 +245,15 @@ peg.ref = { name |
     null? { ->r }
       { throw "No such rule: #{name}" }
     r x
+  }
+}
+
+#Execute action upon match
+peg.action = { rule, block |
+  make_rule { x |
+    res = rule x
+    true? res
+      { block res }
   }
 }
 
