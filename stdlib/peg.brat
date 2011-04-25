@@ -231,6 +231,10 @@ peg.set = { name, rule |
   my.named_rules[name] = ->rule
 }
 
+peg.anything = {
+  reg /./m
+}
+
 #Reference a named rule
 peg.ref = { name |
   rules = my.named_rules

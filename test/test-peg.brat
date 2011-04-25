@@ -104,6 +104,11 @@ add_results setup name: "PEG tests" {
     assert rec.parse "aaab", :a, true
   }
 
+  test "anything" {
+    parses { anything } "h"
+    parses { kleene anything } "hell\no!"
+  }
+
   test "parse comments" {
     comment = peg.new {
      set :comment seq(str("#*") kleene(seq(no(str("*#")) any(ref(:comment) reg(/./m)))) str("*#"))
