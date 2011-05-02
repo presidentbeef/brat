@@ -42,6 +42,18 @@ class Treetop::Runtime::SyntaxNode
     @@variables[-1][v] ||= "_temp#{@@temp += 1}" 
   end
 
+  def var_get temp
+    @@variables.reverse_each do |vars|
+      vars.each do |k,v|
+        if v == temp
+          return k
+        end
+      end
+    end
+
+    nil
+  end
+
   def new_scope
     variables << {}
   end
@@ -97,7 +109,7 @@ class Treetop::Runtime::SyntaxNode
       elseif #{has_field("_n", "no_undermethod")} then
         #{call_no_method res_var, "_n", method, arguments, arg_length}
       else
-        _error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
+        _error(exception:method_error(#{display_object object}, "#{nice_id method}"))
       end
       LUA
 
@@ -132,14 +144,14 @@ class Treetop::Runtime::SyntaxNode
         elseif #{has_field(temp, "no_undermethod")} then
           #{call_no_method res_var, temp, method, arguments, arg_length}
         else
-          _error(exception:method_error("#{nice_id object}", "#{nice_id method}"))
+          _error(exception:method_error(#{display_object object}, "#{nice_id method}"))
         end
       elseif _t == "number" then
         #{call_number}
       elseif _t == "function" then
         _error(exception:new("Cannot invoke methods on methods."))
       elseif #{temp} == nil then
-        _error(exception:null_error("#{nice_id object}", "invoke #{nice_id method} on it"))
+        _error(exception:null_error(#{display_object object}, "invoke #{nice_id method} on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(#{temp}))
       end
@@ -219,7 +231,7 @@ class Treetop::Runtime::SyntaxNode
       elseif _type(#{no_meth}) == "function" then
         #{call_no_method res_var, nil, object, arguments, arg_length}
       else
-        _error(exception:name_error("#{nice_id object}"))
+        _error(exception:name_error(#{display_object object}))
       end
     LUA
     if arg_length > 0
@@ -249,7 +261,7 @@ class Treetop::Runtime::SyntaxNode
       if #{has_field("_self", "no_undermethod")} then
         #{call_no_method res_var, "_self", method, arguments, arg_length}
       else
-        _error(exception:null_error("#{nice_id method}", "invoke method"))
+        _error(exception:null_error(#{display_object method}, "invoke method"))
       end
     else 
       #{action} #{temp}(#{arguments})
@@ -309,6 +321,16 @@ class Treetop::Runtime::SyntaxNode
 
   ID_CONVERT_RE_OP = /_(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)/
   ID_CONVERT_RE_KW = /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)/
+
+  def display_object temp
+    name = var_get temp
+
+    if name
+      nice_id(name).inspect
+    else
+      temp
+    end
+  end
 
   def nice_id identifier
     identifier.gsub(ID_CONVERT_RE_OP) do
