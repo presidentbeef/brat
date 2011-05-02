@@ -309,7 +309,4 @@ peg.action = { rule, block |
   }
 }
 
-  }
-}
-
 export peg, "peg"
