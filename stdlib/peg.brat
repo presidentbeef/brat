@@ -305,7 +305,10 @@ peg.action = { rule, block |
   make_rule { x |
     res = rule x
     true? res
-      { block res }
+      { res.with_this ->block; res }
+  }
+}
+
   }
 }
 
