@@ -151,7 +151,7 @@ class Treetop::Runtime::SyntaxNode
       elseif _t == "function" then
         _error(exception:new("Cannot invoke methods on methods."))
       elseif #{temp} == nil then
-        _error(exception:null_error(#{display_object object}, "invoke #{nice_id method} on it"))
+        _error(exception:null_error(#{display_object object, false}, "invoke #{nice_id method} on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(#{temp}))
       end
@@ -231,7 +231,7 @@ class Treetop::Runtime::SyntaxNode
       elseif _type(#{no_meth}) == "function" then
         #{call_no_method res_var, nil, object, arguments, arg_length}
       else
-        _error(exception:name_error(#{display_object object}))
+        _error(exception:name_error(#{display_object object, false}))
       end
     LUA
     if arg_length > 0
@@ -261,7 +261,7 @@ class Treetop::Runtime::SyntaxNode
       if #{has_field("_self", "no_undermethod")} then
         #{call_no_method res_var, "_self", method, arguments, arg_length}
       else
-        _error(exception:null_error(#{display_object method}, "invoke method"))
+        _error(exception:null_error(#{display_object method, false}, "invoke method"))
       end
     else 
       #{action} #{temp}(#{arguments})
@@ -322,13 +322,15 @@ class Treetop::Runtime::SyntaxNode
   ID_CONVERT_RE_OP = /_(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)/
   ID_CONVERT_RE_KW = /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)/
 
-  def display_object temp
+  def display_object temp, show_object = true
     name = var_get temp
 
     if name
       nice_id(name).inspect
-    else
+    elsif show_object
       temp
+    else
+      nice_id(temp).inspect
     end
   end
 
