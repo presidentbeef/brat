@@ -85,6 +85,12 @@ peg.make_result = { match_pos, end_pos, matched |
   result.start_pos = match_pos
   result.end_pos = end_pos
   result.matched = matched
+  when { matched.string? } { result.text = matched }
+       { matched.has_method? :full_match } { result.text = matched.full_match }
+       { matched.array? } { result.text = matched.map(:text).join }
+       { matched.has_method? :text } { result.text = matched.text }
+       { true } { result.text = "" }
+
   true? matched.array?
     { result.elements = matched }
     { result.elements = [matched] }
