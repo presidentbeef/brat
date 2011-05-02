@@ -117,16 +117,18 @@ peg.parse = { str, start_rule = null, fully = false |
 peg.seq = { *rules |
   make_rule { x |
     matched = false
+    matches = []
     start = x.pos
 
     rules.each_while { rule |
       matched = rule x
+      matches << matched
+      matched
     }
 
     false? matched
-      { x.pos = start }
-
-    not not matched
+      { x.pos = start; false }
+      { peg.make_result start, x.pos, matches }
   }
 }
 
@@ -213,10 +215,14 @@ peg.reg = { reg_literal |
 #Specify that a rule should NOT match
 peg.no = { rule |
   make_rule { x |
-    pos = x.pos
+    start = x.pos
     res = rule x
-    x.pos = pos
-    false? res
+    stop = x.pos
+    x.pos = start
+
+    true? res
+      { false }
+      { peg.make_result start, stop, res }
   }
 }
 
@@ -224,10 +230,12 @@ peg.no = { rule |
 #position (lookahead)
 peg.and = { rule |
   make_rule { x |
-    pos = x.pos
+    start = x.pos
     matched = rule x
-    x.pos = pos
-    matched
+    stop = x.pos
+    x.pos = start
+    true? matched
+      { peg.make_result start, stop, matched }
   }
 }
 
