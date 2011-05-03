@@ -2218,6 +2218,31 @@ function array_instance:_less_less (obj)
   return self
 end
 
+function array_instance:concat (arr)
+  if arr._length == 0 then
+    return self
+  elseif self._length == 0 then
+    local c = arr:copy()
+    self._lua_array = c._lua_array
+    self._length = c._length
+
+    return self
+  end
+
+  local a = self._lua_array
+  local len = self._length
+  local stop = arr._length + len
+  local i = 1
+
+  while i < stop do
+    a[i + len] = arr._lua_array[i]
+    i = i + 1
+  end
+
+  self._length = stop
+  return self
+end
+
 function array_instance:_plus (obj)
   if type(obj) ~= "table" or obj._lua_array == nil then
     error(exception:argument_error("array.+", "array", tostring(obj)))

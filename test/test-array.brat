@@ -242,6 +242,13 @@ add_results setup name: "array tests" {
     assert_false { [].any? { x | x > 4 } }
   }
 
+  test "array.concat" {
+    assert_equal [1 2] { [1].concat [2] }
+    assert_equal [1] { [1].concat [] }
+    assert_equal [1] { [].concat [1] }
+    assert_equal [1 2] { x = [1]; x.concat [2]; x }
+  }
+
   test "array_each_while" {
     assert_equal 2 { x = 0; [1, 2, 3].each_while { e | x = e; e < 2 }; x }
   }
