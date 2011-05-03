@@ -317,7 +317,15 @@ peg.action = { rule, block |
   make_rule { x |
     res = rule x
     true? res
-      { res.with_this ->block; res }
+      {
+        labeled_rules = peg.fetch_labels res
+
+        labeled_rules.each { result |
+          res.add_method result.label, { result }
+        }
+
+        res.with_this ->block; res
+      }
   }
 }
 
