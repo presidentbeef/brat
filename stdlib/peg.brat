@@ -185,7 +185,7 @@ peg.maybe = { rule |
     matched = rule x
     true? matched
       { peg.make_result start, x.pos, matched }
-      { true }
+      { peg.make_result start, start, "" }
   }
 }
 
@@ -212,13 +212,13 @@ peg.many = { rule |
     start = x.pos
     matches = []
 
-    matched = true? rule x
+    matched = rule x
 
     true? matched
       { matches << matched }
     
     while {
-      matched = true? rule x
+      matched = rule x
       true? matched
         { matches << matched }
     }
