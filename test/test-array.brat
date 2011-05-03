@@ -256,6 +256,12 @@ add_results setup name: "array tests" {
     assert_null { [].find { x | x > 4 } }
   }
 
+  test "array.flatten" {
+    assert_equal [1 2 3] { [1 [[[[2]]]] [3]].flatten }
+    assert_equal [] { [].flatten }
+    assert_equal [1] { [1].flatten }
+  }
+
   test "array_compare" {
     assert { [] == [] }
     assert_false { [1,2] == [3,4] }

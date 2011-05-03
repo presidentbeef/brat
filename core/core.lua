@@ -1517,6 +1517,19 @@ function array_instance:each_underwith_underindex (block)
   return self
 end
 
+function array_instance:flatten ()
+  if self._length == 0 then
+    return array:new({})
+  else
+    local first = self._lua_array[1]
+    if type(first) == "table" and first._lua_array then
+      return first:flatten():_plus(self:rest():flatten())
+    else
+      return array:new({first}):_plus(self:rest():flatten())
+    end
+  end
+end
+
 function array_instance:reject_bang (block)
   local k = 1
   local i = 1
