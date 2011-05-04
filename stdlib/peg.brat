@@ -117,7 +117,7 @@ peg.parse = { str, start_rule = null, fully = false |
   result = rule s
 
   true? { result && { fully } }
-    { s.pos == str.length }
+    { true? s.pos == str.length, result }
     { result }
 }
 
