@@ -140,7 +140,7 @@
   int rcl[2]; rcl[0] = rcl[1] = 0; \
   if (!ccall_classify_struct(cts, d, rcl, 0)) { \
     cc->nsp = nsp; cc->ngpr = ngpr; cc->nfpr = nfpr; \
-    if (ccall_struct_arg(cc, cts, d, rcl, o)) goto err_nyi; \
+    if (ccall_struct_arg(cc, cts, d, rcl, o, narg)) goto err_nyi; \
     nsp = cc->nsp; ngpr = cc->ngpr; nfpr = cc->nfpr; \
     continue; \
   }  /* Pass all other structs by value on stack. */
@@ -162,6 +162,47 @@
       ngpr += n; \
       goto done; \
     } \
+  }
+
+#elif LJ_TARGET_ARM
+/* -- ARM calling conventions --------------------------------------------- */
+
+#define CCALL_HANDLE_STRUCTRET \
+  /* Return structs of size <= 4 in a GPR. */ \
+  cc->retref = !(sz <= 4); \
+  if (cc->retref) cc->gpr[ngpr++] = (GPRArg)dp;
+
+#define CCALL_HANDLE_COMPLEXRET \
+  cc->retref = 1;  /* Return all complex values by reference. */ \
+  cc->gpr[ngpr++] = (GPRArg)dp;
+
+#define CCALL_HANDLE_COMPLEXRET2 \
+  UNUSED(dp); /* Nothing to do. */
+
+#define CCALL_HANDLE_STRUCTARG \
+  /* Pass all structs by value in registers and/or on the stack. */
+
+#define CCALL_HANDLE_COMPLEXARG \
+  /* Pass complex by value in 2 or 4 GPRs. */
+
+/* ARM has a softfp ABI. */
+#define CCALL_HANDLE_REGARG \
+  if ((d->info & CTF_ALIGN) > CTALIGN_PTR) { \
+    if (ngpr < maxgpr) \
+      ngpr = (ngpr + 1u) & ~1u;  /* Align to regpair. */ \
+    else \
+      nsp = (nsp + 1u) & ~1u;  /* Align argument on stack. */ \
+  } \
+  if (ngpr < maxgpr) { \
+    dp = &cc->gpr[ngpr]; \
+    if (ngpr + n > maxgpr) { \
+      nsp += ngpr + n - maxgpr;  /* Assumes contiguous gpr/stack fields. */ \
+      if (nsp > CCALL_MAXSTACK) goto err_nyi;  /* Too many arguments. */ \
+      ngpr = maxgpr; \
+    } else { \
+      ngpr += n; \
+    } \
+    goto done; \
   }
 
 #elif LJ_TARGET_PPCSPE
@@ -278,11 +319,12 @@ static int ccall_struct_reg(CCallState *cc, GPRArg *dp, int *rcl)
 
 /* Pass a small struct argument. */
 static int ccall_struct_arg(CCallState *cc, CTState *cts, CType *d, int *rcl,
-			    TValue *o)
+			    TValue *o, int narg)
 {
   GPRArg dp[2];
   dp[0] = dp[1] = 0;
-  lj_cconv_ct_tv(cts, d, (uint8_t *)dp, o, 0);  /* Convert to temp. struct. */
+  /* Convert to temp. struct. */
+  lj_cconv_ct_tv(cts, d, (uint8_t *)dp, o, CCF_ARG(narg));
   if (!ccall_struct_reg(cc, dp, rcl)) {  /* Register overflow? Pass on stack. */
     MSize nsp = cc->nsp, n = rcl[1] ? 2 : 1;
     if (nsp + n > CCALL_MAXSTACK) return 1;  /* Too many arguments. */
@@ -314,7 +356,7 @@ static void ccall_struct_ret(CCallState *cc, int *rcl, uint8_t *dp, CTSize sz)
 /* Infer the destination CTypeID for a vararg argument. */
 static CTypeID ccall_ctid_vararg(CTState *cts, cTValue *o)
 {
-  if (tvisnum(o)) {
+  if (tvisnumber(o)) {
     return CTID_DOUBLE;
   } else if (tviscdata(o)) {
     CTypeID id = cdataV(o)->typeid;
@@ -347,7 +389,7 @@ static int ccall_set_args(lua_State *L, CTState *cts, CType *ct,
   TValue *o, *top = L->top;
   CTypeID fid;
   CType *ctr;
-  MSize maxgpr, ngpr = 0, nsp = 0;
+  MSize maxgpr, ngpr = 0, nsp = 0, narg;
 #if CCALL_NARG_FPR
   MSize nfpr = 0;
 #endif
@@ -401,7 +443,7 @@ static int ccall_set_args(lua_State *L, CTState *cts, CType *ct,
   }
 
   /* Walk through all passed arguments. */
-  for (o = L->base+1; o < top; o++) {
+  for (o = L->base+1, narg = 1; o < top; o++, narg++) {
     CTypeID did;
     CType *d;
     CTSize sz;
@@ -466,7 +508,7 @@ static int ccall_set_args(lua_State *L, CTState *cts, CType *ct,
       *(void **)dp = rp;
       dp = rp;
     }
-    lj_cconv_ct_tv(cts, d, (uint8_t *)dp, o, 0);
+    lj_cconv_ct_tv(cts, d, (uint8_t *)dp, o, CCF_ARG(narg));
 #if LJ_TARGET_X64 && LJ_ABI_WIN
     if (isva) {  /* Windows/x64 mirrors varargs in both register sets. */
       if (nfpr == ngpr)
@@ -474,6 +516,8 @@ static int ccall_set_args(lua_State *L, CTState *cts, CType *ct,
       else
 	cc->fpr[ngpr-1].l[0] = cc->gpr[ngpr-1];
     }
+#else
+    UNUSED(isva);
 #endif
 #if LJ_TARGET_X64 && !LJ_ABI_WIN
     if (isfp == 2 && n == 2 && (uint8_t *)dp == (uint8_t *)&cc->fpr[nfpr-2]) {

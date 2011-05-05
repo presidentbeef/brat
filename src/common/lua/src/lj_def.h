@@ -74,14 +74,7 @@ typedef unsigned __int32 uintptr_t;
 #define UNUSED(x)	((void)(x))	/* to avoid warnings */
 #endif
 
-#ifndef cast
-#define cast(t, exp)	((t)(exp))
-#endif
-
 #define U64x(hi, lo)	(((uint64_t)0x##hi << 32) + (uint64_t)0x##lo)
-#define cast_byte(i)	cast(uint8_t, (i))
-#define cast_num(i)	cast(lua_Number, (i))
-#define cast_int(i)	cast(int, (i))
 #define i32ptr(p)	((int32_t)(intptr_t)(void *)(p))
 #define u32ptr(p)	((uint32_t)(intptr_t)(void *)(p))
 
@@ -138,7 +131,29 @@ static LJ_AINLINE uint32_t lj_fls(uint32_t x)
 #define lj_fls(x)	((uint32_t)(__builtin_clz(x)^31))
 #endif
 
-#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3)
+#if defined(__arm__)
+static LJ_AINLINE uint32_t lj_bswap(uint32_t x)
+{
+  uint32_t r;
+#if __ARM_ARCH_6__ || __ARM_ARCH_6J__ || __ARM_ARCH_6T2__ || __ARM_ARCH_6Z__ ||\
+    __ARM_ARCH_7__ || __ARM_ARCH_7A__ || __ARM_ARCH_7R__
+  __asm__("rev %0, %1" : "=r" (r) : "r" (x));
+  return r;
+#else
+#ifdef __thumb__
+  r = x ^ lj_ror(x, 16);
+#else
+  __asm__("eor %0, %1, %1, ror #16" : "=r" (r) : "r" (x));
+#endif
+  return ((r & 0xff00ffffu) >> 8) ^ lj_ror(x, 8);
+#endif
+}
+
+static LJ_AINLINE uint64_t lj_bswap64(uint64_t x)
+{
+  return ((uint64_t)lj_bswap((uint32_t)x)<<32) | lj_bswap((uint32_t)(x>>32));
+}
+#elif (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3)
 static LJ_AINLINE uint32_t lj_bswap(uint32_t x)
 {
   return (uint32_t)__builtin_bswap32((int32_t)x);

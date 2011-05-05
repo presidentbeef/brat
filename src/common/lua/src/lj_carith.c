@@ -9,6 +9,8 @@
 
 #include "lj_gc.h"
 #include "lj_err.h"
+#include "lj_tab.h"
+#include "lj_meta.h"
 #include "lj_ctype.h"
 #include "lj_cconv.h"
 #include "lj_cdata.h"
@@ -41,6 +43,9 @@ static int carith_checkarg(lua_State *L, CTState *cts, CDArith *ca)
       }
       ca->ct[i] = ct;
       ca->p[i] = p;
+    } else if (tvisint(o)) {
+      ca->ct[i] = ctype_get(cts, CTID_INT32);
+      ca->p[i] = (uint8_t *)&o->i;
     } else if (tvisnum(o)) {
       ca->ct[i] = ctype_get(cts, CTID_DOUBLE);
       ca->p[i] = (uint8_t *)&o->n;
@@ -84,7 +89,7 @@ static int carith_ptr(lua_State *L, CTState *cts, CDArith *ca, MMS mm)
 	/* All valid pointer differences on x64 are in (-2^47, +2^47),
 	** which fits into a double without loss of precision.
 	*/
-	setnumV(L->top-1, (lua_Number)diff);
+	setintptrV(L->top-1, (int32_t)diff);
 	return 1;
       } else if (mm == MM_lt) {  /* Pointer comparison (unsigned). */
 	setboolV(L->top-1, ((uintptr_t)pp < (uintptr_t)pp2));
@@ -184,6 +189,31 @@ static int carith_int64(lua_State *L, CTState *cts, CDArith *ca, MMS mm)
   return 0;
 }
 
+/* Handle ctype arithmetic metamethods. */
+static int lj_carith_meta(lua_State *L, CTState *cts, CDArith *ca, MMS mm)
+{
+  cTValue *tv = NULL;
+  if (tviscdata(L->base))
+    tv = lj_ctype_meta(cts, cdataV(L->base)->typeid, mm);
+  if (!tv && L->base+1 < L->top && tviscdata(L->base+1))
+    tv = lj_ctype_meta(cts, cdataV(L->base+1)->typeid, mm);
+  if (!tv) {
+    const char *repr[2];
+    int i;
+    for (i = 0; i < 2; i++) {
+      if (ca->ct[i])
+	repr[i] = strdata(lj_ctype_repr(L, ctype_typeid(cts, ca->ct[i]), NULL));
+      else
+	repr[i] = typename(&L->base[i]);
+    }
+    lj_err_callerv(L, mm == MM_len ? LJ_ERR_FFI_BADLEN :
+		      mm == MM_concat ? LJ_ERR_FFI_BADCONCAT :
+		      mm < MM_add ? LJ_ERR_FFI_BADCOMP : LJ_ERR_FFI_BADARITH,
+		   repr[0], repr[1]);
+  }
+  return lj_meta_tailcall(L, tv);
+}
+
 /* Arithmetic operators for cdata. */
 int lj_carith_op(lua_State *L, MMS mm)
 {
@@ -195,22 +225,7 @@ int lj_carith_op(lua_State *L, MMS mm)
       return 1;
     }
   }
-  /* NYI: per-cdata metamethods. */
-  {
-    const char *repr[2];
-    int i;
-    for (i = 0; i < 2; i++) {
-      if (ca.ct[i])
-	repr[i] = strdata(lj_ctype_repr(L, ctype_typeid(cts, ca.ct[i]), NULL));
-      else
-	repr[i] = typename(&L->base[i]);
-    }
-    lj_err_callerv(L, mm == MM_len ? LJ_ERR_FFI_BADLEN :
-		      mm == MM_concat ? LJ_ERR_FFI_BADCONCAT :
-		      mm < MM_add ? LJ_ERR_FFI_BADCOMP : LJ_ERR_FFI_BADARITH,
-		   repr[0], repr[1]);
-  }
-  return 0;  /* unreachable */
+  return lj_carith_meta(L, cts, &ca, mm);
 }
 
 /* -- 64 bit integer arithmetic helpers ----------------------------------- */

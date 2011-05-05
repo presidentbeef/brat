@@ -10,6 +10,7 @@
 #include "lj_gc.h"
 #include "lj_err.h"
 #include "lj_str.h"
+#include "lj_tab.h"
 #include "lj_ctype.h"
 #include "lj_cconv.h"
 #include "lj_cdata.h"
@@ -52,7 +53,18 @@ GCcdata *lj_cdata_newv(CTState *cts, CTypeID id, CTSize sz, CTSize align)
 /* Free a C data object. */
 void LJ_FASTCALL lj_cdata_free(global_State *g, GCcdata *cd)
 {
-  if (LJ_LIKELY(!cdataisv(cd))) {
+  if (LJ_UNLIKELY(cd->marked & LJ_GC_CDATA_FIN)) {
+    GCobj *root;
+    cd->marked = curwhite(g) | LJ_GC_FINALIZED;
+    if ((root = gcref(g->gc.mmudata)) != NULL) {
+      setgcrefr(cd->nextgc, root->gch.nextgc);
+      setgcref(root->gch.nextgc, obj2gco(cd));
+      setgcref(g->gc.mmudata, obj2gco(cd));
+    } else {
+      setgcref(cd->nextgc, obj2gco(cd));
+      setgcref(g->gc.mmudata, obj2gco(cd));
+    }
+  } else if (LJ_LIKELY(!cdataisv(cd))) {
     CType *ct = ctype_raw(ctype_ctsG(g), cd->typeid);
     CTSize sz = ctype_hassize(ct->info) ? ct->size : CTSIZE_PTR;
     lua_assert(ctype_hassize(ct->info) || ctype_isfunc(ct->info) ||
@@ -60,6 +72,24 @@ void LJ_FASTCALL lj_cdata_free(global_State *g, GCcdata *cd)
     lj_mem_free(g, cd, sizeof(GCcdata) + sz);
   } else {
     lj_mem_free(g, memcdatav(cd), sizecdatav(cd));
+  }
+}
+
+TValue * LJ_FASTCALL lj_cdata_setfin(lua_State *L, GCcdata *cd)
+{
+  global_State *g = G(L);
+  GCtab *t = ctype_ctsG(g)->finalizer;
+  if (gcref(t->metatable)) {
+    /* Add cdata to finalizer table, if still enabled. */
+    TValue *tv, tmp;
+    setcdataV(L, &tmp, cd);
+    lj_gc_anybarriert(L, t);
+    tv = lj_tab_set(L, t, &tmp);
+    cd->marked |= LJ_GC_CDATA_FIN;
+    return tv;
+  } else {
+    /* Otherwise return dummy TValue. */
+    return &g->tmptv;
   }
 }
 
@@ -88,7 +118,10 @@ collect_attrib:
   }
   lua_assert(!ctype_isref(ct->info));  /* Interning rejects refs to refs. */
 
-  if (tvisnum(key)) {  /* Numeric key. */
+  if (tvisint(key)) {
+    idx = (ptrdiff_t)intV(key);
+    goto integer_key;
+  } else if (tvisnum(key)) {  /* Numeric key. */
     idx = LJ_64 ? (ptrdiff_t)numV(key) : (ptrdiff_t)lj_num2int(numV(key));
   integer_key:
     if (ctype_ispointer(ct->info)) {
@@ -115,13 +148,7 @@ collect_attrib:
     }
   } else if (tvisstr(key)) {  /* String key. */
     GCstr *name = strV(key);
-    if (ctype_isptr(ct->info)) {  /* Automatically perform '->'. */
-      if (ctype_isstruct(ctype_rawchild(cts, ct)->info)) {
-	p = (uint8_t *)cdata_getptr(p, ct->size);
-	ct = ctype_child(cts, ct);
-	goto collect_attrib;
-      }
-    } if (ctype_isstruct(ct->info)) {
+    if (ctype_isstruct(ct->info)) {
       CTSize ofs;
       CType *fct = lj_ctype_getfield(cts, ct, name, &ofs);
       if (fct) {
@@ -141,7 +168,7 @@ collect_attrib:
       }
     } else if (cd->typeid == CTID_CTYPEID) {
       /* Allow indexing a (pointer to) struct constructor to get constants. */
-      CType *sct = ct = ctype_raw(cts, *(CTypeID *)p);
+      CType *sct = ctype_raw(cts, *(CTypeID *)p);
       if (ctype_isptr(sct->info))
 	sct = ctype_rawchild(cts, sct);
       if (ctype_isstruct(sct->info)) {
@@ -151,16 +178,16 @@ collect_attrib:
 	  return fct;
       }
     }
-    {
-      GCstr *s = lj_ctype_repr(cts->L, ctype_typeid(cts, ct), NULL);
-      lj_err_callerv(cts->L, LJ_ERR_FFI_BADMEMBER, strdata(s), strdata(name));
+  }
+  if (ctype_isptr(ct->info)) {  /* Automatically perform '->'. */
+    if (ctype_isstruct(ctype_rawchild(cts, ct)->info)) {
+      p = (uint8_t *)cdata_getptr(p, ct->size);
+      ct = ctype_child(cts, ct);
+      goto collect_attrib;
     }
   }
-  {
-    GCstr *s = lj_ctype_repr(cts->L, ctype_typeid(cts, ct), NULL);
-    lj_err_callerv(cts->L, LJ_ERR_FFI_BADIDX, strdata(s));
-  }
-  return NULL;  /* unreachable */
+  *qual |= 1;  /* Lookup failed. */
+  return ct;  /* But return the resolved raw type. */
 }
 
 /* -- C data getters ------------------------------------------------------ */
@@ -171,10 +198,10 @@ static void cdata_getconst(CTState *cts, TValue *o, CType *ct)
   CType *ctt = ctype_child(cts, ct);
   lua_assert(ctype_isinteger(ctt->info) && ctt->size <= 4);
   /* Constants are already zero-extended/sign-extended to 32 bits. */
-  if (!(ctt->info & CTF_UNSIGNED))
-    setintV(o, (int32_t)ct->size);
-  else
+  if ((ctt->info & CTF_UNSIGNED) && (int32_t)ct->size < 0)
     setnumV(o, (lua_Number)(uint32_t)ct->size);
+  else
+    setintV(o, (int32_t)ct->size);
 }
 
 /* Get C data value and convert to TValue. */

@@ -15,6 +15,7 @@
 #include "lj_str.h"
 #include "lj_tab.h"
 #include "lj_meta.h"
+#include "lj_frame.h"
 #include "lj_bc.h"
 #include "lj_vm.h"
 
@@ -44,7 +45,7 @@ cTValue *lj_meta_cache(GCtab *mt, MMS mm, GCstr *name)
   cTValue *mo = lj_tab_getstr(mt, name);
   lua_assert(mm <= MM_FAST);
   if (!mo || tvisnil(mo)) {  /* No metamethod? */
-    mt->nomm |= cast_byte(1u<<mm);  /* Set negative cache flag. */
+    mt->nomm |= (uint8_t)(1u<<mm);  /* Set negative cache flag. */
     return NULL;
   }
   return mo;
@@ -66,6 +67,29 @@ cTValue *lj_meta_lookup(lua_State *L, cTValue *o, MMS mm)
       return mo;
   }
   return niltv(L);
+}
+
+/* Tailcall from C function. */
+int lj_meta_tailcall(lua_State *L, cTValue *tv)
+{
+  TValue *base = L->base;
+  TValue *top = L->top;
+  const BCIns *pc = frame_pc(base-1);  /* Preserve old PC from frame. */
+  copyTV(L, base-1, tv);  /* Replace frame with new object. */
+  top->u64 = 0;
+  setframe_pc(top, pc);
+  setframe_gc(top+1, obj2gco(L));  /* Dummy frame object. */
+  setframe_ftsz(top+1, (int)((char *)(top+2) - (char *)base) + FRAME_CONT);
+  L->base = L->top = top+2;
+  /*
+  ** before:   [old_mo|PC]    [... ...]
+  **                         ^base     ^top
+  ** after:    [new_mo|itype] [... ...] [NULL|PC] [dummy|delta]
+  **                                                           ^base/top
+  ** tailcall: [new_mo|PC]    [... ...]
+  **                         ^base     ^top
+  */
+  return 0;
 }
 
 /* Setup call to metamethod to be run by Assembler VM. */
@@ -101,7 +125,7 @@ cTValue *lj_meta_tget(lua_State *L, cTValue *o, cTValue *k)
   int loop;
   for (loop = 0; loop < LJ_MAX_IDXCHAIN; loop++) {
     cTValue *mo;
-    if (tvistab(o)) {
+    if (LJ_LIKELY(tvistab(o))) {
       GCtab *t = tabV(o);
       cTValue *tv = lj_tab_get(L, t, k);
       if (!tvisnil(tv) ||
@@ -128,13 +152,22 @@ TValue *lj_meta_tset(lua_State *L, cTValue *o, cTValue *k)
   int loop;
   for (loop = 0; loop < LJ_MAX_IDXCHAIN; loop++) {
     cTValue *mo;
-    if (tvistab(o)) {
+    if (LJ_LIKELY(tvistab(o))) {
       GCtab *t = tabV(o);
-      TValue *tv = lj_tab_set(L, t, k);
-      if (!tvisnil(tv) ||
-	  !(mo = lj_meta_fast(L, tabref(t->metatable), MM_newindex))) {
+      cTValue *tv = lj_tab_get(L, t, k);
+      if (LJ_LIKELY(!tvisnil(tv))) {
+	t->nomm = 0;  /* Invalidate negative metamethod cache. */
 	lj_gc_anybarriert(L, t);
-	return tv;
+	return (TValue *)tv;
+      } else if (!(mo = lj_meta_fast(L, tabref(t->metatable), MM_newindex))) {
+	t->nomm = 0;  /* Invalidate negative metamethod cache. */
+	lj_gc_anybarriert(L, t);
+	if (tv != niltv(L))
+	  return (TValue *)tv;
+	if (tvisnil(k)) lj_err_msg(L, LJ_ERR_NILIDX);
+	else if (tvisint(k)) { setnumV(&tmp, (lua_Number)intV(k)); k = &tmp; }
+	else if (tvisnum(k) && tvisnan(k)) lj_err_msg(L, LJ_ERR_NANIDX);
+	return lj_tab_newkey(L, t, k);
       }
     } else if (tvisnil(mo = lj_meta_lookup(L, o, MM_newindex))) {
       lj_err_optype(L, o, LJ_ERR_OPINDEX);
@@ -156,6 +189,8 @@ static cTValue *str2num(cTValue *o, TValue *n)
 {
   if (tvisnum(o))
     return o;
+  else if (tvisint(o))
+    return (setnumV(n, (lua_Number)intV(o)), n);
   else if (tvisstr(o) && lj_str_tonum(strV(o), n))
     return n;
   else
@@ -192,8 +227,8 @@ static LJ_AINLINE int tostring(lua_State *L, TValue *o)
 {
   if (tvisstr(o)) {
     return 1;
-  } else if (tvisnum(o)) {
-    setstrV(L, o, lj_str_fromnum(L, &o->n));
+  } else if (tvisnumber(o)) {
+    setstrV(L, o, lj_str_fromnumber(L, o));
     return 1;
   } else {
     return 0;
@@ -205,12 +240,12 @@ TValue *lj_meta_cat(lua_State *L, TValue *top, int left)
 {
   do {
     int n = 1;
-    if (!(tvisstr(top-1) || tvisnum(top-1)) || !tostring(L, top)) {
+    if (!(tvisstr(top-1) || tvisnumber(top-1)) || !tostring(L, top)) {
       cTValue *mo = lj_meta_lookup(L, top-1, MM_concat);
       if (tvisnil(mo)) {
 	mo = lj_meta_lookup(L, top, MM_concat);
 	if (tvisnil(mo)) {
-	  if (tvisstr(top-1) || tvisnum(top-1)) top++;
+	  if (tvisstr(top-1) || tvisnumber(top-1)) top++;
 	  lj_err_optype(L, top-1, LJ_ERR_OPCAT);
 	  return NULL;  /* unreachable */
 	}
@@ -289,7 +324,7 @@ TValue *lj_meta_equal(lua_State *L, GCobj *o1, GCobj *o2, int ne)
     if (tabref(o1->gch.metatable) != tabref(o2->gch.metatable)) {
       cTValue *mo2 = lj_meta_fast(L, tabref(o2->gch.metatable), MM_eq);
       if (mo2 == NULL || !lj_obj_equal(mo, mo2))
-	return cast(TValue *, (intptr_t)ne);
+	return (TValue *)(intptr_t)ne;
     }
     top = curr_top(L);
     setcont(top, ne ? lj_cont_condf : lj_cont_condt);
@@ -299,7 +334,7 @@ TValue *lj_meta_equal(lua_State *L, GCobj *o1, GCobj *o2, int ne)
     setgcV(L, top+3, o2, it);
     return top+2;  /* Trigger metamethod call. */
   }
-  return cast(TValue *, (intptr_t)ne);
+  return (TValue *)(intptr_t)ne;
 }
 
 #if LJ_HASFFI
@@ -327,7 +362,7 @@ TValue * LJ_FASTCALL lj_meta_equal_cd(lua_State *L, BCIns ins)
   if (LJ_LIKELY(!tvisnil(mo)))
     return mmcall(L, cont, mo, o1, o2);
   else
-    return cast(TValue *, (intptr_t)(bc_op(ins) & 1));
+    return (TValue *)(intptr_t)(bc_op(ins) & 1);
 }
 #endif
 
@@ -343,7 +378,7 @@ TValue *lj_meta_comp(lua_State *L, cTValue *o1, cTValue *o2, int op)
   } else if (itype(o1) == itype(o2)) {  /* Never called with two numbers. */
     if (tvisstr(o1) && tvisstr(o2)) {
       int32_t res = lj_str_cmp(strV(o1), strV(o2));
-      return cast(TValue *, (intptr_t)(((op&2) ? res <= 0 : res < 0) ^ (op&1)));
+      return (TValue *)(intptr_t)(((op&2) ? res <= 0 : res < 0) ^ (op&1));
     } else {
     trymt:
       while (1) {
@@ -383,10 +418,35 @@ void lj_meta_call(lua_State *L, TValue *func, TValue *top)
 }
 
 /* Helper for FORI. Coercion. */
-void LJ_FASTCALL lj_meta_for(lua_State *L, TValue *base)
+void LJ_FASTCALL lj_meta_for(lua_State *L, TValue *o)
 {
-  if (!str2num(base, base)) lj_err_msg(L, LJ_ERR_FORINIT);
-  if (!str2num(base+1, base+1)) lj_err_msg(L, LJ_ERR_FORLIM);
-  if (!str2num(base+2, base+2)) lj_err_msg(L, LJ_ERR_FORSTEP);
+  if (!(tvisnumber(o) || (tvisstr(o) && lj_str_tonumber(strV(o), o))))
+    lj_err_msg(L, LJ_ERR_FORINIT);
+  if (!(tvisnumber(o+1) || (tvisstr(o+1) && lj_str_tonumber(strV(o+1), o+1))))
+    lj_err_msg(L, LJ_ERR_FORLIM);
+  if (!(tvisnumber(o+2) || (tvisstr(o+2) && lj_str_tonumber(strV(o+2), o+2))))
+    lj_err_msg(L, LJ_ERR_FORSTEP);
+  if (LJ_DUALNUM) {
+    /* Ensure all slots are integers or all slots are numbers. */
+    int32_t k[3];
+    int nint = 0;
+    ptrdiff_t i;
+    for (i = 0; i <= 2; i++) {
+      if (tvisint(o+i)) {
+	k[i] = intV(o+i); nint++;
+      } else {
+	k[i] = lj_num2int(numV(o+i)); nint += ((lua_Number)k[i] == numV(o+i));
+      }
+    }
+    if (nint == 3) {  /* Narrow to integers. */
+      setintV(o, k[0]);
+      setintV(o+1, k[1]);
+      setintV(o+2, k[2]);
+    } else if (nint != 0) {  /* Widen to numbers. */
+      if (tvisint(o)) setnumV(o, (lua_Number)intV(o));
+      if (tvisint(o+1)) setnumV(o+1, (lua_Number)intV(o+1));
+      if (tvisint(o+2)) setnumV(o+2, (lua_Number)intV(o+2));
+    }
+  }
 }
 

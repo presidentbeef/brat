@@ -135,8 +135,8 @@ GCstr *lj_lib_checkstr(lua_State *L, int narg)
   if (o < L->top) {
     if (LJ_LIKELY(tvisstr(o))) {
       return strV(o);
-    } else if (tvisnum(o)) {
-      GCstr *s = lj_str_fromnum(L, &o->n);
+    } else if (tvisnumber(o)) {
+      GCstr *s = lj_str_fromnumber(L, o);
       setstrV(L, o, s);
       return s;
     }
@@ -151,24 +151,65 @@ GCstr *lj_lib_optstr(lua_State *L, int narg)
   return (o < L->top && !tvisnil(o)) ? lj_lib_checkstr(L, narg) : NULL;
 }
 
+#if LJ_DUALNUM
+void lj_lib_checknumber(lua_State *L, int narg)
+{
+  TValue *o = L->base + narg-1;
+  if (!(o < L->top &&
+	(tvisnumber(o) || (tvisstr(o) && lj_str_tonumber(strV(o), o)))))
+    lj_err_argt(L, narg, LUA_TNUMBER);
+}
+#endif
+
 lua_Number lj_lib_checknum(lua_State *L, int narg)
 {
   TValue *o = L->base + narg-1;
   if (!(o < L->top &&
-	(tvisnum(o) || (tvisstr(o) && lj_str_tonum(strV(o), o)))))
+	(tvisnumber(o) || (tvisstr(o) && lj_str_tonumber(strV(o), o)))))
     lj_err_argt(L, narg, LUA_TNUMBER);
-  return numV(o);
+  if (LJ_UNLIKELY(tvisint(o))) {
+    lua_Number n = (lua_Number)intV(o);
+    setnumV(o, n);
+    return n;
+  } else {
+    return numV(o);
+  }
 }
 
 int32_t lj_lib_checkint(lua_State *L, int narg)
 {
-  return lj_num2int(lj_lib_checknum(L, narg));
+  TValue *o = L->base + narg-1;
+  if (!(o < L->top &&
+	(tvisnumber(o) || (tvisstr(o) && lj_str_tonumber(strV(o), o)))))
+    lj_err_argt(L, narg, LUA_TNUMBER);
+  if (LJ_LIKELY(tvisint(o))) {
+    return intV(o);
+  } else {
+    int32_t i = lj_num2int(numV(o));
+    if (LJ_DUALNUM) setintV(o, i);
+    return i;
+  }
 }
 
 int32_t lj_lib_optint(lua_State *L, int narg, int32_t def)
 {
   TValue *o = L->base + narg-1;
   return (o < L->top && !tvisnil(o)) ? lj_lib_checkint(L, narg) : def;
+}
+
+int32_t lj_lib_checkbit(lua_State *L, int narg)
+{
+  TValue *o = L->base + narg-1;
+  if (!(o < L->top &&
+	(tvisnumber(o) || (tvisstr(o) && lj_str_tonumber(strV(o), o)))))
+    lj_err_argt(L, narg, LUA_TNUMBER);
+  if (LJ_LIKELY(tvisint(o))) {
+    return intV(o);
+  } else {
+    int32_t i = lj_num2bit(numV(o));
+    if (LJ_DUALNUM) setintV(o, i);
+    return i;
+  }
 }
 
 GCfunc *lj_lib_checkfunc(lua_State *L, int narg)

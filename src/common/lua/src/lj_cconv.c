@@ -22,17 +22,26 @@ LJ_NORET static void cconv_err_conv(CTState *cts, CType *d, CType *s,
   const char *dst = strdata(lj_ctype_repr(cts->L, ctype_typeid(cts, d), NULL));
   const char *src;
   if ((flags & CCF_FROMTV))
-    src = lj_obj_typename[1+(ctype_isnum(s->info) ? LUA_TNUMBER : LUA_TSTRING)];
+    src = lj_obj_typename[1+(ctype_isnum(s->info) ? LUA_TNUMBER :
+			     ctype_isarray(s->info) ? LUA_TSTRING : LUA_TNIL)];
   else
     src = strdata(lj_ctype_repr(cts->L, ctype_typeid(cts, s), NULL));
-  lj_err_callerv(cts->L, LJ_ERR_FFI_BADCONV, src, dst);
+  if (CCF_GETARG(flags))
+    lj_err_argv(cts->L, CCF_GETARG(flags), LJ_ERR_FFI_BADCONV, src, dst);
+  else
+    lj_err_callerv(cts->L, LJ_ERR_FFI_BADCONV, src, dst);
 }
 
 /* Bad conversion from TValue. */
-LJ_NORET static void cconv_err_convtv(CTState *cts, CType *d, TValue *o)
+LJ_NORET static void cconv_err_convtv(CTState *cts, CType *d, TValue *o,
+				      CTInfo flags)
 {
   const char *dst = strdata(lj_ctype_repr(cts->L, ctype_typeid(cts, d), NULL));
-  lj_err_callerv(cts->L, LJ_ERR_FFI_BADCONV, typename(o), dst);
+  const char *src = typename(o);
+  if (CCF_GETARG(flags))
+    lj_err_argv(cts->L, CCF_GETARG(flags), LJ_ERR_FFI_BADCONV, src, dst);
+  else
+    lj_err_callerv(cts->L, LJ_ERR_FFI_BADCONV, src, dst);
 }
 
 /* Initializer overflow. */
@@ -366,10 +375,20 @@ int lj_cconv_tv_ct(CTState *cts, CType *s, CTypeID sid,
   if (ctype_isnum(sinfo)) {
     if (!ctype_isbool(sinfo)) {
       if (ctype_isinteger(sinfo) && s->size > 4) goto copyval;
-      lj_cconv_ct_ct(cts, ctype_get(cts, CTID_DOUBLE), s,
-		     (uint8_t *)&o->n, sp, 0);
-      /* Numbers are NOT canonicalized here! Beware of uninitialized data. */
-      lua_assert(tvisnum(o));
+      if (LJ_DUALNUM && ctype_isinteger(sinfo)) {
+	int32_t i;
+	lj_cconv_ct_ct(cts, ctype_get(cts, CTID_INT32), s,
+		       (uint8_t *)&i, sp, 0);
+	if ((sinfo & CTF_UNSIGNED) && i < 0)
+	  setnumV(o, (lua_Number)(uint32_t)i);
+	else
+	  setintV(o, i);
+      } else {
+	lj_cconv_ct_ct(cts, ctype_get(cts, CTID_DOUBLE), s,
+		       (uint8_t *)&o->n, sp, 0);
+	/* Numbers are NOT canonicalized here! Beware of uninitialized data. */
+	lua_assert(tvisnum(o));
+      }
     } else {
       uint32_t b = ((*sp) & 1);
       setboolV(o, b);
@@ -417,10 +436,15 @@ int lj_cconv_tv_bf(CTState *cts, CType *s, TValue *o, uint8_t *sp)
     lj_err_caller(cts->L, LJ_ERR_FFI_NYIPACKBIT);
   if (!(info & CTF_BOOL)) {
     CTSize shift = 32 - bsz;
-    if (!(info & CTF_UNSIGNED))
-      setnumV(o, (lua_Number)((int32_t)(val << (shift-pos)) >> shift));
-    else
-      setnumV(o, (lua_Number)((val << (shift-pos)) >> shift));
+    if (!(info & CTF_UNSIGNED)) {
+      setintV(o, (int32_t)(val << (shift-pos)) >> shift);
+    } else {
+      val = (val << (shift-pos)) >> shift;
+      if (!LJ_DUALNUM || (int32_t)val < 0)
+	setnumV(o, (lua_Number)(uint32_t)val);
+      else
+	setintV(o, (int32_t)val);
+    }
   } else {
     lua_assert(bsz == 1);
     setboolV(o, (val >> pos) & 1);
@@ -510,7 +534,11 @@ void lj_cconv_ct_tv(CTState *cts, CType *d,
   CType *s;
   void *tmpptr;
   uint8_t tmpbool, *sp = (uint8_t *)&tmpptr;
-  if (LJ_LIKELY(tvisnum(o))) {
+  if (LJ_LIKELY(tvisint(o))) {
+    sp = (uint8_t *)&o->i;
+    sid = CTID_INT32;
+    flags |= CCF_FROMTV;
+  } else if (LJ_LIKELY(tvisnum(o))) {
     sp = (uint8_t *)&o->n;
     sid = CTID_DOUBLE;
     flags |= CCF_FROMTV;
@@ -570,13 +598,14 @@ void lj_cconv_ct_tv(CTState *cts, CType *d,
     sid = CTID_BOOL;
   } else if (tvisnil(o)) {
     tmpptr = (void *)0;
+    flags |= CCF_FROMTV;
   } else if (tvisudata(o)) {
     tmpptr = uddata(udataV(o));
   } else if (tvislightud(o)) {
     tmpptr = lightudV(o);
   } else {
   err_conv:
-    cconv_err_convtv(cts, d, o);
+    cconv_err_convtv(cts, d, o, flags);
   }
   s = ctype_get(cts, sid);
 doconv:
