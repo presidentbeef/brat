@@ -123,6 +123,9 @@ peg.parse = { str, start_rule = null, fully = false |
 
 #Match a sequence of rules
 peg.seq = { *rules |
+  true? (rules.length == 1 && { rules[0].array? })
+    { rules = rules[0] }
+
   make_rule { x |
     matched = false
     matches = []
@@ -138,6 +141,11 @@ peg.seq = { *rules |
       { x.pos = start; false }
       { peg.make_result start, x.pos, matches }
   }
+}
+
+peg.seq_ref = { *rules |
+  m = my
+  seq rules.map { name | m.ref name }
 }
 
 #Match any of a set of rules

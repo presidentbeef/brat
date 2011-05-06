@@ -142,4 +142,16 @@ add_results setup name: "PEG tests" {
     assert_false { refs.parse "c" :c true }
     assert_false { refs.parse "ab" :c true }
   }
+
+  test "seq_ref" {
+    refs = peg.new {
+      set :a str(:d)
+      set :b str(:e)
+      set :c seq_ref :a :b
+    }
+
+    assert { refs.parse "de" :c true }
+    assert_false { refs.parse "ab" :c true }
+    assert_false { refs.parse "a" :c true }
+  }
 }
