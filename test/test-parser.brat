@@ -104,19 +104,32 @@ add_results setup name: "parser tests" {
     { a[x] = m.m }
     { a[z] = {x, y| x } }
   }
+
   test "comment_parse" {
     { x = 1; #x = 6 
       x }
-      { x = 1; #* x = 6 *# 
+    { x = 1; #* x = 6 *# 
         x }
-        { x = 1; #* 
+    { x = 1; #* 
           x = 6 
             *# 
             x }
-          { # 
-          }
-          { #
-            "hi" }
+    { # 
+    }
+    { #
+      "hi" }
+
+    assert 3 { x = { *args | p args.length }
+      x 1 2 #3
+        { 4 }
+    }
+
+    assert 3 { x = { *args | p args.length }
+      x 1 2
+        #blah blah
+        { 4 }
+    }
+
   }
 
   test "symbol_parse" {

@@ -1635,6 +1635,8 @@ grammar BaseBrat
       "\n"
     end
   }
+  /
+  comment
   end
 
   #Matches spaces or tabs
