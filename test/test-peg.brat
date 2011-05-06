@@ -129,4 +129,17 @@ add_results setup name: "PEG tests" {
     assert_equal 2 { calc.parse("1+1" :plus true).result }
     assert_equal 928 { calc.parse("40 + 888" :plus true).result }
   }
+
+  test "any_ref" {
+    refs = peg.new {
+      set :a str(:a)
+      set :b str(:b)
+      set :c any_ref :a :b
+    }
+
+    assert { refs.parse "a" :c true }
+    assert { refs.parse "b" :c true }
+    assert_false { refs.parse "c" :c true }
+    assert_false { refs.parse "ab" :c true }
+  }
 }
