@@ -122,9 +122,10 @@ peg.parse = { str, start_rule = null, fully = false |
 }
 
 #Match a sequence of rules
-peg.seq = { *rules |
-  true? (rules.length == 1 && { rules[0].array? })
-    { rules = rules[0] }
+peg.seq = { rule, *rules |
+  true? rules.empty?
+    { true? function?(->rule) { rules = [->rule] } { rules = rule } }
+    { rules.insert 0 ->rule }
 
   make_rule { x |
     matched = false
@@ -149,10 +150,11 @@ peg.seq_ref = { *rules |
 }
 
 #Match any of a set of rules
-peg.any = { *rules |
-  true? (rules.length == 1 && { rules[0].array? })
-    { rules = rules[0] }
-    
+peg.any = { rule, *rules |
+  true? rules.empty?
+    { true? function?(->rule) { rules = [->rule] } { rules = rule } }
+    { rules.insert 0 ->rule }
+
   make_rule { x |
     matches = []
     start = x.pos

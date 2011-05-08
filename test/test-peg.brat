@@ -24,6 +24,7 @@ add_results setup name: "PEG tests" {
 
   test "sequence" {
     parses { seq str(:h) str(:i) } :hi
+    parses { seq str(:h) } :h
   }
 
   test "many" {
@@ -46,6 +47,7 @@ add_results setup name: "PEG tests" {
   test "any" {
     parses { any str(:h) str(:i) } :h
     parses { any str(:h) str(:i) } :i
+    parses { any str(:i) } :i
     doesnt_parse { any str(:h) str(:i) } :n false
   }
 
