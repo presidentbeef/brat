@@ -156,17 +156,15 @@ peg.any = { rule, *rules |
     { rules.insert 0 ->rule }
 
   make_rule { x |
-    matches = []
+    matched = null 
     start = x.pos
 
     rules.each_until { opt |
       matched = opt x
-      true? matched
-        { matches << matched }
     }
 
-    false? matches.empty?
-      { peg.make_result start, x.pos, matches }
+    true? matched
+      { peg.make_result start, x.pos, matched }
   }
 }
 
