@@ -1012,7 +1012,7 @@ grammar BaseBrat
 
   #Matches several binary operations
   rule binary_operation_chain
-  (lhs:binary_lhs_expression ~space op:operator ~space)+ {
+  (lhs:binary_lhs_expression ~space op:operator ((space? eol space?) / space))+ {
     attr_reader :stack
     def brat(res_var = nil) 
       @stack = []
