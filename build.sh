@@ -4,7 +4,6 @@ ONIG=onig-5.9.2
 LREX=lrexlib-2.4.0
 LPTY=lpty-0.9-1
 
-set -e
 
 which ruby > /dev/null
 
@@ -28,6 +27,9 @@ then
   echo Could not find Treetop gem. Please install it via: gem install treetop
   exit
 fi
+
+
+set -e
 
 SYSTEM=`uname`
 
