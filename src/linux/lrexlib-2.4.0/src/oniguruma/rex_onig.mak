@@ -7,7 +7,7 @@ include ../defaults.mak
 
 # These are default values.
 INC = -I../../../../common/onig-5.9.2 -I$(LUA_INC_PATH)
-LIB = -L../../../../../lib -lonig
+LIB = -L$(BRAT_LIB_PATH) -lonig
 
 # If the default settings don't work for your system,
 # try to uncomment and edit the settings below.
