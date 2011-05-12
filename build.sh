@@ -28,6 +28,14 @@ then
   exit
 fi
 
+which tt > /dev/null
+
+if [ "$?" -ne "0" ]
+then
+  echo Treetop executable \'tt\' could not be found, but Treetop gem is installed. 
+  echo Please adjust your path or install Treetop using: sudo gem install treetop
+  exit
+fi
 
 set -e
 
