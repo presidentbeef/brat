@@ -773,6 +773,33 @@ function object:throw (err)
   error(err, 2)
 end
 
+function object:__type (obj)
+  if obj == nil then
+    return object:__type(self)
+  else
+    local t = type(obj)
+    if t == "table" then
+      if obj._lua_array then
+        return "array"
+      elseif obj._lua_string then
+        return "string"
+      elseif obj._lua_regex then
+        return "regex"
+      elseif obj._lua_hash then
+        return "hash"
+      else
+        return "object"
+      end
+    else
+      return t
+    end
+  end
+end
+
+function object:my_undertype ()
+  return base_string:new(self:__type())
+end
+
 --Searchs load paths for a file with name + .brat and compiles it to Lua
 function object:_compile (name)
   local check_and_compile = function (self, path)

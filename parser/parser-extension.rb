@@ -235,7 +235,7 @@ class Treetop::Runtime::SyntaxNode
       end
     LUA
     if arg_length > 0
-      output << "else _error(exception:new(\"Tried to invoke non-method: #{nice_id object}\")) end\n"
+      output << "else _error(exception:new(\"Tried to invoke non-method: #{nice_id object} (\" .. object.__type(#{object}) .. \")\")) end\n"
     else
       output << "else #{action} #{temp} end\n"
     end
