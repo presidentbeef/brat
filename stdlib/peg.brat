@@ -417,7 +417,7 @@ peg_syntax = peg.new {
     }
   }
 
-  set :simple_rule_exp action any_ref(:label :str_literal :rule_ref :reg_literal :paren_rule) {
+  set :simple_rule_exp action any_ref(:label :str_literal :rule_ref :reg_literal :anything :paren_rule) {
     my.output = {
       matched.output
     }
@@ -443,6 +443,10 @@ peg_syntax = peg.new {
     my.output = {
       "reg(#{text})"
     }
+  }
+
+  set :anything action seq(ref(:spaces) str ".") {
+    my.output = "anything()"
   }
 
   set :label action seq(label(:name ref(:rule_name)) str(":") label(:exp ref(:rule_exp))) {
