@@ -143,7 +143,7 @@ class Treetop::Runtime::SyntaxNode
       else
         check_rhs = "and _type(#{arguments}) == 'number'" 
       end
-        
+
       call_number = <<-LUA
       if number._unchanged('#{method}') #{check_rhs} then
         #{inline_number_operation action, object, method, arguments}
@@ -153,12 +153,7 @@ class Treetop::Runtime::SyntaxNode
       LUA
     end
 
-    if number? temp or is? temp, :number
-      call_number
-    else
-      <<-LUA
-      local _t = _type(#{temp})
-      if _t == "table" then
+    call_table = <<-LUA
         if #{has_field(temp, method)} then
           #{action} #{temp}:#{method}(#{arguments})
         elseif #{has_field(temp, "no_undermethod")} then
@@ -166,10 +161,27 @@ class Treetop::Runtime::SyntaxNode
         else
           _error(exception:method_error(#{display_object object}, "#{nice_id method}"))
         end
+    LUA
+
+    function_error = "_error(exception:new(\"Cannot invoke methods on methods.\"))\n"
+
+    temp_type = type_of temp
+
+    if number? temp or temp_type == :number
+      call_number
+    elsif temp_type == :function
+      function_error
+    elsif temp_type #some kind of known type
+      call_table
+    else
+      <<-LUA
+      local _t = _type(#{temp})
+      if _t == "table" then
+        #{call_table}
       elseif _t == "number" then
         #{call_number}
       elseif _t == "function" then
-        _error(exception:new("Cannot invoke methods on methods."))
+        #{function_error}
       elseif #{temp} == nil then
         _error(exception:null_error(#{display_object object, false}, "invoke #{nice_id method} on it"))
       else
@@ -289,17 +301,21 @@ class Treetop::Runtime::SyntaxNode
       action = "return "
     end
 
-    <<-LUA
-    if #{temp} == nil then
-      if #{has_field("_self", "no_undermethod")} then
-        #{call_no_method res_var, "_self", method, arguments, arg_length}
-      else
-        _error(exception:null_error(#{display_object method, false}, "invoke method"))
+    if is? temp, :function
+      "#{action} #{temp}(#{arguments})"
+    else
+      <<-LUA
+      if #{temp} == nil then
+        if #{has_field("_self", "no_undermethod")} then
+          #{call_no_method res_var, "_self", method, arguments, arg_length}
+        else
+          _error(exception:null_error(#{display_object method, false}, "invoke method"))
+        end
+      else 
+        #{action} #{temp}(#{arguments})
       end
-    else 
-      #{action} #{temp}(#{arguments})
+      LUA
     end
-    LUA
   end
 
   def escape_identifier identifier

@@ -1307,14 +1307,12 @@ grammar BaseBrat
       output = elements.first.e.brat(res_var)
       @result = elements.first.e.result
 
-      if number? @result
+      if number? @result or is? @result, :number
         n = @result
         next_temp
         assign @result, :number
         output << "local #@result = #{n}\n"
       end
-        
-      assign @result, type 
 
       meth = args = nil
       elements[1..-1].each do |elem|
@@ -1342,13 +1340,22 @@ grammar BaseBrat
     identifier !space arg_list a:("[" inner_arg_list "]")* {
     def brat(res_var = nil)
       @result = res_var || next_temp
-      assign @result, type 
+      assign @result, nil
 
       output = arg_list.brat
       name = identifier.brat
       temp = var_exist? name
 
       output << "local #@result\n" unless res_var
+
+      if t = type_of(temp)
+        if t == :function then
+          return output << invoke(@result, temp, arg_list.list, arg_list.length)
+        else
+          assign @result, t
+          return output << "#@result = #{temp}\n"
+        end
+      end
 
       output <<
       if temp
