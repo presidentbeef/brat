@@ -76,7 +76,11 @@ class Treetop::Runtime::SyntaxNode
 
   def assign temp, type
     if temp? temp
-      @@variable_type[temp] = type
+      if type
+        @@variable_type[temp] = type
+      else
+        @@variable_type.delete temp
+      end
     end
   end
 
