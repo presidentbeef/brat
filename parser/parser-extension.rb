@@ -227,20 +227,23 @@ class Treetop::Runtime::SyntaxNode
       action = "return "
     end
 
-    if type_of temp and not is? temp, :function
-      if res_var
-        assign res_var, type_of(temp)
-      end
-
-      return "#{action} #{temp}\n"
-    end
-
     call_function = if arg_length > 0
                       "#{action} #{temp}(_self, #{arguments})\n"
                     else
                       "#{action} #{temp}(_self)\n"
                     end
 
+    if t = type_of(temp)
+      if t == :function
+        return call_function
+      else
+        if res_var
+          assign res_var, type_of(temp)
+        end
+
+        return "#{action} #{temp}\n"
+      end
+    end
 
     no_meth = var_exist?("no_undermethod") || "no_undermethod"
     output = <<-LUA
