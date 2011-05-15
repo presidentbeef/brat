@@ -70,7 +70,22 @@ class Treetop::Runtime::SyntaxNode
     @@unset = []
     @@variables = []
     @@variables << {}
+    @@variable_type = {}
     @@temp = 0
+  end
+
+  def assign temp, type
+    if temp? temp
+      @@variable_type[temp] = type
+    end
+  end
+
+  def is? temp, type
+    @@variable_type[temp] == type
+  end
+
+  def type_of temp
+    @@variable_type[temp]
   end
 
   def next_temp
@@ -79,6 +94,7 @@ class Treetop::Runtime::SyntaxNode
   end
 
   def unset temp
+    @@variable_type.delete temp
     @@unset << temp if temp? temp and not named? temp
   end
 
@@ -118,7 +134,7 @@ class Treetop::Runtime::SyntaxNode
       ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal",
         "_percent", "_plus", "_minus", "_forward", "_star", "_up"].include? method
 
-      if number? arguments
+      if number? arguments or is? arguments, :number
         check_rhs = ""
       else
         check_rhs = "and _type(#{arguments}) == 'number'" 
@@ -133,7 +149,7 @@ class Treetop::Runtime::SyntaxNode
       LUA
     end
 
-    if number? temp
+    if number? temp or is? temp, :number
       call_number
     else
       <<-LUA
@@ -211,16 +227,25 @@ class Treetop::Runtime::SyntaxNode
       action = "return "
     end
 
+    if type_of temp and not is? temp, :function
+      if res_var
+        assign res_var, type_of(temp)
+      end
+
+      return "#{action} #{temp}\n"
+    end
+
+    call_function = if arg_length > 0
+                      "#{action} #{temp}(_self, #{arguments})\n"
+                    else
+                      "#{action} #{temp}(_self)\n"
+                    end
+
+
     no_meth = var_exist?("no_undermethod") || "no_undermethod"
     output = <<-LUA
     if _type(#{temp}) == "function" then
-      #{if arg_length > 0
-        "#{action} #{temp}(_self, #{arguments})\n"
-      else
-
-        "#{action} #{temp}(_self)\n"
-      end
-      }
+      #{call_function}
     elseif #{temp} == nil then
       if #{has_field("_self", object)} then
         #{action} _self:#{object}(#{arguments})
@@ -234,6 +259,7 @@ class Treetop::Runtime::SyntaxNode
         _error(exception:name_error(#{display_object object, false}))
       end
     LUA
+
     if arg_length > 0
       output << "else _error(exception:new(\"Tried to invoke non-method: #{nice_id object} (\" .. object.__type(#{object}) .. \")\")) end\n"
     else
@@ -355,4 +381,6 @@ class Treetop::Runtime::SyntaxNode
       false
     end
   end
+
+  def type; end
 end

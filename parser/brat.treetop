@@ -146,6 +146,7 @@ grammar BaseBrat
     def brat(res_var = nil)
       output = paren_exp.brat(res_var)
       @result = paren_exp.result
+      assign @result, paren_exp.type
       output
     end 
   }
@@ -194,11 +195,17 @@ grammar BaseBrat
 
       if res_var
         @result = res_var
+        assign @result, :regex
         "#@result = regex:new(\"#{reg}\"#{cf})\n"
       else
         next_temp
+        assign @result, :regex
         "local #@result = regex:new(\"#{reg}\"#{cf})\n"
       end
+    end
+
+    def type
+      :regex
     end
   }
   end
@@ -229,11 +236,17 @@ grammar BaseBrat
   "[" space? ":" space? "]" {
     def brat(res_var = nil)
       @result = res_var || next_temp
+      assign @result, :hash
+
       if res_var
         "#@result = hash:new()" 
       else
         "local #@result = hash:new()" 
       end
+    end
+
+    def type
+      :hash
     end
   }
   /
@@ -241,7 +254,12 @@ grammar BaseBrat
     def brat(res_var = nil)
       output = hash_inner.brat(res_var)
       @result = hash_inner.result
+      assign @result, :hash
       output
+    end
+ 
+    def type
+      :hash
     end
   }
   end
@@ -251,6 +269,7 @@ grammar BaseBrat
     "[" spaceorbreak array_inner spaceorbreak "]" {
     def brat(res_var = nil)
       @result = res_var || next_temp
+      assign @result, :array
       inner = array_inner.brat(@result)
       if res_var
         output = "do\n" <<
@@ -268,11 +287,16 @@ grammar BaseBrat
     def no_result
       self.brat "_dummy_"
     end
+
+    def type
+      :array
+    end
   }
   /
   "[" spaceorbreak "]" {
     def brat(res_var = nil)
         @result = res_var || next_temp
+        assign @result, :array
         if res_var
           "#@result = array:new()\n"
         else
@@ -282,6 +306,10 @@ grammar BaseBrat
 
     def no_result
       self.brat "_dummy_"
+    end
+
+    def type
+      :array
     end
   }
   end
@@ -363,6 +391,7 @@ grammar BaseBrat
     e:indexed_expression a:("[" i:expression "]")+ space? "=" spaceorbreak v:expression {
     def brat(res_var = nil)
       @result = res_var || next_temp
+      assign @result, v.type
 
       if res_var
         output = ""
@@ -393,6 +422,10 @@ grammar BaseBrat
     def no_result
       self.brat("_dummy_")
     end
+
+    def type
+      v.type
+    end
   }
   end
 
@@ -402,6 +435,7 @@ grammar BaseBrat
     def brat(res_var = nil)
       if res_var
         @result = res_var
+        assign res_var, nil
         output = ""
       else
         next_temp
@@ -441,6 +475,7 @@ grammar BaseBrat
       lhs_result = lhs.result
       rhs_result = rhs.result
       @result = rhs.result
+      assign @result, rhs.type
 
       output << <<-LUA
         if _type(#{lhs_result}) == "table" then
@@ -464,6 +499,7 @@ grammar BaseBrat
       lhs_result = lhs.result
       rhs_result = rhs.result
       @result = rhs.result
+      assign @result, rhs.type
 
       output << <<-LUA
         if _type(#{lhs_result}) == "table" then
@@ -489,6 +525,8 @@ grammar BaseBrat
         output << "\n#{temp} = #{rhs.result}\n"
       else
         temp = var_add var
+        assign temp, rhs.type
+
         output = ""
         unless $interactive and not $inside_function
           output << "local #{temp}\n"
@@ -498,8 +536,15 @@ grammar BaseBrat
 
         output << "\n#{temp} = #{rhs.result}\n" unless temp == rhs.result
       end
+
       @result = temp
+      assign @result, rhs.type
+
       output
+    end
+
+    def type
+      rhs.type
     end
   }
   end
@@ -523,7 +568,13 @@ grammar BaseBrat
     def brat(res_var = nil)
       output = expression.brat res_var
       @result = expression.result
+      assign @result, type
+
       output
+    end
+
+    def type
+      expression.type
     end
   }
   end
@@ -549,7 +600,12 @@ grammar BaseBrat
   '-'? [0-9]+ "." [0-9]+ {
     def brat(res_var = nil)
       @result = text_value
+      assign @result, type
       ""
+    end
+    
+    def type
+      :number
     end
   }
   end
@@ -560,7 +616,12 @@ grammar BaseBrat
   '-'? [0-9]+ {
     def brat(res_var = nil)
       @result = text_value
+      assign @result, type
       ""
+    end
+
+    def type
+      :number
     end
   }
   end
@@ -570,6 +631,7 @@ grammar BaseBrat
     '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
     def brat(res_var = nil)
       @result = res_var || next_temp
+      assign @result, type
 
       if content.elements.empty?
         if res_var
@@ -602,17 +664,26 @@ grammar BaseBrat
         output << "end\n"
       end
     end
+
+    def type
+      :string
+    end
   }
   /
   "'" content:(("\\'" / "\\\\" / !"'" . )*) "'" {
     def brat(res_var = nil)
       @result = res_var || next_temp
+      assign @result, type
       string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
       if res_var
         "#@result = string:new(\"#{string}\")\n"
       else
         "local #@result = string:new(\"#{string}\")\n"
       end
+    end
+
+    def type
+      :string
     end
   }
   end
@@ -624,6 +695,7 @@ grammar BaseBrat
       if first.respond_to? :brat
         output << first.brat
         @result = first.result
+        assign @result, type
       end
 
       rest.elements.each do |e|
@@ -631,6 +703,7 @@ grammar BaseBrat
           output << e.expression.brat
           unset @result
           @result = e.expression.result
+          assign @result, e.expression.type
         end
       end
 
@@ -643,13 +716,19 @@ grammar BaseBrat
   rule symbol
   ":" id:(identifier / operator / number)+ {
     def brat(res_var = nil)
+      @result = res_var || next_temp
+      assign @result, type 
+
       if res_var
-        @result = res_var
         "#@result = string:new(\"#{id.text_value}\")\n"
       else
         next_temp
         "local #@result = string:new(\"#{id.text_value}\")\n"
       end
+    end
+
+    def type
+      :string
     end
   } 
   end
@@ -725,9 +804,11 @@ grammar BaseBrat
 
       if res_var
         @result = res_var
+        assign @result, type 
         output << "#{res_var} = function (#{args})\n"
       else
         next_temp
+        assign @result, type 
         output << "local #@result = function (#{args})\n"
       end
       
@@ -742,6 +823,10 @@ grammar BaseBrat
 
     def no_result
       self.brat "_dummy_"
+    end
+
+    def type
+      :function
     end
   }
   end
@@ -934,12 +1019,18 @@ grammar BaseBrat
   op:operator !space rhs:unary_rhs_expression {
     def brat(res_var = nil)  
       @result = res_var || next_temp
+      assign @result, type 
+
       output = rhs.brat(@result)
       if @result != rhs.result
         output  << "local #@result = #{rhs.result}\n"
       end
 
+      assign @result, rhs.type
+
       output << call_method(@result, @result, op.brat, "", 0) << "\n"
+
+      output
     end
 
     def no_result
@@ -1001,6 +1092,7 @@ grammar BaseBrat
   
       output << "#{final_result} = #{res_stack.pop} \nend\n"
       @result = final_result
+      assign @result, type 
       output
     end
 
@@ -1033,6 +1125,7 @@ grammar BaseBrat
     def brat(res_var = nil)
       output = lhs.brat res_var
       @result = res_var || next_temp
+      assign @result, type 
 
       output << "\n" <<
       a.brat << "\n" <<
@@ -1049,6 +1142,7 @@ grammar BaseBrat
     def brat(res_var = nil)
       output = lhs.brat res_var
       @result = res_var || next_temp
+      assign @result, type 
   
       output <<
       call_method(@result, lhs.result, i.brat, "", 0)
@@ -1058,10 +1152,12 @@ grammar BaseBrat
   i:identifier a:simple_arg_list {
     def brat(res_var = nil)
       @result = res_var || next_temp
+
       output = a.brat <<
       invoke(@result, i.brat, a.list, a.length)
 
       a.unset_args
+      assign @result, type
 
       output
     end
@@ -1070,7 +1166,9 @@ grammar BaseBrat
   i:identifier ~(&space) {
     def brat(res_var = nil)
       @result = res_var || next_temp
-      get_value(@result, i.brat, "", 0)
+      res = get_value(@result, i.brat, "", 0)
+      assign @result, type 
+      res
     end
   }
   end
@@ -1092,6 +1190,7 @@ grammar BaseBrat
       a.brat <<
       call_method(@result, lhs.result, i.brat, a.list, a.length) << "\n"
 
+      assign @result, type 
       a.unset_args
 
       output
@@ -1130,6 +1229,7 @@ grammar BaseBrat
       get_value(@result, name, a.list, a.length)
 
       a.unset_args
+      assign @result, type 
 
       output
     end
@@ -1163,6 +1263,7 @@ grammar BaseBrat
       output << invoke(@result, m.result, a.list, a.length)
       
       a.unset_args
+      assign @result, type 
 
       output
     end
@@ -1185,6 +1286,7 @@ grammar BaseBrat
         @result = res_var || f.result
         output << invoke(@result, f.result, a.list, a.length)
   
+        assign @result, type 
         a.unset_args
 
         output
@@ -1208,8 +1310,11 @@ grammar BaseBrat
       if number? @result
         n = @result
         next_temp
+        assign @result, :number
         output << "local #@result = #{n}\n"
       end
+        
+      assign @result, type 
 
       meth = args = nil
       elements[1..-1].each do |elem|
@@ -1217,6 +1322,7 @@ grammar BaseBrat
         args = elem.e.arg_list
         output << args.brat
         output << call_method(@result, @result, meth, args.list, args.length) << "\n"
+        assign @result, type 
         args.unset_args
         if not elem.e.a.elements.empty?
           elem.e.a.elements.each do |ele|
@@ -1236,6 +1342,8 @@ grammar BaseBrat
     identifier !space arg_list a:("[" inner_arg_list "]")* {
     def brat(res_var = nil)
       @result = res_var || next_temp
+      assign @result, type 
+
       output = arg_list.brat
       name = identifier.brat
       temp = var_exist? name
@@ -1290,6 +1398,7 @@ grammar BaseBrat
       a_rest.elements.each do |elem|
         output << elem.inner_arg_list.brat
         output << "#@result = #{@result}:get(#{elem.inner_arg_list.list})\n"
+        assign @result, type 
         elem.inner_arg_list.unset_args
       end
       output
@@ -1304,6 +1413,7 @@ grammar BaseBrat
       @result = res_var || f.result
       output << invoke(@result, f.result, a.list, a.length)
       
+      assign @result, type 
       a.unset_args
 
       output
@@ -1361,6 +1471,10 @@ grammar BaseBrat
           _error(exception:method_error("#{nice_id o.text_value}", "#{nice_id name}"))
         end
       LUA
+    end
+
+    def type
+      :function
     end
   }
   /
