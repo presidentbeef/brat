@@ -55,11 +55,13 @@ class Treetop::Runtime::SyntaxNode
   end
 
   def new_scope
+    @@unset << []
     variables << {}
   end
 
   def pop_scope
     @@variables.pop
+    @@unset.pop
   end
 
   def variables
@@ -67,9 +69,8 @@ class Treetop::Runtime::SyntaxNode
   end
 
   def self.clear_variables
-    @@unset = []
-    @@variables = []
-    @@variables << {}
+    @@unset = [[]]
+    @@variables = [{}]
     @@variable_type = {}
     @@temp = 0
   end
@@ -93,13 +94,16 @@ class Treetop::Runtime::SyntaxNode
   end
 
   def next_temp
-    temp = @@unset.pop
-    @result = temp || "_temp#{@@temp += 1}"
+    @result = next_unset || "_temp#{@@temp += 1}"
   end
 
   def unset temp
     @@variable_type.delete temp
-    @@unset << temp if temp? temp and not named? temp
+    @@unset[-1] << temp if temp? temp and not named? temp
+  end
+
+  def next_unset
+    @@unset[-1].pop
   end
 
   def named? temp
@@ -402,6 +406,29 @@ class Treetop::Runtime::SyntaxNode
       !!(item.to_s.to_i == item || Float(item))
     rescue Exception => e
       false
+    end
+  end
+
+  def get_result res_var = nil
+    if @result = res_var or @result = next_unset
+      @set_result = "#@result = "
+    else
+      next_temp
+      @set_result = "local #@result = "
+    end
+  end
+
+  def set_result out
+    @set_result + out + "\n"
+  end
+
+  def init_result
+    if @set_result[0,5] == "local"
+      res = @set_result + "nil\n"
+      @set_result = "#@result = "
+      res
+    else
+      ""
     end
   end
 
