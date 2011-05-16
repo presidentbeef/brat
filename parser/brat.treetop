@@ -1016,21 +1016,12 @@ grammar BaseBrat
   #Matches a unary operation, which requires a symbol to be
   #immediately followed by an expression.
   rule unary_operation
-  op:operator !space rhs:unary_rhs_expression {
+  !("-" number) op:operator !space rhs:unary_rhs_expression {
     def brat(res_var = nil)  
       @result = res_var || next_temp
       assign @result, type 
 
-      output = rhs.brat(@result)
-      if @result != rhs.result
-        output  << "local #@result = #{rhs.result}\n"
-      end
-
-      assign @result, rhs.type
-
-      output << call_method(@result, @result, op.brat, "", 0) << "\n"
-
-      output
+      rhs.brat << call_method(@result, rhs.result, op.brat, "", 0) << "\n"
     end
 
     def no_result
