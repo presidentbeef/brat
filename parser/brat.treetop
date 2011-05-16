@@ -252,10 +252,15 @@ grammar BaseBrat
   /
     "[" spaceorbreak hash_inner spaceorbreak "]" {
     def brat(res_var = nil)
-      output = hash_inner.brat(res_var)
-      @result = hash_inner.result
+      @result = res_var || next_temp
       assign @result, :hash
-      output
+
+      if res_var
+        output = ""
+      else
+        output = "local #@result\n"
+      end
+      output << hash_inner.brat(@result)
     end
  
     def type
