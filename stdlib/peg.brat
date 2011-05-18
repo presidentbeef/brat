@@ -365,7 +365,7 @@ peg_syntax = peg.new {
     }
   }
   
-  set :opt_spaces reg /( )*/
+  set :opt_spaces reg /\s*/
 
   set :spaces reg /( )+/
   
