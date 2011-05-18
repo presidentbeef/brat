@@ -423,7 +423,7 @@ peg_syntax = peg.new {
     }
   }
 
-  set :paren_rule action seq(str("(") ref(:rule_seq) str(")")) {
+  set :paren_rule action seq(str("(") ref(:rule_list) str(")")) {
     my.output = matched[1].output
   }
 
