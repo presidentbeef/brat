@@ -827,7 +827,17 @@ function object:_compile (name)
   load_paths:each(check_and_compile)
 end
 
-function object:include (file, name)
+function object:includes (...)
+  for _, f in pairs({...}) do
+    object:include(f, nil, 4)
+  end
+
+  return object.__true
+end
+
+--env_level is used to call to include from another function
+--it sets what environment the file is imported to
+function object:include (file, name, env_level)
   if type(file) == "table" and file._lua_string then
     file = file._lua_string
   end
@@ -850,7 +860,11 @@ function object:include (file, name)
 
   require(file)
 
-  local status, env = pcall(getfenv, 3)
+  if env_level == nil then
+    env_level = 3
+  end
+
+  local status, env = pcall(getfenv, env_level)
 
   if status then
     if name then
