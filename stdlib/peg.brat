@@ -357,11 +357,14 @@ peg.label = { label, rule |
 }
 
 peg_syntax = peg.new {
-  set :grammar action seq((label :first ref(:rule)) label(:rest kleene(seq_ref :line_break :rule)) kleene(any_ref :spaces :line_break)) {
+  set :grammar action seq(ref(:rule) kleene(seq_ref :line_break :rule) kleene(any_ref :spaces :line_break)) {
     my.output = { name |
+      first = matched[0]
+      rest = matched[1]
       "include :peg\n#{name} = peg.new {\n" <<
-      "#{first.output}\n#{rest.elements.map(:output).join('\n')}" <<
-      "\n}"
+      "  #{first.output}\n  #{rest.elements.map({ e | e.elements[1].output }).join("\n  ")}" <<
+      "\n}\n" <<
+      "export #{name}, \"#{name}_parser\""
     }
   }
   
