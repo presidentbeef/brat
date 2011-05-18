@@ -411,7 +411,7 @@ peg_syntax = peg.new {
     }
   }
 
-  set :rule_exp action any_ref(:maybe :many :kleene :simple_rule_exp) {
+  set :rule_exp action any_ref(:maybe :many :kleene :not :simple_rule_exp) {
     my.output = {
       matched.output
     }
