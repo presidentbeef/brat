@@ -870,12 +870,12 @@ function object:include (file, name, env_level)
     if name then
       for k,v in pairs(_exports) do
         if k == name then
-          env[k] = v
+          env[to_identifier(k)] = v
         end
       end
     else
       for k,v in pairs(_exports) do
-        env[k] = v
+        env[to_identifier(k)] = v
       end
     end
   end
