@@ -445,7 +445,7 @@ peg_syntax = peg.new {
     }
   }
 
-  set :anything action seq(ref(:spaces) str ".") {
+  set :anything action str(".") {
     my.output = "anything()"
   }
 
