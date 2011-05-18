@@ -1736,7 +1736,12 @@ function array_instance:map (block)
         local n = number:new(item)
         return n[method](n)
       else
-        return item[method](item)
+        local m = item[method]
+        if m == nil then
+          error("In array.map: " .. tostring(item) .. " has no method called '" .. method .. "'")
+        else
+          return item[method](item)
+        end
       end
     end
   end
