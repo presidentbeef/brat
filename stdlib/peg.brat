@@ -372,7 +372,7 @@ peg_syntax = peg.new {
 
   set :spaces reg /( )+/
   
-  set :line_break str "\n"
+  set :line_break many(str("\n"))
   
   set :rule action seq(ref(:rule_name) ref(:opt_spaces) str("=") ref(:opt_spaces) ref(:rule_list)) {
     my.output = { "set(:#{matched.first.text}, #{matched.last.output})" }
