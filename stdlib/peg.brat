@@ -378,7 +378,7 @@ peg_syntax = peg.new {
     my.output = { "set(:#{matched.first.text}, #{matched.last.output})" }
   }
 
-  set :rule_name reg /[a-zA-Z]+/
+  set :rule_name reg /\w+/
 
   set :rule_list action seq(ref(:rule_seq) kleene(seq ref(:opt_spaces) str("|") ref(:opt_spaces) ref(:rule_seq))) {
     my.output = {
