@@ -478,7 +478,7 @@ peg_syntax = peg.new {
 
   set :not action seq(str("!") ref(:simple_rule_exp)) {
     my.output = {
-      "not(#{matched.last.output})"
+      "no(#{matched.last.output})"
     }
   }
 
