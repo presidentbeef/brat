@@ -718,18 +718,6 @@ grammar BaseBrat
   } 
   end
 
-  rule symbol_convert
-  identifier
-  /
-  operator
-  /
-  number {
-    def brat(res_var = nil)
-      n.text_value
-    end
-  }
-  end
-
   #Matches function definitions
   rule function_definition
   "{" space? fa:formal_args space? l:line* space? "}" {
