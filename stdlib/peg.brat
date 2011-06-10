@@ -442,7 +442,7 @@ peg_syntax = peg.new {
     }
   }
 
-  set :reg_literal action seq(str('/') kleene(seq(no(str '/') anything)) str('/')) {
+  set :reg_literal action seq(str('/') kleene(any str('\/') seq(no(str '/') anything)) str('/')) {
     my.output = {
       "reg(#{text})"
     }
