@@ -430,7 +430,7 @@ peg_syntax = peg.new {
     my.output = matched[1].output
   }
 
-  set :str_literal action seq(str('"') kleene(seq(no(str '"') anything)) str('"')) {
+  set :str_literal action seq(str('"') kleene(any str('\"') seq(no(str '"') anything)) str('"')) {
     my.output = {
       "str(#{text})"
     }
