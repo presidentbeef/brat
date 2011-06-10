@@ -179,7 +179,7 @@ grammar BaseBrat
 
   #Matches regular expression literals
   rule regex
-  "/" r:(!"/" . / "\\/")* "/" opts:[mix]* {
+  "/" r:("\\/" / !"/" .)* "/" opts:[mix]* {
     def brat(res_var = nil)
       reg = r.text_value
       reg.gsub!("\\", "\\\\\\\\")
