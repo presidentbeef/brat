@@ -1,5 +1,9 @@
 expression = hash | regex | string | number
-expression = hash | regex | string
+
+array   = "[" spaceorbreak array_inner spaceorbreak "]"
+        | "[" spaceorbreak "]"
+
+array_inner = expression (((spaceorbreak "," spaceorbreak) | (space | eol)+) expression)+
 
 hash    = "[" space? ":" space? "]"
         | "[" spaceorbreak hash_inner spaceorbreak "]"
