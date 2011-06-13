@@ -356,7 +356,9 @@ peg.label = { label, rule |
   }
 }
 
+#This is a PEG for parsing PEGs
 peg_syntax = peg.new {
+  #A grammar is a list of rules
   set :grammar action seq(ref(:rule) kleene(seq_ref :line_break :rule) ref(:opt_spaces)) {
     my.output = { name |
       first = matched[0]
@@ -368,18 +370,25 @@ peg_syntax = peg.new {
     }
   }
   
+  #Optional spaces
   set :opt_spaces reg /\s*/
 
+  #Required spaces
   set :spaces reg /( )+/
   
+  #Multiple line breaks
   set :line_break many(str("\n"))
   
+  #A rule looks like:
+  #  name = list of rule items
   set :rule action seq(ref(:rule_name) ref(:opt_spaces) str("=") ref(:opt_spaces) ref(:rule_list)) {
     my.output = { "set(:#{matched.first.text}, #{matched.last.output})" }
   }
 
+  #A rule name can only contain word characters
   set :rule_name reg /\w+/
 
+  #A rule list is a sequence of optional rules, separated by |
   set :rule_list action seq(ref(:rule_seq) kleene(seq ref(:opt_spaces) str("|") ref(:opt_spaces) ref(:rule_seq))) {
     my.output = {
       first = matched.first
@@ -399,6 +408,7 @@ peg_syntax = peg.new {
     }
   }
 
+  #Matches a sequence of basic matchers separated by spaces
   set :rule_seq action seq(ref(:rule_exp) kleene(seq_ref :spaces :rule_exp)) {
     my.output = {
       first = matched.first
@@ -414,79 +424,98 @@ peg_syntax = peg.new {
     }
   }
 
+  #A rule expression is an actual matcher or grouping
   set :rule_exp action any_ref(:maybe :many :kleene :not :simple_rule_exp) {
     my.output = {
       matched.output
     }
   }
 
+  #Simple rules (i.e., not suffixed rules like + or *)
   set :simple_rule_exp action any_ref(:label :str_literal :rule_ref :reg_literal :anything :paren_rule) {
     my.output = {
       matched.output
     }
   }
 
+  #Matches parentheses, which denote priority
   set :paren_rule action seq(str("(") ref(:rule_list) str(")")) {
     my.output = matched[1].output
   }
 
+  #Matches a string literal
   set :str_literal action seq(str('"') kleene(any str('\"') seq(no(str '"') anything)) str('"')) {
     my.output = {
       "str(#{text})"
     }
   }
   
+  #References the name of another rule
   set :rule_ref action label(:name ref(:rule_name)) {
     my.output = {
       "ref(:#{name.text})"
     }
   }
 
+  #Matches a regular expression
   set :reg_literal action seq(str('/') kleene(any str('\/') seq(no(str '/') anything)) str('/')) {
     my.output = {
       "reg(#{text})"
     }
   }
 
+  #Matches a period
   set :anything action str(".") {
     my.output = "anything()"
   }
 
+  #Matches a label (but labels aren't really working currently)
   set :label action seq(label(:name ref(:rule_name)) str(":") label(:exp ref(:rule_exp))) {
     my.output = {
       "label(:#{name.text} #{exp.output})"
     }
   }
 
+  #Matches an optional rule:
+  #  some_rule?
   set :maybe action seq(ref(:simple_rule_exp) str("?")) {
     my.output = {
       "maybe(#{matched.first.output})"
     }
   }
 
+  #Matches one or more of a rule:
+  #  some_rule+
   set :many action seq(ref(:simple_rule_exp) str("+")) {
     my.output = {
       "many(#{matched.first.output})"
     }
   }
 
+  #Matches zero or more of a rule:
+  #  some_rule*
   set :kleene action seq(ref(:simple_rule_exp) str("*")) {
     my.output = {
       "kleene(#{matched.first.output})"
     }
   }
 
+  #Matches a negative lookahead:
+  #  !some_rule
   set :not action seq(str("!") ref(:simple_rule_exp)) {
     my.output = {
       "no(#{matched.last.output})"
     }
   }
 
+  #Matches an action appended to a rule:
+  #  some_rule { ... }
   set :action action seq(str("{") kleene(any(reg(/[^{}]+/) ref(:action))) str("}")) {
     my.output = my.text
   }
 }
 
+#Generates a parser with the given name from the PEG syntax passed in
 peg.make_parser = { name, grammar |
   result = peg_syntax.parse grammar
 
