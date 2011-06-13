@@ -357,7 +357,7 @@ peg.label = { label, rule |
 }
 
 peg_syntax = peg.new {
-  set :grammar action seq(ref(:rule) kleene(seq_ref :line_break :rule) kleene(any_ref :spaces :line_break)) {
+  set :grammar action seq(ref(:rule) kleene(seq_ref :line_break :rule) ref(:opt_spaces)) {
     my.output = { name |
       first = matched[0]
       rest = matched[1]
