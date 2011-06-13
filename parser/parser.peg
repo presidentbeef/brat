@@ -1,3 +1,4 @@
+expression = hash | regex | string | number
 expression = hash | regex | string
 
 hash    = "[" space? ":" space? "]"
