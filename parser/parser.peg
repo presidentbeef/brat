@@ -30,7 +30,7 @@ hash_argument = (identifier | operator) (identifier | operator | number)* ":" sp
 
 regex   = "/" (!"/" . | "\\/")* "/" /[mix]*/
 
-string  = "\"" (string_interpolation | !"\"" .)* "\""
+string  = "\"" (string_interpolation | "\\\"" | !"\"" .)* "\""
         | "'" (!"'" .)* "'"
         | ":" (identifier | operator | number)+
 
