@@ -110,6 +110,8 @@ check "x->y" :method_access
 check "x.y->z" :method_access
 check "->(z)" :method_access
 
+check file.read("brat_parser.brat") :program
+
 run!
 
 true? file.exists?("brat_parser.brat")
