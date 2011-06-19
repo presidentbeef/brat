@@ -61,6 +61,12 @@ unary_operation = !("-" number) operator !space unary_rhs_expression
 
 unary_rhs_expression = paren_exp | number | string | array | hash | regex
 
+binary_operation = binary_operation_chain expression
+
+binary_operation_chain = binary_lhs_expression space operator ((space? eol space?) | space)+
+
+binary_lhs_expression = paren_exp | number | string | array | hash | regex | unary_operation
+
 identifier = /[a-zA-Z]/ (!"->" /[a-zA-Z0-9_!?\-*+^&@~\/\\><$%]/)*
 
 operator = !("->" !operator) !("=" !(operator | "=")) ("!=" | ">=" | "<=" | /[!?\-*+^@~\/\\><$_%\=]/ | "||" | "|" | "&&" | "&")+
