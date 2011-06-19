@@ -425,7 +425,7 @@ peg_syntax = peg.new {
   }
 
   #A rule expression is an actual matcher or grouping
-  set :rule_exp action any_ref(:maybe :many :kleene :not :simple_rule_exp) {
+  set :rule_exp action any_ref(:maybe :many :kleene :not :and :simple_rule_exp) {
     my.output = {
       matched.output
     }
@@ -505,6 +505,14 @@ peg_syntax = peg.new {
   set :not action seq(str("!") ref(:simple_rule_exp)) {
     my.output = {
       "no(#{matched.last.output})"
+    }
+  }
+
+  #Matches positive lookahead:
+  #  &some_rule
+  set :and action seq(str("&") ref(:simple_rule_exp)) {
+    my.output = {
+      "and(#{matched.last.output})"
     }
   }
 
