@@ -359,15 +359,21 @@ peg.label = { label, rule |
 #This is a PEG for parsing PEGs
 peg_syntax = peg.new {
   #A grammar is a list of rules
-  set :grammar action seq(ref(:rule) kleene(seq_ref :line_break :rule) ref(:opt_spaces)) {
+  set :grammar action many(ref :line) {
     my.output = { name |
-      first = matched[0]
-      rest = matched[1]
       "include :peg\n#{name} = peg.new {\n" <<
-      "  #{first.output}\n  #{rest.elements.map({ e | e.elements[1].output }).join("\n  ")}" <<
+      matched.map({ e | e.output }).join("\n  ") <<
       "\n}\n" <<
       "export #{name}, \"#{name}_parser\""
     }
+  }
+
+  set :line action seq(any_ref(:rule :comment) any(ref(:line_break) no(anything))) {
+    my.output = matched.first.matched.output
+  }
+
+  set :comment action seq(str("#") kleene(seq no(str("\n")) anything)) {
+    my.output = ""
   }
   
   #Optional spaces
