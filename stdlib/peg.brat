@@ -471,7 +471,7 @@ peg_syntax = peg.new {
   }
 
   #Matches a period
-  set :anything action str(".") {
+  set :anything action seq(str(".") maybe(ref :spaces)) {
     my.output = "anything()"
   }
 
