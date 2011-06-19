@@ -1,3 +1,11 @@
+line = comment
+     | space? expression space? comment? (eof | eol | eob)
+     | empty_line
+
+empty_line = space? eol
+
+eob = space? &"}" space?
+
 expression = hash | array | regex | string | number | paren_exp
 
 paren_exp  = "(" space? expression space? ")"
