@@ -1,4 +1,6 @@
-expression = hash | regex | string | number
+expression = hash | array | regex | string | number | paren_exp
+
+paren_exp  = "(" space? expression space? ")"
 
 array   = "[" spaceorbreak array_inner spaceorbreak "]"
         | "[" spaceorbreak "]"
