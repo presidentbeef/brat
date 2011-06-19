@@ -381,8 +381,8 @@ peg_syntax = peg.new {
   
   #A rule looks like:
   #  name = list of rule items
-  set :rule action seq(ref(:rule_name) ref(:opt_spaces) str("=") ref(:opt_spaces) ref(:rule_list)) {
-    my.output = { "set(:#{matched.first.text}, #{matched.last.output})" }
+  set :rule action seq(ref(:rule_name) ref(:opt_spaces) str("=") ref(:opt_spaces) ref(:rule_list) reg(/( )*/)) {
+    my.output = { "set(:#{matched.first.text}, #{matched[-2].output})" }
   }
 
   #A rule name can only contain word characters
