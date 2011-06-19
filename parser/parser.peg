@@ -1,3 +1,5 @@
+program = line+ | eof
+
 line = comment
      | space? expression space? comment? (eof | eol | eob)
      | empty_line
