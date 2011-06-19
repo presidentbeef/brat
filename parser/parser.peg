@@ -11,6 +11,11 @@ expression = regex | binary_operation | paren_exp | unary_operation | method_inv
 
 paren_exp  = "(" space? expression space? ")"
 
+method_access = "->" (identifier | operator)
+              | method_invocation "->" (identifier | operator)
+              | paren_exp "->" (identifier | operator)
+              | "->" paren_exp
+
 #-- Basic literals
 
 number  = "-"? /[0-9]+/ ("." /[0-9]+/)?
