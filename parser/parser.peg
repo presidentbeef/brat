@@ -57,6 +57,10 @@ default_arg_rhs_expression = paren_exp | number | string | function_definition |
 
 variable_args = "*" identifier
 
+unary_operation = !("-" number) operator !space unary_rhs_expression
+
+unary_rhs_expression = paren_exp | number | string | array | hash | regex
+
 identifier = /[a-zA-Z]/ (!"->" /[a-zA-Z0-9_!?\-*+^&@~\/\\><$%]/)*
 
 operator = !("->" !operator) !("=" !(operator | "=")) ("!=" | ">=" | "<=" | /[!?\-*+^@~\/\\><$_%\=]/ | "||" | "|" | "&&" | "&")+
