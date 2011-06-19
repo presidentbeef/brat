@@ -39,7 +39,7 @@ hash_inner = hash_argument ((spaceorbreak "," spaceorbreak) | ((space | eol)+) h
 hash_argument = (identifier | operator) (identifier | operator | number)* ":" spaceorbreak expression
               | expression spaceorbreak ":" spaceorbreak expression
 
-regex   = "/" (!"/" . | "\\/")* "/" /[mix]*/
+regex   = "/" ("\\/" | !"/" . )* "/" /[mix]*/
 
 string  = "\"" (string_interpolation | "\\\"" | !"\"" .)* "\""
         | "'" (!"'" .)* "'"
