@@ -6,10 +6,16 @@ line = comment
 
 empty_line = space? eol
 
-expression = regex | binary_operation | paren_exp | unary_operation | method_invocation | number | string
+expression = regex | binary_operation | assignment | paren_exp | unary_operation | method_invocation | number | string
            | function_definition | array | hash 
 
 paren_exp  = "(" space? expression space? ")"
+
+assignment = field_access space "=" spaceorbreak !function_literal_invocation (function_definition | method_access)
+           | field_access space "=" spaceorbreak expression
+           | identifier space "=" spaceorbreak expression
+
+field_access = method_chain (identifier | operator)
 
 method_access = "->" (identifier | operator)
               | method_invocation "->" (identifier | operator)

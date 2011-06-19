@@ -96,6 +96,17 @@ check "x.y[3].z" :method_invocation
 check "x a:1" :method_invocation
 check "x b: 2 c:3" :method_invocation
 
+check "a = 1" :assignment
+check "a.b = 1" :assignment
+check "a.b = {x | x}" :assignment
+check "a.b = x.y { \n }" :assignment
+
+check "->a" :method_access
+check "b->a" :method_access
+check "x->y" :method_access
+check "x.y->z" :method_access
+check "->(z)" :method_access
+
 run!
 
 true? file.exists?("brat_parser.brat")
