@@ -6,7 +6,8 @@ empty_line = space? eol
 
 eob = space? &"}" space?
 
-expression = hash | array | regex | string | number | paren_exp
+expression = regex | binary_operation | paren_exp | unary_operation | method_invocation | number | string
+           | function_definition | array | hash 
 
 paren_exp  = "(" space? expression space? ")"
 
@@ -53,25 +54,66 @@ default_args = default_arg (space? "," space? default_args)*
 
 default_arg = identifier space "=" space default_arg_rhs_expression
 
-default_arg_rhs_expression = paren_exp | number | string | function_definition | array | hash
+default_arg_rhs_expression = paren_exp | method_invocation | number | string | function_definition | array | hash
 
 variable_args = "*" identifier
 
 unary_operation = !("-" number) operator !space unary_rhs_expression
 
-unary_rhs_expression = paren_exp | number | string | array | hash | regex
+unary_rhs_expression = paren_exp | number | string | array | hash | method_invocation | regex
 
 binary_operation = binary_operation_chain expression
 
 binary_operation_chain = (binary_lhs_expression space operator ((space? eol space?) | space))+
 
-binary_lhs_expression = paren_exp | number | string | array | hash | regex | unary_operation
+binary_lhs_expression = paren_exp | number | string | array | hash | regex | unary_operation | method_invocation
 
 identifier = /[a-zA-Z]/ (!"->" /[a-zA-Z0-9_!?\-*+^&@~\/\\><$%]/)*
 
 operator = !("->" !operator) !("=" !(operator | "=")) ("!=" | ">=" | "<=" | /[!?\-*+^@~\/\\><$_%\=]/ | "||" | "|" | "&&" | "&")+
 
 number  = "-"? /[0-9]+/ ("." /[0-9]+/)?
+
+method_invocation = method_chain (identifier | operator) arg_list
+                  | identifier arg_list
+                  | paren_exp simple_arg_list
+                  | function_literal_invocation
+
+function_literal_invocation = function_definition !space simple_arg_list
+
+method_chain = (method_lhs ".")+
+
+method_lhs = identifier !space arg_list ("[" space? inner_arg_list space? "]")*
+           | array ("[" space? inner_arg_list space? "]")
+           | function_definition !space simple_arg_list
+           | function_definition &"."
+           | method_target_expression
+
+method_target_expression = array | hash | paren_exp | number | string | regex | unary_operation
+
+arg_list = "(" space? inner_arg_list space? ")"
+         | "(" space? ")"
+         | space inner_arg_list
+         | !"(" &(space?)
+
+simple_arg_list = "(" space? inner_arg_list space? ")"
+                | "(" space? ")"
+
+inner_arg_list = arg_first arg_next*
+
+arg_first = named_argument | expression
+
+arg_space = (space | eol_not_semicolon)*
+
+eol_not_semicolon = ("\n" | "\r\n")+
+
+arg_next = arg_space "," arg_space arg_first
+         | arg_space function_definition
+         | arg_space named_argument
+         | space? expression
+
+named_argument = (identifier | operator) (identifier | operator | number)* ":" spaceorbreak expression
+               | expression space? ":" space spaceorbreak expression
 
 spaceorbreak = space? eol? space?
 
