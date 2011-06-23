@@ -71,7 +71,7 @@ make PREFIX=$BRATPATH/bin/lua
 #Copy to bin/lua
 make install PREFIX=$BRATPATH/bin/lua
 
-mv -f $BRATPATH/bin/lua/bin/luajit-2.0.0-beta7 $BRATPATH/bin/lua/bin/lua
+mv -f $BRATPATH/bin/lua/bin/luajit-2.0.0-beta8 $BRATPATH/bin/lua/bin/lua
 
 echo Building Oniguruma
 cd $COMMON/$ONIG
