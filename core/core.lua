@@ -633,6 +633,14 @@ function object:_while (...)
   return object.__null
 end
 
+function object:loop (block)
+  while true do
+    block(self)
+  end
+
+  return object.__null
+end
+
 function object:_and_and (rhs)
   if is_true(self) then
     if type(rhs) == "function" then
