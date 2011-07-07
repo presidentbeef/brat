@@ -1,0 +1,14 @@
+#Ported from lua-zmq examples
+#Simple echo server
+
+include :zeromq
+
+z = zeromq.new
+s = z.open zeromq.REP
+s.bind "tcp://lo:5555"
+
+loop {
+  input = s.receive
+  p "Received: #{input}"
+  s.send input
+}

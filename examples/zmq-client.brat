@@ -1,0 +1,21 @@
+#Ported from lua-zmq examples
+#Simple client which sends input to server
+#and echoes response
+
+include :zeromq
+z = zeromq.new
+s = z.open zeromq.REQ
+s.connect "tcp://localhost:5555"
+
+while {
+  input = ask '?'
+  false? input == "q"
+    {
+      s.send input
+      p s.receive
+      true
+    }
+}
+
+s.close
+z.term

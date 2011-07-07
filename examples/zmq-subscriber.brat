@@ -1,0 +1,14 @@
+#Ported from the lua-zmq examples
+#Sets up a subscriber using zeromq
+#Prints out any publications
+include :zeromq
+
+z = zeromq.new
+s = z.open zeromq.SUB
+s.set_opt zeromq.SUBSCRIBE, ""
+s.connect "tcp://localhost:5555"
+
+loop {
+  p "Receiving..."
+  p s.receive
+}

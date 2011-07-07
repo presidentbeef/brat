@@ -1,0 +1,16 @@
+#Ported from the lua-zmq examples
+#Sets up a publisher using zeromq
+#Which publishes an increasing integer every two seconds
+include :zeromq
+
+z = zeromq.new
+s = z.open zeromq.PUB
+s.bind "tcp://lo:5555"
+
+msg_id = 0
+
+loop {
+  s.send msg_id
+  msg_id = msg_id + 1
+  sleep 2
+}
