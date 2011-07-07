@@ -184,10 +184,6 @@ function object:exception_question (rhs)
   return object.__false
 end
 
-function object:my ()
-  return self
-end
-
 function object:to_unders ()
   local meths = self:local_undermethods()
   return base_string:new("object" .. tostring(meths:sort_bang()))
