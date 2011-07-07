@@ -1,5 +1,10 @@
 local type = type
 local pairs = pairs
+local ffi = require('ffi')
+
+ffi.cdef[[
+unsigned int sleep(unsigned int seconds);
+]]
 
 --Helper functions
 new_brat = function (parent_object)
@@ -182,6 +187,10 @@ end
 
 function object:exception_question (rhs)
   return object.__false
+end
+
+function object:sleep (secs)
+  return ffi.C.sleep(secs)
 end
 
 function object:to_unders ()
