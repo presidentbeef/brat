@@ -2256,6 +2256,8 @@ function array_instance:join (separator, final)
 
     contents[i] = tostring(obj)
 
+    --What is this weirdness?
+    --It doesn't make any sense...
     if contents[i] ~= tostring(obj) then
       print(contents[i] .. " ~= " .. tostring(obj))
     end
