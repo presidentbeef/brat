@@ -91,6 +91,7 @@ assertions.assert = { condition, message = null |
       { "Assertion failed" }
       { "Assertion failed: " << message }
   }
+  { true }
 } 
 
 assertions.assert_equal = { expected, actual |
