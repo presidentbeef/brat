@@ -473,6 +473,8 @@ grammar BaseBrat
   rule assignment
   lhs:field_access space "=" spaceorbreak !function_literal_invocation rhs:(function_definition / method_access) {
     def brat(res_var = nil)
+      upper = $assignment_lhs
+      $assignment_lhs = lhs.text_value
       output = lhs.brat << "\n" << rhs.brat << "\n" 
       lhs_result = lhs.result
       rhs_result = rhs.result
@@ -490,6 +492,7 @@ grammar BaseBrat
       LUA
 
       unset lhs_result
+      $assignment_lhs = upper
 
       output
     end
@@ -497,6 +500,8 @@ grammar BaseBrat
   /
   lhs:field_access space "=" spaceorbreak rhs:expression {
     def brat(res_var = nil)
+      upper = $assignment_lhs
+      $assignment_lhs = lhs.text_value
       output = lhs.brat << "\n" << rhs.brat << "\n" 
       lhs_result = lhs.result
       rhs_result = rhs.result
@@ -514,6 +519,8 @@ grammar BaseBrat
       LUA
 
       unset lhs_result
+      $assignment_lhs = upper
+
       output
     end
   }
@@ -522,6 +529,9 @@ grammar BaseBrat
     def brat(res_var = nil)
       var = lhs.brat
       temp = var_exist? var
+      upper = $assignment_lhs
+      $assignment_lhs = lhs.text_value
+
       if temp
         output = rhs.brat 
         output << "\n#{temp} = #{rhs.result}\n"
@@ -541,6 +551,8 @@ grammar BaseBrat
 
       @result = temp
       assign @result, rhs.type
+
+      $assignment_lhs = upper
 
       output
     end
@@ -905,16 +917,16 @@ grammar BaseBrat
       else
         minimum = "'at least #{args.length}'"
       end
-      
+
       output = <<-LUA
         if #{args.first} == nil then
-          _error(exception:argument_error("function", #{minimum}, 0))
+          _error(exception:argument_error(#{($assignment_lhs || 'function').inspect}, #{minimum}, 0))
       LUA
 
       args[1..-1].each_with_index do |arg, index|
         output << <<-LUA
           elseif #{arg} == nil then
-            _error(exception:argument_error("function", #{minimum}, #{index + 1}))
+            _error(exception:argument_error(#{($assignment_lhs || 'function').inspect}, #{minimum}, #{index + 1}))
         LUA
       end
 
