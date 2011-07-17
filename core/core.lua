@@ -713,7 +713,7 @@ end
 function object:call_undermethod (name, ...)
   name = to_identifier(name)
   if self[name] == nil then
-    error("No such method to call.")
+    error("No such method to call: " .. name)
   else
     return self[name](self, ...)
   end
