@@ -422,7 +422,26 @@ grammar BaseBrat
     end
 
     def no_result
-      self.brat("_dummy_")
+      @result = next_temp
+
+      output = "do\n" << e.brat << "\n"
+
+      output << "local #@result = #{e.result}\n"
+
+      indices = a.elements[0..-2]
+      final = a.elements.last
+
+      indices.each do |elem|
+        output << elem.i.brat << "\n" <<
+          "#@result = #@result:get(#{elem.i.result})\n" 
+
+        unset elem.i.result
+      end
+
+      output << 
+        v.brat << "\n" << 
+        final.i.brat << "\n" << 
+        "#@result:set(#{final.i.result}, #{v.result})\nend\n"
     end
 
     def type
