@@ -212,7 +212,7 @@ grammar BaseBrat
 
   #Matches comments
   rule comment
-    space? "#*" (!"*#" (comment / .))* "*#" {
+    space? "#*" (!"*#" (comment / .))* ("*#" / eof) {
     def brat(res_var = nil)
       "--comment"
     end
