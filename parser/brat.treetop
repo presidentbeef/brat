@@ -1673,7 +1673,7 @@ grammar BaseBrat
  
   #Matches a 'named' argument
   rule named_argument
-  i:((identifier / operator) (identifier / operator / number)*) ":" spaceorbreak e:expression {
+  i:((identifier) (identifier / operator / number)*) ":" spaceorbreak e:expression {
     attr_reader :key, :value
 
     def brat(res_var = nil)
