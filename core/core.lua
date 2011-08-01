@@ -782,6 +782,12 @@ function object:protect (block, options)
   end
 end
 
+function object:tap (block)
+  block(self, self)
+
+  return self
+end
+
 function object:throw (err)
   error(err, 2)
 end

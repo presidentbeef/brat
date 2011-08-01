@@ -84,4 +84,9 @@ add_results setup name: "object tests" {
     assert_equal 1 { a = object.new; a.x = 1; a.with_this { x } }
     assert_equal 5 { a = object.new; a.x = 1; a.with_this { y |  x + y } 4 }
   }
+
+  test "object.tap" {
+    assert { o = object.new; o.tap({}) == o }
+    assert { o = object.new; o.tap({x|}) == o }
+  }
 }
