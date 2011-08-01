@@ -108,7 +108,7 @@ add_results setup name: "miscellaneous tests" {
   test "comments" {
     assert_equal 1 { x = 1; #x = 6 
       x }
-    assert_equal 1 { x = 1; #* x = 6 */ 
+    assert_equal 1 { x = 1; #* x = 6 *# 
       x }
     assert_equal 1 { x = 1; #* 
       x = 6 
