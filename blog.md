@@ -8,7 +8,7 @@ title: Development Blog
 	<h2 class="post_title">{{ post.title }}</h2>
 	<div class="post_date">{{ post.date | date_to_string }}</div>
 	<div class="post_content">{{ post.content }}</div>
-	<div class="permalink"><a href="/brat/{{ post.url }}#disqus_thread">Comments</a></div>
+	<div class="permalink"><a href="/{{ post.url }}#disqus_thread">Comments</a></div>
 </div>
 {% endfor %}
 
