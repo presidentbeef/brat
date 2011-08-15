@@ -36,19 +36,25 @@ Additionally, you can supply a name for the entire test suite:
 
 *#
 
+#Gathers tests and runs them
 test_manager = new
+
+#A new context for each test
 test_context = new
 
+#Create a new manager by providing a block full of tests
 test_manager.init = { block, name = null |
   my.tests = []
   my.name = name
   block
 }
 
+#Create a test
 test_manager.test = { name, block |
   my.tests << test_context.new(name, ->block)
 }
 
+#Run the tests and track the results
 test_manager.run = { 
   failures = []
   total_tests = my.tests.length
@@ -83,8 +89,11 @@ test_manager.run = {
   [tests: num_tests, assertions: num_assertions, failures: failures.length]
 }
 
+#Namespace for assertions
 assertions = object.new
 
+#Check if a condition is true.
+#If it isn't, show message.
 assertions.assert = { condition, message = null |
   false? condition, {
     throw null? message
@@ -94,12 +103,14 @@ assertions.assert = { condition, message = null |
   { true }
 } 
 
+#Check that _expected_ is equal to _actual_
 assertions.assert_equal = { expected, actual |
   e = expected
   r = actual
   assert { e == r } "expected #{e}, but was #{r}"
 }
 
+#Check that a condition raises an error
 assertions.assert_fail = { condition |
   failed = false
   protect { condition } rescue: { failed = true }
@@ -107,6 +118,7 @@ assertions.assert_fail = { condition |
   assert failed
 }
 
+#Check that a condition is false
 assertions.assert_false = { condition, message = null |
   r = condition
   null? message
@@ -114,28 +126,35 @@ assertions.assert_false = { condition, message = null |
   assert { false? r } message
 }
 
+#Check that a condition is null
 assertions.assert_null = { condition |
   r = condition
   assert { null? r } "expected #{r} to be null"
 }
 
+#Check that a regular expression matches the given string
 assertions.assert_match = { pattern, actual |
   r = actual
   assert pattern.match(r) "#{r} expected to match #{pattern}"
 }
 
+#Add all the assertions to the test context
 test_context.squish assertions
 
+#Set up a test context
 test_context.init = { name, block |
   my.name = name
   my.tests = ->block
   my.assertions = 0
 }
 
+#Runs the tests
 test_context.run = { my.tests }
 
+#Disable the p method
 test_context.p = { }
 
+#Override assert so we can count assertions
 test_context.assert = { condition, message = null |
   my.assertions = my.assertions + 1
   false? condition, {
