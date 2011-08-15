@@ -143,11 +143,6 @@ test_context.assert = { condition, message = null |
   }
 } 
 
-run_tests = { block |
-  tm = test_manager.new ->block
-  tm.run
-}
-
 export assertions, "assertions"
 
 export { block, options = [:] |
