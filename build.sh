@@ -141,6 +141,15 @@ echo Building parser
 cd $BRATPATH/parser
 tt brat.treetop
 
+set +e
+
+echo Building 0MQ
+cd $SRC/lua-zmq
+make
+cp -f zmq.so $LIB
+
+set -e
+
 echo Cleaning up...
 
 cd $COMMON/$LUA
@@ -160,6 +169,9 @@ cd $SRC/md5
 make clean
 
 cd $SRC/$LPTY
+make clean
+
+cd $SRC/lua-zmq
 make clean
 
 cd $BRATPATH
