@@ -344,8 +344,16 @@ grammar BaseBrat
     def brat(res_var = nil)
       key_temp = next_temp
       val_temp = next_temp
-      @result = res_var || next_temp
-      output = "local #@result = {}\n do \n" <<
+
+      if res_var
+        @result = res_var
+        assign = ""
+      else
+        @result = next_temp
+        assign = "local"
+      end
+
+      output = "#{assign} #@result = {}\n do \n" <<
         "local #{key_temp}\nlocal #{val_temp}\n" <<
         first.brat(key_temp, val_temp) <<
         "#@result[#{first.index}] = #{first.value}\n"
