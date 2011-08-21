@@ -63,7 +63,7 @@ test_manager.prototype [ test: { name, block |
 
     null? my.name, { p "Running tests..." } { p "Running #{my.name}..." }
 
-    my.tests.each_with_index { t, i |
+    my.tests.shuffle.each_with_index { t, i |
       print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
       protect { t.run } rescue: { err | failures << [ name: t.name, message: err.to_s ] }
       num_tests = num_tests + 1
