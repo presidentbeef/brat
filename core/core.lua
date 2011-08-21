@@ -11,7 +11,11 @@ new_brat = function (parent_object)
   local nb = { parent = function () return parent_object end }
   local get_parent = function (table, key)
     if table:parent() ~= nil then
-      return table:parent()[key]
+      if rawget(table:parent()._prototype, key) then
+        return table:parent()._prototype[key]
+      else
+        return table:parent()[key]
+      end
     else
       return nil
     end
@@ -31,6 +35,7 @@ new_brat = function (parent_object)
   mt["__tostring"] = to_s
 
   setmetatable(nb, mt)
+
   return nb
 end
 
@@ -146,22 +151,51 @@ init_object = function (o)
   mt["__tostring"] = to_s
 
   setmetatable(o, mt)
-
 end
 
 init_object(object)
 
+object._prototype = object
+
 object._is_an_object = true
 
-function object:parent()
+function object:parent ()
   return object.__null
 end
 
+function object:prototype (methods_or_block)
+    if methods_or_block then
+      if type(methods_or_block) == "function" then
+        self._prototype:with_underthis(methods_or_block)
+      else
+        local proto = self._prototype
+
+        methods_or_block:each(function(self, name, meth)
+          if type(meth) == "function" then
+            proto:add_undermethod(name, meth)
+          else
+            proto:add_undermethod(name, function(self)
+              return meth
+            end)
+          end
+        end)
+      end
+    end
+
+  return self._prototype
+end
+
 function object:new (...)
-  local nb = new_brat(self)
-  if nb["init"] then
+  local nb
+    
+  nb = new_brat(self)
+
+  nb._prototype = new_brat(object)
+
+  if nb.init then
     nb:init(...)
   end
+
   return nb
 end
 
@@ -1034,10 +1068,11 @@ local number_instance = object:new()
 number_instance:squish(comparable)
 
 number = object:new()
+number._prototype = number_instance
 
-function number:new(num)
-  local n = new_brat(number_instance)
-  n:squish(self)
+function number:new (num)
+  local n = new_brat(self)
+  n._prototype = new_brat(object)
 
   n._lua_number = num
   return n
@@ -1458,10 +1493,11 @@ local array_instance = object:new()
 array_instance:squish(enumerable)
 
 array = object:new()
+array._prototype = array_instance
 
 function array:new (...)
-  local na = new_brat(array_instance)
-  na:squish(self)
+  local na = new_brat(self)
+  na._prototype = new_brat(object)
 
   local args = {...}
   if #args == 1 and type(args[1]) == "table" and not args[1]._is_an_object then
@@ -2505,10 +2541,11 @@ end
 local hash_instance = object:new()
 
 hash = object:new()
+hash._prototype = hash_instance
 
 function hash:new (arg)
-  local nh = new_brat(hash_instance)
-  nh:squish(self)
+  local nh = new_brat(self)
+  nh._prototype = new_brat(object)
 
   if type(arg) == "table" and arg._lua_hash then
     nh._lua_hash = arg._lua_hash
@@ -2775,13 +2812,16 @@ string_instance:squish(enumerable)
 
 base_string = object:new()
 
+base_string._prototype = string_instance
+
 function base_string:new (s)
   if s == nil then
     s = ""
   end
 
-  local ns = new_brat(string_instance)
-  ns:squish(self)
+  local ns = new_brat(self)
+  ns._prototype = new_brat(object)
+
   ns._lua_string = s
 
   if type(s) == "string" then
@@ -3208,7 +3248,8 @@ local regex_instance = object:new()
 local regex_match = object:new()
 
 function regex_match:new (start_pos, end_pos, full_match, matches)
-  local rm = new_brat(regex_match)
+  local rm = new_brat(self)
+  rm._prototype = new_brat(object)
 
   function rm:start_underpos () return start_pos end
   function rm:end_underpos () return end_pos end
@@ -3220,6 +3261,8 @@ function regex_match:new (start_pos, end_pos, full_match, matches)
 end
 
 regex = object:new()
+
+regex._prototype = regex_instance
 
 function regex:new (string, options)
   if type(string) == "string" then
@@ -3236,8 +3279,8 @@ function regex:new (string, options)
     error(exception:argument_error("regex.new", "string", string))
   end
 
-  local nr = new_brat(regex_instance)
-  nr:squish(self)
+  local nr = new_brat(self)
+  nr._prototype = new_brat(object)
 
   nr._lua_regex = orex.new(string, options)
   nr._regex_string = string
@@ -3300,8 +3343,9 @@ end
 local exception_instance = object:new()
 
 exception = object:new()
+exception._prototype = exception_instance
 
-function exception:new(message, error_type)
+function exception:new (message, error_type)
   if message == nil then
     message = "Unspecified exception"
   end
@@ -3314,8 +3358,8 @@ function exception:new(message, error_type)
   local stack_trace = base_string:new(debug.traceback(message, 3))
   error_type = base_string:new(error_type)
 
-  local e = new_brat(exception_instance)
-  e:squish(self)
+  local e = new_brat(self)
+  e._prototype = new_brat(object)
 
   e.error_undermessage = function () return msg end
   e.stack_undertrace = function()

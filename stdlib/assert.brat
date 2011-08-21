@@ -50,44 +50,45 @@ test_manager.init = { block, name = null |
 }
 
 #Create a test
-test_manager.test = { name, block |
-  my.tests << test_context.new(name, ->block)
-}
-
-#Run the tests and track the results
-test_manager.run = { 
-  failures = []
-  total_tests = my.tests.length
-  num_tests = 0
-  num_assertions = 0
-
-  null? my.name, { p "Running tests..." } { p "Running #{my.name}..." }
-
-  my.tests.each_with_index { t, i |
-    print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
-    protect { t.run } rescue: { err | failures << [ name: t.name, message: err.to_s ] }
-    num_tests = num_tests + 1
-    num_assertions = num_assertions + t.assertions
+test_manager.prototype [ test: { name, block |
+    my.tests << test_context.new(name, ->block)
   }
 
-  p
-  
-  true? failures.empty?, {
-    p "All tests passed!"
-  }
-  {
-    p "Test failure(s):"
-    p
+  #Run the tests and track the results
+  run: { 
+    failures = []
+    total_tests = my.tests.length
+    num_tests = 0
+    num_assertions = 0
 
-    failures.each_with_index { f, i |
-      p "\t#{i + 1}. '#{f[:name]}': #{f[:message]}\n"
+    null? my.name, { p "Running tests..." } { p "Running #{my.name}..." }
+
+    my.tests.each_with_index { t, i |
+      print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
+      protect { t.run } rescue: { err | failures << [ name: t.name, message: err.to_s ] }
+      num_tests = num_tests + 1
+      num_assertions = num_assertions + t.assertions
     }
+
+    p
+  
+    true? failures.empty?, {
+      p "All tests passed!"
+    }
+    {
+      p "Test failure(s):"
+      p
+
+      failures.each_with_index { f, i |
+        p "\t#{i + 1}. '#{f[:name]}': #{f[:message]}\n"
+      }
+    }
+
+    p "#{num_tests} tests, #{num_assertions} assertions, #{failures.length} failures."
+
+    [tests: num_tests, assertions: num_assertions, failures: failures.length]
   }
-
-  p "#{num_tests} tests, #{num_assertions} assertions, #{failures.length} failures."
-
-  [tests: num_tests, assertions: num_assertions, failures: failures.length]
-}
+]
 
 #Namespace for assertions
 assertions = object.new
