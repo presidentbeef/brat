@@ -317,7 +317,7 @@ grammar BaseBrat
   end
 
   rule array_inner
-  first:expression rest:(((spaceorbreak "," spaceorbreak) / ( space / eol)+) e:expression)* {
+  first:expression rest:(((spaceorbreak "," spaceorbreak) / ( space / eol / comment)+) e:expression)* {
     def brat(res_var = nil)
       temp_var = next_temp
       @result = res_var || next_temp
@@ -340,7 +340,7 @@ grammar BaseBrat
 
   #Inside of a hash literal
   rule hash_inner
-  first:hash_argument rest:(((spaceorbreak "," spaceorbreak) / (space / eol)+) n:hash_argument)* {
+  first:hash_argument rest:(((spaceorbreak "," spaceorbreak) / (space / eol / comment)+) n:hash_argument)* {
     def brat(res_var = nil)
       key_temp = next_temp
       val_temp = next_temp
@@ -1766,6 +1766,6 @@ grammar BaseBrat
 
   #Matches spaces, eols, or nothing
   rule spaceorbreak
-  space? eol? space?
+  space? eol? comment? eol? space?
   end
 end
