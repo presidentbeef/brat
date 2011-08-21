@@ -110,6 +110,14 @@ assertions.assert_equal = { expected, actual |
   assert { e == r } "expected #{e}, but was #{r}"
 }
 
+#Check that _not_expected_ does not equal _actual_
+assertions.assert_not_equal = { not_expected, actual |
+  e = not_expected
+  r = actual
+
+  assert { e != r } "expected #{e} to not be #{r}"
+}
+
 #Check that a condition raises an error
 assertions.assert_fail = { condition |
   failed = false
