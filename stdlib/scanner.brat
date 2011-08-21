@@ -1,35 +1,3 @@
-#Scan using either a string or a regex
-scan = { matcher |
-  when { matcher.string? } { scan_string matcher }
-      { matcher.regex? } { scan_regex matcher }
-      { true } { error "Expected string or regex" }
-}
-
-#Attempt to match string against current position. Advances position
-#when there is a match.
-scan_string = { matcher |
-  patch = my.str[my.pos, my.pos + matcher.length - 1]
-
-  true? patch == matcher
-    { 
-      my.pos = my.pos + matcher.length
-      patch
-    }
-}
-
-#Attempt to match regex against current position. Advances position
-#when there is a match.
-scan_regex = { matcher |
-  current = my.pos
-  result = my.str.match(matcher, current)
-
-  true? result && { current == result.start_pos }
-    {
-      my.pos = result.end_pos + 1
-      result
-    }
-}
-
 #Scans through a string, moving the "cursor" when a match occurs.
 scanner = object.new
 
@@ -37,9 +5,42 @@ scanner = object.new
 scanner.init = { str |
   my.str = str
   my.pos = 0
-  my.scan_string = ->scan_string
-  my.scan_regex = ->scan_regex
-  my.scan = ->scan
 }
+
+scanner.prototype {
+  #Scan using either a string or a regex
+  my.scan = { matcher |
+    when { matcher.string? } { scan_string matcher }
+    { matcher.regex? } { scan_regex matcher }
+    { true } { error "Expected string or regex" }
+  }
+
+  #Attempt to match string against current position. Advances position
+  #when there is a match.
+  my.scan_string = { matcher |
+    patch = my.str[my.pos, my.pos + matcher.length - 1]
+
+      true? patch == matcher
+      { 
+        my.pos = my.pos + matcher.length
+          patch
+      }
+  }
+
+  #Attempt to match regex against current position. Advances position
+  #when there is a match.
+  my.scan_regex = { matcher |
+    current = my.pos
+      result = my.str.match(matcher, current)
+
+      true? result && { current == result.start_pos }
+    {
+      my.pos = result.end_pos + 1
+        result
+    }
+  }
+}
+
+
 
 export scanner, :scanner

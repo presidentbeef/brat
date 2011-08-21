@@ -16,7 +16,7 @@ peg.init = { gramma |
   gramma #Actually set up parser
 }
 
-peg.next_id = {
+peg.prototype.next_id = {
   my.rule_id = my.rule_id + 1
 }
 
@@ -27,7 +27,7 @@ peg.make_memo = { result, pos |
   m
 }
 
-peg.make_rule = { rule |
+peg.prototype.make_rule = { rule |
   id = next_id
   memo = my.memo
   memo[id] = [:]
@@ -71,7 +71,7 @@ peg.make_result = { match_pos, end_pos, matched |
 #Parse a string
 #If no start rule is given, then whichever rule was defined first will be used.
 #By default, the entire string does not have to match.
-peg.parse = { str, start_rule = null, fully = false |
+peg.prototype.parse = { str, start_rule = null, fully = false |
   null? start_rule
     { start_rule = my.first }
 
@@ -93,7 +93,7 @@ peg.parse = { str, start_rule = null, fully = false |
 }
 
 #Match a sequence of rules
-peg.seq = { rule, *rules |
+peg.prototype.seq = { rule, *rules |
   true? rules.empty?
     { true? function?(->rule) { rules = [->rule] } { rules = rule } }
     { rules.insert 0 ->rule }
@@ -115,13 +115,13 @@ peg.seq = { rule, *rules |
   }
 }
 
-peg.seq_ref = { *rules |
+peg.prototype.seq_ref = { *rules |
   m = my
   seq rules.map { name | m.ref name }
 }
 
 #Match any of a set of rules
-peg.any = { rule, *rules |
+peg.prototype.any = { rule, *rules |
   true? rules.empty?
     { true? function?(->rule) { rules = [->rule] } { rules = rule } }
     { rules.insert 0 ->rule }
@@ -139,13 +139,13 @@ peg.any = { rule, *rules |
   }
 }
 
-peg.any_ref = { *rule_names |
+peg.prototype.any_ref = { *rule_names |
   m = my
   any rule_names.map { name | m.ref name }
 }
 
 #Match a rule the specified number of times 
-peg.num_of = { rule, min, max |
+peg.prototype.num_of = { rule, min, max |
   make_rule { x |
     matches = []
     start = x.pos
@@ -167,7 +167,7 @@ peg.num_of = { rule, min, max |
 }
 
 #Match zero or one occurrences of rule
-peg.maybe = { rule |
+peg.prototype.maybe = { rule |
   make_rule { x |
     start = x.pos
 
@@ -179,7 +179,7 @@ peg.maybe = { rule |
 }
 
 #Match zero or more occurrences of rule
-peg.kleene = { rule |
+peg.prototype.kleene = { rule |
   make_rule { x |
     matches = []
     start = x.pos
@@ -196,7 +196,7 @@ peg.kleene = { rule |
 }
 
 #Match one or more occurrences of rule
-peg.many = { rule |
+peg.prototype.many = { rule |
   make_rule { x |
     start = x.pos
     matches = []
@@ -218,7 +218,7 @@ peg.many = { rule |
 }
 
 #Match a string literally
-peg.str = { literal |
+peg.prototype.str = { literal |
   make_rule { x |
     start = x.pos
     matched = x.scan_string literal
@@ -228,7 +228,7 @@ peg.str = { literal |
 }
 
 #Match a regular expression
-peg.reg = { reg_literal |
+peg.prototype.reg = { reg_literal |
   make_rule { x |
     start = x.pos
     matched = x.scan_regex reg_literal
@@ -238,7 +238,7 @@ peg.reg = { reg_literal |
 }
 
 #Specify that a rule should NOT match
-peg.no = { rule |
+peg.prototype.no = { rule |
   make_rule { x |
     start = x.pos
     res = rule x
@@ -253,7 +253,7 @@ peg.no = { rule |
 
 #Specific that a rule should match, but do not advance
 #position (lookahead)
-peg.and = { rule |
+peg.prototype.and = { rule |
   make_rule { x |
     start = x.pos
     matched = rule x
@@ -265,7 +265,7 @@ peg.and = { rule |
 }
 
 #Set a named rule
-peg.set = { name, rule |
+peg.prototype.set = { name, rule |
   null? my.first
     { my.first = name }
 
@@ -274,12 +274,12 @@ peg.set = { name, rule |
 
 #Matches one of anything.
 #Shortcut for peg.reg /./m
-peg.anything = {
+peg.prototype.anything = {
   reg /./m
 }
 
 #Reference a named rule
-peg.ref = { name |
+peg.prototype.ref = { name |
   rules = my.named_rules
   make_rule { x |
     r = rules[name]
@@ -300,7 +300,7 @@ peg.fetch_labels = { rule |
 }
 
 #Execute action upon match
-peg.action = { rule, block |
+peg.prototype.action = { rule, block |
   make_rule { x |
     res = rule x
     true? res
@@ -316,7 +316,7 @@ peg.action = { rule, block |
   }
 }
 
-peg.label = { label, rule |
+peg.prototype.label = { label, rule |
   make_rule { x |
     res = rule x
     true? res
