@@ -6,7 +6,7 @@ title: "Objects Just Got Weirder"
 <style type="text/css">
 .Constant { color: #ff6060; }
 .Special { color: #ff40ff; }
-pre { font-family: monospace; color: #fff; background-color: #000; margin-left: 10px; padding: 10px; width: 475px; border: 2px solid gray;}
+pre { font-family: monospace; color: #fff; background-color: #000; margin-left: 10px; padding: 10px; width: 650px; border: 2px solid gray;}
 </style>
 
 
@@ -68,7 +68,9 @@ Okay, so here we have a `person` 'class'. When creating a new `person`, we provi
 
 That's all great, but there is a problem. `person` also has the `greet!` method, but no `name`! Calling `person.greet!` would produce an error like:
 
+<pre>
     Method error: object[greet!, parent] has no method called 'name'.
+</pre>
 
 One way to get around this is to define `name` for `person`, which might make sense in some contexts, but can be completely nonsensical in others.
 
