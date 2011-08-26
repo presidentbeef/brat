@@ -40,7 +40,7 @@ layout: default
 
 
 <a href="http://brat-lang.org/blog"><b>Blog</b></a>
-[{{ site.posts.first.title }}](/{{ site.posts.first.url }}) - {{ site.posts.first.date | date_to_string }}
+[{{ site.posts.first.title }}]({{ site.posts.first.url }}) - {{ site.posts.first.date | date_to_string }}
 
 <div class="twitter">
 	<a href="http://twitter.com/bratlang"><b>Twitter</b></a>
