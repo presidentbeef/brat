@@ -6,7 +6,7 @@ title: "Objects Just Got Weirder"
 <style type="text/css">
 .Constant { color: #ff6060; }
 .Special { color: #ff40ff; }
-pre { font-family: monospace; color: #fff; background-color: #000; margin-left: 10px; padding: 10px; width: 650px; border: 2px solid gray;}
+pre.code { font-family: monospace; color: #fff; background-color: #000; margin-left: 10px; padding: 10px; width: 650px; border: 2px solid gray;}
 </style>
 
 
@@ -14,7 +14,7 @@ pre { font-family: monospace; color: #fff; background-color: #000; margin-left: 
 
 Brat has always had a kind of inheritance. You can always call `new` on an object to get a new object with the first object as its parent:
 
-<pre>
+<pre class="code">
 my_object = object.new
 
 my_object.something = <span class="Special">{</span> <span class="Special">&quot;</span><span class="Constant">really something!</span><span class="Special">&quot;</span> <span class="Special">}</span>
@@ -30,7 +30,7 @@ In the example above, `another_object` has the `something` method defined on `my
 
 A [couple years ago](https://github.com/presidentbeef/brat/commit/96f0831358b724c47025b54ddf0d6aa09d66ab8c), you could define an `init` method on an object. This method would be called *after* a new child was created.
 
-<pre>
+<pre class="code">
 my_object = object.new
 
 my_object.init = <span class="Special">{</span>
@@ -48,7 +48,7 @@ In this case, any child of `my_object` will be initialized with a field called `
 
 Let's say you wanted to set up an object that works more like a 'class'. That is, it has some methods useful for itself, and some only useful for objects created as its children. Here is an example:
 
-<pre>
+<pre class="code">
 person = object.new
 
 person.init = <span class="Special">{</span> name |
@@ -68,7 +68,7 @@ Okay, so here we have a `person` 'class'. When creating a new `person`, we provi
 
 That's all great, but there is a problem. `person` also has the `greet!` method, but no `name`! Calling `person.greet!` would produce an error like:
 
-<pre>
+<pre class="code">
     Method error: object[greet!, parent] has no method called 'name'.
 </pre>
 
@@ -78,7 +78,7 @@ Another way to deal with this issue is to have two object: one is `person`, and 
 
 Yet another way would be to just add the child methods in the `init` method:
 
-<pre>
+<pre class="code">
 person = object.new
 
 person.init = <span class="Special">{</span> name |
@@ -105,7 +105,7 @@ Each object contains another object, called its `prototype`. When you create a n
 
 Here is the person example using the new way:
 
-<pre>
+<pre class="code">
 person = object.new
 
 person.init = <span class="Special">{</span> name |
@@ -131,7 +131,7 @@ I have added not one, but *three* ways to set up your prototypes. The first way 
 
 The second way is to pass a hash to `person.prototype`:
 
-<pre>
+<pre class="code">
 person.prototype greet!: <span class="Special">{</span>
     p <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
   <span class="Special">}</span>
@@ -139,7 +139,7 @@ person.prototype greet!: <span class="Special">{</span>
 
 The third way is to pass a function to `person.prototype` which will be called in the context of the prototype:
 
-<pre>
+<pre class="code">
 person.prototype <span class="Special">{</span>
     my.greet! = <span class="Special">{</span> p <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span> <span class="Special">}</span>
 <span class="Special">}</span>
@@ -153,7 +153,7 @@ What if you call `person.prototype` multiple times? The effects are additive. If
 
 This is all fine and good, but what if I have an object, and I want to add something to the prototype of its parent, so all the children get a new method? No problem!
 
-<pre>
+<pre class="code">
 person = object.new
 
 person.init = <span class="Special">{</span> name |
@@ -184,7 +184,7 @@ Okay, fine. But what if I want to call a method of a parent object, but in the c
 
 There *is* a way to deal with this, sort of. It just ain't very purty:
 
-<pre>
+<pre class="code">
 person = object.new
 
 person.init = <span class="Special">{</span> name |
