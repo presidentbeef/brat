@@ -2,6 +2,7 @@ local set_instance = object:new()
 set_instance:squish(enumerable)
 
 local set = object:new()
+set._prototype = set_instance
 
 function set:new (...)
   local args = {...}
@@ -9,9 +10,10 @@ function set:new (...)
     args = args[1]._lua_array
   end
 
-  local new_set = new_brat(set_instance)
-  new_set:squish(self)
+  local new_set = new_brat(self)
+  new_set._prototype = new_brat(object)
   new_set._internal_hash = hash:new()
+
   for k,v in pairs(args) do
     new_set._internal_hash:set(v, true)
   end
