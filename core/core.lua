@@ -676,6 +676,30 @@ function object:_while (...)
   return object.__null
 end
 
+function object:_until (...)
+  local args = {...}
+  local arglen = #args
+  if arglen == 1 then
+    while not is_true(args[1](self)) do
+      --nothing
+    end
+  elseif arglen == 2 then
+    if type(args[1]) == "function" then
+      while not is_true(args[1](self)) do
+        args[2](self)
+      end
+    else
+      while not is_true(args[1]) do
+        args[2](self)
+      end
+    end
+  else
+    error("Too many arguments to until")
+  end
+
+  return object.__null
+end
+
 function object:loop (block)
   while true do
     block(self)
