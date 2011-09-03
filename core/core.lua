@@ -233,14 +233,15 @@ function object:to_unders ()
 end
 
 function object:methods ()
-  local m
+  local m = {}
+  local i = 1
   if self:parent() ~= object.__null then
     m = self:parent():methods()._lua_array
+    i = #m + 1
   else
     m = {}
   end
 
-  local i = 1
   for k,v in pairs(self) do
     k = unescape_identifier(k)
     if k:find("_", 1, true) ~= 1 then
@@ -249,7 +250,15 @@ function object:methods ()
     end
   end
 
-  return array:new(m)
+  for k,v in pairs(self:parent()._prototype) do
+    k = unescape_identifier(k)
+    if k:find("_", 1, true) ~= 1 then
+      m[i] = base_string:new(k)
+      i = i + 1
+    end
+  end
+
+  return array:new(m):unique()
 end
 
 function object:local_undermethods ()
