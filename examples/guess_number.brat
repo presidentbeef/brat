@@ -7,9 +7,7 @@ number = random 10
 p "Guess a number between 1 and 10."
 
 until {
-  guess = ask "Guess: "
-
-  true? guess.to_i == number
-    { p "Correct!"; true }
-    { p "Guess again!"; false }
+  true? ask("Guess: ").to_i == number
+    { p "Well guessed!"; true }
+    { p "Guess again!" }
 }
