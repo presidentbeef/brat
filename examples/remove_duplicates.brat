@@ -1,0 +1,11 @@
+#* http://rosettacode.org/wiki/Remove_duplicate_elements
+  Remove duplicate elements from a collection
+*#
+
+some_array = [1 1 2 1 'redundant' [1 2 3] [1 2 3] 'redundant']
+
+p "Some array: #{some_array}"
+
+unique_array = some_array.unique
+
+p "Without duplicates: #{unique_array}"
