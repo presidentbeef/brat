@@ -150,6 +150,11 @@ add_results setup name: "miscellaneous tests" {
     assert_equal 2 { x = 1; protect { 'no error' } rescue: { x = x * 2 } ensure: { x = x + 1 }; x }
   }
 
+  test "protect from" {
+    assert_equal "hello" { protect { throw exception.new "blah", "blah" } from: :blah rescue: { "hello" } }
+    assert_fail { protect { throw exception.new "nah", "nah" } from: :blah rescue: { "hello" } }
+  }
+
   test "exceptions" {
     assert_equal "standard error" { protect { throw exception.new } rescue: { e | e.type } }
     assert_equal "name error" { protect { f } rescue: { e | e.type } }

@@ -806,13 +806,18 @@ function object:protect (block, options)
   elseif type(options) == "table" and options._lua_hash ~= nil then
     local ensure = options:get(base_string:new("ensure"))
     local rescue = options:get(base_string:new("rescue"))
+    local filter = options:get(base_string:new("from"))
 
     if not is_true(rescue) then
       rescue = nil
     end
 
-    if not  is_true(ensure) then
+    if not is_true(ensure) then
       ensure = nil
+    end
+
+    if not is_true(filter) then
+      filter = nil
     end
 
     if (rescue and type(rescue) ~= "function") or (ensure and type(ensure) ~= "function") then
@@ -830,10 +835,22 @@ function object:protect (block, options)
         if type(err) ~= "table" then
           err = exception:new(tostring(err))
         end
-        return rescue(self, err)
+
+        if filter and err.type and err.type()._lua_string ~= filter._lua_string then
+          return err
+        else
+          return rescue(self, err)
+        end
       end
     else
       handler = function(err)
+        if type(err) ~= "table" then
+          err = exception:new(tostring(err))
+        end
+
+        if filter and err.type and err.type()._lua_string ~= filter._lua_string then
+          return err
+        end
       end
     end
 
@@ -841,6 +858,12 @@ function object:protect (block, options)
 
     if ensure then
       ensure(self)
+    end
+
+    if status == false and type(result) == "table" and result.type
+      and filter._lua_string ~= result.type()._lua_string then
+
+      error(result)
     end
 
     return result
