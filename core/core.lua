@@ -861,7 +861,7 @@ function object:protect (block, options)
     end
 
     if status == false and type(result) == "table" and result.type
-      and filter._lua_string ~= result.type()._lua_string then
+      and filter and filter._lua_string ~= result.type()._lua_string then
 
       error(result)
     end
