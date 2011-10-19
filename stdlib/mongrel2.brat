@@ -1,0 +1,44 @@
+includes :zeromq :json
+
+handler = object.new
+context = zeromq.new
+
+handler.init = { opts |
+  my.sender_id = opts[:sender_id]
+
+  my.recv_con = context.open zeromq.PULL
+  my.recv_con.connect opts[:receive]
+
+  my.send_con = context.open zeromq.PUB
+  my.send_con.connect opts[:send]
+}
+
+handler.prototype.http = { body, code = "200", status = "OK", headers = [:] |
+  headers['Content-Length'] = body.length
+  "HTTP/1.1 #{code} #{status}\r\n#{headers.map({ k,v | "#{k}: #{v}" }).join("\r\n")}\r\n\r\n#{body}"
+}
+
+handler.prototype.send = { client_id, message, opts = [ http: true ] |
+  true? opts[:http]
+    { message = http message }
+
+  my.send_con.send "#{my.sender_id} #{client_id.length}:#{client_id}, #{message}"
+}
+
+handler.prototype.receive = {
+  msg = my.recv_con.receive
+}
+
+export handler, "handler"
+
+#*
+h = handler.new sender_id: :test receive: "tcp://127.0.0.1:9995" send: "tcp://127.0.0.1:9994"
+
+loop {
+  p "Waiting..."
+  msg = h.receive.split
+  p msg
+  serverid = msg[0]
+  clientid = msg[1]
+  h.send clientid, 'hello'
+}
