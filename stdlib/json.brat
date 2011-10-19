@@ -1,17 +1,23 @@
-#* JSON Parsing
+#* JSON Parsing and Encoding
 # Example:
 
   include :json
 
+  #Parsing
   some_json = ' { "animals" : [ "dog, "cat", "turtle"] } '
 
-  json_parse some_json  #Result: [animals: [ "dog", "cat", "turtle"] ]
+  json.parse some_json  #Result: [animals: [ "dog", "cat", "turtle"] ]
+
+  #Encoding
+  json.encode [hi: [1, 2, 3]] #Result: '{"hi" : [1,2,3]}'
 *#
 
 
 include :scanner
 include :assert, :assertions
 include :json_helpers
+
+json = object.new
 
 unmatched = object.new
 
@@ -123,11 +129,10 @@ parser.parse_object = {
 
 parser.trim_space = { scan /\s+/ }
 
-parse_json = { input |
+json.parse = { input |
   parser.new(input).parse
 }
 
-export ->parse_json "parse_json"
  
 #*
 include :assert :assertions
@@ -172,3 +177,49 @@ test '{"x":1}' :object [x: 1]
 test '{"x":1,"y":"z"}' :object [x: 1, y: :z]
 test '{"x":1,"z":{"y":2}}', :object, [ x: 1, z: [y: 2] ]
 test '{"Array":[1,2,3],"Object":{"nested":"objects"}}' :object [Array: [1 2 3], Object: [nested: :objects]]
+*#
+
+json.encode = { obj | 
+  when { obj.array? }  { json.encode_array obj }
+       { obj.hash? }   { json.encode_hash obj }
+       { obj.number? } { obj.to_s }
+       { obj.string? } { json.encode_string obj }
+       { true }        { p "hi"; throw "Cannot convert #{obj} to json" }
+}
+
+json.encode_array = { a |
+"[" << a.map(my->encode).join(",") << "]"
+}
+
+json.encode_hash = { h |
+  "{" << h.map({ k, v | "#{json.encode k.to_s} : #{json.encode v}"}).join(",") << "}"
+}
+
+json.encode_string = { s |
+  json_encode s
+}
+
+#* Encoding Tests
+include :assert :assertions
+squish assertions
+
+test = { input |
+  encoded = json.encode input
+    p "encoded: #{encoded}"
+  assert_equal input, json.parse encoded
+}
+
+test []
+
+test [1 2 3]
+
+test [:A :b :C]
+
+test [a: 1]
+
+test [b: :c]
+
+test [a: [ "g" : [ 2 3 ], z: 26 ]]
+*#
+
+export json, "json"
