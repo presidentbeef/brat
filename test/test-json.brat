@@ -1,0 +1,71 @@
+include :assert
+
+add_results setup name: "JSON" {
+  include :json
+
+  assert_encodes = { input |
+    assert_equal input, json.parse json.encode input
+  }
+
+  assert_parses = { input, value |
+    assert_equal value, json.parse input
+  }
+
+  test "empty array" { assert_parses '[]' [] }
+  
+  test "single elemeny array" { assert_parses '[1]' [1] }
+  
+  test "two element array"  { assert_parses '[1,2]' [1, 2] }
+  
+  test "three element array" { assert_parses '[1,2,3]' [1, 2, 3] }
+  
+  test "string in array" { assert_parses '["x"]' ["x"] }
+  
+  test "array in array" { assert_parses '[["x"]]' [["x"]] }
+  
+  test "true in array" { assert_parses '[true]' [true] }
+  
+  test "null and false in array" { assert_parses '[null,false]' [null, false] }
+  
+  test "three different types in array" { assert_parses '["a",1,false]' ["a" 1 false] }
+  
+  test "nested array" { assert_parses '[[1]]' [[1]] }
+  
+  test "multiple nested arrays" { assert_parses '[1,[2],[[["z"]]]]' [1, [2], [[["z"]]]] }
+
+  test "simple object" { assert_parses '{"x":1}' [x: 1] }
+
+  test "multiple keys" { 
+    assert_parses '{"x":1,"y":"z"}' [x: 1, y: :z] 
+  }
+  
+  test "object value" { assert_parses '{"x":1,"z":{"y":2}}' [ x: 1, z: [y: 2] ] }
+
+  test "array value" { 
+    assert_parses '{"Array":[1,2,3],"Object":{"nested":"objects"}}' [Array: [1 2 3], Object: [nested: :objects]]
+  }
+
+  test "encodes empty array" {
+    assert_encodes []
+  }
+
+  test "encodes integer array" {
+    assert_encodes [1 2 3]
+  }
+
+  test "encodes string array" {
+    assert_encodes [:A :b :C]
+  }
+
+  test "encodes simple hash" {
+    assert_encodes [a: 1]
+  }
+
+  test "encodes string hash" {
+    assert_encodes [a: :b]
+  }
+
+  test "encodes nested values" {
+    assert_encodes [a: [ "g" : [ 2 3 ], z: 26 ]]
+  }
+}
