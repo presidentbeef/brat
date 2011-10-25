@@ -145,8 +145,12 @@ set +e
 
 echo Building 0MQ
 cd $SRC/lua-zmq
-make
-cp -f zmq.so $LIB
+if [ make ]
+then
+  cp -f zmq.so $LIB
+else
+  echo Could not build 0MQ
+fi
 
 set -e
 
