@@ -190,6 +190,11 @@ do
 done
 
 set -e
+
+echo Running Brat tests
+
+./brat test/test.brat
+
 if [ ! -e "lib/zmq.so" ]
 then
   echo "[Info] Optional library 0MQ not found"
