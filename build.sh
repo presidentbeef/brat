@@ -180,9 +180,13 @@ make clean
 
 cd $BRATPATH
 
+set +e
+
 echo Building Brat libraries
 
 for f in stdlib/*.brat
 do
   ./brat $f
 done
+
+set -e
