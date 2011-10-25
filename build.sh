@@ -190,3 +190,7 @@ do
 done
 
 set -e
+if [ ! -e "lib/zmq.so" ]
+then
+  echo "[Info] Optional library 0MQ not found"
+fi
