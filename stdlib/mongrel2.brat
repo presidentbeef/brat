@@ -13,6 +13,29 @@ handler.init = { opts |
   my.send_con.connect opts[:send]
 }
 
+handler.request_format = /^(\w+) (\d+) (\S+) (\d+):(.*),/m
+
+handler.parse_request = { msg |
+  request = object.new
+
+  parsed = msg.match handler.request_format
+
+  false? parsed
+    { throw "ACK: #{msg}" }
+    { p parsed.matches }
+
+  request.server = parsed[1]
+  request.client = parsed[2]
+  request.path = parsed[3]
+
+  header_length = parsed[4].to_i
+  request.headers = json.parse parsed[5][0, header_length]
+
+  request.body = parsed[5][header_length + 1,-1].match(/^\d+:(.*)$/)[1]
+
+  request
+}
+
 handler.prototype.http = { body, code = "200", status = "OK", headers = [:] |
   headers['Content-Length'] = body.length
   "HTTP/1.1 #{code} #{status}\r\n#{headers.map({ k,v | "#{k}: #{v}" }).join("\r\n")}\r\n\r\n#{body}"
@@ -26,7 +49,7 @@ handler.prototype.send = { client_id, message, opts = [ http: true ] |
 }
 
 handler.prototype.receive = {
-  msg = my.recv_con.receive
+  handler.parse_request my.recv_con.receive
 }
 
 export handler, "handler"
