@@ -48,6 +48,10 @@ handler.prototype.send = { client_id, message, opts = [ http: true ] |
   my.send_con.send "#{my.sender_id} #{client_id.length}:#{client_id}, #{message}"
 }
 
+handler.prototype.reply = { request, msg, opts = [ http: true ] |
+  my.send request.client, msg, opts
+}
+
 handler.prototype.receive = {
   handler.parse_request my.recv_con.receive
 }
