@@ -145,8 +145,12 @@ set +e
 
 echo Building 0MQ
 cd $SRC/lua-zmq
-make
-cp -f zmq.so $LIB
+if [ make ]
+then
+  cp -f zmq.so $LIB
+else
+  echo Could not build 0MQ
+fi
 
 set -e
 
@@ -176,7 +180,22 @@ make clean
 
 cd $BRATPATH
 
+set +e
+
+echo Building Brat libraries
+
 for f in stdlib/*.brat
 do
   ./brat $f
 done
+
+set -e
+
+echo Running Brat tests
+
+./brat test/test.brat
+
+if [ ! -e "lib/zmq.so" ]
+then
+  echo "[Info] Optional library 0MQ not found"
+fi
