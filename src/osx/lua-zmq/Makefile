@@ -19,10 +19,8 @@
 # THE SOFTWARE.
 
 CC = gcc
-CFLAGS = -I$(LUA_INC_PATH) -fPIC -O3 -Wall
-LFLAGS = -bundle -undefined dynamic_lookup
-INSTALL_PATH = `pkg-config lua5.1 --variable=INSTALL_CMOD`
-
+CFLAGS = -I$(LUA_INC_PATH) -fPIC -O3 -Wall -lzmq
+LFLAGS = -bundle -undefined dynamic_lookup 
 
 all: zmq.so
 

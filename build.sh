@@ -146,7 +146,8 @@ set +e
 
 echo Building 0MQ
 cd $SRC/lua-zmq
-if [ make ]
+make
+if [ -e "zmq.so" ]
 then
   cp -f zmq.so $LIB
 else
