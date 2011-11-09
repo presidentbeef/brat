@@ -1,6 +1,6 @@
 ---
 layout: doc
-lib: stdlib
+lib: core
 object: enumerable
 desc: "Enumerable is meant to be a squish-in. It provides some convenience methods to any object which implements each()."
 methlist:
