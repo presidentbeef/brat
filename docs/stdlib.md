@@ -2,6 +2,7 @@
 layout: lib
 lib: stdlib
 objlist:
+- assert
 - file
 - set
 - subprocess
