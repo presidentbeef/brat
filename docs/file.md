@@ -1,60 +1,117 @@
 ---
-layout: lib
-lib: file
-objlist: []
+layout: doc
+lib: stdlib
+object: file
+desc: "Methods for manipulating files."
+methlist:
+- close
+- delete
+- each_line
+- exists?
+- make_dir
+- open
+- read
+- read_line
+- read_lines
+- rename
+- type
+- write
+- write_line
 ---
 
-The file module contains utility methods for manipulating files and directories. For documentation of the file object, see [here](file_obj.html).
+### close
+>_file_.close
 
-### make\_dir
->make\_dir _path_
+Closes the file.
 
-Creates a new directory.
+### delete
+>file.delete _path_
 
-### delete\_dir
->delete\_dir _path_
+Deletes the file at the given path.
 
-Deletes a directory.
+### each\_line
+>file.each\_line _path_ { _line_ | _block_ }
 
-### file\_delete
->file\_delete _path_
+Opens the file a the given path, calling the block for each line of the file.
 
-Deletes the file.
+### each\_line
+>_file_.each\_line { _line_ | _block_ }
 
-### file\_exists?
->file\_exists? _path_
+Calls the block, passing in each line of the file as an argument, then closes the file.
+
+### exists?
+>file.exists? _path_
 
 Returns true if the given path exists.
 
-### file\_open
->file\_open _path_  
->file\_open _path_, { _file_ | _block_ }
+### make\_dir
+>file.make\_dir _path_
 
-If called with a single argument, opens the given file and returns a file object.
+Makes a new directory at the given path.
 
-When called with a block, the file object will be passed in as an argument. The file will be closed after the block returns.
+### open
+>file.open _path_  
+>file.open _path_, _mode_  
+>file.open _path_, { _file_ | _block_ }  
+>file.open _path_, _mode_, { _file_ | _block_ }
 
-### file\_rename
->file\_rename _oldname_, _newname_
+Opens a file at the given path. If no mode is given, the default is "r" (read-only).
 
-Renames the file.
+Possible modes:
 
-### file\_slurp
->file\_slurp _path_
+ * "r": read mode (the default)
+ * "w": write mode
+ * "a": append mode
+ * "r+": update mode, all previous data is preserved
+ * "w+": update mode, all previous data is erased
+ * "a+": append update mode, previous data is preserved, writing is only allowed at the end of file
 
-Reads in the entire file and returns it as a string.
+If no block is given, this returns the open file handle.
 
-### file\_type
->file\_type _path_
+If a block is given, the file handle is passed to the block. When the block is finished, the file will be closed.
 
-Returns the type of the file (as a string).
+### read
+>file.read _path_
 
-Possible values:
+Read entire file into a string.
 
-* "file"
-* "dir"
-* "symlink"
-* "sock"
-* "char"
-* "block"
-* "fifo"
+### read\_line
+>_file_.read\_line
+
+Reads a single line from the file and returns it as a string.
+
+### read\_lines
+>file.read\_lines _path_
+
+Reads the file into an array of lines.
+
+### rename
+>file.rename _original_, _new_
+
+Rename a file.
+
+### type
+>file.type _path_
+
+Return the type of a file as a string.
+
+Type can be
+
+ * file
+ * directory
+ * link
+ * socket
+ * named pipe
+ * char device
+ * block device
+ * other
+
+### write
+>_file_.write _data_
+
+Write data to the file.
+
+### write\_line
+>_file_.write\_line _data_
+
+Write data to the file, followed by "\n".
