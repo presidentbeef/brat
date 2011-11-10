@@ -5,6 +5,7 @@ objlist:
 - assert
 - file
 - gdbm
+- scanner
 - set
 - subprocess
 - zeromq
