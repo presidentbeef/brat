@@ -898,6 +898,8 @@ function object:__type (obj)
         return "regex"
       elseif obj._lua_hash then
         return "hash"
+      elseif obj._lua_number then
+        return "number"
       else
         return "object"
       end
