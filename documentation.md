@@ -28,6 +28,10 @@ layout: default
 
 ### Standard Libraries
 
-* [comparable](docs/comparable.html)
-* [enumerable](docs/enumerable.html)
+* [assert](docs/assert.html)
+* [file](docs/file.html)
+* [gdbm](docs/gdbm.html)
+* [scanner](docs/scanner.html)
 * [set](docs/set.html)
+* [subprocess](docs/subprocess.html)
+* [zeromq](docs/zeromq.html)
