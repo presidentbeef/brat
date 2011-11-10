@@ -1037,6 +1037,14 @@ function object:import (file, name)
 
 end
 
+function object:exit (code)
+  if type(code) == "number" then
+    os.exit(code)
+  else
+    os.exit()
+  end
+end
+
 function object:export (obj, name)
   if type(name) == "table" and name._lua_string then
     name = name._lua_string
