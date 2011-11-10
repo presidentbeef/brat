@@ -4,6 +4,7 @@ lib: stdlib
 objlist:
 - assert
 - file
+- gdbm
 - set
 - subprocess
 - zeromq
