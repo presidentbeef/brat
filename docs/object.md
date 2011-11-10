@@ -12,24 +12,31 @@ methlist:
 - ask
 - call_method
 - del_method
+- exception?
 - export
 - exit
 - false?
 - function?
 - g
 - get_method
+- has_method?
+- hash?
 - import
+- include
 - load_path
 - local_methods
+- loop
 - methods
 - method_arity
 - my
+- my_type
 - new
 - not
 - null?
 - number?
 - object?
 - p
+- protect
 - print
 - random
 - regex?
@@ -38,6 +45,7 @@ methlist:
 - string?
 - to_s
 - true?
+- until
 - when
 - while
 - with_this
@@ -81,12 +89,19 @@ Calls the given method with the given arguments.
 
 Deletes the method with the given name, if it exists. Note that this only deletes methods on this _exact_ object - not parent objects.
 
+### exception?
+>_object_.exception?
+
+Returns true if _object_ is an exception.
+
 ### export
 >export _item_, _name_
 
 Exports the item for use in other modules, accessible via the given name (should be a string). The item can be either an object or a function by itself.
 
 ### exit
+>exit  
+>exit _code_
 
 Exits the program immediately.
 
@@ -108,9 +123,19 @@ Returns true if the given value is a function. Note that you will want to use th
 Gets a string from standard input, minus the end-of-line character.
 
 ### get\_method
->get\_method _name_
+>_object_.get\_method _name_
 
 Returns the method with the given name (can be a string or a symbol).
+
+### hash?
+>_object_.hash?
+
+Returns true if _object_ is a hash.
+
+### has\_method?
+>_object_.has\_method? _name_
+
+Check if the object has the given method.
 
 ### import
 >import _file_  
@@ -124,6 +149,11 @@ Imports the exports from a given file. If the name of an object or function is g
 
 Just like _import_, but puts imported functions into the current object. This is probably more useful than _import_ for most contexts.
 
+### includes
+>includes _file_, ...
+
+Include multiple files at once.
+
 ### load\_path
 >load_path
 
@@ -133,6 +163,11 @@ Returns an array of strings representing the paths used to find files for _impor
 >_object_.local\_methods
 
 Returns an array containing the names of the methods available on the object, not including those inherited from parent objects.
+
+### loop
+>loop _block_
+
+Repeat _block_ forever.
 
 ### method_arity
 >method_arity _function_
@@ -147,6 +182,20 @@ Returns an array containing the names of the methods available on the object, in
 ### my
 
 Returns the current object.
+
+### my_type
+>_object_.my\_type
+
+Returns a string representing the object type.
+
+Can be one of
+
+ * "array"
+ * "hash"
+ * "number"
+ * "object"
+ * "regex"
+ * "string"
 
 ### new
 >_object_.new
@@ -186,10 +235,27 @@ Prints out any number of arguments, followed by a new line.
 
 Prints out any number of arguments, but with no new line.
 
+### protect
+>protect _block_, _options_
+
+Catches any exceptions thrown inside the _block_.
+
+Possible options:
+
+ * "rescue"
+   Specify a block to execute if an exception is thrown.
+ * "ensure"
+   Specify a block to always execute, even if an exception is thrown.
+ * "from"
+   Specify what kind of exception to rescue. Others will not be rescued.
+
 ### random
+>random  
 >random _max_
 
-Returns a number _i_, where 0 <= i < _max_.
+With no arguments, returns a number between 0 and 1.
+
+With a max argument, returns a number _i_, where 0 <= i < _max_.
 
 ### regex?
 >_object_.regex?
@@ -223,6 +289,12 @@ Returns a string representation of the object.
 >true? _condition_, _truebranch_, _elsebranch_
 
 Checks if the current object is true (and anything but null or false will be true) or if the condition given is true.
+
+### until
+>until _block_  
+>until _condition_, _block_
+
+In the first form, this will loop the block until the block itself returns true. The second version will loop the block while the condition remains false.
 
 ### when
 >when _condition_, _result_, ...
