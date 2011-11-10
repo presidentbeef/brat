@@ -669,8 +669,10 @@ function object:_while (...)
         args[2](self)
       end
     end
+  elseif arglen == 0 then
+    error(exception:argument_error("while", "at least 1", "none"))
   else
-    error("Too many arguments to while")
+    error(exception:argument_error("while", "at most 2", arglen))
   end
 
   return object.__null
