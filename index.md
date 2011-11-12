@@ -33,7 +33,6 @@ layout: default
 		  	      return info["time"] + info["text"];
 		    	  }
         });
-    
         $.getJSON("http://try.brat-lang.org/status?callback=?", function(data) {
           $("#statusmessage").text(data.status);
         });
@@ -53,16 +52,14 @@ layout: default
 </div>
 
 <a href="http://github.com/presidentbeef/brat"><b>GitHub</b></a>
-<div id="github"></div>
+<div id="github">
 
-<div style="clear:both">&nbsp;</div>
-
-<div id="buildstatus">
-  <b>Build Status</b><br>
-  <span id="statusmessage">
-  </span>
-  <img src="http://try.brat-lang.org/images/status.png" />
 </div>
+<div style="clear:both">&nbsp;</div>
+<img src="http://try.brat-lang.org/images/status.png" style="margin-right: 5px;top: 10px;"> 
+<span id="statusmessage">
+
+</span>
 
 ## What It Is
 
