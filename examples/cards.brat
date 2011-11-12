@@ -12,12 +12,12 @@ card.init = { pip, suit |
 card.suits = [ :Clubs :Hearts :Spades :Diamonds ]
 card.pips = 2.to(10) + [ :Jack :Queen :King :Ace ]
 
-card.to_s = {
+card.prototype.to_s = {
   "#{my.pip} of #{my.suit}"
 }
 
 #Allows for sorting
-card.<=> = { rhs |
+card.prototype.<=> = { rhs |
   suit_cmp = card.suits.index_of(my.suit) <=> card.suits.index_of(rhs.suit)
   true? suit_cmp == 0
     { card.pips.index_of(my.pip) <=> card.pips.index_of(rhs.pip) }
@@ -37,18 +37,21 @@ deck.init = {
   my.cards = cards
 }
 
-deck.shuffle = {
-  my.cards.shuffle!
-  my
-}
+deck.prototype [
+  shuffle: 
+  {
+    my.cards.shuffle!
+    my
+  }
 
-deck.deal = { num |
-  my.cards.pop num
-}
+  deal: { num |
+    my.cards.pop num
+  }
 
-deck.to_s = {
-  my.cards.to_s
-}
+  to_s: {
+    my.cards.to_s
+  }
+]
 
 d = deck.new.shuffle
 p "Number of cards in deck: #{d.cards.length}"
