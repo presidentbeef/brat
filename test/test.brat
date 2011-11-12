@@ -25,9 +25,10 @@ object.add_results = { r |
 
 }
 
+file.delete "test/test.lua"
+
 p "Overall results: #{overall_results[:tests]} tests, #{overall_results[:assertions]} assertions, #{overall_results[:failures]} failures."
 
 true? overall_results[:failures] == 0
-  { p "All systems are go!" }
-
-file.delete "test/test.lua"
+  { exit 0 }
+  { exit 1 }

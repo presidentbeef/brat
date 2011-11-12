@@ -669,8 +669,10 @@ function object:_while (...)
         args[2](self)
       end
     end
+  elseif arglen == 0 then
+    error(exception:argument_error("while", "at least 1", "none"))
   else
-    error("Too many arguments to while")
+    error(exception:argument_error("while", "at most 2", arglen))
   end
 
   return object.__null
@@ -896,6 +898,8 @@ function object:__type (obj)
         return "regex"
       elseif obj._lua_hash then
         return "hash"
+      elseif obj._lua_number then
+        return "number"
       else
         return "object"
       end
@@ -1031,6 +1035,14 @@ function object:import (file, name)
     return imported
   end
 
+end
+
+function object:exit (code)
+  if type(code) == "number" then
+    os.exit(code)
+  else
+    os.exit()
+  end
 end
 
 function object:export (obj, name)

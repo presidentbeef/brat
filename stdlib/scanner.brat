@@ -39,8 +39,8 @@ scanner.prototype {
         result
     }
   }
+
+  my.end? = { pos >= str.length }
 }
-
-
 
 export scanner, :scanner
