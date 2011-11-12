@@ -59,7 +59,8 @@ layout: default
 
 <div id="buildstatus">
   <b>Build Status</b><br>
-  <span id="statusmessage"></span>
+  <span id="statusmessage">
+  </span>
   <img src="http://try.brat-lang.org/images/status.png" />
 </div>
 
