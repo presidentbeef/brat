@@ -53,7 +53,7 @@ layout: default
 </div>
 
 <a href="http://github.com/presidentbeef/brat"><b>GitHub</b></a>
-<div id="github">
+<div id="github"></div>
 
 <div id="buildstatus">
   <b>Build Status</b><br>
