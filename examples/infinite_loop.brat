@@ -2,5 +2,4 @@
   Print "SPAM" in an infinite loop
 *#
 
-while true
-  { p "SPAM" }
+loop { p "SPAM" }
