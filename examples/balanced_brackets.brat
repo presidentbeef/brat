@@ -2,7 +2,7 @@
   Determine if a string contains balanced brackets
 *#
 
-string.balanced? = {
+string.prototype.balanced? = {
   brackets = []
   balanced = true
 

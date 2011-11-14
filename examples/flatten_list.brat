@@ -2,7 +2,7 @@
   Write a function to flatten the nesting in an arbitrary list of values.
 *#
 
-array.flatten = {
+array.prototype.flatten = {
   true? my.empty?
     { [] }
     { true? my.first.array?
