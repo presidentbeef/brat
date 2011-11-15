@@ -159,11 +159,15 @@ static void loop_emit_phi(jit_State *J, IRRef1 *subst, IRRef1 *phi, IRRef nphi,
   for (i = 0; i < nphi; i++) {
     IRRef lref = phi[i];
     IRIns *ir = IR(lref);
-    if (!irt_ismarked(ir->t)) {  /* Emit PHI if not marked. */
+    if (!irt_ismarked(ir->t)) {  /* Emit PHI if not marked and not redundant. */
       IRRef rref = subst[lref];
-      if (rref > invar)
-	irt_setphi(IR(rref)->t);
-      emitir_raw(IRT(IR_PHI, irt_type(ir->t)), lref, rref);
+      if (lref == rref) {
+	irt_clearphi(ir->t);
+      } else {
+	if (rref > invar)
+	  irt_setphi(IR(rref)->t);
+	emitir_raw(IRT(IR_PHI, irt_type(ir->t)), lref, rref);
+      }
     } else {  /* Otherwise eliminate PHI. */
       irt_clearmark(ir->t);
       irt_clearphi(ir->t);
@@ -300,13 +304,24 @@ static void loop_unroll(jit_State *J)
 	}
 	/* Check all loop-carried dependencies for type instability. */
 	if (!irt_sametype(t, irr->t)) {
-	  if (irt_isnum(t) && irt_isinteger(irr->t))  /* Fix int->num. */
-	    subst[ins] = tref_ref(emitir(IRTN(IR_CONV), ref, IRCONV_NUM_INT));
+	  if (irt_isinteger(t) && irt_isinteger(irr->t))
+	    continue;
+	  else if (irt_isnum(t) && irt_isinteger(irr->t))  /* Fix int->num. */
+	    ref = tref_ref(emitir(IRTN(IR_CONV), ref, IRCONV_NUM_INT));
 	  else if (irt_isnum(irr->t) && irt_isinteger(t))  /* Fix num->int. */
-	    subst[ins] = tref_ref(emitir(IRTGI(IR_CONV), ref,
-					 IRCONV_INT_NUM|IRCONV_CHECK));
-	  else if (!(irt_isinteger(t) && irt_isinteger(irr->t)))
+	    ref = tref_ref(emitir(IRTGI(IR_CONV), ref,
+				  IRCONV_INT_NUM|IRCONV_CHECK));
+	  else
 	    lj_trace_err(J, LJ_TRERR_TYPEINS);
+	  subst[ins] = (IRRef1)ref;
+	  /* May need a PHI for the CONV, too. */
+	  irr = IR(ref);
+	  if (ref < invar && !irref_isk(ref) && !irt_isphi(irr->t)) {
+	    irt_setphi(irr->t);
+	    if (nphi >= LJ_MAX_PHI)
+	      lj_trace_err(J, LJ_TRERR_PHIOV);
+	    phi[nphi++] = (IRRef1)ref;
+	  }
 	}
       }
     }

@@ -118,6 +118,12 @@ XCFLAGS=
 # interpreter. Don't bother if your OS wouldn't run on them, anyway.
 #XCFLAGS+= -DLUAJIT_CPU_NOCMOV
 #
+# Some architectures (e.g. PPC) can use either single-number (1) or
+# dual-number (2) mode. Uncomment one of these lines to override the
+# default mode. Please see LJ_ARCH_NUMMODE in lj_arch.h for details.
+#XCFLAGS+= -DLUAJIT_NUMMODE=1
+#XCFLAGS+= -DLUAJIT_NUMMODE=2
+#
 ##############################################################################
 
 ##############################################################################
@@ -371,8 +377,8 @@ LJCORE_O= lj_gc.o lj_err.o lj_char.o lj_bc.o lj_obj.o \
 	  lj_opt_dce.o lj_opt_loop.o lj_opt_split.o \
 	  lj_mcode.o lj_snap.o lj_record.o lj_crecord.o lj_ffrecord.o \
 	  lj_asm.o lj_trace.o lj_gdbjit.o \
-	  lj_ctype.o lj_cdata.o lj_cconv.o lj_ccall.o lj_carith.o lj_clib.o \
-	  lj_cparse.o \
+	  lj_ctype.o lj_cdata.o lj_cconv.o lj_ccall.o lj_ccallback.o \
+	  lj_carith.o lj_clib.o lj_cparse.o \
 	  lj_lib.o lj_alloc.o lib_aux.o \
 	  $(LJLIB_O) lib_init.o
 

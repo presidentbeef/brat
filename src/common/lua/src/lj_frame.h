@@ -100,13 +100,13 @@ enum {
 #define CFRAME_SIZE		64
 #define CFRAME_SHIFT_MULTRES	3
 #elif LJ_TARGET_PPC
-#define CFRAME_OFS_ERRF		28
-#define CFRAME_OFS_NRES		24
-#define CFRAME_OFS_PREV		20
-#define CFRAME_OFS_L		16
-#define CFRAME_OFS_PC		12
-#define CFRAME_OFS_MULTRES	8
-#define CFRAME_SIZE		256
+#define CFRAME_OFS_ERRF		48
+#define CFRAME_OFS_NRES		44
+#define CFRAME_OFS_PREV		40
+#define CFRAME_OFS_L		36
+#define CFRAME_OFS_PC		32
+#define CFRAME_OFS_MULTRES	28
+#define CFRAME_SIZE		272
 #define CFRAME_SHIFT_MULTRES	3
 #elif LJ_TARGET_PPCSPE
 #define CFRAME_OFS_ERRF		28
@@ -115,7 +115,7 @@ enum {
 #define CFRAME_OFS_L		16
 #define CFRAME_OFS_PC		12
 #define CFRAME_OFS_MULTRES	8
-#define CFRAME_SIZE		176
+#define CFRAME_SIZE		184
 #define CFRAME_SHIFT_MULTRES	3
 #else
 #error "Missing CFRAME_* definitions for this architecture"
@@ -138,6 +138,8 @@ enum {
   (&gcref(*(GCRef *)(((char *)(cf))+CFRAME_OFS_L))->th)
 #define cframe_pc(cf) \
   (mref(*(MRef *)(((char *)(cf))+CFRAME_OFS_PC), const BCIns))
+#define setcframe_L(cf, L) \
+  (setmref(*(MRef *)(((char *)(cf))+CFRAME_OFS_L), (L)))
 #define setcframe_pc(cf, pc) \
   (setmref(*(MRef *)(((char *)(cf))+CFRAME_OFS_PC), (pc)))
 #define cframe_canyield(cf)	((intptr_t)(cf) & CFRAME_RESUME)
