@@ -159,10 +159,45 @@ object._prototype = object
 
 object._is_an_object = true
 
+-- Object: object instance
+-- Call: object.parent
 function object:parent ()
   return object.__null
 end
 
+-- Object: object instance
+-- Call: object.prototype
+-- Call: object.prototype block
+-- Call: object.prototype method_hash
+-- Returns: prototype
+--
+-- Set functions for the prototype of the object. The prototype is used when
+-- constructing a child of the object (via _new_).
+--
+-- This function can either take a block which will execute in context of the
+-- prototype, or a hash table of method names and the methods themselves.
+--
+-- Alternatively, calling object.prototype returns the prototype object, so
+-- methods can be defined directly on that object.
+--
+-- Example:
+--
+-- person = object.new
+--
+-- person.init = { name |
+--   my.name = name
+--   my.status = "nuttin'"
+-- }
+--
+-- person.prototype walk: { my.status = "walking" }
+--
+-- person.prototype {
+--   my.talk = { phrase | p "#{my.name} says, '#{phrase}'" }
+-- }
+--
+-- person.prototype.sit = {
+--   my.status = "sitting"
+-- }
 function object:prototype (methods_or_block)
     if methods_or_block then
       if type(methods_or_block) == "function" then
@@ -199,39 +234,85 @@ function object:new (...)
   return nb
 end
 
+-- Object: object instance
+-- Call: object.array?
+-- Returns: boolean
+--
+-- Returns true if object is an array, false otherwise.
 function object:array_question ()
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.hash?
+-- Returns: boolean
+--
+-- Returns true if object is a hash, false otherwise.
 function object:hash_question ()
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.number?
+-- Returns: boolean
+--
+-- Returns true if object is a number, false otherwise.
 function object:number_question ()
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.regex?
+-- Returns: boolean
+--
+-- Returns true if object is a number, false otherwise.
 function object:regex_question ()
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.string?
+-- Returns: boolean
+--
+-- Returns true if object is a string, false otherwise.
 function object:string_question (rhs)
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.exception?
+-- Returns: boolean
+--
+-- Returns true if object is an exception, false otherwise.
 function object:exception_question (rhs)
   return object.__false
 end
 
+-- Object: object
+-- Call: sleep seconds
+-- Returns: number
+--
+-- Sleep for a given number of seconds.
 function object:sleep (secs)
   return ffi.C.sleep(secs)
 end
 
+-- Object: object instance
+-- Call: object.to_s
+-- Returns: string
+--
+-- Return a string representing the object.
 function object:to_unders ()
   local meths = self:local_undermethods()
   return base_string:new("object" .. tostring(meths:sort_bang()))
 end
 
+-- Object: object instance
+-- Call: object.methods
+-- Returns: array
+--
+-- Returns an array containing the names of the methods available on the
+-- object, including those inherited from parent objects.
 function object:methods ()
   local m = {}
   local i = 1
@@ -261,6 +342,12 @@ function object:methods ()
   return array:new(m):unique()
 end
 
+-- Object: object instance
+-- Call: object.local_methods
+-- Returns: array
+--
+-- Returns an array containing the names of the methods available on the
+-- object, not including those inherited from parent objects.
 function object:local_undermethods ()
   local m = {}
 
@@ -281,10 +368,12 @@ object.__null = object:new()
 function object.__null:to_unders ()
   return base_string:new("null")
 end
+
 object.__true = object:new()
 function object.__true:to_unders ()
   return base_string:new("true")
 end
+
 object.__false = object:new()
 function object.__false:to_unders ()
   return base_string:new("false")
@@ -312,6 +401,11 @@ is_true = function (bool)
   end
 end
 
+-- Object: object
+-- Call: print ...
+-- Returns: null
+--
+-- Prints out any number of arguments, with no new line.
 function object:print (...)
   io.output(io.stdout)
   local input = {...}
@@ -323,12 +417,24 @@ function object:print (...)
   return object.__null
 end
 
+-- Object: object
+-- Call: p ...
+-- Returns: null
+--
+-- Prints out any number of arguments, with an added new line.
 function object:p (...)
   self:print(...)
   print()
   return object.__null
 end
 
+-- Object: object instance
+-- Call: object.squish other_object
+-- Returns: self
+--
+-- Squishes the methods of the given object into the current object.
+--
+-- Also useful for bringing external libraries into the current context.
 function object:squish (obj)
   for k,v in pairs(obj) do
     if k ~= "parent" then
@@ -339,10 +445,20 @@ function object:squish (obj)
   return self
 end
 
+-- Object: object instance
+-- Call: my
+-- Returns: self
+--
+-- Returns the current object.
 function object:my ()
   return self
 end
 
+-- Object: object instance
+-- Call: object.parent
+-- Returns: object
+--
+-- Returns the parent of the object. 
 function object:parent ()
   if object["_parent"] then
     return object["_parent"]
@@ -351,6 +467,11 @@ function object:parent ()
   end
 end
 
+-- Object: object
+-- Call: function? variable
+-- Returns: boolean
+--
+-- Returns true if given variable is a function, false otherwise.
 function object:function_question (obj)
   if type(obj) == "function" then
     return object.__true
@@ -359,6 +480,11 @@ function object:function_question (obj)
   end
 end
 
+-- Object: object
+-- Call: object? variable
+-- Returns: boolean
+--
+-- Returns true if given variable is an object, false otherwise.
 function object:object_question (obj)
   if type(obj) == "table" then
     return object.__true
@@ -367,6 +493,14 @@ function object:object_question (obj)
   end
 end
 
+-- Object: object
+-- Call: random
+-- Call: random maximum
+-- Returns: number
+--
+-- With no arguments, returns a number between 0 and 1.
+--
+-- With a max argument, returns a number _i_, where 0 <= i < _max_.
 function object:random (...)
   if not object._random_seed then
     math.randomseed(os.time())
@@ -385,6 +519,11 @@ function object:random (...)
   return math.random(...)
 end
 
+-- Object: object
+-- Call: ask prompt
+-- Returns: string
+--
+-- Prints out the given prompt first, then returns input from standard input.
 function object:ask (prompt)
   if prompt == nil then
     return self:g()
@@ -397,10 +536,21 @@ function object:ask (prompt)
   return self:g()
 end
 
+-- Object: object
+-- Call: g
+-- Returns: string
+--
+-- Read a string from standard input.
 function object:g ()
   return base_string:new(io.stdin:read())
 end
 
+-- Object: object instance
+-- Call: object == object
+-- Returns: boolean
+--
+-- Compare two objects. If the target of the call has a method called <=>
+-- that will be used to compare the objects.
 function object:_equal_equal (rhs)
   if self == rhs then
     return object.__true
@@ -415,6 +565,11 @@ function object:_equal_equal (rhs)
   end
 end
 
+-- Object: object instance
+-- Call: object != object
+-- Returns: boolean
+--
+-- Compares two objects, then negates the result.
 function object:_bang_equal (rhs)
   return self:_not(self:_equal_equal(rhs))
 end
