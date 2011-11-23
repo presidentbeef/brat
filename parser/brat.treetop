@@ -1766,6 +1766,6 @@ grammar BaseBrat
 
   #Matches spaces, eols, or nothing
   rule spaceorbreak
-  space? eol? comment? eol? space?
+  space? eol? (comment eol)* space?
   end
 end
