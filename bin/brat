@@ -177,7 +177,7 @@ if #arg == 0 then
   abort("Exiting")
 end
 
-file_name = arg[#arg]:match("(.+).brat")
+file_name = arg[1]:match("(.+).brat")
 
 if arg[#arg] == "-!" then
   loadstring(io.read("*a"))()

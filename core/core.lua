@@ -1435,6 +1435,28 @@ function object:export (obj, name)
 end
 
 -- Object: object
+-- Call: program_args
+-- Returns: array
+--
+-- Returns the arguments given to the program when it is executed.
+function object:program_underargs ()
+  if self._program_args == nil then
+    local arg_array = {}
+    local len = #arg
+    local i = 1
+
+    while i <= len do
+      arg_array[i - 1] = base_string:new(arg[i])
+      i = i + 1
+    end
+
+    self._program_args = array:new(arg_array)
+  end
+    
+  return self._program_args
+end
+
+-- Object: object
 -- Call: when condition, result
 --
 -- Takes any number of condition-result pairs. Checks each condition and when
