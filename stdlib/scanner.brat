@@ -31,9 +31,9 @@ scanner.prototype {
   #when there is a match.
   my.scan_regex = { matcher |
     current = my.pos
-      result = my.str.match(matcher, current)
+    result = my.str.match(matcher, current)
 
-      true? result && { current == result.start_pos }
+    true? result && { current == result.start_pos }
     {
       my.pos = result.end_pos + 1
         result
