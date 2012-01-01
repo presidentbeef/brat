@@ -20,7 +20,7 @@ then
   echo Could not find RubyGems. Please install it.
 fi
 
-gem which treetop > /dev/null
+gem list -i treetop > /dev/null
 
 if [ "$?" -ne "0" ]
 then
