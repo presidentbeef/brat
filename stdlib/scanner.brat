@@ -12,7 +12,7 @@ scanner.prototype {
   my.scan = { matcher |
     when { matcher.string? } { scan_string matcher }
     { matcher.regex? } { scan_regex matcher }
-    { true } { error "Expected string or regex" }
+    { true } { throw "Expected string or regex" }
   }
 
   #Attempt to match string against current position. Advances position
