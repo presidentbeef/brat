@@ -310,7 +310,9 @@ class Treetop::Runtime::SyntaxNode
     else
       <<-LUA
       if #{temp} == nil then
-        if #{has_field("_self", "no_undermethod")} then
+        if #{has_field("_self", temp)} then
+          #{action} _self:#{temp}(#{arguments})
+        elseif #{has_field("_self", "no_undermethod")} then
           #{call_no_method res_var, "_self", method, arguments, arg_length}
         else
           _error(exception:null_error(#{display_object method, false}, "invoke method"))
