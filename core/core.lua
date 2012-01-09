@@ -2468,6 +2468,13 @@ function array_instance:index_underof (item, start)
   return object.__null
 end
 
+-- Object: array instance
+-- Call: array.rindex_of item
+-- Call: array.rindex_of item, start_index
+--
+-- Returns the last index of the item found in the array, or null if there is no such item.
+--
+-- If start_index is specified, start searching from the given index.
 function array_instance:rindex_underof (item, start)
   local len = self._length
   
@@ -2499,6 +2506,11 @@ function array_instance:rindex_underof (item, start)
   return object.__null
 end
 
+-- Object: array instance
+-- Call: array.map block
+--
+-- Invokes the block for each element in the array and returns a new array
+-- containing the results.
 function array_instance:map (block)
   local k = 1
   local len = self._length
@@ -2535,6 +2547,25 @@ function array_instance:map (block)
   return array:new(new_array)
 end
 
+-- Object: array instance
+-- Call: array.reduce block
+-- Call: array.reduce initial, block
+-- Call: array.reduce method_name
+-- Call: array.reduce initial, method_name
+--
+-- Combines elements in array.
+--
+-- There are several forms of reduce: one that provides an initial value for
+-- memo, one that does not, and two that just provide a method name instead
+-- of a function.
+-- 
+-- Example:
+--
+-- #These are all equivalent:
+-- 1.to(10).reduce 0 { sum, item | sum + item }
+-- 1.to(10).reduce { sum, item | sum + item }
+-- 1.to(10).reduce 0 :+
+-- 1.to(10).reduce :+
 function array_instance:reduce (identity, block)
   if self._length == 0 and block ~= nil then
     return identity
@@ -2575,6 +2606,11 @@ function array_instance:reduce (identity, block)
   return result
 end
 
+-- Object: array instance
+-- Call: array.sum
+--
+-- Returns the sum of the items in the array. Only works if the array only
+-- contains numbers.
 function array_instance:sum ()
     local index = 1
     local len = self._length
@@ -2599,6 +2635,11 @@ function array_instance:sum ()
     return sum
 end
 
+-- Object: array instance
+-- Call: array.map! block
+--
+-- Invokes the block for each element in the array and replaces that element
+-- with the result.
 function array_instance:map_bang (block)
   local k = 1
   local len = self._length
@@ -2628,6 +2669,11 @@ function array_instance:map_bang (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.map_with_index block
+--
+-- Invokes the block for each element in the array, passing in the index as
+-- well, and returns a new array containing the results.
 function array_instance:map_underwith_underindex (block)
   local k = 1
   local len = self._length
@@ -2646,6 +2692,12 @@ function array_instance:map_underwith_underindex (block)
   return array:new(new_array)
 end
 
+-- Object: array instance
+-- Call: array.map_with_index! block
+-- Returns: array
+--
+-- Invokes the block for each element in the array, passing in the index as
+-- well, and then replaces the element with the result of the block.
 function array_instance:map_underwith_underindex_bang (block)
   local k = 1
   local len = self._length
@@ -2662,6 +2714,11 @@ function array_instance:map_underwith_underindex_bang (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.empty?
+-- Returns: boolean
+--
+-- Returns true if the array is empty.
 function array_instance:empty_question ()
   if self._length == 0 then
     return object.__true
@@ -2670,6 +2727,10 @@ function array_instance:empty_question ()
   end
 end
 
+-- Object: array instance
+-- Call: array.first
+--
+-- Returns first element in array, or null if the array is empty.
 function array_instance:first ()
   if self._length == 0 or self._lua_array[1] == nil then
     return object.__null
@@ -4135,6 +4196,11 @@ exception.name_error = exception.name_undererror
 
 local load_path = array:new({base_string:new('.'), base_string:new(program_path .. 'stdlib')})
 
+-- Object: object
+-- Call: load_path
+-- Returns: array
+--
+-- The path used to search for files to load when using include() or import().
 function object:load_underpath ()
   return load_path
 end
