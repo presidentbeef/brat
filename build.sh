@@ -132,11 +132,17 @@ then
   mv -f liblinenoise.dylib $LIB/
 fi
 
-
 echo Building lpty
 cd $SRC/$LPTY
 make
 cp -f lpty.so $LIB
+
+echo Building Lua Socket
+cd $SRC/luasocket-2.0.2/
+make
+mkdir -p $LIB/mime
+cp src/mime.so.1.0.2 $LIB/mime/core.so
+cp src/socket.so.2.0.2 $LIB/socket/core.so
 
 echo Building parser
 cd $BRATPATH/parser
@@ -144,7 +150,7 @@ tt brat.treetop
 
 set +e
 
-echo Building 0MQ
+echo Building 0MQ bindings
 cd $SRC/lua-zmq
 make
 if [ -e "zmq.so" ]
@@ -178,6 +184,9 @@ cd $SRC/$LPTY
 make clean
 
 cd $SRC/lua-zmq
+make clean
+
+cd $SRC/luasocket-2.0.2
 make clean
 
 cd $BRATPATH
