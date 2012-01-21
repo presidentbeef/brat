@@ -402,7 +402,7 @@ is_true = function (bool)
 end
 
 -- Object: object
--- Call: print ...
+-- Call: print *args
 -- Returns: null
 --
 -- Prints out any number of arguments, with no new line.
@@ -418,7 +418,7 @@ function object:print (...)
 end
 
 -- Object: object
--- Call: p ...
+-- Call: p *args
 -- Returns: null
 --
 -- Prints out any number of arguments, with an added new line.
