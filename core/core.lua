@@ -1499,6 +1499,51 @@ function object:when (...)
   return result
 end
 
+function object:when_underequal (...)
+  local args = {...}
+  local len = #args
+
+  if len < 2 then
+    error(exception:argument_error("when_equal", "at least 2", len))
+  end
+
+  local value = args[1]
+
+  if type(value) == "function" then
+    value = value(self)
+  end
+
+  local index = 2
+  local cond
+  local result = object.__null
+  local is_num
+
+  if type(value) == "number" then
+    is_num = true
+  end
+
+  while index <= len do
+    cond = args[index]
+
+    if type(cond) == "function" then
+      cond = cond(self)
+    end
+
+    if (is_num and value == cond) or (not is_num and is_true(value:_equal_equal(cond))) then
+      result = args[index + 1]
+
+      if type(result) == "function" then
+        result = result(self)
+        break
+      end
+    end
+
+    index = index + 2
+  end
+
+  return result
+end
+
 --The comparable squish-in
 comparable = object:new()
 

@@ -1,0 +1,23 @@
+include :assert
+
+add_results setup name: "core" {
+  test "simple when_equal" {
+    assert "3!" {
+      x = 3
+      when_equal x,
+        1, "1!",
+        2, "2!",
+        3, "3!",
+        4, "4!"
+    }
+  }
+
+  test "when_equal with function results" {
+    assert "hello world" {
+      x = "hello"
+      when_equal x,
+        "goodbye", { "everyone!" },
+        "hello", { x << " world" }
+    }
+  }
+}
