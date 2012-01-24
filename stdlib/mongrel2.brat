@@ -22,7 +22,6 @@ handler.parse_request = { msg |
 
   false? parsed
     { throw "ACK: #{msg}" }
-    { p parsed.matches }
 
   request.server = parsed[1]
   request.client = parsed[2]
