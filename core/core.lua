@@ -2784,6 +2784,10 @@ function array_instance:first ()
   end
 end
 
+-- Object: array instance
+-- Call: array.last
+--
+-- Returns last element in array, or null if the array is empty
 function array_instance:last ()
   if self._length == 0 or self._lua_array[self._length] == nil then
     return object.__null
@@ -2792,6 +2796,14 @@ function array_instance:last ()
   end
 end
 
+-- Object: array instance
+-- Call: array.pop
+-- Call: array.pop items
+--
+-- Removes and returns the last element in the array, or null if the array is empty.
+--
+-- If a number of items is specified, removes and returns at most that many
+-- items from the end of the array.
 function array_instance:pop (number)
   if number == nil then
     if self._length == 0 then
@@ -2829,12 +2841,22 @@ function array_instance:pop (number)
   end
 end
 
+-- Object: array instance
+-- Call: array.push item
+-- Returns: self
+--
+-- Pushes item onto the end of the array.
 function array_instance:push (item)
   self._length = self._length + 1
   self._lua_array[self._length] = item
   return self
 end
 
+-- Object: array instance
+-- Call: array.rest
+-- Returns: array
+--
+-- Returns the entire array except the first element.
 function array_instance:rest ()
   if self._length < 2 then
     return array:new()
@@ -2843,6 +2865,11 @@ function array_instance:rest ()
   end
 end
 
+-- Object: array instance
+-- Call: array.reverse!
+-- Returns: self
+--
+-- Reverses the array.
 function array_instance:reverse_bang ()
   local len = self._length
 
@@ -2864,6 +2891,11 @@ function array_instance:reverse_bang ()
   return self
 end
 
+-- Object: array instance
+-- Call: array.reverse
+-- Returns: array
+--
+-- Returns a copy of the array, reversed.
 function array_instance:reverse ()
   local len = self._length
 
@@ -2882,6 +2914,11 @@ function array_instance:reverse ()
   return self:new(b)
 end
 
+-- Object: array instance
+-- Call: array.shuffle
+-- Returns: array
+--
+-- Returns a copy of the array with the elements shuffled.
 function array_instance:shuffle ()
   local new_array = {}
   local a = self._lua_array
@@ -2896,6 +2933,11 @@ function array_instance:shuffle ()
   return array:new(new_array):shuffle_bang()
 end
 
+-- Object: array instance
+-- Call: array.shuffle!
+-- Returns: array
+--
+-- Shuffles the elements of the array in place.
 function array_instance:shuffle_bang ()
   local a = self._lua_array
   local index = #a
