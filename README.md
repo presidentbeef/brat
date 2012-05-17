@@ -45,6 +45,7 @@ Please have on hand:
 
 * Linux or OS X
 * The usual development tools (like `make` and `gcc`)
+* OpenSSL headers (`sudo urpmi libssl-devel` or similar)
 * A relatively modern Ruby (let's say 1.8.6 and up)
 * [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
 * [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
