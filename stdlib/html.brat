@@ -7,6 +7,23 @@ self_closing_tags = [:area, :base, :br, :col, :hr, :img, :input, :link, :meta, :
 
 builder = new
 
+html_tags.each { t |
+  tag_meth = { body = "", opts = [:] |
+    my.tag t, ->body, opts, false
+  }
+
+  builder.prototype.add_method(t, ->tag_meth)
+}
+
+self_closing_tags.each { t |
+  tag_meth = { body = "", opts = [:] |
+    my.tag t, ->body, opts, true
+  }
+
+  builder.prototype.add_method(t, ->tag_meth)
+}
+
+
 html = { block |
   b = builder.new ->block
   "<html>" + b.output + "</html>"
@@ -16,37 +33,22 @@ builder.init = { content |
   true? function?(->content)
     {
       my.output = ""
-      result = my.with_this ->content
-      false? null?(result),
-        { my.output << result }
+      my.output << my.with_this ->content
     }
     { my.output = content }
 }
 
-builder.p = { content = "", options = [:] |
-  tag :p, ->content, options
-}
-
-builder.no_method = { name, content = "", options = [:] |
-  tag name, ->content, options
-}
-
-builder.append = { code |
-  my.output << code
-}
-
-builder.tag = { name, content = "", options = [:] |
-  false? html_tags.include?(name) 
-    { "INVALID TAG: #{name}" }
-    { true? self_closing_tags.include?(name)
-      { append "<#{name}#{opt_output options}/>" }
-      { append "<#{name}#{opt_output options}>" + builder.new(->content).output + "</#{name}>" }}
+builder.prototype.tag = { name, content = "", options = [:], self_closing = false |
+      output << true? self_closing
+        { "<#{name}#{opt_output options}/>" }
+        { "<#{name}#{opt_output options}>#{builder.new(->content).output}</#{name}>" }
 
   ""
 }
 
 builder.opt_output = { options |
   output = ""
+
   false? options == null, {
     options.each { key, value |
       output << " #{key}=\"#{value}\""

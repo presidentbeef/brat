@@ -1049,7 +1049,7 @@ grammar BaseBrat
       else
         output = ""
       end
-      output << "do\n" << rhs.brat << lhs.brat
+      output << "do\n" << lhs.brat << rhs.brat
       @result = rhs.result
       in_stack = lhs.stack
       in_stack << @result
