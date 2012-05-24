@@ -23,6 +23,23 @@ add_results setup name: "miscellaneous tests" {
     assert { false || { true } }
   }
 
+  test "or return value" {
+    assert_equal 1 { 1 || 2 }
+    assert_equal "a" { false || "a" }
+    assert_equal "b" { "b" || "a" }
+    assert_equal "a" { "a" || { "b" } }
+    assert_equal "a" { false || { "a" } }
+    assert_equal "a" { false || { "a" } }
+  }
+
+  test "and return value" {
+    assert_equal 1 { 1 && 2 }
+    assert_equal "a" { true && "a" }
+    assert_equal "a" { "b" && "a" }
+    assert_equal "a" { "a" || { "b" } }
+    assert_equal "a" { false || { "a" } }
+  }
+
   test "when" {
     assert_equal "hello" { when true, 'hello' }
     assert_equal "hello" { when { true } { 'hello' } }

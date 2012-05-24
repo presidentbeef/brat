@@ -966,7 +966,6 @@ end
 
 -- Object: object
 -- Call: lhs && rhs
--- Returns: boolean
 --
 -- Performs boolean "and".
 --
@@ -975,25 +974,17 @@ end
 function object:_and_and (rhs)
   if is_true(self) then
     if type(rhs) == "function" then
-      if is_true(rhs(self)) then
-        return object.__true
-      else
-        return object.__false
-      end
+      return rhs(self)
     else
-      if is_true(rhs) then
-        return object.__true
-      else
-        return object.__false
-      end
+      return rhs
     end
   else
-    return object.__false
+    return self
   end
 end
+
 -- Object: object
 -- Call: lhs || rhs
--- Returns: boolean
 --
 -- Performs boolean "or".
 --
@@ -1001,19 +992,11 @@ end
 -- short-circuiting.
 function object:_or_or (rhs)
   if is_true(self) then
-    return object.__true
+    return self
   elseif type(rhs) == "function" then
-    if is_true(rhs(self)) then
-      return object.__true
-    else
-      return object.__false
-    end
+    return rhs(self)
   else
-    if is_true(rhs) then
-      return object.__true
-    else
-      return object.__false
-    end
+    return rhs
   end
 end
 
@@ -1637,7 +1620,11 @@ function number_instance:my ()
 end
 
 function number_instance:_or_or (rhs)
-  return object.__true
+  return self
+end
+
+function number_instance:_and_and (rhs)
+  return self
 end
 
 function number_instance:_equal_equal (rhs)
