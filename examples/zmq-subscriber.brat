@@ -3,10 +3,10 @@
 #Prints out any publications
 include :zeromq
 
-z = zeromq.new
-s = z.open zeromq.SUB
-s.set_opt zeromq.SUBSCRIBE, ""
-s.connect "tcp://localhost:5555"
+context = zeromq.new
+s = socket.new context, :subscriber
+s.subscribe_any
+s.connect "tcp://127.0.0.1:5555"
 
 loop {
   p "Receiving..."

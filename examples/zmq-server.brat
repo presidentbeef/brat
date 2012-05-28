@@ -3,9 +3,9 @@
 
 include :zeromq
 
-z = zeromq.new
-s = z.open zeromq.REP
-s.bind "tcp://lo:5555"
+context = zeromq.new
+s = socket.new context, :reply
+s.bind "tcp://127.0.0.1:5555"
 
 loop {
   input = s.receive

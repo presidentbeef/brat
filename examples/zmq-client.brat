@@ -3,19 +3,19 @@
 #and echoes response
 
 include :zeromq
-z = zeromq.new
-s = z.open zeromq.REQ
-s.connect "tcp://localhost:5555"
+context = zeromq.new
+s = socket.new context, :request
+s.connect "tcp://127.0.0.1:5555"
 
 while {
-  input = ask '?'
+  input = ask 'Send: '
   false? input == "q"
     {
       s.send input
-      p s.receive
+      p "Response: #{s.receive}"
       true
     }
 }
 
 s.close
-z.term
+context.term

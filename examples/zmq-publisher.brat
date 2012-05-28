@@ -3,9 +3,9 @@
 #Which publishes an increasing integer every two seconds
 include :zeromq
 
-z = zeromq.new
-s = z.open zeromq.PUB
-s.bind "tcp://lo:5555"
+context = zeromq.new
+s = socket.new context, :publisher
+s.bind "tcp://127.0.0.1:5555"
 
 msg_id = 0
 
