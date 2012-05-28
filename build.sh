@@ -148,20 +148,6 @@ echo Building parser
 cd $BRATPATH/parser
 tt brat.treetop
 
-set +e
-
-echo Building 0MQ bindings
-cd $SRC/lua-zmq
-make
-if [ -e "zmq.so" ]
-then
-  cp -f zmq.so $LIB
-else
-  echo Could not build 0MQ
-fi
-
-set -e
-
 echo Cleaning up...
 
 cd $COMMON/$LUA
@@ -183,9 +169,6 @@ make clean
 cd $SRC/$LPTY
 make clean
 
-cd $SRC/lua-zmq
-make clean
-
 cd $SRC/luasocket-2.0.2
 make clean
 
@@ -205,8 +188,3 @@ set -e
 echo Running Brat tests
 
 ./brat test/test.brat
-
-if [ ! -e "lib/zmq.so" ]
-then
-  echo "[Info] Optional library 0MQ not found"
-fi
