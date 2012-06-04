@@ -3946,6 +3946,16 @@ function string_instance:_star (num)
   return base_string:new(string.rep(self._lua_string, num))
 end
 
+function string_instance:find_underfirst (str)
+  local s_index, e_index = self._lua_string:find(str._lua_string, 1, true)
+
+  if s_index then
+    return s_index - 1
+  else
+    return object.__null
+  end
+end
+
 function string_instance:get (start_index, end_index)
   local len = #self._lua_string
   if end_index == nil then
