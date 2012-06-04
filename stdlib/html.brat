@@ -23,25 +23,45 @@ self_closing_tags.each { t |
   builder.prototype.add_method(t, ->tag_meth)
 }
 
-
 html = { block |
   b = builder.new ->block
-  "<html>" + b.output + "</html>"
+  "<html>\n#{b.output}</html>"
 }
 
-builder.init = { content |
-  true? function?(->content)
+builder.init = { content, depth = 1, helper = null |
+  my.depth = depth
+  my.helper = helper
+  true? null?(->content)
+  { my.output = "" }
+  {
+    true? function?(->content)
     {
-      my.output = ""
-      my.output << my.with_this ->content
+       my.output = ""
+       my.output << indent my.with_this(->content)
     }
-    { my.output = content }
+    { my.output = indent content }
+  }
+}
+
+builder.prototype.no_method = { method, *args |
+  false? my.has_method?(:helper)
+  { "" }
+  {
+    true? my.helper.methods.include?(method)
+    { my.helper.call_method(method, args) }
+    { "" }
+  }
+}
+
+builder.prototype.indent = { content |
+  depth = my.depth
+  content.split("\n").map({ c | ("  " * depth) << c }).join("\n") << "\n"
 }
 
 builder.prototype.tag = { name, content = "", options = [:], self_closing = false |
       output << true? self_closing
-        { "<#{name}#{opt_output options}/>" }
-        { "<#{name}#{opt_output options}>#{builder.new(->content).output}</#{name}>" }
+        { indent "<#{name}#{opt_output options}/>" }
+        { indent "<#{name}#{opt_output options}>\n#{builder.new(->content, my.depth + 1, my.helper).output}</#{name}>" }
 
   ""
 }
@@ -59,3 +79,4 @@ builder.opt_output = { options |
 }
 
 export ->html, "html"
+export ->builder, "html_builder"
