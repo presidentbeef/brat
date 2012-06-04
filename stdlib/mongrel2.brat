@@ -6,10 +6,10 @@ context = zeromq.new
 handler.init = { opts |
   my.sender_id = opts[:sender_id]
 
-  my.recv_con = context.open zeromq.PULL
+  my.recv_con = socket.new context, :pull
   my.recv_con.connect opts[:receive]
 
-  my.send_con = context.open zeromq.PUB
+  my.send_con = socket.new context, :publisher
   my.send_con.connect opts[:send]
 }
 
@@ -55,7 +55,7 @@ handler.prototype.receive = {
   handler.parse_request my.recv_con.receive
 }
 
-export handler, "handler"
+export handler, "mongrel"
 
 #*
 h = handler.new sender_id: :test receive: "tcp://127.0.0.1:9995" send: "tcp://127.0.0.1:9994"
