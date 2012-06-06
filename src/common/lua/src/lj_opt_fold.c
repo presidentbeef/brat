@@ -8,6 +8,8 @@
 #define lj_opt_fold_c
 #define LUA_CORE
 
+#include <math.h>
+
 #include "lj_obj.h"
 
 #if LJ_HASJIT
@@ -177,6 +179,17 @@ LJFOLDF(kfold_numarith)
   return lj_ir_knum(J, y);
 }
 
+LJFOLD(LDEXP KNUM KINT)
+LJFOLDF(kfold_ldexp)
+{
+#if LJ_TARGET_X86ORX64
+  UNUSED(J);
+  return NEXTFOLD;
+#else
+  return lj_ir_knum(J, ldexp(knumleft, fright->i));
+#endif
+}
+
 LJFOLD(FPMATH KNUM any)
 LJFOLDF(kfold_fpmath)
 {
@@ -218,6 +231,8 @@ static int32_t kfold_intop(int32_t k1, int32_t k2, IROp op)
   case IR_ADD: k1 += k2; break;
   case IR_SUB: k1 -= k2; break;
   case IR_MUL: k1 *= k2; break;
+  case IR_MOD: k1 = lj_vm_modi(k1, k2); break;
+  case IR_NEG: k1 = -k1; break;
   case IR_BAND: k1 &= k2; break;
   case IR_BOR: k1 |= k2; break;
   case IR_BXOR: k1 ^= k2; break;
@@ -236,6 +251,8 @@ static int32_t kfold_intop(int32_t k1, int32_t k2, IROp op)
 LJFOLD(ADD KINT KINT)
 LJFOLD(SUB KINT KINT)
 LJFOLD(MUL KINT KINT)
+LJFOLD(MOD KINT KINT)
+LJFOLD(NEG KINT KINT)
 LJFOLD(BAND KINT KINT)
 LJFOLD(BOR KINT KINT)
 LJFOLD(BXOR KINT KINT)
@@ -839,9 +856,11 @@ LJFOLDF(simplify_numpow_kx)
   lua_Number n = knumleft;
   if (n == 2.0) {  /* 2.0 ^ i ==> ldexp(1.0, tonum(i)) */
     fins->o = IR_CONV;
+#if LJ_TARGET_X86ORX64
     fins->op1 = fins->op2;
     fins->op2 = IRCONV_NUM_INT;
     fins->op2 = (IRRef1)lj_opt_fold(J);
+#endif
     fins->op1 = (IRRef1)lj_ir_knum_one(J);
     fins->o = IR_LDEXP;
     return RETRYFOLD;
@@ -912,11 +931,11 @@ LJFOLDF(simplify_conv_int_i64)
   return NEXTFOLD;
 }
 
-LJFOLD(CONV CONV IRCONV_NUM_FLOAT)  /* _NUM */
+LJFOLD(CONV CONV IRCONV_FLOAT_NUM)  /* _FLOAT */
 LJFOLDF(simplify_conv_flt_num)
 {
   PHIBARRIER(fleft);
-  if ((fleft->op2 & IRCONV_SRCMASK) == IRT_NUM)
+  if ((fleft->op2 & IRCONV_SRCMASK) == IRT_FLOAT)
     return fleft->op1;
   return NEXTFOLD;
 }
@@ -948,6 +967,7 @@ LJFOLDF(simplify_floor_conv)
 
 /* Strength reduction of widening. */
 LJFOLD(CONV any IRCONV_I64_INT)
+LJFOLD(CONV any IRCONV_U64_INT)
 LJFOLDF(simplify_conv_sext)
 {
   IRRef ref = fins->op1;
@@ -1133,7 +1153,6 @@ LJFOLDF(simplify_intmul_k32)
 
 LJFOLD(MUL any KINT64)
 LJFOLDF(simplify_intmul_k64)
-
 {
   if (ir_kint64(fright)->u64 == 0)  /* i * 0 ==> 0 */
     return INT64FOLD(0);
@@ -1142,6 +1161,27 @@ LJFOLDF(simplify_intmul_k64)
   else if (ir_kint64(fright)->u64 < 0x80000000u)
     return simplify_intmul_k(J, (int32_t)ir_kint64(fright)->u64);
 #endif
+  return NEXTFOLD;
+}
+
+LJFOLD(MOD any KINT)
+LJFOLDF(simplify_intmod_k)
+{
+  int32_t k = fright->i;
+  lua_assert(k != 0);
+  if (k > 0 && (k & (k-1)) == 0) {  /* i % (2^k) ==> i & (2^k-1) */
+    fins->o = IR_BAND;
+    fins->op2 = lj_ir_kint(J, k-1);
+    return RETRYFOLD;
+  }
+  return NEXTFOLD;
+}
+
+LJFOLD(MOD KINT any)
+LJFOLDF(simplify_intmod_kleft)
+{
+  if (fleft->i == 0)
+    return INTFOLD(0);
   return NEXTFOLD;
 }
 
@@ -1303,11 +1343,13 @@ LJFOLDF(simplify_shift_ik)
     fins->op2 = (IRRef1)lj_ir_kint(J, k);
     return RETRYFOLD;
   }
+#ifndef LJ_TARGET_UNIFYROT
   if (fins->o == IR_BROR) {  /* bror(i, k) ==> brol(i, (-k)&mask) */
     fins->o = IR_BROL;
     fins->op2 = (IRRef1)lj_ir_kint(J, (-k)&mask);
     return RETRYFOLD;
   }
+#endif
   return NEXTFOLD;
 }
 
@@ -1357,6 +1399,36 @@ LJFOLDF(simplify_shift2_ki)
 				    (int64_t)ir_k64(fleft)->u64;
   if (k == 0 || k == -1)  /* 0 o i ==> 0; -1 o i ==> -1 */
     return LEFTFOLD;
+  return NEXTFOLD;
+}
+
+LJFOLD(BSHL BAND KINT)
+LJFOLD(BSHR BAND KINT)
+LJFOLD(BROL BAND KINT)
+LJFOLD(BROR BAND KINT)
+LJFOLDF(simplify_shiftk_andk)
+{
+  IRIns *irk = IR(fleft->op2);
+  PHIBARRIER(fleft);
+  if (irk->o == IR_KINT) {  /* (i & k1) o k2 ==> (i o k2) & (k1 o k2) */
+    int32_t k = kfold_intop(irk->i, fright->i, (IROp)fins->o);
+    fins->op1 = fleft->op1;
+    fins->op1 = (IRRef1)lj_opt_fold(J);
+    fins->op2 = (IRRef1)lj_ir_kint(J, k);
+    fins->ot = IRTI(IR_BAND);
+    return RETRYFOLD;
+  }
+  return NEXTFOLD;
+}
+
+LJFOLD(BAND BSHL KINT)
+LJFOLD(BAND BSHR KINT)
+LJFOLDF(simplify_andk_shiftk)
+{
+  IRIns *irk = IR(fleft->op2);
+  if (irk->o == IR_KINT &&
+      kfold_intop(-1, irk->i, (IROp)fleft->o) == fright->i)
+    return LEFTFOLD;  /* (i o k1) & k2 ==> i, if (-1 o k1) == k2 */
   return NEXTFOLD;
 }
 
@@ -1411,7 +1483,6 @@ LJFOLD(BAND BAND any)
 LJFOLD(BOR BOR any)
 LJFOLDF(reassoc_dup)
 {
-  PHIBARRIER(fleft);
   if (fins->op2 == fleft->op1 || fins->op2 == fleft->op2)
     return LEFTFOLD;  /* (a o b) o a ==> a o b; (a o b) o b ==> a o b */
   return NEXTFOLD;
@@ -1647,16 +1718,13 @@ LJFOLDF(comm_bxor)
 static TRef kfold_xload(jit_State *J, IRIns *ir, const void *p)
 {
   int32_t k;
-#if !LJ_TARGET_X86ORX64
-#error "Missing support for unaligned loads"
-#endif
   switch (irt_type(ir->t)) {
   case IRT_NUM: return lj_ir_knum_u64(J, *(uint64_t *)p);
   case IRT_I8: k = (int32_t)*(int8_t *)p; break;
   case IRT_U8: k = (int32_t)*(uint8_t *)p; break;
-  case IRT_I16: k = (int32_t)*(int16_t *)p; break;
-  case IRT_U16: k = (int32_t)*(uint16_t *)p; break;
-  case IRT_INT: case IRT_U32: k = *(int32_t *)p; break;
+  case IRT_I16: k = (int32_t)(int16_t)lj_getu16(p); break;
+  case IRT_U16: k = (int32_t)(uint16_t)lj_getu16(p); break;
+  case IRT_INT: case IRT_U32: k = (int32_t)lj_getu32(p); break;
   case IRT_I64: case IRT_U64: return lj_ir_kint64(J, *(uint64_t *)p);
   default: return 0;
   }
@@ -1665,7 +1733,7 @@ static TRef kfold_xload(jit_State *J, IRIns *ir, const void *p)
 
 /* Turn: string.sub(str, a, b) == kstr
 ** into: string.byte(str, a) == string.byte(kstr, 1) etc.
-** Note: this creates unaligned XLOADs!
+** Note: this creates unaligned XLOADs on x86/x64.
 */
 LJFOLD(EQ SNEW KGC)
 LJFOLD(NE SNEW KGC)
@@ -1674,7 +1742,16 @@ LJFOLDF(merge_eqne_snew_kgc)
   GCstr *kstr = ir_kstr(fright);
   int32_t len = (int32_t)kstr->len;
   lua_assert(irt_isstr(fins->t));
-  if (len <= 4) {  /* Handle string lengths 0, 1, 2, 3, 4. */
+
+#if LJ_TARGET_X86ORX64
+#define FOLD_SNEW_MAX_LEN	4  /* Handle string lengths 0, 1, 2, 3, 4. */
+#define FOLD_SNEW_TYPE8		IRT_I8	/* Creates shorter immediates. */
+#else
+#define FOLD_SNEW_MAX_LEN	1  /* Handle string lengths 0 or 1. */
+#define FOLD_SNEW_TYPE8		IRT_U8  /* Prefer unsigned loads. */
+#endif
+
+  if (len <= FOLD_SNEW_MAX_LEN) {
     IROp op = (IROp)fins->o;
     IRRef strref = fleft->op1;
     lua_assert(IR(strref)->o == IR_STRREF);
@@ -1690,7 +1767,7 @@ LJFOLDF(merge_eqne_snew_kgc)
     }
     if (len > 0) {
       /* A 4 byte load for length 3 is ok -- all strings have an extra NUL. */
-      uint16_t ot = (uint16_t)(len == 1 ? IRT(IR_XLOAD, IRT_I8) :
+      uint16_t ot = (uint16_t)(len == 1 ? IRT(IR_XLOAD, FOLD_SNEW_TYPE8) :
 			       len == 2 ? IRT(IR_XLOAD, IRT_U16) :
 			       IRTI(IR_XLOAD));
       TRef tmp = emitir(ot, strref,

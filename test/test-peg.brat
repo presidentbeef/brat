@@ -42,6 +42,12 @@ add_results setup name: "PEG tests" {
     parses { kleene str :h } :hhhhhhhhh
     parses { kleene str :h } :h
     parses { kleene str :h } :nope false
+
+    grams = peg.new {
+      set :test kleene str :h
+    }
+
+    assert_equal 7 { grams.parse(:hhhhhhh :test).elements.length }
   }
 
   test "any" {
@@ -125,11 +131,13 @@ add_results setup name: "PEG tests" {
       set :spaces reg /\s*/
       set :num action reg(/[1-9][0-9]*/) { my.result = matched.full_match.to_i }
       set :plus action seq(label(:lhs ref(:num)) ref(:spaces) str(:+) ref(:spaces) label(:rhs ref(:num))) { my.result = lhs.result + rhs.result }
+      set :test label(:hs kleene str :h)
     }
 
     assert calc.parse("1+1" :plus true)
     assert_equal 2 { calc.parse("1+1" :plus true).result }
     assert_equal 928 { calc.parse("40 + 888" :plus true).result }
+    assert_equal 7 { calc.parse(:hhhhhhh :test).elements.length }
   }
 
   test "any_ref" {

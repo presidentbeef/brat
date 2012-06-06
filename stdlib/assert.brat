@@ -36,69 +36,90 @@ Additionally, you can supply a name for the entire test suite:
 
 *#
 
+#Gathers tests and runs them
 test_manager = new
+
+#A new context for each test
 test_context = new
 
+#Create a new manager by providing a block full of tests
 test_manager.init = { block, name = null |
   my.tests = []
   my.name = name
   block
 }
 
-test_manager.test = { name, block |
-  my.tests << test_context.new(name, ->block)
-}
-
-test_manager.run = { 
-  failures = []
-  total_tests = my.tests.length
-  num_tests = 0
-  num_assertions = 0
-
-  null? my.name, { p "Running tests..." } { p "Running #{my.name}..." }
-
-  my.tests.each_with_index { t, i |
-    print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
-    protect { t.run } rescue: { err | failures << [ name: t.name, message: err.to_s ] }
-    num_tests = num_tests + 1
-    num_assertions = num_assertions + t.assertions
+#Create a test
+test_manager.prototype [ test: { name, block |
+    my.tests << test_context.new(name, ->block)
   }
 
-  p
-  
-  true? failures.empty?, {
-    p "All tests passed!"
-  }
-  {
-    p "Test failure(s):"
-    p
+  #Run the tests and track the results
+  run: { 
+    failures = []
+    total_tests = my.tests.length
+    num_tests = 0
+    num_assertions = 0
 
-    failures.each_with_index { f, i |
-      p "\t#{i + 1}. '#{f[:name]}': #{f[:message]}\n"
+    null? my.name, { p "Running tests..." } { p "Running #{my.name}..." }
+
+    my.tests.shuffle.each_with_index { t, i |
+      print "(#{i + 1}/#{total_tests}) #{t.name}#{' ' * (40 - t.name.length)}\r"
+      protect { t.run } rescue: { err | failures << [ name: t.name, message: err.to_s ] }
+      num_tests = num_tests + 1
+      num_assertions = num_assertions + t.assertions
     }
+
+    p
+  
+    true? failures.empty?, {
+      p "All tests passed!"
+    }
+    {
+      p "Test failure(s):"
+      p
+
+      failures.each_with_index { f, i |
+        p "\t#{i + 1}. '#{f[:name]}': #{f[:message]}\n"
+      }
+    }
+
+    p "#{num_tests} tests, #{num_assertions} assertions, #{failures.length} failures."
+
+    [tests: num_tests, assertions: num_assertions, failures: failures.length]
   }
+]
 
-  p "#{num_tests} tests, #{num_assertions} assertions, #{failures.length} failures."
-
-  [tests: num_tests, assertions: num_assertions, failures: failures.length]
-}
-
+#Namespace for assertions
 assertions = object.new
 
+#Check if a condition is true.
+#If it isn't, show message.
 assertions.assert = { condition, message = null |
   false? condition, {
     throw null? message
       { "Assertion failed" }
       { "Assertion failed: " << message }
   }
+  { true }
 } 
 
+#Check that _expected_ is equal to _actual_
 assertions.assert_equal = { expected, actual |
   e = expected
   r = actual
   assert { e == r } "expected #{e}, but was #{r}"
 }
 
+#Check that _not_expected_ does not equal _actual_
+assertions.assert_not_equal = { not_expected, actual |
+  e = not_expected
+  r = actual
+
+  assert { e != r } "expected #{e} to not be #{r}"
+}
+
+#Check that a condition raises an error
 assertions.assert_fail = { condition |
   failed = false
   protect { condition } rescue: { failed = true }
@@ -106,6 +127,7 @@ assertions.assert_fail = { condition |
   assert failed
 }
 
+#Check that a condition is false
 assertions.assert_false = { condition, message = null |
   r = condition
   null? message
@@ -113,39 +135,41 @@ assertions.assert_false = { condition, message = null |
   assert { false? r } message
 }
 
+#Check that a condition is null
 assertions.assert_null = { condition |
   r = condition
   assert { null? r } "expected #{r} to be null"
 }
 
+#Check that a regular expression matches the given string
 assertions.assert_match = { pattern, actual |
   r = actual
   assert pattern.match(r) "#{r} expected to match #{pattern}"
 }
 
+#Add all the assertions to the test context
 test_context.squish assertions
 
+#Set up a test context
 test_context.init = { name, block |
   my.name = name
   my.tests = ->block
   my.assertions = 0
 }
 
+#Runs the tests
 test_context.run = { my.tests }
 
+#Disable the p method
 test_context.p = { }
 
+#Override assert so we can count assertions
 test_context.assert = { condition, message = null |
   my.assertions = my.assertions + 1
   false? condition, {
     throw null? message, "assert failed", message
   }
 } 
-
-run_tests = { block |
-  tm = test_manager.new ->block
-  tm.run
-}
 
 export assertions, "assertions"
 

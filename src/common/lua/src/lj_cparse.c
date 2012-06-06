@@ -187,7 +187,7 @@ static CPToken cp_integer(CPState *cp)
       break;
     cp_get(cp);
   }
-  if (lj_char_isident(cp->c))
+  if (lj_char_isident(cp->c) && !(cp->mode & CPARSE_MODE_SKIP))
     cp_errmsg(cp, cp->c, LJ_ERR_XNUMBER);
   return CTOK_INTEGER;
 }
@@ -264,7 +264,11 @@ static CPToken cp_string(CPState *cp)
 static void cp_comment_c(CPState *cp)
 {
   do {
-    if (cp_get(cp) == '*' && cp_get(cp) == '/') { cp_get(cp); break; }
+    if (cp_get(cp) == '*') {
+      do {
+	if (cp_get(cp) == '/') { cp_get(cp); return; }
+      } while (cp->c == '*');
+    }
     if (cp_iseol(cp->c)) cp_newline(cp);
   } while (cp->c != '\0');
 }
@@ -364,7 +368,7 @@ static void cp_init(CPState *cp)
   cp->depth = 0;
   cp->curpack = 0;
   cp->packstack[0] = 255;
-  lj_str_initbuf(cp->L, &cp->sb);
+  lj_str_initbuf(&cp->sb);
   lj_str_resizebuf(cp->L, &cp->sb, LJ_MIN_SBUF);
   lua_assert(cp->p != NULL);
   cp_get(cp);  /* Read-ahead first char. */
@@ -1589,12 +1593,14 @@ static void cp_decl_func(CPState *cp, CPDecl *fdecl)
   cp_check(cp, ')');
   if (cp_opt(cp, '{')) {  /* Skip function definition. */
     int level = 1;
+    cp->mode |= CPARSE_MODE_SKIP;
     for (;;) {
       if (cp->tok == '{') level++;
       else if (cp->tok == '}' && --level == 0) break;
       else if (cp->tok == CTOK_EOF) cp_err_token(cp, '}');
       cp_next(cp);
     }
+    cp->mode &= ~CPARSE_MODE_SKIP;
     cp->tok = ';';  /* Ok for cp_decl_multi(), error in cp_decl_single(). */
   }
   info |= (fdecl->fattr & ~CTMASK_CID);
@@ -1724,6 +1730,10 @@ static void cp_decl_multi(CPState *cp)
   while (cp->tok != CTOK_EOF) {
     CPDecl decl;
     CPscl scl;
+    if (cp_opt(cp, ';')) {  /* Skip empty statements. */
+      first = 0;
+      continue;
+    }
     if (cp->tok == '#') {  /* Workaround, since we have no preprocessor, yet. */
       BCLine pragmaline = cp->linenumber;
       if (!(cp_next(cp) == CTOK_IDENT &&

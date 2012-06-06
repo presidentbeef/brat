@@ -45,21 +45,41 @@ LJ_ASMF void lj_vm_callhook(void);
 LJ_ASMF void lj_vm_exit_handler(void);
 LJ_ASMF void lj_vm_exit_interp(void);
 
-/* Handlers callable from compiled code. */
+/* Internal math helper functions. */
+#if LJ_TARGET_X86ORX64
+#define lj_vm_floor(x)	floor(x)
+#define lj_vm_ceil(x)	ceil(x)
+#else
+LJ_ASMF double lj_vm_floor(double);
+LJ_ASMF double lj_vm_ceil(double);
+#endif
+
 #if LJ_HASJIT
 #if LJ_TARGET_X86ORX64
 LJ_ASMF void lj_vm_floor_sse(void);
 LJ_ASMF void lj_vm_ceil_sse(void);
 LJ_ASMF void lj_vm_trunc_sse(void);
-LJ_ASMF void lj_vm_exp(void);
-LJ_ASMF void lj_vm_exp2(void);
+LJ_ASMF void lj_vm_exp_x87(void);
+LJ_ASMF void lj_vm_exp2_x87(void);
 LJ_ASMF void lj_vm_pow_sse(void);
 LJ_ASMF void lj_vm_powi_sse(void);
 #else
-LJ_ASMF void lj_vm_floor(void);
-LJ_ASMF void lj_vm_ceil(void);
-LJ_ASMF void lj_vm_trunc(void);
-LJ_ASMF void lj_vm_powi(void);
+LJ_ASMF double lj_vm_trunc(double);
+LJ_ASMF double lj_vm_powi(double, int32_t);
+#ifdef LUAJIT_NO_LOG2
+LJ_ASMF double lj_vm_log2(double);
+#else
+#define lj_vm_log2	log2
+#endif
+#ifdef LUAJIT_NO_EXP2
+LJ_ASMF double lj_vm_exp2(double);
+#else
+#define lj_vm_exp2	exp2
+#endif
+#endif
+LJ_ASMF int32_t LJ_FASTCALL lj_vm_modi(int32_t, int32_t);
+#if LJ_HASFFI
+LJ_ASMF int lj_vm_errno(void);
 #endif
 #endif
 
@@ -70,6 +90,8 @@ LJ_ASMF void lj_cont_nop(void);  /* Do nothing, just continue execution. */
 LJ_ASMF void lj_cont_condt(void);  /* Branch if result is true. */
 LJ_ASMF void lj_cont_condf(void);  /* Branch if result is false. */
 LJ_ASMF void lj_cont_hook(void);  /* Continue from hook yield. */
+
+enum { LJ_CONT_TAILCALL, LJ_CONT_FFI_CALLBACK };  /* Special continuations. */
 
 /* Start of the ASM code. */
 LJ_ASMF char lj_vm_asm_begin[];

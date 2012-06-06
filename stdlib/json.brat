@@ -1,0 +1,184 @@
+#* JSON Parsing and Encoding
+# Example:
+
+  include :json
+
+  #Parsing
+  some_json = ' { "animals" : [ "dog, "cat", "turtle"] } '
+
+  json.parse some_json  #Result: [animals: [ "dog", "cat", "turtle"] ]
+
+  #Encoding
+  json.encode [hi: [1, 2, 3]] #Result: '{"hi" : [1,2,3]}'
+*#
+
+include :scanner
+include :assert, :assertions
+include :json_helpers
+
+json = object.new
+
+unmatched = object.new
+
+matched? = { val | val != unmatched }
+
+parser = object.new
+
+parser.init = { input |
+  my.input = input
+  s = scanner.new(input)
+
+  my.set_pos = { pos |
+    s.pos = pos
+  }
+
+  my.current_pos = { s.pos }
+
+  my.scan = { matcher |
+    s.scan matcher
+  }
+}
+
+parser.parse = {
+  trim_space
+  result = parse_object
+  true? matched?(result)
+    { result }
+    { result = parse_array
+      true? matched?(result)
+        { result }
+        { null }
+    }
+}
+
+parser.parse_number = {
+  result = scan(/-?(0|[1-9]\d*)(\.\d+)?((e|E)(\+|-)?\d+)?\b/)
+  true? result
+    { result.full_match.to_f }
+    { unmatched }
+}
+
+parser.parse_value = {
+  result = null
+  trim_space
+  when { scan "true" } { true }
+    { scan "false" } { false }
+    { scan "null" } { null }
+    { matched? result = parse_number } { result }
+    { matched? result = parse_string } { result }
+    { matched? result = parse_array } { result }
+    { matched? result = parse_object } { result }
+    { true } { unmatched }
+}
+
+parser.parse_string = {
+  true? scan('"') {
+    result = json_decode(my.input, my.current_pos)
+    true? result
+      { set_pos result[1]
+        result[0] }
+      { unmatched }
+  }
+  { unmatched }
+}
+
+parser.parse_array = {
+  true? scan("[") 
+  {
+    result = null
+    continue = true
+    a = []
+    while { continue && matched?(result = parse_value) } {
+      a << result
+      continue = scan ","
+    }
+
+    true? scan("]")
+    { a }
+    { unmatched }
+  }
+  { unmatched }
+}
+
+parser.parse_object = {
+  true? scan(/{\s*/)
+  {
+    result = null
+    key = null
+    continue = true
+    o = [:]
+
+    while { continue && matched?(key = parse_string) } {
+      true? scan(/\s*:\s*/) {
+        o[key] = parse_value
+        continue = scan(/\s*,\s*/)
+      }
+      {
+        continue = false
+      }
+    }
+
+
+    true? scan(/\s*}/)
+    { o }
+    { unmatched }
+  }
+  { unmatched }
+}
+
+parser.trim_space = { scan /\s+/ }
+
+json.parse = { input |
+  parser.new(input).parse
+}
+
+ 
+#*
+include :assert :assertions
+squish assertions
+
+test = { input, method, value = unmatched |
+  result = parser.new(input).call_method("parse_#{method}")
+  assert matched?(result), "Failed to parse #{input} with #{method}"
+  true? matched?(value)
+    { assert_equal value, result }
+}
+
+test "0" :number 0
+test "1" :number 1
+test "1.1" :number 1.1
+test "-0.5123" :number -0.5123
+test "1e+10" :number
+
+test "true" :value true
+test "false" :value false
+test "null" :value null
+test "1" :value 1
+
+test '"\""' :value "\""
+test '"hello"' :string
+test '"\u20AC"' :string
+test '"\t"' :string
+*#
+
+json.encode = { obj | 
+  when { obj.array? }  { json.encode_array obj }
+       { obj.hash? }   { json.encode_hash obj }
+       { obj.number? } { obj.to_s }
+       { obj.string? } { json.encode_string obj }
+       { true }        { p "hi"; throw "Cannot convert #{obj} to json" }
+}
+
+json.encode_array = { a |
+"[" << a.map(my->encode).join(",") << "]"
+}
+
+json.encode_hash = { h |
+  "{" << h.map({ k, v | "#{json.encode k.to_s} : #{json.encode v}"}).join(",") << "}"
+}
+
+json.encode_string = { s |
+  json_encode s
+}
+
+export json, "json"

@@ -19,12 +19,53 @@ add_results setup name: "object tests" {
     assert_equal "something awesome" { a = object.new; a.b = 'something awesome'; b = a.new; b.b = 'something less awesome'; a.b }
     assert_equal "a bird" { string.popinjay = 'a bird'; 'say what'.popinjay }
     assert_equal "tahw yas" { 
-      s = ''
-      save = s.parent->length
-      string.length = { my.reverse };
+      save = string.prototype->length
+      string.prototype.length = { my.reverse };
       r = 'say what'.length;
-      string.length = ->save
+      string.prototype.length = ->save
       r
+    }
+  }
+
+  test "basic prototype" {
+    assert_equal 1 {
+      A = object.new
+      A.prototype [ z: 1 ]
+      A.new.z
+    }
+
+    A = object.new
+    B = object.new
+
+    assert_not_equal A.prototype, B.prototype
+
+    C = B.new
+
+    assert_not_equal B.prototype, C.prototype
+
+    B.prototype.z = 1
+
+    assert_equal 1, C.z
+    assert_equal 1, C.new.z
+
+    assert_fail { A.z }
+  }
+
+  test "separate prototypes" {
+    assert_equal 2 { 
+      A = object.new
+      B = object.new
+      A.prototype.z = 1
+      B.prototype.z = 2
+      B.new.z }
+  }
+
+  test "prototype inheritance" {
+    assert_equal "hello" {
+      A = object.new
+      B = A.new
+      A.prototype z: "hello"
+      B.new.z
     }
   }
 
@@ -35,6 +76,7 @@ add_results setup name: "object tests" {
 
   test "parent" {
     assert { x = object.new; y = x.new; y.parent == x }
+    assert { x = object.new; y = x.new; z = y.new; z.parent == y }
   }
 
   test "object.call_method" {
@@ -83,5 +125,10 @@ add_results setup name: "object tests" {
   test "object_with_this" {
     assert_equal 1 { a = object.new; a.x = 1; a.with_this { x } }
     assert_equal 5 { a = object.new; a.x = 1; a.with_this { y |  x + y } 4 }
+  }
+
+  test "object.tap" {
+    assert { o = object.new; o.tap({}) == o }
+    assert { o = object.new; o.tap({x|}) == o }
   }
 }

@@ -242,8 +242,21 @@ function file_instance:write_underline (output)
   return object.__null
 end
 
-function file_instance:read ()
-  local res = self._lua_io:read("*a")
+-- Object: file instance
+-- Call: file.read
+-- Call: file.read max
+--
+-- If called with no arguments, reads the rest of the file.
+--
+-- Otherwise, reads up to max characters.
+function file_instance:read (chars)
+  local res
+
+  if chars then
+    res = self._lua_io:read(chars)
+  else
+    res = self._lua_io:read("*a")
+  end
 
   if res == nil then
     return object.__null

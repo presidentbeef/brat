@@ -9,8 +9,8 @@ object.add_results = { r |
   }
 }
 
-[:array :enumerable :examples :file :function
-  :hash :misc :number :object :parser :regex :stdlib :string].each { name |
+[:array :core :enumerable :examples :file :function :hash :json :misc :number
+:object :parser :regex :stdlib :string].shuffle!.each { name |
   
   #Force recompilation
   true? file.exists?("test/test-#{name}.lua")
@@ -25,7 +25,10 @@ object.add_results = { r |
 
 }
 
+file.delete "test/test.lua"
+
 p "Overall results: #{overall_results[:tests]} tests, #{overall_results[:assertions]} assertions, #{overall_results[:failures]} failures."
 
 true? overall_results[:failures] == 0
-  { p "All systems are go!" }
+  { exit 0 }
+  { exit 1 }

@@ -26,8 +26,17 @@
 /* Names for the CPU-specific flags. Must match the order above. */
 #define JIT_F_CPU_FIRST		JIT_F_CMOV
 #define JIT_F_CPUSTRING		"\4CMOV\4SSE2\4SSE3\6SSE4.1\2P4\3AMD\2K8\4ATOM"
+#elif LJ_TARGET_ARM
+#define JIT_F_ARMV6		0x00000010
+#define JIT_F_ARMV6T2		0x00000020
+#define JIT_F_ARMV7		0x00000040
+
+/* Names for the CPU-specific flags. Must match the order above. */
+#define JIT_F_CPU_FIRST		JIT_F_ARMV6
+#define JIT_F_CPUSTRING		"\5ARMv6\7ARMv6T2\5ARMv7"
 #else
-#error "Missing CPU-specific JIT engine flags"
+#define JIT_F_CPU_FIRST		0
+#define JIT_F_CPUSTRING		""
 #endif
 
 /* Optimization flags. */
@@ -113,20 +122,25 @@ typedef enum {
   LJ_POST_NONE,		/* No action. */
   LJ_POST_FIXCOMP,	/* Fixup comparison and emit pending guard. */
   LJ_POST_FIXGUARD,	/* Fixup and emit pending guard. */
+  LJ_POST_FIXGUARDSNAP,	/* Fixup and emit pending guard and snapshot. */
   LJ_POST_FIXBOOL,	/* Fixup boolean result. */
   LJ_POST_FFRETRY	/* Suppress recording of retried fast functions. */
 } PostProc;
 
 /* Machine code type. */
+#if LJ_TARGET_X86ORX64
 typedef uint8_t MCode;
+#else
+typedef uint32_t MCode;
+#endif
 
 /* Stack snapshot header. */
 typedef struct SnapShot {
   uint16_t mapofs;	/* Offset into snapshot map. */
   IRRef1 ref;		/* First IR ref for this snapshot. */
   uint8_t nslots;	/* Number of valid slots. */
+  uint8_t topslot;	/* Maximum frame extent. */
   uint8_t nent;		/* Number of compressed entries. */
-  uint8_t depth;	/* Number of frame links. */
   uint8_t count;	/* Count of taken exits for this snapshot. */
 } SnapShot;
 
@@ -138,6 +152,7 @@ typedef uint32_t SnapEntry;
 #define SNAP_FRAME		0x010000	/* Frame slot. */
 #define SNAP_CONT		0x020000	/* Continuation slot. */
 #define SNAP_NORESTORE		0x040000	/* No need to restore slot. */
+#define SNAP_SOFTFPNUM		0x080000	/* Soft-float number. */
 LJ_STATIC_ASSERT(SNAP_FRAME == TREF_FRAME);
 LJ_STATIC_ASSERT(SNAP_CONT == TREF_CONT);
 
@@ -160,13 +175,23 @@ typedef uint32_t ExitNo;
 typedef uint32_t TraceNo;	/* Used to pass around trace numbers. */
 typedef uint16_t TraceNo1;	/* Stored trace number. */
 
-#define TRACE_INTERP	0	/* Fallback to interpreter. */
+/* Type of link. ORDER LJ_TRLINK */
+typedef enum {
+  LJ_TRLINK_NONE,		/* Incomplete trace. No link, yet. */
+  LJ_TRLINK_ROOT,		/* Link to other root trace. */
+  LJ_TRLINK_LOOP,		/* Loop to same trace. */
+  LJ_TRLINK_TAILREC,		/* Tail-recursion. */
+  LJ_TRLINK_UPREC,		/* Up-recursion. */
+  LJ_TRLINK_DOWNREC,		/* Down-recursion. */
+  LJ_TRLINK_INTERP,		/* Fallback to interpreter. */
+  LJ_TRLINK_RETURN		/* Return to interpreter. */
+} TraceLink;
 
 /* Trace object. */
 typedef struct GCtrace {
   GCHeader;
   uint8_t topslot;	/* Top stack slot already checked to be allocated. */
-  uint8_t unused1;
+  uint8_t linktype;	/* Type of link. */
   IRRef nins;		/* Next IR instruction. Biased with REF_BIAS. */
   GCRef gclist;
   IRIns *ir;		/* IR instructions/constants. Biased with REF_BIAS. */
@@ -200,6 +225,14 @@ typedef struct GCtrace {
 
 LJ_STATIC_ASSERT(offsetof(GChead, gclist) == offsetof(GCtrace, gclist));
 
+static LJ_AINLINE MSize snap_nextofs(GCtrace *T, SnapShot *snap)
+{
+  if (snap+1 == &T->snap[T->nsnap])
+    return T->nsnapmap;
+  else
+    return (snap+1)->mapofs;
+}
+
 /* Round-robin penalty cache for bytecodes leading to aborted traces. */
 typedef struct HotPenalty {
   MRef pc;		/* Starting bytecode PC. */
@@ -208,7 +241,7 @@ typedef struct HotPenalty {
 } HotPenalty;
 
 #define PENALTY_SLOTS	64	/* Penalty cache slot. Must be a power of 2. */
-#define PENALTY_MIN	36	/* Minimum penalty value. */
+#define PENALTY_MIN	(36*2)	/* Minimum penalty value. */
 #define PENALTY_MAX	60000	/* Maximum penalty value. */
 #define PENALTY_RNDBITS	4	/* # of random bits to add to penalty value. */
 
@@ -244,7 +277,7 @@ enum {
   ((TValue *)(((intptr_t)&J->ksimd[2*(n)] + 15) & ~(intptr_t)15))
 
 /* Set/reset flag to activate the SPLIT pass for the current trace. */
-#if LJ_32 && LJ_HASFFI
+#if LJ_SOFTFP || (LJ_32 && LJ_HASFFI)
 #define lj_needsplit(J)		(J->needsplit = 1)
 #define lj_resetsplit(J)	(J->needsplit = 0)
 #else
@@ -305,7 +338,7 @@ typedef struct jit_State {
   MSize sizesnapmap;	/* Size of temp. snapshot map buffer. */
 
   PostProc postproc;	/* Required post-processing after execution. */
-#if LJ_32 && LJ_HASFFI
+#if LJ_SOFTFP || (LJ_32 && LJ_HASFFI)
   int needsplit;	/* Need SPLIT pass. */
 #endif
 
@@ -344,7 +377,11 @@ typedef struct jit_State {
   size_t szallmcarea;	/* Total size of all allocated mcode areas. */
 
   TValue errinfo;	/* Additional info element for trace errors. */
-} jit_State;
+}
+#if LJ_TARGET_ARM
+LJ_ALIGN(16)		/* For DISPATCH-relative addresses in assembler part. */
+#endif
+jit_State;
 
 /* Trivial PRNG e.g. used for penalty randomization. */
 static LJ_AINLINE uint32_t LJ_PRNG_BITS(jit_State *J, int bits)
@@ -352,23 +389,6 @@ static LJ_AINLINE uint32_t LJ_PRNG_BITS(jit_State *J, int bits)
   /* Yes, this LCG is very weak, but that doesn't matter for our use case. */
   J->prngstate = J->prngstate * 1103515245 + 12345;
   return J->prngstate >> (32-bits);
-}
-
-/* Exit stubs. */
-#if LJ_TARGET_X86ORX64
-/* Limited by the range of a short fwd jump (127): (2+2)*(32-1)-2 = 122. */
-#define EXITSTUB_SPACING	(2+2)
-#define EXITSTUBS_PER_GROUP	32
-#else
-#error "Missing CPU-specific exit stub definitions"
-#endif
-
-/* Return the address of an exit stub. */
-static LJ_AINLINE MCode *exitstub_addr(jit_State *J, ExitNo exitno)
-{
-  lua_assert(J->exitstubgroup[exitno / EXITSTUBS_PER_GROUP] != NULL);
-  return J->exitstubgroup[exitno / EXITSTUBS_PER_GROUP] +
-	 EXITSTUB_SPACING*(exitno % EXITSTUBS_PER_GROUP);
 }
 
 #endif

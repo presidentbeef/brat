@@ -4,7 +4,6 @@ ONIG=onig-5.9.2
 LREX=lrexlib-2.4.0
 LPTY=lpty-0.9-1
 
-set -e
 
 which ruby > /dev/null
 
@@ -21,13 +20,24 @@ then
   echo Could not find RubyGems. Please install it.
 fi
 
-gem which treetop > /dev/null
+gem list -i treetop > /dev/null
 
 if [ "$?" -ne "0" ]
 then
   echo Could not find Treetop gem. Please install it via: gem install treetop
   exit
 fi
+
+which tt > /dev/null
+
+if [ "$?" -ne "0" ]
+then
+  echo Treetop executable \'tt\' could not be found, but Treetop gem is installed. 
+  echo Please adjust your path or install Treetop using: sudo gem install treetop
+  exit
+fi
+
+set -e
 
 SYSTEM=`uname`
 
@@ -48,6 +58,7 @@ COMMON=$BRATPATH/src/common
 LIB=$BRATPATH/lib
 export LUA_SRC_PATH=$BRATPATH/bin/lua/
 export LUA_INC_PATH=$BRATPATH/bin/lua/include/luajit-2.0
+export BRAT_LIB_PATH=$LIB
 
 cd $SRC
 
@@ -60,7 +71,7 @@ make PREFIX=$BRATPATH/bin/lua
 #Copy to bin/lua
 make install PREFIX=$BRATPATH/bin/lua
 
-mv -f $BRATPATH/bin/lua/bin/luajit-2.0.0-beta7 $BRATPATH/bin/lua/bin/lua
+mv -f $BRATPATH/bin/lua/bin/luajit-2.0.0-beta9 $BRATPATH/bin/lua/bin/lua
 
 echo Building Oniguruma
 cd $COMMON/$ONIG
@@ -114,17 +125,24 @@ cd $COMMON/linenoise
 if [ "$SYSTEM" = "linux" ]
 then
   gcc -fPIC -shared linenoise.c -o liblinenoise.so
+  mv -f liblinenoise.so $LIB/
 elif [ "$SYSTEM" = "osx" ]
 then
-  gcc -bundle -undefined dynamic_lookup linenoise.c -o liblinenoise.so
+  gcc -bundle -undefined dynamic_lookup linenoise.c -o liblinenoise.dylib
+  mv -f liblinenoise.dylib $LIB/
 fi
-
-mv -f liblinenoise.so $LIB/
 
 echo Building lpty
 cd $SRC/$LPTY
 make
 cp -f lpty.so $LIB
+
+echo Building Lua Socket
+cd $SRC/luasocket-2.0.2/
+make
+mkdir -p $LIB/mime
+cp src/mime.so.1.0.2 $LIB/mime/core.so
+cp src/socket.so.2.0.2 $LIB/socket/core.so
 
 echo Building parser
 cd $BRATPATH/parser
@@ -151,9 +169,22 @@ make clean
 cd $SRC/$LPTY
 make clean
 
+cd $SRC/luasocket-2.0.2
+make clean
+
 cd $BRATPATH
+
+set +e
+
+echo Building Brat libraries
 
 for f in stdlib/*.brat
 do
   ./brat $f
 done
+
+set -e
+
+echo Running Brat tests
+
+./brat test/test.brat

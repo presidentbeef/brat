@@ -19,6 +19,7 @@
 #include "lj_tab.h"
 #include "lj_ir.h"
 #include "lj_jit.h"
+#include "lj_ircall.h"
 #include "lj_iropt.h"
 #include "lj_trace.h"
 #if LJ_HASFFI
@@ -26,6 +27,7 @@
 #include "lj_cdata.h"
 #include "lj_carith.h"
 #endif
+#include "lj_vm.h"
 #include "lj_lib.h"
 
 /* Some local macros to save typing. Undef'd at the end. */
@@ -45,14 +47,13 @@ IRDEF(IRMODE)
 
 /* C call info for CALL* instructions. */
 LJ_DATADEF const CCallInfo lj_ir_callinfo[] = {
-#define IRCALLCI(name, nargs, kind, type, flags) \
-  { (ASMFunction)name, \
+#define IRCALLCI(cond, name, nargs, kind, type, flags) \
+  { (ASMFunction)IRCALLCOND_##cond(name), \
     (nargs)|(CCI_CALL_##kind)|(IRT_##type<<CCI_OTSHIFT)|(flags) },
 IRCALLDEF(IRCALLCI)
 #undef IRCALLCI
   { NULL, 0 }
 };
-
 
 /* -- IR emitter ---------------------------------------------------------- */
 

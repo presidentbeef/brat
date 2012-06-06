@@ -7,8 +7,7 @@ exp = { base, exp |
   1.to(exp).reduce 1, { m, n | m = m * base }
 }
 
-#Numbers are weird
-1.parent.^ = { rhs |
+number.prototype.^ = { rhs |
   num = my
   1.to(rhs).reduce 1 { m, n | m = m * num }
 }

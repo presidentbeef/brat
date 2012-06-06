@@ -1,0 +1,70 @@
+includes :zeromq :json
+
+handler = object.new
+context = zeromq.new
+
+handler.init = { opts |
+  my.sender_id = opts[:sender_id]
+
+  my.recv_con = socket.new context, :pull
+  my.recv_con.connect opts[:receive]
+
+  my.send_con = socket.new context, :publisher
+  my.send_con.connect opts[:send]
+}
+
+handler.request_format = /^(\w+) (\d+) (\S+) (\d+):(.*),/m
+
+handler.parse_request = { msg |
+  request = object.new
+
+  parsed = msg.match handler.request_format
+
+  false? parsed
+    { throw "ACK: #{msg}" }
+
+  request.server = parsed[1]
+  request.client = parsed[2]
+  request.path = parsed[3]
+
+  header_length = parsed[4].to_i
+  request.headers = json.parse parsed[5][0, header_length]
+
+  request.body = parsed[5][header_length + 1,-1].match(/^\d+:(.*)$/)[1]
+
+  request
+}
+
+handler.prototype.http = { body, code = "200", status = "OK", headers = [:] |
+  headers['Content-Length'] = body.length
+  "HTTP/1.1 #{code} #{status}\r\n#{headers.map({ k,v | "#{k}: #{v}" }).join("\r\n")}\r\n\r\n#{body}"
+}
+
+handler.prototype.send = { client_id, message, opts = [ http: true ] |
+  true? opts[:http]
+    { message = http message }
+
+  my.send_con.send "#{my.sender_id} #{client_id.length}:#{client_id}, #{message}"
+}
+
+handler.prototype.reply = { request, msg, opts = [ http: true ] |
+  my.send request.client, msg, opts
+}
+
+handler.prototype.receive = {
+  handler.parse_request my.recv_con.receive
+}
+
+export handler, "mongrel"
+
+#*
+h = handler.new sender_id: :test receive: "tcp://127.0.0.1:9995" send: "tcp://127.0.0.1:9994"
+
+loop {
+  p "Waiting..."
+  msg = h.receive.split
+  p msg
+  serverid = msg[0]
+  clientid = msg[1]
+  h.send clientid, 'hello'
+}

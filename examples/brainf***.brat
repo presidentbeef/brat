@@ -26,7 +26,7 @@ bf.init = { instructions |
 }
 
 #Run instructions
-bf.run = {
+bf.prototype.run = {
   current_instruction = null
 
   while { current_instruction = instructions[my.program_counter] }
@@ -76,7 +76,7 @@ bf.interpreter["]"] = {
 }
 
 #Precalcuate '[' and ']' jump locations
-bf.calculate_jumps = {
+bf.prototype.calculate_jumps = {
   forwards = []
   jumps = [:]
   

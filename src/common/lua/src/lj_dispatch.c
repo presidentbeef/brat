@@ -8,6 +8,7 @@
 
 #include "lj_obj.h"
 #include "lj_err.h"
+#include "lj_debug.h"
 #include "lj_state.h"
 #include "lj_frame.h"
 #include "lj_bc.h"
@@ -49,7 +50,8 @@ void lj_dispatch_init(GG_State *GG)
 /* Initialize hotcount table. */
 void lj_dispatch_init_hotcount(global_State *g)
 {
-  HotCount start = (HotCount)G2J(g)->param[JIT_P_hotloop];
+  int32_t hotloop = G2J(g)->param[JIT_P_hotloop];
+  HotCount start = (HotCount)(hotloop*HOTCOUNT_LOOP - 1);
   HotCount *hotcount = G2GG(g)->hotcount;
   uint32_t i;
   for (i = 0; i < HOTCOUNT_SIZE; i++)
@@ -171,11 +173,11 @@ void lj_dispatch_update(global_State *g)
 static void setptmode(global_State *g, GCproto *pt, int mode)
 {
   if ((mode & LUAJIT_MODE_ON)) {  /* (Re-)enable JIT compilation. */
-    pt->flags &= ~PROTO_NO_JIT;
+    pt->flags &= ~PROTO_NOJIT;
     lj_trace_reenableproto(pt);  /* Unpatch all ILOOP etc. bytecodes. */
   } else {  /* Flush and/or disable JIT compilation. */
     if (!(mode & LUAJIT_MODE_FLUSH))
-      pt->flags |= PROTO_NO_JIT;
+      pt->flags |= PROTO_NOJIT;
     lj_trace_flushproto(g, pt);  /* Flush all traces of prototype. */
   }
 }
@@ -184,6 +186,7 @@ static void setptmode(global_State *g, GCproto *pt, int mode)
 static void setptmode_all(global_State *g, GCproto *pt, int mode)
 {
   ptrdiff_t i;
+  if (!(pt->flags & PROTO_CHILD)) return;
   for (i = -(ptrdiff_t)pt->sizekgc; i < 0; i++) {
     GCobj *o = proto_kgc(pt, i);
     if (o->gch.gct == ~LJ_TPROTO) {
@@ -211,10 +214,15 @@ int luaJIT_setmode(lua_State *L, int idx, int mode)
     } else {
       if (!(mode & LUAJIT_MODE_ON))
 	G2J(g)->flags &= ~(uint32_t)JIT_F_ON;
+#if LJ_TARGET_X86ORX64
       else if ((G2J(g)->flags & JIT_F_SSE2))
 	G2J(g)->flags |= (uint32_t)JIT_F_ON;
       else
 	return 0;  /* Don't turn on JIT compiler without SSE2 support. */
+#else
+      else
+	G2J(g)->flags |= (uint32_t)JIT_F_ON;
+#endif
       lj_dispatch_update(g);
     }
     break;
@@ -348,6 +356,7 @@ static BCReg cur_topslot(GCproto *pt, const BCIns *pc, uint32_t nres)
 /* Instruction dispatch. Used by instr/line/return hooks or when recording. */
 void LJ_FASTCALL lj_dispatch_ins(lua_State *L, const BCIns *pc)
 {
+  ERRNO_SAVE
   GCfunc *fn = curr_func(L);
   GCproto *pt = funcproto(fn);
   void *cf = cframe_raw(L->cframe);
@@ -374,14 +383,15 @@ void LJ_FASTCALL lj_dispatch_ins(lua_State *L, const BCIns *pc)
   if ((g->hookmask & LUA_MASKLINE)) {
     BCPos npc = proto_bcpos(pt, pc) - 1;
     BCPos opc = proto_bcpos(pt, oldpc) - 1;
-    BCLine line = proto_line(pt, npc);
-    if (pc <= oldpc || opc >= pt->sizebc || line != proto_line(pt, opc)) {
+    BCLine line = lj_debug_line(pt, npc);
+    if (pc <= oldpc || opc >= pt->sizebc || line != lj_debug_line(pt, opc)) {
       callhook(L, LUA_HOOKLINE, line);
       L->top = L->base + slots;  /* Fix top again. */
     }
   }
   if ((g->hookmask & LUA_MASKRET) && bc_isret(bc_op(pc[-1])))
     callhook(L, LUA_HOOKRET, -1);
+  ERRNO_RESTORE
 }
 
 /* Initialize call. Ensure stack space and return # of missing parameters. */
@@ -392,7 +402,7 @@ static int call_init(lua_State *L, GCfunc *fn)
     int numparams = pt->numparams;
     int gotparams = (int)(L->top - L->base);
     int need = pt->framesize;
-    if ((pt->flags & PROTO_IS_VARARG)) need += 1+gotparams;
+    if ((pt->flags & PROTO_VARARG)) need += 1+gotparams;
     lj_state_checkstack(L, (MSize)need);
     numparams -= gotparams;
     return numparams >= 0 ? numparams : 0;
@@ -405,6 +415,7 @@ static int call_init(lua_State *L, GCfunc *fn)
 /* Call dispatch. Used by call hooks, hot calls or when recording. */
 ASMFunction LJ_FASTCALL lj_dispatch_call(lua_State *L, const BCIns *pc)
 {
+  ERRNO_SAVE
   GCfunc *fn = curr_func(L);
   BCOp op;
   global_State *g = G(L);
@@ -420,8 +431,12 @@ ASMFunction LJ_FASTCALL lj_dispatch_call(lua_State *L, const BCIns *pc)
     goto out;
   } else if (J->state != LJ_TRACE_IDLE &&
 	     !(g->hookmask & (HOOK_GC|HOOK_VMEVENT))) {
+#ifdef LUA_USE_ASSERT
+    ptrdiff_t delta = L->top - L->base;
+#endif
     /* Record the FUNC* bytecodes, too. */
     lj_trace_ins(J, pc-1);  /* The interpreter bytecode PC is offset by 1. */
+    lua_assert(L->top - L->base == delta);
   }
 #endif
   if ((g->hookmask & LUA_MASKCALL)) {
@@ -443,6 +458,7 @@ out:
       (op == BC_FUNCF || op == BC_FUNCV))
     op = (BCOp)((int)op+(int)BC_IFUNCF-(int)BC_FUNCF);
 #endif
+  ERRNO_RESTORE
   return makeasmfunc(lj_bc_ofs[op]);  /* Return static dispatch target. */
 }
 

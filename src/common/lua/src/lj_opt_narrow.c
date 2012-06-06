@@ -284,7 +284,8 @@ static int narrow_conv_backprop(NarrowConv *nc, IRRef ref, int depth)
       }
     } else {
       int32_t k = lj_num2int(n);
-      if (n == (lua_Number)k) {  /* Only if constant is really an integer. */
+      /* Only if constant is a small integer. */
+      if (checki16(k) && n == (lua_Number)k) {
 	*nc->sp++ = NARROWINS(NARROW_INT, 0);
 	*nc->sp++ = (NarrowIns)k;
 	return 0;
@@ -495,7 +496,7 @@ TRef LJ_FASTCALL lj_opt_narrow_cindex(jit_State *J, TRef tr)
 {
   lua_assert(tref_isnumber(tr));
   if (tref_isnum(tr))
-    return emitir(IRTI(IR_CONV), tr,
+    return emitir(IRT(IR_CONV, IRT_INTP), tr,
 		  (IRT_INTP<<5)|IRT_NUM|IRCONV_TRUNC|IRCONV_ANY);
   /* Undefined overflow semantics allow stripping of ADDOV, SUBOV and MULOV. */
   return narrow_stripov(J, tr, IR_MULOV,
@@ -551,16 +552,16 @@ TRef lj_opt_narrow_unm(jit_State *J, TRef rc, TValue *vc)
 }
 
 /* Narrowing of modulo operator. */
-TRef lj_opt_narrow_mod(jit_State *J, TRef rb, TRef rc)
+TRef lj_opt_narrow_mod(jit_State *J, TRef rb, TRef rc, TValue *vc)
 {
   TRef tmp;
-  if ((J->flags & JIT_F_OPT_NARROW) &&
-      tref_isk(rc) && tref_isint(rc)) {  /* Optimize x % k. */
-    int32_t k = IR(tref_ref(rc))->i;
-    if (k > 0 && (k & (k-1)) == 0) {  /* i % 2^k ==> band(i, 2^k-1) */
-      if (tref_isinteger(rb))
-	return emitir(IRTI(IR_BAND), rb, lj_ir_kint(J, k-1));
-    }
+  if (tvisstr(vc) && !lj_str_tonum(strV(vc), vc))
+    lj_trace_err(J, LJ_TRERR_BADTYPE);
+  if ((LJ_DUALNUM || (J->flags & JIT_F_OPT_NARROW)) &&
+      tref_isinteger(rb) && tref_isinteger(rc) &&
+      (tvisint(vc) ? intV(vc) != 0 : !tviszero(vc))) {
+    emitir(IRTGI(IR_NE), rc, lj_ir_kint(J, 0));
+    return emitir(IRTI(IR_MOD), rb, rc);
   }
   /* b % c ==> b - floor(b/c)*c */
   rb = lj_ir_tonum(J, rb);

@@ -1,0 +1,13 @@
+#* http://rosettacode.org/wiki/Guess_the_number
+  Guess a number between 1 and 10
+*#
+
+number = random 10
+
+p "Guess a number between 1 and 10."
+
+until {
+  true? ask("Guess: ").to_i == number
+    { p "Well guessed!"; true }
+    { p "Guess again!" }
+}

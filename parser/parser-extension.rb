@@ -55,11 +55,13 @@ class Treetop::Runtime::SyntaxNode
   end
 
   def new_scope
+    @@unset << []
     variables << {}
   end
 
   def pop_scope
     @@variables.pop
+    @@unset.pop
   end
 
   def variables
@@ -67,19 +69,41 @@ class Treetop::Runtime::SyntaxNode
   end
 
   def self.clear_variables
-    @@unset = []
-    @@variables = []
-    @@variables << {}
+    @@unset = [[]]
+    @@variables = [{}]
+    @@variable_type = {}
     @@temp = 0
   end
 
+  def assign temp, type
+    if temp? temp
+      if type
+        @@variable_type[temp] = type
+      else
+        @@variable_type.delete temp
+      end
+    end
+  end
+
+  def is? temp, type
+    @@variable_type[temp] == type
+  end
+
+  def type_of temp
+    @@variable_type[temp]
+  end
+
   def next_temp
-    temp = @@unset.pop
-    @result = temp || "_temp#{@@temp += 1}"
+    @result = next_unset || "_temp#{@@temp += 1}"
   end
 
   def unset temp
-    @@unset << temp if temp? temp and not named? temp
+    @@variable_type.delete temp
+    @@unset[-1] << temp if temp? temp and not named? temp
+  end
+
+  def next_unset
+    @@unset[-1].pop
   end
 
   def named? temp
@@ -118,12 +142,12 @@ class Treetop::Runtime::SyntaxNode
       ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal",
         "_percent", "_plus", "_minus", "_forward", "_star", "_up"].include? method
 
-      if number? arguments
+      if number? arguments or is? arguments, :number
         check_rhs = ""
       else
         check_rhs = "and _type(#{arguments}) == 'number'" 
       end
-        
+
       call_number = <<-LUA
       if number._unchanged('#{method}') #{check_rhs} then
         #{inline_number_operation action, object, method, arguments}
@@ -133,12 +157,7 @@ class Treetop::Runtime::SyntaxNode
       LUA
     end
 
-    if number? temp
-      call_number
-    else
-      <<-LUA
-      local _t = _type(#{temp})
-      if _t == "table" then
+    call_table = <<-LUA
         if #{has_field(temp, method)} then
           #{action} #{temp}:#{method}(#{arguments})
         elseif #{has_field(temp, "no_undermethod")} then
@@ -146,10 +165,27 @@ class Treetop::Runtime::SyntaxNode
         else
           _error(exception:method_error(#{display_object object}, "#{nice_id method}"))
         end
+    LUA
+
+    function_error = "_error(exception:new(\"Cannot invoke methods on methods.\"))\n"
+
+    temp_type = type_of temp
+
+    if number? temp or temp_type == :number
+      call_number
+    elsif temp_type == :function
+      function_error
+    elsif temp_type #some kind of known type
+      call_table
+    else
+      <<-LUA
+      local _t = _type(#{temp})
+      if _t == "table" then
+        #{call_table}
       elseif _t == "number" then
         #{call_number}
       elseif _t == "function" then
-        _error(exception:new("Cannot invoke methods on methods."))
+        #{function_error}
       elseif #{temp} == nil then
         _error(exception:null_error(#{display_object object, false}, "invoke #{nice_id method} on it"))
       else
@@ -211,16 +247,28 @@ class Treetop::Runtime::SyntaxNode
       action = "return "
     end
 
+    call_function = if arg_length > 0
+                      "#{action} #{temp}(_self, #{arguments})\n"
+                    else
+                      "#{action} #{temp}(_self)\n"
+                    end
+
+    if t = type_of(temp)
+      if t == :function
+        return call_function
+      else
+        if res_var
+          assign res_var, type_of(temp)
+        end
+
+        return "#{action} #{temp}\n"
+      end
+    end
+
     no_meth = var_exist?("no_undermethod") || "no_undermethod"
     output = <<-LUA
     if _type(#{temp}) == "function" then
-      #{if arg_length > 0
-        "#{action} #{temp}(_self, #{arguments})\n"
-      else
-
-        "#{action} #{temp}(_self)\n"
-      end
-      }
+      #{call_function}
     elseif #{temp} == nil then
       if #{has_field("_self", object)} then
         #{action} _self:#{object}(#{arguments})
@@ -234,8 +282,9 @@ class Treetop::Runtime::SyntaxNode
         _error(exception:name_error(#{display_object object, false}))
       end
     LUA
+
     if arg_length > 0
-      output << "else _error(exception:new(\"Tried to invoke non-method: #{nice_id object}\")) end\n"
+      output << "else _error(exception:new(\"Tried to invoke non-method: #{nice_id object} (\" .. object.__type(#{object}) .. \")\")) end\n"
     else
       output << "else #{action} #{temp} end\n"
     end
@@ -256,17 +305,23 @@ class Treetop::Runtime::SyntaxNode
       action = "return "
     end
 
-    <<-LUA
-    if #{temp} == nil then
-      if #{has_field("_self", "no_undermethod")} then
-        #{call_no_method res_var, "_self", method, arguments, arg_length}
-      else
-        _error(exception:null_error(#{display_object method, false}, "invoke method"))
+    if is? temp, :function
+      "#{action} #{temp}(#{arguments})"
+    else
+      <<-LUA
+      if #{temp} == nil then
+        if #{has_field("_self", temp)} then
+          #{action} _self.#{temp}(#{arguments})
+        elseif #{has_field("_self", "no_undermethod")} then
+          #{call_no_method res_var, "_self", method, arguments, arg_length}
+        else
+          _error(exception:null_error(#{display_object method, false}, "invoke method"))
+        end
+      else 
+        #{action} #{temp}(#{arguments})
       end
-    else 
-      #{action} #{temp}(#{arguments})
+      LUA
     end
-    LUA
   end
 
   def escape_identifier identifier
@@ -355,4 +410,29 @@ class Treetop::Runtime::SyntaxNode
       false
     end
   end
+
+  def get_result res_var = nil
+    if @result = res_var or @result = next_unset
+      @set_result = "#@result = "
+    else
+      next_temp
+      @set_result = "local #@result = "
+    end
+  end
+
+  def set_result out
+    @set_result + out + "\n"
+  end
+
+  def init_result
+    if @set_result[0,5] == "local"
+      res = @set_result + "nil\n"
+      @set_result = "#@result = "
+      res
+    else
+      ""
+    end
+  end
+
+  def type; end
 end

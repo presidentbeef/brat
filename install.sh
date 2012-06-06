@@ -14,11 +14,11 @@ tt parser/brat.treetop
 echo "Installing..."
 
 cp -fv brat $BRATLIB
-cp -rfv bin/ $BRATLIB
-cp -rfv core/ $BRATLIB
-cp -rfv lib/ $BRATLIB
-cp -rfv parser/ $BRATLIB
-cp -rfv stdlib/ $BRATLIB
+cp -Rfv bin $BRATLIB
+cp -Rfv core $BRATLIB
+cp -Rfv lib $BRATLIB
+cp -Rfv parser $BRATLIB
+cp -Rfv stdlib $BRATLIB
 
 echo "#!/bin/sh
 $BRATLIB/brat \$@" > $PREFIX/bin/brat

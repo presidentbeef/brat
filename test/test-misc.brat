@@ -23,6 +23,23 @@ add_results setup name: "miscellaneous tests" {
     assert { false || { true } }
   }
 
+  test "or return value" {
+    assert_equal 1 { 1 || 2 }
+    assert_equal "a" { false || "a" }
+    assert_equal "b" { "b" || "a" }
+    assert_equal "a" { "a" || { "b" } }
+    assert_equal "a" { false || { "a" } }
+    assert_equal "a" { false || { "a" } }
+  }
+
+  test "and return value" {
+    assert_equal 1 { 1 && 2 }
+    assert_equal "a" { true && "a" }
+    assert_equal "a" { "b" && "a" }
+    assert_equal "a" { "a" || { "b" } }
+    assert_equal "a" { false || { "a" } }
+  }
+
   test "when" {
     assert_equal "hello" { when true, 'hello' }
     assert_equal "hello" { when { true } { 'hello' } }
@@ -108,7 +125,7 @@ add_results setup name: "miscellaneous tests" {
   test "comments" {
     assert_equal 1 { x = 1; #x = 6 
       x }
-    assert_equal 1 { x = 1; #* x = 6 */ 
+    assert_equal 1 { x = 1; #* x = 6 *# 
       x }
     assert_equal 1 { x = 1; #* 
       x = 6 
@@ -148,6 +165,11 @@ add_results setup name: "miscellaneous tests" {
     assert_equal 3 { x = 1; protect { throw 'eep' } rescue: { x = x + 1 } ensure: { x = x + 1 }; x }
     assert_equal 3 { x = 1; protect { throw 'eep' } rescue: { x = x * 2 } ensure: { x = x + 1 }; x }
     assert_equal 2 { x = 1; protect { 'no error' } rescue: { x = x * 2 } ensure: { x = x + 1 }; x }
+  }
+
+  test "protect from" {
+    assert_equal "hello" { protect { throw exception.new "blah", "blah" } from: :blah rescue: { "hello" } }
+    assert_fail { protect { throw exception.new "nah", "nah" } from: :blah rescue: { "hello" } }
   }
 
   test "exceptions" {

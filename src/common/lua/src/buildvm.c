@@ -19,9 +19,11 @@
 #include "lj_gc.h"
 #include "lj_bc.h"
 #include "lj_ir.h"
+#include "lj_ircall.h"
 #include "lj_frame.h"
 #include "lj_dispatch.h"
 #if LJ_HASFFI
+#include "lj_ctype.h"
 #include "lj_ccall.h"
 #endif
 #include "luajit.h"
@@ -66,9 +68,15 @@ static int collect_reloc(BuildCtx *ctx, uint8_t *addr, int idx, int type);
 #elif LJ_TARGET_ARM
 #include "../dynasm/dasm_arm.h"
 #include "buildvm_arm.h"
+#elif LJ_TARGET_PPC
+#include "../dynasm/dasm_ppc.h"
+#include "buildvm_ppc.h"
 #elif LJ_TARGET_PPCSPE
 #include "../dynasm/dasm_ppc.h"
 #include "buildvm_ppcspe.h"
+#elif LJ_TARGET_MIPS
+#include "../dynasm/dasm_mips.h"
+#include "buildvm_mips.h"
 #else
 #error "No support for this architecture (yet)"
 #endif
@@ -267,7 +275,7 @@ IRFLDEF(FLNAME)
 };
 
 const char *const ircall_names[] = {
-#define IRCALLNAME(name, nargs, kind, type, flags)	#name,
+#define IRCALLNAME(cond, name, nargs, kind, type, flags)	#name,
 IRCALLDEF(IRCALLNAME)
 #undef IRCALLNAME
   NULL

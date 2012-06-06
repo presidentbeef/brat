@@ -1,0 +1,10 @@
+#* http://rosettacode.org/wiki/Loops/For
+  Show example of nested loops 
+*#
+
+1.to 5, { i |
+  1.to i, { j |
+    print "*"
+  }
+  print "\n"
+}

@@ -12,6 +12,7 @@
 
 #include "lj_gc.h"
 #include "lj_err.h"
+#include "lj_debug.h"
 #include "lj_frame.h"
 #include "lj_jit.h"
 #include "lj_dispatch.h"
@@ -231,8 +232,10 @@ enum {
 
 enum {
   DW_CFA_nop = 0x0,
+  DW_CFA_offset_extended = 0x5,
   DW_CFA_def_cfa = 0xc,
   DW_CFA_def_cfa_offset = 0xe,
+  DW_CFA_offset_extended_sf = 0x11,
   DW_CFA_advance_loc = 0x40,
   DW_CFA_offset = 0x80
 };
@@ -288,6 +291,13 @@ enum {
   DW_REG_8, DW_REG_9, DW_REG_10, DW_REG_11,
   DW_REG_12, DW_REG_13, DW_REG_14, DW_REG_15,
   DW_REG_RA,
+#elif LJ_TARGET_ARM
+  DW_REG_SP = 13,
+  DW_REG_RA = 14,
+#elif LJ_TARGET_PPC
+  DW_REG_SP = 1,
+  DW_REG_RA = 65,
+  DW_REG_CR = 70,
 #else
 #error "Unsupported target architecture"
 #endif
@@ -343,7 +353,7 @@ static const ELFheader elfhdr_template = {
   .eosabi = 2,
 #elif defined(__OpenBSD__)
   .eosabi = 12,
-#elif defined(__solaris__)
+#elif (defined(__sun__) && defined(__svr4__)) || defined(__solaris__)
   .eosabi = 6,
 #else
   .eosabi = 0,
@@ -355,6 +365,10 @@ static const ELFheader elfhdr_template = {
   .machine = 3,
 #elif LJ_TARGET_X64
   .machine = 62,
+#elif LJ_TARGET_ARM
+  .machine = 40,
+#elif LJ_TARGET_PPC
+  .machine = 20,
 #else
 #error "Unsupported target architecture"
 #endif
@@ -517,7 +531,11 @@ static void LJ_FASTCALL gdbjit_ehframe(GDBJITctx *ctx)
     DB(DW_REG_RA);		/* Return address register. */
     DB(1); DB(DW_EH_PE_textrel|DW_EH_PE_udata4);  /* Augmentation data. */
     DB(DW_CFA_def_cfa); DUV(DW_REG_SP); DUV(sizeof(uintptr_t));
+#if LJ_TARGET_PPC
+    DB(DW_CFA_offset_extended_sf); DB(DW_REG_RA); DSV(-1);
+#else
     DB(DW_CFA_offset|DW_REG_RA); DUV(1);
+#endif
     DALIGNNOP(sizeof(uintptr_t));
   )
 
@@ -541,6 +559,22 @@ static void LJ_FASTCALL gdbjit_ehframe(GDBJITctx *ctx)
     /* Extra registers saved for JIT-compiled code. */
     DB(DW_CFA_offset|DW_REG_13); DUV(9);
     DB(DW_CFA_offset|DW_REG_12); DUV(10);
+#elif LJ_TARGET_ARM
+    {
+      int i;
+      DB(DW_CFA_offset_extended); DB(DW_REG_CR); DUV(55);
+      for (i = 11; i >= 4; i--) {  /* R4-R11. */
+	DB(DW_CFA_offset|i); DUV(2+(11-i));
+      }
+    }
+#elif LJ_TARGET_PPC
+    {
+      int i;
+      for (i = 14; i <= 31; i++) {
+	DB(DW_CFA_offset|i); DUV(37+(31-i));
+	DB(DW_CFA_offset|32|i); DUV(2+2*(31-i));
+      }
+    }
 #else
 #error "Unsupported target architecture"
 #endif
@@ -716,11 +750,9 @@ void lj_gdbjit_addtrace(jit_State *J, GCtrace *T)
   ctx.spadjp = CFRAME_SIZE_JIT +
 	       (MSize)(parent ? traceref(J, parent)->spadjust : 0);
   ctx.spadj = CFRAME_SIZE_JIT + T->spadjust;
-  if (startpc >= proto_bc(pt) && startpc < proto_bc(pt) + pt->sizebc)
-    ctx.lineno = proto_line(pt, proto_bcpos(pt, startpc));
-  else
-    ctx.lineno = proto_line(pt, 0);  /* Wrong, but better than nothing. */
-  ctx.filename = strdata(proto_chunkname(pt));
+  lua_assert(startpc >= proto_bc(pt) && startpc < proto_bc(pt) + pt->sizebc);
+  ctx.lineno = lj_debug_line(pt, proto_bcpos(pt, startpc));
+  ctx.filename = proto_chunknamestr(pt);
   if (*ctx.filename == '@' || *ctx.filename == '=')
     ctx.filename++;
   else

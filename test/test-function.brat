@@ -163,6 +163,10 @@ add_results setup name: "function tests" {
     assert_equal 1 { a = object.new;a.== = {x| x + 1}; a == 0 }
   }
 
+  test "operation with implicit self and arguments" {
+    assert_equal "my" { a = object.new; a.m = { z | z }; a.y = { m("m") << "y" }; a.y }
+  }
+
   test "weird_args" {
     assert_equal 1 { a = object.new; a.a = {x| x }; b = { 1 }; a.a b }
     assert_equal 1 { a = {x| x}; a { 1 } }

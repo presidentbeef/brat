@@ -1,12 +1,21 @@
 local type = type
 local pairs = pairs
+local ffi = require('ffi')
+
+ffi.cdef[[
+unsigned int sleep(unsigned int seconds);
+]]
 
 --Helper functions
 new_brat = function (parent_object)
   local nb = { parent = function () return parent_object end }
   local get_parent = function (table, key)
     if table:parent() ~= nil then
-      return table:parent()[key]
+      if rawget(table:parent()._prototype, key) then
+        return table:parent()._prototype[key]
+      else
+        return table:parent()[key]
+      end
     else
       return nil
     end
@@ -26,6 +35,7 @@ new_brat = function (parent_object)
   mt["__tostring"] = to_s
 
   setmetatable(nb, mt)
+
   return nb
 end
 
@@ -141,67 +151,178 @@ init_object = function (o)
   mt["__tostring"] = to_s
 
   setmetatable(o, mt)
-
 end
 
 init_object(object)
 
+object._prototype = object
+
 object._is_an_object = true
 
-function object:parent()
+-- Object: object instance
+-- Call: object.parent
+function object:parent ()
   return object.__null
 end
 
+-- Object: object instance
+-- Call: object.prototype
+-- Call: object.prototype block
+-- Call: object.prototype method_hash
+-- Returns: prototype
+--
+-- Set functions for the prototype of the object. The prototype is used when
+-- constructing a child of the object (via _new_).
+--
+-- This function can either take a block which will execute in context of the
+-- prototype, or a hash table of method names and the methods themselves.
+--
+-- Alternatively, calling object.prototype returns the prototype object, so
+-- methods can be defined directly on that object.
+--
+-- Example:
+--
+-- person = object.new
+--
+-- person.init = { name |
+--   my.name = name
+--   my.status = "nuttin'"
+-- }
+--
+-- person.prototype walk: { my.status = "walking" }
+--
+-- person.prototype {
+--   my.talk = { phrase | p "#{my.name} says, '#{phrase}'" }
+-- }
+--
+-- person.prototype.sit = {
+--   my.status = "sitting"
+-- }
+function object:prototype (methods_or_block)
+    if methods_or_block then
+      if type(methods_or_block) == "function" then
+        self._prototype:with_underthis(methods_or_block)
+      else
+        local proto = self._prototype
+
+        methods_or_block:each(function(self, name, meth)
+          if type(meth) == "function" then
+            proto:add_undermethod(name, meth)
+          else
+            proto:add_undermethod(name, function(self)
+              return meth
+            end)
+          end
+        end)
+      end
+    end
+
+  return self._prototype
+end
+
 function object:new (...)
-  local nb = new_brat(self)
-  if nb["init"] then
+  local nb
+    
+  nb = new_brat(self)
+
+  nb._prototype = new_brat(object)
+
+  if nb.init then
     nb:init(...)
   end
+
   return nb
 end
 
+-- Object: object instance
+-- Call: object.array?
+-- Returns: boolean
+--
+-- Returns true if object is an array, false otherwise.
 function object:array_question ()
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.hash?
+-- Returns: boolean
+--
+-- Returns true if object is a hash, false otherwise.
 function object:hash_question ()
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.number?
+-- Returns: boolean
+--
+-- Returns true if object is a number, false otherwise.
 function object:number_question ()
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.regex?
+-- Returns: boolean
+--
+-- Returns true if object is a number, false otherwise.
 function object:regex_question ()
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.string?
+-- Returns: boolean
+--
+-- Returns true if object is a string, false otherwise.
 function object:string_question (rhs)
   return object.__false
 end
 
+-- Object: object instance
+-- Call: object.exception?
+-- Returns: boolean
+--
+-- Returns true if object is an exception, false otherwise.
 function object:exception_question (rhs)
   return object.__false
 end
 
-function object:my ()
-  return self
+-- Object: object
+-- Call: sleep seconds
+-- Returns: number
+--
+-- Sleep for a given number of seconds.
+function object:sleep (secs)
+  return ffi.C.sleep(secs)
 end
 
+-- Object: object instance
+-- Call: object.to_s
+-- Returns: string
+--
+-- Return a string representing the object.
 function object:to_unders ()
   local meths = self:local_undermethods()
   return base_string:new("object" .. tostring(meths:sort_bang()))
 end
 
+-- Object: object instance
+-- Call: object.methods
+-- Returns: array
+--
+-- Returns an array containing the names of the methods available on the
+-- object, including those inherited from parent objects.
 function object:methods ()
-  local m
+  local m = {}
+  local i = 1
   if self:parent() ~= object.__null then
     m = self:parent():methods()._lua_array
+    i = #m + 1
   else
     m = {}
   end
 
-  local i = 1
   for k,v in pairs(self) do
     k = unescape_identifier(k)
     if k:find("_", 1, true) ~= 1 then
@@ -210,9 +331,23 @@ function object:methods ()
     end
   end
 
-  return array:new(m)
+  for k,v in pairs(self:parent()._prototype) do
+    k = unescape_identifier(k)
+    if k:find("_", 1, true) ~= 1 then
+      m[i] = base_string:new(k)
+      i = i + 1
+    end
+  end
+
+  return array:new(m):unique()
 end
 
+-- Object: object instance
+-- Call: object.local_methods
+-- Returns: array
+--
+-- Returns an array containing the names of the methods available on the
+-- object, not including those inherited from parent objects.
 function object:local_undermethods ()
   local m = {}
 
@@ -233,10 +368,12 @@ object.__null = object:new()
 function object.__null:to_unders ()
   return base_string:new("null")
 end
+
 object.__true = object:new()
 function object.__true:to_unders ()
   return base_string:new("true")
 end
+
 object.__false = object:new()
 function object.__false:to_unders ()
   return base_string:new("false")
@@ -264,6 +401,11 @@ is_true = function (bool)
   end
 end
 
+-- Object: object
+-- Call: print *args
+-- Returns: null
+--
+-- Prints out any number of arguments, with no new line.
 function object:print (...)
   io.output(io.stdout)
   local input = {...}
@@ -275,12 +417,24 @@ function object:print (...)
   return object.__null
 end
 
+-- Object: object
+-- Call: p *args
+-- Returns: null
+--
+-- Prints out any number of arguments, with an added new line.
 function object:p (...)
   self:print(...)
   print()
   return object.__null
 end
 
+-- Object: object instance
+-- Call: object.squish other_object
+-- Returns: self
+--
+-- Squishes the methods of the given object into the current object.
+--
+-- Also useful for bringing external libraries into the current context.
 function object:squish (obj)
   for k,v in pairs(obj) do
     if k ~= "parent" then
@@ -291,10 +445,20 @@ function object:squish (obj)
   return self
 end
 
+-- Object: object instance
+-- Call: my
+-- Returns: self
+--
+-- Returns the current object.
 function object:my ()
   return self
 end
 
+-- Object: object instance
+-- Call: object.parent
+-- Returns: object
+--
+-- Returns the parent of the object. 
 function object:parent ()
   if object["_parent"] then
     return object["_parent"]
@@ -303,6 +467,11 @@ function object:parent ()
   end
 end
 
+-- Object: object
+-- Call: function? variable
+-- Returns: boolean
+--
+-- Returns true if given variable is a function, false otherwise.
 function object:function_question (obj)
   if type(obj) == "function" then
     return object.__true
@@ -311,6 +480,11 @@ function object:function_question (obj)
   end
 end
 
+-- Object: object
+-- Call: object? variable
+-- Returns: boolean
+--
+-- Returns true if given variable is an object, false otherwise.
 function object:object_question (obj)
   if type(obj) == "table" then
     return object.__true
@@ -319,6 +493,14 @@ function object:object_question (obj)
   end
 end
 
+-- Object: object
+-- Call: random
+-- Call: random maximum
+-- Returns: number
+--
+-- With no arguments, returns a number between 0 and 1.
+--
+-- With a max argument, returns a number _i_, where 0 <= i < _max_.
 function object:random (...)
   if not object._random_seed then
     math.randomseed(os.time())
@@ -337,6 +519,11 @@ function object:random (...)
   return math.random(...)
 end
 
+-- Object: object
+-- Call: ask prompt
+-- Returns: string
+--
+-- Prints out the given prompt first, then returns input from standard input.
 function object:ask (prompt)
   if prompt == nil then
     return self:g()
@@ -349,10 +536,21 @@ function object:ask (prompt)
   return self:g()
 end
 
+-- Object: object
+-- Call: g
+-- Returns: string
+--
+-- Read a string from standard input.
 function object:g ()
   return base_string:new(io.stdin:read())
 end
 
+-- Object: object instance
+-- Call: object == object
+-- Returns: boolean
+--
+-- Compare two objects. If the target of the call has a method called <=>
+-- that will be used to compare the objects.
 function object:_equal_equal (rhs)
   if self == rhs then
     return object.__true
@@ -367,10 +565,33 @@ function object:_equal_equal (rhs)
   end
 end
 
+-- Object: object instance
+-- Call: object != object
+-- Returns: boolean
+--
+-- Compares two objects, then negates the result.
 function object:_bang_equal (rhs)
   return self:_not(self:_equal_equal(rhs))
 end
 
+-- Object: object instance
+-- Call: object.true?
+-- Call: true? condition
+-- Call: true? condition, then_value
+-- Call: true? condition, then_value, else_value
+--
+-- Tests if an object or condition is true. If the condition is true, returns
+-- true or the then_value if one is given. If the condition is false, returns
+-- false or the else_value if one is given.
+--
+-- Typically, then_value and else_value should be functions, to allow for
+-- delayed evaluation.
+--
+-- Example:
+--
+--   true? 2 + 2 == 5
+--     { p "Are you such a dreamer?" }
+--     { p "No it doesn't!" }
 function object:true_question (...)
   local args = {...}
   local len = #args
@@ -446,6 +667,24 @@ function object:_3_true_question (condition, true_branch, false_branch)
   end
 end
 
+-- Object: object instance
+-- Call: object.false?
+-- Call: false? condition
+-- Call: false? condition, then_value
+-- Call: false? condition, then_value, else_value
+--
+-- Tests if an object or condition is false. If the condition is false, returns
+-- true or the then_value if one is given. If the condition is true, returns
+-- false or the else_value if one is given.
+--
+-- Typically, then_value and else_value should be functions, to allow for
+-- delayed evaluation.
+--
+-- Example:
+--
+--   false? 2 + 2 == 5
+--     { p "Definitely false." }
+--     { p "War is Peace" }
 function object:false_question (...)
   local args = {...}
   local len = #args
@@ -521,6 +760,24 @@ function object:_3_false_question (condition, true_branch, false_branch)
   end
 end
 
+-- Object: object instance
+-- Call: object.null?
+-- Call: null? condition
+-- Call: null? condition, then_value
+-- Call: null? condition, then_value, else_value
+--
+-- Tests if an object or condition is null. If the condition is null, returns
+-- true or the then_value if one is given. If the condition is not null, returns
+-- false or the else_value if one is given.
+--
+-- Typically, then_value and else_value should be functions, to allow for
+-- delayed evaluation.
+--
+-- Example:
+--
+--   null? x
+--     { p "x is null" }
+--     { p "x is not null" }
 function object:null_question (...)
   local args = {...}
   local len = #args
@@ -596,6 +853,11 @@ function object:_3_null_question (condition, true_branch, false_branch)
   end
 end
 
+-- Object: object
+-- Call: not value
+-- Returns: boolean
+--
+-- Returns true if value is false, false if value is true.
 function object:_not (arg)
   if is_true(arg) then
     return object.__false
@@ -604,6 +866,24 @@ function object:_not (arg)
   end
 end
 
+-- Object: object
+-- Call: while block
+-- Call: while condition, block
+--
+-- Loops while the given condition remains true. If only one argument is given,
+-- the value of that argument is used as the condition.
+--
+-- Example:
+--
+--  x = 0
+--  while {
+--    x = x + 1
+--    x < 10
+--  }
+--
+--  #Same thing
+--  x = 0
+--  while { x < 10 } { x = x + 1 }
 function object:_while (...)
   local args = {...}
   local arglen = #args
@@ -621,51 +901,110 @@ function object:_while (...)
         args[2](self)
       end
     end
+  elseif arglen == 0 then
+    error(exception:argument_error("while", "at least 1", "none"))
   else
-    error("Too many arguments to while")
+    error(exception:argument_error("while", "at most 2", arglen))
   end
 
   return object.__null
 end
 
+-- Object: object
+-- Call: until block
+-- Call: until condition, block
+--
+-- Loops until the condition becomes true. If only one argument is given, that
+-- argument will be used as the condition.
+--
+-- Example:
+--
+--  x = 0
+--  until {
+--    x = x + 1
+--    x > 10
+--  }
+--
+--  #Same thing
+--  x = 0
+--  until { x > 10 } { x = x + 1 }
+function object:_until (...)
+  local args = {...}
+  local arglen = #args
+  if arglen == 1 then
+    while not is_true(args[1](self)) do
+      --nothing
+    end
+  elseif arglen == 2 then
+    if type(args[1]) == "function" then
+      while not is_true(args[1](self)) do
+        args[2](self)
+      end
+    else
+      while not is_true(args[1]) do
+        args[2](self)
+      end
+    end
+  else
+    error("Too many arguments to until")
+  end
+
+  return object.__null
+end
+
+-- Object: object
+-- Call: loop block
+--
+-- Loops block forever.
+function object:loop (block)
+  while true do
+    block(self)
+  end
+
+  return object.__null
+end
+
+-- Object: object
+-- Call: lhs && rhs
+--
+-- Performs boolean "and".
+--
+-- The value on the right-hand side should generally be a function to provide
+-- short-circuiting.
 function object:_and_and (rhs)
   if is_true(self) then
     if type(rhs) == "function" then
-      if is_true(rhs(self)) then
-        return object.__true
-      else
-        return object.__false
-      end
+      return rhs(self)
     else
-      if is_true(rhs) then
-        return object.__true
-      else
-        return object.__false
-      end
+      return rhs
     end
   else
-    return object.__false
+    return self
   end
 end
 
+-- Object: object
+-- Call: lhs || rhs
+--
+-- Performs boolean "or".
+--
+-- The value on the right-hand side should generally be a function to provide
+-- short-circuiting.
 function object:_or_or (rhs)
   if is_true(self) then
-    return object.__true
+    return self
   elseif type(rhs) == "function" then
-    if is_true(rhs(self)) then
-      return object.__true
-    else
-      return object.__false
-    end
+    return rhs(self)
   else
-    if is_true(rhs) then
-      return object.__true
-    else
-      return object.__false
-    end
+    return rhs
   end
 end
 
+-- Object: object instance
+-- Call: object.add_method name, function
+-- Returns: self
+--
+-- Add a new method to the object with the given name.
 function object:add_undermethod (name, func)
   name = to_identifier(name)
   self[name] = func
@@ -673,12 +1012,22 @@ function object:add_undermethod (name, func)
   return self
 end
 
+-- Object: object instance
+-- Call: object.del_method name
+-- Returns: self
+--
+-- Removes the method with the given name from the object.
 function object:del_undermethod (name)
   name = to_identifier(name)
   self[name] = nil
   return self
 end
 
+-- Object: object instance
+-- Call: object.get_method name
+-- Returns: function
+-- 
+-- Returns the method with the given name, or null if it does not exist.
 function object:get_undermethod (name)
   name = to_identifier(name)
   if self[name] == nil then
@@ -688,6 +1037,11 @@ function object:get_undermethod (name)
   end
 end
 
+-- Object: object instance
+-- Call: object.has_method? name
+-- Returns: boolean
+--
+-- Returns true if the object has a method with the given name.
 function object:has_undermethod_question (name)
   name = to_identifier(name)
   if self[name] ~= nil then
@@ -697,15 +1051,36 @@ function object:has_undermethod_question (name)
   end
 end
 
+-- Object: object instance
+-- Call: object.call_method name, arguments
+--
+-- Calls the given method on the object, passing in the provided arguments.
+--
+-- Example:
+--
+-- object.call_method "p", "hello", " ", "world"
 function object:call_undermethod (name, ...)
   name = to_identifier(name)
   if self[name] == nil then
-    error("No such method to call.")
+    error("No such method to call: " .. name)
   else
     return self[name](self, ...)
   end
 end
 
+-- Object: object instance
+-- Call: object.with_this block, arguments
+--
+-- Calls the given method, but sets the target object as the scope.
+-- In other words, calling my inside the block will return the object.
+--
+-- Example:
+--
+-- x = object.new
+-- x.greeting = "Hello!"
+--
+-- #Will print "Hello!"
+-- x.with_this { p greeting }
 function object:with_underthis (block, ...)
   local args = {...}
   if #args == 0 then
@@ -715,6 +1090,23 @@ function object:with_underthis (block, ...)
   end
 end
 
+-- Object: object
+-- Call: protect block, options
+--
+-- Handles exceptions which may be thrown inside the block.
+--
+-- Options should be provided as a hash. If no options are given, all
+-- exceptions will be silently ignored.
+--
+-- Possible options:
+-- 
+-- * rescue: provide a function to call when an exception occurs
+-- * ensure: provide a function to always call, even if an exception occurs
+-- * from: only rescue a specific type of exception
+--
+-- Example:
+--
+-- protect { throw "Problem!" } rescue: { err | p "There was a problem: #{err}" }
 function object:protect (block, options)
   if options == nil then
     local status, result = pcall(block, self)
@@ -726,13 +1118,18 @@ function object:protect (block, options)
   elseif type(options) == "table" and options._lua_hash ~= nil then
     local ensure = options:get(base_string:new("ensure"))
     local rescue = options:get(base_string:new("rescue"))
+    local filter = options:get(base_string:new("from"))
 
     if not is_true(rescue) then
       rescue = nil
     end
 
-    if not  is_true(ensure) then
+    if not is_true(ensure) then
       ensure = nil
+    end
+
+    if not is_true(filter) then
+      filter = nil
     end
 
     if (rescue and type(rescue) ~= "function") or (ensure and type(ensure) ~= "function") then
@@ -750,10 +1147,22 @@ function object:protect (block, options)
         if type(err) ~= "table" then
           err = exception:new(tostring(err))
         end
-        return rescue(self, err)
+
+        if filter and err.type and err.type()._lua_string ~= filter._lua_string then
+          return err
+        else
+          return rescue(self, err)
+        end
       end
     else
       handler = function(err)
+        if type(err) ~= "table" then
+          err = exception:new(tostring(err))
+        end
+
+        if filter and err.type and err.type()._lua_string ~= filter._lua_string then
+          return err
+        end
       end
     end
 
@@ -763,14 +1172,66 @@ function object:protect (block, options)
       ensure(self)
     end
 
+    if status == false and type(result) == "table" and result.type
+      and filter and filter._lua_string ~= result.type()._lua_string then
+
+      error(result)
+    end
+
     return result
   else
     error(exception:argument_error("protect", "hash", tostring(options)))
   end
 end
 
+-- Object: object instance
+-- Call: object.tap block
+-- Returns: self
+-- 
+-- Calls given block in context of the object, passing in the object as an
+-- argument, and always returns the object.
+function object:tap (block)
+  block(self, self)
+
+  return self
+end
+
+-- Object: object
+-- Call: throw exception
+--
+-- Throws an exception. If a string is provided as the exception, creates a new
+-- exception with the string as the error message.
 function object:throw (err)
   error(err, 2)
+end
+
+function object:__type (obj)
+  if obj == nil then
+    return object:__type(self)
+  else
+    local t = type(obj)
+    if t == "table" then
+      if obj._lua_array then
+        return "array"
+      elseif obj._lua_string then
+        return "string"
+      elseif obj._lua_regex then
+        return "regex"
+      elseif obj._lua_hash then
+        return "hash"
+      elseif obj._lua_number then
+        return "number"
+      else
+        return "object"
+      end
+    else
+      return t
+    end
+  end
+end
+
+function object:my_undertype ()
+  return base_string:new(self:__type())
 end
 
 --Searchs load paths for a file with name + .brat and compiles it to Lua
@@ -800,7 +1261,38 @@ function object:_compile (name)
   load_paths:each(check_and_compile)
 end
 
-function object:include (file, name)
+-- Object: object
+-- Call: includes files
+--
+-- Calls include for each of the given arguments.
+--
+-- Example:
+--
+-- includes :file :json
+function object:includes (...)
+  for _, f in pairs({...}) do
+    object:include(f, nil, 4)
+  end
+
+  return object.__true
+end
+
+-- Object: object
+-- Call: include file
+-- Call: include file, object
+-- 
+-- Executes given file and adds any exported objects to the current context.
+-- If an object is specified, it will only import that object.
+--
+-- This is essentially equivalant to calling squish(import(file)).
+--
+-- Example:
+--
+-- include :file
+function object:include (file, name, env_level)
+--env_level is used to call to include from another function
+--it sets what environment the file is imported to
+
   if type(file) == "table" and file._lua_string then
     file = file._lua_string
   end
@@ -823,18 +1315,22 @@ function object:include (file, name)
 
   require(file)
 
-  local status, env = pcall(getfenv, 3)
+  if env_level == nil then
+    env_level = 3
+  end
+
+  local status, env = pcall(getfenv, env_level)
 
   if status then
     if name then
       for k,v in pairs(_exports) do
         if k == name then
-          env[k] = v
+          env[to_identifier(k)] = v
         end
       end
     else
       for k,v in pairs(_exports) do
-        env[k] = v
+        env[to_identifier(k)] = v
       end
     end
   end
@@ -842,6 +1338,12 @@ function object:include (file, name)
   return object.__true
 end
 
+-- Object: object
+-- Call: import file
+-- Call: import file, object
+--
+-- Loads the given file and returns a hash of the exports from that file.
+-- If an object name is specified, only that object will be returned.
 function object:import (file, name)
   if type(file) == "table" and file._lua_string then
     file = file._lua_string
@@ -883,6 +1385,24 @@ function object:import (file, name)
 
 end
 
+-- Object: object
+-- Call: exit
+-- Call: exit code
+--
+-- Immediately terminates the program. If a numeric code is provided, that will
+-- be the exit status of the program.
+function object:exit (code)
+  if type(code) == "number" then
+    os.exit(code)
+  else
+    os.exit()
+  end
+end
+
+-- Object: object
+-- Call: export object, name
+--
+-- Exports the object to be imported into another file using the given name.
 function object:export (obj, name)
   if type(name) == "table" and name._lua_string then
     name = name._lua_string
@@ -897,6 +1417,40 @@ function object:export (obj, name)
   return object.__true
 end
 
+-- Object: object
+-- Call: program_args
+-- Returns: array
+--
+-- Returns the arguments given to the program when it is executed.
+function object:program_underargs ()
+  if self._program_args == nil then
+    local arg_array = {}
+    local len = #arg
+    local i = 1
+
+    while i <= len do
+      arg_array[i - 1] = base_string:new(arg[i])
+      i = i + 1
+    end
+
+    self._program_args = array:new(arg_array)
+  end
+    
+  return self._program_args
+end
+
+-- Object: object
+-- Call: when condition, result
+--
+-- Takes any number of condition-result pairs. Checks each condition and when
+-- one returns true, returns the result associated with that condition.
+--
+-- Example:
+-- 
+-- x = 3
+-- when { x < 3 } { p "x is less than 3!" }
+--  { x > 3 } { p "x is greater than 3!" }
+--  { x == 3 } { p "x is exactly 3!" }
 function object:when (...)
   local args = {...}
   local len = #args
@@ -928,9 +1482,59 @@ function object:when (...)
   return result
 end
 
+function object:when_underequal (...)
+  local args = {...}
+  local len = #args
+
+  if len < 2 then
+    error(exception:argument_error("when_equal", "at least 2", len))
+  end
+
+  local value = args[1]
+
+  if type(value) == "function" then
+    value = value(self)
+  end
+
+  local index = 2
+  local cond
+  local result = object.__null
+  local is_num
+
+  if type(value) == "number" then
+    is_num = true
+  end
+
+  while index <= len do
+    cond = args[index]
+
+    if type(cond) == "function" then
+      cond = cond(self)
+    end
+
+    if (is_num and value == cond) or (not is_num and is_true(value:_equal_equal(cond))) then
+      result = args[index + 1]
+
+      if type(result) == "function" then
+        result = result(self)
+        break
+      end
+    end
+
+    index = index + 2
+  end
+
+  return result
+end
+
 --The comparable squish-in
 comparable = object:new()
 
+-- Object: comparable instance
+-- Call: object > other
+-- Returns: boolean
+--
+-- Compare two objects using <=> and return true if the target is greater.
 function comparable:_greater (rhs)
   local cmp = self:_less_equal_greater(rhs)
   if cmp == 1 then
@@ -940,6 +1544,11 @@ function comparable:_greater (rhs)
   end
 end
 
+-- Object: comparable instance
+-- Call: object < other
+-- Returns: boolean
+--
+-- Compare two objects using <=> and return true if the target is less.
 function comparable:_less (rhs)
   local cmp = self:_less_equal_greater(rhs)
   if cmp == -1 then
@@ -949,6 +1558,11 @@ function comparable:_less (rhs)
   end
 end
 
+-- Object: comparable instance
+-- Call: object <= other
+-- Returns: boolean
+--
+-- Compare two objects using <=> and return true if the target is less or equal.
 function comparable:_less_equal (rhs)
   local cmp = self:_less_equal_greater(rhs)
   if cmp < 1 then
@@ -958,6 +1572,11 @@ function comparable:_less_equal (rhs)
   end
 end
 
+-- Object: comparable instance
+-- Call: object >= other
+-- Returns: boolean
+--
+-- Compare two objects using <=> and return true if the target is greater or equal.
 function comparable:_greater_equal (rhs)
   local cmp = self:_less_equal_greater(rhs)
   if cmp > -1 then
@@ -974,15 +1593,24 @@ local number_instance = object:new()
 number_instance:squish(comparable)
 
 number = object:new()
+number._prototype = number_instance
 
-function number:new(num)
-  local n = new_brat(number_instance)
-  n:squish(self)
+-- Object: number
+-- Call: number.new num
+-- Returns: number
+--
+-- Create a new number object. No real reason to use this directly.
+function number:new (num)
+  local n = new_brat(self)
+  n._prototype = new_brat(object)
 
   n._lua_number = num
   return n
 end
 
+-- Object: number instance
+-- Call: number.number?
+-- Returns: true
 function number_instance:number_question ()
   return object.__true
 end
@@ -992,7 +1620,11 @@ function number_instance:my ()
 end
 
 function number_instance:_or_or (rhs)
-  return object.__true
+  return self
+end
+
+function number_instance:_and_and (rhs)
+  return self
 end
 
 function number_instance:_equal_equal (rhs)
@@ -1023,6 +1655,11 @@ function number_instance:_less_equal_greater (rhs)
   end
 end
 
+-- Object: number instance
+-- Call: lhs + rhs
+-- Returns: number
+--
+-- Performs addition.
 function number_instance:_plus (rhs)
   if type(rhs) ~= "number" then
     error("Cannot add number to " .. type(rhs))
@@ -1031,6 +1668,11 @@ function number_instance:_plus (rhs)
   return self._lua_number + rhs
 end
 
+-- Object: number instance
+-- Call: lhs - rhs
+-- Returns: number
+--
+-- Performs subtraction.
 function number_instance:_minus (rhs)
   if rhs == nil then
     return -self._lua_number
@@ -1043,6 +1685,11 @@ function number_instance:_minus (rhs)
   end
 end
 
+-- Object: number instance
+-- Call: lhs / rhs
+-- Returns: number
+--
+-- Performs division.
 function number_instance:_forward (rhs)
   if type(rhs) ~= "number" then
     error("Cannot divide number by " .. type(rhs))
@@ -1051,22 +1698,47 @@ function number_instance:_forward (rhs)
   return self._lua_number / rhs
 end
 
+-- Object: number instance
+-- Call: num.tan
+-- Returns: number
+--
+-- Returns the tangent.
 function number_instance:tan ()
   return math.tan(self._lua_number)
 end
 
+-- Object: number instance
+-- Call: num.cos
+-- Returns: number
+--
+-- Returns the cosine.
 function number_instance:cos ()
   return math.cos(self._lua_number)
 end
 
+-- Object: number instance
+-- Call: num.sin
+-- Returns: number
+--
+-- Returns the sine.
 function number_instance:sin ()
   return math.sin(self._lua_number)
 end
 
+-- Object: number instance
+-- Call: num.to_rad
+-- Returns: number
+--
+-- Converts to radians.
 function number_instance:to_underrad ()
   return math.rad(self._lua_number)
 end
 
+-- Object: number instance
+-- Call: lhs * rhs
+-- Returns: number
+--
+-- Performs multiplication.
 function number_instance:_star (rhs)
   if type(rhs) ~= "number" then
     error("Cannot multiply number by " .. type(rhs))
@@ -1075,6 +1747,11 @@ function number_instance:_star (rhs)
   return self._lua_number * rhs
 end
 
+-- Object: number instance
+-- Call: lhs % rhs
+-- Returns: number
+--
+-- Performs the modulo operation.
 function number_instance:_percent (rhs)
   if type(rhs) ~= "number" then
     error("Modulo needs a number, not " .. type(rhs))
@@ -1083,6 +1760,11 @@ function number_instance:_percent (rhs)
   return self._lua_number % rhs
 end
 
+-- Object: number instance
+-- Call: lhs ^ rhs
+-- Returns: number
+--
+-- Performs exponentiation.
 function number_instance:_up (rhs)
   if type(rhs) ~= "number" then
     error("Cannot use " .. type(rhs) .. " as an exponent")
@@ -1091,6 +1773,12 @@ function number_instance:_up (rhs)
   return self._lua_number ^ rhs
 end
 
+-- Object: number instance
+-- Call: number.times block
+-- Returns: number
+--
+-- Performs the block the specified number of times. Passes in the current
+-- number to the function.
 function number_instance:times (block)
   local index = 0
   local limit = self._lua_number
@@ -1102,6 +1790,16 @@ function number_instance:times (block)
   return limit
 end
 
+-- Object: number instance
+-- Call: number.of item
+-- Returns: array
+--
+-- Generates an array of the given item. If item is a function, uses the result
+-- of calling it the specified number of times.
+--
+-- Example:
+--
+-- 3.of "ha" # Returns ["ha", "ha", "ha"]
 function number_instance:of (item)
   local num = self._lua_number
   local i = 1
@@ -1122,6 +1820,17 @@ function number_instance:of (item)
   return array:new(r)
 end
 
+-- Object: number instance
+-- Call: number.to limit
+-- Call: number.to limit, block
+--
+-- With no function argument, returns an array containing the numbers from
+-- the target to the limit (inclusive). If given a function argument, loops
+-- from target to limit, passing in the current number as an argument.
+--
+-- Example:
+--
+-- 10.to 1 { n | p n }  # Prints 10 to 1 in decreasing order.
 function number_instance:to (stop, block)
   local index = self._lua_number
   if stop < index then
@@ -1168,14 +1877,29 @@ function number_instance:to (stop, block)
   end
 end
 
+-- Object: number instance
+-- Call: number.to_s
+-- Returns: string
+--
+-- Returns a string version of the number.
 function number_instance:to_unders ()
   return base_string:new(tostring(self._lua_number))
 end
 
+-- Object: number instance
+-- Call: number.to_i
+-- Returns: number
+--
+-- Truncates number.
 function number_instance:to_underi ()
   return math.floor(self._lua_number) 
 end
 
+-- Object: number instance
+-- Call: number.to_hex
+-- Returns: string
+--
+-- Converts number to hexadecimal.
 function number_instance:to_underhex ()
   return base_string:new(string.format("%x", self._lua_number))
 end
@@ -1184,10 +1908,16 @@ function number_instance:to_underf ()
   return self._lua_number
 end
 
+-- Object: number instance
+-- Call: number.to_char
+-- Returns: string
+--
+-- Converts number to ASCII representation.
 function number_instance:to_underchar ()
   return base_string:new(string.char(self._lua_number))
 end
 
+-- This is to use native operations when possible.
 local native_operations = { _plus = number_instance._plus;
   _minus = number_instance._minus;
   _star = number_instance._star;
@@ -1208,6 +1938,11 @@ end
 
 enumerable = new_brat(object)
 
+-- Object: enumerable instance
+-- Call: enum.any? block
+-- Returns: boolean
+--
+-- Returns true if, for any object in the collection, the block returns true.
 function enumerable:any_question (block)
   local flag = false
   local f = function (_self, item)
@@ -1227,6 +1962,11 @@ function enumerable:any_question (block)
   end
 end
 
+-- Object: enumerable instance
+-- Call: enum.all? block
+-- Returns: boolean
+--
+-- Returns true if, for every object in the collection, the block returns true.
 function enumerable:all_question (block)
   local flag = true
   local f = function (_self, item)
@@ -1244,6 +1984,11 @@ function enumerable:all_question (block)
   end
 end
 
+-- Object: enumerable instance
+-- Call: enum.find block
+-- Returns: boolean
+--
+-- Returns the first object for which the block returns true.
 function enumerable:find (block)
   local found = false
   local f = function (self, item)
@@ -1261,6 +2006,11 @@ function enumerable:find (block)
   end
 end
 
+-- Object: enumerable instance
+-- Call: enum.max
+-- Returns: boolean
+--
+-- Returns maximum value in enumerable. All items in the enumerable must be comparable.
 function enumerable:max ()
   local m
   local f = function (self, item)
@@ -1290,6 +2040,11 @@ function enumerable:max ()
   end
 end
 
+-- Object: enumerable instance
+-- Call: enum.min
+-- Returns: boolean
+--
+-- Returns minimum value in enumerable. All items in the enumerable must be comparable.
 function enumerable:min ()
   local m
   local f = function (self, item)
@@ -1319,6 +2074,16 @@ function enumerable:min ()
   end
 end
 
+-- Object: enumerable instance
+-- Call: enum.select block
+-- Call: enum.select method_name
+-- Returns: array
+--
+-- If passed a method name, invokes _method_ on each element and returns an
+-- array containing any objects for which the _method_ returns true.
+--
+-- If passed a function, returns an array containing all objects for which the 
+-- block returns true.
 function enumerable:select (block)
   local new_array = {}
   local i = 1
@@ -1353,6 +2118,16 @@ function enumerable:select (block)
   return array:new(new_array)
 end
 
+-- Object: enumerable instance
+-- Call: enum.reject block
+-- Call: enum.reject method_name
+-- Returns: array
+--
+-- If passed a method name, invokes method on each element and returns an
+-- array containing any objects for which the method returns false.
+--
+-- If passed a function, returns an array containing all objects for which the 
+-- block returns false.
 function enumerable:reject (block)
   local new_array = {}
   local f
@@ -1398,10 +2173,20 @@ local array_instance = object:new()
 array_instance:squish(enumerable)
 
 array = object:new()
+array._prototype = array_instance
 
+-- Object: array
+-- Call: array.new items
+-- Returns: array
+--
+-- Create a new array.
+--
+-- Example:
+--
+-- array.new 1 2 3 # Returns [1, 2, 3]
 function array:new (...)
-  local na = new_brat(array_instance)
-  na:squish(self)
+  local na = new_brat(self)
+  na._prototype = new_brat(object)
 
   local args = {...}
   if #args == 1 and type(args[1]) == "table" and not args[1]._is_an_object then
@@ -1414,14 +2199,29 @@ function array:new (...)
   return na
 end
 
+-- Object: array instance
+-- Call: array.array?
+-- Returns: boolean
+--
+-- Returns true.
 function array_instance:array_question ()
   return object.__true
 end
 
+-- Object: array instance
+-- Call: array.compact
+-- Returns: array
+--
+-- Return a copy of the array with all null values removed.
 function array_instance:compact ()
   return self:copy():compact_bang()
 end
 
+-- Object: array instance
+-- Call: array.compact!
+-- Returns: array
+--
+-- Destructively removes all null values for the array.
 function array_instance:compact_bang ()
   local result = {}
   local len = self._length
@@ -1442,6 +2242,11 @@ function array_instance:compact_bang ()
   return self
 end
 
+-- Object: array instance
+-- Call: array.copy
+-- Returns: array
+--
+-- Returns a new array containing all the elements of the original.
 function array_instance:copy ()
   local result = {}
   local len = self._length
@@ -1459,6 +2264,10 @@ function array_instance:copy ()
   return na
 end
 
+-- Object: array instance
+-- Call: array.each block
+--
+-- Invokes the block for each item in the array.
 function array_instance:each (block)
   local k = 1
   local len = self._length
@@ -1472,6 +2281,10 @@ function array_instance:each (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.each_while block
+--
+-- Invokes block for each item. Stops when block returns false or null.
 function array_instance:each_underwhile (block)
   local k = 1
   local len = self._length
@@ -1488,6 +2301,10 @@ function array_instance:each_underwhile (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.each_until block
+--
+-- Invokes block for each item. Stops when block returns true.
 function array_instance:each_underuntil (block)
   local k = 1
   local len = self._length
@@ -1504,6 +2321,11 @@ function array_instance:each_underuntil (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.each_until block
+--
+-- Invokes the block for each item in the array, passing in the current index
+-- as well.
 function array_instance:each_underwith_underindex (block)
   local k = 1
   local len = self._length
@@ -1517,6 +2339,10 @@ function array_instance:each_underwith_underindex (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.flatten
+--
+-- Flatten all elements into a single array.
 function array_instance:flatten ()
   if self._length == 0 then
     return array:new({})
@@ -1530,6 +2356,13 @@ function array_instance:flatten ()
   end
 end
 
+-- Object: array instance
+-- Call: array.reject! block
+-- Returns: array
+--
+-- The first form calls _method_ on each element of the array and removes any elements where that _method_ returns true.
+--
+-- The second form removes any element for which the function returns true.
 function array_instance:reject_bang (block)
   local k = 1
   local i = 1
@@ -1569,6 +2402,10 @@ function array_instance:reject_bang (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.reverse_each block
+-- 
+-- Invokes block for each item in the array, but starts at the end.
 function array_instance:reverse_undereach (block)
   local len = self._length
   local k = len
@@ -1582,6 +2419,15 @@ function array_instance:reverse_undereach (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.select! block
+-- Returns: array
+--
+-- The first form takes the name of a method that will be called on elements
+-- of the array.
+-- All elements whose methods return false will be removed from the array.
+--
+-- The second form removes all items for which block returned false.
 function array_instance:select_bang (block)
   local k = 1
   local i = 1
@@ -1621,6 +2467,9 @@ function array_instance:select_bang (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.index_of item
+-- Call: array.index_of item, start
 function array_instance:index_underof (item, start)
   local k
   if start == nil then
@@ -1651,6 +2500,13 @@ function array_instance:index_underof (item, start)
   return object.__null
 end
 
+-- Object: array instance
+-- Call: array.rindex_of item
+-- Call: array.rindex_of item, start_index
+--
+-- Returns the last index of the item found in the array, or null if there is no such item.
+--
+-- If start_index is specified, start searching from the given index.
 function array_instance:rindex_underof (item, start)
   local len = self._length
   
@@ -1682,6 +2538,11 @@ function array_instance:rindex_underof (item, start)
   return object.__null
 end
 
+-- Object: array instance
+-- Call: array.map block
+--
+-- Invokes the block for each element in the array and returns a new array
+-- containing the results.
 function array_instance:map (block)
   local k = 1
   local len = self._length
@@ -1695,7 +2556,12 @@ function array_instance:map (block)
         local n = number:new(item)
         return n[method](n)
       else
-        return item[method](item)
+        local m = item[method]
+        if m == nil then
+          error("In array.map: " .. tostring(item) .. " has no method called '" .. method .. "'")
+        else
+          return item[method](item)
+        end
       end
     end
   end
@@ -1713,6 +2579,25 @@ function array_instance:map (block)
   return array:new(new_array)
 end
 
+-- Object: array instance
+-- Call: array.reduce block
+-- Call: array.reduce initial, block
+-- Call: array.reduce method_name
+-- Call: array.reduce initial, method_name
+--
+-- Combines elements in array.
+--
+-- There are several forms of reduce: one that provides an initial value for
+-- memo, one that does not, and two that just provide a method name instead
+-- of a function.
+-- 
+-- Example:
+--
+-- #These are all equivalent:
+-- 1.to(10).reduce 0 { sum, item | sum + item }
+-- 1.to(10).reduce { sum, item | sum + item }
+-- 1.to(10).reduce 0 :+
+-- 1.to(10).reduce :+
 function array_instance:reduce (identity, block)
   if self._length == 0 and block ~= nil then
     return identity
@@ -1753,6 +2638,11 @@ function array_instance:reduce (identity, block)
   return result
 end
 
+-- Object: array instance
+-- Call: array.sum
+--
+-- Returns the sum of the items in the array. Only works if the array only
+-- contains numbers.
 function array_instance:sum ()
     local index = 1
     local len = self._length
@@ -1777,6 +2667,11 @@ function array_instance:sum ()
     return sum
 end
 
+-- Object: array instance
+-- Call: array.map! block
+--
+-- Invokes the block for each element in the array and replaces that element
+-- with the result.
 function array_instance:map_bang (block)
   local k = 1
   local len = self._length
@@ -1806,6 +2701,11 @@ function array_instance:map_bang (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.map_with_index block
+--
+-- Invokes the block for each element in the array, passing in the index as
+-- well, and returns a new array containing the results.
 function array_instance:map_underwith_underindex (block)
   local k = 1
   local len = self._length
@@ -1824,6 +2724,12 @@ function array_instance:map_underwith_underindex (block)
   return array:new(new_array)
 end
 
+-- Object: array instance
+-- Call: array.map_with_index! block
+-- Returns: array
+--
+-- Invokes the block for each element in the array, passing in the index as
+-- well, and then replaces the element with the result of the block.
 function array_instance:map_underwith_underindex_bang (block)
   local k = 1
   local len = self._length
@@ -1840,6 +2746,11 @@ function array_instance:map_underwith_underindex_bang (block)
   return self
 end
 
+-- Object: array instance
+-- Call: array.empty?
+-- Returns: boolean
+--
+-- Returns true if the array is empty.
 function array_instance:empty_question ()
   if self._length == 0 then
     return object.__true
@@ -1848,6 +2759,10 @@ function array_instance:empty_question ()
   end
 end
 
+-- Object: array instance
+-- Call: array.first
+--
+-- Returns first element in array, or null if the array is empty.
 function array_instance:first ()
   if self._length == 0 or self._lua_array[1] == nil then
     return object.__null
@@ -1856,6 +2771,10 @@ function array_instance:first ()
   end
 end
 
+-- Object: array instance
+-- Call: array.last
+--
+-- Returns last element in array, or null if the array is empty
 function array_instance:last ()
   if self._length == 0 or self._lua_array[self._length] == nil then
     return object.__null
@@ -1864,6 +2783,14 @@ function array_instance:last ()
   end
 end
 
+-- Object: array instance
+-- Call: array.pop
+-- Call: array.pop items
+--
+-- Removes and returns the last element in the array, or null if the array is empty.
+--
+-- If a number of items is specified, removes and returns at most that many
+-- items from the end of the array.
 function array_instance:pop (number)
   if number == nil then
     if self._length == 0 then
@@ -1901,12 +2828,22 @@ function array_instance:pop (number)
   end
 end
 
+-- Object: array instance
+-- Call: array.push item
+-- Returns: self
+--
+-- Pushes item onto the end of the array.
 function array_instance:push (item)
   self._length = self._length + 1
   self._lua_array[self._length] = item
   return self
 end
 
+-- Object: array instance
+-- Call: array.rest
+-- Returns: array
+--
+-- Returns the entire array except the first element.
 function array_instance:rest ()
   if self._length < 2 then
     return array:new()
@@ -1915,6 +2852,11 @@ function array_instance:rest ()
   end
 end
 
+-- Object: array instance
+-- Call: array.reverse!
+-- Returns: self
+--
+-- Reverses the array.
 function array_instance:reverse_bang ()
   local len = self._length
 
@@ -1936,6 +2878,11 @@ function array_instance:reverse_bang ()
   return self
 end
 
+-- Object: array instance
+-- Call: array.reverse
+-- Returns: array
+--
+-- Returns a copy of the array, reversed.
 function array_instance:reverse ()
   local len = self._length
 
@@ -1954,6 +2901,11 @@ function array_instance:reverse ()
   return self:new(b)
 end
 
+-- Object: array instance
+-- Call: array.shuffle
+-- Returns: array
+--
+-- Returns a copy of the array with the elements shuffled.
 function array_instance:shuffle ()
   local new_array = {}
   local a = self._lua_array
@@ -1968,6 +2920,11 @@ function array_instance:shuffle ()
   return array:new(new_array):shuffle_bang()
 end
 
+-- Object: array instance
+-- Call: array.shuffle!
+-- Returns: array
+--
+-- Shuffles the elements of the array in place.
 function array_instance:shuffle_bang ()
   local a = self._lua_array
   local index = #a
@@ -2197,6 +3154,8 @@ function array_instance:join (separator, final)
 
     contents[i] = tostring(obj)
 
+    --What is this weirdness?
+    --It doesn't make any sense...
     if contents[i] ~= tostring(obj) then
       print(contents[i] .. " ~= " .. tostring(obj))
     end
@@ -2438,10 +3397,11 @@ end
 local hash_instance = object:new()
 
 hash = object:new()
+hash._prototype = hash_instance
 
 function hash:new (arg)
-  local nh = new_brat(hash_instance)
-  nh:squish(self)
+  local nh = new_brat(self)
+  nh._prototype = new_brat(object)
 
   if type(arg) == "table" and arg._lua_hash then
     nh._lua_hash = arg._lua_hash
@@ -2708,13 +3668,16 @@ string_instance:squish(enumerable)
 
 base_string = object:new()
 
+base_string._prototype = string_instance
+
 function base_string:new (s)
   if s == nil then
     s = ""
   end
 
-  local ns = new_brat(string_instance)
-  ns:squish(self)
+  local ns = new_brat(self)
+  ns._prototype = new_brat(object)
+
   ns._lua_string = s
 
   if type(s) == "string" then
@@ -2983,6 +3946,16 @@ function string_instance:_star (num)
   return base_string:new(string.rep(self._lua_string, num))
 end
 
+function string_instance:find_underfirst (str)
+  local s_index, e_index = self._lua_string:find(str._lua_string, 1, true)
+
+  if s_index then
+    return s_index - 1
+  else
+    return object.__null
+  end
+end
+
 function string_instance:get (start_index, end_index)
   local len = #self._lua_string
   if end_index == nil then
@@ -3141,7 +4114,8 @@ local regex_instance = object:new()
 local regex_match = object:new()
 
 function regex_match:new (start_pos, end_pos, full_match, matches)
-  local rm = new_brat(regex_match)
+  local rm = new_brat(self)
+  rm._prototype = new_brat(object)
 
   function rm:start_underpos () return start_pos end
   function rm:end_underpos () return end_pos end
@@ -3153,6 +4127,8 @@ function regex_match:new (start_pos, end_pos, full_match, matches)
 end
 
 regex = object:new()
+
+regex._prototype = regex_instance
 
 function regex:new (string, options)
   if type(string) == "string" then
@@ -3169,8 +4145,8 @@ function regex:new (string, options)
     error(exception:argument_error("regex.new", "string", string))
   end
 
-  local nr = new_brat(regex_instance)
-  nr:squish(self)
+  local nr = new_brat(self)
+  nr._prototype = new_brat(object)
 
   nr._lua_regex = orex.new(string, options)
   nr._regex_string = string
@@ -3233,8 +4209,9 @@ end
 local exception_instance = object:new()
 
 exception = object:new()
+exception._prototype = exception_instance
 
-function exception:new(message, error_type)
+function exception:new (message, error_type)
   if message == nil then
     message = "Unspecified exception"
   end
@@ -3247,8 +4224,8 @@ function exception:new(message, error_type)
   local stack_trace = base_string:new(debug.traceback(message, 3))
   error_type = base_string:new(error_type)
 
-  local e = new_brat(exception_instance)
-  e:squish(self)
+  local e = new_brat(self)
+  e._prototype = new_brat(object)
 
   e.error_undermessage = function () return msg end
   e.stack_undertrace = function()
@@ -3303,6 +4280,11 @@ exception.name_error = exception.name_undererror
 
 local load_path = array:new({base_string:new('.'), base_string:new(program_path .. 'stdlib')})
 
+-- Object: object
+-- Call: load_path
+-- Returns: array
+--
+-- The path used to search for files to load when using include() or import().
 function object:load_underpath ()
   return load_path
 end
