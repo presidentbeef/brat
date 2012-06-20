@@ -77,18 +77,7 @@
     repo_template = [
         '<div class="ghb_badge {{theme}}">',
             '<div class="ghb_badge_header"></div>',
-            '<div class="ghb_repo_nav">',
-                '<a class="ghb_repo_info_nav chosen" rel="ghb_repo_info"    href="#">Repo Info</a>',
-                '<a class="ghb_repo_commits_nav"     rel="ghb_repo_commits" href="#">Commits</a>',
-                '<a class="ghb_repo_issues_nav"      rel="ghb_repo_issues"  href="#">Issues</a>',
-            '</div>',
-            '<div class="ghb_repo_info" style="display:none;"></div>',
-            '<div class="ghb_repo_issues" style="display:none;">',
-                '<h2>Open Issues</h2>',
-                '<ul class="ghb_issue_list"></ul>',
-                '<div class="ghb_repo_goto_issues"></div>',
-            '</div>',
-            '<div class="ghb_repo_commits" style="display:none;">',
+            '<div class="ghb_repo_commits">',
                 '<h2>Commits</h2>',
                 '<ul class="ghb_commit_list">',
                     '<li class="no_records">There are no commits in the {{repo_branch}} branch</li>',
@@ -264,8 +253,7 @@
         var commits = [];
         $.each(data.data, function (i, obj) {
             commits.push('<li><a target="_blank" href="http://github.com/' + options.login + '/' + options.repo_name + '/commit/' +
-             obj.sha + '">' + obj.commit.message + '<span title="'+ obj.committer.login +' @ '+ obj.commit.committer.date + '">by '+
-             obj.committer.login +'</span></a></li>');
+             obj.sha + '">' + obj.commit.message + '</a></li>');
 
           if ( i === (options.commit_count - 1) ) { return false; }
         });
