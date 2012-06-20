@@ -82,7 +82,6 @@
                 '<ul class="ghb_commit_list">',
                     '<li class="no_records">There are no commits in the {{repo_branch}} branch</li>',
                 '</ul>',
-                '<div class="ghb_repo_goto_commits"></div>',
             '</div>',
         '</div>'].join(''),
 
@@ -208,7 +207,7 @@
     $.getJSON(requestURLRepo, function(data){
         var d = data.data;
 
-        header.html('<h1><a target="_blank" href="http://github.com/' + d.full_name + '">' + d.name +'</a></h1>');
+        //header.html('<h1><a target="_blank" href="http://github.com/' + d.full_name + '">' + d.name +'</a></h1>');
 
         if (options.include_github_logo) {
             header.prepend(render(github_logo_template, options));
