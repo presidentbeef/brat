@@ -3402,6 +3402,7 @@ hash._prototype = hash_instance
 function hash:new (arg)
   local nh = new_brat(self)
   nh._prototype = new_brat(object)
+  nh._length = nil
 
   if type(arg) == "table" and arg._lua_hash then
     nh._lua_hash = arg._lua_hash
@@ -3484,6 +3485,7 @@ function hash_instance:set (index, value)
   end
 
   self._lua_hash[index] = value
+  self._length = nil
 
   return value
 end
@@ -3491,6 +3493,7 @@ end
 function hash_instance:clear ()
   self._key_hash = {}
   self._lua_hash = {}
+  self._length = 0
 
   return self
 end
@@ -3503,6 +3506,7 @@ function hash_instance:delete (index)
   end
 
   self._lua_hash[index] = nil
+  self._length = 0
 
   return value
 end
@@ -3606,7 +3610,17 @@ function hash_instance:values ()
 end
 
 function hash_instance:length ()
-  return self:keys():length()
+  if self._length == nil then
+    local len = 0
+
+    for k,v in pairs(self._lua_hash) do
+      len = len + 1
+    end
+
+    self._length = len
+  end
+
+  return self._length
 end
 
 function hash_instance:select (block)
@@ -3622,6 +3636,7 @@ end
 
 function hash_instance:empty_question ()
   if next(self._lua_hash) == nil then
+    self._length = 0
     return object.__true
   else
     return object.__false
