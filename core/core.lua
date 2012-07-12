@@ -3506,7 +3506,7 @@ function hash_instance:delete (index)
   end
 
   self._lua_hash[index] = nil
-  self._length = 0
+  self._length = nil
 
   return value
 end
