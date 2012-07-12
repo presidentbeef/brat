@@ -3437,7 +3437,7 @@ function hash_instance:_equal_equal (rhs)
     return object.__true
   elseif type(rhs) ~= "table" or rhs._lua_hash == nil then
     return object.__false
-  elseif #self._lua_hash ~= #rhs._lua_hash then
+  elseif self:length() ~= rhs:length() then
     return object.__false
   else
     local vr
