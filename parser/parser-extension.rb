@@ -209,8 +209,6 @@ class Treetop::Runtime::SyntaxNode
     end
   end
 
-
-
   def call_no_method res_var, object, method, arguments, arg_length
     method = nice_id method
     no_meth = var_exist?("no_undermethod") || "no_undermethod"
@@ -273,7 +271,8 @@ class Treetop::Runtime::SyntaxNode
       if #{has_field("_self", object)} then
         #{action} _self:#{object}(#{arguments})
       elseif _type(_self) == "number" then
-        #{call_method(res_var, "number", object, arguments, arg_length)}
+        --I don't believe this will happen
+        _error("WHAT. No.")
       elseif #{has_field("_self", "no_undermethod")} then
         #{call_no_method res_var, "_self", object, arguments, arg_length}
       elseif _type(#{no_meth}) == "function" then
