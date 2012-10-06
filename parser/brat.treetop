@@ -53,6 +53,7 @@ grammar BaseBrat
         local _type = type
         local _error = error
         local _tostring = tostring
+        local brat_function = brat_function
       LUA
     end
 
@@ -1417,6 +1418,31 @@ grammar BaseBrat
     end
   }
   /
+  "->" m:(identifier) {
+    def brat(res_var = nil)
+      name = m.brat
+      temp = var_exist? name
+      if temp
+        @result = temp
+        ""
+      else
+        get_result res_var
+
+        <<-LUA
+        #{init_result}
+        if #{name} == nil then
+          #@result = _self["#{name}"]
+          if #@result == nil then
+            _error(exception:null_error("#{nice_id name}", "access it"))
+          end
+        else
+          #@result = #{name}
+        end
+        LUA
+      end
+    end
+  }
+  /
   method_target_expression {
     def brat(res_var = nil)
       super
@@ -1427,7 +1453,7 @@ grammar BaseBrat
   #Matches the "don't execute this" operator ("->") which just returns the method
   #instead of executing/calling it.
   rule method_access
-    "->" m:(identifier / operator) {
+    "->" m:(identifier / operator) !"." {
     def brat(res_var = nil)
       name = m.brat
       temp = var_exist? name

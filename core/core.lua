@@ -486,7 +486,9 @@ end
 --
 -- Returns true if given variable is an object, false otherwise.
 function object:object_question (obj)
-  if type(obj) == "table" then
+  if obj == nil then
+    return self:object_question(self)
+  elseif type(obj) == "table" then
     return object.__true
   else
     return object.__false
@@ -4290,6 +4292,24 @@ function exception:name_undererror (name)
 end
 
 exception.name_error = exception.name_undererror
+
+-- Functions
+
+local brat_function_instance = object:new()
+brat_function = object:new()
+brat_function._prototype = brat_function_instance
+
+function brat_function:new (func)
+  local nb  = new_brat(self)
+  nb._prototype = new_brat(object)
+  nb._func = func
+
+  return nb
+end
+
+function brat_function_instance:object_question ()
+  return object.__false
+end
 
 --Small object addendum which had to wait for other stuff to be defined
 

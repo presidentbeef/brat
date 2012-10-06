@@ -167,14 +167,23 @@ class Treetop::Runtime::SyntaxNode
         end
     LUA
 
-    function_error = "_error(exception:new(\"Cannot invoke methods on methods.\"))\n"
+    call_function = <<-LUA
+      local _f = brat_function:new(#{temp})
+      if #{has_field("_f", method)} then
+        #{action} _f:#{method}(#{arguments})
+      elseif #{has_field("_f", "no_undermethod")} then
+        #{call_no_method res_var, "_f", method, arguments, arg_length}
+      else
+        _error(exception:method_error(#{display_object object}, "#{nice_id method}"))
+      end
+    LUA
 
     temp_type = type_of temp
 
     if number? temp or temp_type == :number
       call_number
     elsif temp_type == :function
-      function_error
+      call_function
     elsif temp_type #some kind of known type
       call_table
     else
@@ -185,7 +194,7 @@ class Treetop::Runtime::SyntaxNode
       elseif _t == "number" then
         #{call_number}
       elseif _t == "function" then
-        #{function_error}
+        #{call_function}
       elseif #{temp} == nil then
         _error(exception:null_error(#{display_object object, false}, "invoke #{nice_id method} on it"))
       else
