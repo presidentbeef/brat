@@ -311,4 +311,16 @@ add_results setup name: "function tests" {
       o.f 
     }
   }
+
+  test "call method on function" {
+    assert_false {
+      x = {}
+      ->x.object?
+    }
+
+    assert {
+      x = {}
+      ->x.object?.false?
+    }
+  }
 }
