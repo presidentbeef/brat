@@ -32,6 +32,11 @@ handler.parse_request = { msg |
 
   request.body = parsed[5][header_length + 1,-1].match(/^\d+:(.*)$/)[1]
 
+  true? request.headers[:METHOD] == :JSON
+  { request.body = json.parse request.body }
+
+  request.disconnect? = request.headers[:METHOD] == :JSON && { request.body[:type] == :disconnect }
+
   request
 }
 
