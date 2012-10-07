@@ -4063,7 +4063,7 @@ function string_instance:split (sep)
     sep = orex.new("\\s+")
   elseif type(sep) == "table" then
     if sep._lua_string then
-      sep = sep._lua_string
+      sep = orex.new(sep._lua_string, nil, nil, "ASIS")
     elseif sep._lua_regex then
       sep = sep._lua_regex
     end
