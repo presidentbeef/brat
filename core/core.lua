@@ -3741,6 +3741,14 @@ function string_instance:each (block)
   return self
 end
 
+function string_instance:empty_question ()
+  if #self._lua_string == 0 then
+    return object.__true
+  else
+    return object.__false
+  end
+end
+
 function string_instance:reverse_undereach (block)
   local s = self._lua_string
   local index = #s
