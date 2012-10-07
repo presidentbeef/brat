@@ -23,7 +23,7 @@ scanner.prototype {
       true? patch == matcher
       { 
         my.pos = my.pos + matcher.length
-          patch
+        patch
       }
   }
 
@@ -36,8 +36,12 @@ scanner.prototype {
     true? result && { current == result.start_pos }
     {
       my.pos = result.end_pos + 1
-        result
+      result
     }
+  }
+
+  my.rest = {
+    my.str[my.pos, -1]
   }
 
   my.end? = { pos >= str.length }
