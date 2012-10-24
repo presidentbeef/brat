@@ -1,0 +1,130 @@
+include :scanner
+
+parser = object.new
+
+mustache = object.new
+mustache.parse = { template |
+  parser.new.compile template
+}
+
+parser.prototype [
+  compile: { template |
+    my.scan = scanner.new template
+
+    my.result = [:multi]
+    my.sections = []
+    this = my
+
+    until { scan.end? } {
+      scan_tags || {this.scan_text}
+    }
+
+    false? sections.empty?
+      { throw "Unclosed section #{sections.last.first}" }
+
+    my.result
+  }
+
+  scan_tags: {
+    p "Scanning tags at #{scan.pos}"
+    before = scan.scan /([\s\t]*){{/
+
+    false? before
+      { p "No tag!"; false }
+      {
+        true? { before[1] && not before[1].empty? }
+          { result << [:static, before[1]] }
+
+        p "Looking for tag in #{scan.rest}"
+
+        type = scan.scan /[#^\/<>]/ #Get tag type
+        true? type == "<"
+          { type = ">" }
+          { true? type
+            { type = type[0] } }
+
+        p "Tag type: #{type}"
+
+        scan.scan /\s*/ #Skip whitespace
+        content = scan.scan(/(\w|[?!\/.-])*/)[0] #Get tag content
+        fetch = [:mustache, :fetch, content.split /\./]
+
+        prev = result #Whys?
+
+        tags = [
+          "#" : {
+            block = [:multi]
+            result << [:mustache, :section, fetch, block]
+            sections << [content, result]
+            p "Add section #{content}"
+            result = block
+          }
+
+          "^" : {
+            block = [:multi]
+            result << [:mustache, :inverted_section, fetch, block]
+            sections << [content, result]
+            p "Add inverted section #{content}"
+            result = block
+          }
+
+          "/" : {
+            prev_sec = sections.pop
+            section = prev_sec[0]
+
+            p "Closing section #{content}"
+
+            false? section
+              { throw "Closing unopened section: #{content}" }
+
+            false? section == content
+              { throw "Unclosed section: #{section}" }
+
+            result = prev_sec[1]
+          }
+
+          ">" : {
+            result << [:mustache, :partial, content]
+          }
+        ]
+
+        true? tags.key?(type)
+          { tags[type]() }
+          { result << [:mustache, :etag, fetch] }
+
+        scan.scan /\s+/
+
+        false? scan.scan("}}")
+          { throw "Unclosed tag: #{content}" }
+
+        true
+      }
+  }
+
+  scan_text: {
+    p "Scanning text at #{scan.pos}"
+    text = scan_until_otag
+
+    false? text
+      {
+        text = scan.rest
+        scan.end
+      }
+  
+    false? text.empty?
+      { result << [:static, text] }
+  }
+
+  scan_until_otag: {
+    match = scan.scan /([^{]*){{/
+    true? match
+      {
+        p "Matched #{match.full_match}"
+        scan.pos = scan.pos - 2 #Back up
+        match[1] #Return text matched
+      }
+      { p "No tag in text!"; false }
+  }
+]
+
+export mustache, :mustache
