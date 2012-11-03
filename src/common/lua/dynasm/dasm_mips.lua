@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------
 -- DynASM MIPS module.
 --
--- Copyright (C) 2005-2011 Mike Pall. All rights reserved.
+-- Copyright (C) 2005-2012 Mike Pall. All rights reserved.
 -- See dynasm.lua for full copyright notice.
 ------------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ local _info = {
   description =	"DynASM MIPS module",
   version =	"1.3.0",
   vernum =	 10300,
-  release =	"2011-12-16",
+  release =	"2012-01-23",
   author =	"Mike Pall",
   license =	"MIT",
 }
@@ -26,6 +26,8 @@ local _s = string
 local sub, format, byte, char = _s.sub, _s.format, _s.byte, _s.char
 local match, gmatch = _s.match, _s.gmatch
 local concat, sort = table.concat, table.sort
+local bit = bit or require("bit")
+local band, shl, sar, tohex = bit.band, bit.lshift, bit.arshift, bit.tohex
 
 -- Inherited tables and callbacks.
 local g_opt, g_arch
@@ -59,11 +61,6 @@ local actargs = { 0 }
 local secpos = 1
 
 ------------------------------------------------------------------------------
-
--- Return 8 digit hex number.
-local function tohex(x)
-  return sub(format("%08x", x), -8) -- Avoid 64 bit portability problem in Lua.
-end
 
 -- Dump action names and numbers.
 local function dumpactions(out)
@@ -278,7 +275,9 @@ local map_op = {
   -- Opcode SPECIAL.
   nop_0 =	"00000000",
   sll_3 =	"00000000DTA",
+  movf_2 =	"00000001DS",
   movf_3 =	"00000001DSC",
+  movt_2 =	"00010001DS",
   movt_3 =	"00010001DSC",
   srl_3 =	"00000002DTA",
   rotr_3 =	"00200002DTA",
@@ -309,10 +308,12 @@ local map_op = {
   move_2 =	"00000021DS",
   addu_3 =	"00000021DST",
   sub_3 =	"00000022DST",
+  negu_2 =	"00000023DT",
   subu_3 =	"00000023DST",
   and_3 =	"00000024DST",
   or_3 =	"00000025DST",
   xor_3 =	"00000026DST",
+  not_2 =	"00000027DS",
   nor_3 =	"00000027DST",
   slt_3 =	"0000002aDST",
   sltu_3 =	"0000002bDST",
@@ -341,6 +342,7 @@ local map_op = {
   teqi_2 =	"040c0000SI",
   tnei_2 =	"040e0000SI",
   bltzal_2 =	"04100000SB",
+  bal_1 =	"04110000B",
   bgezal_2 =	"04110000SB",
   bltzall_2 =	"04120000SB",
   bgezall_2 =	"04130000SB",
@@ -634,16 +636,14 @@ end
 local function parse_imm(imm, bits, shift, scale, signed)
   local n = tonumber(imm)
   if n then
-    if n % 2^scale == 0 then
-      n = n / 2^scale
+    local m = sar(n, scale)
+    if shl(m, scale) == n then
       if signed then
-	if n >= 0 then
-	  if n < 2^(bits-1) then return n*2^shift end
-	else
-	  if n >= -(2^(bits-1))-1 then return (n+2^bits)*2^shift end
-	end
+	local s = sar(m, bits-1)
+	if s == 0 then return shl(m, shift)
+	elseif s == -1 then return shl(m + shl(1, bits), shift) end
       else
-	if n >= 0 and n <= 2^bits-1 then return n*2^shift end
+	if sar(m, bits) == 0 then return shl(m, shift) end
       end
     end
     werror("out of range immediate `"..imm.."'")
@@ -659,15 +659,21 @@ end
 local function parse_disp(disp)
   local imm, reg = match(disp, "^(.*)%(([%w_:]+)%)$")
   if imm then
-    local r = parse_gpr(reg)
-    return r*2^21 + parse_imm(imm, 16, 0, 0, true)
+    local r = shl(parse_gpr(reg), 21)
+    local extname = match(imm, "^extern%s+(%S+)$")
+    if extname then
+      waction("REL_EXT", map_extern[extname], nil, 1)
+      return r
+    else
+      return r + parse_imm(imm, 16, 0, 0, true)
+    end
   end
   local reg, tailr = match(disp, "^([%w_:]+)%s*(.*)$")
   if reg and tailr ~= "" then
     local r, tp = parse_gpr(reg)
     if tp then
       waction("IMM", 32768+16*32, format(tp.ctypefmt, tailr))
-      return r*2^21
+      return shl(r, 21)
     end
   end
   werror("bad displacement `"..disp.."'")
@@ -678,7 +684,7 @@ local function parse_index(idx)
   if rt then
     rt = parse_gpr(rt)
     rs = parse_gpr(rs)
-    return rt*2^16 + rs*2^21
+    return shl(rt, 16) + shl(rs, 21)
   end
   werror("bad index `"..idx.."'")
 end
@@ -729,19 +735,19 @@ map_op[".template__"] = function(params, template, nparams)
   -- Process each character.
   for p in gmatch(sub(template, 9), ".") do
     if p == "D" then
-      op = op + parse_gpr(params[n]) * 2^11; n = n + 1
+      op = op + shl(parse_gpr(params[n]), 11); n = n + 1
     elseif p == "T" then
-      op = op + parse_gpr(params[n]) * 2^16; n = n + 1
+      op = op + shl(parse_gpr(params[n]), 16); n = n + 1
     elseif p == "S" then
-      op = op + parse_gpr(params[n]) * 2^21; n = n + 1
+      op = op + shl(parse_gpr(params[n]), 21); n = n + 1
     elseif p == "F" then
-      op = op + parse_fpr(params[n]) * 2^6; n = n + 1
+      op = op + shl(parse_fpr(params[n]), 6); n = n + 1
     elseif p == "G" then
-      op = op + parse_fpr(params[n]) * 2^11; n = n + 1
+      op = op + shl(parse_fpr(params[n]), 11); n = n + 1
     elseif p == "H" then
-      op = op + parse_fpr(params[n]) * 2^16; n = n + 1
+      op = op + shl(parse_fpr(params[n]), 16); n = n + 1
     elseif p == "R" then
-      op = op + parse_fpr(params[n]) * 2^21; n = n + 1
+      op = op + shl(parse_fpr(params[n]), 21); n = n + 1
     elseif p == "I" then
       op = op + parse_imm(params[n], 16, 0, 0, true); n = n + 1
     elseif p == "U" then
@@ -772,8 +778,7 @@ map_op[".template__"] = function(params, template, nparams)
     elseif p == "Z" then
       op = op + parse_imm(params[n], 10, 6, 0, false); n = n + 1
     elseif p == "=" then
-      local d = ((op - op % 2^11) / 2^11) % 32
-      op = op + d * 2^16 -- Copy D to T for clz, clo.
+      op = op + shl(band(op, 0xf800), 5) -- Copy D to T for clz, clo.
     else
       assert(false)
     end

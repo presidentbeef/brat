@@ -1,6 +1,6 @@
 /*
 ** Stack frames.
-** Copyright (C) 2005-2011 Mike Pall. See Copyright Notice in luajit.h
+** Copyright (C) 2005-2012 Mike Pall. See Copyright Notice in luajit.h
 */
 
 #ifndef _LJ_FRAME_H
@@ -97,9 +97,23 @@ enum {
 #define CFRAME_OFS_L		12
 #define CFRAME_OFS_PC		8
 #define CFRAME_OFS_MULTRES	4
+#if LJ_ARCH_HASFPU
+#define CFRAME_SIZE		128
+#else
 #define CFRAME_SIZE		64
+#endif
 #define CFRAME_SHIFT_MULTRES	3
 #elif LJ_TARGET_PPC
+#if LJ_ARCH_PPC64
+#define CFRAME_OFS_ERRF		472
+#define CFRAME_OFS_NRES		468
+#define CFRAME_OFS_PREV		448
+#define CFRAME_OFS_L		464
+#define CFRAME_OFS_PC		460
+#define CFRAME_OFS_MULTRES	456
+#define CFRAME_SIZE		400
+#define CFRAME_SHIFT_MULTRES	3
+#else
 #define CFRAME_OFS_ERRF		48
 #define CFRAME_OFS_NRES		44
 #define CFRAME_OFS_PREV		40
@@ -108,6 +122,7 @@ enum {
 #define CFRAME_OFS_MULTRES	28
 #define CFRAME_SIZE		272
 #define CFRAME_SHIFT_MULTRES	3
+#endif
 #elif LJ_TARGET_PPCSPE
 #define CFRAME_OFS_ERRF		28
 #define CFRAME_OFS_NRES		24
@@ -118,14 +133,13 @@ enum {
 #define CFRAME_SIZE		184
 #define CFRAME_SHIFT_MULTRES	3
 #elif LJ_TARGET_MIPS
-/* NYI: Dummy definitions for now. */
-#define CFRAME_OFS_ERRF		0
-#define CFRAME_OFS_NRES		0
-#define CFRAME_OFS_PREV		0
-#define CFRAME_OFS_L		0
-#define CFRAME_OFS_PC		0
-#define CFRAME_OFS_MULTRES	0
-#define CFRAME_SIZE		256
+#define CFRAME_OFS_ERRF		124
+#define CFRAME_OFS_NRES		120
+#define CFRAME_OFS_PREV		116
+#define CFRAME_OFS_L		112
+#define CFRAME_OFS_PC		20
+#define CFRAME_OFS_MULTRES	16
+#define CFRAME_SIZE		112
 #define CFRAME_SHIFT_MULTRES	3
 #else
 #error "Missing CFRAME_* definitions for this architecture"

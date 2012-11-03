@@ -1,6 +1,6 @@
 /*
 ** Definitions for x86 and x64 CPUs.
-** Copyright (C) 2005-2011 Mike Pall. See Copyright Notice in luajit.h
+** Copyright (C) 2005-2012 Mike Pall. See Copyright Notice in luajit.h
 */
 
 #ifndef _LJ_TARGET_X86_H
@@ -139,6 +139,8 @@ enum {
 #define SPS_FIRST	2
 #endif
 
+#define SPOFS_TMP	0
+
 #define sps_scale(slot)		(4 * (int32_t)(slot))
 #define sps_align(slot)		(((slot) - SPS_FIXED + 3) & ~3)
 
@@ -189,6 +191,7 @@ typedef struct {
 typedef enum {
   /* Fixed length opcodes. XI_* prefix. */
   XI_NOP =	0x90,
+  XI_XCHGa =	0x90,
   XI_CALL =	0xe8,
   XI_JMP =	0xe9,
   XI_JMPs =	0xeb,

@@ -4,16 +4,10 @@
 <title>FFI Library</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta name="Author" content="Mike Pall">
-<meta name="Copyright" content="Copyright (C) 2005-2011, Mike Pall">
+<meta name="Copyright" content="Copyright (C) 2005-2012, Mike Pall">
 <meta name="Language" content="en">
 <link rel="stylesheet" type="text/css" href="bluequad.css" media="screen">
 <link rel="stylesheet" type="text/css" href="bluequad-print.css" media="print">
-<style type="text/css">
-span.codemark { position:absolute; left: 16em; color: #4040c0; }
-span.mark { color: #4040c0; font-family: Courier New, Courier, monospace;
-  line-height: 1.1; }
-pre.mark { padding-left: 2em; }
-</style>
 </head>
 <body>
 <div id="site">
@@ -26,6 +20,8 @@ pre.mark { padding-left: 2em; }
 <ul><li>
 <a href="luajit.html">LuaJIT</a>
 <ul><li>
+<a href="http://luajit.org/download.html">Download <span class="ext">&raquo;</span></a>
+</li><li>
 <a href="install.html">Installation</a>
 </li><li>
 <a href="running.html">Running</a>
@@ -56,7 +52,9 @@ pre.mark { padding-left: 2em; }
 </li><li>
 <a href="http://luajit.org/performance.html">Performance <span class="ext">&raquo;</span></a>
 </li><li>
-<a href="http://luajit.org/download.html">Download <span class="ext">&raquo;</span></a>
+<a href="http://wiki.luajit.org/">Wiki <span class="ext">&raquo;</span></a>
+</li><li>
+<a href="http://luajit.org/list.html">Mailing List <span class="ext">&raquo;</span></a>
 </li></ul>
 </div>
 <div id="main">
@@ -123,7 +121,7 @@ C&nbsp;function &mdash; Yes, it's that simple!
 Actually, what goes on behind the scenes is far from simple: <span
 style="color:#4040c0;">&#9314;</span> makes use of the standard
 C&nbsp;library namespace <tt>ffi.C</tt>. Indexing this namespace with
-a symbol name (<tt>"printf"</tt>) automatically binds it to the the
+a symbol name (<tt>"printf"</tt>) automatically binds it to the
 standard C&nbsp;library. The result is a special kind of object which,
 when called, runs the <tt>printf</tt> function. The arguments passed
 to this function are automatically converted from Lua objects to the
@@ -322,7 +320,7 @@ without undue conversion penalties.
 </div>
 <div id="foot">
 <hr class="hide">
-Copyright &copy; 2005-2011 Mike Pall
+Copyright &copy; 2005-2012 Mike Pall
 <span class="noprint">
 &middot;
 <a href="contact.html">Contact</a>
