@@ -63,6 +63,10 @@ export BRAT_LIB_PATH=$LIB
 cd $SRC
 
 echo Building Lua
+
+#Clear out existing LuaJIT
+rm -rf $BRATPATH/bin/lua
+
 #Build Lua
 cd $COMMON/$LUA
 
