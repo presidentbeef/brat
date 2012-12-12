@@ -8,6 +8,7 @@ stdlib/*.lua
 examples/*.lua
 examples/rosetta_code/*.lua
 lib/*.so*
+lib/*.dylib
 lib/mime/
 lib/socket/core.so
 src/common/onig-5.9.2/.deps/
