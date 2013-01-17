@@ -1,14 +1,19 @@
 include :scanner
 
 parser = object.new
+compiler = object.new
 
 mustache = object.new
 mustache.parse = { template |
-  parser.new.compile template
+  parser.new.parse template
+}
+
+mustache.compile = { tokens, context |
+  compiler.new(context).compile(tokens)
 }
 
 parser.prototype [
-  compile: { template |
+  parse: { template |
     my.scan = scanner.new template
 
     my.result = [:multi]
@@ -126,5 +131,77 @@ parser.prototype [
       { p "No tag in text!"; false }
   }
 ]
+
+compiler.init = { context |
+  my.context = context
+  my.current = context
+}
+
+compiler.prototype [
+  compile: { tokens |
+    p "Compile! #{tokens}"
+    c = my
+    true? tokens.first.string?
+      { 
+        p "C is #{c}"
+        c.call_method tokens.first, tokens
+      }
+      {
+        tokens.map { t |
+          p "c is #{c}"
+          c.call_method t.first, t
+        }
+      }
+    }
+
+  static: { token |
+    token[1]
+  }
+
+  multi: { tokens |
+    c = my
+    tokens[1,-1].map({ t | c.compile t }).join
+  }
+
+  mustache: { token |
+    p "Mustache!"
+    call_method token[1], token
+  }
+
+  section: { token |
+    conditional = fetch(token)
+
+    true? conditional
+      {
+        compile token[3]
+      }
+      {
+        ""
+      }
+  }
+
+  inverted_section: { token |
+    conditional = compile token[2]
+
+    false? conditional
+      {
+        compile token[3]
+      }
+      {
+        ""
+      }
+  }
+
+  fetch: { token |
+    p "my is now #{my}"
+    p "fetch! #{token}"
+    c = my.current
+    token[2].each { n |
+      c = c[n]
+    }
+    c
+  }
+]
+
 
 export mustache, :mustache
