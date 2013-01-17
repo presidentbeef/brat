@@ -120,7 +120,7 @@ typedef uintptr_t BloomFilter;
 #define LJ_NOINLINE	__attribute__((noinline))
 
 #if defined(__ELF__) || defined(__MACH__)
-#if !((defined(__sun__) && defined(__svr4__)) || defined(__solaris__) || defined(__CELLOS_LV2__))
+#if !((defined(__sun__) && defined(__svr4__)) || defined(__CELLOS_LV2__))
 #define LJ_NOAPI	extern __attribute__((visibility("hidden")))
 #endif
 #endif
@@ -242,6 +242,8 @@ static LJ_AINLINE uint32_t lj_getu32(const void *p)
 #define LJ_FASTCALL	__fastcall
 #endif
 
+#pragma intrinsic(_BitScanForward)
+#pragma intrinsic(_BitScanReverse)
 unsigned char _BitScanForward(uint32_t *, unsigned long);
 unsigned char _BitScanReverse(uint32_t *, unsigned long);
 unsigned long _byteswap_ulong(unsigned long);
