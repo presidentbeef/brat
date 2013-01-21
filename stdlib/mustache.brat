@@ -160,7 +160,7 @@ compiler.prototype [
 
   multi: { tokens |
     c = my
-    tokens[1,-1].map({ t | c.compile t }).join
+    tokens[1, tokens.length].map({ t | c.compile t }).join
   }
 
   mustache: { token |
