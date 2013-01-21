@@ -192,6 +192,10 @@ compiler.prototype [
       }
   }
 
+  etag: { token |
+    compile token[2]
+  }
+
   fetch: { token |
     p "my is now #{my}"
     p "fetch! #{token}"
