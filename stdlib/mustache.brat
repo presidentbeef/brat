@@ -59,10 +59,11 @@ parser.prototype [
         tags = [
           "#" : {
             block = [:multi]
-            result << [:mustache, :section, fetch, block]
-            sections << [content, result]
+            my.result << [:mustache, :section, fetch, block]
+            sections << [content, my.result]
             p "Add section #{content}"
-            result = block
+            my.result = block
+            p "And now result is #{result}"
           }
 
           "^" : {
@@ -70,7 +71,7 @@ parser.prototype [
             result << [:mustache, :inverted_section, fetch, block]
             sections << [content, result]
             p "Add inverted section #{content}"
-            result = block
+            my.result = block
           }
 
           "/" : {
@@ -85,7 +86,7 @@ parser.prototype [
             false? section == content
               { throw "Unclosed section: #{section}" }
 
-            result = prev_sec[1]
+            my.result = prev_sec[1]
           }
 
           ">" : {
@@ -97,12 +98,14 @@ parser.prototype [
           { tags[type]() }
           { result << [:mustache, :etag, fetch] }
 
+        p "Result is #{result}"
+
         scan.scan /\s+/
 
         false? scan.scan("}}")
           { throw "Unclosed tag: #{content}" }
 
-        true
+        false
       }
   }
 
@@ -169,11 +172,30 @@ compiler.prototype [
   }
 
   section: { token |
-    conditional = fetch(token)
+    conditional = compile token[2]
 
     true? conditional
       {
-        compile token[3]
+        true? conditional.array?
+          {
+            c = my
+            res = ""
+            conditional.each { i |
+              p "At #{i} and #{token[3]}"
+              old_context = c.current
+              my.current = i 
+              res << c.compile token[3]
+              c.current = old_context
+            }
+            res
+          }
+          {
+            old_context = my.current
+            my.current = conditional
+            res = compile token[3]
+            my.current = old_context
+            res
+          }
       }
       {
         ""
@@ -193,11 +215,13 @@ compiler.prototype [
   }
 
   etag: { token |
-    compile token[2]
+    res = compile token[2]
+    null? res
+    { "" }
+    { res }
   }
 
   fetch: { token |
-    p "my is now #{my}"
     p "fetch! #{token}"
     c = my.current
     token[2].each { n |
