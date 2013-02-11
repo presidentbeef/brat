@@ -1,6 +1,6 @@
 /*
 ** Definitions for target CPU.
-** Copyright (C) 2005-2011 Mike Pall. See Copyright Notice in luajit.h
+** Copyright (C) 2005-2012 Mike Pall. See Copyright Notice in luajit.h
 */
 
 #ifndef _LJ_TARGET_H
@@ -16,17 +16,19 @@ typedef uint32_t Reg;
 
 /* The hi-bit is NOT set for an allocated register. This means the value
 ** can be directly used without masking. The hi-bit is set for a register
-** allocation hint or for RID_INIT.
+** allocation hint or for RID_INIT, RID_SINK or RID_SUNK.
 */
 #define RID_NONE		0x80
 #define RID_MASK		0x7f
 #define RID_INIT		(RID_NONE|RID_MASK)
+#define RID_SINK		(RID_INIT-1)
+#define RID_SUNK		(RID_INIT-2)
 
 #define ra_noreg(r)		((r) & RID_NONE)
 #define ra_hasreg(r)		(!((r) & RID_NONE))
 
 /* The ra_hashint() macro assumes a previous test for ra_noreg(). */
-#define ra_hashint(r)		((r) != RID_INIT)
+#define ra_hashint(r)		((r) < RID_SUNK)
 #define ra_gethint(r)		((Reg)((r) & RID_MASK))
 #define ra_sethint(rr, r)	rr = (uint8_t)((r)|RID_NONE)
 #define ra_samehint(r1, r2)	(ra_gethint((r1)^(r2)) == 0)
@@ -53,7 +55,7 @@ typedef uint32_t RegSP;
 /* Bitset for registers. 32 registers suffice for most architectures.
 ** Note that one set holds bits for both GPRs and FPRs.
 */
-#if LJ_TARGET_PPC
+#if LJ_TARGET_PPC || LJ_TARGET_MIPS
 typedef uint64_t RegSet;
 #else
 typedef uint32_t RegSet;
@@ -63,11 +65,11 @@ typedef uint32_t RegSet;
 #define RSET_EMPTY		((RegSet)0)
 #define RSET_RANGE(lo, hi)	((RID2RSET((hi)-(lo))-1) << (lo))
 
-#define rset_test(rs, r)	(((rs) >> (r)) & 1)
+#define rset_test(rs, r)	((int)((rs) >> (r)) & 1)
 #define rset_set(rs, r)		(rs |= RID2RSET(r))
 #define rset_clear(rs, r)	(rs &= ~RID2RSET(r))
 #define rset_exclude(rs, r)	(rs & ~RID2RSET(r))
-#if LJ_TARGET_PPC
+#if LJ_TARGET_PPC || LJ_TARGET_MIPS
 #define rset_picktop(rs)	((Reg)(__builtin_clzll(rs)^63))
 #define rset_pickbot(rs)	((Reg)__builtin_ctzll(rs))
 #else
@@ -138,6 +140,8 @@ typedef uint32_t RegCost;
 #include "lj_target_arm.h"
 #elif LJ_TARGET_PPC
 #include "lj_target_ppc.h"
+#elif LJ_TARGET_MIPS
+#include "lj_target_mips.h"
 #else
 #error "Missing include for target CPU"
 #endif

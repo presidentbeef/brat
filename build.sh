@@ -63,6 +63,10 @@ export BRAT_LIB_PATH=$LIB
 cd $SRC
 
 echo Building Lua
+
+#Clear out existing LuaJIT
+rm -rf $BRATPATH/bin/lua
+
 #Build Lua
 cd $COMMON/$LUA
 
@@ -71,7 +75,7 @@ make PREFIX=$BRATPATH/bin/lua
 #Copy to bin/lua
 make install PREFIX=$BRATPATH/bin/lua
 
-mv -f $BRATPATH/bin/lua/bin/luajit-2.0.0-beta9 $BRATPATH/bin/lua/bin/lua
+mv -f $BRATPATH/bin/lua/bin/luajit $BRATPATH/bin/lua/bin/lua
 
 echo Building Oniguruma
 cd $COMMON/$ONIG

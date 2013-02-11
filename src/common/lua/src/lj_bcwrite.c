@@ -1,6 +1,6 @@
 /*
 ** Bytecode writer.
-** Copyright (C) 2005-2011 Mike Pall. See Copyright Notice in luajit.h
+** Copyright (C) 2005-2012 Mike Pall. See Copyright Notice in luajit.h
 */
 
 #define lj_bcwrite_c
@@ -164,7 +164,7 @@ static void bcwrite_kgc(BCWriteCtx *ctx, GCproto *pt)
       tp = BCDUMP_KGC_CHILD;
 #if LJ_HASFFI
     } else if (o->gch.gct == ~LJ_TCDATA) {
-      CTypeID id = gco2cd(o)->typeid;
+      CTypeID id = gco2cd(o)->ctypeid;
       need = 1+4*5;
       if (id == CTID_INT64) {
 	tp = BCDUMP_KGC_I64;
@@ -178,6 +178,7 @@ static void bcwrite_kgc(BCWriteCtx *ctx, GCproto *pt)
     } else {
       lua_assert(o->gch.gct == ~LJ_TTAB);
       tp = BCDUMP_KGC_TAB;
+      need = 1+2*5;
     }
     /* Write constant type. */
     bcwrite_need(ctx, need);
@@ -219,13 +220,19 @@ static void bcwrite_knum(BCWriteCtx *ctx, GCproto *pt)
 	k = lj_num2int(num);
 	if (num == (lua_Number)k) {  /* -0 is never a constant. */
 	save_int:
-	  bcwrite_uleb128(ctx, 2*(uint32_t)k);
-	  if (k < 0) ctx->sb.buf[ctx->sb.n-1] |= 0x10;
+	  bcwrite_uleb128(ctx, 2*(uint32_t)k | ((uint32_t)k & 0x80000000u));
+	  if (k < 0) {
+	    char *p = &ctx->sb.buf[ctx->sb.n-1];
+	    *p = (*p & 7) | ((k>>27) & 0x18);
+	  }
 	  continue;
 	}
       }
-      bcwrite_uleb128(ctx, 1+2*o->u32.lo);
-      if (o->u32.lo >= 0x80000000u) ctx->sb.buf[ctx->sb.n-1] |= 0x10;
+      bcwrite_uleb128(ctx, 1+(2*o->u32.lo | (o->u32.lo & 0x80000000u)));
+      if (o->u32.lo >= 0x80000000u) {
+	char *p = &ctx->sb.buf[ctx->sb.n-1];
+	*p = (*p & 7) | ((o->u32.lo>>27) & 0x18);
+      }
       bcwrite_uleb128(ctx, o->u32.hi);
     }
   }
@@ -317,7 +324,7 @@ static void bcwrite_proto(BCWriteCtx *ctx, GCproto *pt)
   /* Pass buffer to writer function. */
   if (ctx->status == 0) {
     MSize n = ctx->sb.n - 5;
-    MSize nn = 1 + lj_fls(n)/7;
+    MSize nn = (lj_fls(n)+8)*9 >> 6;
     ctx->sb.n = 5 - nn;
     bcwrite_uleb128(ctx, n);  /* Fill in final size. */
     lua_assert(ctx->sb.n == 5);

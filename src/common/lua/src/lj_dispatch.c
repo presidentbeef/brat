@@ -1,6 +1,6 @@
 /*
 ** Instruction dispatch handling.
-** Copyright (C) 2005-2011 Mike Pall. See Copyright Notice in luajit.h
+** Copyright (C) 2005-2012 Mike Pall. See Copyright Notice in luajit.h
 */
 
 #define lj_dispatch_c
@@ -8,6 +8,10 @@
 
 #include "lj_obj.h"
 #include "lj_err.h"
+#include "lj_func.h"
+#include "lj_str.h"
+#include "lj_tab.h"
+#include "lj_meta.h"
 #include "lj_debug.h"
 #include "lj_state.h"
 #include "lj_frame.h"
@@ -15,6 +19,9 @@
 #include "lj_ff.h"
 #if LJ_HASJIT
 #include "lj_jit.h"
+#endif
+#if LJ_HASFFI
+#include "lj_ccallback.h"
 #endif
 #include "lj_trace.h"
 #include "lj_dispatch.h"
@@ -25,6 +32,18 @@
 LJ_STATIC_ASSERT(GG_NUM_ASMFF == FF_NUM_ASMFUNC);
 
 /* -- Dispatch table management ------------------------------------------- */
+
+#if LJ_TARGET_MIPS
+#include <math.h>
+LJ_FUNCA_NORET void LJ_FASTCALL lj_ffh_coroutine_wrap_err(lua_State *L,
+							  lua_State *co);
+
+#define GOTFUNC(name)	(ASMFunction)name,
+static const ASMFunction dispatch_got[] = {
+  GOTDEF(GOTFUNC)
+};
+#undef GOTFUNC
+#endif
 
 /* Initialize instruction dispatch table and hot counters. */
 void lj_dispatch_init(GG_State *GG)
@@ -44,6 +63,9 @@ void lj_dispatch_init(GG_State *GG)
   GG->g.bc_cfunc_ext = GG->g.bc_cfunc_int = BCINS_AD(BC_FUNCC, LUA_MINSTACK, 0);
   for (i = 0; i < GG_NUM_ASMFF; i++)
     GG->bcff[i] = BCINS_AD(BC__MAX+i, 0, 0);
+#if LJ_TARGET_MIPS
+  memcpy(GG->got, dispatch_got, LJ_GOT__MAX*4);
+#endif
 }
 
 #if LJ_HASJIT
@@ -64,7 +86,7 @@ void lj_dispatch_init_hotcount(global_State *g)
 #define DISPMODE_REC	0x02	/* Recording active. */
 #define DISPMODE_INS	0x04	/* Override instruction dispatch. */
 #define DISPMODE_CALL	0x08	/* Override call dispatch. */
-#define DISPMODE_RET	0x08	/* Override return dispatch. */
+#define DISPMODE_RET	0x10	/* Override return dispatch. */
 
 /* Update dispatch table depending on various flags. */
 void lj_dispatch_update(global_State *g)
@@ -145,7 +167,7 @@ void lj_dispatch_update(global_State *g)
     /* Set dynamic call dispatch. */
     if ((oldmode ^ mode) & DISPMODE_CALL) {  /* Update the whole table? */
       uint32_t i;
-      if ((mode & 8) == 0) {  /* No call hooks? */
+      if ((mode & DISPMODE_CALL) == 0) {  /* No call hooks? */
 	for (i = GG_LEN_SDISP; i < GG_LEN_DDISP; i++)
 	  disp[i] = makeasmfunc(lj_bc_ofs[i]);
       } else {
@@ -370,8 +392,12 @@ void LJ_FASTCALL lj_dispatch_ins(lua_State *L, const BCIns *pc)
   {
     jit_State *J = G2J(g);
     if (J->state != LJ_TRACE_IDLE) {
+#ifdef LUA_USE_ASSERT
+      ptrdiff_t delta = L->top - L->base;
+#endif
       J->L = L;
       lj_trace_ins(J, pc-1);  /* The interpreter bytecode PC is offset by 1. */
+      lua_assert(L->top - L->base == delta);
     }
   }
 #endif
@@ -426,8 +452,12 @@ ASMFunction LJ_FASTCALL lj_dispatch_call(lua_State *L, const BCIns *pc)
 #if LJ_HASJIT
   J->L = L;
   if ((uintptr_t)pc & 1) {  /* Marker for hot call. */
+#ifdef LUA_USE_ASSERT
+    ptrdiff_t delta = L->top - L->base;
+#endif
     pc = (const BCIns *)((uintptr_t)pc & ~(uintptr_t)1);
     lj_trace_hot(J, pc);
+    lua_assert(L->top - L->base == delta);
     goto out;
   } else if (J->state != LJ_TRACE_IDLE &&
 	     !(g->hookmask & (HOOK_GC|HOOK_VMEVENT))) {

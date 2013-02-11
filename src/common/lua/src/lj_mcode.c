@@ -1,6 +1,6 @@
 /*
 ** Machine code management.
-** Copyright (C) 2005-2011 Mike Pall. See Copyright Notice in luajit.h
+** Copyright (C) 2005-2012 Mike Pall. See Copyright Notice in luajit.h
 */
 
 #define lj_mcode_c
@@ -13,6 +13,8 @@
 #include "lj_mcode.h"
 #include "lj_trace.h"
 #include "lj_dispatch.h"
+#endif
+#if LJ_HASJIT || LJ_HASFFI
 #include "lj_vm.h"
 #endif
 
@@ -25,17 +27,8 @@
 #include <valgrind/valgrind.h>
 #endif
 
-#if !LJ_TARGET_X86ORX64 && LJ_TARGET_OSX
+#if LJ_TARGET_IOS
 void sys_icache_invalidate(void *start, size_t len);
-#endif
-
-#if LJ_TARGET_LINUX && LJ_TARGET_PPC
-#include <dlfcn.h>
-static void (*mcode_sync_ppc)(void *start, void *end);
-static void mcode_sync_dummy(void *start, void *end)
-{
-    UNUSED(start); UNUSED(end);
-}
 #endif
 
 /* Synchronize data/instruction cache. */
@@ -46,16 +39,11 @@ void lj_mcode_sync(void *start, void *end)
 #endif
 #if LJ_TARGET_X86ORX64
   UNUSED(start); UNUSED(end);
-#elif LJ_TARGET_OSX
+#elif LJ_TARGET_IOS
   sys_icache_invalidate(start, (char *)end-(char *)start);
-#elif LJ_TARGET_LINUX && LJ_TARGET_PPC
-  if (!mcode_sync_ppc) {
-    void *vdso = dlopen("linux-vdso32.so.1", RTLD_LAZY);
-    if (!vdso || !(mcode_sync_ppc = dlsym(vdso, "__kernel_sync_dicache")))
-      mcode_sync_ppc = mcode_sync_dummy;
-  }
-  mcode_sync_ppc(start, end);
-#elif defined(__GNUC__) && !LJ_TARGET_PPC
+#elif LJ_TARGET_PPC
+  lj_vm_cachesync(start, end);
+#elif defined(__GNUC__)
   __clear_cache(start, end);
 #else
 #error "Missing builtin to flush instruction cache"
@@ -217,7 +205,13 @@ static void *mcode_alloc(jit_State *J, size_t sz)
   /* Target an address in the static assembler code (64K aligned).
   ** Try addresses within a distance of target-range/2+1MB..target+range/2-1MB.
   */
+#if LJ_TARGET_MIPS
+  /* Use the middle of the 256MB-aligned region. */
+  uintptr_t target = ((uintptr_t)(void *)lj_vm_exit_handler & 0xf0000000u) +
+		     0x08000000u;
+#else
   uintptr_t target = (uintptr_t)(void *)lj_vm_exit_handler & ~(uintptr_t)0xffff;
+#endif
   const uintptr_t range = (1u << LJ_TARGET_JUMPRANGE) - (1u << 21);
   /* First try a contiguous area below the last one. */
   uintptr_t hint = J->mcarea ? (uintptr_t)J->mcarea - sz : 0;
