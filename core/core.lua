@@ -2457,6 +2457,27 @@ function array_instance:reverse_undereach (block)
 end
 
 -- Object: array instance
+-- Call: array.reverse_each_while block
+--
+-- Invokes block for each item in the array, starting from the end.
+-- Halts if the block does not return true.
+function array_instance:reverse_undereach_underwhile (block)
+  local len = self._length
+  local k = len
+  local a = self._lua_array
+
+  while k >= 1 do
+    if is_true(block(self, a[k])) then
+      k = k - 1
+    else
+      break
+    end
+  end
+
+  return self
+end
+
+-- Object: array instance
 -- Call: array.select! block
 -- Returns: array
 --
