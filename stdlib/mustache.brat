@@ -68,24 +68,19 @@ parser.prototype [
   }
 
   scan_tags: {
-    p "Scanning tags at #{scan.pos}"
     before = scan.scan /([\s\t]*){{/
 
     false? before
-      { p "No tag!"; false }
+      { false }
       {
         true? { before[1] && not before[1].empty? }
           { result << [:static, before[1]] }
-
-        p "Looking for tag in #{scan.rest}"
 
         type = scan.scan /[#^\/<>]/ #Get tag type
         true? type == "<"
           { type = ">" }
           { true? type
             { type = type[0] } }
-
-        p "Tag type: #{type}"
 
         scan.scan /\s*/ #Skip whitespace
         content = scan.scan(/(\w|[?!\/.-])*/)[0] #Get tag content
@@ -98,24 +93,19 @@ parser.prototype [
             block = [:multi]
             my.result << [:mustache, :section, fetch, block]
             sections << [content, my.result]
-            p "Add section #{content}"
             my.result = block
-            p "And now result is #{result}"
           }
 
           "^" : {
             block = [:multi]
             result << [:mustache, :inverted_section, fetch, block]
             sections << [content, result]
-            p "Add inverted section #{content}"
             my.result = block
           }
 
           "/" : {
             prev_sec = sections.pop
             section = prev_sec[0]
-
-            p "Closing section #{content}"
 
             false? section
               { throw "Closing unopened section: #{content}" }
@@ -135,8 +125,6 @@ parser.prototype [
           { tags[type]() }
           { result << [:mustache, :etag, fetch] }
 
-        p "Result is #{result}"
-
         scan.scan /\s+/
 
         false? scan.scan("}}")
@@ -147,7 +135,6 @@ parser.prototype [
   }
 
   scan_text: {
-    p "Scanning text at #{scan.pos}"
     text = scan_until_otag
 
     false? text
@@ -164,11 +151,10 @@ parser.prototype [
     match = scan.scan /([^{]*){{/
     true? match
       {
-        p "Matched #{match.full_match}"
         scan.pos = scan.pos - 2 #Back up
         match[1] #Return text matched
       }
-      { p "No tag in text!"; false }
+      { false }
   }
 ]
 
@@ -179,16 +165,13 @@ compiler.init = { context |
 
 compiler.prototype [
   compile: { tokens |
-    p "Compile! #{tokens}"
     c = my
     true? tokens.first.string?
       {
-        p "C is #{c}"
         c.call_method tokens.first, tokens
       }
       {
         tokens.map { t |
-          p "c is #{c}"
           c.call_method t.first, t
         }
       }
@@ -204,7 +187,6 @@ compiler.prototype [
   }
 
   mustache: { token |
-    p "Mustache!"
     call_method token[1], token
   }
 
@@ -217,15 +199,11 @@ compiler.prototype [
           {
             c = my
             res = ""
-            p "Conditional is #{conditional}"
             conditional.each { i |
-              p "At #{i} and #{token[3]}"
               c.context.push i
-              p "Current is now #{c.current}"
               res << c.compile token[3]
               c.context.pop
             }
-            p "Done with it!"
             res
           }
           {
@@ -260,10 +238,7 @@ compiler.prototype [
   }
 
   fetch: { token |
-    p "fetch! #{token} from #{my.current}"
-    c = my.context.find token[2]
-    p "fetched #{c}"
-    c
+    my.context.find token[2]
   }
 ]
 
