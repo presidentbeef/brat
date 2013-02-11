@@ -180,13 +180,16 @@ compiler.prototype [
           {
             c = my
             res = ""
+            p "Conditional is #{conditional}"
             conditional.each { i |
               p "At #{i} and #{token[3]}"
               old_context = c.current
-              my.current = i 
+              c.current = i
+              p "Current is now #{c.current}"
               res << c.compile token[3]
               c.current = old_context
             }
+            p "Done with it!"
             res
           }
           {
@@ -222,11 +225,12 @@ compiler.prototype [
   }
 
   fetch: { token |
-    p "fetch! #{token}"
+    p "fetch! #{token} from #{my.current}"
     c = my.current
     token[2].each { n |
       c = c[n]
     }
+    p "fetched #{c}"
     c
   }
 ]
