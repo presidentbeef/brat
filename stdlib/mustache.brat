@@ -2,6 +2,7 @@ include :scanner
 
 parser = object.new
 compiler = object.new
+mcontext = object.new
 
 mustache = object.new
 mustache.parse = { template |
@@ -9,8 +10,44 @@ mustache.parse = { template |
 }
 
 mustache.compile = { tokens, context |
-  compiler.new(context).compile(tokens)
+  compiler.new(mcontext.new(context)).compile(tokens)
 }
+
+mcontext.init = { context |
+  my.context = [context]
+}
+
+mcontext.prototype [
+  pop: {
+    my.context.pop
+  }
+
+  push: { value |
+    my.context.push value
+  }
+
+  find: { key |
+    c = my
+    res = null
+
+    my.context.reverse_each_while { r |
+      res = c.get_value key, r
+      not res
+    }
+
+    res
+  }
+
+  get_value: { key, subj |
+    true? subj.hash?
+    {
+      key.each { k |
+        subj = subj[k]
+      }
+      subj
+    }
+  }
+]
 
 parser.prototype [
   parse: { template |
@@ -118,7 +155,7 @@ parser.prototype [
         text = scan.rest
         scan.end
       }
-  
+
     false? text.empty?
       { result << [:static, text] }
   }
@@ -145,7 +182,7 @@ compiler.prototype [
     p "Compile! #{tokens}"
     c = my
     true? tokens.first.string?
-      { 
+      {
         p "C is #{c}"
         c.call_method tokens.first, tokens
       }
@@ -183,20 +220,18 @@ compiler.prototype [
             p "Conditional is #{conditional}"
             conditional.each { i |
               p "At #{i} and #{token[3]}"
-              old_context = c.current
-              c.current = i
+              c.context.push i
               p "Current is now #{c.current}"
               res << c.compile token[3]
-              c.current = old_context
+              c.context.pop
             }
             p "Done with it!"
             res
           }
           {
-            old_context = my.current
-            my.current = conditional
+            my.context.push conditional
             res = compile token[3]
-            my.current = old_context
+            my.context.pop
             res
           }
       }
@@ -226,10 +261,7 @@ compiler.prototype [
 
   fetch: { token |
     p "fetch! #{token} from #{my.current}"
-    c = my.current
-    token[2].each { n |
-      c = c[n]
-    }
+    c = my.context.find token[2]
     p "fetched #{c}"
     c
   }
