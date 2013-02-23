@@ -1064,7 +1064,7 @@ end
 function object:call_undermethod (name, ...)
   name = to_identifier(name)
   if self[name] == nil then
-    error("No such method to call: " .. name)
+    error("No such method to call: " .. name .. " on " .. tostring(self))
   else
     return self[name](self, ...)
   end
@@ -2359,6 +2359,41 @@ function array_instance:flatten ()
 end
 
 -- Object: array instance
+-- Call: array.pretty
+-- Returns: string
+--
+-- Returns a string with a nicely formatted representation of the array.
+function array_instance:pretty (depth)
+  if depth == nil then
+    depth = 0
+  end
+
+  local out = {  }
+
+  local f = function(s, item)
+    if type(item) == "number" then
+      table.insert(out, item)
+    elseif item._lua_array then
+      table.insert(out, item:pretty(depth + 1))
+    elseif item._lua_string then
+      table.insert(out, string.format("%q", item._lua_string))
+    else
+      table.insert(out, tostring(item))
+    end
+  end
+
+  self:each(f)
+
+  local out_string = string.rep(" ", depth) .. "[" .. table.concat(out, ",") .. "]"
+
+  if depth > 0 then
+    out_string = "\n" .. out_string
+  end
+
+  return out_string
+end
+
+-- Object: array instance
 -- Call: array.reject! block
 -- Returns: array
 --
@@ -2416,6 +2451,27 @@ function array_instance:reverse_undereach (block)
   while k >= 1 do
     block(self, a[k])
     k = k - 1
+  end
+
+  return self
+end
+
+-- Object: array instance
+-- Call: array.reverse_each_while block
+--
+-- Invokes block for each item in the array, starting from the end.
+-- Halts if the block does not return true.
+function array_instance:reverse_undereach_underwhile (block)
+  local len = self._length
+  local k = len
+  local a = self._lua_array
+
+  while k >= 1 do
+    if is_true(block(self, a[k])) then
+      k = k - 1
+    else
+      break
+    end
   end
 
   return self

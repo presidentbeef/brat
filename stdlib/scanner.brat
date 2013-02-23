@@ -44,9 +44,9 @@ scanner.prototype {
     my.str[my.pos, -1]
   }
 
-  my.end? = { pos >= str.length }
+  my.end? = { my.pos >= str.length }
 
-  my.end = { pos = str.length }
+  my.end = { my.pos = str.length }
 
 }
 
