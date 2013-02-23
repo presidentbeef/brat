@@ -2342,6 +2342,24 @@ function array_instance:each_underwith_underindex (block)
 end
 
 -- Object: array instance
+-- Call: array.deq item
+--
+-- Add item to end of array
+function array_instance:deq (item)
+  if self._length == 0 then
+    return object.__null
+  else
+    local res = table.remove(self._lua_array, 1)
+    if res == nil then
+      res = object.__null
+    end
+
+    self._length = self._length - 1
+    return res
+  end
+end
+
+-- Object: array instance
 -- Call: array.flatten
 --
 -- Flatten all elements into a single array.
