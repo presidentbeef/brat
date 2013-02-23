@@ -1,6 +1,6 @@
 /*
 ** Lua parser (source code -> bytecode).
-** Copyright (C) 2005-2012 Mike Pall. See Copyright Notice in luajit.h
+** Copyright (C) 2005-2013 Mike Pall. See Copyright Notice in luajit.h
 **
 ** Major portions taken verbatim or adapted from the Lua interpreter.
 ** Copyright (C) 1994-2008 Lua.org, PUC-Rio. See Copyright Notice in lua.h
@@ -481,8 +481,8 @@ static void bcemit_nil(FuncState *fs, BCReg from, BCReg n)
       } else {
 	break;
       }
-      fs->pc--;  /* Drop KPRI. */
-      break;
+      *ip = BCINS_AD(BC_KNIL, from, from+n-1);  /* Replace KPRI. */
+      return;
     case BC_KNIL:
       pto = bc_d(*ip);
       if (pfrom <= from && from <= pto+1) {  /* Can we connect both ranges? */

@@ -8,4 +8,6 @@ fibonacci = { x |
     {true? x < 2, x, { cache[x] = fibonacci(x - 1) + fibonacci(x - 2) }}
 }
 
-fibonacci 50
+1.to 50 { i |
+  p fibonacci(i) % 36 
+}
