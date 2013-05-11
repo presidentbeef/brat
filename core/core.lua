@@ -9,7 +9,14 @@ unsigned int sleep(unsigned int seconds);
 --Helper functions
 new_brat = function (parent_object)
   local nb = { parent = function () return parent_object end }
-  local get_parent = function (table, key)
+
+  local mt = getmetatable(nb)
+
+  if mt == nil then
+    mt = {}
+  end
+
+  mt["__index"] = function (table, key)
     if table:parent() ~= nil then
       if rawget(table:parent()._prototype, key) then
         return table:parent()._prototype[key]
@@ -21,18 +28,9 @@ new_brat = function (parent_object)
     end
   end
 
-  local to_s = function (table)
+  mt["__tostring"] = function (table)
     return table:to_unders()._lua_string
   end
-
-  local mt = getmetatable(nb)
-
-  if mt == nil then
-    mt = {}
-  end
-
-  mt["__index"] = get_parent
-  mt["__tostring"] = to_s
 
   setmetatable(nb, mt)
 
