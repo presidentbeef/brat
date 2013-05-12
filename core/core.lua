@@ -392,7 +392,7 @@ end
 --This function is for determining if a Brat value is true or false
 --and returns a Lua true or false
 is_true = function (bool)
-  if bool == object.__null or bool == object.__false then
+  if bool == object.__false or bool == object.__null then
     return false
   else
     return true
@@ -593,16 +593,16 @@ end
 --     { p "Are you such a dreamer?" }
 --     { p "No it doesn't!" }
 function object:true_question (...)
-  local args = {...}
-  local len = #args
-  if len == 0 then
-    return self:_0_true_question()
-  elseif len == 1 then
-    return self:_1_true_question(...)
+  local len = select('#', ...)
+
+  if len == 3 then
+    return self:_3_true_question(...)
   elseif len == 2 then
     return self:_2_true_question(...)
-  elseif len == 3 then
-    return self:_3_true_question(...)
+  elseif len == 1 then
+    return self:_1_true_question(...)
+  elseif len == 0 then
+    return self:_0_true_question()
   else
     error("Too many arguments for true?")
   end
@@ -686,16 +686,16 @@ end
 --     { p "Definitely false." }
 --     { p "War is Peace" }
 function object:false_question (...)
-  local args = {...}
-  local len = #args
-  if len == 0 then
-    return self:_0_false_question()
-  elseif len == 1 then
-    return self:_1_false_question(...)
+  local len = select('#', ...)
+
+  if len == 3 then
+    return self:_3_false_question(...)
   elseif len == 2 then
     return self:_2_false_question(...)
-  elseif len == 3 then
-    return self:_3_false_question(...)
+  elseif len == 1 then
+    return self:_1_false_question(...)
+  elseif len == 0 then
+    return self:_0_false_question()
   else
     error("Too many arguments for false?")
   end
@@ -779,16 +779,16 @@ end
 --     { p "x is null" }
 --     { p "x is not null" }
 function object:null_question (...)
-  local args = {...}
-  local len = #args
-  if len == 0 then
-    return self:_0_null_question()
-  elseif len == 1 then
-    return self:_1_null_question(...)
+  local len = select('#', ...)
+
+  if len == 3 then
+    return self:_3_null_question(...)
   elseif len == 2 then
     return self:_2_null_question(...)
-  elseif len == 3 then
-    return self:_3_null_question(...)
+  elseif len == 1 then
+    return self:_1_null_question(...)
+  elseif len == 0 then
+    return self:_0_null_question()
   else
     error("Too many arguments for true?")
   end
