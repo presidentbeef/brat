@@ -16,7 +16,7 @@ grammar BaseBrat
         #{self.inner_brat}
       end
 
-      local _result = coxpcall(_main, exception._handler)
+      local _result = _main()
       if not _lib then
         if not _result then
           os.exit(-1)
@@ -29,7 +29,7 @@ grammar BaseBrat
 
     def file_header
       <<-LUA
-      require "coxpcall"
+--      require "coxpcall"
       local _lib
       if package.loaded.core then
         _lib = true
