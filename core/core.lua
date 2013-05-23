@@ -7,8 +7,31 @@ unsigned int sleep(unsigned int seconds);
 ]]
 
 --Helper functions
+local meta_index = function(table, key)
+  local parent = table:parent()
+  if parent then
+    if rawget(parent._prototype, key) then
+      return parent._prototype[key]
+    else
+      return parent[key]
+    end
+  else
+    return nil
+  end
+end
+
+local meta_string = function (table)
+  return table:to_unders()._lua_string
+end
+
+local meta_parent = function (table)
+  return table._parent_object
+end
+
 new_brat = function (parent_object)
-  local nb = { parent = function () return parent_object end }
+  local nb = { }
+  nb._parent_object = parent_object
+  nb.parent = meta_parent
 
   local mt = getmetatable(nb)
 
@@ -16,21 +39,8 @@ new_brat = function (parent_object)
     mt = {}
   end
 
-  mt["__index"] = function (table, key)
-    if table:parent() ~= nil then
-      if rawget(table:parent()._prototype, key) then
-        return table:parent()._prototype[key]
-      else
-        return table:parent()[key]
-      end
-    else
-      return nil
-    end
-  end
-
-  mt["__tostring"] = function (table)
-    return table:to_unders()._lua_string
-  end
+  mt["__index"] = meta_index
+  mt["__tostring"] = meta_string
 
   setmetatable(nb, mt)
 
