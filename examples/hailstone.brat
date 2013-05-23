@@ -23,7 +23,7 @@ true? (seq[0,3] == [27 82 41 124] && seq[-1, -4] == [8 4 2 1])
 #Find longest sequence for numbers < 100,000
 longest = [number: 0 length: 0]
 
-1.to 99999 { index |
+1.to 10000 { index |
     seq = hailstone index
     true? seq.length > longest[:length]
       { longest[:length] = seq.length
