@@ -273,10 +273,19 @@ class Treetop::Runtime::SyntaxNode
     end
 
     no_meth = var_exist?("no_undermethod") || "no_undermethod"
+
+    if arg_length > 0
+      assign = "_error(exception:new(\"Tried to invoke non-method: #{nice_id object} (\" .. object.__type(#{object}) .. \")\"))"
+    else
+      assign = "#{action} #{temp}"
+    end
+
     output = <<-LUA
     if _type(#{temp}) == "function" then
       #{call_function}
-    elseif #{temp} == nil then
+    elseif #{temp} then
+      #{assign}
+    else
       if #{has_field("_self", object)} then
         #{action} _self:#{object}(#{arguments})
       elseif _type(_self) == "number" then
@@ -289,13 +298,9 @@ class Treetop::Runtime::SyntaxNode
       else
         _error(exception:name_error(#{display_object object, false}))
       end
+    end
     LUA
 
-    if arg_length > 0
-      output << "else _error(exception:new(\"Tried to invoke non-method: #{nice_id object} (\" .. object.__type(#{object}) .. \")\")) end\n"
-    else
-      output << "else #{action} #{temp} end\n"
-    end
   end
 
   def invoke res_var, method, arguments, arg_length
