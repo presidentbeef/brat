@@ -52,7 +52,7 @@ layout: default
 </div>
 
 <a href="http://github.com/presidentbeef/brat"><b>GitHub</b></a>
-<div id="github">
+<div id="github" style="height: 88px">
 
 </div>
 <div style="clear:both">&nbsp;</div>

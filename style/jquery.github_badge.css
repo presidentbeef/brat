@@ -259,6 +259,7 @@
 									}
 									.ghb_badge .ghb_commit_list li.lastrepo {
 										border-bottom: none;
+                    height: 50px;
 							}
 							.ghb_badge .ghb_commit_list li span {
 								border-bottom: 1px dotted #666666;
