@@ -517,13 +517,16 @@ function object:random (...)
     object._random_seed = true
   end
 
-  local args = {...}
-  if args[2] == nil then
-    if args[1] == 0 then
+  local len = select("#", ...)
+  if len == 1 then
+    local first = select(1, ...)
+    if first == 0 then
       return 0
-    elseif type(args[1]) == "number" and args[1] < 1 then
-      error(exception:argument_error("random", "number > 0", tostring(args[1])))
+    elseif type(first) == "number" and first < 1 then
+      error(exception:argument_error("random", "number > 0", tostring(first)))
     end
+  elseif len > 2 then
+    error(exception:argument_error("random", "at most 2", len))
   end
 
   return math.random(...)
