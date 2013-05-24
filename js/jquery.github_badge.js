@@ -248,11 +248,34 @@
         }
     });
 
+    function relative_time(time_value) {
+      var parsed_date = parse_date(time_value);
+      var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
+      var delta = parseInt((relative_to.getTime() - parsed_date) / 1000, 10);
+      var r = '';
+      if (delta < 60) {
+        r = delta + ' seconds ago';
+      } else if(delta < 120) {
+        r = 'a minute ago';
+      } else if(delta < (45*60)) {
+        r = (parseInt(delta / 60, 10)).toString() + ' minutes ago';
+      } else if(delta < (2*60*60)) {
+        r = 'an hour ago';
+      } else if(delta < (24*60*60)) {
+        r = '' + (parseInt(delta / 3600, 10)).toString() + ' hours ago';
+      } else if(delta < (48*60*60)) {
+        r = 'a day ago';
+      } else {
+        r = (parseInt(delta / 86400, 10)).toString() + ' days ago';
+      }
+      return 'about ' + r;
+    }
+
     $.getJSON(requestURLCommits, function(data){
         var commits = [];
         $.each(data.data, function (i, obj) {
-            commits.push('<li><a target="_blank" href="http://github.com/' + options.login + '/' + options.repo_name + '/commit/' +
-             obj.sha + '">' + obj.commit.message + '</a> @ ' + obj.commit.committer.date + '</li>');
+            commits.push('<div class="tweet_time">' + relative_time(obj.commit.committer.date) + '</div><li><a target="_blank" href="http://github.com/' + options.login + '/' + options.repo_name + '/commit/' +
+             obj.sha + '">' + obj.commit.message + '</a></li>');
 
           if ( i === (options.commit_count - 1) ) { return false; }
         });
