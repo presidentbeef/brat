@@ -252,7 +252,7 @@
         var commits = [];
         $.each(data.data, function (i, obj) {
             commits.push('<li><a target="_blank" href="http://github.com/' + options.login + '/' + options.repo_name + '/commit/' +
-             obj.sha + '">' + obj.commit.message + '</a></li>');
+             obj.sha + '">' + obj.commit.message + '</a> @ ' + obj.commit.committer.date + '</li>');
 
           if ( i === (options.commit_count - 1) ) { return false; }
         });
