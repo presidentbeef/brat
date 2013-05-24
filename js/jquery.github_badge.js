@@ -249,7 +249,7 @@
     });
 
     function relative_time(time_value) {
-      var parsed_date = parse_date(time_value);
+      var parsed_date = Date.parse(time_value);
       var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
       var delta = parseInt((relative_to.getTime() - parsed_date) / 1000, 10);
       var r = '';
