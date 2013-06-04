@@ -14,4 +14,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$path/lib
 export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$path/lib
 export PATH=$path/bin/lua/bin:$PATH
 
+#lua -joff -luatrace.profile $path/bin/brat $@
+#lua -jannotate $path/bin/brat $@
+#lua -jdump $path/bin/brat $@
 lua $path/bin/brat $@
