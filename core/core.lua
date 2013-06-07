@@ -2197,15 +2197,15 @@ array._prototype = array_instance
 -- Example:
 --
 -- array.new 1 2 3 # Returns [1, 2, 3]
-function array:new (...)
+function array:new (first, ...)
   local na = new_brat(self)
   na._prototype = new_brat(object)
 
-  local args = {...}
-  if #args == 1 and type(args[1]) == "table" and not args[1]._is_an_object then
-    na._lua_array = args[1]
+  local rest_len = select("#")
+  if rest_len == 0 and type(first) == "table" and not first._is_an_object then
+    na._lua_array = first
   else
-    na._lua_array = args
+    na._lua_array = {first, ...}
   end
 
   na._length = #na._lua_array
