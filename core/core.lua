@@ -466,7 +466,7 @@ end
 -- Call: object.parent
 -- Returns: object
 --
--- Returns the parent of the object. 
+-- Returns the parent of the object.
 function object:parent ()
   if object["_parent"] then
     return object["_parent"]
@@ -1039,7 +1039,7 @@ end
 -- Object: object instance
 -- Call: object.get_method name
 -- Returns: function
--- 
+--
 -- Returns the method with the given name, or null if it does not exist.
 function object:get_undermethod (name)
   name = to_identifier(name)
@@ -1112,7 +1112,7 @@ end
 -- exceptions will be silently ignored.
 --
 -- Possible options:
--- 
+--
 -- * rescue: provide a function to call when an exception occurs
 -- * ensure: provide a function to always call, even if an exception occurs
 -- * from: only rescue a specific type of exception
@@ -1200,7 +1200,7 @@ end
 -- Object: object instance
 -- Call: object.tap block
 -- Returns: self
--- 
+--
 -- Calls given block in context of the object, passing in the object as an
 -- argument, and always returns the object.
 function object:tap (block)
@@ -1293,7 +1293,7 @@ end
 -- Object: object
 -- Call: include file
 -- Call: include file, object
--- 
+--
 -- Executes given file and adds any exported objects to the current context.
 -- If an object is specified, it will only import that object.
 --
@@ -1448,7 +1448,7 @@ function object:program_underargs ()
 
     self._program_args = array:new(arg_array)
   end
-    
+
   return self._program_args
 end
 
@@ -1459,7 +1459,7 @@ end
 -- one returns true, returns the result associated with that condition.
 --
 -- Example:
--- 
+--
 -- x = 3
 -- when { x < 3 } { p "x is less than 3!" }
 --  { x > 3 } { p "x is greater than 3!" }
@@ -2095,7 +2095,7 @@ end
 -- If passed a method name, invokes _method_ on each element and returns an
 -- array containing any objects for which the _method_ returns true.
 --
--- If passed a function, returns an array containing all objects for which the 
+-- If passed a function, returns an array containing all objects for which the
 -- block returns true.
 function enumerable:select (block)
   local new_array = {}
@@ -2139,7 +2139,7 @@ end
 -- If passed a method name, invokes method on each element and returns an
 -- array containing any objects for which the method returns false.
 --
--- If passed a function, returns an array containing all objects for which the 
+-- If passed a function, returns an array containing all objects for which the
 -- block returns false.
 function enumerable:reject (block)
   local new_array = {}
@@ -2470,7 +2470,7 @@ end
 
 -- Object: array instance
 -- Call: array.reverse_each block
--- 
+--
 -- Invokes block for each item in the array, but starts at the end.
 function array_instance:reverse_undereach (block)
   local len = self._length
@@ -2677,7 +2677,7 @@ end
 -- There are several forms of reduce: one that provides an initial value for
 -- memo, one that does not, and two that just provide a method name instead
 -- of a function.
--- 
+--
 -- Example:
 --
 -- #These are all equivalent:
@@ -3036,6 +3036,19 @@ function array_instance:shuffle_bang ()
   return self
 end
 
+-- Object: array instance
+-- Call: array.set index, value
+-- Returns: value
+--
+-- Set an index to the given value. More commonly called like
+-- _array_[_index_] = _value_.
+--
+-- If the index is positive and past the end of the array,
+-- the array is expanded to the required length.
+--
+-- The index may be negative, in which case the indexes begin at the end of the
+-- array. However, the resulting index must exist (the array does not expand to
+-- accommodate negative indexes).
 function array_instance:set (index, value)
   if type(index) ~= "number" then
     error(exception:argument_error("array[]", "valid index", index))
@@ -3058,6 +3071,19 @@ function array_instance:set (index, value)
   return value
 end
 
+-- Object: array instance
+-- Call: array.get index
+-- Call: array.get start, end
+--
+-- This may also be called as _array_[_index_] or _array_[_start_, _end_].
+--
+-- For a single index, returns the value at the given index. If the index does
+-- not have a value or is past the end of the array, `null` is returned.
+--
+-- The index may be negative, in which case -1 is the last element of the array.
+--
+-- If a start and an end index are given, this method returns values between the
+-- two indexes.
 function array_instance:get (start_index, end_index)
   local len = self._length
   if end_index == nil then
@@ -3122,6 +3148,14 @@ function array_instance:get (start_index, end_index)
   end
 end
 
+-- Object: array instance
+-- Call: array.insert index, value
+-- Returns: self
+--
+-- Inserts the given value into the array at the given position. If the index
+-- is beyond the end of the array, the array will be extended to that index.
+--
+-- The index may be negative, but the resulting index must already exist.
 function array_instance:insert (index, value)
     if type(index) ~= "number" then
     error(exception:argument_error("array.insert", "valid index", index))
@@ -3145,6 +3179,11 @@ function array_instance:insert (index, value)
   return self
 end
 
+-- Object: array instance
+-- Call: array.length
+-- Returns: number
+--
+-- Returns the length of the array.
 function array_instance:length ()
   return self._length
 end
@@ -3167,9 +3206,16 @@ function array_instance:_copy ()
   return na
 end
 
+-- Object: array instance
+-- Call: array.sort
+-- Returns: array
+--
+-- Returns a new array with the contents sorted.
+--
+-- All items in the array must be comparable and nonnull.
 function array_instance:sort ()
   local a = self._lua_array
-  if #a <= 1 then
+  if self._length <= 1 then
     return self:_dup()
   end
 
@@ -3180,6 +3226,14 @@ function array_instance:sort ()
   return array:new(a)
 end
 
+-- Object: array instance
+-- Call: array.sort_by block
+-- Returns: array
+--
+-- Returns a new array with the contents sorted using the given function.
+--
+-- The function should take two arguments and return true when `a < b`
+-- and false otherwise.
 function array_instance:sort_underby (block)
   local a = self._lua_array
   if #a <= 1 then
@@ -3197,10 +3251,14 @@ function array_instance:sort_underby (block)
   return array:new(a)
 end
 
-
+-- Object: array instance
+-- Call: array.sort!
+-- Returns: self
+--
+-- Sorts the array in place.
 function array_instance:sort_bang ()
   local a = self._lua_array
-  if #a <= 1 then
+  if self._length <= 1 then
     return self
   end
 
@@ -3209,6 +3267,23 @@ function array_instance:sort_bang ()
   return self
 end
 
+-- Object: array instance
+-- Call: array.join
+-- Call: array.join separator
+-- Call: array.join separator, final
+-- Returns: string
+--
+-- Coverts all elements of the array into strings and joins them together into
+-- a single string.
+--
+-- If a separator is given, it will be placed in between each element.
+-- If a final value is given, it will be inserted in between the last
+-- and penultimate values.
+--
+-- Example:
+--
+-- [1,2,3,4].join(", ", ", and ") #=> "1, 2, 3, and 4"
+--
 function array_instance:join (separator, final)
   if self._length == 0 then
     return base_string:new("")
@@ -3257,6 +3332,11 @@ function array_instance:join (separator, final)
   end
 end
 
+-- Object: array instance
+-- Call: array << value
+-- Returns: self
+--
+-- Appends value to end of array.
 function array_instance:_less_less (obj)
   self._length = self._length + 1
   self._lua_array[self._length] = obj
@@ -3264,6 +3344,11 @@ function array_instance:_less_less (obj)
   return self
 end
 
+-- Object: array instance
+-- Call: array.concat array
+-- Returns: self
+--
+-- Appends array to the end of another array.
 function array_instance:concat (arr)
   if arr._length == 0 then
     return self
@@ -3289,6 +3374,11 @@ function array_instance:concat (arr)
   return self
 end
 
+-- Object: array instance
+-- Call: array + array
+-- Returns: array
+--
+-- Create a new array by joining two existing arrays.
 function array_instance:_plus (obj)
   if type(obj) ~= "table" or obj._lua_array == nil then
     error(exception:argument_error("array.+", "array", tostring(obj)))
@@ -3315,6 +3405,11 @@ function array_instance:_plus (obj)
   return self:new(na)
 end
 
+-- Object: array instance
+-- Call: array.to_s
+-- Returns: string
+--
+-- Convert array and contents to strings.
 function array_instance:to_unders ()
   local s = "[" .. self:join(", ")._lua_string .. "]"
   return base_string:new(s)
@@ -3324,6 +3419,11 @@ function array_instance:__hash ()
   return self:to_unders()._lua_string
 end
 
+-- Object: array instance
+-- Call: array == array
+-- Returns: boolean
+--
+-- Compares the contents of two arrays.
 function array_instance:_equal_equal (rhs)
   if type(rhs) ~= "table" or rhs._lua_array == nil then
     return object.__false
@@ -3373,12 +3473,22 @@ function array_instance:_equal_equal (rhs)
   end
 end
 
+-- Object: array instance
+-- Call: array.clear
+-- Returns: self
+--
+-- Empties array.
 function array_instance:clear ()
   self._lua_array = {}
   self._length = 0
   return self
 end
 
+-- Object: array instance
+-- Call: array.delete_first value
+-- Returns: self
+--
+-- Removes first item in array matching the given value.
 function array_instance:delete_underfirst (item)
   local a = self._lua_array
   local len = self._length
@@ -3408,6 +3518,11 @@ function array_instance:delete_underfirst (item)
   return self
 end
 
+-- Object: array instance
+-- Call: array.include? value
+-- Returns: boolean
+--
+-- Returns true if the array contains the given value.
 function array_instance:include_question (item)
   local a = self._lua_array
   local len = self._length
@@ -3438,6 +3553,11 @@ function array_instance:include_question (item)
   end
 end
 
+-- Object: array instance
+-- Call: array.unique
+-- Returns: array
+--
+-- Returns a new array containing no duplicate items.
 function array_instance:unique ()
   local h = hash:new()
   local a = self._lua_array
@@ -3457,6 +3577,11 @@ function array_instance:unique ()
   return h:keys()
 end
 
+-- Object: array instance
+-- Call: array.unique!
+-- Returns: self
+--
+-- Removes duplicate items from array.
 function array_instance:unique_bang ()
   local h = hash:new()
   local a = self._lua_array
@@ -3486,6 +3611,11 @@ local hash_instance = object:new()
 hash = object:new()
 hash._prototype = hash_instance
 
+-- Object: hash
+-- Call: hash.new
+-- Returns: hash
+--
+-- Returns a new hash table.
 function hash:new (arg)
   local nh = new_brat(self)
   nh._prototype = new_brat(object)
@@ -3516,10 +3646,21 @@ function hash:new (arg)
   return nh
 end
 
+-- Object: hash instance
+-- Call: hash.hash?
+-- Returns: boolean
+--
+-- Returns true.
 function hash_instance:hash_question ()
   return object.__true
 end
 
+
+-- Object: hash instance
+-- Call: hash == hash2
+-- Returns: boolean
+--
+-- Returns true if the contents of the two hashes are the same.
 function hash_instance:_equal_equal (rhs)
   if self == rhs then
     return object.__true
@@ -3545,6 +3686,17 @@ function hash_instance:_equal_equal (rhs)
   end
 end
 
+-- Object: hash instance
+-- Call: hash.get key
+--
+-- Returns the value stored at the given key. More commonly used with the `[]`
+-- syntax.
+--
+-- Example:
+--
+-- h = [:]
+-- h[:hello] = :world
+-- h[:hello] # returns "world"
 function hash_instance:get (index)
   local val = self._lua_hash[index]
   if val then
@@ -3561,6 +3713,17 @@ function hash_instance:get (index)
   return object.__null
 end
 
+-- Object: hash instance
+-- Call: hash.set key, value
+--
+-- Stores the given value at the given key. More commonly used with the `[]`
+-- syntax.
+--
+-- Example:
+--
+-- h = [:]
+-- h[:hello] = :world
+-- h[:hello] # returns "world"
 function hash_instance:set (index, value)
   if type(index) == "table" and type(index.__hash) == "function" then
     local key = index:__hash()
@@ -3577,6 +3740,11 @@ function hash_instance:set (index, value)
   return value
 end
 
+-- Object: hash instance
+-- Call: hash.clear
+-- Returns: self
+--
+-- Removes all contents from hash.
 function hash_instance:clear ()
   self._key_hash = {}
   self._lua_hash = {}
@@ -3585,6 +3753,10 @@ function hash_instance:clear ()
   return self
 end
 
+-- Object: hash instance
+-- Call: hash.delete key
+--
+-- Deletes given key from the hash table. Returns the value stored at that key.
 function hash_instance:delete (index)
   if type(index) == "table" and type(index.__hash) == "function" then
     local key = index:__hash()
@@ -3598,6 +3770,12 @@ function hash_instance:delete (index)
   return value
 end
 
+-- Object: hash instance
+-- Call: hash.map block
+-- Returns: array
+--
+-- Invokes the block for each key-value pair in the hash and returns a new
+-- array containing the results.
 function hash_instance:map (block)
   local a = {}
   local i = 1
@@ -3609,6 +3787,11 @@ function hash_instance:map (block)
   return array:new(a)
 end
 
+-- Object: hash instance
+-- Call: hash.each block
+-- Returns: self
+--
+-- Invokes the block for each key-value pair in the hash.
 function hash_instance:each (block)
   for k,v in pairs(self._lua_hash) do
     block(self, k, v)
@@ -3617,6 +3800,11 @@ function hash_instance:each (block)
   return self
 end
 
+-- Object: hash instance
+-- Call: hash.each_value block
+-- Returns: self
+--
+-- Invokes the block for each value in the hash.
 function hash_instance:each_undervalue (block)
   for k,v in pairs(self._lua_hash) do
     block(self, v)
@@ -3625,6 +3813,11 @@ function hash_instance:each_undervalue (block)
   return self
 end
 
+-- Object: hash instance
+-- Call: hash.each_value block
+-- Returns: self
+--
+-- Invokes the block for each key in the hash.
 function hash_instance:each_underkey (block)
   for k,v in pairs(self._lua_hash) do
     block(self, k)
@@ -3633,6 +3826,12 @@ function hash_instance:each_underkey (block)
   return self
 end
 
+-- Object: hash instance
+-- Call: hash + hash2
+-- Returns: hash
+--
+-- Combines two hashes into a single hash. Values from the righthand side
+-- value take precedence.
 function hash_instance:_plus (rhs)
   if type(rhs) ~= "table" or rhs._lua_hash == nil then
     error(exception:argument_error("hash.+", "hash", tostring(rhs)))
@@ -3674,6 +3873,12 @@ function hash_instance:__hash ()
   return md5_hash(s)
 end
 
+
+-- Object: hash instance
+-- Call: hash.keys
+-- Returns: array
+--
+-- Returns an array containing all the keys from the hash table.
 function hash_instance:keys ()
   local keys = {}
   local index = 1
@@ -3685,6 +3890,11 @@ function hash_instance:keys ()
   return array:new(keys)
 end
 
+-- Object: hash instance
+-- Call: hash.values
+-- Returns: array
+--
+-- Returns an array containing all the values from the hash table.
 function hash_instance:values ()
   local values = {}
   local index = 1
@@ -3696,6 +3906,15 @@ function hash_instance:values ()
   return array:new(values)
 end
 
+-- Object: hash instance
+-- Call: hash.length
+-- Returns: number
+--
+-- Returns the number of elements in the hash table.
+--
+-- Example:
+--
+-- [a: 1].length # 1
 function hash_instance:length ()
   if self._length == nil then
     local len = 0
@@ -3710,6 +3929,12 @@ function hash_instance:length ()
   return self._length
 end
 
+-- Object: hash instance
+-- Call: hash.select block
+-- Returns: hash
+--
+-- Passes each key-value to the given block and returns a new hash only
+-- containing the pairs for which the block returns true.
 function hash_instance:select (block)
   local result = {}
   for k,v in pairs(self._lua_hash) do
@@ -3721,6 +3946,11 @@ function hash_instance:select (block)
   return hash:new(result)
 end
 
+-- Object: hash instance
+-- Call: hash.empty?
+-- Returns: boolean
+--
+-- Returns true if the hash table is empty.
 function hash_instance:empty_question ()
   if next(self._lua_hash) == nil then
     self._length = 0
@@ -3730,6 +3960,11 @@ function hash_instance:empty_question ()
   end
 end
 
+-- Object: hash instance
+-- Call: hash.key? key
+-- Returns: boolean
+--
+-- Returns true if the hash table contains the given key.
 function hash_instance:key_question (item)
   local val = self._lua_hash[item]
   if val then
@@ -3746,6 +3981,11 @@ function hash_instance:key_question (item)
   return object.__false
 end
 
+-- Object: hash instance
+-- Call: hash.to_s
+-- Returns: string
+--
+-- Converts the hash table to a string.
 function hash_instance:to_unders()
   local contents = {}
   local i = 1
