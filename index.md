@@ -4,10 +4,6 @@ layout: default
 ---
 <script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript">
 </script>
-<script language="javascript" src="js/jquery.tweet.js" type="text/javascript">
-</script>
-<script src="http://widgets.twimg.com/j/2/widget.js">
-</script>
 <script src="js/jquery.github_badge.js">
 </script>
 <link href="style/tweet.css" media="all" rel="stylesheet" type="text/css" />
@@ -25,14 +21,6 @@ layout: default
 					issue_count: "0",
 					repo_count: "0"
   	  });
-        $(".tweet").tweet({
-            username: "bratlang",
-            count: 1,
-            loading_text: "loading tweets...",
-						template: function(info) {
-		  	      return info["time"] + info["text"];
-		    	  }
-        });
         $.getJSON("http://try.brat-lang.org/status?callback=?", function(data) {
           $("#statusmessage").text(data.status);
         });
@@ -44,12 +32,6 @@ layout: default
 
 <a href="http://brat-lang.org/blog"><b>Blog</b></a>
 [{{ site.posts.first.title }}]({{ site.posts.first.url }}) - {{ site.posts.first.date | date_to_string }}
-
-<div class="twitter">
-	<a href="http://twitter.com/bratlang"><b>Twitter</b></a>
-	<div class="tweet">
-	</div>
-</div>
 
 <a href="http://github.com/presidentbeef/brat"><b>GitHub</b></a>
 <div id="github" style="height: 88px">
