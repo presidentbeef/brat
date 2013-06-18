@@ -55,48 +55,55 @@ methlist:
 - with_this
 ---
 
+<a id="||"></a>
 ### (object) ||
 > _lhs_ || _rhs_
 
 Performs boolean "or". The value on the right-hand side should generally be a function to provide short-circuiting.
 
-
+<a id="!="></a>
 ### (boolean) !=
 > _object1_ != _object2_
 
 Compares two objects, then negates the result.
 
 
+<a id="&&"></a>
 ### (object) &&
 > _lhs_ && _rhs_
 
 Performs boolean "and". The value on the right-hand side should generally be a function to provide short-circuiting.
 
 
+<a id="=="></a>
 ### (boolean) ==
 > _object1_ == _object2_
 
 Compare two objects. If the target of the call has a method called <=> that will be used to compare the objects.
 
 
+<a id="add_method"></a>
 ### (self) add_method
 > _object_.add_method _name_, _function_
 
 Add a new method to the object with the given name.
 
 
+<a id="array?"></a>
 ### (boolean) array?
 > _object_.array? 
 
 Returns true if object is an array, false otherwise.
 
 
+<a id="ask"></a>
 ### (string) ask
 > ask _prompt_
 
 Prints out the given prompt first, then returns input from standard input.
 
 
+<a id="call_method"></a>
 ### (object) call_method
 > _object_.call_method _name_, _arguments_
 
@@ -104,18 +111,21 @@ Calls the given method on the object, passing in the provided arguments.
     
      object.call_method "p", "hello", " ", "world"
 
+<a id="del_method"></a>
 ### (self) del_method
 > _object_.del_method _name_
 
 Removes the method with the given name from the object.
 
 
+<a id="exception?"></a>
 ### (boolean) exception?
 > _object_.exception? 
 
 Returns true if object is an exception, false otherwise.
 
 
+<a id="exit"></a>
 ### (object) exit
 > exit   
 > exit _code_
@@ -123,12 +133,14 @@ Returns true if object is an exception, false otherwise.
 Immediately terminates the program. If a numeric code is provided, that will be the exit status of the program.
 
 
+<a id="export"></a>
 ### (object) export
 > export _object_, _name_
 
 Exports the object to be imported into another file using the given name.
 
 
+<a id="false?"></a>
 ### (object) false?
 > _object_.false?   
 > false? _condition_  
@@ -141,36 +153,42 @@ Tests if an object or condition is false. If the condition is false, returns tru
          { p "Definitely false." }
          { p "War is Peace" }
 
+<a id="function?"></a>
 ### (boolean) function?
 > function? _variable_
 
 Returns true if given variable is a function, false otherwise.
 
 
+<a id="g"></a>
 ### (string) g
 > g 
 
 Read a string from standard input.
 
 
+<a id="get_method"></a>
 ### (function) get_method
 > _object_.get_method _name_
 
 Returns the method with the given name, or null if it does not exist.
 
 
+<a id="has_method?"></a>
 ### (boolean) has_method?
 > _object_.has_method? _name_
 
 Returns true if the object has a method with the given name.
 
 
+<a id="hash?"></a>
 ### (boolean) hash?
 > _object_.hash? 
 
 Returns true if object is a hash, false otherwise.
 
 
+<a id="import"></a>
 ### (object) import
 > import _file_  
 > import _file_, _object_
@@ -178,6 +196,7 @@ Returns true if object is a hash, false otherwise.
 Loads the given file and returns a hash of the exports from that file. If an object name is specified, only that object will be returned.
 
 
+<a id="include"></a>
 ### (object) include
 > include _file_  
 > include _file_, _object_
@@ -186,6 +205,7 @@ Executes given file and adds any exported objects to the current context. If an 
     
      include :file
 
+<a id="includes"></a>
 ### (object) includes
 > includes _files_
 
@@ -193,42 +213,49 @@ Calls include for each of the given arguments.
     
      includes :file :json
 
+<a id="load_path"></a>
 ### (array) load_path
 > load_path 
 
 The path used to search for files to load when using include() or import().
 
 
+<a id="local_methods"></a>
 ### (array) local_methods
 > _object_.local_methods 
 
 Returns an array containing the names of the methods available on the object, not including those inherited from parent objects.
 
 
+<a id="loop"></a>
 ### (object) loop
 > loop _block_
 
 Loops block forever.
 
 
+<a id="methods"></a>
 ### (array) methods
 > _object_.methods 
 
 Returns an array containing the names of the methods available on the object, including those inherited from parent objects.
 
 
+<a id="my"></a>
 ### (self) my
 > my 
 
 Returns the current object.
 
 
+<a id="not"></a>
 ### (boolean) not
 > not _value_
 
 Returns true if value is false, false if value is true.
 
 
+<a id="null?"></a>
 ### (object) null?
 > _object_.null?   
 > null? _condition_  
@@ -241,48 +268,56 @@ Tests if an object or condition is null. If the condition is null, returns true 
          { p "x is null" }
          { p "x is not null" }
 
+<a id="number?"></a>
 ### (boolean) number?
 > _object_.number? 
 
 Returns true if object is a number, false otherwise.
 
 
+<a id="object?"></a>
 ### (boolean) object?
 > object? _variable_
 
 Returns true if given variable is an object, false otherwise.
 
 
+<a id="p"></a>
 ### (null) p
 > p _*args_
 
 Prints out any number of arguments, with an added new line.
 
 
+<a id="parent"></a>
 ### (object) parent
 > _object_.parent 
 
 Returns the parent of the object.
 
 
+<a id="parent"></a>
 ### (object) parent
 > _object_.parent 
 
 Return parent object if it exists.
 
 
+<a id="print"></a>
 ### (null) print
 > print _*args_
 
 Prints out any number of arguments, with no new line.
 
 
+<a id="program_args"></a>
 ### (array) program_args
 > program_args 
 
 Returns the arguments given to the program when it is executed.
 
 
+<a id="protect"></a>
 ### (object) protect
 > protect _block_, _options_
 
@@ -290,6 +325,7 @@ Handles exceptions which may be thrown inside the block. Options should be provi
     
      protect { throw "Problem!" } rescue: { err | p "There was a problem: #{err}" }
 
+<a id="prototype"></a>
 ### (prototype) prototype
 > _object_.prototype   
 > _object_.prototype _block_  
@@ -314,6 +350,7 @@ Set functions for the prototype of the object. The prototype is used when constr
        my.status = "sitting"
      }
 
+<a id="random"></a>
 ### (number) random
 > random   
 > random _maximum_
@@ -321,48 +358,56 @@ Set functions for the prototype of the object. The prototype is used when constr
 With no arguments, returns a number between 0 and 1. With a max argument, returns a number _i_, where 0 <= i < _max_.
 
 
+<a id="regex?"></a>
 ### (boolean) regex?
 > _object_.regex? 
 
 Returns true if object is a number, false otherwise.
 
 
+<a id="sleep"></a>
 ### (number) sleep
 > sleep _seconds_
 
 Sleep for a given number of seconds.
 
 
+<a id="squish"></a>
 ### (self) squish
 > _object_.squish _other_object_
 
 Squishes the methods of the given object into the current object. Also useful for bringing external libraries into the current context.
 
 
+<a id="string?"></a>
 ### (boolean) string?
 > _object_.string? 
 
 Returns true if object is a string, false otherwise.
 
 
+<a id="tap"></a>
 ### (self) tap
 > _object_.tap _block_
 
 Calls given block in context of the object, passing in the object as an argument, and always returns the object.
 
 
+<a id="throw"></a>
 ### (object) throw
 > throw _exception_
 
 Throws an exception. If a string is provided as the exception, creates a new exception with the string as the error message.
 
 
+<a id="to_s"></a>
 ### (string) to_s
 > _object_.to_s 
 
 Return a string representing the object.
 
 
+<a id="true?"></a>
 ### (object) true?
 > _object_.true?   
 > true? _condition_  
@@ -375,6 +420,7 @@ Tests if an object or condition is true. If the condition is true, returns true 
          { p "Are you such a dreamer?" }
          { p "No it doesn't!" }
 
+<a id="until"></a>
 ### (object) until
 > until _block_  
 > until _condition_, _block_
@@ -391,6 +437,7 @@ Loops until the condition becomes true. If only one argument is given, that argu
       x = 0
       until { x > 10 } { x = x + 1 }
 
+<a id="when"></a>
 ### (object) when
 > when _condition_, _result_
 
@@ -401,6 +448,7 @@ Takes any number of condition-result pairs. Checks each condition and when one r
       { x > 3 } { p "x is greater than 3!" }
       { x == 3 } { p "x is exactly 3!" }
 
+<a id="while"></a>
 ### (object) while
 > while _block_  
 > while _condition_, _block_
@@ -417,6 +465,7 @@ Loops while the given condition remains true. If only one argument is given, the
       x = 0
       while { x < 10 } { x = x + 1 }
 
+<a id="with_this"></a>
 ### (object) with_this
 > _object_.with_this _block_, _arguments_
 
