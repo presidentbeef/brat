@@ -4,21 +4,27 @@ lib: core
 object: hash
 desc: Hashtables, associative arrays, maps, dictionaries...whatever you want to call them, these are lists which can be indexed by an arbitrary value.
 methlist:
+- "+"
+- "=="
+- clear
 - delete
 - each
-- each_key
 - each_value
 - empty?
 - get
+- hash?
 - key?
 - keys
 - length
 - map
+- new
+- select
 - set
+- to_s
 - values
 ---
 
-### Manipulating Hashes
+## Manipulating Hashes
 
 Hashes can be created using the following syntax:
 
@@ -35,62 +41,124 @@ a["a"]  #1
 a[2]  #3
 {% endhighlight %}
 
-### delete
->_hash_.delete _key_
 
-Deletes the _key_ from the hash, if it exists.
+### (hash) +
+> _hash_ + _hash2_
 
-### each
->_hash_.each { _key_, _value_ | _block_ }
+Combines two hashes into a single hash. Values from the righthand side value take precedence.
 
-Invokes the block for each key, value in the hash. Order is unspecified.
 
-### each\_key
->_hash_.each\_key { _key_ | _block_ }
+### (boolean) ==
+> _hash_ == _hash2_
 
-Invokes the block for each key in the hash.
+Returns true if the contents of the two hashes are the same.
 
-### each\_value
->_hash_.each\_value { _value_ | _block_ }
+
+### (self) clear
+> _hash_.clear 
+
+Removes all contents from hash.
+
+
+### (object) delete
+> _hash_.delete _key_
+
+Deletes given key from the hash table. Returns the value stored at that key.
+
+
+### (self) each
+> _hash_.each _block_
+
+Invokes the block for each key-value pair in the hash.
+
+
+### (self) each_value
+> _hash_.each_value _block_
 
 Invokes the block for each value in the hash.
 
-### empty?
->_hash_.empty?
 
-Checks if the hash is of length 0.
+### (self) each_value
+> _hash_.each_value _block_
 
-### get
->_hash_.get _index_  
+Invokes the block for each key in the hash.
 
-Retrieves a value from the hash.
 
-### key?
->_hash_.key? _item_
+### (boolean) empty?
+> _hash_.empty? 
 
-Checks if _item_ is a key in the hash.
+Returns true if the hash table is empty.
 
-### keys
->_hash_.keys
 
-Returns an array of the keys of the hash.
+### (object) get
+> _hash_.get _key_
 
-### length
->_hash_.length
+Returns the value stored at the given key. More commonly used with the `[]` syntax.
+    
+     h = [:]
+     h[:hello] = :world
+     h[:hello] # returns "world"
 
-Returns how many items are in the hash.
+### (boolean) hash?
+> _hash_.hash? 
 
-### map
->_hash_.map { _key_, _value_ | _block_ }
+Returns true.
 
-Invokes the block for each key, value pair in the array and returns a new hash containing the results.
 
-### set
->_hash_.set _index_, _item_
+### (boolean) key?
+> _hash_.key? _key_
 
-Sets the given index in the hash to the given item.
+Returns true if the hash table contains the given key.
 
-### values
->_hash_.values
 
-Returns an array of values from the hash, in no particular order.
+### (array) keys
+> _hash_.keys 
+
+Returns an array containing all the keys from the hash table.
+
+
+### (number) length
+> _hash_.length 
+
+Returns the number of elements in the hash table.
+    
+     [a: 1].length # 1
+
+### (array) map
+> _hash_.map _block_
+
+Invokes the block for each key-value pair in the hash and returns a new array containing the results.
+
+
+### (hash) new
+> hash.new 
+
+Returns a new hash table.
+
+
+### (hash) select
+> _hash_.select _block_
+
+Passes each key-value to the given block and returns a new hash only containing the pairs for which the block returns true.
+
+
+### (object) set
+> _hash_.set _key_, _value_
+
+Stores the given value at the given key. More commonly used with the `[]` syntax.
+    
+     h = [:]
+     h[:hello] = :world
+     h[:hello] # returns "world"
+
+### (string) to_s
+> _hash_.to_s 
+
+Converts the hash table to a string.
+
+
+### (array) values
+> _hash_.values 
+
+Returns an array containing all the values from the hash table.
+

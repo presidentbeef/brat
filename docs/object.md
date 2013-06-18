@@ -4,17 +4,18 @@ lib: core
 object: object
 desc: Object is not only the base object for every other object in Brat, it is also the top-level object. These two ideas put together mean you can use any of object's methods anywhere.
 methlist:
-- "=="
-- "&&"
 - "||"
+- "!="
+- "&&"
+- "=="
 - add_method
 - array?
 - ask
 - call_method
 - del_method
 - exception?
-- export
 - exit
+- export
 - false?
 - function?
 - g
@@ -23,26 +24,29 @@ methlist:
 - hash?
 - import
 - include
+- includes
 - load_path
 - local_methods
 - loop
 - methods
-- method_arity
 - my
-- my_type
-- new
 - not
 - null?
 - number?
 - object?
 - p
-- protect
+- parent
 - print
+- program_args
+- protect
+- prototype
 - random
 - regex?
 - sleep
 - squish
 - string?
+- tap
+- throw
 - to_s
 - true?
 - until
@@ -51,265 +55,376 @@ methlist:
 - with_this
 ---
 
-### ==
+### (object) ||
+> _lhs_ || _rhs_
 
-Compare two objects.
+Performs boolean "or". The value on the right-hand side should generally be a function to provide short-circuiting.
 
-### &&
 
-Logical 'and'.
+### (boolean) !=
+> _object1_ != _object2_
 
-### ||
+Compares two objects, then negates the result.
 
-Logical 'or'.
 
-### add\_method
->_object_.add\_method _name_, _block_
+### (object) &&
+> _lhs_ && _rhs_
 
-Adds a new method to the object. Name can be a symbol or a string.
+Performs boolean "and". The value on the right-hand side should generally be a function to provide short-circuiting.
 
-### array?
->_object_.array?
 
-Returns true if the _object_ is an array.
+### (boolean) ==
+> _object1_ == _object2_
 
-### ask
->ask _prompt_
+Compare two objects. If the target of the call has a method called <=> that will be used to compare the objects.
 
-Like _g_, but prints out the prompt first, then returns input from stdin.
 
-### call\_method
->_object_.call\_method _name_
->_object_.call\_method _name_, _arg1_, _arg2_, ...
+### (self) add_method
+> _object_.add_method _name_, _function_
 
-Calls the given method with the given arguments.
+Add a new method to the object with the given name.
 
-### del\_method
->_object_.del\_method _name_
 
-Deletes the method with the given name, if it exists. Note that this only deletes methods on this _exact_ object - not parent objects.
+### (boolean) array?
+> _object_.array? 
 
-### exception?
->_object_.exception?
+Returns true if object is an array, false otherwise.
 
-Returns true if _object_ is an exception.
 
-### export
->export _item_, _name_
+### (string) ask
+> ask _prompt_
 
-Exports the item for use in other modules, accessible via the given name (should be a string). The item can be either an object or a function by itself.
+Prints out the given prompt first, then returns input from standard input.
 
-### exit
->exit  
->exit _code_
 
-Exits the program immediately.
+### (object) call_method
+> _object_.call_method _name_, _arguments_
 
-### false?  
->_object_.false?  
->false? _condition_  
->false? _condition_, _branch_  
->false? _condition_, _falsebranch_, _elsebranch_
+Calls the given method on the object, passing in the provided arguments.
+    
+     object.call_method "p", "hello", " ", "world"
 
-Checks if the current object is false (null or false will be false) or if the condition given is false.
+### (self) del_method
+> _object_.del_method _name_
 
-### function?
->function? _value_
+Removes the method with the given name from the object.
 
-Returns true if the given value is a function. Note that you will want to use the `->` operator to make sure you are not _calling_ the function (if it is one).
 
-### g
+### (boolean) exception?
+> _object_.exception? 
 
-Gets a string from standard input, minus the end-of-line character.
+Returns true if object is an exception, false otherwise.
 
-### get\_method
->_object_.get\_method _name_
 
-Returns the method with the given name (can be a string or a symbol).
+### (object) exit
+> exit   
+> exit _code_
 
-### hash?
->_object_.hash?
+Immediately terminates the program. If a numeric code is provided, that will be the exit status of the program.
 
-Returns true if _object_ is a hash.
 
-### has\_method?
->_object_.has\_method? _name_
+### (object) export
+> export _object_, _name_
 
-Check if the object has the given method.
+Exports the object to be imported into another file using the given name.
 
-### import
->import _file_  
->import _file_, _name_
 
-Imports the exports from a given file. If the name of an object or function is given as a parameter, it will import just the item matching that name.
+### (object) false?
+> _object_.false?   
+> false? _condition_  
+> false? _condition_, _then_value_  
+> false? _condition_, _then_value_, _else_value_
 
-### include
->include _file_  
->include _file, _name_
+Tests if an object or condition is false. If the condition is false, returns true or the then_value if one is given. If the condition is true, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
+    
+       false? 2 + 2 == 5
+         { p "Definitely false." }
+         { p "War is Peace" }
 
-Just like _import_, but puts imported functions into the current object. This is probably more useful than _import_ for most contexts.
+### (boolean) function?
+> function? _variable_
 
-### includes
->includes _file_, ...
+Returns true if given variable is a function, false otherwise.
 
-Include multiple files at once.
 
-### load\_path
->load_path
+### (string) g
+> g 
 
-Returns an array of strings representing the paths used to find files for _import_ or _include_.
+Read a string from standard input.
 
-### local\_methods
->_object_.local\_methods
+
+### (function) get_method
+> _object_.get_method _name_
+
+Returns the method with the given name, or null if it does not exist.
+
+
+### (boolean) has_method?
+> _object_.has_method? _name_
+
+Returns true if the object has a method with the given name.
+
+
+### (boolean) hash?
+> _object_.hash? 
+
+Returns true if object is a hash, false otherwise.
+
+
+### (object) import
+> import _file_  
+> import _file_, _object_
+
+Loads the given file and returns a hash of the exports from that file. If an object name is specified, only that object will be returned.
+
+
+### (object) include
+> include _file_  
+> include _file_, _object_
+
+Executes given file and adds any exported objects to the current context. If an object is specified, it will only import that object. This is essentially equivalant to calling squish(import(file)).
+    
+     include :file
+
+### (object) includes
+> includes _files_
+
+Calls include for each of the given arguments.
+    
+     includes :file :json
+
+### (array) load_path
+> load_path 
+
+The path used to search for files to load when using include() or import().
+
+
+### (array) local_methods
+> _object_.local_methods 
 
 Returns an array containing the names of the methods available on the object, not including those inherited from parent objects.
 
-### loop
->loop _block_
 
-Repeat _block_ forever.
+### (object) loop
+> loop _block_
 
-### method_arity
->method_arity _function_
+Loops block forever.
 
-Returns the number of arguments the method expects. Returns -1 if the method could take a vairable number of arguments. Throws an error if given something other than a function.
 
-### methods
->_object_.methods
+### (array) methods
+> _object_.methods 
 
 Returns an array containing the names of the methods available on the object, including those inherited from parent objects.
 
-### my
+
+### (self) my
+> my 
 
 Returns the current object.
 
-### my_type
->_object_.my\_type
 
-Returns a string representing the object type.
+### (boolean) not
+> not _value_
 
-Can be one of
-
- * "array"
- * "hash"
- * "number"
- * "object"
- * "regex"
- * "string"
-
-### new
->_object_.new
-
-Creates a new object and sets the old object as the new object's parent.
-
-### not
->not _expression_
-
-Logical not.
-
-### null?
->_object_.null?  
->null? _condition_  
->null? _condition_, _branch_  
->null? _condition_, _nullbranch_, _elsebranch_
-
-Checks if the current object is null or if the condition given is null.
-
-### number?
->_object_.number?
-
-Returns true if the _object_ is a number.
-
-### object?
->object? _value_
-
-Returns true if _value_ is an object. Be sure to use the `->` operator in case _value_ is a function.
-
-### p
->p ...
-
-Prints out any number of arguments, followed by a new line.
-
-### print
->print ...
-
-Prints out any number of arguments, but with no new line.
-
-### protect
->protect _block_, _options_
-
-Catches any exceptions thrown inside the _block_.
-
-Possible options:
-
- * "rescue"
-   Specify a block to execute if an exception is thrown.
- * "ensure"
-   Specify a block to always execute, even if an exception is thrown.
- * "from"
-   Specify what kind of exception to rescue. Others will not be rescued.
-
-### random
->random  
->random _max_
-
-With no arguments, returns a number between 0 and 1.
-
-With a max argument, returns a number _i_, where 0 <= i < _max_.
-
-### regex?
->_object_.regex?
-
-Returns true if _object_ is a regular expression.
-
-### sleep
->sleep _seconds_
-
-Causes the current thread to sleep for the given number of seconds.
-
-### squish
->_object_.squish _object2_
-
-Squishes the methods of the given object into the current object.
-
-### string?
->_object_.string?
-
-Returns true if _object_ is a string.
-
-### to\_s
->_object_.to\_s
-
-Returns a string representation of the object.
-
-### true?
->_object_.true?  
->true? _condition_  
->true? _condition_, _branch_  
->true? _condition_, _truebranch_, _elsebranch_
-
-Checks if the current object is true (and anything but null or false will be true) or if the condition given is true.
-
-### until
->until _block_  
->until _condition_, _block_
-
-In the first form, this will loop the block until the block itself returns true. The second version will loop the block while the condition remains false.
-
-### when
->when _condition_, _result_, ...
-
-This is a variation of a switch or case statement. _when_ takes any number of conditions and results. It then tests each condition and returns the result corresponding to the first true condition.
-
-### while
->while _block_  
->while _condition_, _block_
-
-In the first form, while will loop the block until the block itself returns false. The second version will loop the block while the condition remains true.
-
-### with_this
->_object_.with_this _block_
+Returns true if value is false, false if value is true.
 
 
-Executes the _block_ in the context of this object.
+### (object) null?
+> _object_.null?   
+> null? _condition_  
+> null? _condition_, _then_value_  
+> null? _condition_, _then_value_, _else_value_
+
+Tests if an object or condition is null. If the condition is null, returns true or the then_value if one is given. If the condition is not null, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
+    
+       null? x
+         { p "x is null" }
+         { p "x is not null" }
+
+### (boolean) number?
+> _object_.number? 
+
+Returns true if object is a number, false otherwise.
+
+
+### (boolean) object?
+> object? _variable_
+
+Returns true if given variable is an object, false otherwise.
+
+
+### (null) p
+> p _*args_
+
+Prints out any number of arguments, with an added new line.
+
+
+### (object) parent
+> _object_.parent 
+
+Returns the parent of the object.
+
+
+### (object) parent
+> _object_.parent 
+
+Return parent object if it exists.
+
+
+### (null) print
+> print _*args_
+
+Prints out any number of arguments, with no new line.
+
+
+### (array) program_args
+> program_args 
+
+Returns the arguments given to the program when it is executed.
+
+
+### (object) protect
+> protect _block_, _options_
+
+Handles exceptions which may be thrown inside the block. Options should be provided as a hash. If no options are given, all exceptions will be silently ignored. Possible options: * rescue: provide a function to call when an exception occurs * ensure: provide a function to always call, even if an exception occurs * from: only rescue a specific type of exception
+    
+     protect { throw "Problem!" } rescue: { err | p "There was a problem: #{err}" }
+
+### (prototype) prototype
+> _object_.prototype   
+> _object_.prototype _block_  
+> _object_.prototype _method_hash_
+
+Set functions for the prototype of the object. The prototype is used when constructing a child of the object (via _new_). This function can either take a block which will execute in context of the prototype, or a hash table of method names and the methods themselves. Alternatively, calling object.prototype returns the prototype object, so methods can be defined directly on that object.
+    
+     person = object.new
+    
+     person.init = { name |
+       my.name = name
+       my.status = "nuttin'"
+     }
+    
+     person.prototype walk: { my.status = "walking" }
+    
+     person.prototype {
+       my.talk = { phrase | p "#{my.name} says, '#{phrase}'" }
+     }
+    
+     person.prototype.sit = {
+       my.status = "sitting"
+     }
+
+### (number) random
+> random   
+> random _maximum_
+
+With no arguments, returns a number between 0 and 1. With a max argument, returns a number _i_, where 0 <= i < _max_.
+
+
+### (boolean) regex?
+> _object_.regex? 
+
+Returns true if object is a number, false otherwise.
+
+
+### (number) sleep
+> sleep _seconds_
+
+Sleep for a given number of seconds.
+
+
+### (self) squish
+> _object_.squish _other_object_
+
+Squishes the methods of the given object into the current object. Also useful for bringing external libraries into the current context.
+
+
+### (boolean) string?
+> _object_.string? 
+
+Returns true if object is a string, false otherwise.
+
+
+### (self) tap
+> _object_.tap _block_
+
+Calls given block in context of the object, passing in the object as an argument, and always returns the object.
+
+
+### (object) throw
+> throw _exception_
+
+Throws an exception. If a string is provided as the exception, creates a new exception with the string as the error message.
+
+
+### (string) to_s
+> _object_.to_s 
+
+Return a string representing the object.
+
+
+### (object) true?
+> _object_.true?   
+> true? _condition_  
+> true? _condition_, _then_value_  
+> true? _condition_, _then_value_, _else_value_
+
+Tests if an object or condition is true. If the condition is true, returns true or the then_value if one is given. If the condition is false, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
+    
+       true? 2 + 2 == 5
+         { p "Are you such a dreamer?" }
+         { p "No it doesn't!" }
+
+### (object) until
+> until _block_  
+> until _condition_, _block_
+
+Loops until the condition becomes true. If only one argument is given, that argument will be used as the condition.
+    
+      x = 0
+      until {
+        x = x + 1
+        x > 10
+      }
+    
+      #Same thing
+      x = 0
+      until { x > 10 } { x = x + 1 }
+
+### (object) when
+> when _condition_, _result_
+
+Takes any number of condition-result pairs. Checks each condition and when one returns true, returns the result associated with that condition.
+    
+     x = 3
+     when { x < 3 } { p "x is less than 3!" }
+      { x > 3 } { p "x is greater than 3!" }
+      { x == 3 } { p "x is exactly 3!" }
+
+### (object) while
+> while _block_  
+> while _condition_, _block_
+
+Loops while the given condition remains true. If only one argument is given, the value of that argument is used as the condition.
+    
+      x = 0
+      while {
+        x = x + 1
+        x < 10
+      }
+    
+      #Same thing
+      x = 0
+      while { x < 10 } { x = x + 1 }
+
+### (object) with_this
+> _object_.with_this _block_, _arguments_
+
+Calls the given method, but sets the target object as the scope. In other words, calling my inside the block will return the object.
+    
+     x = object.new
+     x.greeting = "Hello!"
+    
+     #Will print "Hello!"
+     x.with_this { p greeting }
 
