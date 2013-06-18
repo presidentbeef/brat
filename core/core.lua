@@ -169,6 +169,8 @@ object._is_an_object = true
 
 -- Object: object instance
 -- Call: object.parent
+--
+-- Return parent object if it exists.
 function object:parent ()
   return object.__null
 end
@@ -2557,6 +2559,10 @@ end
 -- Object: array instance
 -- Call: array.index_of item
 -- Call: array.index_of item, start
+-- Returns: number
+--
+-- Returns the index of the first item to match the given value.
+-- If a start value is given, then the search begins at that index.
 function array_instance:index_underof (item, start)
   local k
   if start == nil then
