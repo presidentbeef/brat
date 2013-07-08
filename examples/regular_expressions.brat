@@ -1,0 +1,34 @@
+#* http://rosettacode.org/wiki/Regular_expressions
+  Demonstrate regular expression matching and substituting.
+*#
+
+str = "I am a string"
+
+# Test
+
+true? str.match(/string$/)
+ { p "Ends with 'string'" }
+
+false? str.match(/^You/)
+ { p "Does not start with 'You'" }
+
+
+# Substitute in copy
+
+str2 = str.sub(/ a /, " another ")
+
+p str    # original unchanged
+p str2   # prints "I am another string"
+
+# Substitute in place
+
+str.sub!(/ a /, " another ")
+
+p str    # prints "I am another string"
+
+# Substitute with a block
+
+str.sub! /a/
+ { match | match.upcase }
+
+p str    # prints "I Am Another string"
