@@ -561,7 +561,7 @@ function object:g ()
 end
 
 -- Object: object instance
--- Call: object == object
+-- Call: object1 == object2
 -- Returns: boolean
 --
 -- Compare two objects. If the target of the call has a method called <=>
@@ -581,7 +581,7 @@ function object:_equal_equal (rhs)
 end
 
 -- Object: object instance
--- Call: object != object
+-- Call: object1 != object2
 -- Returns: boolean
 --
 -- Compares two objects, then negates the result.
@@ -979,7 +979,7 @@ function object:loop (block)
   return object.__null
 end
 
--- Object: object
+-- Object: object instance
 -- Call: lhs && rhs
 --
 -- Performs boolean "and".
@@ -998,7 +998,7 @@ function object:_and_and (rhs)
   end
 end
 
--- Object: object
+-- Object: object instance
 -- Call: lhs || rhs
 --
 -- Performs boolean "or".
@@ -3246,7 +3246,7 @@ function array_instance:sort_underby (block)
     return self:_dup()
   end
 
-  comp = function(rhs, lhs)
+  local comp = function(rhs, lhs)
     return is_true(block(self, rhs, lhs))
   end
 
@@ -3381,7 +3381,7 @@ function array_instance:concat (arr)
 end
 
 -- Object: array instance
--- Call: array + array
+-- Call: array1 + array2
 -- Returns: array
 --
 -- Create a new array by joining two existing arrays.
@@ -3426,7 +3426,7 @@ function array_instance:__hash ()
 end
 
 -- Object: array instance
--- Call: array == array
+-- Call: array1 == array2
 -- Returns: boolean
 --
 -- Compares the contents of two arrays.
@@ -4018,6 +4018,11 @@ base_string = object:new()
 
 base_string._prototype = string_instance
 
+-- Object: string
+-- Call: string.new
+-- Returns: string
+--
+-- Create a new string. There should be no reason to use this directly.
 function base_string:new (s)
   if s == nil then
     s = ""
@@ -4041,23 +4046,49 @@ function base_string:new (s)
   return ns
 end
 
+-- Object: string instance
+-- Call: string.length
+-- Returns: number
+--
+-- Returns the length of the string.
 function string_instance:length ()
   return #self._lua_string
 end
 
+-- Object: string instance
+-- Call: string.to_s
+-- Returns: self
+--
+-- Does nothing, just returns the string itself.
 function string_instance:to_unders ()
   return self
 end
 
+-- Object: string instance
+-- Call: string.chomp
+-- Returns: string
+--
+-- Create a new string with any line endings removed.
 function string_instance:chomp ()
   return base_string:new(string.gsub(self._lua_string, "[\n\r]+$", ""))
 end
 
+-- Object: string instance
+-- Call: string.chomp
+-- Returns: string
+--
+-- Remove any line endings from string.
 function string_instance:chomp_bang ()
   self._lua_string = string.gsub(self._lua_string, "[\n\r]+$", "")
   return self
 end
 
+-- Object: string instance
+-- Call: string.each block
+-- Returns: string
+--
+-- Interate over each character in the string,
+-- passing them into the given block.
 function string_instance:each (block)
   local s = self._lua_string
   local len = #s
@@ -4072,6 +4103,11 @@ function string_instance:each (block)
   return self
 end
 
+-- Object: string instance
+-- Call: string.empty?
+-- Returns: boolean
+--
+-- Returns true if the string is empty (zero length), false otherwise.
 function string_instance:empty_question ()
   if #self._lua_string == 0 then
     return object.__true
@@ -4080,6 +4116,11 @@ function string_instance:empty_question ()
   end
 end
 
+-- Object: string instance
+-- Call: string.reverse_each block
+-- Returns: boolean
+--
+-- Returns true if the string is empty (zero length), false otherwise.
 function string_instance:reverse_undereach (block)
   local s = self._lua_string
   local index = #s
@@ -4096,19 +4137,40 @@ end
 
 string_instance.__stripper = orex.new("(^\\s+)|(\\s+$)")
 
+-- Object: string instance
+-- Call: string.strip
+-- Returns: string
+--
+-- Returns a new string with all whitespace removed from the beginning and end
+-- of the string.
 function string_instance:strip ()
   return base_string:new(orex.gsub(self._lua_string, string_instance.__stripper, ""))
 end
 
+-- Object: string instance
+-- Call: string.strip!
+-- Returns: self
+--
+-- Removes all whitespace from the beginning and end of the string.
 function string_instance:strip_bang ()
   self._lua_string = orex.gsub(self._lua_string, string_instance.__stripper, "")
   return self
 end
 
+-- Object: string instance
+-- Call: string.string?
+-- Returns: boolean
+--
+-- Returns true...because it is a string.
 function string_instance:string_question ()
   return object.__true
 end
 
+-- Object: string instance
+-- Call: string.alpha?
+-- Returns: boolean
+--
+-- Returns true if the string contains only letters.
 function string_instance:alpha_question ()
   if self._lua_string:match("^%a+$") then
     return object.__true
@@ -4117,6 +4179,11 @@ function string_instance:alpha_question ()
   end
 end
 
+-- Object: string instance
+-- Call: string.alphanum?
+-- Returns: boolean
+--
+-- Returns true if the string contains only letters and numbers.
 function string_instance:alphanum_question ()
   if self._lua_string:match("^%w+$") then
     return object.__true
@@ -4125,6 +4192,12 @@ function string_instance:alphanum_question ()
   end
 end
 
+-- Object: string instance
+-- Call: string.numeric?
+-- Returns: boolean
+--
+-- Returns true if the string only includes decimal digits and an optional
+-- leading minus sign.
 function string_instance:numeric_question ()
   if self._lua_string:match("^-?%d+$") then
     return object.__true
@@ -4133,6 +4206,11 @@ function string_instance:numeric_question ()
   end
 end
 
+-- Object: string instance
+-- Call: string.blank?
+-- Returns: boolean
+--
+-- Returns true if the string is empty or only contains whitespace characters.
 function string_instance:blank_question()
   if self._lua_string:match("^%s*$") then
     return object.__true
@@ -4141,24 +4219,49 @@ function string_instance:blank_question()
   end
 end
 
+-- Object: string instance
+-- Call: string.downcase
+-- Returns: string
+--
+-- Create a new string with all letters downcased.
 function string_instance:downcase ()
   return base_string:new(string.lower(self._lua_string))
 end
 
+-- Object: string instance
+-- Call: string.downcase!
+-- Returns: self
+--
+-- Downcase all letters in the string,
 function string_instance:downcase_bang ()
   self._lua_string = string.lower(self._lua_string)
   return self
 end
 
+-- Object: string instance
+-- Call: string.upcase
+-- Returns: string
+--
+-- Return a new string with all letters changed to uppercase.
 function string_instance:upcase ()
   return base_string:new(string.upper(self._lua_string))
 end
 
+-- Object: string instance
+-- Call: string.upcase!
+-- Returns: self
+--
+-- Convert all letters in string to uppercase.
 function string_instance:upcase_bang ()
   self._lua_string = string.upper(self._lua_string)
   return self
 end
 
+-- Object: string instance
+-- Call: string1 == string2
+-- Returns: boolean
+--
+-- Compare the contents of two strings.
 function string_instance:_equal_equal (rhs)
   if type(rhs) ~= "table" or rhs._lua_string == nil then
     return object.__false
@@ -4169,6 +4272,12 @@ function string_instance:_equal_equal (rhs)
   end
 end
 
+-- Object: string instance
+-- Call: lhs <=> rhs
+-- Returns: number
+--
+-- Compares two strings. Returns 1 if lhs is greater, -1 if rhs is greater,
+-- and 0 if the two are equal.
 function string_instance:_less_equal_greater (rhs)
   if type(rhs) ~= "table" or rhs._lua_string == nil then
     error(exception:new("Cannot compare string to " .. tostring(rhs)))
@@ -4188,6 +4297,11 @@ function string_instance:_less_equal_greater (rhs)
   end
 end
 
+-- Object: string instance
+-- Call: string1 + string2
+-- Returns: string
+--
+-- Concatenates the two strings and creates a new string.
 function string_instance:_plus (rhs)
   if type(rhs) ~= "table" or rhs._lua_string == nil then
     error("Cannot add string to non-string")
@@ -4196,6 +4310,12 @@ function string_instance:_plus (rhs)
   return self:new(self._lua_string .. rhs._lua_string)
 end
 
+-- Object: string instance
+-- Call: string.include? substring
+-- Call: string.include? regex
+-- Returns: boolean
+--
+-- Returns true if the string includes the given substring or regular expression.
 function string_instance:include_question (pattern)
   if type(pattern) == "table" then
     if pattern._lua_regex then
@@ -4216,6 +4336,15 @@ function string_instance:include_question (pattern)
   error(exception:argument_error("string.include?", "string or regex", tostring(regx)))
 end
 
+-- Object: string instance
+-- Call: string.match regex
+-- Call: string.match regex, index
+-- Returns: object or false
+--
+-- This method can be used to find substrings inside a string matching the
+-- given regular expression. An optional start index can be provided.
+--
+-- If a match is found, an match object is 
 function string_instance:match (regx, start_index)
   if type(regx) ~= "table" or regx._lua_regex == nil then
     error(exception:argument_error("string.match", "regex", tostring(regx)))
@@ -4228,6 +4357,19 @@ function string_instance:match (regx, start_index)
   return regx:match(self, start_index)
 end
 
+-- Object: string instance
+-- Call: string.sub regex, replacement
+-- Call: string.sub regex, replacement, limit
+-- Returns: string
+--
+-- Returns a new string with instances of the given pattern replaced by the
+-- provided replacement string.
+--
+-- Instead of a string, the replacement argument can be a function which will
+-- be called with each match. The string returned by the function will be used
+-- as the replacement.
+--
+-- A limit can be used to limit how many replacements are made.
 function string_instance:sub (pattern, replacement, limit)
   if type(pattern) == "table" then
     if pattern._lua_string then
@@ -4274,6 +4416,12 @@ function string_instance:sub (pattern, replacement, limit)
   return base_string:new(ns)
 end
 
+-- Object: string instance
+-- Call: string.sub! regex, replacement
+-- Call: string.sub! regex, replacement, limit
+-- Returns: self
+--
+-- Same as string.sub, but modifies the original string.
 function string_instance:sub_bang (pattern, replacement, limit)
   if type(pattern) ~= "table" or not pattern._lua_regex then
     error(exception:argument_error("string.sub!", "regular expression", tostring(pattern)))
@@ -4286,14 +4434,29 @@ function string_instance:sub_bang (pattern, replacement, limit)
   return self
 end
 
+-- Object: string instance
+-- Call: string.sub regex, replacement
+-- Returns: string
+--
+-- Same as using string.sub with a limit of 1.
 function string_instance:sub_underfirst (pattern, replacement)
   return self:sub(pattern, replacement, 1)
 end
 
+-- Object: string instance
+-- Call: string.sub! regex, replacement
+-- Returns: self
+--
+-- Same as using string.sub! with a limit of 1.
 function string_instance:sub_underfirst_bang (pattern, replacement)
   return self:sub_bang(pattern, replacement, 1)
 end
 
+-- Object: string instance
+-- Call: string * num
+-- Returns: string
+--
+-- Create a new string with num copies of the original string.
 function string_instance:_star (num)
   if type(num) ~= "number" then
     error(exception:argument_error("string.*", "number", tostring(num)))
@@ -4302,6 +4465,12 @@ function string_instance:_star (num)
   return base_string:new(string.rep(self._lua_string, num))
 end
 
+-- Object: string instance
+-- Call: string.find substring
+-- Returns: number
+--
+-- Returns the index of the given substring inside the original string.
+-- If no match is found, returns null.
 function string_instance:find_underfirst (str)
   local s_index, e_index = self._lua_string:find(str._lua_string, 1, true)
 
@@ -4331,21 +4500,21 @@ function string_instance:get (start_index, end_index)
     end
 
     if end_index < 0 then
-    end_index = len + end_index
-  end
+      end_index = len + end_index
+    end
 
-  if start_index < 0 then
-    start_index = 0
-  end
+    if start_index < 0 then
+      start_index = 0
+    end
 
-  if end_index < 0 then
-  end_index = 0
-end
+    if end_index < 0 then
+      end_index = 0
+    end
 
-if start_index > end_index then
-  local temp = start_index
-  start_index = end_index
-end_index = temp
+    if start_index > end_index then
+      local temp = start_index
+      start_index = end_index
+      end_index = temp
     end
 
     if start_index >= len then
@@ -4353,11 +4522,11 @@ end_index = temp
     end
 
     if end_index > len then
-    end_index = len
-  end
+      end_index = len
+    end
 
-  return base_string:new(string.sub(self._lua_string, start_index + 1, end_index + 1))
-end
+    return base_string:new(string.sub(self._lua_string, start_index + 1, end_index + 1))
+  end
 end
 
 function string_instance:reverse ()
