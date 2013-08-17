@@ -1,0 +1,15 @@
+#* http://rosettacode.org/wiki/Greatest_element_of_a_list
+  Fix greatest element in a list
+*#
+
+# Arrays have a max function, but here's a manual implementation.
+
+max = { list |
+  list.reduce { n, max |
+    true? n > max
+      { max = n }
+      { max }
+  }
+}
+
+p max [3 4 1 2]
