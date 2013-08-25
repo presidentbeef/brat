@@ -4481,6 +4481,25 @@ function string_instance:find_underfirst (str)
   end
 end
 
+-- Object: string instance
+-- Call: string.get index
+-- Call: string.get start, end
+-- Returns: string
+--
+-- Retrieves a section of the string. If a single index is used, returns
+-- at most one character. For indexes out of range, returns an empty string.
+-- Negative indexes can be used to start from the end of the string.
+--
+-- While this method can be called literally, it is more common to use the
+-- square bracket (`[]`) form.
+--
+-- Example:
+--
+-- "abc"[0]      # Returns "a"
+-- "abc"[0, 1]   # Returns "ab"
+-- "abc"[-1]     # Returns "c"
+-- "abc"[-1, -2] # Returns "bc"
+-- "abc"[-1 ,1]  # Returns "bc"
 function string_instance:get (start_index, end_index)
   local len = #self._lua_string
   if end_index == nil then
@@ -4529,15 +4548,30 @@ function string_instance:get (start_index, end_index)
   end
 end
 
+-- Object: string instance
+-- Call: string.reverse
+-- Returns: string
+--
+-- Copy and reverse string.
 function string_instance:reverse ()
   return base_string:new(self._lua_string:reverse())
 end
 
+-- Object: string instance
+-- Call: string.reverse!
+-- Returns: self
+--
+-- Reverse string.
 function string_instance:reverse_bang ()
   self._lua_string = self._lua_string:reverse()
   return self
 end
 
+-- Object: string instance
+-- Call: string.set index, character
+-- Returns: self
+--
+-- Sets the given index in the string to the given character.
 function string_instance:set (index, value)
   local len = #self._lua_string
   if index < 0 then
@@ -4562,10 +4596,31 @@ function string_instance:set (index, value)
   return value
 end
 
+-- Object: string instance
+-- Call: string.dice
+-- Returns: array
+--
+-- Splits string into an array with each character as as single element.
+--
+-- Example:
+--
+-- "abc".dice == ["a" "b" "c"]
 function string_instance:dice ()
   return self:split("")
 end
 
+-- Object: string instance
+-- Call: string.split separator
+-- Returns: array
+--
+-- Splits the string into an array based on the given separator, which should be a string. If no separator is given, " " is assumed.
+--
+-- Example:
+--
+-- a = "hello, there"
+-- a.split       #["hello,", "there"]
+-- a.split ", "  #["hello", "there"]
+-- a.split "z"   #["hello, there"]
 function string_instance:split (sep)
   if sep == nil then
     sep = orex.new("\\s+")
@@ -4591,6 +4646,18 @@ function string_instance:split (sep)
   return array:new(result)
 end
 
+-- Object: string instance
+-- Call: string << str
+-- Returns: self
+--
+-- Concatenate a second string onto the current string. Modifies and returns
+-- the current string.
+--
+-- Example:
+--
+-- a = "a"
+-- a << "b"
+-- a == "ab"
 function string_instance:_less_less (value)
   if type(value) ~= "table" or value._lua_string == nil then
     error(exception:argument_error("string <<", "string", tostring(value)))
@@ -4605,6 +4672,13 @@ function string_instance:__hash ()
   return self._lua_string
 end
 
+-- Object: string instance
+-- Call: string.to_i
+-- Call: string.to_i base
+-- Returns: number
+--
+-- Interprets the given string as an integer. By default the string is
+-- expected to be decimal representation.
 function string_instance:to_underi (base)
   local n = tonumber(self._lua_string, base)
   if n then
@@ -4614,6 +4688,11 @@ function string_instance:to_underi (base)
   end
 end
 
+-- Object: string instance
+-- Call: string.to_f
+-- Returns: number
+--
+-- Interprets the given string as an number.
 function string_instance:to_underf ()
   local n = tonumber(self._lua_string)
 
@@ -4624,6 +4703,18 @@ function string_instance:to_underf ()
   end
 end
 
+-- Object: string instance
+-- Call: string.to_byte
+-- Returns: number or array
+--
+-- If string is a single character, returns the decimal value associated with that
+-- character. If the string is longer than a single character, returns an array
+-- of values.
+--
+-- Example:
+--
+-- "a".to_byte   # 97
+-- "abc".to_byte # [97, 98, 99]
 function string_instance:to_underbyte ()
   if #self._lua_string == 1 then
     return self._lua_string:byte()
