@@ -169,6 +169,8 @@ object._is_an_object = true
 
 -- Object: object instance
 -- Call: object.parent
+--
+-- Return parent object if it exists.
 function object:parent ()
   return object.__null
 end
@@ -466,7 +468,7 @@ end
 -- Call: object.parent
 -- Returns: object
 --
--- Returns the parent of the object. 
+-- Returns the parent of the object.
 function object:parent ()
   if object["_parent"] then
     return object["_parent"]
@@ -559,7 +561,7 @@ function object:g ()
 end
 
 -- Object: object instance
--- Call: object == object
+-- Call: object1 == object2
 -- Returns: boolean
 --
 -- Compare two objects. If the target of the call has a method called <=>
@@ -579,7 +581,7 @@ function object:_equal_equal (rhs)
 end
 
 -- Object: object instance
--- Call: object != object
+-- Call: object1 != object2
 -- Returns: boolean
 --
 -- Compares two objects, then negates the result.
@@ -977,7 +979,7 @@ function object:loop (block)
   return object.__null
 end
 
--- Object: object
+-- Object: object instance
 -- Call: lhs && rhs
 --
 -- Performs boolean "and".
@@ -996,7 +998,7 @@ function object:_and_and (rhs)
   end
 end
 
--- Object: object
+-- Object: object instance
 -- Call: lhs || rhs
 --
 -- Performs boolean "or".
@@ -1039,7 +1041,7 @@ end
 -- Object: object instance
 -- Call: object.get_method name
 -- Returns: function
--- 
+--
 -- Returns the method with the given name, or null if it does not exist.
 function object:get_undermethod (name)
   name = to_identifier(name)
@@ -1112,7 +1114,7 @@ end
 -- exceptions will be silently ignored.
 --
 -- Possible options:
--- 
+--
 -- * rescue: provide a function to call when an exception occurs
 -- * ensure: provide a function to always call, even if an exception occurs
 -- * from: only rescue a specific type of exception
@@ -1200,7 +1202,7 @@ end
 -- Object: object instance
 -- Call: object.tap block
 -- Returns: self
--- 
+--
 -- Calls given block in context of the object, passing in the object as an
 -- argument, and always returns the object.
 function object:tap (block)
@@ -1293,7 +1295,7 @@ end
 -- Object: object
 -- Call: include file
 -- Call: include file, object
--- 
+--
 -- Executes given file and adds any exported objects to the current context.
 -- If an object is specified, it will only import that object.
 --
@@ -1448,7 +1450,7 @@ function object:program_underargs ()
 
     self._program_args = array:new(arg_array)
   end
-    
+
   return self._program_args
 end
 
@@ -1459,7 +1461,7 @@ end
 -- one returns true, returns the result associated with that condition.
 --
 -- Example:
--- 
+--
 -- x = 3
 -- when { x < 3 } { p "x is less than 3!" }
 --  { x > 3 } { p "x is greater than 3!" }
@@ -2095,7 +2097,7 @@ end
 -- If passed a method name, invokes _method_ on each element and returns an
 -- array containing any objects for which the _method_ returns true.
 --
--- If passed a function, returns an array containing all objects for which the 
+-- If passed a function, returns an array containing all objects for which the
 -- block returns true.
 function enumerable:select (block)
   local new_array = {}
@@ -2139,7 +2141,7 @@ end
 -- If passed a method name, invokes method on each element and returns an
 -- array containing any objects for which the method returns false.
 --
--- If passed a function, returns an array containing all objects for which the 
+-- If passed a function, returns an array containing all objects for which the
 -- block returns false.
 function enumerable:reject (block)
   local new_array = {}
@@ -2470,7 +2472,7 @@ end
 
 -- Object: array instance
 -- Call: array.reverse_each block
--- 
+--
 -- Invokes block for each item in the array, but starts at the end.
 function array_instance:reverse_undereach (block)
   local len = self._length
@@ -2557,6 +2559,10 @@ end
 -- Object: array instance
 -- Call: array.index_of item
 -- Call: array.index_of item, start
+-- Returns: number
+--
+-- Returns the index of the first item to match the given value.
+-- If a start value is given, then the search begins at that index.
 function array_instance:index_underof (item, start)
   local k
   if start == nil then
@@ -2677,7 +2683,7 @@ end
 -- There are several forms of reduce: one that provides an initial value for
 -- memo, one that does not, and two that just provide a method name instead
 -- of a function.
--- 
+--
 -- Example:
 --
 -- #These are all equivalent:
@@ -3036,6 +3042,19 @@ function array_instance:shuffle_bang ()
   return self
 end
 
+-- Object: array instance
+-- Call: array.set index, value
+-- Returns: value
+--
+-- Set an index to the given value. More commonly called like
+-- _array_[_index_] = _value_.
+--
+-- If the index is positive and past the end of the array,
+-- the array is expanded to the required length.
+--
+-- The index may be negative, in which case the indexes begin at the end of the
+-- array. However, the resulting index must exist (the array does not expand to
+-- accommodate negative indexes).
 function array_instance:set (index, value)
   if type(index) ~= "number" then
     error(exception:argument_error("array[]", "valid index", index))
@@ -3058,6 +3077,19 @@ function array_instance:set (index, value)
   return value
 end
 
+-- Object: array instance
+-- Call: array.get index
+-- Call: array.get start, end
+--
+-- This may also be called as _array_[_index_] or _array_[_start_, _end_].
+--
+-- For a single index, returns the value at the given index. If the index does
+-- not have a value or is past the end of the array, `null` is returned.
+--
+-- The index may be negative, in which case -1 is the last element of the array.
+--
+-- If a start and an end index are given, this method returns values between the
+-- two indexes.
 function array_instance:get (start_index, end_index)
   local len = self._length
   if end_index == nil then
@@ -3122,6 +3154,14 @@ function array_instance:get (start_index, end_index)
   end
 end
 
+-- Object: array instance
+-- Call: array.insert index, value
+-- Returns: self
+--
+-- Inserts the given value into the array at the given position. If the index
+-- is beyond the end of the array, the array will be extended to that index.
+--
+-- The index may be negative, but the resulting index must already exist.
 function array_instance:insert (index, value)
     if type(index) ~= "number" then
     error(exception:argument_error("array.insert", "valid index", index))
@@ -3145,6 +3185,11 @@ function array_instance:insert (index, value)
   return self
 end
 
+-- Object: array instance
+-- Call: array.length
+-- Returns: number
+--
+-- Returns the length of the array.
 function array_instance:length ()
   return self._length
 end
@@ -3167,9 +3212,16 @@ function array_instance:_copy ()
   return na
 end
 
+-- Object: array instance
+-- Call: array.sort
+-- Returns: array
+--
+-- Returns a new array with the contents sorted.
+--
+-- All items in the array must be comparable and nonnull.
 function array_instance:sort ()
   local a = self._lua_array
-  if #a <= 1 then
+  if self._length <= 1 then
     return self:_dup()
   end
 
@@ -3180,13 +3232,21 @@ function array_instance:sort ()
   return array:new(a)
 end
 
+-- Object: array instance
+-- Call: array.sort_by block
+-- Returns: array
+--
+-- Returns a new array with the contents sorted using the given function.
+--
+-- The function should take two arguments and return true when `a < b`
+-- and false otherwise.
 function array_instance:sort_underby (block)
   local a = self._lua_array
   if #a <= 1 then
     return self:_dup()
   end
 
-  comp = function(rhs, lhs)
+  local comp = function(rhs, lhs)
     return is_true(block(self, rhs, lhs))
   end
 
@@ -3197,10 +3257,14 @@ function array_instance:sort_underby (block)
   return array:new(a)
 end
 
-
+-- Object: array instance
+-- Call: array.sort!
+-- Returns: self
+--
+-- Sorts the array in place.
 function array_instance:sort_bang ()
   local a = self._lua_array
-  if #a <= 1 then
+  if self._length <= 1 then
     return self
   end
 
@@ -3209,6 +3273,23 @@ function array_instance:sort_bang ()
   return self
 end
 
+-- Object: array instance
+-- Call: array.join
+-- Call: array.join separator
+-- Call: array.join separator, final
+-- Returns: string
+--
+-- Coverts all elements of the array into strings and joins them together into
+-- a single string.
+--
+-- If a separator is given, it will be placed in between each element.
+-- If a final value is given, it will be inserted in between the last
+-- and penultimate values.
+--
+-- Example:
+--
+-- [1,2,3,4].join(", ", ", and ") #=> "1, 2, 3, and 4"
+--
 function array_instance:join (separator, final)
   if self._length == 0 then
     return base_string:new("")
@@ -3257,6 +3338,11 @@ function array_instance:join (separator, final)
   end
 end
 
+-- Object: array instance
+-- Call: array << value
+-- Returns: self
+--
+-- Appends value to end of array.
 function array_instance:_less_less (obj)
   self._length = self._length + 1
   self._lua_array[self._length] = obj
@@ -3264,6 +3350,11 @@ function array_instance:_less_less (obj)
   return self
 end
 
+-- Object: array instance
+-- Call: array.concat array
+-- Returns: self
+--
+-- Appends array to the end of another array.
 function array_instance:concat (arr)
   if arr._length == 0 then
     return self
@@ -3289,6 +3380,11 @@ function array_instance:concat (arr)
   return self
 end
 
+-- Object: array instance
+-- Call: array1 + array2
+-- Returns: array
+--
+-- Create a new array by joining two existing arrays.
 function array_instance:_plus (obj)
   if type(obj) ~= "table" or obj._lua_array == nil then
     error(exception:argument_error("array.+", "array", tostring(obj)))
@@ -3315,6 +3411,11 @@ function array_instance:_plus (obj)
   return self:new(na)
 end
 
+-- Object: array instance
+-- Call: array.to_s
+-- Returns: string
+--
+-- Convert array and contents to strings.
 function array_instance:to_unders ()
   local s = "[" .. self:join(", ")._lua_string .. "]"
   return base_string:new(s)
@@ -3324,6 +3425,11 @@ function array_instance:__hash ()
   return self:to_unders()._lua_string
 end
 
+-- Object: array instance
+-- Call: array1 == array2
+-- Returns: boolean
+--
+-- Compares the contents of two arrays.
 function array_instance:_equal_equal (rhs)
   if type(rhs) ~= "table" or rhs._lua_array == nil then
     return object.__false
@@ -3373,12 +3479,22 @@ function array_instance:_equal_equal (rhs)
   end
 end
 
+-- Object: array instance
+-- Call: array.clear
+-- Returns: self
+--
+-- Empties array.
 function array_instance:clear ()
   self._lua_array = {}
   self._length = 0
   return self
 end
 
+-- Object: array instance
+-- Call: array.delete_first value
+-- Returns: self
+--
+-- Removes first item in array matching the given value.
 function array_instance:delete_underfirst (item)
   local a = self._lua_array
   local len = self._length
@@ -3408,6 +3524,11 @@ function array_instance:delete_underfirst (item)
   return self
 end
 
+-- Object: array instance
+-- Call: array.include? value
+-- Returns: boolean
+--
+-- Returns true if the array contains the given value.
 function array_instance:include_question (item)
   local a = self._lua_array
   local len = self._length
@@ -3438,6 +3559,11 @@ function array_instance:include_question (item)
   end
 end
 
+-- Object: array instance
+-- Call: array.unique
+-- Returns: array
+--
+-- Returns a new array containing no duplicate items.
 function array_instance:unique ()
   local h = hash:new()
   local a = self._lua_array
@@ -3457,6 +3583,11 @@ function array_instance:unique ()
   return h:keys()
 end
 
+-- Object: array instance
+-- Call: array.unique!
+-- Returns: self
+--
+-- Removes duplicate items from array.
 function array_instance:unique_bang ()
   local h = hash:new()
   local a = self._lua_array
@@ -3486,6 +3617,11 @@ local hash_instance = object:new()
 hash = object:new()
 hash._prototype = hash_instance
 
+-- Object: hash
+-- Call: hash.new
+-- Returns: hash
+--
+-- Returns a new hash table.
 function hash:new (arg)
   local nh = new_brat(self)
   nh._prototype = new_brat(object)
@@ -3516,10 +3652,21 @@ function hash:new (arg)
   return nh
 end
 
+-- Object: hash instance
+-- Call: hash.hash?
+-- Returns: boolean
+--
+-- Returns true.
 function hash_instance:hash_question ()
   return object.__true
 end
 
+
+-- Object: hash instance
+-- Call: hash == hash2
+-- Returns: boolean
+--
+-- Returns true if the contents of the two hashes are the same.
 function hash_instance:_equal_equal (rhs)
   if self == rhs then
     return object.__true
@@ -3545,6 +3692,17 @@ function hash_instance:_equal_equal (rhs)
   end
 end
 
+-- Object: hash instance
+-- Call: hash.get key
+--
+-- Returns the value stored at the given key. More commonly used with the `[]`
+-- syntax.
+--
+-- Example:
+--
+-- h = [:]
+-- h[:hello] = :world
+-- h[:hello] # returns "world"
 function hash_instance:get (index)
   local val = self._lua_hash[index]
   if val then
@@ -3561,6 +3719,17 @@ function hash_instance:get (index)
   return object.__null
 end
 
+-- Object: hash instance
+-- Call: hash.set key, value
+--
+-- Stores the given value at the given key. More commonly used with the `[]`
+-- syntax.
+--
+-- Example:
+--
+-- h = [:]
+-- h[:hello] = :world
+-- h[:hello] # returns "world"
 function hash_instance:set (index, value)
   if type(index) == "table" and type(index.__hash) == "function" then
     local key = index:__hash()
@@ -3577,6 +3746,11 @@ function hash_instance:set (index, value)
   return value
 end
 
+-- Object: hash instance
+-- Call: hash.clear
+-- Returns: self
+--
+-- Removes all contents from hash.
 function hash_instance:clear ()
   self._key_hash = {}
   self._lua_hash = {}
@@ -3585,6 +3759,10 @@ function hash_instance:clear ()
   return self
 end
 
+-- Object: hash instance
+-- Call: hash.delete key
+--
+-- Deletes given key from the hash table. Returns the value stored at that key.
 function hash_instance:delete (index)
   if type(index) == "table" and type(index.__hash) == "function" then
     local key = index:__hash()
@@ -3598,6 +3776,12 @@ function hash_instance:delete (index)
   return value
 end
 
+-- Object: hash instance
+-- Call: hash.map block
+-- Returns: array
+--
+-- Invokes the block for each key-value pair in the hash and returns a new
+-- array containing the results.
 function hash_instance:map (block)
   local a = {}
   local i = 1
@@ -3609,6 +3793,11 @@ function hash_instance:map (block)
   return array:new(a)
 end
 
+-- Object: hash instance
+-- Call: hash.each block
+-- Returns: self
+--
+-- Invokes the block for each key-value pair in the hash.
 function hash_instance:each (block)
   for k,v in pairs(self._lua_hash) do
     block(self, k, v)
@@ -3617,6 +3806,11 @@ function hash_instance:each (block)
   return self
 end
 
+-- Object: hash instance
+-- Call: hash.each_value block
+-- Returns: self
+--
+-- Invokes the block for each value in the hash.
 function hash_instance:each_undervalue (block)
   for k,v in pairs(self._lua_hash) do
     block(self, v)
@@ -3625,6 +3819,11 @@ function hash_instance:each_undervalue (block)
   return self
 end
 
+-- Object: hash instance
+-- Call: hash.each_value block
+-- Returns: self
+--
+-- Invokes the block for each key in the hash.
 function hash_instance:each_underkey (block)
   for k,v in pairs(self._lua_hash) do
     block(self, k)
@@ -3633,6 +3832,12 @@ function hash_instance:each_underkey (block)
   return self
 end
 
+-- Object: hash instance
+-- Call: hash + hash2
+-- Returns: hash
+--
+-- Combines two hashes into a single hash. Values from the righthand side
+-- value take precedence.
 function hash_instance:_plus (rhs)
   if type(rhs) ~= "table" or rhs._lua_hash == nil then
     error(exception:argument_error("hash.+", "hash", tostring(rhs)))
@@ -3674,6 +3879,12 @@ function hash_instance:__hash ()
   return md5_hash(s)
 end
 
+
+-- Object: hash instance
+-- Call: hash.keys
+-- Returns: array
+--
+-- Returns an array containing all the keys from the hash table.
 function hash_instance:keys ()
   local keys = {}
   local index = 1
@@ -3685,6 +3896,11 @@ function hash_instance:keys ()
   return array:new(keys)
 end
 
+-- Object: hash instance
+-- Call: hash.values
+-- Returns: array
+--
+-- Returns an array containing all the values from the hash table.
 function hash_instance:values ()
   local values = {}
   local index = 1
@@ -3696,6 +3912,15 @@ function hash_instance:values ()
   return array:new(values)
 end
 
+-- Object: hash instance
+-- Call: hash.length
+-- Returns: number
+--
+-- Returns the number of elements in the hash table.
+--
+-- Example:
+--
+-- [a: 1].length # 1
 function hash_instance:length ()
   if self._length == nil then
     local len = 0
@@ -3710,6 +3935,12 @@ function hash_instance:length ()
   return self._length
 end
 
+-- Object: hash instance
+-- Call: hash.select block
+-- Returns: hash
+--
+-- Passes each key-value to the given block and returns a new hash only
+-- containing the pairs for which the block returns true.
 function hash_instance:select (block)
   local result = {}
   for k,v in pairs(self._lua_hash) do
@@ -3721,6 +3952,11 @@ function hash_instance:select (block)
   return hash:new(result)
 end
 
+-- Object: hash instance
+-- Call: hash.empty?
+-- Returns: boolean
+--
+-- Returns true if the hash table is empty.
 function hash_instance:empty_question ()
   if next(self._lua_hash) == nil then
     self._length = 0
@@ -3730,6 +3966,11 @@ function hash_instance:empty_question ()
   end
 end
 
+-- Object: hash instance
+-- Call: hash.key? key
+-- Returns: boolean
+--
+-- Returns true if the hash table contains the given key.
 function hash_instance:key_question (item)
   local val = self._lua_hash[item]
   if val then
@@ -3746,6 +3987,11 @@ function hash_instance:key_question (item)
   return object.__false
 end
 
+-- Object: hash instance
+-- Call: hash.to_s
+-- Returns: string
+--
+-- Converts the hash table to a string.
 function hash_instance:to_unders()
   local contents = {}
   local i = 1
@@ -3772,6 +4018,11 @@ base_string = object:new()
 
 base_string._prototype = string_instance
 
+-- Object: string
+-- Call: string.new
+-- Returns: string
+--
+-- Create a new string. There should be no reason to use this directly.
 function base_string:new (s)
   if s == nil then
     s = ""
@@ -3795,23 +4046,49 @@ function base_string:new (s)
   return ns
 end
 
+-- Object: string instance
+-- Call: string.length
+-- Returns: number
+--
+-- Returns the length of the string.
 function string_instance:length ()
   return #self._lua_string
 end
 
+-- Object: string instance
+-- Call: string.to_s
+-- Returns: self
+--
+-- Does nothing, just returns the string itself.
 function string_instance:to_unders ()
   return self
 end
 
+-- Object: string instance
+-- Call: string.chomp
+-- Returns: string
+--
+-- Create a new string with any line endings removed.
 function string_instance:chomp ()
   return base_string:new(string.gsub(self._lua_string, "[\n\r]+$", ""))
 end
 
+-- Object: string instance
+-- Call: string.chomp
+-- Returns: string
+--
+-- Remove any line endings from string.
 function string_instance:chomp_bang ()
   self._lua_string = string.gsub(self._lua_string, "[\n\r]+$", "")
   return self
 end
 
+-- Object: string instance
+-- Call: string.each block
+-- Returns: string
+--
+-- Interate over each character in the string,
+-- passing them into the given block.
 function string_instance:each (block)
   local s = self._lua_string
   local len = #s
@@ -3826,6 +4103,11 @@ function string_instance:each (block)
   return self
 end
 
+-- Object: string instance
+-- Call: string.empty?
+-- Returns: boolean
+--
+-- Returns true if the string is empty (zero length), false otherwise.
 function string_instance:empty_question ()
   if #self._lua_string == 0 then
     return object.__true
@@ -3834,6 +4116,11 @@ function string_instance:empty_question ()
   end
 end
 
+-- Object: string instance
+-- Call: string.reverse_each block
+-- Returns: boolean
+--
+-- Returns true if the string is empty (zero length), false otherwise.
 function string_instance:reverse_undereach (block)
   local s = self._lua_string
   local index = #s
@@ -3850,19 +4137,40 @@ end
 
 string_instance.__stripper = orex.new("(^\\s+)|(\\s+$)")
 
+-- Object: string instance
+-- Call: string.strip
+-- Returns: string
+--
+-- Returns a new string with all whitespace removed from the beginning and end
+-- of the string.
 function string_instance:strip ()
   return base_string:new(orex.gsub(self._lua_string, string_instance.__stripper, ""))
 end
 
+-- Object: string instance
+-- Call: string.strip!
+-- Returns: self
+--
+-- Removes all whitespace from the beginning and end of the string.
 function string_instance:strip_bang ()
   self._lua_string = orex.gsub(self._lua_string, string_instance.__stripper, "")
   return self
 end
 
+-- Object: string instance
+-- Call: string.string?
+-- Returns: boolean
+--
+-- Returns true...because it is a string.
 function string_instance:string_question ()
   return object.__true
 end
 
+-- Object: string instance
+-- Call: string.alpha?
+-- Returns: boolean
+--
+-- Returns true if the string contains only letters.
 function string_instance:alpha_question ()
   if self._lua_string:match("^%a+$") then
     return object.__true
@@ -3871,6 +4179,11 @@ function string_instance:alpha_question ()
   end
 end
 
+-- Object: string instance
+-- Call: string.alphanum?
+-- Returns: boolean
+--
+-- Returns true if the string contains only letters and numbers.
 function string_instance:alphanum_question ()
   if self._lua_string:match("^%w+$") then
     return object.__true
@@ -3879,6 +4192,12 @@ function string_instance:alphanum_question ()
   end
 end
 
+-- Object: string instance
+-- Call: string.numeric?
+-- Returns: boolean
+--
+-- Returns true if the string only includes decimal digits and an optional
+-- leading minus sign.
 function string_instance:numeric_question ()
   if self._lua_string:match("^-?%d+$") then
     return object.__true
@@ -3887,6 +4206,11 @@ function string_instance:numeric_question ()
   end
 end
 
+-- Object: string instance
+-- Call: string.blank?
+-- Returns: boolean
+--
+-- Returns true if the string is empty or only contains whitespace characters.
 function string_instance:blank_question()
   if self._lua_string:match("^%s*$") then
     return object.__true
@@ -3895,24 +4219,49 @@ function string_instance:blank_question()
   end
 end
 
+-- Object: string instance
+-- Call: string.downcase
+-- Returns: string
+--
+-- Create a new string with all letters downcased.
 function string_instance:downcase ()
   return base_string:new(string.lower(self._lua_string))
 end
 
+-- Object: string instance
+-- Call: string.downcase!
+-- Returns: self
+--
+-- Downcase all letters in the string,
 function string_instance:downcase_bang ()
   self._lua_string = string.lower(self._lua_string)
   return self
 end
 
+-- Object: string instance
+-- Call: string.upcase
+-- Returns: string
+--
+-- Return a new string with all letters changed to uppercase.
 function string_instance:upcase ()
   return base_string:new(string.upper(self._lua_string))
 end
 
+-- Object: string instance
+-- Call: string.upcase!
+-- Returns: self
+--
+-- Convert all letters in string to uppercase.
 function string_instance:upcase_bang ()
   self._lua_string = string.upper(self._lua_string)
   return self
 end
 
+-- Object: string instance
+-- Call: string1 == string2
+-- Returns: boolean
+--
+-- Compare the contents of two strings.
 function string_instance:_equal_equal (rhs)
   if type(rhs) ~= "table" or rhs._lua_string == nil then
     return object.__false
@@ -3923,6 +4272,12 @@ function string_instance:_equal_equal (rhs)
   end
 end
 
+-- Object: string instance
+-- Call: lhs <=> rhs
+-- Returns: number
+--
+-- Compares two strings. Returns 1 if lhs is greater, -1 if rhs is greater,
+-- and 0 if the two are equal.
 function string_instance:_less_equal_greater (rhs)
   if type(rhs) ~= "table" or rhs._lua_string == nil then
     error(exception:new("Cannot compare string to " .. tostring(rhs)))
@@ -3942,6 +4297,11 @@ function string_instance:_less_equal_greater (rhs)
   end
 end
 
+-- Object: string instance
+-- Call: string1 + string2
+-- Returns: string
+--
+-- Concatenates the two strings and creates a new string.
 function string_instance:_plus (rhs)
   if type(rhs) ~= "table" or rhs._lua_string == nil then
     error("Cannot add string to non-string")
@@ -3950,6 +4310,12 @@ function string_instance:_plus (rhs)
   return self:new(self._lua_string .. rhs._lua_string)
 end
 
+-- Object: string instance
+-- Call: string.include? substring
+-- Call: string.include? regex
+-- Returns: boolean
+--
+-- Returns true if the string includes the given substring or regular expression.
 function string_instance:include_question (pattern)
   if type(pattern) == "table" then
     if pattern._lua_regex then
@@ -3970,6 +4336,15 @@ function string_instance:include_question (pattern)
   error(exception:argument_error("string.include?", "string or regex", tostring(regx)))
 end
 
+-- Object: string instance
+-- Call: string.match regex
+-- Call: string.match regex, index
+-- Returns: object or false
+--
+-- This method can be used to find substrings inside a string matching the
+-- given regular expression. An optional start index can be provided.
+--
+-- If a match is found, an match object is 
 function string_instance:match (regx, start_index)
   if type(regx) ~= "table" or regx._lua_regex == nil then
     error(exception:argument_error("string.match", "regex", tostring(regx)))
@@ -3982,6 +4357,19 @@ function string_instance:match (regx, start_index)
   return regx:match(self, start_index)
 end
 
+-- Object: string instance
+-- Call: string.sub regex, replacement
+-- Call: string.sub regex, replacement, limit
+-- Returns: string
+--
+-- Returns a new string with instances of the given pattern replaced by the
+-- provided replacement string.
+--
+-- Instead of a string, the replacement argument can be a function which will
+-- be called with each match. The string returned by the function will be used
+-- as the replacement.
+--
+-- A limit can be used to limit how many replacements are made.
 function string_instance:sub (pattern, replacement, limit)
   if type(pattern) == "table" then
     if pattern._lua_string then
@@ -4028,6 +4416,12 @@ function string_instance:sub (pattern, replacement, limit)
   return base_string:new(ns)
 end
 
+-- Object: string instance
+-- Call: string.sub! regex, replacement
+-- Call: string.sub! regex, replacement, limit
+-- Returns: self
+--
+-- Same as string.sub, but modifies the original string.
 function string_instance:sub_bang (pattern, replacement, limit)
   if type(pattern) ~= "table" or not pattern._lua_regex then
     error(exception:argument_error("string.sub!", "regular expression", tostring(pattern)))
@@ -4040,14 +4434,29 @@ function string_instance:sub_bang (pattern, replacement, limit)
   return self
 end
 
+-- Object: string instance
+-- Call: string.sub regex, replacement
+-- Returns: string
+--
+-- Same as using string.sub with a limit of 1.
 function string_instance:sub_underfirst (pattern, replacement)
   return self:sub(pattern, replacement, 1)
 end
 
+-- Object: string instance
+-- Call: string.sub! regex, replacement
+-- Returns: self
+--
+-- Same as using string.sub! with a limit of 1.
 function string_instance:sub_underfirst_bang (pattern, replacement)
   return self:sub_bang(pattern, replacement, 1)
 end
 
+-- Object: string instance
+-- Call: string * num
+-- Returns: string
+--
+-- Create a new string with num copies of the original string.
 function string_instance:_star (num)
   if type(num) ~= "number" then
     error(exception:argument_error("string.*", "number", tostring(num)))
@@ -4056,6 +4465,12 @@ function string_instance:_star (num)
   return base_string:new(string.rep(self._lua_string, num))
 end
 
+-- Object: string instance
+-- Call: string.find substring
+-- Returns: number
+--
+-- Returns the index of the given substring inside the original string.
+-- If no match is found, returns null.
 function string_instance:find_underfirst (str)
   local s_index, e_index = self._lua_string:find(str._lua_string, 1, true)
 
@@ -4066,6 +4481,25 @@ function string_instance:find_underfirst (str)
   end
 end
 
+-- Object: string instance
+-- Call: string.get index
+-- Call: string.get start, end
+-- Returns: string
+--
+-- Retrieves a section of the string. If a single index is used, returns
+-- at most one character. For indexes out of range, returns an empty string.
+-- Negative indexes can be used to start from the end of the string.
+--
+-- While this method can be called literally, it is more common to use the
+-- square bracket (`[]`) form.
+--
+-- Example:
+--
+-- "abc"[0]      # Returns "a"
+-- "abc"[0, 1]   # Returns "ab"
+-- "abc"[-1]     # Returns "c"
+-- "abc"[-1, -2] # Returns "bc"
+-- "abc"[-1 ,1]  # Returns "bc"
 function string_instance:get (start_index, end_index)
   local len = #self._lua_string
   if end_index == nil then
@@ -4085,21 +4519,21 @@ function string_instance:get (start_index, end_index)
     end
 
     if end_index < 0 then
-    end_index = len + end_index
-  end
+      end_index = len + end_index
+    end
 
-  if start_index < 0 then
-    start_index = 0
-  end
+    if start_index < 0 then
+      start_index = 0
+    end
 
-  if end_index < 0 then
-  end_index = 0
-end
+    if end_index < 0 then
+      end_index = 0
+    end
 
-if start_index > end_index then
-  local temp = start_index
-  start_index = end_index
-end_index = temp
+    if start_index > end_index then
+      local temp = start_index
+      start_index = end_index
+      end_index = temp
     end
 
     if start_index >= len then
@@ -4107,22 +4541,37 @@ end_index = temp
     end
 
     if end_index > len then
-    end_index = len
+      end_index = len
+    end
+
+    return base_string:new(string.sub(self._lua_string, start_index + 1, end_index + 1))
   end
-
-  return base_string:new(string.sub(self._lua_string, start_index + 1, end_index + 1))
-end
 end
 
+-- Object: string instance
+-- Call: string.reverse
+-- Returns: string
+--
+-- Copy and reverse string.
 function string_instance:reverse ()
   return base_string:new(self._lua_string:reverse())
 end
 
+-- Object: string instance
+-- Call: string.reverse!
+-- Returns: self
+--
+-- Reverse string.
 function string_instance:reverse_bang ()
   self._lua_string = self._lua_string:reverse()
   return self
 end
 
+-- Object: string instance
+-- Call: string.set index, character
+-- Returns: self
+--
+-- Sets the given index in the string to the given character.
 function string_instance:set (index, value)
   local len = #self._lua_string
   if index < 0 then
@@ -4147,10 +4596,31 @@ function string_instance:set (index, value)
   return value
 end
 
+-- Object: string instance
+-- Call: string.dice
+-- Returns: array
+--
+-- Splits string into an array with each character as as single element.
+--
+-- Example:
+--
+-- "abc".dice == ["a" "b" "c"]
 function string_instance:dice ()
   return self:split("")
 end
 
+-- Object: string instance
+-- Call: string.split separator
+-- Returns: array
+--
+-- Splits the string into an array based on the given separator, which should be a string. If no separator is given, " " is assumed.
+--
+-- Example:
+--
+-- a = "hello, there"
+-- a.split       #["hello,", "there"]
+-- a.split ", "  #["hello", "there"]
+-- a.split "z"   #["hello, there"]
 function string_instance:split (sep)
   if sep == nil then
     sep = orex.new("\\s+")
@@ -4176,6 +4646,18 @@ function string_instance:split (sep)
   return array:new(result)
 end
 
+-- Object: string instance
+-- Call: string << str
+-- Returns: self
+--
+-- Concatenate a second string onto the current string. Modifies and returns
+-- the current string.
+--
+-- Example:
+--
+-- a = "a"
+-- a << "b"
+-- a == "ab"
 function string_instance:_less_less (value)
   if type(value) ~= "table" or value._lua_string == nil then
     error(exception:argument_error("string <<", "string", tostring(value)))
@@ -4190,6 +4672,13 @@ function string_instance:__hash ()
   return self._lua_string
 end
 
+-- Object: string instance
+-- Call: string.to_i
+-- Call: string.to_i base
+-- Returns: number
+--
+-- Interprets the given string as an integer. By default the string is
+-- expected to be decimal representation.
 function string_instance:to_underi (base)
   local n = tonumber(self._lua_string, base)
   if n then
@@ -4199,6 +4688,11 @@ function string_instance:to_underi (base)
   end
 end
 
+-- Object: string instance
+-- Call: string.to_f
+-- Returns: number
+--
+-- Interprets the given string as an number.
 function string_instance:to_underf ()
   local n = tonumber(self._lua_string)
 
@@ -4209,6 +4703,18 @@ function string_instance:to_underf ()
   end
 end
 
+-- Object: string instance
+-- Call: string.to_byte
+-- Returns: number or array
+--
+-- If string is a single character, returns the decimal value associated with that
+-- character. If the string is longer than a single character, returns an array
+-- of values.
+--
+-- Example:
+--
+-- "a".to_byte   # 97
+-- "abc".to_byte # [97, 98, 99]
 function string_instance:to_underbyte ()
   if #self._lua_string == 1 then
     return self._lua_string:byte()
