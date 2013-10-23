@@ -1083,6 +1083,36 @@ function object:call_undermethod (name, ...)
   end
 end
 
+-- Object: object
+-- Call: apply method, arg_array
+--
+-- Calls the provided method with the arguments in the array.
+--
+-- Example:
+--
+-- mult = { x, y | x * y }
+-- apply ->mult [2, 4]      # returns 8
+function object:apply (meth, args)
+  if type(args) ~= "table" or args._lua_array == nil then
+    return meth(self, args)
+  else
+    return meth(self, unpack(args._lua_array))
+  end
+end
+
+-- Object: object
+-- Call: invoke method, *args
+--
+-- Calls the provided method with the arguments in the array.
+--
+-- Example:
+--
+-- mult = { x, y | x * y }
+-- invoke ->mult 2 4        # returns 8
+function object:invoke (meth, ...)
+  return meth(self, ...)
+end
+
 -- Object: object instance
 -- Call: object.with_this block, arguments
 --
