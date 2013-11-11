@@ -93,7 +93,7 @@ Add a new method to the object with the given name.
 
 <a id="apply"></a>
 ### (object) apply
-> apply _method_, _arg_array_
+> apply _method_, _arg\_array_
 
 Calls the provided method with the arguments in the array.
 
@@ -155,8 +155,8 @@ Exports the object to be imported into another file using the given name.
 ### (object) false?
 > _object_.false?
 > false? _condition_
-> false? _condition_, _then_value_
-> false? _condition_, _then_value_, _else_value_
+> false? _condition_, _then\_value_
+> false? _condition_, _then\_value_, _else\_value_
 
 Tests if an object or condition is false. If the condition is false, returns true or the then_value if one is given. If the condition is true, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
 
@@ -279,8 +279,8 @@ Returns true if value is false, false if value is true.
 ### (object) null?
 > _object_.null?
 > null? _condition_
-> null? _condition_, _then_value_
-> null? _condition_, _then_value_, _else_value_
+> null? _condition_, _then\_value_
+> null? _condition_, _then\_value_, _else\_value_
 
 Tests if an object or condition is null. If the condition is null, returns true or the then_value if one is given. If the condition is not null, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
 
@@ -349,7 +349,7 @@ Handles exceptions which may be thrown inside the block. Options should be provi
 ### (prototype) prototype
 > _object_.prototype
 > _object_.prototype _block_
-> _object_.prototype _method_hash_
+> _object_.prototype _method\_hash_
 
 Set functions for the prototype of the object. The prototype is used when constructing a child of the object (via _new_). This function can either take a block which will execute in context of the prototype, or a hash table of method names and the methods themselves. Alternatively, calling object.prototype returns the prototype object, so methods can be defined directly on that object.
 
@@ -394,7 +394,7 @@ Sleep for a given number of seconds.
 
 <a id="squish"></a>
 ### (self) squish
-> _object_.squish _other_object_
+> _object_.squish _other\_object_
 
 Squishes the methods of the given object into the current object. Also useful for bringing external libraries into the current context.
 
@@ -431,8 +431,8 @@ Return a string representing the object.
 ### (object) true?
 > _object_.true?
 > true? _condition_
-> true? _condition_, _then_value_
-> true? _condition_, _then_value_, _else_value_
+> true? _condition_, _then\_value_
+> true? _condition_, _then\_value_, _else\_value_
 
 Tests if an object or condition is true. If the condition is true, returns true or the then_value if one is given. If the condition is false, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
 
@@ -496,5 +496,4 @@ Calls the given method, but sets the target object as the scope. In other words,
 
      #Will print "Hello!"
      x.with_this { p greeting }
-
 

@@ -101,28 +101,28 @@ Compares the contents of two arrays.
 
 <a id="array?"></a>
 ### (boolean) array?
-> _array_.array? 
+> _array_.array?
 
 Returns true.
 
 
 <a id="clear"></a>
 ### (self) clear
-> _array_.clear 
+> _array_.clear
 
 Empties array.
 
 
 <a id="compact"></a>
 ### (array) compact
-> _array_.compact 
+> _array_.compact
 
 Return a copy of the array with all null values removed.
 
 
 <a id="compact!"></a>
 ### (array) compact!
-> _array_.compact! 
+> _array_.compact!
 
 Destructively removes all null values for the array.
 
@@ -136,7 +136,7 @@ Appends array to the end of another array.
 
 <a id="copy"></a>
 ### (array) copy
-> _array_.copy 
+> _array_.copy
 
 Returns a new array containing all the elements of the original.
 
@@ -185,28 +185,28 @@ Invokes block for each item. Stops when block returns false or null.
 
 <a id="empty?"></a>
 ### (boolean) empty?
-> _array_.empty? 
+> _array_.empty?
 
 Returns true if the array is empty.
 
 
 <a id="first"></a>
 ### (object) first
-> _array_.first 
+> _array_.first
 
 Returns first element in array, or null if the array is empty.
 
 
 <a id="flatten"></a>
 ### (object) flatten
-> _array_.flatten 
+> _array_.flatten
 
 Flatten all elements into a single array.
 
 
 <a id="get"></a>
 ### (object) get
-> _array_.get _index_  
+> _array_.get _index_
 > _array_.get _start_, _end_
 
 This may also be called as _array_[_index_] or _array_[_start_, _end_]. For a single index, returns the value at the given index. If the index does not have a value or is past the end of the array, `null` is returned. The index may be negative, in which case -1 is the last element of the array. If a start and an end index are given, this method returns values between the two indexes.
@@ -221,7 +221,7 @@ Returns true if the array contains the given value.
 
 <a id="index_of"></a>
 ### (number) index_of
-> _array_.index_of _item_  
+> _array_.index_of _item_
 > _array_.index_of _item_, _start_
 
 Returns the index of the first item to match the given value. If a start value is given, then the search begins at that index.
@@ -236,25 +236,25 @@ Inserts the given value into the array at the given position. If the index is be
 
 <a id="join"></a>
 ### (string) join
-> _array_.join   
-> _array_.join _separator_  
+> _array_.join
+> _array_.join _separator_
 > _array_.join _separator_, _final_
 
 Coverts all elements of the array into strings and joins them together into a single string. If a separator is given, it will be placed in between each element. If a final value is given, it will be inserted in between the last and penultimate values.
-    
+
      [1,2,3,4].join(", ", ", and ") #=> "1, 2, 3, and 4"
-    
+
 
 <a id="last"></a>
 ### (object) last
-> _array_.last 
+> _array_.last
 
 Returns last element in array, or null if the array is empty
 
 
 <a id="length"></a>
 ### (number) length
-> _array_.length 
+> _array_.length
 
 Returns the length of the array.
 
@@ -292,12 +292,12 @@ Invokes the block for each element in the array, passing in the index as well, a
 > array.new _items_
 
 Create a new array.
-    
+
      array.new 1 2 3 # Returns [1, 2, 3]
 
 <a id="pop"></a>
 ### (object) pop
-> _array_.pop   
+> _array_.pop
 > _array_.pop _items_
 
 Removes and returns the last element in the array, or null if the array is empty. If a number of items is specified, removes and returns at most that many items from the end of the array.
@@ -305,7 +305,7 @@ Removes and returns the last element in the array, or null if the array is empty
 
 <a id="pretty"></a>
 ### (string) pretty
-> _array_.pretty 
+> _array_.pretty
 
 Returns a string with a nicely formatted representation of the array.
 
@@ -319,13 +319,13 @@ Pushes item onto the end of the array.
 
 <a id="reduce"></a>
 ### (object) reduce
-> _array_.reduce _block_  
-> _array_.reduce _initial_, _block_  
-> _array_.reduce _method_name_  
-> _array_.reduce _initial_, _method_name_
+> _array_.reduce _block_
+> _array_.reduce _initial_, _block_
+> _array_.reduce _method\_name_
+> _array_.reduce _initial_, _method\_name_
 
 Combines elements in array. There are several forms of reduce: one that provides an initial value for memo, one that does not, and two that just provide a method name instead of a function.
-    
+
      #These are all equivalent:
      1.to(10).reduce 0 { sum, item | sum + item }
      1.to(10).reduce { sum, item | sum + item }
@@ -341,21 +341,21 @@ The first form calls _method_ on each element of the array and removes any eleme
 
 <a id="rest"></a>
 ### (array) rest
-> _array_.rest 
+> _array_.rest
 
 Returns the entire array except the first element.
 
 
 <a id="reverse"></a>
 ### (array) reverse
-> _array_.reverse 
+> _array_.reverse
 
 Returns a copy of the array, reversed.
 
 
 <a id="reverse!"></a>
 ### (self) reverse!
-> _array_.reverse! 
+> _array_.reverse!
 
 Reverses the array.
 
@@ -376,8 +376,8 @@ Invokes block for each item in the array, starting from the end. Halts if the bl
 
 <a id="rindex_of"></a>
 ### (object) rindex_of
-> _array_.rindex_of _item_  
-> _array_.rindex_of _item_, _start_index_
+> _array_.rindex_of _item_
+> _array_.rindex_of _item_, _start\_index_
 
 Returns the last index of the item found in the array, or null if there is no such item. If start_index is specified, start searching from the given index.
 
@@ -398,28 +398,28 @@ Set an index to the given value. More commonly called like _array_[_index_] = _v
 
 <a id="shuffle"></a>
 ### (array) shuffle
-> _array_.shuffle 
+> _array_.shuffle
 
 Returns a copy of the array with the elements shuffled.
 
 
 <a id="shuffle!"></a>
 ### (array) shuffle!
-> _array_.shuffle! 
+> _array_.shuffle!
 
 Shuffles the elements of the array in place.
 
 
 <a id="sort"></a>
 ### (array) sort
-> _array_.sort 
+> _array_.sort
 
 Returns a new array with the contents sorted. All items in the array must be comparable and nonnull.
 
 
 <a id="sort!"></a>
 ### (self) sort!
-> _array_.sort! 
+> _array_.sort!
 
 Sorts the array in place.
 
@@ -433,27 +433,28 @@ Returns a new array with the contents sorted using the given function. The funct
 
 <a id="sum"></a>
 ### (object) sum
-> _array_.sum 
+> _array_.sum
 
 Returns the sum of the items in the array. Only works if the array only contains numbers.
 
 
 <a id="to_s"></a>
 ### (string) to_s
-> _array_.to_s 
+> _array_.to_s
 
 Convert array and contents to strings.
 
 
 <a id="unique"></a>
 ### (array) unique
-> _array_.unique 
+> _array_.unique
 
 Returns a new array containing no duplicate items.
 
 
 <a id="unique!"></a>
 ### (self) unique!
-> _array_.unique! 
+> _array_.unique!
 
 Removes duplicate items from array.
+
