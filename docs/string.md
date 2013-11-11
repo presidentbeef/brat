@@ -4,192 +4,373 @@ lib: core
 object: string
 desc: "String literals live between single or double quotes."
 methlist:
-- "+"
+- *
+- +
+- <<
+- <=>
+- ==
 - alpha?
 - alphanum?
+- blank?
 - chomp
 - chomp!
 - dice
 - downcase
 - downcase!
+- each
+- empty?
+- find
 - get
 - include?
 - length
 - match
+- new
 - numeric?
 - reverse
 - reverse!
+- reverse_each
 - set
 - split
+- string?
 - strip
 - strip!
 - sub
 - sub!
-- sub_first
-- sub_first!
+- to_byte
 - to_f
 - to_i
+- to_s
 - upcase
 - upcase!
 ---
 
-### \+
-> _string1_ \+ _string2_
+<a id="*"></a>
+### (string) *
+> _string_ * _num_
 
-Concatentates two strings.
+Create a new string with num copies of the original string.
 
-### alpha?
+
+<a id="+"></a>
+### (string) +
+> _string1_ + _string2_
+
+Concatenates the two strings and creates a new string.
+
+
+<a id="<<"></a>
+### (self) <<
+> _string_ << _str_
+
+Concatenate a second string onto the current string. Modifies and returns the current string.
+
+     a = "a"
+     a << "b"
+     a == "ab"
+
+<a id="<=>"></a>
+### (number) <=>
+> _lhs_ <=> _rhs_
+
+Compares two strings. Returns 1 if lhs is greater, -1 if rhs is greater, and 0 if the two are equal.
+
+
+<a id="=="></a>
+### (boolean) ==
+> _string1_ == _string2_
+
+Compare the contents of two strings.
+
+
+<a id="alpha?"></a>
+### (boolean) alpha?
 > _string_.alpha?
 
-Returns true if all characters in the string are letters.
+Returns true if the string contains only letters.
 
-### alphanum?
+     "abC".alpha?     # Returns true
+     "X1z".alpha?     # Returns false
+
+<a id="alphanum?"></a>
+### (boolean) alphanum?
 > _string_.alphanum?
 
-Returns true if all characters in the string are letters or digits.
+Returns true if the string contains only letters and numbers.
 
-### chomp
+     "br47".alphanum?      # Returns true
+     "bl_nk".alphanum?     # Returns false
+
+<a id="blank?"></a>
+### (boolean) blank?
+> _string_.blank?
+
+Returns true if the string is empty or only contains whitespace characters.
+
+     "".blank?      # Returns true
+     "\n".blank?    # Returns true
+
+<a id="chomp"></a>
+### (string) chomp
 > _string_.chomp
 
-Returns a new string with trailing newlines and carriage returns removed.
+Create a new string with any line endings removed.
 
-### chomp
+     "a\n\n".chomp  # Returns "a"
+
+<a id="chomp!"></a>
+### (string) chomp!
 > _string_.chomp!
 
-Removes trailing newlines and carriage returns.
+Remove any line endings from string.
 
-### dice
+     a = "a\r\n"
+     a.chomp!
+     a              # Returns "a"
+
+<a id="dice"></a>
+### (array) dice
 > _string_.dice
 
-Returns an array with each letter as an element.
+Splits string into an array with each character as as single element.
 
-{% highlight javascript %}
-a = "hello"
-a.dice   #["h", "e", "l", "l", "o"]
-{% endhighlight %}
+     "abc".dice == ["a" "b" "c"]
 
-### downcase
+<a id="downcase"></a>
+### (string) downcase
 > _string_.downcase
 
-Returns a new string with all letters converted to lowercase.
+Create a new string with all letters downcased.
 
-### downcase!
+
+<a id="downcase!"></a>
+### (self) downcase!
 > _string_.downcase!
 
-Lowercasses all letters in the string.
+Downcase all letters in the string,
 
-### get
->_string_.get _index_  
->_string_.get _startindex_, _endindex_
 
-Strings can be indexed just like arrays, including the use of negative indices.
+<a id="each"></a>
+### (string) each
+> _string_.each _block_
 
-{% highlight javascript %}
-a = "hello"
-a[2]       #"l"
-a[3,4]     #"lo"
-a[-4, -2]  #"ell"
-a[-4, 3]   #"ell"
-{% endhighlight %}
+Interate over each character in the string, passing them into the given block.
 
-### include?
-> _string_.include? _string_or_regex_
+     a = []
+     "abc".each { letter |
+       a << letter
+     }
 
-Returns true if the string includes the given string or regular expression.
+     a             # Returns ["a", "b", "c"]
 
-### length
+<a id="empty?"></a>
+### (boolean) empty?
+> _string_.empty?
+
+Returns true if the string is empty (zero length), false otherwise.
+
+     "".empty?      # Returns true
+     "a".empty?     # Returns false
+     "\n".empty?    # Returns false
+
+<a id="find"></a>
+### (number) find
+> _string_.find _substring_
+
+Returns the index of the given substring inside the original string. If no match is found, returns null.
+
+
+<a id="get"></a>
+### (string) get
+> _string_.get _index_
+> _string_.get _start_, _end_
+
+Retrieves a section of the string. If a single index is used, returns at most one character. For indexes out of range, returns an empty string. Negative indexes can be used to start from the end of the string. While this method can be called literally, it is more common to use the square bracket (`[]`) form.
+
+     "abc"[0]      # Returns "a"
+     "abc"[0, 1]   # Returns "ab"
+     "abc"[-1]     # Returns "c"
+     "abc"[-1, -2] # Returns "bc"
+     "abc"[-1 ,1]  # Returns "bc"
+
+<a id="include?"></a>
+### (boolean) include?
+> _string_.include? _substring_
+> _string_.include? _regex_
+
+Returns true if the string includes the given substring or regular expression.
+
+
+<a id="length"></a>
+### (number) length
 > _string_.length
 
 Returns the length of the string.
 
-### match
+
+<a id="match"></a>
+### (object) match
 > _string_.match _regex_
+> _string_.match _regex_, _index_
 
-Returns an array of regular expression matches.
+Returns: object or false This method can be used to find substrings inside a string matching the given regular expression. An optional start index can be provided. If a match is found, an match object is
 
-### numeric?
->_string_.numeric?
 
-Returns true if the string only contains numbers.
+<a id="new"></a>
+### (string) new
+> string.new
 
-### reverse
+Create a new string. There should be no reason to use this directly.
+
+
+<a id="numeric?"></a>
+### (boolean) numeric?
+> _string_.numeric?
+
+Returns true if the string only includes decimal digits and an optional leading minus sign.
+
+     "five".numeric?      # Returns false
+     "-127".numeric?      # Returns true
+
+<a id="reverse"></a>
+### (string) reverse
 > _string_.reverse
 
-Returns a reversed copy of the string.
+Copy and reverse string.
 
-### reverse!
+
+<a id="reverse!"></a>
+### (self) reverse!
 > _string_.reverse!
 
-Reverses the string.
+Reverse string.
 
-### set
->_string_.set _index_, _character_
 
-A single character in the string can be set via this method.
+<a id="reverse_each"></a>
+### (boolean) reverse_each
+> _string_.reverse_each _block_
 
-### split
->_string_.split
->_string_.split _separator_
+Iterates over each character in string, starting from the end.
 
-Splits the string into an array based on the given separator, which should be a string. If no separator is given, `" "` is assumed.
+     a = []
+     "abc".each { letter |
+       a << letter
+     }
 
-{% highlight javascript %}
-a = "hello, there"
-a.split       #["hello,", "there"]
-a.split ", "  #["hello", "there"]
-a.split "z"   #["hello, there"]
-{% endhighlight %}
+     a             # Returns ["c", "b", "a"]
 
-### strip
->_string_.strip
+<a id="set"></a>
+### (self) set
+> _string_.set _index_, _character_
 
-Returns a new string with leading and trailing whitespace removed.
+Sets the given index in the string to the given character.
 
-### strip!
->_string_.strip!
 
-Removes leading and trailing whitespace from string.
+<a id="split"></a>
+### (array) split
+> _string_.split _separator_
 
-### sub
->_string_.sub _regex_, _string_  
->_string_.sub _regex_, { _match_ | _block_ }
+Splits the string into an array based on the given separator, which should be a string. If no separator is given, " " is assumed.
 
-Returns a new string in which all matches for the given regular expression have been substituted with the given string or the results of a block, if given. Each match will be passed into the block and the returned value will be substituted into the string.
+     a = "hello, there"
+     a.split       #["hello,", "there"]
+     a.split ", "  #["hello", "there"]
+     a.split "z"   #["hello, there"]
 
-### sub!
->_string_.sub! _regex_, _string_  
->_string_.sub! _regex_, { _match_ | _block_ }
+<a id="string?"></a>
+### (boolean) string?
+> _string_.string?
 
-Sames as *sub*, but modifies the string.
+Returns true...because it is a string.
 
-### sub\_first
->_string_.sub\_first _regex_, _string_  
->_string_.sub\_first _regex_, { _match_ | _block_ }
 
-Works like *sub*, but only replaces the first match.
+<a id="strip"></a>
+### (string) strip
+> _string_.strip
 
-### sub\_first!
->_string_.sub\_first! _regex_, _string_  
->_string_.sub\_first! _regex_, { _match_ | _block_ }
+Returns a new string with all whitespace removed from the beginning and end of the string.
 
-The same as *sub\_first*, but modifies the original string.
+     "  a\n".strip       # Returns "a"
 
-### to\_f
->_string_.to\_f
+<a id="strip!"></a>
+### (self) strip!
+> _string_.strip!
 
-Interprets the string as a floating point number.
+Removes all whitespace from the beginning and end of the string.
 
-### to\_i
->_string_.to\_i
+     a = "   a\n"
+     a.strip!
+     a                  # Returns "a"
 
-Interprets the string as an integer.
+<a id="sub"></a>
+### (string) sub
+> _string_.sub _regex_, _replacement_
+> _string_.sub _regex_, _replacement_, _limit_
 
-### upcase
+Returns a new string with instances of the given pattern replaced by the provided replacement string. Instead of a string, the replacement argument can be a function which will be called with each match. The string returned by the function will be used as the replacement. A limit can be used to limit how many replacements are made.
+
+
+<a id="sub"></a>
+### (string) sub
+> _string_.sub _regex_, _replacement_
+
+Same as using string.sub with a limit of 1.
+
+
+<a id="sub!"></a>
+### (self) sub!
+> _string_.sub! _regex_, _replacement_
+
+Same as using string.sub! with a limit of 1.
+
+
+<a id="sub!"></a>
+### (self) sub!
+> _string_.sub! _regex_, _replacement_
+> _string_.sub! _regex_, _replacement_, _limit_
+
+Same as string.sub, but modifies the original string.
+
+
+<a id="to_byte"></a>
+### (object) to_byte
+> _string_.to_byte
+
+Returns: number or array If string is a single character, returns the decimal value associated with that character. If the string is longer than a single character, returns an array of values.
+
+     "a".to_byte   # 97
+     "abc".to_byte # [97, 98, 99]
+
+<a id="to_f"></a>
+### (number) to_f
+> _string_.to_f
+
+Interprets the given string as an number.
+
+
+<a id="to_i"></a>
+### (number) to_i
+> _string_.to_i
+> _string_.to_i _base_
+
+Interprets the given string as an integer. By default the string is expected to be decimal representation.
+
+
+<a id="to_s"></a>
+### (self) to_s
+> _string_.to_s
+
+Does nothing, just returns the string itself.
+
+
+<a id="upcase"></a>
+### (string) upcase
 > _string_.upcase
 
-Returns a new string with all letters uppercased.
+Return a new string with all letters changed to uppercase.
 
-### upcase!
+
+<a id="upcase!"></a>
+### (self) upcase!
 > _string_.upcase!
 
-Upcases all letters in the string.
+Convert all letters in string to uppercase.

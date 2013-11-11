@@ -2,13 +2,14 @@
 layout: doc
 lib: core
 object: object
-desc: Object is not only the base object for every other object in Brat, it is also the top-level object. These two ideas put together mean you can use any of object's methods anywhere.
+desc: "Object is not only the base object for every other object in Brat, it is also the top-level object. These two ideas put together mean you can use any of object's methods anywhere."
 methlist:
-- "||"
-- "!="
-- "&&"
-- "=="
+- ||
+- !=
+- &&
+- ==
 - add_method
+- apply
 - array?
 - ask
 - call_method
@@ -25,6 +26,7 @@ methlist:
 - import
 - include
 - includes
+- invoke
 - load_path
 - local_methods
 - loop
@@ -89,9 +91,18 @@ Compare two objects. If the target of the call has a method called <=> that will
 Add a new method to the object with the given name.
 
 
+<a id="apply"></a>
+### (object) apply
+> apply _method_, _arg_array_
+
+Calls the provided method with the arguments in the array.
+
+     mult = { x, y | x * y }
+     apply ->mult [2, 4]      # returns 8
+
 <a id="array?"></a>
 ### (boolean) array?
-> _object_.array? 
+> _object_.array?
 
 Returns true if object is an array, false otherwise.
 
@@ -108,7 +119,7 @@ Prints out the given prompt first, then returns input from standard input.
 > _object_.call_method _name_, _arguments_
 
 Calls the given method on the object, passing in the provided arguments.
-    
+
      object.call_method "p", "hello", " ", "world"
 
 <a id="del_method"></a>
@@ -120,14 +131,14 @@ Removes the method with the given name from the object.
 
 <a id="exception?"></a>
 ### (boolean) exception?
-> _object_.exception? 
+> _object_.exception?
 
 Returns true if object is an exception, false otherwise.
 
 
 <a id="exit"></a>
 ### (object) exit
-> exit   
+> exit
 > exit _code_
 
 Immediately terminates the program. If a numeric code is provided, that will be the exit status of the program.
@@ -142,13 +153,13 @@ Exports the object to be imported into another file using the given name.
 
 <a id="false?"></a>
 ### (object) false?
-> _object_.false?   
-> false? _condition_  
-> false? _condition_, _then_value_  
+> _object_.false?
+> false? _condition_
+> false? _condition_, _then_value_
 > false? _condition_, _then_value_, _else_value_
 
 Tests if an object or condition is false. If the condition is false, returns true or the then_value if one is given. If the condition is true, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
-    
+
        false? 2 + 2 == 5
          { p "Definitely false." }
          { p "War is Peace" }
@@ -162,7 +173,7 @@ Returns true if given variable is a function, false otherwise.
 
 <a id="g"></a>
 ### (string) g
-> g 
+> g
 
 Read a string from standard input.
 
@@ -183,14 +194,14 @@ Returns true if the object has a method with the given name.
 
 <a id="hash?"></a>
 ### (boolean) hash?
-> _object_.hash? 
+> _object_.hash?
 
 Returns true if object is a hash, false otherwise.
 
 
 <a id="import"></a>
 ### (object) import
-> import _file_  
+> import _file_
 > import _file_, _object_
 
 Loads the given file and returns a hash of the exports from that file. If an object name is specified, only that object will be returned.
@@ -198,11 +209,11 @@ Loads the given file and returns a hash of the exports from that file. If an obj
 
 <a id="include"></a>
 ### (object) include
-> include _file_  
+> include _file_
 > include _file_, _object_
 
 Executes given file and adds any exported objects to the current context. If an object is specified, it will only import that object. This is essentially equivalant to calling squish(import(file)).
-    
+
      include :file
 
 <a id="includes"></a>
@@ -210,19 +221,28 @@ Executes given file and adds any exported objects to the current context. If an 
 > includes _files_
 
 Calls include for each of the given arguments.
-    
+
      includes :file :json
+
+<a id="invoke"></a>
+### (object) invoke
+> invoke _method_, _*args_
+
+Calls the provided method with the arguments in the array.
+
+     mult = { x, y | x * y }
+     invoke ->mult 2 4        # returns 8
 
 <a id="load_path"></a>
 ### (array) load_path
-> load_path 
+> load_path
 
 The path used to search for files to load when using include() or import().
 
 
 <a id="local_methods"></a>
 ### (array) local_methods
-> _object_.local_methods 
+> _object_.local_methods
 
 Returns an array containing the names of the methods available on the object, not including those inherited from parent objects.
 
@@ -236,14 +256,14 @@ Loops block forever.
 
 <a id="methods"></a>
 ### (array) methods
-> _object_.methods 
+> _object_.methods
 
 Returns an array containing the names of the methods available on the object, including those inherited from parent objects.
 
 
 <a id="my"></a>
 ### (self) my
-> my 
+> my
 
 Returns the current object.
 
@@ -257,20 +277,20 @@ Returns true if value is false, false if value is true.
 
 <a id="null?"></a>
 ### (object) null?
-> _object_.null?   
-> null? _condition_  
-> null? _condition_, _then_value_  
+> _object_.null?
+> null? _condition_
+> null? _condition_, _then_value_
 > null? _condition_, _then_value_, _else_value_
 
 Tests if an object or condition is null. If the condition is null, returns true or the then_value if one is given. If the condition is not null, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
-    
+
        null? x
          { p "x is null" }
          { p "x is not null" }
 
 <a id="number?"></a>
 ### (boolean) number?
-> _object_.number? 
+> _object_.number?
 
 Returns true if object is a number, false otherwise.
 
@@ -291,16 +311,16 @@ Prints out any number of arguments, with an added new line.
 
 <a id="parent"></a>
 ### (object) parent
-> _object_.parent 
+> _object_.parent
 
-Returns the parent of the object.
+Return parent object if it exists.
 
 
 <a id="parent"></a>
 ### (object) parent
-> _object_.parent 
+> _object_.parent
 
-Return parent object if it exists.
+Returns the parent of the object.
 
 
 <a id="print"></a>
@@ -312,7 +332,7 @@ Prints out any number of arguments, with no new line.
 
 <a id="program_args"></a>
 ### (array) program_args
-> program_args 
+> program_args
 
 Returns the arguments given to the program when it is executed.
 
@@ -322,37 +342,37 @@ Returns the arguments given to the program when it is executed.
 > protect _block_, _options_
 
 Handles exceptions which may be thrown inside the block. Options should be provided as a hash. If no options are given, all exceptions will be silently ignored. Possible options: * rescue: provide a function to call when an exception occurs * ensure: provide a function to always call, even if an exception occurs * from: only rescue a specific type of exception
-    
+
      protect { throw "Problem!" } rescue: { err | p "There was a problem: #{err}" }
 
 <a id="prototype"></a>
 ### (prototype) prototype
-> _object_.prototype   
-> _object_.prototype _block_  
+> _object_.prototype
+> _object_.prototype _block_
 > _object_.prototype _method_hash_
 
 Set functions for the prototype of the object. The prototype is used when constructing a child of the object (via _new_). This function can either take a block which will execute in context of the prototype, or a hash table of method names and the methods themselves. Alternatively, calling object.prototype returns the prototype object, so methods can be defined directly on that object.
-    
+
      person = object.new
-    
+
      person.init = { name |
        my.name = name
        my.status = "nuttin'"
      }
-    
+
      person.prototype walk: { my.status = "walking" }
-    
+
      person.prototype {
        my.talk = { phrase | p "#{my.name} says, '#{phrase}'" }
      }
-    
+
      person.prototype.sit = {
        my.status = "sitting"
      }
 
 <a id="random"></a>
 ### (number) random
-> random   
+> random
 > random _maximum_
 
 With no arguments, returns a number between 0 and 1. With a max argument, returns a number _i_, where 0 <= i < _max_.
@@ -360,7 +380,7 @@ With no arguments, returns a number between 0 and 1. With a max argument, return
 
 <a id="regex?"></a>
 ### (boolean) regex?
-> _object_.regex? 
+> _object_.regex?
 
 Returns true if object is a number, false otherwise.
 
@@ -381,7 +401,7 @@ Squishes the methods of the given object into the current object. Also useful fo
 
 <a id="string?"></a>
 ### (boolean) string?
-> _object_.string? 
+> _object_.string?
 
 Returns true if object is a string, false otherwise.
 
@@ -402,37 +422,37 @@ Throws an exception. If a string is provided as the exception, creates a new exc
 
 <a id="to_s"></a>
 ### (string) to_s
-> _object_.to_s 
+> _object_.to_s
 
 Return a string representing the object.
 
 
 <a id="true?"></a>
 ### (object) true?
-> _object_.true?   
-> true? _condition_  
-> true? _condition_, _then_value_  
+> _object_.true?
+> true? _condition_
+> true? _condition_, _then_value_
 > true? _condition_, _then_value_, _else_value_
 
 Tests if an object or condition is true. If the condition is true, returns true or the then_value if one is given. If the condition is false, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
-    
+
        true? 2 + 2 == 5
          { p "Are you such a dreamer?" }
          { p "No it doesn't!" }
 
 <a id="until"></a>
 ### (object) until
-> until _block_  
+> until _block_
 > until _condition_, _block_
 
 Loops until the condition becomes true. If only one argument is given, that argument will be used as the condition.
-    
+
       x = 0
       until {
         x = x + 1
         x > 10
       }
-    
+
       #Same thing
       x = 0
       until { x > 10 } { x = x + 1 }
@@ -442,7 +462,7 @@ Loops until the condition becomes true. If only one argument is given, that argu
 > when _condition_, _result_
 
 Takes any number of condition-result pairs. Checks each condition and when one returns true, returns the result associated with that condition.
-    
+
      x = 3
      when { x < 3 } { p "x is less than 3!" }
       { x > 3 } { p "x is greater than 3!" }
@@ -450,17 +470,17 @@ Takes any number of condition-result pairs. Checks each condition and when one r
 
 <a id="while"></a>
 ### (object) while
-> while _block_  
+> while _block_
 > while _condition_, _block_
 
 Loops while the given condition remains true. If only one argument is given, the value of that argument is used as the condition.
-    
+
       x = 0
       while {
         x = x + 1
         x < 10
       }
-    
+
       #Same thing
       x = 0
       while { x < 10 } { x = x + 1 }
@@ -470,10 +490,11 @@ Loops while the given condition remains true. If only one argument is given, the
 > _object_.with_this _block_, _arguments_
 
 Calls the given method, but sets the target object as the scope. In other words, calling my inside the block will return the object.
-    
+
      x = object.new
      x.greeting = "Hello!"
-    
+
      #Will print "Hello!"
      x.with_this { p greeting }
+
 
