@@ -4,11 +4,11 @@ lib: core
 object: string
 desc: "String literals live between single or double quotes."
 methlist:
-- *
-- +
-- <<
-- <=>
-- ==
+- "*"
+- "+"
+- "<<"
+- "<=>"
+- "=="
 - alpha?
 - alphanum?
 - blank?

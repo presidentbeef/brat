@@ -4,10 +4,10 @@ lib: core
 object: object
 desc: "Object is not only the base object for every other object in Brat, it is also the top-level object. These two ideas put together mean you can use any of object's methods anywhere."
 methlist:
-- ||
-- !=
-- &&
-- ==
+- "||"
+- "!="
+- "&&"
+- "=="
 - add_method
 - apply
 - array?
