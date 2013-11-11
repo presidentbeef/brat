@@ -70,7 +70,7 @@ Performs boolean "or". The value on the right-hand side should generally be a fu
 Compares two objects, then negates the result.
 
 
-<a id="&&"></a>
+<a id="and"></a>
 ### (object) &&
 > _lhs_ && _rhs_
 
@@ -226,7 +226,7 @@ Calls include for each of the given arguments.
 
 <a id="invoke"></a>
 ### (object) invoke
-> invoke _method_, _*args_
+> invoke _method_, _\*args_
 
 Calls the provided method with the arguments in the array.
 
@@ -304,7 +304,7 @@ Returns true if given variable is an object, false otherwise.
 
 <a id="p"></a>
 ### (null) p
-> p _*args_
+> p _\*args_
 
 Prints out any number of arguments, with an added new line.
 
@@ -325,7 +325,7 @@ Returns the parent of the object.
 
 <a id="print"></a>
 ### (null) print
-> print _*args_
+> print _\*args_
 
 Prints out any number of arguments, with no new line.
 

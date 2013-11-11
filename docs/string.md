@@ -45,8 +45,8 @@ methlist:
 ---
 
 <a id="*"></a>
-### (string) *
-> _string_ * _num_
+### (string) \*
+> _string_ \* _num_
 
 Create a new string with num copies of the original string.
 
@@ -58,7 +58,6 @@ Create a new string with num copies of the original string.
 Concatenates the two strings and creates a new string.
 
 
-<a id="<<"></a>
 ### (self) <<
 > _string_ << _str_
 
@@ -68,7 +67,6 @@ Concatenate a second string onto the current string. Modifies and returns the cu
      a << "b"
      a == "ab"
 
-<a id="<=>"></a>
 ### (number) <=>
 > _lhs_ <=> _rhs_
 

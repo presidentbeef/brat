@@ -85,7 +85,6 @@ Note that negative indices are allowed, and that ranges are inclusive.
 Create a new array by joining two existing arrays.
 
 
-<a id="<<"></a>
 ### (self) <<
 > _array_ << _value_
 

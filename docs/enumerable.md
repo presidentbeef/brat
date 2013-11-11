@@ -51,7 +51,7 @@ Returns minimum value in enumerable. All items in the enumerable must be compara
 <a id="reject"></a>
 ### (array) reject
 > _enum_.reject _block_  
-> _enum_.reject _method_name_
+> _enum_.reject _method\_name_
 
 If passed a method name, invokes method on each element and returns an array containing any objects for which the method returns false. If passed a function, returns an array containing all objects for which the block returns false.
 
@@ -59,7 +59,7 @@ If passed a method name, invokes method on each element and returns an array con
 <a id="select"></a>
 ### (array) select
 > _enum_.select _block_  
-> _enum_.select _method_name_
+> _enum_.select _method\_name_
 
 If passed a method name, invokes _method_ on each element and returns an array containing any objects for which the _method_ returns true. If passed a function, returns an array containing all objects for which the block returns true.
 

@@ -59,8 +59,8 @@ Less than.
 
 Performs the modulo operation.
 
-### (number) *
-> _lhs_ * _rhs_
+### (number) \*
+> _lhs_ \* _rhs_
 
 Performs multiplication.
 

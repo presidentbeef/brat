@@ -20,5 +20,3 @@ So, I am currently rewriting all of Brat (except the parser) in [Lua](http://www
 The conversion is going well so far, although I am wary of Lua's ambivalence towards function arguments (it doesn't check length, and I have not found a way to get the arity of a function). I will also have to figure out how to handle required "return" statements.
 
 If nothing else, it's one more language I have given myself a reason to learn.
-
-<center><iframe src="http://rcm.amazon.com/e/cm?lt1=_blank&bc1=FFFFFF&IS2=1&npa=1&bg1=FFFFFF&fc1=3C3C3C&lc1=272776&t=afade-20&o=1&p=8&l=as4&m=amazon&f=ifr&asins=8590379825" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe></center>
