@@ -131,4 +131,14 @@ add_results setup name: "object tests" {
     assert { o = object.new; o.tap({}) == o }
     assert { o = object.new; o.tap({x|}) == o }
   }
+
+  test "apply" {
+    assert_equal 6 { mult = { x, y | x * y }; apply ->mult [2 3] }
+    assert_equal 6 { ident = { x | x }; apply ->ident 6 }
+  }
+
+  test "invoke" {
+    assert_equal 6 { mult = { x, y | x * y }; invoke ->mult 2 3 }
+    assert_equal 6 { ident = { x | x }; invoke ->ident 6 }
+  }
 }
