@@ -4099,15 +4099,25 @@ end
 -- Returns: string
 --
 -- Create a new string with any line endings removed.
+--
+-- Example:
+--
+-- "a\n\n".chomp  # Returns "a"
 function string_instance:chomp ()
   return base_string:new(string.gsub(self._lua_string, "[\n\r]+$", ""))
 end
 
 -- Object: string instance
--- Call: string.chomp
+-- Call: string.chomp!
 -- Returns: string
 --
 -- Remove any line endings from string.
+--
+-- Example:
+--
+-- a = "a\r\n"
+-- a.chomp!
+-- a              # Returns "a"
 function string_instance:chomp_bang ()
   self._lua_string = string.gsub(self._lua_string, "[\n\r]+$", "")
   return self
@@ -4119,6 +4129,15 @@ end
 --
 -- Interate over each character in the string,
 -- passing them into the given block.
+--
+-- Example:
+--
+-- a = []
+-- "abc".each { letter |
+--   a << letter
+-- }
+--
+-- a             # Returns ["a", "b", "c"]
 function string_instance:each (block)
   local s = self._lua_string
   local len = #s
@@ -4138,6 +4157,12 @@ end
 -- Returns: boolean
 --
 -- Returns true if the string is empty (zero length), false otherwise.
+--
+-- Example:
+--
+-- "".empty?      # Returns true
+-- "a".empty?     # Returns false
+-- "\n".empty?    # Returns false
 function string_instance:empty_question ()
   if #self._lua_string == 0 then
     return object.__true
@@ -4150,7 +4175,16 @@ end
 -- Call: string.reverse_each block
 -- Returns: boolean
 --
--- Returns true if the string is empty (zero length), false otherwise.
+-- Iterates over each character in string, starting from the end.
+--
+-- Example:
+--
+-- a = []
+-- "abc".each { letter |
+--   a << letter
+-- }
+--
+-- a             # Returns ["c", "b", "a"]
 function string_instance:reverse_undereach (block)
   local s = self._lua_string
   local index = #s
@@ -4173,6 +4207,10 @@ string_instance.__stripper = orex.new("(^\\s+)|(\\s+$)")
 --
 -- Returns a new string with all whitespace removed from the beginning and end
 -- of the string.
+--
+-- Example:
+--
+-- "  a\n".strip       # Returns "a"
 function string_instance:strip ()
   return base_string:new(orex.gsub(self._lua_string, string_instance.__stripper, ""))
 end
@@ -4182,6 +4220,12 @@ end
 -- Returns: self
 --
 -- Removes all whitespace from the beginning and end of the string.
+--
+-- Example:
+--
+-- a = "   a\n"
+-- a.strip!
+-- a                  # Returns "a"
 function string_instance:strip_bang ()
   self._lua_string = orex.gsub(self._lua_string, string_instance.__stripper, "")
   return self
@@ -4201,6 +4245,11 @@ end
 -- Returns: boolean
 --
 -- Returns true if the string contains only letters.
+--
+-- Example:
+--
+-- "abC".alpha?     # Returns true
+-- "X1z".alpha?     # Returns false
 function string_instance:alpha_question ()
   if self._lua_string:match("^%a+$") then
     return object.__true
@@ -4214,6 +4263,11 @@ end
 -- Returns: boolean
 --
 -- Returns true if the string contains only letters and numbers.
+--
+-- Example:
+--
+-- "br47".alphanum?      # Returns true
+-- "bl_nk".alphanum?     # Returns false
 function string_instance:alphanum_question ()
   if self._lua_string:match("^%w+$") then
     return object.__true
@@ -4228,6 +4282,11 @@ end
 --
 -- Returns true if the string only includes decimal digits and an optional
 -- leading minus sign.
+--
+-- Example:
+--
+-- "five".numeric?      # Returns false
+-- "-127".numeric?      # Returns true
 function string_instance:numeric_question ()
   if self._lua_string:match("^-?%d+$") then
     return object.__true
@@ -4241,6 +4300,11 @@ end
 -- Returns: boolean
 --
 -- Returns true if the string is empty or only contains whitespace characters.
+--
+-- Example:
+--
+-- "".blank?      # Returns true
+-- "\n".blank?    # Returns true
 function string_instance:blank_question()
   if self._lua_string:match("^%s*$") then
     return object.__true
