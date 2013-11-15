@@ -4037,6 +4037,15 @@ function hash_instance:to_unders()
   end
 end
 
+local hash_native_methods = {
+  get = hash_instance.get;
+  set = hash_instance.set;
+}
+
+function hash_instance:_unchanged (method)
+  return hash_native_methods[method] == hash_instance[method] and rawget(hash, method) == nil
+end
+
 --String objects
 
 local string_instance = object:new()
