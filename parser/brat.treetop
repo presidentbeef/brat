@@ -380,7 +380,7 @@ grammar BaseBrat
 
     def brat(key_temp, val_temp)
       output = e.brat(val_temp)
-      @index = "string:new(\"#{i.text_value}\")"
+      @index = i.text_value.inspect
       @value = e.result
       output
     end
@@ -389,7 +389,17 @@ grammar BaseBrat
     i:expression spaceorbreak ":" spaceorbreak v:expression {
     attr_reader :index, :value
     def brat(key_temp, val_temp)
-      output = i.brat(key_temp) << "\n" << v.brat(val_temp) << "\n"
+      output = i.brat(key_temp)
+
+      unless i.result.to_i.to_s == i.result
+        output << <<-LUA
+                if _type(#{i.result}) == "table" and _type(#{i.result}.__hash) == "function" then
+                  #{i.result} = #{i.result}:__hash()
+                end
+                LUA
+      end
+
+      output << v.brat(val_temp) << "\n"
       @index = i.result
       @value = v.result
       output
@@ -472,13 +482,33 @@ grammar BaseBrat
         output = "local #@result\n"
       end
 
-      output << "do\n" <<
-        e.brat << "\n" <<
-        "#@result = #{e.result}\n"
+      output << "do\n" << e.brat(@result)
 
-      a.elements.each do |elem|
+      is_hash = (e.type == :hash or type_of(@result) == :hash)
+
+      assign @result, nil
+
+      accesses = a.elements
+
+      # Optimize hash["string"]
+      if is_hash and accesses.length == 1 and accesses.first.inner_arg_list.o.elements.empty?
+        access = accesses.first.inner_arg_list.e
+        if access.type == :string and access.can_be_literal?
+          elem = accesses.pop
+
+          output << "if #{@result}._unchanged('get') then\n" <<
+              "#@result = #@result:get(#{access.as_literal})\n" <<
+              "else\n"  <<
+              elem.inner_arg_list.brat << "\n" <<
+              "#@result = #@result:get(#{elem.inner_arg_list.list})\nend\n"
+
+          elem.inner_arg_list.unset_args
+        end
+      end
+
+      accesses.each do |elem|
         output << elem.inner_arg_list.brat << "\n" <<
-          "#@result = #@result:get(#{elem.inner_arg_list.list})\n" 
+          "#@result = #@result:get(#{elem.inner_arg_list.list})\n"
         elem.inner_arg_list.unset_args
       end
 
@@ -675,12 +705,12 @@ grammar BaseBrat
       get_result res_var
       assign @result, type
 
-      if content.elements.empty?
-          set_result "string:new(#{text_value})"
+      if can_be_literal?
+        set_result "string:new(#{text_value})"
       else
         output = init_result
         text = '"'
-  
+
         output << "do\n"
 
         results = [] #for unsetting
@@ -700,6 +730,14 @@ grammar BaseBrat
       end
     end
 
+    def can_be_literal?
+      not content.elements.any? { |c| c.respond_to? :brat }
+    end
+
+    def as_literal
+      "#{text_value}"
+    end
+
     def type
       :string
     end
@@ -709,8 +747,19 @@ grammar BaseBrat
     def brat(res_var = nil)
       get_result res_var
       assign @result, type
-      string = content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
-      set_result "string:new(\"#{string}\")"
+      set_result "string:new(\"#{escaped_string}\")"
+    end
+
+    def escaped_string
+      content.text_value.gsub("\\'", "'").gsub(/\\([^\\])/, "\\\\\\\\\\1").gsub('"', '\\"')
+    end
+
+    def can_be_literal?
+      true
+    end
+
+    def as_literal
+      "\"#{escaped_string}\")"
     end
 
     def type
@@ -752,10 +801,18 @@ grammar BaseBrat
       set_result "string:new(\"#{id.text_value}\")"
     end
 
+    def can_be_literal?
+      true
+    end
+
+    def as_literal
+      "\"#{id.text_value}\""
+    end
+
     def type
       :string
     end
-  } 
+  }
   end
 
   #Matches function definitions
