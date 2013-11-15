@@ -3667,6 +3667,12 @@ function hash:new (arg)
       if type(k) == "table" and type(k.__hash) == "function" then
         key = k:__hash()
         key_map[key] = k
+      elseif type(k) == "string" then
+        key = base_string:new(k)
+        key_map[k] = key
+        val = arg[k]
+        arg[k] = nil
+        arg[key] = val
       end
     end
 
@@ -3744,6 +3750,13 @@ function hash_instance:get (index)
     if val then
       return val
     end
+  elseif type(index) == "string" then
+    index = self._key_hash[index]
+    val = self._lua_hash[index]
+
+    if val then
+      return val
+    end
   end
 
   return object.__null
@@ -3768,6 +3781,13 @@ function hash_instance:set (index, value)
     end
 
     self._key_hash[key] = index
+  elseif type(index) == "string" then
+    if self._key_hash[index] then
+      self._lua_hash[self._key_hash[index]] = nil
+    end
+
+    key = base_string:new(index)
+    self._key_hash[index] = key
   end
 
   self._lua_hash[index] = value
