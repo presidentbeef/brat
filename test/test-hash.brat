@@ -54,11 +54,13 @@ add_results setup name: "hash tests" {
   }
 
   test "hash_select" {
-    assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select { key, val | val > 1 }; b.key?("b") && (b.length == 2) }
+    assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select { key, val | val > 1 }; b.key?("b") }
+    assert_equal 2, { a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select { key, val | val > 1 }; b.length }
   }
 
   test "hash_keys" {
     assert { a = ["a" : 1, "b" : 2, 3 : 4]; a.keys.include?("a") && (a.keys.length == 3) }
+    assert_equal 3, { a = ["a" : 1, "b" : 2, 3 : 4]; a.keys.length }
   }
 
   test "hash.values" {
@@ -77,4 +79,9 @@ add_results setup name: "hash tests" {
     assert { a = ["a" : 1, "b" : 2, 3 : 4]; b = a.select {k,v| v == 5 }; b.empty? }
   }
 
+  test "hash with object as key" {
+    assert_equal 0, { o = object.new; h = [:]; h[o] = 0; h[o] }
+    assert_equal 0, { o = object.new; h = [o : 0]; h[o] }
+    assert_equal 0, { o = object.new; h = [o : [:]]; h[o][o] = 0; h[o][o] }
+  }
 }

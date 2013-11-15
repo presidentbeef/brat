@@ -114,7 +114,8 @@ class Treetop::Runtime::SyntaxNode
   end
 
   def temp? item
-    item[0,5] == "_temp"
+    item[0,5] == "_temp" or
+    item == "_dummy_"
   end
 
   def call_method res_var, object, method, arguments, arg_length
