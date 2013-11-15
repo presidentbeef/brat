@@ -1963,7 +1963,7 @@ function number_instance:to_underchar ()
 end
 
 -- This is to use native operations when possible.
-local native_operations = { _plus = number_instance._plus;
+local number_native_operations = { _plus = number_instance._plus;
   _minus = number_instance._minus;
   _star = number_instance._star;
   _up = number_instance._up;
@@ -1976,7 +1976,7 @@ local native_operations = { _plus = number_instance._plus;
   _equal_equal = number_instance._equal_equal }
 
 number._unchanged = function (method)
-  return native_operations[method] == number_instance[method] and rawget(number, method) == nil
+  return number_native_operations[method] == number_instance[method] and rawget(number, method) == nil
 end
 
 --Enumerable squish-in
