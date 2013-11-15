@@ -608,7 +608,7 @@ grammar BaseBrat
       end
 
       @result = temp
-      assign @result, rhs.type
+      assign @result, (rhs.type || type_of(rhs.result))
 
       $assignment_lhs = upper
 
@@ -1268,13 +1268,13 @@ grammar BaseBrat
     def brat(res_var = nil)
       name = m.brat
       get_result res_var
+      assign @result, nil
 
       output = init_result <<
-      a.brat << 
+      a.brat <<
       get_value(@result, name, a.list, a.length)
 
       a.unset_args
-      assign @result, type 
 
       output
     end
