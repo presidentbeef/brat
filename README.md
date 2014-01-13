@@ -46,7 +46,7 @@ Please have on hand:
 * Linux or OS X
 * The usual development tools (like `make` and `gcc`)
 * OpenSSL headers (`sudo urpmi libssl-devel` or similar)
-* A relatively modern Ruby (let's say 1.8.6 and up)
+* Ruby
 * [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
 * [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
 * Git if you want to check it out of the repository directly - `sudo urpmi git-core` (or the equivalent for your platform)
@@ -65,9 +65,9 @@ With Git:
 
 Without Git:
 
-   1. Download the [latest](http://github.com/presidentbeef/brat) (click "Download Source" and then whichever archive type you want)
-   2. Decompress the archive (`tar xf presidentbeef-brat*.tar.gz` or `unzip presidentbeef-brat*.zip`)
-   3. Change to the new directory (it will be something like `presidentbeef-brat-421918f`)
+   1. Download the [latest](https://github.com/presidentbeef/brat/archive/master.zip)
+   2. Decompress the archive (`unzip brat-master.zip`)
+   3. Change to the new directory (`cd brat-master`) 
    3. Run `sh ./build.sh`
    4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
 
@@ -94,7 +94,7 @@ Running Brat without specifying a file will launch interactive mode.
 
 # Even more fun
 
-Take a look at [some examples](http://presidentbeef.github.com/brat/examples.html) of Brat code.
+Take a look at [some examples](http://brat-lang.org/examples.html) of Brat code.
 
 # Problems
 
