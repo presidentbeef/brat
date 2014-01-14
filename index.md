@@ -52,7 +52,7 @@ Brat is a little toy language that _just doesn't care_. It is dynamically typed 
 Brat may be obtained using any of the following methods:
 
 * Clone with [Git](http://git-scm.com):  `git clone git://github.com/presidentbeef/brat`
-* Download in [zip](http://github.com/presidentbeef/brat/zipball/master) or [tar](http://github.com/presidentbeef/brat/tarball/master) format
+* Download it as a [zip](https://github.com/presidentbeef/brat/archive/master.zip) file
 * [Browse](http://github.com/presidentbeef/brat/tree/master) around the source
 
 or, [try it](http://try.brat-lang.org/) in your browser!
