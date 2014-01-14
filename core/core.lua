@@ -3667,12 +3667,6 @@ function hash:new (arg)
       if type(k) == "table" and type(k.__hash) == "function" then
         key = k:__hash()
         key_map[key] = k
-      elseif type(k) == "string" then
-        key = base_string:new(k)
-        key_map[k] = key
-        val = arg[k]
-        arg[k] = nil
-        arg[key] = val
       end
     end
 

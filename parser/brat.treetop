@@ -380,7 +380,7 @@ grammar BaseBrat
 
     def brat(key_temp, val_temp)
       output = e.brat(val_temp)
-      @index = i.text_value.inspect
+      @index = "string:new(\"#{i.text_value}\")"
       @value = e.result
       output
     end
@@ -389,17 +389,7 @@ grammar BaseBrat
     i:expression spaceorbreak ":" spaceorbreak v:expression {
     attr_reader :index, :value
     def brat(key_temp, val_temp)
-      output = i.brat(key_temp)
-
-      unless i.result.to_i.to_s == i.result
-        output << <<-LUA
-                if _type(#{i.result}) == "table" and _type(#{i.result}.__hash) == "function" then
-                  #{i.result} = #{i.result}:__hash()
-                end
-                LUA
-      end
-
-      output << v.brat(val_temp) << "\n"
+      output = i.brat(key_temp) << "\n" << v.brat(val_temp) << "\n"
       @index = i.result
       @value = v.result
       output
