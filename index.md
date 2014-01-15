@@ -19,10 +19,7 @@ layout: default
 
 </div>
 <div style="clear:both">&nbsp;</div>
-<img src="http://try.brat-lang.org/images/status.png" style="margin-right: 5px;top: 10px;height: 13px"> 
-<span id="statusmessage">
-
-</span>
+<img src="http://try.brat-lang.org/images/status.png" style="margin-right: 5px;top: 10px;height: 13px;" /><span id="statusmessage"></span>
 
 ## What It Is
 

@@ -32,6 +32,7 @@
 	width: 330px;
 	overflow: hidden;
 	font-size: 13.34px;
+  margin-left: 12px;
 }
 
 /* Globals */
@@ -259,7 +260,7 @@
 									}
 									.ghb_badge .ghb_commit_list li.lastrepo {
 										border-bottom: none;
-                    height: 50px;
+                    min-height: 50px;
 							}
 							.ghb_badge .ghb_commit_list li span {
 								border-bottom: 1px dotted #666666;
@@ -357,3 +358,6 @@
 				text-decoration: underline;
 					}
 
+div.tweet_time.firstrepo {
+  margin-left: 4px;
+}
