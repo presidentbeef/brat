@@ -2,30 +2,11 @@
 title: The Brat Language
 layout: default
 ---
-<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript">
-</script>
-<script src="js/jquery.github_badge.js">
-</script>
+<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript"></script>
+<script src="js/jquery.github_badge.js"></script>
+<script src="js/index_github.js" type="text/javascript"></script>
 <link href="style/tweet.css" media="all" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="style/jquery.github_badge.css" />
-
-<script type='text/javascript'>
-    $(document).ready(function(){
-		    $("#github").GitHubBadge({
-	        login: "presidentbeef",
-	        kind: "project",
-	        repo_name: "brat",
-					include_github_logo: false,
-					image_path: "js/gh-images/",
-					commit_count: "1",
-					issue_count: "0",
-					repo_count: "0"
-  	  });
-        $.getJSON("http://try.brat-lang.org/status?callback=?", function(data) {
-          $("#statusmessage").text(data.status);
-        });
-    });
-</script>
 
 ## Recent Activity
 
