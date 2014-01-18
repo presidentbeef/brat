@@ -3776,12 +3776,13 @@ function hash_instance:set (index, value)
 
     self._key_hash[key] = index
   elseif type(index) == "string" then
-    if self._key_hash[index] then
-      self._lua_hash[self._key_hash[index]] = nil
+    local key = index
+    if self._key_hash[key] then
+      self._lua_hash[self._key_hash[key]] = nil
     end
 
-    key = base_string:new(index)
-    self._key_hash[index] = key
+    index = base_string:new(key)
+    self._key_hash[key] = index
   end
 
   self._lua_hash[index] = value

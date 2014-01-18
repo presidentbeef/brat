@@ -449,4 +449,5 @@ class Treetop::Runtime::SyntaxNode
   end
 
   def type; end
+  def can_be_literal?; false; end
 end

@@ -400,57 +400,65 @@ grammar BaseBrat
   #Setting value via index (e.g., "a[1] = b")
   rule index_set
     e:indexed_expression a:("[" i:expression "]")+ space? "=" spaceorbreak v:expression {
-    def brat(res_var = nil)
+    def brat(res_var = nil, no_result = false)
+      index_temp = next_temp
       @result = res_var || next_temp
       assign @result, v.type
 
-      if res_var
+      if res_var or no_result
         output = ""
       else
         output = "local #@result\n"
       end
 
-      output << "do\n" << e.brat << "\n"
+      output << "do\n"
 
-      output << "#@result = #{e.result}\n"
+      if no_result
+        output << "local #@result\n#{e.brat(@result)}\n"
+      else
+        output << e.brat(@result)
+      end
 
       indices = a.elements[0..-2]
       final = a.elements.last
+      is_hash = (e.type == :hash or type_of(@result) == :hash)
 
-      indices.each do |elem|
-        output << elem.i.brat << "\n" <<
-          "#@result = #@result:get(#{elem.i.result})\n"
+      if is_hash and indices.empty? and final.i.can_be_literal?
+        output << <<-LUA
+          #{v.brat}
+          if #{@result}:_unchanged('set') then
+            #{@result} = #@result:set(#{final.i.as_literal}, #{v.result})
+          else
+            #{final.i.brat}
+            #{@result} = #@result:set(#{final.i.result}, #{v.result})
+          end
+        end
+        LUA
 
-        unset elem.i.result
+        unset final.i.result
+        output
+      else
+        indices.each do |elem|
+          output << elem.i.brat << "\n" <<
+            "#@result = #@result:get(#{elem.i.result})\n"
+
+          unset elem.i.result
+        end
+
+        output <<
+          v.brat << "\n" <<
+          final.i.brat << "\n"
+
+        unless no_result
+          output << "#@result = "
+        end
+
+        output << "#@result:set(#{final.i.result}, #{v.result})\nend\n"
       end
-
-      output <<
-        v.brat << "\n" <<
-        final.i.brat << "\n" <<
-        "#@result = #@result:set(#{final.i.result}, #{v.result})\nend\n"
     end
 
     def no_result
-      @result = next_temp
-
-      output = "do\n" << e.brat << "\n"
-
-      output << "local #@result = #{e.result}\n"
-
-      indices = a.elements[0..-2]
-      final = a.elements.last
-
-      indices.each do |elem|
-        output << elem.i.brat << "\n" <<
-          "#@result = #@result:get(#{elem.i.result})\n"
-
-        unset elem.i.result
-      end
-
-      output <<
-        v.brat << "\n" <<
-        final.i.brat << "\n" <<
-        "#@result:set(#{final.i.result}, #{v.result})\nend\n"
+      brat(nil, :no_result)
     end
 
     def type
