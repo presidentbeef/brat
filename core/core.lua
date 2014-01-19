@@ -2233,8 +2233,14 @@ function array:new (first, ...)
   local na = new_brat(self)
   na._prototype = new_brat(object)
 
-  local rest_len = select("#")
-  if rest_len == 0 and type(first) == "table" and not first._is_an_object then
+  -- Create empty array
+  if first == nil then
+    na._lua_array = {}
+    na._length = 0
+    return na
+  end
+
+  if type(first) == "table" and not first._is_an_object and select("#") == 0 then
     na._lua_array = first
   else
     na._lua_array = {first, ...}
