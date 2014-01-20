@@ -96,7 +96,7 @@ peg.prototype.parse = { str, start_rule = null, fully = false |
 peg.prototype.seq = { rule, *rules |
   true? rules.empty?
     { true? function?(->rule) { rules = [->rule] } { rules = rule } }
-    { rules.insert 0 ->rule }
+    { rules = [->rule] + rules }
 
   make_rule { x |
     matched = false
@@ -124,7 +124,7 @@ peg.prototype.seq_ref = { *rules |
 peg.prototype.any = { rule, *rules |
   true? rules.empty?
     { true? function?(->rule) { rules = [->rule] } { rules = rule } }
-    { rules.insert 0 ->rule }
+    { rules = [->rule] + rules }
 
   make_rule { x |
     matched = null 
