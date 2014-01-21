@@ -3,25 +3,18 @@ layout: post
 title: "Objects Just Got Weirder"
 ---
 
-<style type="text/css">
-.Constant { color: #ff6060; }
-.Special { color: #ff40ff; }
-pre.code { font-family: monospace; color: #fff; background-color: #000; margin-left: 10px; padding: 10px; width: 650px; border: 2px solid gray;}
-</style>
-
-
 ### How Life Was
 
 Brat has always had a kind of inheritance. You can always call `new` on an object to get a new object with the first object as its parent:
 
-<pre class="code">
-my_object = object.new
+<pre>
+my_object = <span class="Statement">object</span>.new
 
 my_object.something = <span class="Special">{</span> <span class="Special">&quot;</span><span class="Constant">really something!</span><span class="Special">&quot;</span> <span class="Special">}</span>
 
 another_object = my_object.new
 
-p another_object.something
+<span class="Statement">p</span> another_object.something
 </pre>
 
 In the example above, `another_object` has the `something` method defined on `my_object`.
@@ -30,8 +23,8 @@ In the example above, `another_object` has the `something` method defined on `my
 
 A [couple years ago](https://github.com/presidentbeef/brat/commit/96f0831358b724c47025b54ddf0d6aa09d66ab8c), you could define an `init` method on an object. This method would be called *after* a new child was created.
 
-<pre class="code">
-my_object = object.new
+<pre>
+my_object = <span class="Statement">object</span>.new
 
 my_object.init = <span class="Special">{</span>
   my.something = <span class="Special">&quot;</span><span class="Constant">Jello!</span><span class="Special">&quot;</span>
@@ -39,7 +32,7 @@ my_object.init = <span class="Special">{</span>
 
 child_object = my_object.new
 
-p child_object.something
+<span class="Statement">p</span> child_object.something
 </pre>
 
 In this case, any child of `my_object` will be initialized with a field called `something`.
@@ -49,14 +42,14 @@ In this case, any child of `my_object` will be initialized with a field called `
 Let's say you wanted to set up an object that works more like a 'class'. That is, it has some methods useful for itself, and some only useful for objects created as its children. Here is an example:
 
 <pre class="code">
-person = object.new
+person = <span class="Statement">object</span>.new
 
 person.init = <span class="Special">{</span> name |
   my.name = name
 <span class="Special">}</span>
 
 person.greet! = <span class="Special">{</span>
-  p <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
+  <span class="Statement">p</span> <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
 <span class="Special">}</span>
 
 bob = person.new <span class="Special">&quot;</span><span class="Constant">Bob</span><span class="Special">&quot;</span>
@@ -79,16 +72,15 @@ Another way to deal with this issue is to have two object: one is `person`, and 
 Yet another way would be to just add the child methods in the `init` method:
 
 <pre class="code">
-person = object.new
+person = <span class="Statement">object</span>.new
 
 person.init = <span class="Special">{</span> name |
   my.name = name
 
   my.greet! = <span class="Special">{</span>
-    p <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
+    <span class="Statement">p</span> <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
   <span class="Special">}</span>
-<span class="Special">}</span>
-
+}
 
 bob = person.new <span class="Special">&quot;</span><span class="Constant">Bob</span><span class="Special">&quot;</span>
 
@@ -106,14 +98,14 @@ Each object contains another object, called its `prototype`. When you create a n
 Here is the person example using the new way:
 
 <pre class="code">
-person = object.new
+person = <span class="Statement">object</span>.new
 
 person.init = <span class="Special">{</span> name |
   my.name = name
 <span class="Special">}</span>
 
 person.prototype.greet! = <span class="Special">{</span>
-  p <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
+  <span class="Statement">p</span> <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
 <span class="Special">}</span>
 
 bob = person.new <span class="Special">&quot;</span><span class="Constant">Bob</span><span class="Special">&quot;</span>
@@ -133,15 +125,16 @@ The second way is to pass a hash to `person.prototype`:
 
 <pre class="code">
 person.prototype greet!: <span class="Special">{</span>
-    p <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
-  <span class="Special">}</span>
+  <span class="Statement">p</span> <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
+<span class="Special">}</span>
+
 </pre>
 
 The third way is to pass a function to `person.prototype` which will be called in the context of the prototype:
 
 <pre class="code">
 person.prototype <span class="Special">{</span>
-    my.greet! = <span class="Special">{</span> p <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span> <span class="Special">}</span>
+  my.greet! = <span class="Special">{</span> <span class="Statement">p</span> <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span> <span class="Special">}</span>
 <span class="Special">}</span>
 </pre>
 
@@ -154,14 +147,14 @@ What if you call `person.prototype` multiple times? The effects are additive. If
 This is all fine and good, but what if I have an object, and I want to add something to the prototype of its parent, so all the children get a new method? No problem!
 
 <pre class="code">
-person = object.new
+person = <span class="Statement">object</span>.new
 
 person.init = <span class="Special">{</span> name |
   my.name = name
 <span class="Special">}</span>
 
 person.prototype.greet! = <span class="Special">{</span>
-  p <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
+  <span class="Statement">p</span> <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
 <span class="Special">}</span>
 
 bob = person.new <span class="Special">&quot;</span><span class="Constant">Bob</span><span class="Special">&quot;</span>
@@ -170,13 +163,12 @@ bob.parent.prototype.something_new = <span class="Special">{</span> <span class=
 
 jenny = person.new <span class="Special">&quot;</span><span class="Constant">Jenny</span><span class="Special">&quot;</span>
 
-p jenny.something_new
+<span class="Statement">p</span> jenny.something_new
 
-p bob.something_new
+<span class="Statement">p</span> bob.something_new
 </pre>
 
 Now all children of `person` will have the new method.
-
 
 #### Calling Up
 
@@ -185,21 +177,21 @@ Okay, fine. But what if I want to call a method of a parent object, but in the c
 There *is* a way to deal with this, sort of. It just ain't very purty:
 
 <pre class="code">
-person = object.new
+person = <span class="Statement">object</span>.new
 
 person.init = <span class="Special">{</span> name |
   my.name = name
 <span class="Special">}</span>
 
 person.prototype.greet! = <span class="Special">{</span>
-  p <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
+  <span class="Statement">p</span> <span class="Special">&quot;</span><span class="Constant">Hello, #{my.name}!</span><span class="Special">&quot;</span>
 <span class="Special">}</span>
 
 bob = person.new <span class="Special">&quot;</span><span class="Constant">Bob</span><span class="Special">&quot;</span>
 
 bob.greet! = <span class="Special">{</span>
   with_this bob.parent.prototype<span class="Constant">-&gt;greet!</span>
-  p <span class="Special">&quot;</span><span class="Constant">What a wonderful day this is!</span><span class="Special">&quot;</span>
+  <span class="Statement">p</span> <span class="Special">&quot;</span><span class="Constant">What a wonderful day this is!</span><span class="Special">&quot;</span>
 <span class="Special">}</span>
 
 bob.greet!

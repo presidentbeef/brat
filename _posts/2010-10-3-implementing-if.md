@@ -3,14 +3,6 @@ layout: post
 title: "Example: Your own 'if'"
 ---
 
-<style type="text/css">
-<!--
-.Constant { color: #ff6060; }
-.Special { color: #ff40ff; }
-pre { font-family: monospace; color: #fff; background-color: #000; padding: 10px}
--->
-</style>
-
 Brat comes with three built-in conditionals: `true?`, `false?`, and `null?`. Of course, only `true?` or `false?` are necessary (anything else could be derived from one or the other). They correspond to `if` and `unless` in Ruby. I am afraid there is no real justification for not using `if` and `unless` other than simple rebellion.
 
 In any case, let's say one did wanted a more traditional `if...then...else` structure. How might that be achieved in Brat? Maybe like this:

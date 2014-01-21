@@ -220,3 +220,12 @@ pre {
 .highlight .vg { color: #008080 } /* Name.Variable.Global */
 .highlight .vi { color: #008080 } /* Name.Variable.Instance */
 .highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+
+pre { font-family: monospace; color: #fff; background-color: #000; }
+pre .Type { color: #00ff00; }
+pre .Constant { color: #ff6060; }
+pre .Comment { color: #8080ff; font-weight: bold; }
+pre .Statement { color: #ffff00; }
+pre .Identifier { color: #00ffff; }
+pre .Special { color: #ff40ff; }
+

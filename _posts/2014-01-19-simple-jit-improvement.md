@@ -3,7 +3,6 @@ layout: post
 title: "Simple Performance Improvement to Array Creation"
 ---
 
-<style type="text/css">pre { font-family: monospace; color: #fff; background-color: #000; }.Type { color: #00ff00; }.Constant { color: #ff6060; }.Comment { color: #8080ff; font-weight: bold; }.Statement { color: #ffff00; }.Identifier { color: #00ffff; }</style>
 
 Let's ease back into the world of Brat with a recent improvement to array creation.
 
@@ -117,9 +116,9 @@ Does it matter? Let's find out by creating a million empty arrays:
 
 Averaging over ten runs the results are:
 
-Before: 1.53s
+**Before:** 1.53s
 
-After: 0.53s
+**After:** 0.53s
 
 Wow! A whole second faster, which is a 65% speedup! Not bad.
 
