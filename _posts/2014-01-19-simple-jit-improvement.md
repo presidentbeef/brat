@@ -3,14 +3,7 @@ layout: post
 title: "Simple Performance Improvement to Array Creation"
 ---
 
-<style type="text/css">
-pre { font-family: monospace; color: #fff; background-color: #000; }
-.Type { color: #00ff00; }
-.Constant { color: #ff6060; }
-.Comment { color: #8080ff; font-weight: bold; }
-.Statement { color: #ffff00; }
-.Identifier { color: #00ffff; }
-</style>
+<style type="text/css">pre { font-family: monospace; color: #fff; background-color: #000; }.Type { color: #00ff00; }.Constant { color: #ff6060; }.Comment { color: #8080ff; font-weight: bold; }.Statement { color: #ffff00; }.Identifier { color: #00ffff; }</style>
 
 Let's ease back into the world of Brat with a recent improvement to array creation.
 
