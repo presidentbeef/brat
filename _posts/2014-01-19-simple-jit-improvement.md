@@ -17,12 +17,12 @@ The very first bit of output from luatrace looked like this:
 <pre>
 TRACE SUMMARY
 =============
-Trace Status                               Traces       Bytecodes           Lines
-------------                               ------       ---------           -----
-Success                                 79 ( 37%)     1679 (  6%)      478 (  7%)
-NYI: bytecode FNEW                      92 ( 44%)    20046 ( 77%)     4620 ( 76%)
-NYI: C function 0x41b48938               2 (  0%)      946 (  3%)      161 (  2%)
-NYI: bytecode TSETM                      5 (  2%)      883 (  3%)      216 (  3%)
+Trace Status                            Traces       Bytecodes           Lines
+------------                            ------       ---------           -----
+Success                              79 ( 37%)     1679 (  6%)      478 (  7%)
+NYI: bytecode FNEW                   92 ( 44%)    20046 ( 77%)     4620 ( 76%)
+NYI: C function 0x41b48938            2 (  0%)      946 (  3%)      161 (  2%)
+NYI: bytecode TSETM                   5 (  2%)      883 (  3%)      216 (  3%)
 </pre>
 
 This means 37% of the traces attempted by LuaJIT succeeded (yay!). But 44% were aborted because of function creation (FNEW), which is pretty hard to avoid in Brat. Brat is function-happy. The third line indicates two traces were aborted because of calls to some C function (in this case, [lrexlib](http://rrthomas.github.io/lrexlib/) which provides access to Oniguruma for regular expression support). 
@@ -37,8 +37,8 @@ If you are unfamiliar, nearly all of Brat's implementation is in `core/core.lua`
   <span class="Statement">local</span> na = new_brat(self)
   na._prototype = new_brat(object)
 
-  <span class="Comment">-- If there is exactly one argument and it's a Lua table (but not a Brat object)</span>
-  <span class="Comment">-- then it's Lua code attempting to create an array. Just slap it inside the</span>
+  <span class="Comment">-- If there is exactly one argument and it's a Lua table (not a Brat object)</span>
+  <span class="Comment">-- then it's Lua code attempting to create an array. Just put it inside the</span>
   <span class="Comment">-- Brat object and we're good to go.</span>
   <span class="Statement">local</span> rest_len = <span class="Identifier">select</span>(<span class="Constant">&quot;#&quot;</span>)
   <span class="Statement">if</span> rest_len == <span class="Constant">0</span> <span class="Statement">and</span> <span class="Identifier">type</span>(first) == <span class="Constant">&quot;table&quot;</span> <span class="Statement">and</span> <span class="Statement">not</span> first._is_an_object <span class="Statement">then</span>
