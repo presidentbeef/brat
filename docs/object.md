@@ -138,7 +138,7 @@ Returns true if object is an exception, false otherwise.
 
 <a id="exit"></a>
 ### (object) exit
-> exit
+> exit   
 > exit _code_
 
 Immediately terminates the program. If a numeric code is provided, that will be the exit status of the program.
@@ -154,8 +154,9 @@ Exports the object to be imported into another file using the given name.
 <a id="false?"></a>
 ### (object) false?
 > _object_.false?
-> false? _condition_
-> false? _condition_, _then\_value_
+> _object_.false?   
+> false? _condition_  
+> false? _condition_, _then\_value_  
 > false? _condition_, _then\_value_, _else\_value_
 
 Tests if an object or condition is false. If the condition is false, returns true or the then_value if one is given. If the condition is true, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
@@ -201,7 +202,7 @@ Returns true if object is a hash, false otherwise.
 
 <a id="import"></a>
 ### (object) import
-> import _file_
+> import _file_  
 > import _file_, _object_
 
 Loads the given file and returns a hash of the exports from that file. If an object name is specified, only that object will be returned.
@@ -209,7 +210,7 @@ Loads the given file and returns a hash of the exports from that file. If an obj
 
 <a id="include"></a>
 ### (object) include
-> include _file_
+> include _file_  
 > include _file_, _object_
 
 Executes given file and adds any exported objects to the current context. If an object is specified, it will only import that object. This is essentially equivalant to calling squish(import(file)).
@@ -277,9 +278,9 @@ Returns true if value is false, false if value is true.
 
 <a id="null?"></a>
 ### (object) null?
-> _object_.null?
-> null? _condition_
-> null? _condition_, _then\_value_
+> _object_.null?   
+> null? _condition_  
+> null? _condition_, _then\_value_  
 > null? _condition_, _then\_value_, _else\_value_
 
 Tests if an object or condition is null. If the condition is null, returns true or the then_value if one is given. If the condition is not null, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
@@ -347,8 +348,8 @@ Handles exceptions which may be thrown inside the block. Options should be provi
 
 <a id="prototype"></a>
 ### (prototype) prototype
-> _object_.prototype
-> _object_.prototype _block_
+> _object_.prototype   
+> _object_.prototype _block_  
 > _object_.prototype _method\_hash_
 
 Set functions for the prototype of the object. The prototype is used when constructing a child of the object (via _new_). This function can either take a block which will execute in context of the prototype, or a hash table of method names and the methods themselves. Alternatively, calling object.prototype returns the prototype object, so methods can be defined directly on that object.
@@ -429,9 +430,9 @@ Return a string representing the object.
 
 <a id="true?"></a>
 ### (object) true?
-> _object_.true?
-> true? _condition_
-> true? _condition_, _then\_value_
+> _object_.true?   
+> true? _condition_  
+> true? _condition_, _then\_value_  
 > true? _condition_, _then\_value_, _else\_value_
 
 Tests if an object or condition is true. If the condition is true, returns true or the then_value if one is given. If the condition is false, returns false or the else_value if one is given. Typically, then_value and else_value should be functions, to allow for delayed evaluation.
@@ -442,7 +443,7 @@ Tests if an object or condition is true. If the condition is true, returns true 
 
 <a id="until"></a>
 ### (object) until
-> until _block_
+> until _block_  
 > until _condition_, _block_
 
 Loops until the condition becomes true. If only one argument is given, that argument will be used as the condition.
@@ -470,7 +471,7 @@ Takes any number of condition-result pairs. Checks each condition and when one r
 
 <a id="while"></a>
 ### (object) while
-> while _block_
+> while _block_  
 > while _condition_, _block_
 
 Loops while the given condition remains true. If only one argument is given, the value of that argument is used as the condition.
