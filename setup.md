@@ -27,7 +27,7 @@ Please follow the following steps, in the order in which they are ordered. Other
    4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
 
 
-*ithout Git:
+*Without Git:*
 
    1. Download the [latest](https://github.com/presidentbeef/brat/archive/master.zip)
    2. Decompress the archive (`unzip brat-master.zip`)
