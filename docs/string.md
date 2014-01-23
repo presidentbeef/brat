@@ -179,7 +179,7 @@ Returns the index of the given substring inside the original string. If no match
 
 <a id="get"></a>
 ### (string) get
-> _string_.get _index_
+> _string_.get _index_  
 > _string_.get _start_, _end_
 
 Retrieves a section of the string. If a single index is used, returns at most one character. For indexes out of range, returns an empty string. Negative indexes can be used to start from the end of the string. While this method can be called literally, it is more common to use the square bracket (`[]`) form.
@@ -192,7 +192,7 @@ Retrieves a section of the string. If a single index is used, returns at most on
 
 <a id="include?"></a>
 ### (boolean) include?
-> _string_.include? _substring_
+> _string_.include? _substring_  
 > _string_.include? _regex_
 
 Returns true if the string includes the given substring or regular expression.
@@ -207,7 +207,7 @@ Returns the length of the string.
 
 <a id="match"></a>
 ### (object) match
-> _string_.match _regex_
+> _string_.match _regex_  
 > _string_.match _regex_, _index_
 
 Returns: object or false This method can be used to find substrings inside a string matching the given regular expression. An optional start index can be provided. If a match is found, an match object is
@@ -301,7 +301,7 @@ Removes all whitespace from the beginning and end of the string.
 
 <a id="sub"></a>
 ### (string) sub
-> _string_.sub _regex_, _replacement_
+> _string_.sub _regex_, _replacement_  
 > _string_.sub _regex_, _replacement_, _limit_
 
 Returns a new string with instances of the given pattern replaced by the provided replacement string. Instead of a string, the replacement argument can be a function which will be called with each match. The string returned by the function will be used as the replacement. A limit can be used to limit how many replacements are made.
@@ -323,7 +323,7 @@ Same as using string.sub! with a limit of 1.
 
 <a id="sub!"></a>
 ### (self) sub!
-> _string_.sub! _regex_, _replacement_
+> _string_.sub! _regex_, _replacement_  
 > _string_.sub! _regex_, _replacement_, _limit_
 
 Same as string.sub, but modifies the original string.
@@ -347,7 +347,7 @@ Interprets the given string as an number.
 
 <a id="to_i"></a>
 ### (number) to_i
-> _string_.to_i
+> _string_.to_i   
 > _string_.to_i _base_
 
 Interprets the given string as an integer. By default the string is expected to be decimal representation.

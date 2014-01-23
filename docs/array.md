@@ -151,7 +151,7 @@ Removes first item in array matching the given value.
 ### (object) deq
 > _array_.deq _item_
 
-Add item to end of array
+Remove item from front of array.
 
 
 <a id="each"></a>
@@ -205,7 +205,7 @@ Flatten all elements into a single array.
 
 <a id="get"></a>
 ### (object) get
-> _array_.get _index_
+> _array_.get _index_  
 > _array_.get _start_, _end_
 
 This may also be called as _array_[_index_] or _array_[_start_, _end_]. For a single index, returns the value at the given index. If the index does not have a value or is past the end of the array, `null` is returned. The index may be negative, in which case -1 is the last element of the array. If a start and an end index are given, this method returns values between the two indexes.
@@ -220,7 +220,7 @@ Returns true if the array contains the given value.
 
 <a id="index_of"></a>
 ### (number) index_of
-> _array_.index_of _item_
+> _array_.index_of _item_  
 > _array_.index_of _item_, _start_
 
 Returns the index of the first item to match the given value. If a start value is given, then the search begins at that index.
@@ -235,8 +235,8 @@ Inserts the given value into the array at the given position. If the index is be
 
 <a id="join"></a>
 ### (string) join
-> _array_.join
-> _array_.join _separator_
+> _array_.join   
+> _array_.join _separator_  
 > _array_.join _separator_, _final_
 
 Coverts all elements of the array into strings and joins them together into a single string. If a separator is given, it will be placed in between each element. If a final value is given, it will be inserted in between the last and penultimate values.
@@ -296,7 +296,7 @@ Create a new array.
 
 <a id="pop"></a>
 ### (object) pop
-> _array_.pop
+> _array_.pop   
 > _array_.pop _items_
 
 Removes and returns the last element in the array, or null if the array is empty. If a number of items is specified, removes and returns at most that many items from the end of the array.
@@ -318,9 +318,9 @@ Pushes item onto the end of the array.
 
 <a id="reduce"></a>
 ### (object) reduce
-> _array_.reduce _block_
-> _array_.reduce _initial_, _block_
-> _array_.reduce _method\_name_
+> _array_.reduce _block_  
+> _array_.reduce _initial_, _block_  
+> _array_.reduce _method\_name_  
 > _array_.reduce _initial_, _method\_name_
 
 Combines elements in array. There are several forms of reduce: one that provides an initial value for memo, one that does not, and two that just provide a method name instead of a function.
@@ -375,7 +375,7 @@ Invokes block for each item in the array, starting from the end. Halts if the bl
 
 <a id="rindex_of"></a>
 ### (object) rindex_of
-> _array_.rindex_of _item_
+> _array_.rindex_of _item_  
 > _array_.rindex_of _item_, _start\_index_
 
 Returns the last index of the item found in the array, or null if there is no such item. If start_index is specified, start searching from the given index.
