@@ -9,7 +9,8 @@ Please have on hand:
 
 * Linux or OS X
 * The usual development tools (like `make` and `gcc`)
-* A relatively modern Ruby (let's say 1.8.6 and up)
+* OpenSSL headers (`sudo urpmi libssl-devel` or similar)
+* Ruby
 * [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
 * [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
 * Git if you want to check it out of the repository directly - `sudo urpmi git-core` (or the equivalent for your platform)
@@ -18,26 +19,43 @@ Please have on hand:
 
 Please follow the following steps, in the order in which they are ordered. Otherwise, results are not guaranteed.
 
-### With Git:
+*With Git:*
 
-1. Clone the latest Brat version: `git clone git://github.com/presidentbeef/brat.git`
-2. Change to new directory: `cd brat`
-3. Run `sh ./build.sh`
-4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
+   1. Clone the latest Brat version: `git clone git://github.com/presidentbeef/brat.git`
+   2. Change to new directory: `cd brat`
+   3. Run `sh ./build.sh`
+   4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
 
 
-### Without Git:
+*ithout Git:
 
-1. Download the [latest](http://github.com/presidentbeef/brat/) (click "Download Source" and then whichever archive type you want)
-2. Decompress the archive (`tar xf presidentbeef-brat*.tar.gz` or `unzip presidentbeef-brat*.zip`)
-3. Change to the new directory (it will be something like `presidentbeef-brat-421918f`)
-4. Run `sh ./build.sh`
-5. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
+   1. Download the [latest](https://github.com/presidentbeef/brat/archive/master.zip)
+   2. Decompress the archive (`unzip brat-master.zip`)
+   3. Change to the new directory (`cd brat-master`)
+   3. Run `sh ./build.sh`
+   4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
+
+# Testing
+
+Try out your newly discovered power thusly:
+
+   1. Create a new file, perhaps called `test.brat`
+   2. In that file, type something like: `p "OK COMPUTER"`
+   3. Save and close it
+   4. Return to the comfort of your command line
+   5. Type `brat test.brat` (or `./brat test.brat` if you did not run the install script)
+   6. Cross fingers
+   7. Press enter
+   8. Marvel or weep, as appropriate
 
 # More Testing
 
 Run `brat test/test.brat` to run the test suite. SWEET.
 
-# Interactive Brat
+# More fun
 
-Brat will run in interactive mode if no files are specified.
+Running Brat without specifying a file will launch interactive mode.
+
+# Even more fun
+
+Take a look at [some examples](http://brat-lang.org/examples.html) of Brat code.
