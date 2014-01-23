@@ -228,4 +228,4 @@ pre .Comment { color: #8080ff; font-weight: bold; }
 pre .Statement { color: #ffff00; }
 pre .Identifier { color: #00ffff; }
 pre .Special { color: #ff40ff; }
-
+code { background-color: black }
