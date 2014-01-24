@@ -6,12 +6,11 @@
  on an array.
 *#
 
-array.~> = {
-  arg = my.first
-  my.rest.each { meth |
-    arg = true? function?(->meth)
-            { meth(arg) }
-            { apply(meth.first, [arg] + meth.rest) }
+array.prototype.~> = {
+  my.reduce { arg, meth |
+    true? function?(->meth)
+      { meth arg }
+      { apply meth.first, [arg] + meth.rest }
   }
 }
 
@@ -22,10 +21,12 @@ bytes = { x | x.dice.map :to_byte }
 bytes_append = { x, y | x << y }
 print_it = { x | p x.map(:to_char).join }
 
-in = "hello"
+input = "olleh"
 
 ~>[
-   reverse in
+   input
+   ->reverse
    ->bytes
-   [->bytes_append ".".to_byte]
-   ->print_it]
+   [->bytes_append 33]
+   ->print_it
+]
