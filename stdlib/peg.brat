@@ -383,18 +383,23 @@ peg_syntax = peg.new {
   }
 
   #Matches a sequence of basic matchers separated by spaces
-  set :rule_seq action seq(ref(:rule_exp) kleene(seq_ref :spaces :rule_exp)) {
+  set :rule_seq action seq(ref(:rule_exp) kleene(seq_ref :spaces :rule_exp) maybe(seq_ref(:spaces :action))) {
     my.output = {
       first = matched.first
-      rest = matched.last
+      rest = matched[1]
+      act = true? matched[2]
+              { matched[2].matched.elements.last }
+              { null }
 
-      true? rest.elements.empty?
-        {
-          first.output
-        }
-        {
-          "seq(#{first.output}, #{rest.elements.map({ e | e.elements.last.output }).join(',')})"
-        }
+      out = true? rest.elements.empty?
+            {
+              first.output
+            }
+            {
+              "seq(#{first.output}, #{rest.elements.map({ e | e.elements.last.output }).join(',')})"
+            }
+
+      "action(#{out}, #{act.output})"
     }
   }
 
