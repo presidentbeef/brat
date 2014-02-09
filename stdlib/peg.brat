@@ -505,12 +505,16 @@ peg_syntax = peg.new {
 }
 
 #Generates a parser with the given name from the PEG syntax passed in
-peg.make_parser = { name, grammar |
+peg.make_parser = { name, grammar, *included |
   result = peg_syntax.parse grammar
+  include_files = true? included.empty?
+                    { "" }
+                    { "includes #{included.map({ i | ':' << i }).join(' ')}\n" }
+
 
   true? result
     { true? result.matched_all?
-      { result.output name }
+      { include_files << result.output(name) }
       {
         last_line = result.text.split("\n").last
         p "Error parsing around: #{last_line}"
