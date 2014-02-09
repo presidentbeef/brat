@@ -387,7 +387,7 @@ peg_syntax = peg.new {
     my.output = {
       first = matched.first
       rest = matched[1]
-      act = true? matched[2]
+      act = false? matched[2].matched == ""
               { matched[2].matched.elements.last }
               { null }
 
@@ -399,7 +399,9 @@ peg_syntax = peg.new {
               "seq(#{first.output}, #{rest.elements.map({ e | e.elements.last.output }).join(',')})"
             }
 
-      "action(#{out}, #{act.output})"
+      null? act
+        { out }
+        { "action(#{out}, #{act.output})" }
     }
   }
 
