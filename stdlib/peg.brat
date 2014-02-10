@@ -383,12 +383,12 @@ peg_syntax = peg.new {
   }
 
   #Matches a sequence of basic matchers separated by spaces
-  set :rule_seq action seq(ref(:rule_exp) kleene(seq_ref :spaces :rule_exp) maybe(seq_ref(:spaces :action))) {
+  set :rule_seq action seq(ref(:rule_exp) kleene(seq_ref :spaces :rule_exp) maybe(seq ref(:spaces) any_ref(:action :squish))) {
     my.output = {
       first = matched.first
       rest = matched[1]
       act = false? matched[2].matched == ""
-              { matched[2].matched.elements.last }
+              { matched[2].matched.elements.last.matched }
               { null }
 
       out = true? rest.elements.empty?
@@ -482,6 +482,12 @@ peg_syntax = peg.new {
   set :action action seq(str("{") kleene(any(reg(/[^{}]+/) ref(:action))) str("}")) {
     my.output = my.text
   }
+
+  #Matches an object squish-in appended to a rule:
+  #  some_rule <cool_thing>
+  set :squish action reg(/<(\w+)>/) {
+    my.output = "{ my.squish #{my.matched[1]} }"
+  }
 }
 
 #Generates a parser with the given name from the PEG syntax passed in
@@ -490,7 +496,6 @@ peg.make_parser = { name, grammar, *included |
   include_files = true? included.empty?
                     { "" }
                     { "includes #{included.map({ i | ':' << i }).join(' ')}\n" }
-
 
   true? result
     { true? result.matched_all?
