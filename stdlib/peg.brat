@@ -407,16 +407,12 @@ peg_syntax = peg.new {
 
   #A rule expression is an actual matcher or grouping
   set :rule_exp action any_ref(:maybe :many :kleene :not :and :simple_rule_exp) {
-    my.output = {
-      matched.output
-    }
+    my.output = matched.output
   }
 
   #Simple rules (i.e., not suffixed rules like + or *)
   set :simple_rule_exp action any_ref(:label :str_literal :rule_ref :reg_literal :anything :paren_rule) {
-    my.output = {
-      matched.output
-    }
+    my.output = matched.output
   }
 
   #Matches parentheses, which denote priority
@@ -426,23 +422,17 @@ peg_syntax = peg.new {
 
   #Matches a string literal
   set :str_literal action seq(str('"') kleene(any str('\"') seq(no(str '"') anything)) str('"')) {
-    my.output = {
-      "str(#{text})"
-    }
+    my.output = "str(#{text})"
   }
   
   #References the name of another rule
   set :rule_ref action label(:name ref(:rule_name)) {
-    my.output = {
-      "ref(:#{name.text})"
-    }
+    my.output = "ref(:#{name.text})"
   }
 
   #Matches a regular expression
   set :reg_literal action seq(str('/') kleene(any str('\/') seq(no(str '/') anything)) str('/')) {
-    my.output = {
-      "reg(#{text})"
-    }
+    my.output = "reg(#{text})"
   }
 
   #Matches a period
@@ -452,41 +442,31 @@ peg_syntax = peg.new {
 
   #Matches a label (but labels aren't really working currently)
   set :label action seq(label(:name ref(:rule_name)) str(":") label(:exp ref(:rule_exp))) {
-    my.output = {
-      "label(:#{name.text} #{exp.output})"
-    }
+    my.output = "label(:#{name.text} #{exp.output})"
   }
 
   #Matches an optional rule:
   #  some_rule?
   set :maybe action seq(ref(:simple_rule_exp) str("?")) {
-    my.output = {
-      "maybe(#{matched.first.output})"
-    }
+    my.output = "maybe(#{matched.first.output})"
   }
 
   #Matches one or more of a rule:
   #  some_rule+
   set :many action seq(ref(:simple_rule_exp) str("+")) {
-    my.output = {
-      "many(#{matched.first.output})"
-    }
+    my.output = "many(#{matched.first.output})"
   }
 
   #Matches zero or more of a rule:
   #  some_rule*
   set :kleene action seq(ref(:simple_rule_exp) str("*")) {
-    my.output = {
-      "kleene(#{matched.first.output})"
-    }
+    my.output = "kleene(#{matched.first.output})"
   }
 
   #Matches a negative lookahead:
   #  !some_rule
   set :not action seq(str("!") ref(:simple_rule_exp)) {
-    my.output = {
-      "no(#{matched.last.output})"
-    }
+    my.output = "no(#{matched.last.output})"
   }
 
   #Matches positive lookahead:
