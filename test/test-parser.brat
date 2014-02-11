@@ -180,6 +180,25 @@ add_results setup name: "parser tests" {
     { 'stray double \"quote' }
   }
 
+  test "double quotes string parse with line breaks" {
+    a = "
+        "
+
+    b = "\n        "
+
+    assert_equal b, a
+  }
+
+  test "single quotes string parse with line breaks" {
+    a = '
+        
+        '
+
+    b = "\n        \n        "
+
+    assert_equal b, a
+  }
+
   test "assignment_parse" {
     { pi = 3.123123 }
   }
