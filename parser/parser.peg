@@ -1,7 +1,8 @@
-program = line+ | eof
+program = line+ <program>
+        | eof
 
 line = comment
-     | space? expression space? comment? (eof | eol | eob)
+     | space? exp:expression space? comment? (eof | eol | eob) <simple_exp>
      | empty_line
 
 empty_line = space? eol
@@ -9,7 +10,7 @@ empty_line = space? eol
 expression = regex | binary_operation | assignment | paren_exp | unary_operation | method_invocation | number | string
            | function_definition | array | hash 
 
-paren_exp  = "(" space? expression space? ")"
+paren_exp  = "(" space? exp:expression space? ")" <simple_exp>
 
 assignment = field_access space "=" spaceorbreak !function_literal_invocation (function_definition | method_access)
            | field_access space "=" spaceorbreak expression
@@ -24,7 +25,7 @@ method_access = "->" (identifier | operator)
 
 #-- Basic literals
 
-number  = "-"? /[0-9]+/ ("." /[0-9]+/)?
+number  = "-"? /[0-9]+/ ("." /[0-9]+/)? <number>
 
 array   = "[" spaceorbreak array_inner spaceorbreak "]"
         | "[" spaceorbreak "]"

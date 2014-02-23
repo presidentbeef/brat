@@ -311,7 +311,8 @@ peg.prototype.action = { rule, block |
           res.add_method result.label, { result }
         }
 
-        res.with_this ->block; res
+        res.with_this ->block
+        res
       }
   }
 }
@@ -441,8 +442,8 @@ peg_syntax = peg.new {
   }
 
   #Matches a label (but labels aren't really working currently)
-  set :label action seq(label(:name ref(:rule_name)) str(":") label(:exp ref(:rule_exp))) {
-    my.output = "label(:#{name.text} #{exp.output})"
+  set :label action seq(label(:label_name ref(:rule_name)) str(":") label(:exp ref(:rule_exp))) {
+    my.output = "label(:#{label_name.text} #{exp.output})"
   }
 
   #Matches an optional rule:
@@ -495,7 +496,7 @@ peg.make_parser = { name, grammar, *included |
   result = peg_syntax.parse grammar
   include_files = true? included.empty?
                     { "" }
-                    { "includes #{included.map({ i | ':' << i }).join(' ')}\n" }
+                    { "includes #{included.map({ i | "'#{i}'" }).join(' ')}\n" }
 
   true? result
     { true? result.matched_all?
