@@ -34,7 +34,7 @@ ast :simple_exp {
 }
 
 ast :bnumber {
-  [:number text]
+  [:number text.to_f]
 }
 
 ast :empty_array {
