@@ -1,0 +1,35 @@
+node = object.new
+node.prototype init: { name | my.node_name = name }
+  to_s: { "<#{my.node_name}: #{my.matched}>" }
+
+each_ast = { elements, block |
+  elements.each { e |
+    when { e.has_method?(:ast)} { block e.ast }
+         { e.has_method?(:elements) } { each_ast e.elements, ->block }
+  }
+}
+
+program = node.new :program
+program.ast = {
+  out = [:program]
+  each_ast elements, { ast |
+    out << ast
+  }
+  out
+}
+
+export program, :program
+
+simple_exp = node.new :simple_exp
+simple_exp.ast = {
+  exp.matched.ast
+}
+
+export simple_exp, :simple_exp
+
+bnumber = node.new :number
+bnumber.ast = {
+  [:number text]
+}
+
+export bnumber, :bnumber
