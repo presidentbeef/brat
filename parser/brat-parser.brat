@@ -14,8 +14,12 @@ each_ast = { elements, block |
   }
 }
 
-program = node.new :program
-program.ast = {
+ast = { name, block |
+  n = node.new name
+  n.ast = ->block
+}
+
+ast :program {
   out = [:program]
   each_ast elements, { ast |
     out << ast
@@ -23,12 +27,10 @@ program.ast = {
   out
 }
 
-simple_exp = node.new :simple_exp
-simple_exp.ast = {
+ast :simple_exp {
   exp.matched.ast
 }
 
-bnumber = node.new :bnumber
-bnumber.ast = {
+ast :bnumber {
   [:number text]
 }
