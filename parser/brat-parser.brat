@@ -1,6 +1,11 @@
 node = object.new
-node.prototype init: { name | my.node_name = name }
-  to_s: { "<#{my.node_name}: #{my.matched}>" }
+node.prototype [
+    init: { name |
+            my.node_name = name
+            export my, name
+          }
+    to_s: { "<#{my.node_name}: #{my.matched}>" }
+]
 
 each_ast = { elements, block |
   elements.each { e |
@@ -18,18 +23,12 @@ program.ast = {
   out
 }
 
-export program, :program
-
 simple_exp = node.new :simple_exp
 simple_exp.ast = {
   exp.matched.ast
 }
 
-export simple_exp, :simple_exp
-
-bnumber = node.new :number
+bnumber = node.new :bnumber
 bnumber.ast = {
   [:number text]
 }
-
-export bnumber, :bnumber
