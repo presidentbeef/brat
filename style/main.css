@@ -65,13 +65,13 @@ body {
   padding: 0 20px 0 10px;
 }
 
-div.twitter {
-	float: right;
-	width: 330px;
+div#twitter {
+	width: 335px;
+  padding-left: 10px;
 }
 
-div.github {
-  float: left
+div#github {
+  float: left;
 }
 
 h1 {
