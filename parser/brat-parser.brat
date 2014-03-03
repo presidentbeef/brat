@@ -50,7 +50,7 @@ ast :array_inner {
   each_ast my.first.elements, { ast | list << ast }
 
   my.rest.elements.each { e |
-    each_ast e.last.elements, { ast |
+    each_ast e.elements.last.elements, { ast |
       list << ast
     }
   }
