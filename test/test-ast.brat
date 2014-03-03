@@ -1,7 +1,7 @@
 includes :assert :file :peg
 
 # Build parser from PEG
-parser_text = peg.make_parser("brat", file.read("parser/parser.peg"), 'parser/brat-parser')
+parser_text = peg.make_parser("brat", file.read("parser/parser.peg"), 'parser/ast')
 file.open "parser/parser.brat", "w" { f | f.write parser_text }
 
 include "parser/parser"
