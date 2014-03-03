@@ -70,6 +70,10 @@ div.twitter {
 	width: 330px;
 }
 
+div.github {
+  float: left
+}
+
 h1 {
   padding: 5px;
 }

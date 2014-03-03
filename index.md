@@ -18,8 +18,9 @@ layout: default
 <div id="github" style="height: 88px">
 
 </div>
+<a href="https://twitter.com/bratlang"><b>Twitter</b></a>
 <div id="twitter">
-  <a class="twitter-timeline"  href="https://twitter.com/bratlang"  data-widget-id="440415274223677440">Twitter</a>
+  <a class="twitter-timeline"  href="https://twitter.com/bratlang"  data-widget-id="440415274223677440">Tweets</a>
   <script src="js/twitter.js"></script>
 </div>
 
