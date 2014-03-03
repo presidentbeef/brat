@@ -1,5 +1,5 @@
 program = line+ <program>
-        | eof
+        | eof <program>
 
 line = comment
      | space? exp:expression space? comment? (eof | eol | eob) <simple_exp>
