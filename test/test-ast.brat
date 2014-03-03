@@ -1,0 +1,49 @@
+includes :assert :file :peg
+
+# Build parser from PEG
+parser_text = peg.make_parser("brat", file.read("parser/parser.peg"), 'parser/brat-parser')
+file.open "parser/parser.brat", "w" { f | f.write parser_text }
+
+include "parser/parser"
+
+add_result setup name: "Brat AST tests" {
+  ast = { input, expected_ast |
+    parsed = brat_parser.parse input, :program, :fully
+    assert parsed, "Failed to parse '#{input}'"
+    got_ast = parsed.matched.ast
+
+    true? got_ast.length == 2
+      { assert_equal expected_ast, got_ast.last }
+      { assert_equal expected_ast, got_ast }
+  }
+
+  test "empty program" {
+    ast "" [:program]
+  }
+
+  test "number" {
+    ast "1" [:number 1]
+  }
+
+  test "numbers" {
+    ast "1\n2\n3" [:program
+                    [:number 1]
+                    [:number 2]
+                    [:number 3]]
+  }
+
+  test "empty array" {
+    ast "[]" [:array]
+  }
+
+  test "one element array" {
+    ast "[1]" [:array
+                [:number 1]]
+  }
+
+  test "two element array" {
+    ast "[1, 2]" [:array
+                   [:number 1]
+                   [:number 2]]
+  }
+}
