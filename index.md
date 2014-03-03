@@ -2,9 +2,9 @@
 title: The Brat Language
 layout: default
 ---
-<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript"></script>
-<script src="js/jquery.github_badge.js"></script>
-<script src="js/index_github.js" type="text/javascript"></script>
+<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript"> </script>
+<script src="js/jquery.github_badge.js"> </script>
+<script src="js/index_github.js" type="text/javascript"> </script>
 <link href="style/tweet.css" media="all" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="style/jquery.github_badge.css" />
 
@@ -14,16 +14,34 @@ layout: default
 <a href="http://brat-lang.org/blog"><b>Blog</b></a>
 [{{ site.posts.first.title }}]({{ site.posts.first.url }}) - {{ site.posts.first.date | date_to_string }}
 
-<a href="http://github.com/presidentbeef/brat"><b>GitHub</b></a>
-<div id="github" style="height: 88px">
+<div id="ghtwtr">
+<table>
+  <tr>
+    <td>
+      <p style="margin-left: -4px">
+        <a href="http://github.com/presidentbeef/brat"><b>GitHub</b></a>
+      </p>
+    </td>
+    <td>
+      <p style="margin-left: -4px">
+        <a href="https://twitter.com/bratlang"><b>Twitter</b></a>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div id="github" style="height: 88px">
 
-</div>
-<div style="float: right">
-  <a href="https://twitter.com/bratlang"><b>Twitter</b></a>
-  <div id="twitter">
-    <a class="twitter-timeline"  href="https://twitter.com/bratlang"  data-widget-id="440415274223677440">Tweets</a>
-    <script src="js/twitter.js"></script>
-  </div>
+      </div>
+    </td>
+    <td>
+      <div id="twitter">
+        <a class="twitter-timeline" href="https://twitter.com/bratlang" data-widget-id="440415274223677440">Tweets</a>
+        <script src="js/twitter.js"> </script>
+      </div>
+    </td>
+  </tr>
+</table>
 </div>
 
 <div style="clear:both">&nbsp;</div>

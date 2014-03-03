@@ -67,11 +67,11 @@ body {
 
 div#twitter {
 	width: 335px;
-  padding-left: 10px;
+  padding-left: 5px;
 }
 
-div#github {
-  float: left;
+div#ghtwtr td {
+  vertical-align: top;
 }
 
 h1 {

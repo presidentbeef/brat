@@ -32,7 +32,7 @@
 	width: 330px;
 	overflow: hidden;
 	font-size: 13.34px;
-  margin-left: 12px;
+  margin-left: 5px;
 }
 
 /* Globals */
@@ -242,6 +242,7 @@
 				font-size: 13px;
 				font-weight: bold;
 				padding-left: 22px;
+        min-height: 40px;
 					}
 					.ghb_badge .ghb_commit_list li.no_records {
 						color: #940a18;
@@ -358,6 +359,6 @@
 				text-decoration: underline;
 					}
 
-div.tweet_time.firstrepo {
+div.tweet_time {
   margin-left: 4px;
 }
