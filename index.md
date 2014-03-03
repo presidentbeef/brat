@@ -18,6 +18,12 @@ layout: default
 <div id="github" style="height: 88px">
 
 </div>
+<div id="twitter">
+  <a class="twitter-timeline"  href="https://twitter.com/bratlang"  data-widget-id="440415274223677440">Twitter</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div>
+
+
 <div style="clear:both">&nbsp;</div>
 <img src="http://try.brat-lang.org/images/status.png" style="margin-right: 5px;top: 10px;height: 13px;" /><span id="statusmessage"></span>
 
