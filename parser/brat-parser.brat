@@ -28,7 +28,9 @@ ast :program {
 }
 
 ast :simple_exp {
-  exp.matched.ast
+  a = null
+  each_ast exp.elements, { ast | a = ast }
+  a
 }
 
 ast :bnumber {
