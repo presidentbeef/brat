@@ -40,3 +40,19 @@ ast :bnumber {
 ast :empty_array {
   [:array]
 }
+
+ast :barray {
+  [:array].concat inner.ast
+}
+
+ast :array_inner {
+  list = []
+  each_ast my.first.elements, { ast | list << ast }
+
+  my.rest.elements.each { e |
+    each_ast e.last.elements, { ast |
+      list << ast
+    }
+  }
+  list
+}

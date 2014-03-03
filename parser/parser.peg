@@ -27,10 +27,10 @@ method_access = "->" (identifier | operator)
 
 number  = "-"? /[0-9]+/ ("." /[0-9]+/)? <bnumber>
 
-array   = "[" spaceorbreak inner:array_inner spaceorbreak "]"
+array   = "[" spaceorbreak inner:array_inner spaceorbreak "]" <barray>
         | "[" spaceorbreak "]" <empty_array>
 
-array_inner = expression (((spaceorbreak "," spaceorbreak) | (space | eol)+) expression)+
+array_inner = first:expression rest:(((spaceorbreak "," spaceorbreak) | (space | eol)+) expression)* <array_inner>
 
 hash    = "[" space? ":" space? "]"
         | "[" spaceorbreak hash_inner spaceorbreak "]"
