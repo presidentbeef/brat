@@ -82,4 +82,12 @@ add_result setup name: "Brat AST tests" {
   test "regex" {
     ast "/^r\\d+.*?/i" [:regex "/^r\\d+.*?/i"]
   }
+
+  test "simple string" {
+    ast '\'x\'' [:string 'x']
+  }
+
+  test "simple symbol" {
+    ast ':x' [:string 'x']
+  }
 }

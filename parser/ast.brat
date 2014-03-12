@@ -81,3 +81,11 @@ ast :hash_key_arg {
 ast :bregex {
   [:regex my.text]
 }
+
+ast :simple_string {
+  [:string my.value.text]
+}
+
+ast :symbol {
+  [:string my.value.text]
+}

@@ -43,8 +43,8 @@ hash_argument = key:((identifier | operator) (identifier | operator | number)*) 
 regex   = "/" ("\\/" | !"/" . )* "/" /[mix]*/ <bregex>
 
 string  = "\"" (string_interpolation | "\\\"" | !"\"" .)* "\""
-        | "'" (!"'" .)* "'"
-        | ":" (identifier | operator | number)+
+        | "'" value:(!"'" .)* "'" <simple_string>
+        | ":" value:(identifier | operator | number)+ <symbol>
 
 string_interpolation = "#" "{" space? expression? space? (eol space? expression space?)* spaceorbreak "}"
 
