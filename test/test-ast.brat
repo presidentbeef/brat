@@ -78,4 +78,8 @@ add_result setup name: "Brat AST tests" {
                          [[:string :b]
                           [:number 2]]]
   }
+
+  test "regex" {
+    ast "/^r\\d+.*?/i" [:regex "/^r\\d+.*?/i"]
+  }
 }

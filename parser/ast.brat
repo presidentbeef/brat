@@ -77,3 +77,7 @@ ast :hash_key_arg {
   each_ast my.value.elements, { ast | list << ast }
   list
 }
+
+ast :bregex {
+  [:regex my.text]
+}
