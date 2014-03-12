@@ -46,4 +46,36 @@ add_result setup name: "Brat AST tests" {
                    [:number 1]
                    [:number 2]]
   }
+
+  test "empty hash table" {
+    ast "[:]" [:hash]
+  }
+
+  test "one pair hash table" {
+    ast "[1 : 2]" [:hash
+                   [[:number 1]
+                     [:number 2]]]
+  }
+
+  test "two pair hash table" {
+    ast "[1 : 2, 3 : 4]" [:hash
+                           [[:number 1]
+                            [:number 2]]
+                           [[:number 3]
+                            [:number 4]]]
+  }
+
+  test "symbol key hash table" {
+    ast "[a: 1]" [:hash
+                   [[:string :a]
+                     [:number 1]]]
+  }
+
+  test "symbol keys hash table" {
+    ast "[a: 1, b: 2]" [:hash
+                         [[:string :a]
+                          [:number 1]]
+                         [[:string :b]
+                          [:number 2]]]
+  }
 }

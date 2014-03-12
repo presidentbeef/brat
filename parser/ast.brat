@@ -56,3 +56,24 @@ ast :array_inner {
   }
   list
 }
+
+ast :empty_hash {
+  [:hash]
+}
+
+ast :bhash {
+  [:hash].concat inner.ast
+}
+
+ast :hash_arg {
+  list = []
+  each_ast my.key.elements, { ast | list << ast }
+  each_ast my.value.elements, { ast | list << ast }
+  list
+}
+
+ast :hash_key_arg {
+  list = [[:string my.key.text]]
+  each_ast my.value.elements, { ast | list << ast }
+  list
+}
