@@ -86,6 +86,36 @@ ast :simple_string {
   [:string my.value.text]
 }
 
-ast :symbol {
-  [:string my.value.text]
+ast :string_interp {
+  list = []
+  values.elements.each { e |
+    m = e.matched
+    true? m.has_method?(:node_name) && { m.node_name == "interp_value" }
+      { list << e.matched.ast }
+      {
+        # Combine consecutive strings into one string
+        true? list.last && { list.last.first == :string }
+          { list.last.last << e.matched.text }
+          { list << [:string e.matched.text] }
+      }
+  }
+
+  # If just one simple string, return that
+  true? list.length == 1 && { list[0][0] == :string }
+    { list = list[0] }
+    { list = [:string_interp].concat list }
+
+  list
+}
+
+ast :interp_value {
+  value = [:string_eval]
+
+  true? first, {
+    each_ast first.elements, { ast | value << ast }
+  }
+
+  each_ast rest.elements, { ast | value << ast }
+
+  value
 }

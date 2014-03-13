@@ -90,4 +90,32 @@ add_result setup name: "Brat AST tests" {
   test "simple symbol" {
     ast ':x' [:string 'x']
   }
+
+  test "double quotes" {
+    ast '"x"' [:string "x"]
+  }
+
+  test "string interp" {
+    ast '"#{:x}"' [:string_interp [:string_eval [:string :x]]]
+  }
+
+  test "string multiple line interp" {
+    ast '"#{:x; 1}"' [:string_interp
+                      [:string_eval
+                        [:string :x]
+                        [:number 1]]]
+  }
+
+  # Note: Need to improve when have more expressions implemented
+  test "string interp mix" {
+    ast '"hi #{:name}! What is #{:up}?"',
+      [:string_interp
+        [:string "hi "]
+        [:string_eval
+          [:string :name]]
+        [:string "! What is "]
+        [:string_eval
+          [:string :up]]
+        [:string "?"]]
+  }
 }
