@@ -118,4 +118,25 @@ add_result setup name: "Brat AST tests" {
           [:string :up]]
         [:string "?"]]
   }
+
+  test "comments are ignored" {
+    ast "# hi" [:program]
+  }
+
+  test "multiline comments are ignored" {
+    ast "#*\n*#" [:program]
+  }
+
+  test "nested comments are ignored" {
+    ast "#* # hi \n *#" [:program]
+  }
+
+  test "comment out rest of file ignored" {
+    # TODO: Null seems wrong
+    ast "1 #* stuff\nthings" [:program [:number 1] null]
+  }
+
+  test "inline comments are ignored" {
+    ast "1 # nada" [:number 1]
+  }
 }
