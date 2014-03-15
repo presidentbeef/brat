@@ -132,8 +132,7 @@ add_result setup name: "Brat AST tests" {
   }
 
   test "comment out rest of file ignored" {
-    # TODO: Null seems wrong
-    ast "1 #* stuff\nthings" [:program [:number 1] null]
+    ast "1 #* stuff\nthings" [:number 1]
   }
 
   test "inline comments are ignored" {

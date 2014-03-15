@@ -14,6 +14,13 @@ each_ast = { elements, block |
   }
 }
 
+add_ast = { node, list |
+  each_ast node.elements, { ast |
+    true? ast
+      { list << ast }
+  }
+}
+
 ast = { name, block |
   n = node.new name
   n.ast = ->block
@@ -21,9 +28,7 @@ ast = { name, block |
 
 ast :program {
   out = [:program]
-  each_ast elements, { ast |
-    out << ast
-  }
+  add_ast my, out
   out
 }
 
@@ -47,12 +52,10 @@ ast :barray {
 
 ast :array_inner {
   list = []
-  each_ast my.first.elements, { ast | list << ast }
+  add_ast my.first, list
 
   my.rest.elements.each { e |
-    each_ast e.elements.last.elements, { ast |
-      list << ast
-    }
+    add_ast e.elements.last, list
   }
   list
 }
@@ -67,14 +70,14 @@ ast :bhash {
 
 ast :hash_arg {
   list = []
-  each_ast my.key.elements, { ast | list << ast }
-  each_ast my.value.elements, { ast | list << ast }
+  add_ast my.key, list
+  add_ast my.value, list
   list
 }
 
 ast :hash_key_arg {
   list = [[:string my.key.text]]
-  each_ast my.value.elements, { ast | list << ast }
+  add_ast my.value, list
   list
 }
 
@@ -112,10 +115,10 @@ ast :interp_value {
   value = [:string_eval]
 
   true? first, {
-    each_ast first.elements, { ast | value << ast }
+    add_ast first, value
   }
 
-  each_ast rest.elements, { ast | value << ast }
+  add_ast rest, value
 
   value
 }
