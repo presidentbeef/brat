@@ -260,7 +260,7 @@ peg.prototype.and = { rule |
     stop = x.pos
     x.pos = start
     true? matched
-      { peg.make_result start, stop, matched }
+      { peg.make_result start, stop, "" }
   }
 }
 
