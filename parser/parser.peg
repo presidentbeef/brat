@@ -118,12 +118,12 @@ method_target_expression = array | hash | paren_exp | number | string | regex | 
 #-- Argument lists
 
 arg_list = "(" space? inner_arg_list space? ")"
-         | "(" space? ")" <empty_args>
+         | "(" space? ")"
          | space inner_arg_list
-         | !"(" &(space?) <empty_args>
+         | !"(" &(space?)
 
 simple_arg_list = "(" space? inner_arg_list space? ")"
-                | "(" space? ")" <empty_args>
+                | "(" space? ")"
 
 inner_arg_list = arg_first arg_next* <inner_arg_list>
 

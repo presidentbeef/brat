@@ -233,14 +233,13 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "unary operation" {
-    ast "~>1" [:call [:number 1] "~>" []]
+    ast "~>1" [:call [:number 1] "~>"]
   }
 
   test "simple call no args" {
     ast "x" [:call
               null
-              :x
-              []]
+              :x]
   }
 
   test "simple call one arg" {

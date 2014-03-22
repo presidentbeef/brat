@@ -149,17 +149,13 @@ ast :unary_op {
 
   add_ast my, list
 
-  list << my.elements[1].text << []
+  list << my.elements[1].text
 }
 
 ast :inner_arg_list {
   list = []
 
   add_ast my, list
-}
-
-ast :empty_args {
-  []
 }
 
 ast :simple_call {
