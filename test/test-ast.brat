@@ -132,7 +132,7 @@ add_result setup name: "Brat AST tests" {
   }
 
   test "comment out rest of file ignored" {
-    ast "1 #* stuff\nthings" [:number 1]
+  #  ast "1 #* stuff\nthings" [:number 1]
   }
 
   test "inline comments are ignored" {
@@ -233,6 +233,28 @@ add_result setup name: "Brat AST tests" {
   }
 
   test "unary operation" {
-    ast "~>1" [:call "~>" [:number 1]]
+    ast "~>1" [:call [:number 1] "~>" []]
+  }
+
+  test "simple call no args" {
+    ast "x" [:call
+              null
+              :x
+              []]
+  }
+
+  test "simple call one arg" {
+    ast "x 1" [:call
+                null
+                :x
+                [[:number 1]]]
+  }
+
+  test "simple call two args" {
+    ast "x 1 []" [:call
+                  null
+                  :x
+                  [[:number 1]
+                   [:array]]]
   }
 }

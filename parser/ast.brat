@@ -154,7 +154,29 @@ ast :variable_args {
 }
 
 ast :unary_op {
-  list = [:call my.elements[1].text]
+  list = [:call]
+
+  add_ast my, list
+
+  list << my.elements[1].text << []
+
+  list
+}
+
+ast :inner_arg_list {
+  list = []
+
+  add_ast my, list
+
+  list
+}
+
+ast :empty_args {
+  []
+}
+
+ast :simple_call {
+  list = [:call, null, my.elements.first.text]
 
   add_ast my, list
 
