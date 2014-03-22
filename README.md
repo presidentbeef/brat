@@ -104,7 +104,7 @@ Sometimes there are problems. Everyone has issues. Report Brat issues [here](htt
 
 The MIT License
 
-Copyright (c) 2010-2013, Justin Collins
+Copyright (c) 2010-2014, Justin Collins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
