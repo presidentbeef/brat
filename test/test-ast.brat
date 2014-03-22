@@ -185,4 +185,11 @@ add_result setup name: "Brat AST tests" {
                                 [:number 2]]]
                                [:body]]
   }
+
+  test "function with variable args" {
+    ast "{ *x | }" [:function
+                    [:args
+                      [:var_arg :x]]
+                    [:body]]
+  }
 }

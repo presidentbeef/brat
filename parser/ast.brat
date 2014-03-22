@@ -149,3 +149,7 @@ ast :default_arg {
 
   list
 }
+
+ast :variable_args {
+  [:var_arg my.arg_var.text]
+}

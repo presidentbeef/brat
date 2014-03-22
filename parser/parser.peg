@@ -76,7 +76,7 @@ default_arg = arg_var:identifier space "=" space arg_val:default_arg_rhs_express
 
 default_arg_rhs_expression = paren_exp | method_invocation | number | string | function_definition | array | hash
 
-variable_args = "*" identifier
+variable_args = "*" arg_var:identifier <variable_args>
 
 #-- Unary and binary operations
 
