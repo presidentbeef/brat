@@ -123,7 +123,6 @@ ast :interp_value {
   value
 }
 
-# Not matching a function with stuff in it
 ast :bfunction {
   list = [:function]
 
@@ -152,4 +151,12 @@ ast :default_arg {
 
 ast :variable_args {
   [:var_arg my.arg_var.text]
+}
+
+ast :unary_op {
+  list = [:call my.elements[1].text]
+
+  add_ast my, list
+
+  list
 }

@@ -80,7 +80,7 @@ variable_args = "*" arg_var:identifier <variable_args>
 
 #-- Unary and binary operations
 
-unary_operation = !("-" number) operator !space unary_rhs_expression
+unary_operation = !("-" number) operator !space unary_rhs_expression <unary_op>
 
 unary_rhs_expression = paren_exp | number | string | array | hash | method_invocation | regex
 

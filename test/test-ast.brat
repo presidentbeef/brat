@@ -231,4 +231,8 @@ add_result setup name: "Brat AST tests" {
                                 [:var_arg :z]]
                               [:body]]
   }
+
+  test "unary operation" {
+    ast "~>1" [:call "~>" [:number 1]]
+  }
 }
