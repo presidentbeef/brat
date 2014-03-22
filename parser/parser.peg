@@ -58,13 +58,13 @@ function_definition = "{" space? args:formal_args space? body:line* space? "}" <
 formal_args = space? plain_formals space? "|" !"|"
             | space? default_args space? "|" !"|"
             | space? variable_args space? "|" !"|"
-            | space? plain_formals space? "," space? variable_args space? "|" !"|" 
+            | space? plain_formals space? "," space? variable_args space? "|" !"|"
             | space? default_args space? "," space? variable_args space? "|" !"|"
             | space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" !"|"
             | space? plain_formals space? "," space? default_args space? "|" !"|"
             | !"|"
 
-plain_formals = arg:plain_arg rest:rest_formals <plain_formals>
+plain_formals = plain_arg rest:rest_formals
 
 rest_formals = (space? "," space? plain_arg !(space "="))*
 
@@ -72,7 +72,7 @@ plain_arg = identifier <plain_arg>
 
 default_args = default_arg (space? "," space? default_args)*
 
-default_arg = identifier space "=" space default_arg_rhs_expression
+default_arg = arg_var:identifier space "=" space arg_val:default_arg_rhs_expression <default_arg>
 
 default_arg_rhs_expression = paren_exp | method_invocation | number | string | function_definition | array | hash
 

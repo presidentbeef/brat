@@ -128,7 +128,7 @@ ast :bfunction {
   list = [:function]
 
   arg_list = [:args]
-  each_ast args.elements, { ast | arg_list.concat ast }
+  add_ast args, arg_list
   list << arg_list
 
   body_ast = [:body]
@@ -138,14 +138,14 @@ ast :bfunction {
   list
 }
 
-ast :plain_formals {
-  list = [my.arg.ast]
-
-  add_ast my.rest, list
-
-  list
-}
-
 ast :plain_arg {
   [:arg my.text]
+}
+
+ast :default_arg {
+  list = [:def_arg my.arg_var.text]
+
+  add_ast my.arg_val, list
+
+  list
 }

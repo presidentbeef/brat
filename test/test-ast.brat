@@ -158,9 +158,31 @@ add_result setup name: "Brat AST tests" {
 
   test "function with two formal args" {
     ast "{ x, y | }" [:function
-                    [:args
-                      [:arg :x]
-                      [:arg :y]]
-                    [:body]]
+                      [:args
+                        [:arg :x]
+                        [:arg :y]]
+                      [:body]]
+  }
+
+  test "function with default arg" {
+    ast "{ x = 1 | }" [:function
+                        [:args
+                          [:def_arg
+                            :x
+                            [:number 1]]]
+                      [:body]]
+
+  }
+
+  test "function with two default args" {
+    ast "{ x = 1, y = 2 | }" [:function
+                               [:args
+                                [:def_arg
+                                  :x
+                                  [:number 1]]
+                                [:def_arg
+                                  :y
+                                [:number 2]]]
+                               [:body]]
   }
 }
