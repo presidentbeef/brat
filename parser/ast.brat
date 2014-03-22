@@ -34,7 +34,7 @@ ast :program {
 
 ast :simple_exp {
   a = null
-  each_ast exp.elements, { ast | a = ast }
+  each_ast my.elements, { ast | a = ast }
   a
 }
 
@@ -121,4 +121,19 @@ ast :interp_value {
   add_ast rest, value
 
   value
+}
+
+# Not matching a function with stuff in it
+ast :bfunction {
+  list = [:function]
+
+  arg_ast = [:args]
+  add_ast args, arg_ast
+  list << arg_ast
+
+  body_ast = [:body]
+  add_ast body, body_ast
+  list << body_ast
+
+  list
 }

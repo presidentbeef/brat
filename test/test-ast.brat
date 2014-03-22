@@ -138,4 +138,15 @@ add_result setup name: "Brat AST tests" {
   test "inline comments are ignored" {
     ast "1 # nada" [:number 1]
   }
+
+  test "empty function with no args" {
+#    ast "{}" [:function [:args] [:body]]
+  }
+
+  test "function with no args" {
+    ast "{ 1 }" [:function
+                  [:args]
+                  [:body
+                    [:number 1]]]
+  }
 }

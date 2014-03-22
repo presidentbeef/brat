@@ -53,7 +53,7 @@ comment = space? "#*" (!"*#" (comment | .))* "*#"
 
 #-- Function definitions
 
-function_definition = "{" space? formal_args space? line* space? "}"
+function_definition = "{" space? args:formal_args space? body:line* space? "}" <bfunction>
 
 formal_args = space? plain_formals space? "|" !"|"
             | space? default_args space? "|" !"|"
