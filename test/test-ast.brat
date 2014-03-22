@@ -6,7 +6,7 @@ file.open "parser/parser.brat", "w" { f | f.write parser_text }
 
 include "parser/parser"
 
-add_result setup name: "Brat AST tests" {
+add_results setup name: "Brat AST tests" {
   ast = { input, expected_ast |
     parsed = brat_parser.parse input, :program, :fully
     assert parsed, "Failed to parse '#{input}'"
