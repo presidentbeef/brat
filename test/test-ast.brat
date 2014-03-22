@@ -140,7 +140,7 @@ add_result setup name: "Brat AST tests" {
   }
 
   test "empty function with no args" {
-#    ast "{}" [:function [:args] [:body]]
+    ast "{}" [:function [:args] [:body]]
   }
 
   test "function with no args" {
@@ -148,5 +148,19 @@ add_result setup name: "Brat AST tests" {
                   [:args]
                   [:body
                     [:number 1]]]
+  }
+
+  test "function with one formal arg" {
+    ast "{ x | }" [:function
+                    [:args [:arg :x]]
+                    [:body]]
+  }
+
+  test "function with two formal args" {
+    ast "{ x, y | }" [:function
+                    [:args
+                      [:arg :x]
+                      [:arg :y]]
+                    [:body]]
   }
 }

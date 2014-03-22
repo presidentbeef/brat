@@ -127,13 +127,25 @@ ast :interp_value {
 ast :bfunction {
   list = [:function]
 
-  arg_ast = [:args]
-  add_ast args, arg_ast
-  list << arg_ast
+  arg_list = [:args]
+  each_ast args.elements, { ast | arg_list.concat ast }
+  list << arg_list
 
   body_ast = [:body]
   add_ast body, body_ast
   list << body_ast
 
   list
+}
+
+ast :plain_formals {
+  list = [my.arg.ast]
+
+  add_ast my.rest, list
+
+  list
+}
+
+ast :plain_arg {
+  [:arg my.text]
 }

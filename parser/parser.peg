@@ -64,9 +64,11 @@ formal_args = space? plain_formals space? "|" !"|"
             | space? plain_formals space? "," space? default_args space? "|" !"|"
             | !"|"
 
-plain_formals = identifier rest_formals
+plain_formals = arg:plain_arg rest:rest_formals <plain_formals>
 
-rest_formals = (space? "," space? identifier !(space "="))*
+rest_formals = (space? "," space? plain_arg !(space "="))*
+
+plain_arg = identifier <plain_arg>
 
 default_args = default_arg (space? "," space? default_args)*
 
