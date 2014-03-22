@@ -19,6 +19,8 @@ add_ast = { node, list |
     true? ast
       { list << ast }
   }
+
+  list
 }
 
 ast = { name, block |
@@ -29,7 +31,6 @@ ast = { name, block |
 ast :program {
   out = [:program]
   add_ast my, out
-  out
 }
 
 ast :simple_exp {
@@ -72,13 +73,11 @@ ast :hash_arg {
   list = []
   add_ast my.key, list
   add_ast my.value, list
-  list
 }
 
 ast :hash_key_arg {
   list = [[:string my.key.text]]
   add_ast my.value, list
-  list
 }
 
 ast :bregex {
@@ -105,10 +104,8 @@ ast :string_interp {
 
   # If just one simple string, return that
   true? list.length == 1 && { list[0][0] == :string }
-    { list = list[0] }
-    { list = [:string_interp].concat list }
-
-  list
+    { list[0] }
+    { [:string_interp].concat list }
 }
 
 ast :interp_value {
@@ -119,8 +116,6 @@ ast :interp_value {
   }
 
   add_ast rest, value
-
-  value
 }
 
 ast :bfunction {
@@ -133,8 +128,6 @@ ast :bfunction {
   body_ast = [:body]
   add_ast body, body_ast
   list << body_ast
-
-  list
 }
 
 ast :plain_arg {
@@ -145,8 +138,6 @@ ast :default_arg {
   list = [:def_arg my.arg_var.text]
 
   add_ast my.arg_val, list
-
-  list
 }
 
 ast :variable_args {
@@ -159,16 +150,12 @@ ast :unary_op {
   add_ast my, list
 
   list << my.elements[1].text << []
-
-  list
 }
 
 ast :inner_arg_list {
   list = []
 
   add_ast my, list
-
-  list
 }
 
 ast :empty_args {
@@ -179,6 +166,4 @@ ast :simple_call {
   list = [:call, null, my.elements.first.text]
 
   add_ast my, list
-
-  list
 }
