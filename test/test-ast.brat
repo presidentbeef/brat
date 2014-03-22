@@ -192,4 +192,43 @@ add_result setup name: "Brat AST tests" {
                       [:var_arg :x]]
                     [:body]]
   }
+
+  test "function with plain and default args" {
+    ast "{ x, y = 1 | }" [:function
+                          [:args
+                            [:arg :x]
+                            [:def_arg
+                              :y
+                              [:number 1]]]
+                          [:body]]
+  }
+
+  test "function with plain and variable args" {
+    ast "{ x, *y | }" [:function
+                        [:args
+                          [:arg :x]
+                          [:var_arg :y]]
+                        [:body]]
+  }
+
+  test "function with default args and variable args" {
+    ast "{ x = 1, *y | }" [:function
+                            [:args
+                              [:def_arg
+                                :x
+                                [:number 1]]
+                              [:var_arg :y]]
+                            [:body]]
+  }
+
+  test "function with all kinds of args" {
+    ast "{ x, y = 1, *z | }" [:function
+                              [:args
+                                [:arg :x]
+                                [:def_arg
+                                  :y
+                                  [:number 1]]
+                                [:var_arg :z]]
+                              [:body]]
+  }
 }
