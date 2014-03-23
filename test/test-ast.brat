@@ -256,4 +256,10 @@ add_results setup name: "Brat AST tests" {
                   [[:number 1]
                    [:array]]]
   }
+
+  test "variable assignment" {
+    ast "x = 1" [:var_assign
+                  :x
+                  [:number 1]]
+  }
 }

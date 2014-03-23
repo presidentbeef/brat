@@ -163,3 +163,9 @@ ast :simple_call {
 
   add_ast my, list
 }
+
+ast :var_assign {
+  list = [:var_assign my.var.text]
+
+  add_ast my, list
+}
