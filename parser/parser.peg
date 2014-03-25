@@ -16,7 +16,7 @@ assignment = field_access space "=" spaceorbreak !function_literal_invocation (f
            | field_access space "=" spaceorbreak expression
            | var:identifier space "=" spaceorbreak expression <var_assign>
 
-field_access = method_chain (identifier | operator)
+field_access = method_chain (identifier | operator) <field_access>
 
 method_access = "->" (identifier | operator)
               | method_invocation "->" (identifier | operator)
@@ -48,7 +48,7 @@ string  = "\"" values:(string_interpolation | "\\\"" | !"\"" .)* "\"" <string_in
 
 string_interpolation = "#" "{" space? first:expression? space? rest:(eol space? expression space?)* spaceorbreak "}" <interp_value>
 
-comment = space? "#*" (!"*#" (comment | .))* "*#"
+comment = space? "#*" (!"*#" (comment | .))* ("*#" | eof)
         | space? "#" (!(eol | eof) .)*
 
 #-- Function definitions
