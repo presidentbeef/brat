@@ -270,4 +270,12 @@ add_results setup name: "Brat AST tests" {
                   :x
                   [:number 1]]
   }
+
+  test "simple method access with variable" {
+    ast "->x" [:meth_access, null, :x]
+  }
+
+  test "simple method access with operator" {
+    ast "->!" [:meth_access, null, :!]
+  }
 }
