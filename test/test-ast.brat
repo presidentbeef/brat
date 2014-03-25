@@ -150,6 +150,14 @@ add_results setup name: "Brat AST tests" {
                     [:number 1]]]
   }
 
+  test "multiline expression function with no args" {
+    ast "{\n1\n'a'\n}" [:function
+                         [:args]
+                          [:body
+                            [:number 1]
+                            [:string :a]]]
+  }
+
   test "function with one formal arg" {
     ast "{ x | }" [:function
                     [:args [:arg :x]]
