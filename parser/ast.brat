@@ -179,3 +179,17 @@ ast :var_assign {
 ast :simple_meth_access {
   [:meth_access, null, my.meth.text]
 }
+
+ast :simple_paren_meth_access {
+  list = [:meth_access null]
+
+  add_ast my, list
+}
+
+ast :paren_meth_access {
+  list = [:meth_access]
+
+  add_ast my, list
+
+  list << [my.meth.text]
+}

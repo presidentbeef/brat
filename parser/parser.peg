@@ -22,7 +22,7 @@ field_access = method_chain (identifier | operator) <field_access>
 method_access = "->" meth:(identifier | operator) !"." <simple_meth_access>
               | method_invocation "->" (identifier | operator)
               | paren_exp "->" (identifier | operator)
-              | "->" paren_exp
+              | "->" paren_exp <simple_paren_meth_access>
 
 #-- Basic literals
 
