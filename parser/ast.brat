@@ -159,9 +159,15 @@ ast :inner_arg_list {
 }
 
 ast :simple_call {
-  list = [:call, null, my.elements.first.text]
+  args = []
 
-  add_ast my, list
+  add_ast my, args
+
+  var = my.elements.first.text
+
+  true? args.empty?
+    { [:get_value var] }
+    { [:call, null, var, args.first] }
 }
 
 ast :var_assign {

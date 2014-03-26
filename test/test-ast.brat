@@ -245,9 +245,7 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "simple call no args" {
-    ast "x" [:call
-              null
-              :x]
+    ast "x" [:get_value :x]
   }
 
   test "simple call one arg" {
