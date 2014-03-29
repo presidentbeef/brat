@@ -99,16 +99,16 @@ operator = !("->" !operator) !("=" !(operator | "=")) ("!=" | ">=" | "<=" | /[!?
 
 #-- Calling methods and functions
 
-method_invocation = method_chain (identifier | operator) arg_list
+method_invocation = method_chain (identifier | operator) arg_list <chain_call>
                   | identifier arg_list <simple_call>
-                  | paren_exp simple_arg_list
+                  | paren_exp simple_arg_list <paren_call>
                   | function_literal_invocation
 
 function_literal_invocation = function_definition !space simple_arg_list
 
-method_chain = (method_lhs ".")+
+method_chain = (method_lhs ".")+ <method_chain>
 
-method_lhs = identifier !space arg_list ("[" space? inner_arg_list space? "]")*
+method_lhs = var:identifier !space args:arg_list ("[" space? inner_arg_list space? "]")* <simple_meth_lhs>
            | array ("[" space? inner_arg_list space? "]")
            | function_definition !space simple_arg_list
            | function_definition &"."

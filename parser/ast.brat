@@ -170,6 +170,43 @@ ast :simple_call {
     { [:call, null, var, args.first] }
 }
 
+ast :chain_call {
+  list = [:call]
+
+  targets = add_ast(my.elements.first, []).reduce { memo, call |
+    true? call.first == :get_value
+      { call[0] = :call; call.insert(1, memo)}
+      { call[1] = memo }
+    call
+  }
+
+  list << targets
+
+  list << my.elements[1].text
+
+  add_ast my.elements.last, list
+}
+
+ast :simple_meth_lhs {
+  args = []
+
+  add_ast my.args, args
+
+  var = my.elements.first.text
+
+  true? args.empty?
+    { [:get_value var] }
+    { [:call, null, var, args.first] }
+}
+
+ast :method_chain {
+  list = []
+
+  add_ast my, list
+
+
+}
+
 ast :paren_call {
   list = [:call null]
 
