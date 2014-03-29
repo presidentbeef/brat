@@ -85,9 +85,9 @@ unary_operation = !("-" number) operator !space unary_rhs_expression <unary_op>
 
 unary_rhs_expression = paren_exp | number | string | array | hash | method_invocation | regex
 
-binary_operation = binary_operation_chain expression
+binary_operation = binary_operation_chain expression <binary_op>
 
-binary_operation_chain = (binary_lhs_expression space operator ((space? eol space?) | space))+
+binary_operation_chain = (binary_lhs_expression space operator ((space? eol space?) | space))+ <binary_op_chain>
 
 binary_lhs_expression = paren_exp | number | string | array | hash | regex | unary_operation | method_invocation
 

@@ -269,6 +269,22 @@ add_results setup name: "Brat AST tests" {
                   [:number 1]]
   }
 
+  test "binary operation" {
+    ast "2 * 2" [:binop
+                  [:number 2]
+                  :*
+                  [:number 2]]
+  }
+
+  test "chained binary operation" {
+    ast "2 * 2 + 1" [:binop
+                      [:number 2]
+                      :*
+                        [:number 2]
+                        :+
+                        [:number 1]]
+  }
+
   test "simple method access with variable" {
     ast "->x" [:meth_access, null, :x]
   }

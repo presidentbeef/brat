@@ -170,10 +170,33 @@ ast :simple_call {
     { [:call, null, var, args.first] }
 }
 
+ast :paren_call {
+  list = [:call null]
+
+  add_ast my, list
+}
+
 ast :var_assign {
   list = [:var_assign my.var.text]
 
   add_ast my, list
+}
+
+ast :binary_op {
+  list = [:binop].concat my.elements.first.ast
+
+  add_ast my.elements.last, list
+}
+
+ast :binary_op_chain {
+  list = []
+
+  my.elements.each { e |
+    add_ast e.elements.first, list
+    list << e.elements[2].text
+  }
+
+  list
 }
 
 ast :simple_meth_access {
