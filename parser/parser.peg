@@ -13,8 +13,8 @@ expression = regex | binary_operation | assignment | paren_exp | unary_operation
 
 paren_exp  = "(" space? exp:expression space? ")" <simple_exp>
 
-assignment = field_access space "=" spaceorbreak !function_literal_invocation (function_definition | method_access)
-           | field_access space "=" spaceorbreak expression
+assignment = field_access space "=" spaceorbreak !function_literal_invocation (function_definition | method_access) <field_assign>
+           | field_access space "=" spaceorbreak expression <field_assign>
            | var:identifier space "=" spaceorbreak expression <var_assign>
 
 field_access = method_chain (identifier | operator) <field_access>

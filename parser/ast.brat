@@ -217,6 +217,18 @@ ast :var_assign {
   add_ast my, list
 }
 
+ast :field_assign {
+  list = [:field_assign]
+  add_ast my, list
+}
+
+ast :field_access {
+  list = [:field_access]
+
+  add_ast my, list
+  list << my.elements.last.text
+}
+
 ast :binary_op {
   list = [:binop].concat my.elements.first.ast
 

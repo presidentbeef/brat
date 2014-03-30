@@ -291,6 +291,40 @@ add_results setup name: "Brat AST tests" {
                   [:number 1]]
   }
 
+  test "field assignment to exp" {
+    ast "x.y = 1" [:field_assign
+                    [:field_access
+                      [:get_value :x]
+                      :y]
+                    [:number 1]]
+  }
+
+  test "nested field assignment to exp" {
+    ast "x.y.z = 1" [:field_assign
+                      [:field_access
+                        [:call
+                          [:get_value :x]
+                          :y]
+                        :z]
+                    [:number 1]]
+  }
+
+  test "field assignment to function" {
+    ast "x.y = { }" [:field_assign
+                      [:field_access
+                        [:get_value :x]
+                        :y]
+                      [:function [:args] [:body]]]
+  }
+
+  test "field assignment to method access" {
+    ast "x.y = ->z" [:field_assign
+                      [:field_access
+                        [:get_value :x]
+                        :y]
+                      [:meth_access, null, :z]]
+  }
+
   test "binary operation" {
     ast "2 * 2" [:binop
                   [:number 2]
