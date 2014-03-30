@@ -360,4 +360,10 @@ add_results setup name: "Brat AST tests" {
                   null
                   [:get_value :x]]
   }
+
+  test "paren method access" {
+    ast "(x)->y" [:meth_access
+                  [:get_value :x]
+                  :y]
+  }
 }

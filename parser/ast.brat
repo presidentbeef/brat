@@ -261,5 +261,5 @@ ast :paren_meth_access {
 
   add_ast my, list
 
-  list << [my.meth.text]
+  list << my.meth.text
 }
