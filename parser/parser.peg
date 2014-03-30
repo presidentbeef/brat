@@ -8,6 +8,7 @@ line = comment
 empty_line = space? eol
 
 expression = regex | binary_operation | assignment | paren_exp | unary_operation
+           | paren_exp !(/\.|\(|->/)
            | method_access | method_invocation | number | string
            | function_definition | array | hash 
 
