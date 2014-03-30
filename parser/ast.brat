@@ -173,14 +173,7 @@ ast :simple_call {
 ast :chain_call {
   list = [:call]
 
-  targets = add_ast(my.elements.first, []).reduce { memo, call |
-    true? call.first == :get_value
-      { call[0] = :call; call.insert(1, memo)}
-      { call[1] = memo }
-    call
-  }
-
-  list << targets
+  list << my.elements.first.ast
 
   list << my.elements[1].text
 
@@ -204,7 +197,12 @@ ast :method_chain {
 
   add_ast my, list
 
-
+  list.reduce { memo, call |
+    true? call.first == :get_value
+      { call[0] = :call; call.insert(1, memo)}
+      { call[1] = memo }
+    call
+  }
 }
 
 ast :paren_call {
