@@ -285,6 +285,12 @@ add_results setup name: "Brat AST tests" {
                   :z]
   }
 
+  test "paren call" {
+    ast "(x)(1)" [:invoke
+                   [:get_value :x]
+                   [[:number 1]]]
+  }
+
   test "variable assignment" {
     ast "x = 1" [:var_assign
                   :x

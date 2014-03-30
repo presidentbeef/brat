@@ -206,7 +206,7 @@ ast :method_chain {
 }
 
 ast :paren_call {
-  list = [:call null]
+  list = [:invoke]
 
   add_ast my, list
 }
