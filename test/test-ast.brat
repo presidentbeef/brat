@@ -366,4 +366,80 @@ add_results setup name: "Brat AST tests" {
                   [:get_value :x]
                   :y]
   }
+
+  test "simple index get" {
+    ast "x[1]" [:call
+                [:get_value :x]
+                :get
+                [[:number 1]]]
+  }
+
+  test "nested index get" {
+    ast "x[1][:a]" [:call
+                    [:call
+                      [:get_value :x]
+                      :get
+                      [[:number 1]]]
+                    :get
+                    [[:string :a]]]
+  }
+
+  test "simple index get invoke" {
+    ast "x[1](2)" [:invoke
+                    [:call
+                      [:get_value :x]
+                      :get
+                      [[:number 1]]]
+                    [[:number 2]]]
+  }
+
+  test "nested index get invoke" {
+    ast "x[1][2](:a)" [:invoke
+                        [:call
+                          [:call
+                            [:get_value :x]
+                            :get
+                            [[:number 1]]]
+                          :get
+                          [[:number 2]]]
+                        [[:string :a]]]
+  }
+
+  test "index get with multiple indexes" {
+    ast "x[1, 2]" [:call
+                    [:get_value :x]
+                    :get
+                    [[:number 1]
+                      [:number 2]]]
+  }
+
+  test "index get with multiple indexes" {
+    ast "x[1, 2][3, 4]" [:call
+                          [:call
+                            [:get_value :x]
+                            :get
+                            [[:number 1]
+                              [:number 2]]]
+                          :get
+                          [[:number 3]
+                            [:number 4]]]
+  }
+  test "simple index set" {
+    ast "x[1] = :a" [:call
+                      [:get_value :x]
+                      :set
+                      [[:number 1]
+                        [:string :a]]]
+  }
+
+  test "nested index set" {
+    ast "x[1][2] = :a" [:call
+                        [:call
+                          [:get_value :x]
+                          :get
+                          [[:number 1]]]
+                        :set
+                        [[:number 2]
+                          [:string :a]]]
+  }
 }

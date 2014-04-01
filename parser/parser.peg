@@ -7,8 +7,10 @@ line = comment
 
 empty_line = space? eol
 
-expression = regex | binary_operation | assignment | paren_exp | unary_operation
+expression = regex | binary_operation
+           | index_set | index_get | assignment
            | paren_exp !(/\.|\(|->/)
+           | unary_operation
            | method_access | method_invocation | number | string
            | function_definition | array | hash 
 
@@ -19,6 +21,12 @@ assignment = field_access space "=" spaceorbreak !function_literal_invocation (f
            | var:identifier space "=" spaceorbreak expression <var_assign>
 
 field_access = method_chain (identifier | operator) <field_access>
+
+index_set = indexed_expression sindexes:("[" expression "]")+ space? "=" spaceorbreak expression <index_set>
+
+index_get = indexed_expression gindexes:("[" inner_arg_list "]")+ !"." iargs:arg_list <index_get>
+
+indexed_expression = array | hash | paren_exp | unary_operation | method_invocation | string
 
 method_access = "->" meth:(identifier | operator) !"." <simple_meth_access>
               | method_invocation "->" (identifier | operator)

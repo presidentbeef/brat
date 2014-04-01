@@ -263,3 +263,50 @@ ast :paren_meth_access {
 
   list << my.meth.text
 }
+
+ast :index_get {
+  list = [:call]
+  index_args = add_ast my.gindexes, []
+
+  add_ast my.elements.first, list
+  list << :get << index_args.deq
+
+  list = index_args.reduce(list, { memo, index |
+      [:call, memo, :get, index]
+   })
+
+  args = add_ast(my.iargs, []).first
+
+  null? args
+    { list }
+    { [:invoke, list, args] }
+}
+
+ast :index_set {
+  list = [:call]
+
+  add_ast my.elements.first, list
+
+  true? my.sindexes.elements.length > 1
+    {
+      list << :get
+
+      index_args = add_ast my.sindexes, []
+
+      list << [index_args.deq]
+      final_arg = index_args.pop
+
+      list = index_args.reduce(list, { memo, index |
+        [:call, memo, :get, [index]]
+      })
+
+      value = add_ast(my.elements.last, []).first
+
+      [:call, list, :set, [final_arg, value]]
+    }
+    {
+      args = add_ast my.sindexes, []
+      add_ast my.elements.last, args
+      list << :set << args
+    }
+}
