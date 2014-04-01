@@ -424,6 +424,30 @@ add_results setup name: "Brat AST tests" {
                           [[:number 3]
                             [:number 4]]]
   }
+
+  test "index get binary op" {
+    ast "x[1] + y[2]" [:binop
+                        [:call
+                          [:get_value :x]
+                          :get
+                          [[:number 1]]]
+                        :+
+                        [:call
+                          [:get_value :y]
+                          :get
+                          [[:number 2]]]]
+
+  }
+
+  test "index get unary op" {
+    ast "@x[1]" [:call
+                  [:call
+                    [:get_value :x]
+                    :get
+                    [[:number 1]]]
+                  :@]
+  }
+
   test "simple index set" {
     ast "x[1] = :a" [:call
                       [:get_value :x]

@@ -84,7 +84,7 @@ default_args = default_arg (space? "," space? default_args)*
 
 default_arg = arg_var:identifier space "=" space arg_val:default_arg_rhs_expression <default_arg>
 
-default_arg_rhs_expression = paren_exp | method_invocation | number | string | function_definition | array | hash
+default_arg_rhs_expression = index_get | paren_exp | method_invocation | number | string | function_definition | array | hash
 
 variable_args = "*" arg_var:identifier <variable_args>
 
@@ -92,13 +92,13 @@ variable_args = "*" arg_var:identifier <variable_args>
 
 unary_operation = !("-" number) operator !space unary_rhs_expression <unary_op>
 
-unary_rhs_expression = paren_exp | number | string | array | hash | method_invocation | regex
+unary_rhs_expression = index_get | paren_exp | number | string | array | hash | method_invocation | regex
 
 binary_operation = binary_operation_chain expression <binary_op>
 
 binary_operation_chain = (binary_lhs_expression space operator ((space? eol space?) | space))+ <binary_op_chain>
 
-binary_lhs_expression = paren_exp | number | string | array | hash | regex | unary_operation | method_invocation
+binary_lhs_expression = index_get | paren_exp | number | string | array | hash | regex | unary_operation | method_invocation
 
 #-- Basic building blocks
 
