@@ -1,0 +1,32 @@
+#* http://www.greghendershott.com/2013/05/the-threading-macro.html
+ This is a silly adaptation of Clojure's "threading macro".
+ It provides the results of the first function call to the next method,
+ the results of that to the next, and so on.
+ Instead of a macro, though, this implementation is an operator
+ on an array.
+*#
+
+array.prototype.~> = {
+  my.reduce { arg, meth |
+    true? function?(->meth)
+      { meth arg }
+      { apply meth.first, [arg] + meth.rest }
+  }
+}
+
+# Example usage to reverse a string, convert it to bytes,
+# append something to it, then print it out in ASCII again.
+reverse = { x | x.reverse }
+bytes = { x | x.dice.map :to_byte }
+bytes_append = { x, y | x << y }
+print_it = { x | p x.map(:to_char).join }
+
+input = "olleh"
+
+~>[
+   input
+   ->reverse
+   ->bytes
+   [->bytes_append 33]
+   ->print_it
+]

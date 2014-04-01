@@ -96,7 +96,7 @@ peg.prototype.parse = { str, start_rule = null, fully = false |
 peg.prototype.seq = { rule, *rules |
   true? rules.empty?
     { true? function?(->rule) { rules = [->rule] } { rules = rule } }
-    { rules.insert 0 ->rule }
+    { rules = [->rule] + rules }
 
   make_rule { x |
     matched = false
@@ -124,7 +124,7 @@ peg.prototype.seq_ref = { *rules |
 peg.prototype.any = { rule, *rules |
   true? rules.empty?
     { true? function?(->rule) { rules = [->rule] } { rules = rule } }
-    { rules.insert 0 ->rule }
+    { rules = [->rule] + rules }
 
   make_rule { x |
     matched = null 
@@ -260,7 +260,7 @@ peg.prototype.and = { rule |
     stop = x.pos
     x.pos = start
     true? matched
-      { peg.make_result start, stop, matched }
+      { peg.make_result start, stop, "" }
   }
 }
 
@@ -311,7 +311,8 @@ peg.prototype.action = { rule, block |
           res.add_method result.label, { result }
         }
 
-        res.with_this ->block; res
+        res.with_this ->block
+        res
       }
   }
 }
@@ -383,33 +384,36 @@ peg_syntax = peg.new {
   }
 
   #Matches a sequence of basic matchers separated by spaces
-  set :rule_seq action seq(ref(:rule_exp) kleene(seq_ref :spaces :rule_exp)) {
+  set :rule_seq action seq(ref(:rule_exp) kleene(seq_ref :spaces :rule_exp) maybe(seq ref(:spaces) any_ref(:action :squish))) {
     my.output = {
       first = matched.first
-      rest = matched.last
+      rest = matched[1]
+      act = false? matched[2].matched == ""
+              { matched[2].matched.elements.last.matched }
+              { null }
 
-      true? rest.elements.empty?
-        {
-          first.output
-        }
-        {
-          "seq(#{first.output}, #{rest.elements.map({ e | e.elements.last.output }).join(',')})"
-        }
+      out = true? rest.elements.empty?
+            {
+              first.output
+            }
+            {
+              "seq(#{first.output}, #{rest.elements.map({ e | e.elements.last.output }).join(',')})"
+            }
+
+      null? act
+        { out }
+        { "action(#{out}, #{act.output})" }
     }
   }
 
   #A rule expression is an actual matcher or grouping
   set :rule_exp action any_ref(:maybe :many :kleene :not :and :simple_rule_exp) {
-    my.output = {
-      matched.output
-    }
+    my.output = matched.output
   }
 
   #Simple rules (i.e., not suffixed rules like + or *)
   set :simple_rule_exp action any_ref(:label :str_literal :rule_ref :reg_literal :anything :paren_rule) {
-    my.output = {
-      matched.output
-    }
+    my.output = matched.output
   }
 
   #Matches parentheses, which denote priority
@@ -419,23 +423,17 @@ peg_syntax = peg.new {
 
   #Matches a string literal
   set :str_literal action seq(str('"') kleene(any str('\"') seq(no(str '"') anything)) str('"')) {
-    my.output = {
-      "str(#{text})"
-    }
+    my.output = "str(#{text})"
   }
   
   #References the name of another rule
   set :rule_ref action label(:name ref(:rule_name)) {
-    my.output = {
-      "ref(:#{name.text})"
-    }
+    my.output = "ref(:#{name.text})"
   }
 
   #Matches a regular expression
   set :reg_literal action seq(str('/') kleene(any str('\/') seq(no(str '/') anything)) str('/')) {
-    my.output = {
-      "reg(#{text})"
-    }
+    my.output = "reg(#{text})"
   }
 
   #Matches a period
@@ -444,42 +442,32 @@ peg_syntax = peg.new {
   }
 
   #Matches a label (but labels aren't really working currently)
-  set :label action seq(label(:name ref(:rule_name)) str(":") label(:exp ref(:rule_exp))) {
-    my.output = {
-      "label(:#{name.text} #{exp.output})"
-    }
+  set :label action seq(label(:label_name ref(:rule_name)) str(":") label(:exp ref(:rule_exp))) {
+    my.output = "label(:#{label_name.text} #{exp.output})"
   }
 
   #Matches an optional rule:
   #  some_rule?
   set :maybe action seq(ref(:simple_rule_exp) str("?")) {
-    my.output = {
-      "maybe(#{matched.first.output})"
-    }
+    my.output = "maybe(#{matched.first.output})"
   }
 
   #Matches one or more of a rule:
   #  some_rule+
   set :many action seq(ref(:simple_rule_exp) str("+")) {
-    my.output = {
-      "many(#{matched.first.output})"
-    }
+    my.output = "many(#{matched.first.output})"
   }
 
   #Matches zero or more of a rule:
   #  some_rule*
   set :kleene action seq(ref(:simple_rule_exp) str("*")) {
-    my.output = {
-      "kleene(#{matched.first.output})"
-    }
+    my.output = "kleene(#{matched.first.output})"
   }
 
   #Matches a negative lookahead:
   #  !some_rule
   set :not action seq(str("!") ref(:simple_rule_exp)) {
-    my.output = {
-      "no(#{matched.last.output})"
-    }
+    my.output = "no(#{matched.last.output})"
   }
 
   #Matches positive lookahead:
@@ -495,15 +483,24 @@ peg_syntax = peg.new {
   set :action action seq(str("{") kleene(any(reg(/[^{}]+/) ref(:action))) str("}")) {
     my.output = my.text
   }
+
+  #Matches an object squish-in appended to a rule:
+  #  some_rule <cool_thing>
+  set :squish action reg(/<(\w+)>/) {
+    my.output = "{ my.squish #{my.matched[1]} }"
+  }
 }
 
 #Generates a parser with the given name from the PEG syntax passed in
-peg.make_parser = { name, grammar |
+peg.make_parser = { name, grammar, *included |
   result = peg_syntax.parse grammar
+  include_files = true? included.empty?
+                    { "" }
+                    { "includes #{included.map({ i | "'#{i}'" }).join(' ')}\n" }
 
   true? result
     { true? result.matched_all?
-      { result.output name }
+      { include_files << result.output(name) }
       {
         last_line = result.text.split("\n").last
         p "Error parsing around: #{last_line}"

@@ -2393,7 +2393,7 @@ end
 -- Object: array instance
 -- Call: array.deq item
 --
--- Add item to end of array
+-- Remove item from front of array.
 function array_instance:deq (item)
   if self._length == 0 then
     return object.__null

@@ -98,13 +98,13 @@ Take a look at [some examples](http://brat-lang.org/examples.html) of Brat code.
 
 # Problems
 
-Sometimes there are problems. Everyone has issues. Report Brat issues [here](http://github.com/presidentbeef/brat/issues).
+Sometimes there are problems. Everyone has issues. Report Brat issues [here](https://github.com/presidentbeef/brat/issues).
 
 # License
 
 The MIT License
 
-Copyright (c) 2010, Justin Collins
+Copyright (c) 2010-2014, Justin Collins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -123,5 +123,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-

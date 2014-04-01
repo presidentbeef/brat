@@ -1,91 +1,104 @@
-program = line+ | eof
+program = line+ <program>
+        | eof <program>
 
 line = comment
-     | space? expression space? comment? (eof | eol | eob)
+     | space? exp:expression space? comment? (eof | eol | eob) <simple_exp>
      | empty_line
 
 empty_line = space? eol
 
-expression = regex | binary_operation | assignment | paren_exp | unary_operation | method_invocation | number | string
+expression = regex | binary_operation
+           | index_set | index_get | assignment
+           | paren_exp !(/\.|\(|->/)
+           | unary_operation
+           | method_access | method_invocation | number | string
            | function_definition | array | hash 
 
-paren_exp  = "(" space? expression space? ")"
+paren_exp  = "(" space? exp:expression space? ")" <simple_exp>
 
-assignment = field_access space "=" spaceorbreak !function_literal_invocation (function_definition | method_access)
-           | field_access space "=" spaceorbreak expression
-           | identifier space "=" spaceorbreak expression
+assignment = field_access space "=" spaceorbreak !function_literal_invocation (function_definition | method_access) <field_assign>
+           | field_access space "=" spaceorbreak expression <field_assign>
+           | var:identifier space "=" spaceorbreak expression <var_assign>
 
-field_access = method_chain (identifier | operator)
+field_access = method_chain (identifier | operator) <field_access>
 
-method_access = "->" (identifier | operator)
+index_set = indexed_expression sindexes:("[" expression "]")+ space? "=" spaceorbreak expression <index_set>
+
+index_get = indexed_expression gindexes:("[" inner_arg_list "]")+ !"." iargs:arg_list <index_get>
+
+indexed_expression = array | hash | paren_exp | unary_operation | method_invocation | string
+
+method_access = "->" meth:(identifier | operator) !"." <simple_meth_access>
               | method_invocation "->" (identifier | operator)
-              | paren_exp "->" (identifier | operator)
-              | "->" paren_exp
+              | paren_exp "->" meth:(identifier | operator) <paren_meth_access>
+              | "->" paren_exp <simple_paren_meth_access>
 
 #-- Basic literals
 
-number  = "-"? /[0-9]+/ ("." /[0-9]+/)?
+number  = "-"? /[0-9]+/ ("." /[0-9]+/)? <bnumber>
 
-array   = "[" spaceorbreak array_inner spaceorbreak "]"
-        | "[" spaceorbreak "]"
+array   = "[" spaceorbreak inner:array_inner spaceorbreak "]" <barray>
+        | "[" spaceorbreak "]" <empty_array>
 
-array_inner = expression (((spaceorbreak "," spaceorbreak) | (space | eol)+) expression)+
+array_inner = first:expression rest:(((spaceorbreak "," spaceorbreak) | (space | eol)+) expression)* <array_inner>
 
-hash    = "[" space? ":" space? "]"
-        | "[" spaceorbreak hash_inner spaceorbreak "]"
+hash    = "[" space? ":" space? "]" <empty_hash>
+        | "[" spaceorbreak inner:hash_inner spaceorbreak "]" <bhash>
 
-hash_inner = hash_argument ((spaceorbreak "," spaceorbreak) | ((space | eol)+) hash_argument)*
+hash_inner = first:hash_argument rest:(((spaceorbreak "," spaceorbreak) | ((space | eol)+)) hash_argument)* <array_inner>
 
-hash_argument = (identifier | operator) (identifier | operator | number)* ":" spaceorbreak expression
-              | expression spaceorbreak ":" spaceorbreak expression
+hash_argument = key:((identifier | operator) (identifier | operator | number)*) ":" spaceorbreak value:expression <hash_key_arg>
+              | key:expression spaceorbreak ":" spaceorbreak value:expression <hash_arg>
 
-regex   = "/" ("\\/" | !"/" . )* "/" /[mix]*/
+regex   = "/" ("\\/" | !"/" . )* "/" /[mix]*/ <bregex>
 
-string  = "\"" (string_interpolation | "\\\"" | !"\"" .)* "\""
-        | "'" (!"'" .)* "'"
-        | ":" (identifier | operator | number)+
+string  = "\"" values:(string_interpolation | "\\\"" | !"\"" .)* "\"" <string_interp>
+        | "'" value:(!"'" .)* "'" <simple_string>
+        | ":" value:(identifier | operator | number)+ <simple_string>
 
-string_interpolation = "#" "{" space? expression? space? (eol space? expression space?)* spaceorbreak "}"
+string_interpolation = "#" "{" space? first:expression? space? rest:(eol space? expression space?)* spaceorbreak "}" <interp_value>
 
-comment = space? "#*" (!"*#" (comment | .))* "*#"
+comment = space? "#*" (!"*#" (comment | .))* ("*#" | eof)
         | space? "#" (!(eol | eof) .)*
 
 #-- Function definitions
 
-function_definition = "{" space? formal_args space? line* space? "}"
+function_definition = "{" space? args:formal_args space? body:line* space? "}" <bfunction>
 
 formal_args = space? plain_formals space? "|" !"|"
             | space? default_args space? "|" !"|"
             | space? variable_args space? "|" !"|"
-            | space? plain_formals space? "," space? variable_args space? "|" !"|" 
+            | space? plain_formals space? "," space? variable_args space? "|" !"|"
             | space? default_args space? "," space? variable_args space? "|" !"|"
             | space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" !"|"
             | space? plain_formals space? "," space? default_args space? "|" !"|"
             | !"|"
 
-plain_formals = identifier rest_formals
+plain_formals = plain_arg rest:rest_formals
 
-rest_formals = (space? "," space? identifier !(space "="))*
+rest_formals = (space? "," space? plain_arg !(space "="))*
+
+plain_arg = identifier <plain_arg>
 
 default_args = default_arg (space? "," space? default_args)*
 
-default_arg = identifier space "=" space default_arg_rhs_expression
+default_arg = arg_var:identifier space "=" space arg_val:default_arg_rhs_expression <default_arg>
 
-default_arg_rhs_expression = paren_exp | method_invocation | number | string | function_definition | array | hash
+default_arg_rhs_expression = index_get | paren_exp | method_invocation | number | string | function_definition | array | hash
 
-variable_args = "*" identifier
+variable_args = "*" arg_var:identifier <variable_args>
 
 #-- Unary and binary operations
 
-unary_operation = !("-" number) operator !space unary_rhs_expression
+unary_operation = !("-" number) operator !space unary_rhs_expression <unary_op>
 
-unary_rhs_expression = paren_exp | number | string | array | hash | method_invocation | regex
+unary_rhs_expression = index_get | paren_exp | number | string | array | hash | method_invocation | regex
 
-binary_operation = binary_operation_chain expression
+binary_operation = binary_operation_chain expression <binary_op>
 
-binary_operation_chain = (binary_lhs_expression space operator ((space? eol space?) | space))+
+binary_operation_chain = (binary_lhs_expression space operator ((space? eol space?) | space))+ <binary_op_chain>
 
-binary_lhs_expression = paren_exp | number | string | array | hash | regex | unary_operation | method_invocation
+binary_lhs_expression = index_get | paren_exp | number | string | array | hash | regex | unary_operation | method_invocation
 
 #-- Basic building blocks
 
@@ -95,16 +108,16 @@ operator = !("->" !operator) !("=" !(operator | "=")) ("!=" | ">=" | "<=" | /[!?
 
 #-- Calling methods and functions
 
-method_invocation = method_chain (identifier | operator) arg_list
-                  | identifier arg_list
-                  | paren_exp simple_arg_list
+method_invocation = method_chain (identifier | operator) arg_list <chain_call>
+                  | identifier arg_list <simple_call>
+                  | paren_exp simple_arg_list <paren_call>
                   | function_literal_invocation
 
 function_literal_invocation = function_definition !space simple_arg_list
 
-method_chain = (method_lhs ".")+
+method_chain = (method_lhs ".")+ <method_chain>
 
-method_lhs = identifier !space arg_list ("[" space? inner_arg_list space? "]")*
+method_lhs = var:identifier !space args:arg_list ("[" space? inner_arg_list space? "]")* <simple_meth_lhs>
            | array ("[" space? inner_arg_list space? "]")
            | function_definition !space simple_arg_list
            | function_definition &"."
@@ -122,12 +135,11 @@ arg_list = "(" space? inner_arg_list space? ")"
 simple_arg_list = "(" space? inner_arg_list space? ")"
                 | "(" space? ")"
 
-inner_arg_list = arg_first arg_next*
+inner_arg_list = arg_first arg_next* <inner_arg_list>
 
 arg_first = named_argument | expression
 
 arg_space = (space | eol_not_semicolon)*
-
 
 arg_next = arg_space "," arg_space arg_first
          | arg_space function_definition

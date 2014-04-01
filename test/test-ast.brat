@@ -1,0 +1,469 @@
+includes :assert :file :peg
+
+# Build parser from PEG
+parser_text = peg.make_parser("brat", file.read("parser/parser.peg"), 'parser/ast')
+file.open "parser/parser.brat", "w" { f | f.write parser_text }
+
+include "parser/parser"
+
+add_results setup name: "Brat AST tests" {
+  ast = { input, expected_ast |
+    parsed = brat_parser.parse input, :program, :fully
+    assert parsed, "Failed to parse '#{input}'"
+    got_ast = parsed.matched.ast
+
+    true? got_ast.length == 2
+      { assert_equal expected_ast, got_ast.last }
+      { assert_equal expected_ast, got_ast }
+  }
+
+  test "empty program" {
+    ast "" [:program]
+  }
+
+  test "number" {
+    ast "1" [:number 1]
+  }
+
+  test "numbers" {
+    ast "1\n2\n3" [:program
+                    [:number 1]
+                    [:number 2]
+                    [:number 3]]
+  }
+
+  test "empty array" {
+    ast "[]" [:array]
+  }
+
+  test "one element array" {
+    ast "[1]" [:array
+                [:number 1]]
+  }
+
+  test "two element array" {
+    ast "[1, 2]" [:array
+                   [:number 1]
+                   [:number 2]]
+  }
+
+  test "empty hash table" {
+    ast "[:]" [:hash]
+  }
+
+  test "one pair hash table" {
+    ast "[1 : 2]" [:hash
+                   [[:number 1]
+                     [:number 2]]]
+  }
+
+  test "two pair hash table" {
+    ast "[1 : 2, 3 : 4]" [:hash
+                           [[:number 1]
+                            [:number 2]]
+                           [[:number 3]
+                            [:number 4]]]
+  }
+
+  test "symbol key hash table" {
+    ast "[a: 1]" [:hash
+                   [[:string :a]
+                     [:number 1]]]
+  }
+
+  test "symbol keys hash table" {
+    ast "[a: 1, b: 2]" [:hash
+                         [[:string :a]
+                          [:number 1]]
+                         [[:string :b]
+                          [:number 2]]]
+  }
+
+  test "regex" {
+    ast "/^r\\d+.*?/i" [:regex "/^r\\d+.*?/i"]
+  }
+
+  test "simple string" {
+    ast '\'x\'' [:string 'x']
+  }
+
+  test "simple symbol" {
+    ast ':x' [:string 'x']
+  }
+
+  test "double quotes" {
+    ast '"x"' [:string "x"]
+  }
+
+  test "string interp" {
+    ast '"#{:x}"' [:string_interp [:string_eval [:string :x]]]
+  }
+
+  test "string multiple line interp" {
+    ast '"#{:x; 1}"' [:string_interp
+                      [:string_eval
+                        [:string :x]
+                        [:number 1]]]
+  }
+
+  # Note: Need to improve when have more expressions implemented
+  test "string interp mix" {
+    ast '"hi #{:name}! What is #{:up}?"',
+      [:string_interp
+        [:string "hi "]
+        [:string_eval
+          [:string :name]]
+        [:string "! What is "]
+        [:string_eval
+          [:string :up]]
+        [:string "?"]]
+  }
+
+  test "comments are ignored" {
+    ast "# hi" [:program]
+  }
+
+  test "multiline comments are ignored" {
+    ast "#*\n*#" [:program]
+  }
+
+  test "nested comments are ignored" {
+    ast "#* # hi \n *#" [:program]
+  }
+
+  test "comment out rest of file ignored" {
+    ast "1 #* stuff\nthings" [:number 1]
+  }
+
+  test "inline comments are ignored" {
+    ast "1 # nada" [:number 1]
+  }
+
+  test "empty function with no args" {
+    ast "{}" [:function [:args] [:body]]
+  }
+
+  test "function with no args" {
+    ast "{ 1 }" [:function
+                  [:args]
+                  [:body
+                    [:number 1]]]
+  }
+
+  test "multiline expression function with no args" {
+    ast "{\n1\n'a'\n}" [:function
+                         [:args]
+                          [:body
+                            [:number 1]
+                            [:string :a]]]
+  }
+
+  test "function with one formal arg" {
+    ast "{ x | }" [:function
+                    [:args [:arg :x]]
+                    [:body]]
+  }
+
+  test "function with two formal args" {
+    ast "{ x, y | }" [:function
+                      [:args
+                        [:arg :x]
+                        [:arg :y]]
+                      [:body]]
+  }
+
+  test "function with default arg" {
+    ast "{ x = 1 | }" [:function
+                        [:args
+                          [:def_arg
+                            :x
+                            [:number 1]]]
+                      [:body]]
+
+  }
+
+  test "function with two default args" {
+    ast "{ x = 1, y = 2 | }" [:function
+                               [:args
+                                [:def_arg
+                                  :x
+                                  [:number 1]]
+                                [:def_arg
+                                  :y
+                                [:number 2]]]
+                               [:body]]
+  }
+
+  test "function with variable args" {
+    ast "{ *x | }" [:function
+                    [:args
+                      [:var_arg :x]]
+                    [:body]]
+  }
+
+  test "function with plain and default args" {
+    ast "{ x, y = 1 | }" [:function
+                          [:args
+                            [:arg :x]
+                            [:def_arg
+                              :y
+                              [:number 1]]]
+                          [:body]]
+  }
+
+  test "function with plain and variable args" {
+    ast "{ x, *y | }" [:function
+                        [:args
+                          [:arg :x]
+                          [:var_arg :y]]
+                        [:body]]
+  }
+
+  test "function with default args and variable args" {
+    ast "{ x = 1, *y | }" [:function
+                            [:args
+                              [:def_arg
+                                :x
+                                [:number 1]]
+                              [:var_arg :y]]
+                            [:body]]
+  }
+
+  test "function with all kinds of args" {
+    ast "{ x, y = 1, *z | }" [:function
+                              [:args
+                                [:arg :x]
+                                [:def_arg
+                                  :y
+                                  [:number 1]]
+                                [:var_arg :z]]
+                              [:body]]
+  }
+
+  test "unary operation" {
+    ast "~>1" [:call [:number 1] "~>"]
+  }
+
+  test "simple call no args" {
+    ast "x" [:get_value :x]
+  }
+
+  test "simple call one arg" {
+    ast "x 1" [:call
+                null
+                :x
+                [[:number 1]]]
+  }
+
+  test "simple call two args" {
+    ast "x 1 []" [:call
+                  null
+                  :x
+                  [[:number 1]
+                   [:array]]]
+  }
+
+  test "chain call no args" {
+    ast "x.y" [:call
+                [:get_value :x]
+                :y]
+  }
+
+  test "chain call two args" {
+    ast "point.new 1 2" [:call
+                          [:get_value :point]
+                          :new
+                          [[:number 1]
+                            [:number 2]]]
+  }
+
+  test "three chains" {
+    ast "x.y.z" [:call
+                  [:call
+                    [:get_value :x]
+                    :y]
+                  :z]
+  }
+
+  test "paren call" {
+    ast "(x)(1)" [:invoke
+                   [:get_value :x]
+                   [[:number 1]]]
+  }
+
+  test "variable assignment" {
+    ast "x = 1" [:var_assign
+                  :x
+                  [:number 1]]
+  }
+
+  test "field assignment to exp" {
+    ast "x.y = 1" [:field_assign
+                    [:field_access
+                      [:get_value :x]
+                      :y]
+                    [:number 1]]
+  }
+
+  test "nested field assignment to exp" {
+    ast "x.y.z = 1" [:field_assign
+                      [:field_access
+                        [:call
+                          [:get_value :x]
+                          :y]
+                        :z]
+                    [:number 1]]
+  }
+
+  test "field assignment to function" {
+    ast "x.y = { }" [:field_assign
+                      [:field_access
+                        [:get_value :x]
+                        :y]
+                      [:function [:args] [:body]]]
+  }
+
+  test "field assignment to method access" {
+    ast "x.y = ->z" [:field_assign
+                      [:field_access
+                        [:get_value :x]
+                        :y]
+                      [:meth_access, null, :z]]
+  }
+
+  test "binary operation" {
+    ast "2 * 2" [:binop
+                  [:number 2]
+                  :*
+                  [:number 2]]
+  }
+
+  test "chained binary operation" {
+    ast "2 * 2 + 1" [:binop
+                      [:number 2]
+                      :*
+                        [:number 2]
+                        :+
+                        [:number 1]]
+  }
+
+  test "simple method access with variable" {
+    ast "->x" [:meth_access, null, :x]
+  }
+
+  test "simple method access with operator" {
+    ast "->!" [:meth_access, null, :!]
+  }
+
+  test "simple paren method access" {
+    ast "->(x)" [:meth_access
+                  null
+                  [:get_value :x]]
+  }
+
+  test "paren method access" {
+    ast "(x)->y" [:meth_access
+                  [:get_value :x]
+                  :y]
+  }
+
+  test "simple index get" {
+    ast "x[1]" [:call
+                [:get_value :x]
+                :get
+                [[:number 1]]]
+  }
+
+  test "nested index get" {
+    ast "x[1][:a]" [:call
+                    [:call
+                      [:get_value :x]
+                      :get
+                      [[:number 1]]]
+                    :get
+                    [[:string :a]]]
+  }
+
+  test "simple index get invoke" {
+    ast "x[1](2)" [:invoke
+                    [:call
+                      [:get_value :x]
+                      :get
+                      [[:number 1]]]
+                    [[:number 2]]]
+  }
+
+  test "nested index get invoke" {
+    ast "x[1][2](:a)" [:invoke
+                        [:call
+                          [:call
+                            [:get_value :x]
+                            :get
+                            [[:number 1]]]
+                          :get
+                          [[:number 2]]]
+                        [[:string :a]]]
+  }
+
+  test "index get with multiple indexes" {
+    ast "x[1, 2]" [:call
+                    [:get_value :x]
+                    :get
+                    [[:number 1]
+                      [:number 2]]]
+  }
+
+  test "index get with multiple indexes" {
+    ast "x[1, 2][3, 4]" [:call
+                          [:call
+                            [:get_value :x]
+                            :get
+                            [[:number 1]
+                              [:number 2]]]
+                          :get
+                          [[:number 3]
+                            [:number 4]]]
+  }
+
+  test "index get binary op" {
+    ast "x[1] + y[2]" [:binop
+                        [:call
+                          [:get_value :x]
+                          :get
+                          [[:number 1]]]
+                        :+
+                        [:call
+                          [:get_value :y]
+                          :get
+                          [[:number 2]]]]
+
+  }
+
+  test "index get unary op" {
+    ast "@x[1]" [:call
+                  [:call
+                    [:get_value :x]
+                    :get
+                    [[:number 1]]]
+                  :@]
+  }
+
+  test "simple index set" {
+    ast "x[1] = :a" [:call
+                      [:get_value :x]
+                      :set
+                      [[:number 1]
+                        [:string :a]]]
+  }
+
+  test "nested index set" {
+    ast "x[1][2] = :a" [:call
+                        [:call
+                          [:get_value :x]
+                          :get
+                          [[:number 1]]]
+                        :set
+                        [[:number 2]
+                          [:string :a]]]
+  }
+}

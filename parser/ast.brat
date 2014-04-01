@@ -1,0 +1,312 @@
+node = object.new
+node.prototype [
+    init: { name |
+            my.node_name = name
+            export my, name
+          }
+    to_s: { "<#{my.node_name}: #{my.matched}>" }
+]
+
+each_ast = { elements, block |
+  elements.each { e |
+    when { e.has_method?(:ast)} { block e.ast }
+         { e.has_method?(:elements) } { each_ast e.elements, ->block }
+  }
+}
+
+add_ast = { node, list |
+  each_ast node.elements, { ast |
+    true? ast
+      { list << ast }
+  }
+
+  list
+}
+
+ast = { name, block |
+  n = node.new name
+  n.ast = ->block
+}
+
+ast :program {
+  out = [:program]
+  add_ast my, out
+}
+
+ast :simple_exp {
+  a = null
+  each_ast my.elements, { ast | a = ast }
+  a
+}
+
+ast :bnumber {
+  [:number text.to_f]
+}
+
+ast :empty_array {
+  [:array]
+}
+
+ast :barray {
+  [:array].concat inner.ast
+}
+
+ast :array_inner {
+  list = []
+  add_ast my.first, list
+
+  my.rest.elements.each { e |
+    add_ast e.elements.last, list
+  }
+  list
+}
+
+ast :empty_hash {
+  [:hash]
+}
+
+ast :bhash {
+  [:hash].concat inner.ast
+}
+
+ast :hash_arg {
+  list = []
+  add_ast my.key, list
+  add_ast my.value, list
+}
+
+ast :hash_key_arg {
+  list = [[:string my.key.text]]
+  add_ast my.value, list
+}
+
+ast :bregex {
+  [:regex my.text]
+}
+
+ast :simple_string {
+  [:string my.value.text]
+}
+
+ast :string_interp {
+  list = []
+  values.elements.each { e |
+    m = e.matched
+    true? m.has_method?(:node_name) && { m.node_name == "interp_value" }
+      { list << e.matched.ast }
+      {
+        # Combine consecutive strings into one string
+        true? list.last && { list.last.first == :string }
+          { list.last.last << e.matched.text }
+          { list << [:string e.matched.text] }
+      }
+  }
+
+  # If just one simple string, return that
+  true? list.length == 1 && { list[0][0] == :string }
+    { list[0] }
+    { [:string_interp].concat list }
+}
+
+ast :interp_value {
+  value = [:string_eval]
+
+  true? first, {
+    add_ast first, value
+  }
+
+  add_ast rest, value
+}
+
+ast :bfunction {
+  list = [:function]
+
+  arg_list = [:args]
+  add_ast args, arg_list
+  list << arg_list
+
+  body_ast = [:body]
+  add_ast body, body_ast
+  list << body_ast
+}
+
+ast :plain_arg {
+  [:arg my.text]
+}
+
+ast :default_arg {
+  list = [:def_arg my.arg_var.text]
+
+  add_ast my.arg_val, list
+}
+
+ast :variable_args {
+  [:var_arg my.arg_var.text]
+}
+
+ast :unary_op {
+  list = [:call]
+
+  add_ast my, list
+
+  list << my.elements[1].text
+}
+
+ast :inner_arg_list {
+  list = []
+
+  add_ast my, list
+}
+
+ast :simple_call {
+  args = []
+
+  add_ast my, args
+
+  var = my.elements.first.text
+
+  true? args.empty?
+    { [:get_value var] }
+    { [:call, null, var, args.first] }
+}
+
+ast :chain_call {
+  list = [:call]
+
+  list << my.elements.first.ast
+
+  list << my.elements[1].text
+
+  add_ast my.elements.last, list
+}
+
+ast :simple_meth_lhs {
+  args = []
+
+  add_ast my.args, args
+
+  var = my.elements.first.text
+
+  true? args.empty?
+    { [:get_value var] }
+    { [:call, null, var, args.first] }
+}
+
+ast :method_chain {
+  list = []
+
+  add_ast my, list
+
+  list.reduce { memo, call |
+    true? call.first == :get_value
+      { call[0] = :call; call.insert(1, memo)}
+      { call[1] = memo }
+    call
+  }
+}
+
+ast :paren_call {
+  list = [:invoke]
+
+  add_ast my, list
+}
+
+ast :var_assign {
+  list = [:var_assign my.var.text]
+
+  add_ast my, list
+}
+
+ast :field_assign {
+  list = [:field_assign]
+  add_ast my, list
+}
+
+ast :field_access {
+  list = [:field_access]
+
+  add_ast my, list
+  list << my.elements.last.text
+}
+
+ast :binary_op {
+  list = [:binop].concat my.elements.first.ast
+
+  add_ast my.elements.last, list
+}
+
+ast :binary_op_chain {
+  list = []
+
+  my.elements.each { e |
+    add_ast e.elements.first, list
+    list << e.elements[2].text
+  }
+
+  list
+}
+
+ast :simple_meth_access {
+  [:meth_access, null, my.meth.text]
+}
+
+ast :simple_paren_meth_access {
+  list = [:meth_access null]
+
+  add_ast my, list
+}
+
+ast :paren_meth_access {
+  list = [:meth_access]
+
+  add_ast my, list
+
+  list << my.meth.text
+}
+
+ast :index_get {
+  list = [:call]
+  index_args = add_ast my.gindexes, []
+
+  add_ast my.elements.first, list
+  list << :get << index_args.deq
+
+  list = index_args.reduce(list, { memo, index |
+      [:call, memo, :get, index]
+   })
+
+  args = add_ast(my.iargs, []).first
+
+  null? args
+    { list }
+    { [:invoke, list, args] }
+}
+
+ast :index_set {
+  list = [:call]
+
+  add_ast my.elements.first, list
+
+  true? my.sindexes.elements.length > 1
+    {
+      list << :get
+
+      index_args = add_ast my.sindexes, []
+
+      list << [index_args.deq]
+      final_arg = index_args.pop
+
+      list = index_args.reduce(list, { memo, index |
+        [:call, memo, :get, [index]]
+      })
+
+      value = add_ast(my.elements.last, []).first
+
+      [:call, list, :set, [final_arg, value]]
+    }
+    {
+      args = add_ast my.sindexes, []
+      add_ast my.elements.last, args
+      list << :set << args
+    }
+}

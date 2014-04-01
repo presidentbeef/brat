@@ -704,7 +704,7 @@ grammar BaseBrat
       assign @result, type
 
       if can_be_literal?
-        set_result "string:new(#{text_value})"
+        set_result "string:new(#{as_literal})"
       else
         output = init_result
         text = '"'
@@ -724,7 +724,7 @@ grammar BaseBrat
 
         results.each { |r| unset r }
 
-        output << "#@result = string:new(#{text << '"'})\n" << "end\n"
+        output << "#@result = string:new(#{text.gsub("\n", '\n') << '"'})\n" << "end\n"
       end
     end
 
@@ -733,7 +733,7 @@ grammar BaseBrat
     end
 
     def as_literal
-      "#{text_value}"
+      "#{text_value.gsub("\n", '\n')}"
     end
 
     def type
@@ -745,7 +745,7 @@ grammar BaseBrat
     def brat(res_var = nil)
       get_result res_var
       assign @result, type
-      set_result "string:new(\"#{escaped_string}\")"
+      set_result "string:new(\"#{escaped_string.gsub("\n", '\n')}\")"
     end
 
     def escaped_string
@@ -757,7 +757,7 @@ grammar BaseBrat
     end
 
     def as_literal
-      "\"#{escaped_string}\")"
+      "\"#{escaped_string.gsub("\n", '\n')}\")"
     end
 
     def type
