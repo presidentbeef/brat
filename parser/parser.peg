@@ -102,7 +102,7 @@ binary_lhs_expression = index_get | paren_exp | number | string | array | hash |
 
 #-- Basic building blocks
 
-identifier = /[a-zA-Z]/ (!"->" /[a-zA-Z0-9_!?\-*+^&@~\/\\><$%]/)*
+identifier = /[a-zA-Z](?:(?!->)[a-zA-Z0-9_!?\-*+^&@~\/\\><$%])*/
 
 operator = !("->" !operator) !("=" !(operator | "=")) ("!=" | ">=" | "<=" | /[!?\-*+^@~\/\\><$_%\=]/ | "||" | "|" | "&&" | "&")+
 
