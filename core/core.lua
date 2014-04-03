@@ -2354,6 +2354,7 @@ end
 
 -- Object: array instance
 -- Call: array.each_until block
+-- Returns: self
 --
 -- Invokes block for each item. Stops when block returns true.
 function array_instance:each_underuntil (block)
@@ -2373,7 +2374,7 @@ function array_instance:each_underuntil (block)
 end
 
 -- Object: array instance
--- Call: array.each_until block
+-- Call: array.each_with_index block
 --
 -- Invokes the block for each item in the array, passing in the current index
 -- as well.
