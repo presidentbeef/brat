@@ -12,6 +12,8 @@ package.path = package.path .. ";" .. program_path .. "core/?.lua;" .. program_p
 
 require "lfs"
 
+io.output(io.stdout)
+
 local abort = function (message)
   print(message)
   os.exit(-1)
