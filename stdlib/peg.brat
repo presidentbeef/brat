@@ -21,10 +21,13 @@ peg.prototype.next_id = {
 }
 
 peg.make_memo = { result, pos |
-  m = object.new
-  m.result = result
-  m.pos = pos
-  m
+  true? result
+    {
+      m = object.new
+      m.result = result
+      m.pos = pos
+      m
+    }
 }
 
 peg.prototype.make_rule = { rule |
@@ -34,16 +37,19 @@ peg.prototype.make_rule = { rule |
 
   { x |
     m = memo[id][x.pos]
-    true? m
+    null? m
       {
-        x.pos = m.pos
-        m.result
+        current = x.pos
+        res = rule x
+        memo[id][current] = peg.make_memo res, x.pos
+        res
       }
       {
-         current = x.pos
-         m = peg.make_memo rule(x) x.pos
-         memo[id][current] = m
-         m.result
+        true? m
+          {
+            x.pos = m.pos
+            m.result
+          }
       }
   }
 }
