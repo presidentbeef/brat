@@ -127,15 +127,14 @@ peg.prototype.any = { rule, *rules |
     { rules = [->rule] + rules }
 
   make_rule { x |
-    matched = null 
+    matched = null
     start = x.pos
 
     rules.each_until { opt |
       matched = opt x
     }
 
-    true? matched
-      { peg.make_result start, x.pos, matched }
+    matched
   }
 }
 
@@ -144,12 +143,12 @@ peg.prototype.any_ref = { *rule_names |
   any rule_names.map { name | m.ref name }
 }
 
-#Match a rule the specified number of times 
+#Match a rule the specified number of times
 peg.prototype.num_of = { rule, min, max |
   make_rule { x |
     matches = []
     start = x.pos
-      
+
     while {
       matched = rule x
       true? matched
@@ -183,7 +182,7 @@ peg.prototype.kleene = { rule |
   make_rule { x |
     matches = []
     start = x.pos
-    
+
     while {
       res = rule x
 
@@ -192,7 +191,7 @@ peg.prototype.kleene = { rule |
     }
 
     peg.make_result start, x.pos, matches
-  }   
+  }
 }
 
 #Match one or more occurrences of rule
@@ -205,7 +204,7 @@ peg.prototype.many = { rule |
 
     true? matched
       { matches << matched }
-    
+
     while {
       matched = rule x
       true? matched
@@ -338,22 +337,22 @@ peg_syntax = peg.new {
   }
 
   set :line action seq(any_ref(:rule :comment) any(ref(:line_break) no(anything))) {
-    my.output = matched.first.matched.output
+    my.output = matched.first.output
   }
 
   set :comment action seq(str("#") kleene(seq no(str("\n")) anything)) {
     my.output = ""
   }
-  
+
   #Optional spaces
   set :opt_spaces reg /\s*/
 
   #Required spaces
   set :spaces reg /( )+/
-  
+
   #Multiple line breaks
   set :line_break many(str("\n"))
-  
+
   #A rule looks like:
   #  name = list of rule items
   set :rule action seq(ref(:rule_name) ref(:opt_spaces) str("=") ref(:opt_spaces) ref(:rule_list) reg(/( )*/)) {
@@ -389,7 +388,7 @@ peg_syntax = peg.new {
       first = matched.first
       rest = matched[1]
       act = false? matched[2].matched == ""
-              { matched[2].matched.elements.last.matched }
+              { matched[2].matched.elements.last }
               { null }
 
       out = true? rest.elements.empty?
@@ -407,14 +406,10 @@ peg_syntax = peg.new {
   }
 
   #A rule expression is an actual matcher or grouping
-  set :rule_exp action any_ref(:maybe :many :kleene :not :and :simple_rule_exp) {
-    my.output = matched.output
-  }
+  set :rule_exp any_ref(:maybe :many :kleene :not :and :simple_rule_exp)
 
   #Simple rules (i.e., not suffixed rules like + or *)
-  set :simple_rule_exp action any_ref(:label :str_literal :rule_ref :reg_literal :anything :paren_rule) {
-    my.output = matched.output
-  }
+  set :simple_rule_exp any_ref(:label :str_literal :rule_ref :reg_literal :anything :paren_rule)
 
   #Matches parentheses, which denote priority
   set :paren_rule action seq(str("(") ref(:rule_list) str(")")) {
@@ -425,7 +420,7 @@ peg_syntax = peg.new {
   set :str_literal action seq(str('"') kleene(any str('\"') seq(no(str '"') anything)) str('"')) {
     my.output = "str(#{text})"
   }
-  
+
   #References the name of another rule
   set :rule_ref action label(:name ref(:rule_name)) {
     my.output = "ref(:#{name.text})"
