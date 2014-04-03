@@ -52,11 +52,10 @@ ast :barray {
 }
 
 ast :array_inner {
-  list = []
-  add_ast my.first, list
+  list = [my.first.ast]
 
   my.rest.elements.each { e |
-    add_ast e.elements.last, list
+    add_ast e, list
   }
   list
 }
@@ -70,14 +69,11 @@ ast :bhash {
 }
 
 ast :hash_arg {
-  list = []
-  add_ast my.key, list
-  add_ast my.value, list
+  [my.key.ast, my.value.ast]
 }
 
 ast :hash_key_arg {
-  list = [[:string my.key.text]]
-  add_ast my.value, list
+  [[:string my.key.text], my.value.ast]
 }
 
 ast :bregex {
@@ -90,15 +86,14 @@ ast :simple_string {
 
 ast :string_interp {
   list = []
-  values.elements.each { e |
-    m = e.matched
-    true? m.has_method?(:node_name) && { m.node_name == "interp_value" }
-      { list << e.matched.ast }
+  values.matched.each { e |
+    true? e.has_method?(:node_name) && { e.node_name == "interp_value" }
+      { list << e.ast }
       {
         # Combine consecutive strings into one string
         true? list.last && { list.last.first == :string }
-          { list.last.last << e.matched.text }
-          { list << [:string e.matched.text] }
+          { list.last.last << e.text }
+          { list << [:string e.text] }
       }
   }
 
@@ -135,9 +130,7 @@ ast :plain_arg {
 }
 
 ast :default_arg {
-  list = [:def_arg my.arg_var.text]
-
-  add_ast my.arg_val, list
+  [:def_arg, my.arg_var.text, my.arg_val.ast]
 }
 
 ast :variable_args {
@@ -232,14 +225,14 @@ ast :field_access {
 ast :binary_op {
   list = [:binop].concat my.elements.first.ast
 
-  add_ast my.elements.last, list
+  list << my.elements.last.ast
 }
 
 ast :binary_op_chain {
   list = []
 
   my.elements.each { e |
-    add_ast e.elements.first, list
+    list << e.elements.first.ast
     list << e.elements[2].text
   }
 
@@ -265,11 +258,10 @@ ast :paren_meth_access {
 }
 
 ast :index_get {
-  list = [:call]
+  list = [:call, my.elements.first.ast, :get]
   index_args = add_ast my.gindexes, []
 
-  add_ast my.elements.first, list
-  list << :get << index_args.deq
+  list << index_args.deq
 
   list = index_args.reduce(list, { memo, index |
       [:call, memo, :get, index]
@@ -283,9 +275,7 @@ ast :index_get {
 }
 
 ast :index_set {
-  list = [:call]
-
-  add_ast my.elements.first, list
+  list = [:call, my.elements.first.ast]
 
   true? my.sindexes.elements.length > 1
     {
@@ -300,13 +290,13 @@ ast :index_set {
         [:call, memo, :get, [index]]
       })
 
-      value = add_ast(my.elements.last, []).first
+      value = my.elements.last.ast
 
       [:call, list, :set, [final_arg, value]]
     }
     {
       args = add_ast my.sindexes, []
-      add_ast my.elements.last, args
+      args << my.elements.last.ast
       list << :set << args
     }
 }
