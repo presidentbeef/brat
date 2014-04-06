@@ -313,7 +313,8 @@ peg.prototype.action = { rule, block |
         labeled_rules = peg.fetch_labels res
 
         labeled_rules.each { result |
-          res.add_method result.label, { result }
+          false? res.has_method?(result.label)
+            { res.add_method result.label, { result } }
         }
 
         res.with_this ->block
