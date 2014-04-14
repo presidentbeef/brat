@@ -428,6 +428,7 @@ function object:print (first, ...)
     end
   end
 
+  io.flush()
   return object.__null
 end
 
