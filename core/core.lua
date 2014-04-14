@@ -2695,8 +2695,10 @@ function array_instance:map (block)
         local m = item[method]
         if m == nil then
           error("In array.map: " .. tostring(item) .. " has no method called '" .. method .. "'")
-        else
+        elseif type(m) == "function" then
           return item[method](item)
+        else
+          return m
         end
       end
     end

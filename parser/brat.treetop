@@ -573,9 +573,9 @@ grammar BaseBrat
 
       output << <<-LUA
         if _type(#{lhs_result}) == "table" then
-          #{lhs_result}["#{lhs.i.brat}"] = function () return #{rhs_result} end
+          #{lhs_result}["#{lhs.i.brat}"] = #{rhs_result}
         elseif _type(#{lhs_result}) == "number" then
-          number["#{lhs.i.brat}"] = function () return #{rhs_result} end
+          number["#{lhs.i.brat}"] = #{rhs_result}
         else
           _error("Cannot set method on " .. #{lhs_result})
         end
@@ -1425,8 +1425,7 @@ grammar BaseBrat
         LUA
       else
         <<-LUA
-        if _self["#{name}"] ~= nil then
-          #@result = _self:#{name}(#{arg_list.list})
+        #{call_or_get "#@result = ", "_self", name, arg_list.list}
         elseif #{name} ~= nil then
           #@result = #{name};
         else
