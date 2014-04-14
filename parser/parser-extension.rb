@@ -59,6 +59,14 @@ class Treetop::Runtime::SyntaxNode
     variables << {}
   end
 
+  def do_scope
+    @@unset << []
+  end
+
+  def endo_scope
+    @@unset.pop
+  end
+
   def pop_scope
     @@variables.pop
     @@unset.pop

@@ -416,14 +416,18 @@ end
 -- Returns: null
 --
 -- Prints out any number of arguments, with no new line.
-function object:print (...)
-  io.output(io.stdout)
-  local input = {...}
-  for k,v in pairs(input) do
-    input[k] = tostring(v)
+function object:print (first, ...)
+  if first ~= nil then
+    io.write(tostring(first))
+
+    if select('#', ...) > 0 then
+      for k,v in pairs(input) do
+        input[k] = tostring(v)
+      end
+      io.write(unpack(input))
+    end
   end
-  io.write(unpack(input))
-  io.flush()
+
   return object.__null
 end
 
@@ -434,7 +438,8 @@ end
 -- Prints out any number of arguments, with an added new line.
 function object:p (...)
   self:print(...)
-  print()
+  io.write("\n")
+  io.flush()
   return object.__null
 end
 

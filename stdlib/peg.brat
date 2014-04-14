@@ -5,6 +5,12 @@
 
 include 'scanner'
 
+result_match = object.new
+result_match.prototype.to_s = {
+  name = my.label || "result"
+  "<#{name} text='#{my.text}' start=#{my.start_pos} end=#{my.end_pos}>"
+}
+
 peg = object.new
 
 peg.init = { gramma |
@@ -55,7 +61,7 @@ peg.prototype.make_rule = { rule |
 }
 
 peg.make_result = { match_pos, end_pos, matched |
-  result = object.new
+  result = result_match.new
   result.start_pos = match_pos
   result.end_pos = end_pos
   result.matched = matched
@@ -313,7 +319,8 @@ peg.prototype.action = { rule, block |
         labeled_rules = peg.fetch_labels res
 
         labeled_rules.each { result |
-          res.add_method result.label, { result }
+          false? res.has_method?(result.label)
+            { res.add_method result.label, { result } }
         }
 
         res.with_this ->block
