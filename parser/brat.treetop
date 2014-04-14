@@ -412,6 +412,7 @@ grammar BaseBrat
       end
 
       output << "do\n"
+      do_scope
 
       if no_result
         output << "local #@result\n#{e.brat(@result)}\n"
@@ -449,6 +450,8 @@ grammar BaseBrat
           v.brat << "\n" <<
           final.i.brat << "\n"
 
+        endo_scope
+
         unless no_result
           output << "#@result = "
         end
@@ -480,7 +483,10 @@ grammar BaseBrat
         output = "local #@result\n"
       end
 
-      output << "do\n" << e.brat(@result)
+      output << "do\n"
+      do_scope
+
+      output << e.brat(@result)
 
       is_hash = (e.type == :hash or type_of(@result) == :hash)
 
@@ -516,6 +522,7 @@ grammar BaseBrat
         args.unset_args
       end
 
+      endo_scope
       output << "end\n"
     end
 
@@ -710,6 +717,7 @@ grammar BaseBrat
         text = '"'
 
         output << "do\n"
+        do_scope
 
         results = [] #for unsetting
         content.elements.each do |e|
@@ -723,6 +731,7 @@ grammar BaseBrat
         end
 
         results.each { |r| unset r }
+        endo_scope
 
         output << "#@result = string:new(#{text.gsub("\n", '\n') << '"'})\n" << "end\n"
       end
@@ -1055,7 +1064,8 @@ grammar BaseBrat
       @var_name = i.brat
       var_add @var_name
 
-      "if #{var_name} == nil then\n do\n" <<
+      do_scope
+      output = "if #{var_name} == nil then\n do\n" <<
           v.brat(var_name) <<
           if var_name == v.result
             ""
@@ -1063,6 +1073,8 @@ grammar BaseBrat
             "#{var_name} = #{v.result}"
           end <<
           "\nend\nend\n"
+      endo_scope
+      output
     end
 
     def var_name
@@ -1105,6 +1117,7 @@ grammar BaseBrat
       else
         output = ""
       end
+      do_scope
       output << "do\n" << lhs.brat << rhs.brat
       @result = rhs.result
       in_stack = lhs.stack
@@ -1146,6 +1159,7 @@ grammar BaseBrat
       end
 
       output << "#{final_result} = #{res_stack.pop} \nend\n"
+      endo_scope
       @result = final_result
       assign @result, type
       output
