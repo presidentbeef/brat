@@ -140,104 +140,87 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "empty function with no args" {
-    ast "{}" [:function [:args] [:body]]
+    ast "{}" [:function]
   }
 
   test "function with no args" {
     ast "{ 1 }" [:function
-                  [:args]
-                  [:body
-                    [:number 1]]]
+                  null
+                  [[:number 1]]]
   }
 
   test "multiline expression function with no args" {
     ast "{\n1\n'a'\n}" [:function
-                         [:args]
-                          [:body
-                            [:number 1]
+                          null
+                          [[:number 1]
                             [:string :a]]]
   }
 
   test "function with one formal arg" {
     ast "{ x | }" [:function
-                    [:args [:arg :x]]
-                    [:body]]
+                    [[:arg :x]]]
   }
 
   test "function with two formal args" {
     ast "{ x, y | }" [:function
-                      [:args
+                      [
                         [:arg :x]
-                        [:arg :y]]
-                      [:body]]
+                        [:arg :y]]]
   }
 
   test "function with default arg" {
     ast "{ x = 1 | }" [:function
-                        [:args
+                        [
                           [:def_arg
                             :x
-                            [:number 1]]]
-                      [:body]]
+                            [:number 1]]]]
 
   }
 
   test "function with two default args" {
     ast "{ x = 1, y = 2 | }" [:function
-                               [:args
-                                [:def_arg
+                               [[:def_arg
                                   :x
                                   [:number 1]]
                                 [:def_arg
                                   :y
-                                [:number 2]]]
-                               [:body]]
+                                [:number 2]]]]
   }
 
   test "function with variable args" {
     ast "{ *x | }" [:function
-                    [:args
-                      [:var_arg :x]]
-                    [:body]]
+                    [[:var_arg :x]]]
   }
 
   test "function with plain and default args" {
     ast "{ x, y = 1 | }" [:function
-                          [:args
-                            [:arg :x]
+                          [[:arg :x]
                             [:def_arg
                               :y
-                              [:number 1]]]
-                          [:body]]
+                              [:number 1]]]]
   }
 
   test "function with plain and variable args" {
     ast "{ x, *y | }" [:function
-                        [:args
-                          [:arg :x]
-                          [:var_arg :y]]
-                        [:body]]
+                        [[:arg :x]
+                          [:var_arg :y]]]
   }
 
   test "function with default args and variable args" {
     ast "{ x = 1, *y | }" [:function
-                            [:args
-                              [:def_arg
+                            [[:def_arg
                                 :x
                                 [:number 1]]
-                              [:var_arg :y]]
-                            [:body]]
+                              [:var_arg :y]]]
   }
 
   test "function with all kinds of args" {
     ast "{ x, y = 1, *z | }" [:function
-                              [:args
-                                [:arg :x]
+                              [[:arg :x]
                                 [:def_arg
                                   :y
                                   [:number 1]]
-                                [:var_arg :z]]
-                              [:body]]
+                                [:var_arg :z]]]
   }
 
   test "unary operation" {
@@ -320,7 +303,7 @@ add_results setup name: "Brat AST tests" {
                       [:field_access
                         [:get_value :x]
                         :y]
-                      [:function [:args] [:body]]]
+                      [:function]]
   }
 
   test "field assignment to method access" {
