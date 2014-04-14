@@ -4861,18 +4861,17 @@ end
 local regex_instance = object:new()
 
 local regex_match = object:new()
+function regex_match._prototype:get (index)
+  return self.matches:get(index)
+end
 
-function regex_match:new (start_pos, end_pos, full_match, matches)
-  local rm = new_brat(self)
-  rm._prototype = new_brat(object)
+function regex_match:init (start_pos, end_pos, full_match, matches)
+  self.start_underpos = start_pos
+  self.end_underpos = end_pos
+  self.full_undermatch = full_match
+  self.matches = matches
 
-  function rm:start_underpos () return start_pos end
-  function rm:end_underpos () return end_pos end
-  function rm:full_undermatch () return full_match end
-  function rm:matches () return matches end
-  function rm:get (index) return matches:get(index) end
-
-  return rm
+  return self
 end
 
 regex = object:new()
