@@ -116,13 +116,25 @@ ast :interp_value {
 ast :bfunction {
   list = [:function]
 
-  arg_list = [:args]
+  arg_list = []
   add_ast args, arg_list
-  list << arg_list
 
-  body_ast = [:body]
+  body_ast = []
   add_ast body, body_ast
-  list << body_ast
+
+  true? arg_list.empty?
+  {
+    false? body_ast.empty?
+      { list << null << body_ast }
+  }
+  {
+    list << arg_list
+
+    false? body_ast.empty?
+    { list << body_ast }
+  }
+
+  list
 }
 
 ast :plain_arg {
