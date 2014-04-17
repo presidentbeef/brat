@@ -887,20 +887,20 @@ grammar BaseBrat
         min = 0
       end
 
-      get_result res_var
-      assign @result, type
 
-      if $existing_var or not already_inside_function
-        output << set_result("function (#{args})")
+      if $existing_var or not already_inside_function or $lifted_functions.length > 30
+        get_result res_var
       else
-        output << "local #{@result} = function (#{args})"
+        get_result
       end
 
-      output << inside << "\n" << inner_function << "\nend\n"
+      assign @result, type
+      output << set_result("function (#{args})") <<
+                inside << "\n" << inner_function << "\nend\n"
 
       pop_scope
 
-      if not $existing_var and already_inside_function
+      if not $existing_var and already_inside_function and $lifted_functions.length <= 30
         $lifted_functions << output
         lifted = @result
         get_result
@@ -1432,11 +1432,10 @@ grammar BaseBrat
       output <<
       if temp
         <<-LUA
-        local _t = _type(#{temp});
-        if _t == "table" or _t == "number" then
-          #@result = #{temp}
-        elseif _t == "function" then
+        if _is_callable(#{temp}) then
           #{invoke(@result, temp, arg_list.list, arg_list.length)}
+        elseif _type(#{temp}) == "table" or _type(#{temp}) == "number" then
+          #@result = #{temp}
         elseif #{temp} == nil then
           _error(exception:null_error("#{nice_id name}", "cannot call method on it"))
         else

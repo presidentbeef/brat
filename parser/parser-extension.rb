@@ -32,7 +32,6 @@ class Treetop::Runtime::SyntaxNode
     else
       @@variables.reverse_each do |vars|
         if vars[v]
-          puts "#{v} exists!"
           $existing_var = true
           return vars[v]
         end
@@ -217,7 +216,7 @@ class Treetop::Runtime::SyntaxNode
 
   def call_or_get action, temp, method, arguments
     <<-LUA
-      if _type(#{temp}.#{method}) == "function" then
+      if _is_callable(#{temp}.#{method}) then
         #{action} #{temp}:#{method}(#{arguments})
       elseif #{temp}.#{method} ~= nil then
         #{action} #{temp}.#{method}
@@ -312,7 +311,7 @@ class Treetop::Runtime::SyntaxNode
         _error("WHAT. No.")
       elseif #{has_field("_self", "no_undermethod")} then
         #{call_no_method res_var, "_self", object, arguments, arg_length}
-      elseif _type(#{no_meth}) == "function" then
+      elseif _is_callable(#{no_meth}) then
         #{call_no_method res_var, nil, object, arguments, arg_length}
       else
         _error(exception:name_error(#{display_object object, false}))
