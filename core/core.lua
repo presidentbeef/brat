@@ -61,6 +61,30 @@ local compare = function (lhs, rhs)
   return false
 end
 
+--Object for storing lifted closures
+
+function _call_it (self, _self)
+  return self.block(_self)
+end
+
+local _call_table = { ["__call"] = _call_it }
+
+function _lifted_call (block, arg_table)
+  local _call_thing = {}
+  _call_thing.block = block
+  _call_thing.__call_thing = true
+  if arg_table then
+    object.squish(_call_thing, arg_table)
+  end
+  setmetatable(_call_thing, _call_table)
+
+  return _call_thing
+end
+
+function is_callable (thing)
+  return type(thing) == "function" or (type(thing) == "table" and thing.__call_thing)
+end
+
 --Functions for identifier conversion
 
 require "rex_onig"
@@ -639,7 +663,7 @@ end
 
 function object:_1_true_question (obj)
   local condition
-  if type(obj) == "function" then
+  if is_callable(obj) then
     condition = obj(self)
   else
     condition = obj
@@ -653,12 +677,12 @@ function object:_1_true_question (obj)
 end
 
 function object:_2_true_question (condition, true_branch)
-  if type(condition) == "function" then
+  if is_callable(condition) then
     condition = condition(self)
   end
 
   if is_true(condition) then
-    if type(true_branch) == "function" then
+    if is_callable(true_branch) then
       return true_branch(self)
     else
       return true_branch
@@ -669,18 +693,18 @@ function object:_2_true_question (condition, true_branch)
 end
 
 function object:_3_true_question (condition, true_branch, false_branch)
-  if type(condition) == "function" then
+  if is_callable(condition) then
     condition = condition(self)
   end
 
   if is_true(condition) then
-    if type(true_branch) == "function" then
+    if is_callable(true_branch) then
       return true_branch(self)
     else
       return true_branch
     end
   else
-    if type(false_branch) == "function" then
+    if is_callable(false_branch) then
       return false_branch(self)
     else
       return false_branch

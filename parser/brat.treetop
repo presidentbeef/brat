@@ -54,6 +54,8 @@ grammar BaseBrat
         local _error = error
         local _tostring = tostring
         local brat_function = brat_function
+        local _lifted_call = _lifted_call
+        local _is_callable = is_callable
       LUA
     end
 
@@ -83,13 +85,17 @@ grammar BaseBrat
 
     def inner_brat
       Treetop::Runtime::SyntaxNode.clear_variables
-      elements.map do |e|
+      $lifted_functions = []
+
+      out = elements.map do |e|
         if e.respond_to? :no_result
-          "   " << e.no_result
+          e.no_result
         elsif e.respond_to? :brat
-          "   " << e.brat
+          e.brat
         end
       end.compact.join("\n")
+
+      "--lifted\n" << $lifted_functions.join("\n") << "--lifted\n" << out
     end
   }
   /
@@ -828,6 +834,8 @@ grammar BaseBrat
     def brat(res_var = nil)
       already_inside_function = $inside_function
       $inside_function = true
+      already_existing = $existing_var
+      $existing_var = false
 
       new_scope
       if fa.respond_to? :brat
@@ -881,14 +889,26 @@ grammar BaseBrat
 
       get_result res_var
       assign @result, type
-      output << set_result("function (#{args})")
+
+      if $existing_var or not already_inside_function
+        output << set_result("function (#{args})")
+      else
+        output << "local #{@result} = function (#{args})"
+      end
 
       output << inside << "\n" << inner_function << "\nend\n"
 
       pop_scope
 
-      $inside_function = false unless already_inside_function
+      if not $existing_var and already_inside_function
+        $lifted_functions << output
+        lifted = @result
+        get_result
+        output = set_result("_lifted_call(#{lifted})")
+      end
 
+      $inside_function = false unless already_inside_function
+      $existing_var = already_existing
       output
     end
 

@@ -27,10 +27,13 @@ class Treetop::Runtime::SyntaxNode
 
   def var_exist? v
     if var = @@variables[-1][v]
+      $existing_var = true
       var
     else
       @@variables.reverse_each do |vars|
         if vars[v]
+          puts "#{v} exists!"
+          $existing_var = true
           return vars[v]
         end
       end
@@ -298,7 +301,7 @@ class Treetop::Runtime::SyntaxNode
     end
 
     output = <<-LUA
-    if _type(#{temp}) == "function" then
+    if _is_callable(#{temp}) then
       #{call_function}
     elseif #{temp} then
       #{assign}
