@@ -294,7 +294,7 @@ class Treetop::Runtime::SyntaxNode
     no_meth = var_exist?("no_undermethod") || "no_undermethod"
 
     if arg_length > 0
-      assign = "_error(exception:new(\"Tried to invoke non-method: #{nice_id object} (\" .. object.__type(#{object}) .. \")\"))"
+      assign = "_error(exception:new(\"Tried to invoke non-method: #{nice_id object} (\" .. object.__type(#{temp}) .. \")\"))"
     else
       assign = "#{action} #{temp}"
     end

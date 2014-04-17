@@ -63,8 +63,8 @@ end
 
 --Object for storing lifted closures
 
-function _call_it (self, _self)
-  return self.block(_self)
+function _call_it (self, _self, ...)
+  return self.block(_self, ...)
 end
 
 local _call_table = { ["__call"] = _call_it }
