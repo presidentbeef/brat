@@ -234,13 +234,13 @@ end
 -- }
 function object:prototype (methods_or_block)
     if methods_or_block then
-      if type(methods_or_block) == "function" then
+      if is_callable(methods_or_block) then
         self._prototype:with_underthis(methods_or_block)
       else
         local proto = self._prototype
 
         methods_or_block:each(function(self, name, meth)
-          if type(meth) == "function" then
+          if is_callable(meth) then
             proto:add_undermethod(name, meth)
           else
             proto:add_undermethod(name, function(self)
@@ -513,7 +513,7 @@ end
 --
 -- Returns true if given variable is a function, false otherwise.
 function object:function_question (obj)
-  if type(obj) == "function" then
+  if is_callable(obj) then
     return object.__true
   else
     return object.__false
@@ -756,7 +756,7 @@ end
 
 function object:_1_false_question (obj)
   local condition
-  if type(obj) == "function" then
+  if is_callable(obj) then
     condition = obj(self)
   else
     condition = obj
@@ -770,12 +770,12 @@ function object:_1_false_question (obj)
 end
 
 function object:_2_false_question (condition, true_branch)
-  if type(condition) == "function" then
+  if is_callable(condition) then
     condition = condition(self)
   end
 
   if not is_true(condition) then
-    if type(true_branch) == "function" then
+    if is_callable(true_branch) then
       return true_branch(self)
     else
       return true_branch
@@ -786,18 +786,18 @@ function object:_2_false_question (condition, true_branch)
 end
 
 function object:_3_false_question (condition, true_branch, false_branch)
-  if type(condition) == "function" then
+  if is_callable(condition) then
     condition = condition(self)
   end
 
   if not is_true(condition) then
-    if type(true_branch) == "function" then
+    if is_callable(true_branch) then
       return true_branch(self)
     else
       return true_branch
     end
   else
-    if type(false_branch) == "function" then
+    if is_callable(false_branch) then
       return false_branch(self)
     else
       return false_branch
@@ -849,7 +849,7 @@ end
 
 function object:_1_null_question (obj)
   local condition
-  if type(obj) == "function" then
+  if is_callable(obj) then
     condition = obj(self)
   else
     condition = obj
@@ -863,12 +863,12 @@ function object:_1_null_question (obj)
 end
 
 function object:_2_null_question (condition, true_branch)
-  if type(condition) == "function" then
+  if is_callable(condition) then
     condition = condition(self)
   end
 
   if condition == object.__null then
-    if type(true_branch) == "function" then
+    if is_callable(true_branch) then
       return true_branch(self)
     else
       return true_branch
@@ -879,18 +879,18 @@ function object:_2_null_question (condition, true_branch)
 end
 
 function object:_3_null_question (condition, true_branch, false_branch)
-  if type(condition) == "function" then
+  if is_callable(condition) then
     condition = condition(self)
   end
 
   if condition == object.__null then
-    if type(true_branch) == "function" then
+    if is_callable(true_branch) then
       return true_branch(self)
     else
       return true_branch
     end
   else
-    if type(false_branch) == "function" then
+    if is_callable(false_branch) then
       return false_branch(self)
     else
       return false_branch
@@ -1018,7 +1018,7 @@ end
 -- short-circuiting.
 function object:_and_and (rhs)
   if is_true(self) then
-    if type(rhs) == "function" then
+    if is_callable(rhs) then
       return rhs(self)
     else
       return rhs
@@ -1038,7 +1038,7 @@ end
 function object:_or_or (rhs)
   if is_true(self) then
     return self
-  elseif type(rhs) == "function" then
+  elseif is_callable(rhs) then
     return rhs(self)
   else
     return rhs
@@ -1539,13 +1539,13 @@ function object:when (...)
   while index <= len do
     cond = args[index]
 
-    if type(cond) == "function" then
+    if is_callable(cond) then
       cond = cond(self)
     end
 
     if is_true(cond) then
       result = args[index + 1]
-      if type(result) == "function" then
+      if is_callable(result) then
         result = result(self)
       end
       break
@@ -1567,7 +1567,7 @@ function object:when_underequal (...)
 
   local value = args[1]
 
-  if type(value) == "function" then
+  if is_callable(value) then
     value = value(self)
   end
 
@@ -1583,14 +1583,14 @@ function object:when_underequal (...)
   while index <= len do
     cond = args[index]
 
-    if type(cond) == "function" then
+    if is_callable(cond) then
       cond = cond(self)
     end
 
     if (is_num and value == cond) or (not is_num and is_true(value:_equal_equal(cond))) then
       result = args[index + 1]
 
-      if type(result) == "function" then
+      if is_callable(result) then
         result = result(self)
         break
       end
@@ -1880,7 +1880,7 @@ function number_instance:of (item)
   local i = 1
   local r = {}
 
-  if type(item) == "function" then
+  if is_callable(item) then
     while i <= num do
       r[i] = item(self)
       i = i + 1
@@ -2506,7 +2506,7 @@ function array_instance:reject_bang (block)
   local new_array = {}
   local f
 
-  if type(block) == "function" then
+  if is_callable(block) then
     f = block
   elseif type(block) == "table" and block._lua_string then
     f = function (_self, item)
@@ -2592,7 +2592,7 @@ function array_instance:select_bang (block)
   local new_array = {}
   local f
 
-  if type(block) == "function" then
+  if is_callable(block) then
     f = block
   elseif type(block) == "table" and block._lua_string then
     f = function (_self, item)
@@ -2719,7 +2719,7 @@ function array_instance:map (block)
         local m = item[method]
         if m == nil then
           error("In array.map: " .. tostring(item) .. " has no method called '" .. method .. "'")
-        elseif type(m) == "function" then
+        elseif is_callable(m) then
           return item[method](item)
         else
           return m
@@ -4552,7 +4552,7 @@ function string_instance:sub (pattern, replacement, limit)
     else
       error(exception:argument_error("string.sub", "string", tostring(replacement)))
     end
-  elseif type(replacement) == "function" then
+  elseif is_callable(replacement) then
     local f = replacement
     replacement = function (s)
       local s = base_string:new(s)
