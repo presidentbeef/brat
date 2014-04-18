@@ -82,7 +82,7 @@ function _lifted_call (block, arg_table)
 end
 
 function is_callable (thing)
-  return type(thing) == "function" or (type(thing) == "table" and thing.__call_thing)
+  return type(thing) == "function" or (type(thing) == "table" and rawget(thing, "__call_thing"))
 end
 
 --Functions for identifier conversion

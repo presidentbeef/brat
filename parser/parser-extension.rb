@@ -216,7 +216,7 @@ class Treetop::Runtime::SyntaxNode
 
   def call_or_get action, temp, method, arguments
     <<-LUA
-      if _is_callable(#{temp}.#{method}) then
+      if #{callable? "#{temp}.#{method}"} then
         #{action} #{temp}:#{method}(#{arguments})
       elseif #{temp}.#{method} ~= nil then
         #{action} #{temp}.#{method}
@@ -300,7 +300,7 @@ class Treetop::Runtime::SyntaxNode
     end
 
     output = <<-LUA
-    if _is_callable(#{temp}) then
+    if #{callable? temp} then
       #{call_function}
     elseif #{temp} then
       #{assign}
@@ -311,7 +311,7 @@ class Treetop::Runtime::SyntaxNode
         _error("WHAT. No.")
       elseif #{has_field("_self", "no_undermethod")} then
         #{call_no_method res_var, "_self", object, arguments, arg_length}
-      elseif _is_callable(#{no_meth}) then
+      elseif #{callable? no_meth} then
         #{call_no_method res_var, nil, object, arguments, arg_length}
       else
         _error(exception:name_error(#{display_object object, false}))
@@ -431,6 +431,10 @@ class Treetop::Runtime::SyntaxNode
 
   def has_field object, field_name
     "#{object}.#{field_name} ~= nil"
+  end
+
+  def callable? name
+    "_type(#{name}) == \"function\" or (_type(#{name}) == \"table\" and _rawget(#{name}, \"__call_thing\"))"
   end
 
   def number? item

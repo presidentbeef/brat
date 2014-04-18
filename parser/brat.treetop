@@ -55,7 +55,7 @@ grammar BaseBrat
         local _tostring = tostring
         local brat_function = brat_function
         local _lifted_call = _lifted_call
-        local _is_callable = is_callable
+        local _rawget = rawget
       LUA
     end
 
@@ -1435,13 +1435,21 @@ grammar BaseBrat
         end
       end
 
+
       output <<
       if temp
         <<-LUA
-        if _is_callable(#{temp}) then
-          #{invoke(@result, temp, arg_list.list, arg_list.length)}
-        elseif _type(#{temp}) == "table" or _type(#{temp}) == "number" then
+        local _t = _type(#{temp})
+        if _t == "table" then
+          if _rawget(#{temp}, "__call_thing") == nil then
+            #@result = #{temp}
+          else
+            #{invoke(@result, temp, arg_list.list, arg_list.length)}
+          end
+        elseif _t == "number" then
           #@result = #{temp}
+        elseif _t == "function" then
+          #{invoke(@result, temp, arg_list.list, arg_list.length)}
         elseif #{temp} == nil then
           _error(exception:null_error("#{nice_id name}", "cannot call method on it"))
         else
