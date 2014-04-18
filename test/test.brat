@@ -1,5 +1,6 @@
-include :file
-include :assert
+includes :file :assert :subprocess
+
+subprocess.run "touch stdlib/*.brat parser/*.brat"
 
 overall_results = [tests: 0 assertions: 0 failures: 0]
 
