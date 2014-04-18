@@ -27,12 +27,11 @@ class Treetop::Runtime::SyntaxNode
 
   def var_exist? v
     if var = @@variables[-1][v]
-      $existing_var = true
       var
     else
       @@variables.reverse_each do |vars|
         if vars[v]
-          $existing_var = true
+          $upvalues << vars[v]
           return vars[v]
         end
       end

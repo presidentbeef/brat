@@ -64,7 +64,7 @@ end
 --Object for storing lifted closures
 
 function _call_it (self, _self, ...)
-  return self.block(_self, ...)
+  return self.block(self.arg_table, _self, ...)
 end
 
 local _call_table = { ["__call"] = _call_it }
@@ -72,10 +72,8 @@ local _call_table = { ["__call"] = _call_it }
 function _lifted_call (block, arg_table)
   local _call_thing = {}
   _call_thing.block = block
+  _call_thing.arg_table = arg_table
   _call_thing.__call_thing = true
-  if arg_table then
-    object.squish(_call_thing, arg_table)
-  end
   setmetatable(_call_thing, _call_table)
 
   return _call_thing

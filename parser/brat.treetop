@@ -598,6 +598,9 @@ grammar BaseBrat
     def brat(res_var = nil)
       var = lhs.brat
       temp = var_exist? var
+      if temp
+        $set_upvalue = true
+      end
       upper = $assignment_lhs
       $assignment_lhs = lhs.text_value
 
@@ -834,8 +837,9 @@ grammar BaseBrat
     def brat(res_var = nil)
       already_inside_function = $inside_function
       $inside_function = true
-      already_existing = $existing_var
-      $existing_var = false
+      already_set_upvalue = $set_upvalue
+      $set_upvalue = false
+      $upvalues = Set.new
 
       new_scope
       if fa.respond_to? :brat
@@ -887,33 +891,47 @@ grammar BaseBrat
         min = 0
       end
 
-
-      if $existing_var or not already_inside_function or $lifted_functions.length > 30
+      if $set_upvalue or not already_inside_function or $lifted_functions.length > 30
         get_result res_var
       else
         get_result
       end
 
       assign @result, type
-      output << set_result("function (#{args})") <<
-                inside << "\n" << inner_function << "\nend\n"
 
       pop_scope
 
-      if not $existing_var and already_inside_function and $lifted_functions.length <= 30
+      if not $set_upvalue and already_inside_function and $lifted_functions.length <= 30
+          output << set_result("function (_arg_table, #{args})") <<
+                  $upvalues.map do |var|
+                    "#{var} = _arg_table[\"#{var}\"]"
+                  end.join("\n") << "\n" <<
+                  inside << "\n" << inner_function << "\nend\n"
+
         $lifted_functions << output
         lifted = @result
         get_result
-        output = set_result("_lifted_call(#{lifted})")
+        if $upvalues.empty?
+          output = set_result("_lifted_call(#{lifted})")
+        else
+          output = "local _v = {}\n" <<
+            $upvalues.map do |var|
+              "_v[\"#{var}\"] = #{var}"
+            end.join("\n") << "\n" <<
+            set_result("_lifted_call(#{lifted}, _v)")
+        end
+      else
+        output << set_result("function (#{args})") <<
+                inside << "\n" << inner_function << "\nend\n"
       end
 
       $inside_function = false unless already_inside_function
       if already_inside_function
-        if already_existing
-          $existing_var = already_existing
+        if already_set_upvalue
+          $set_upvalue = already_set_upvalue
         end
       else
-        $existing_var = already_existing
+        $set_upvalue = already_set_upvalue
       end
       output
     end
