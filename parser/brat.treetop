@@ -908,7 +908,13 @@ grammar BaseBrat
       end
 
       $inside_function = false unless already_inside_function
-      $existing_var = already_existing
+      if already_inside_function
+        if already_existing
+          $existing_var = already_existing
+        end
+      else
+        $existing_var = already_existing
+      end
       output
     end
 
