@@ -86,6 +86,7 @@ grammar BaseBrat
     def inner_brat
       Treetop::Runtime::SyntaxNode.clear_variables
       $lifted_functions = []
+      $potentials = []
 
       out = elements.map do |e|
         if e.respond_to? :no_result
@@ -839,7 +840,12 @@ grammar BaseBrat
       $inside_function = true
       already_set_upvalue = $set_upvalue
       $set_upvalue = false
-      $upvalues = Set.new
+      $any_set_upvalue ||= false
+      $upvalues ||= []
+      $upvalues << Set.new
+      already_inner_function = $inner_function
+      $inner_function = false
+      $potentials << []
 
       new_scope
       if fa.respond_to? :brat
@@ -891,42 +897,75 @@ grammar BaseBrat
         min = 0
       end
 
-      if $set_upvalue or not already_inside_function or $lifted_functions.length > 30
-        get_result res_var
-      else
-        get_result
-      end
+      lifted_result = next_temp
+      get_result res_var
 
       assign @result, type
 
       pop_scope
 
-      if not $set_upvalue and already_inside_function and $lifted_functions.length <= 30
-          output << set_result("function (_arg_table, #{args})") <<
-                  $upvalues.map do |var|
-                    "#{var} = _arg_table[\"#{var}\"]"
-                  end.join("\n") << "\n" <<
-                  inside << "\n" << inner_function << "\nend\n"
-
-        $lifted_functions << output
-        lifted = @result
-        get_result
-        if $upvalues.empty?
-          output = set_result("_lifted_call(#{lifted})")
-        else
-          output = "local _v = {}\n" <<
-            $upvalues.map do |var|
-              "_v[\"#{var}\"] = #{var}"
-            end.join("\n") << "\n" <<
-            set_result("_lifted_call(#{lifted}, _v)")
+      possibles = $potentials.pop
+      if $any_set_upvalue or $lifted_functions.length + possibles.length > 30
+        possibles.each do |poss|
+          inner_function.sub!(/^#{poss[:replace]}/, poss[:no_lifting])
         end
       else
-        output << set_result("function (#{args})") <<
-                inside << "\n" << inner_function << "\nend\n"
+        possibles.each do |poss|
+          $lifted_functions << poss[:lifted_function] 
+          inner_function.sub!(/^#{poss[:replace]}/, poss[:set_lifted_call])
+        end
       end
 
-      $inside_function = false unless already_inside_function
+      no_lifting = set_result("function (#{args})") <<
+        inside << "\n" << inner_function << "\nend\n"
+
+      upvalues = $upvalues.pop
+      should_lift = !$set_upvalue && already_inside_function && $lifted_functions.length <= 30 && ($inner_function == false or upvalues.empty?)
+
+      if should_lift
+          $inner_function = false
+
+          lifted_function = ("local #{lifted_result} = function (_arg_table, #{args})\n") <<
+            upvalues.map do |var|
+              "local #{var} = _arg_table[\"#{var}\"]"
+            end.join("\n") << "\n" <<
+            inside << "\n" << inner_function << "\nend\n"
+
+        set_lifted_call = if upvalues.empty?
+            set_result("_lifted_call(#{lifted_result})")
+          else
+              set_result("_lifted_call(#{lifted_result}, {})") <<
+              upvalues.map do |var|
+                if not local_temp? var 
+                  $upvalues.last << var
+                end
+                "#{@result}.arg_table[\"#{var}\"] = #{var}"
+              end.join("\n") << "\n"
+          end
+      end
+
+      if should_lift
+        if upvalues.empty?
+          $lifted_functions << lifted_function
+          output << set_lifted_call
+        else
+          marker = "-- REPLACE #{lifted_result} --"
+          $potentials.last << {
+            :lifted_function => lifted_function,
+            :set_lifted_call => set_lifted_call,
+            :no_lifting => no_lifting,
+            :replace => marker
+          }
+          output << marker
+        end
+      else
+        output << no_lifting
+      end
+
+      $inner_function = already_inner_function && already_inside_function
+      $inside_function = already_inside_function
       if already_inside_function
+        $any_set_upvalue ||= $set_upvalue
         if already_set_upvalue
           $set_upvalue = already_set_upvalue
         end

@@ -935,7 +935,7 @@ function object:_while (...)
       --nothing
     end
   elseif arglen == 2 then
-    if type(args[1]) == "function" then
+    if is_callable(args[1]) then
       while is_true(args[1](self)) do
         args[2](self)
       end
@@ -979,7 +979,7 @@ function object:_until (...)
       --nothing
     end
   elseif arglen == 2 then
-    if type(args[1]) == "function" then
+    if is_callable(args[1]) then
       while not is_true(args[1](self)) do
         args[2](self)
       end
@@ -1205,7 +1205,7 @@ function object:protect (block, options)
       filter = nil
     end
 
-    if (rescue and type(rescue) ~= "function") or (ensure and type(ensure) ~= "function") then
+    if (rescue and not is_callable(rescue)) or (ensure and not is_callable(ensure)) then
       error(exception:argument_error("protect", "function", tostring(options)))
     end
 

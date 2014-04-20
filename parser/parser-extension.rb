@@ -31,12 +31,16 @@ class Treetop::Runtime::SyntaxNode
     else
       @@variables.reverse_each do |vars|
         if vars[v]
-          $upvalues << vars[v]
+          $upvalues.last << vars[v]
           return vars[v]
         end
       end
       false
     end
+  end
+
+  def local_temp? v
+    @@variables[-1].values.include? v
   end
 
   def var_add v
