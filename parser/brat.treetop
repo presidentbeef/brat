@@ -907,13 +907,18 @@ grammar BaseBrat
       possibles = $potentials.pop
       if $any_set_upvalue or $lifted_functions.length + possibles.length > 30
         possibles.each do |poss|
-          inner_function.sub!(/^#{poss[:replace]}/, poss[:no_lifting])
+          begin
+            inner_function[/^#{poss[:replace]}/] = poss[:no_lifting] # Using (g)sub causes issues with backslashes
+          rescue IndexError => e
+            puts "Why doesn't #{inner_function} have #{poss[:replace]}?"
+          end
         end
       else
         possibles.each do |poss|
           $lifted_functions << poss[:lifted_function] 
-          inner_function.sub!(/^#{poss[:replace]}/, poss[:set_lifted_call])
+          inner_function[/^#{poss[:replace]}/] = poss[:set_lifted_call]
         end
+
       end
 
       no_lifting = set_result("function (#{args})") <<
