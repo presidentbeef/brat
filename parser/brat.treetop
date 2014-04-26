@@ -961,7 +961,7 @@ grammar BaseBrat
             :no_lifting => no_lifting,
             :replace => marker
           }
-          output << marker
+          output << "\n" << marker
         end
       else
         output << no_lifting
