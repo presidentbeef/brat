@@ -167,8 +167,7 @@ class Treetop::Runtime::SyntaxNode
     end
 
     call_table = <<-LUA
-        if #{has_field(temp, method)} then
-          #{action} #{temp}:#{method}(#{arguments})
+        #{call_or_get action, temp, method, arguments}
         elseif #{has_field(temp, "no_undermethod")} then
           #{call_no_method res_var, temp, method, arguments, arg_length}
         else
@@ -211,6 +210,15 @@ class Treetop::Runtime::SyntaxNode
       end
       LUA
     end
+  end
+
+  def call_or_get action, temp, method, arguments
+    <<-LUA
+      if _type(#{temp}.#{method}) == "function" then
+        #{action} #{temp}:#{method}(#{arguments})
+      elseif #{temp}.#{method} ~= nil then
+        #{action} #{temp}.#{method}
+    LUA
   end
 
   def inline_number_operation action, lhs, method, rhs
@@ -295,8 +303,7 @@ class Treetop::Runtime::SyntaxNode
     elseif #{temp} then
       #{assign}
     else
-      if #{has_field("_self", object)} then
-        #{action} _self:#{object}(#{arguments})
+      #{call_or_get action, "_self", object, arguments}
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
@@ -312,13 +319,13 @@ class Treetop::Runtime::SyntaxNode
 
   end
 
-  def invoke res_var, method, arguments, arg_length
+  def invoke res_var, method, simple_args, arg_length
     temp = var_exist?(method) || method
 
     if arg_length == 0
       arguments = "_self"
     else
-      arguments = "_self, " << arguments
+      arguments = "_self, " << simple_args
     end
 
     if res_var 
@@ -332,8 +339,7 @@ class Treetop::Runtime::SyntaxNode
     else
       <<-LUA
       if #{temp} == nil then
-        if #{has_field("_self", temp)} then
-          #{action} _self.#{temp}(#{arguments})
+        #{call_or_get action, "_self", temp, simple_args}
         elseif #{has_field("_self", "no_undermethod")} then
           #{call_no_method res_var, "_self", method, arguments, arg_length}
         else

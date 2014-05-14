@@ -1,0 +1,10 @@
+#* http://rosettacode.org/wiki/Integer_comparison
+  Compare two input integers
+*#
+
+first = ask("First integer: ").to_i
+second = ask("Second integer: ").to_i
+
+when { first > second } { p "#{first} is greater than #{second}" }
+     { first < second } { p "#{first} is less than #{second}" }
+     { first == second } { p "#{first} is equal to #{second}" }
