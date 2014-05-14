@@ -2268,7 +2268,7 @@ function array:new (first, ...)
     return na
   end
 
-  if type(first) == "table" and not first._is_an_object and select("#") == 0 then
+  if type(first) == "table" and not first._is_an_object and not first.__call_thing  and select("#") == 0 then
     na._lua_array = first
   else
     na._lua_array = {first, ...}
