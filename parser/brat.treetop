@@ -54,6 +54,8 @@ grammar BaseBrat
         local _error = error
         local _tostring = tostring
         local brat_function = brat_function
+        local _lifted_call = _lifted_call
+        local _rawget = rawget
       LUA
     end
 
@@ -83,13 +85,18 @@ grammar BaseBrat
 
     def inner_brat
       Treetop::Runtime::SyntaxNode.clear_variables
-      elements.map do |e|
+      $lifted_functions = []
+      $potentials = []
+
+      out = elements.map do |e|
         if e.respond_to? :no_result
-          "   " << e.no_result
+          e.no_result
         elsif e.respond_to? :brat
-          "   " << e.brat
+          e.brat
         end
       end.compact.join("\n")
+
+      "--lifted\n" << $lifted_functions.join("\n") << "--lifted\n" << out
     end
   }
   /
@@ -592,6 +599,9 @@ grammar BaseBrat
     def brat(res_var = nil)
       var = lhs.brat
       temp = var_exist? var
+      if temp
+        $set_upvalue = true
+      end
       upper = $assignment_lhs
       $assignment_lhs = lhs.text_value
 
@@ -828,6 +838,14 @@ grammar BaseBrat
     def brat(res_var = nil)
       already_inside_function = $inside_function
       $inside_function = true
+      already_set_upvalue = $set_upvalue
+      $set_upvalue = false
+      $any_set_upvalue ||= false
+      $upvalues ||= []
+      $upvalues << Set.new
+      already_inner_function = $inner_function
+      $inner_function = false
+      $potentials << []
 
       new_scope
       if fa.respond_to? :brat
@@ -879,16 +897,86 @@ grammar BaseBrat
         min = 0
       end
 
+      lifted_result = next_temp
       get_result res_var
-      assign @result, type
-      output << set_result("function (#{args})")
 
-      output << inside << "\n" << inner_function << "\nend\n"
+      assign @result, type
 
       pop_scope
 
-      $inside_function = false unless already_inside_function
+      possibles = $potentials.pop
+      if $any_set_upvalue or $lifted_functions.length + possibles.length > 30
+        possibles.each do |poss|
+          begin
+            inner_function[/^#{poss[:replace]}/] = poss[:no_lifting] # Using (g)sub causes issues with backslashes
+          rescue IndexError => e
+            puts "Why doesn't #{inner_function} have #{poss[:replace]}?"
+          end
+        end
+      else
+        possibles.each do |poss|
+          $lifted_functions << poss[:lifted_function] 
+          inner_function[/^#{poss[:replace]}/] = poss[:set_lifted_call]
+        end
 
+      end
+
+      no_lifting = set_result("function (#{args})") <<
+        inside << "\n" << inner_function << "\nend\n"
+
+      upvalues = $upvalues.pop
+      should_lift = !$set_upvalue && already_inside_function && $lifted_functions.length <= 30 && ($inner_function == false or upvalues.empty?)
+
+      if should_lift
+          $inner_function = false
+
+          lifted_function = ("local #{lifted_result} = function (_arg_table, #{args})\n") <<
+            upvalues.map do |var|
+              "local #{var} = _arg_table[\"#{var}\"]"
+            end.join("\n") << "\n" <<
+            inside << "\n" << inner_function << "\nend\n"
+
+        set_lifted_call = if upvalues.empty?
+            set_result("_lifted_call(#{lifted_result})")
+          else
+              set_result("_lifted_call(#{lifted_result}, {})") <<
+              upvalues.map do |var|
+                if not local_temp? var 
+                  $upvalues.last << var
+                end
+                "#{@result}.arg_table[\"#{var}\"] = #{var}"
+              end.join("\n") << "\n"
+          end
+      end
+
+      if should_lift
+        if upvalues.empty?
+          $lifted_functions << lifted_function
+          output << set_lifted_call
+        else
+          marker = "-- REPLACE #{lifted_result} --"
+          $potentials.last << {
+            :lifted_function => lifted_function,
+            :set_lifted_call => set_lifted_call,
+            :no_lifting => no_lifting,
+            :replace => marker
+          }
+          output << "\n" << marker
+        end
+      else
+        output << no_lifting
+      end
+
+      $inner_function = already_inner_function && already_inside_function
+      $inside_function = already_inside_function
+      if already_inside_function
+        $any_set_upvalue ||= $set_upvalue
+        if already_set_upvalue
+          $set_upvalue = already_set_upvalue
+        end
+      else
+        $set_upvalue = already_set_upvalue
+      end
       output
     end
 
@@ -1409,11 +1497,18 @@ grammar BaseBrat
         end
       end
 
+
       output <<
       if temp
         <<-LUA
-        local _t = _type(#{temp});
-        if _t == "table" or _t == "number" then
+        local _t = _type(#{temp})
+        if _t == "table" then
+          if _rawget(#{temp}, "__call_thing") == nil then
+            #@result = #{temp}
+          else
+            #{invoke(@result, temp, arg_list.list, arg_list.length)}
+          end
+        elseif _t == "number" then
           #@result = #{temp}
         elseif _t == "function" then
           #{invoke(@result, temp, arg_list.list, arg_list.length)}

@@ -31,11 +31,16 @@ class Treetop::Runtime::SyntaxNode
     else
       @@variables.reverse_each do |vars|
         if vars[v]
+          $upvalues.last << vars[v]
           return vars[v]
         end
       end
       false
     end
+  end
+
+  def local_temp? v
+    @@variables[-1].values.include? v
   end
 
   def var_add v
@@ -214,7 +219,7 @@ class Treetop::Runtime::SyntaxNode
 
   def call_or_get action, temp, method, arguments
     <<-LUA
-      if _type(#{temp}.#{method}) == "function" then
+      if #{callable? "#{temp}.#{method}"} then
         #{action} #{temp}:#{method}(#{arguments})
       elseif #{temp}.#{method} ~= nil then
         #{action} #{temp}.#{method}
@@ -292,13 +297,13 @@ class Treetop::Runtime::SyntaxNode
     no_meth = var_exist?("no_undermethod") || "no_undermethod"
 
     if arg_length > 0
-      assign = "_error(exception:new(\"Tried to invoke non-method: #{nice_id object} (\" .. object.__type(#{object}) .. \")\"))"
+      assign = "_error(exception:new(\"Tried to invoke non-method: #{nice_id object} (\" .. object.__type(#{temp}) .. \")\"))"
     else
       assign = "#{action} #{temp}"
     end
 
     output = <<-LUA
-    if _type(#{temp}) == "function" then
+    if #{callable? temp} then
       #{call_function}
     elseif #{temp} then
       #{assign}
@@ -309,7 +314,7 @@ class Treetop::Runtime::SyntaxNode
         _error("WHAT. No.")
       elseif #{has_field("_self", "no_undermethod")} then
         #{call_no_method res_var, "_self", object, arguments, arg_length}
-      elseif _type(#{no_meth}) == "function" then
+      elseif #{callable? no_meth} then
         #{call_no_method res_var, nil, object, arguments, arg_length}
       else
         _error(exception:name_error(#{display_object object, false}))
@@ -429,6 +434,10 @@ class Treetop::Runtime::SyntaxNode
 
   def has_field object, field_name
     "#{object}.#{field_name} ~= nil"
+  end
+
+  def callable? name
+    "_type(#{name}) == \"function\" or (_type(#{name}) == \"table\" and _rawget(#{name}, \"__call_thing\"))"
   end
 
   def number? item

@@ -2,7 +2,7 @@
   Guess a number between 1 and 10
 *#
 
-number = random 10
+number = random 100
 
 p "Guess a number between 1 and 10."
 
