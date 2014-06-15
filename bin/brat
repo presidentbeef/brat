@@ -62,6 +62,7 @@ local interactive = function ()
     _error = error;
     _tostring = tostring;
     _exports = _exports;
+    _rawget = rawget;
   }
 
   local rescue = function (obj, err)
