@@ -31,4 +31,8 @@ add_results setup name: "regex tests" {
   test "extended" {
     assert { "jello".match /j e l l o/x }
   }
+
+  test "with double quote" {
+    assert { '"'.match /"/ }
+  }
 }
