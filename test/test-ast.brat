@@ -1,4 +1,4 @@
-includes :assert :file :peg
+includes :assert :file :peg_parser
 
 # Build parser from PEG
 parser_text = peg.make_parser("brat", file.read("parser/parser.peg"), 'parser/ast')
