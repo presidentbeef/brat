@@ -443,6 +443,7 @@ function object:print (first, ...)
     io.write(tostring(first))
 
     if select('#', ...) > 0 then
+      local input = {...}
       for k,v in pairs(input) do
         input[k] = tostring(v)
       end
