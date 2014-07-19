@@ -4992,7 +4992,7 @@ function exception:new (message, error_type)
   end
 
   local msg = base_string:new(message)
-  local stack_trace = base_string:new(debug.traceback(message, 3))
+  local stack_trace = base_string:new(debug.traceback(message, 2))
   error_type = base_string:new(error_type)
 
   local e = new_brat(self)
