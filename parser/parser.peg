@@ -9,7 +9,7 @@ empty_line = space? eol
 
 expression = regex | binary_operation
            | index_set | index_get | assignment
-           | paren_exp !(/\.|\(|->/)
+           | paren_exp !(/\.|\(|->/) <simple_exp>
            | unary_operation
            | method_access | method_invocation | number | string
            | function_definition | array | hash 
