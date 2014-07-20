@@ -449,4 +449,9 @@ add_results setup name: "Brat AST tests" {
                         [[:number 2]
                           [:string :a]]]
   }
+
+  test "string hash value" {
+    ast "[:! : 1]" [:hash
+                    [[:string, "!"], [:number, 1]]]
+  }
 }
