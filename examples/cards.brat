@@ -37,7 +37,6 @@ deck.init = {
   my.cards = cards
 }
 
-<<<<<<< HEAD
 deck.prototype [
   shuffle: 
   {
