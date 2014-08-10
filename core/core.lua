@@ -4215,6 +4215,51 @@ function string_instance:each (block)
 end
 
 -- Object: string instance
+-- Call: string.each_line
+-- Call: string.each_line block
+-- Returns: string or array
+--
+-- Iterate over each line of the string.
+--
+-- Returns an array of lines if no block is provided.
+function string_instance:each_underline (block)
+  local pos = 1
+  local s = self._lua_string
+  local s_end
+  local result
+  if block == nil then
+    result = {}
+  end
+
+  s_end = s:find("\n", pos, true)
+
+  while s_end do
+    if block then
+      block(self, base_string:new(s:sub(pos, s_end - 1)))
+    else
+      table.insert(result, base_string:new(s:sub(pos, s_end - 1)))
+    end
+
+    pos = s_end + 1
+    s_end = s:find("\n", pos, true)
+  end
+
+  if pos <= #s then
+    if block then
+      block(self, base_string:new(s:sub(pos, -1)))
+    else
+      table.insert(result, base_string:new(s:sub(pos, -1)))
+    end
+  end
+
+  if block then
+    return self
+  else
+    return array:new(result)
+  end
+end
+
+-- Object: string instance
 -- Call: string.empty?
 -- Returns: boolean
 --

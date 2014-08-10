@@ -235,5 +235,18 @@ add_results setup name: "string tests" {
   test "string.reverse_each" {
     assert_equal "olleh" { a = []; "hello".reverse_each { s | a << s }; a.join }
   }
+
+  test "string.each_line" {
+    x = null
+    "".each_line { l | assert false }
+    "1".each_line { l | x = l }
+    assert_equal "1", x
+    "\n".each_line { l | x = l }
+    assert_equal "" x
+  }
+
+  test "string.each_line without a block" {
+    assert_equal "a\nb\nc\nd\ne".each_line, [:a :b :c :d :e]
+  }
 }
 
