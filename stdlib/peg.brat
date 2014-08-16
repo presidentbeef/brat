@@ -169,7 +169,7 @@ peg.prototype.num_of = { rule, min, max |
 
     true? num_matches >= min
       { null? max
-        { peg.make_result matches }
+        { peg.make_result start, x.pos, matches }
         { true? num_matches <= max
             { peg.make_result start, x.pos, matches }
         }
@@ -300,14 +300,22 @@ peg.prototype.ref = { name |
   }
 }
 
+
+all_labels = [:]
+
 peg.fetch_labels = { rule |
   labels = []
+  true? all_labels[rule]
+    { p rule }
+    { all_labels[rule] = true }
+
   true? (rule.has_method?(:label) && { rule.label })
     { labels << rule }
 
+
   true? rule.has_method?(:elements)
-   { labels + rule.elements.map({ r | peg.fetch_labels r }).compact!.flatten }
-   { labels }
+    { labels + rule.elements.map({ r | peg.fetch_labels r }).compact!.flatten }
+    { labels }
 }
 
 #Execute action upon match
@@ -316,16 +324,19 @@ peg.prototype.action = { rule, block |
     res = rule x
     true? res
       {
-        labeled_rules = peg.fetch_labels res
-
-        labeled_rules.each { result |
-          false? res.has_method?(result.label)
-            { res.add_method result.label, { result } }
-        }
-
+        peg.add_labels res
         res.with_this ->block
         res
       }
+  }
+}
+
+peg.add_labels = { res |
+  labeled_rules = peg.fetch_labels res
+
+  labeled_rules.each { result |
+    false? res.has_method?(result.label)
+      { res.add_method result.label, { result } }
   }
 }
 
