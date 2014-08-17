@@ -7,7 +7,7 @@ include 'scanner'
 
 result_match = object.new
 result_match.prototype.to_s = {
-  name = my.label || "result"
+  name = my.label || my.rule_name || "result"
   "<#{name} text='#{my.text}' start=#{my.start_pos} end=#{my.end_pos}>"
 }
 
@@ -15,6 +15,7 @@ peg = object.new
 
 peg.init = { gramma |
   my.named_rules = [:]
+  my.rule_names = [:]
   my.first = null
   my.rule_id = 0
   my.memo = [:]
@@ -39,15 +40,18 @@ peg.make_memo = { result, pos |
 peg.prototype.make_rule = { rule |
   id = next_id
   memo = my.memo
+  rules = my.rule_names
   memo[id] = [:]
 
-  { x |
+  real = { x |
     m = memo[id][x.pos]
     null? m
       {
         current = x.pos
         res = rule x
         memo[id][current] = peg.make_memo res, x.pos
+        true? res && { null? res.rule_name }
+          { res.rule_name = rules[->real] }
         res
       }
       {
@@ -66,6 +70,7 @@ peg.make_result = { match_pos, end_pos, matched |
   result.end_pos = end_pos
   result.matched = matched
   result.label = null
+  result.rule_name = null
 
   when { matched.string? } { result.text = matched }
        { matched.has_method? :full_match } { result.text = matched.full_match }
@@ -280,6 +285,7 @@ peg.prototype.set = { name, rule |
   null? my.first
     { my.first = name }
 
+  my.rule_names[->rule] = name
   my.named_rules[name] = ->rule
 }
 
