@@ -64,13 +64,13 @@ peg.prototype.make_rule = { rule |
   }
 }
 
-peg.make_result = { match_pos, end_pos, matched |
+peg.make_result = { match_pos, end_pos, matched, rule_name = null |
   result = result_match.new
   result.start_pos = match_pos
   result.end_pos = end_pos
   result.matched = matched
   result.label = null
-  result.rule_name = null
+  result.rule_name = rule_name
 
   when { matched.string? } { result.text = matched }
        { matched.has_method? :full_match } { result.text = matched.full_match }
@@ -122,6 +122,8 @@ peg.prototype.seq = { rule, *rules |
 
     rules.each_while { rule |
       matched = rule x
+      true? matched
+        { p matched.rule_name }
       matches << matched
       matched
     }
@@ -189,8 +191,14 @@ peg.prototype.maybe = { rule |
 
     matched = rule x
     true? matched
-      { peg.make_result start, x.pos, matched }
-      { peg.make_result start, start, "" }
+      {
+        res = peg.make_result start, x.pos, matched
+        res.rule_name = "#{matched.rule_name || 'result'}?"
+        res
+      }
+      {
+        peg.make_result start, start, ""
+      }
   }
 }
 
@@ -207,7 +215,13 @@ peg.prototype.kleene = { rule |
         { matches << res }
     }
 
-    peg.make_result start, x.pos, matches
+    res = peg.make_result start, x.pos, matches
+    false? matches.empty?
+      {
+        rule_name = matches.first.rule_name
+        res.rule_name = "#{rule_name || 'result'}*"
+      }
+    res
   }
 }
 
@@ -229,7 +243,12 @@ peg.prototype.many = { rule |
     }
 
     false? matches.empty?
-      { peg.make_result start, x.pos, matches }
+      {
+        rule_name = matches.first.rule_name
+        res = peg.make_result start, x.pos, matches
+        res.rule_name = "#{rule_name}+"
+        res
+      }
   }
 }
 
@@ -311,10 +330,10 @@ all_labels = [:]
 
 peg.fetch_labels = { rule |
   labels = []
-  true? all_labels[rule]
+#*  true? all_labels[rule]
     { p rule }
     { all_labels[rule] = true }
-
+*#
   true? (rule.has_method?(:label) && { rule.label })
     { labels << rule }
 
