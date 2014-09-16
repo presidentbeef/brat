@@ -56,6 +56,7 @@ BRATPATH=`pwd`
 SRC=$BRATPATH/src/$SYSTEM
 COMMON=$BRATPATH/src/common
 LIB=$BRATPATH/lib
+STDLIB=$BRATPATH/stdlib
 export LUA_SRC_PATH=$BRATPATH/bin/lua/
 export LUA_INC_PATH=$BRATPATH/bin/lua/include/luajit-2.0
 export BRAT_LIB_PATH=$LIB
@@ -136,6 +137,14 @@ then
   mv -f liblinenoise.dylib $LIB/
 fi
 
+echo Building Turbo
+cd $COMMON/turbo
+make
+cp -f libtffi_wrap.so $LIB
+mkdir -p $STDLIB/turbo
+cp -f turbo.lua $STDLIB/turbo/
+cp -rf turbo/ $STDLIB/turbo/
+
 echo Building lpty
 cd $SRC/$LPTY
 make
@@ -160,6 +169,9 @@ make clean
 cd $COMMON/$ONIG
 make clean
 rm -rf $SRC/$ONIG/.deps
+
+cd $COMMON/turbo
+make clean
 
 cd $SRC/$LREX
 make clean
