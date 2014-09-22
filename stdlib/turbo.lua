@@ -49,6 +49,29 @@ function turbo_app._prototype:merge (app)
 end
 
 -- Object: turbo_app instance
+-- Call: turbo_app.before block
+-- Returns: null
+--
+-- Wraps actions in a filter which runs before the actions.
+-- If the filter returns `false`, the actions will not run.
+function turbo_app._prototype:before (block)
+  local mapper = function(self, action)
+    local inner_block = action["block"]
+    action["block"] = function(self)
+      if block(self) ~= object.__false then
+        return inner_block(self)
+      else
+        return object.__false
+      end
+    end
+
+    return action
+  end
+
+  self.actions:map_bang(mapper)
+end
+
+-- Object: turbo_app instance
 -- Call: turbo_app.start
 -- Call: turbo_app.start _port_
 --
