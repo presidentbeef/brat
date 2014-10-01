@@ -189,6 +189,8 @@ object._prototype = object
 
 object._is_an_object = true
 
+object._is_callable = is_callable
+
 -- Object: object instance
 -- Call: object.parent
 --
@@ -432,6 +434,8 @@ is_true = function (bool)
     return true
   end
 end
+
+object._is_true = is_true
 
 -- Object: object
 -- Call: print *args
