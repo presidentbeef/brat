@@ -120,7 +120,7 @@ end
 -- Returns first item in sequence. May not make sense if the sequence
 -- does not have an initial starting value.
 function seq_i:first ()
-  return (self.initial or self:next())
+  return self:next()
 end
 
 function seq_i:map (block_or_name)
