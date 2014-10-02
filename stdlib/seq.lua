@@ -2,6 +2,10 @@ local seq = object:new()
 local seq_i = seq._prototype
 
 seq.start = object:new()
+function seq.start:to_unders ()
+  return base_string:new("START")
+end
+
 seq.stop = object:new()
 function seq.stop:to_unders ()
   return base_string:new("STOP")
@@ -143,6 +147,51 @@ function make_invoke (self, block_or_name)
       end
     end
   end
+end
+
+function seq_i:all_question (block_or_name)
+  local flag = object.__true
+  local f = make_invoke(self, block_or_name)
+  local g = function(self, item)
+    if not object._is_true(f(self, item)) then
+      flag = object.__false
+      return seq.stop
+    end
+  end
+
+  self:each(g)
+
+  return flag
+end
+
+function seq_i:any_question (block_or_name)
+  local flag = object.__false
+  local f = make_invoke(self, block_or_name)
+  local g = function(self, item)
+    if object._is_true(f(self, item)) then
+      flag = object.__true
+      return seq.stop
+    end
+  end
+
+  self:each(g)
+
+  return flag
+end
+
+function seq_i:find (block_or_name)
+  local result = object.__null
+  local f = make_invoke(self, block_or_name)
+  local g = function(self, item)
+    if object._is_true(f(self, item)) then
+      result = item
+      return seq.stop
+    end
+  end
+
+  self:each(g)
+
+  return result
 end
 
 function seq_i:map (block_or_name)

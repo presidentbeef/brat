@@ -60,4 +60,25 @@ add_results setup name: "seq tests" {
 
     assert_equal [1 3 5 7 9] { nums.select(:odd?).take(5).to_a }
   }
+
+  test "seq.any?" {
+    s = nums.take 5
+
+    assert { nums.any? { x | x > 10 } }
+    assert_false { s.any? { x | x < 0 } }
+  }
+
+  test "seq.all?" {
+    s = nums.take 5
+
+    assert { s.all? { x | x < 5 } }
+    assert_false { nums.all? { x | x < 5 } }
+  }
+
+  test "seq.find" {
+    s = nums.take 5
+
+    assert_equal 11, { nums.find { x | x > 10 } }
+    assert_null { s.find { x | x < 0 } }
+  }
 }
