@@ -59,7 +59,9 @@ end
 function seq_i:each (block)
   local next_item = self:next()
   while next_item ~= seq.stop do
-    block(self, next_item)
+    if block(self, next_item) == seq.stop then
+      break
+    end
     next_item = self:next(next_item)
   end
 
