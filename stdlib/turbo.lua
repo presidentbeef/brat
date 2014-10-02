@@ -69,6 +69,8 @@ function turbo_app._prototype:before (block)
   end
 
   self.actions:map_bang(mapper)
+
+  return object.__null
 end
 
 -- Object: turbo_app instance
