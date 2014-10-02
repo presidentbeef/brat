@@ -123,10 +123,9 @@ function seq_i:first ()
   return self:next()
 end
 
-function seq_i:map (block_or_name)
-  local f
+function make_invoke (self, block_or_name)
   if object._is_callable(block_or_name) then
-    f = function(self, item)
+    return function(self, item)
       if item == seq.stop then
         return item
       else
@@ -134,7 +133,7 @@ function seq_i:map (block_or_name)
       end
     end
   else
-    f = function(self, item)
+    return function(self, item)
       if type(item) == "number" then
         return number:new(item):call_undermethod(block_or_name)
       elseif item == seq.stop then
@@ -144,6 +143,10 @@ function seq_i:map (block_or_name)
       end
     end
   end
+end
+
+function seq_i:map (block_or_name)
+  local f = make_invoke(self, block_or_name)
 
   -- Create closure which contains references to the current sequence
   -- and maintains the "last" value in order to pass it to the next() call.
@@ -172,27 +175,7 @@ end
 -- Returns a new sequence which will only return items for which
 -- the given block or method name returns true.
 function seq_i:select (block_or_name)
-  local f
-  if object._is_callable(block_or_name) then
-    f = function(self, item)
-      if item == seq.stop then
-        return item
-      else
-        return block_or_name(self, item)
-      end
-    end
-  else
-    f = function(self, item)
-      if type(item) == "number" then
-        return number:new(item):call_undermethod(block_or_name)
-      elseif item == seq.stop then
-        return item
-      else
-        return item:call_undermethod(block_or_name)
-      end
-    end
-  end
-
+  local f = make_invoke(self, block_or_name)
   local s = self
   local c
   local g = function(self, item)
