@@ -304,4 +304,25 @@ function seq_i:to_underarray ()
   return array:new(a)
 end
 
+function array._prototype:to_underseq ()
+  local a = self._lua_array
+  local l = self._length
+  local i
+  local f = function (self, item)
+    if i == nil then
+      i = 1
+    else
+      i = i + 1
+    end
+
+    if i > l then
+      return seq.stop
+    else
+      return a[i]
+    end
+  end
+
+  return seq:new(f)
+end
+
 object:export(seq, "seq")
