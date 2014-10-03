@@ -139,7 +139,34 @@ function seq_i:first ()
   return self:next()
 end
 
-function make_invoke (self, block_or_name)
+function seq_i:last ()
+  local res
+
+  local f = function (self, item)
+    res = item
+  end
+
+  self:each(f)
+
+  if res == nil then
+    return object.__null
+  else
+    return res
+  end
+end
+
+function seq_i:count ()
+  local i = 0
+  local f = function ()
+    i = i + 1
+  end
+
+  self:each(f)
+
+  return i
+end
+
+local make_invoke = function (self, block_or_name)
   if object._is_callable(block_or_name) then
     return function(self, item)
       if item == seq.stop then
