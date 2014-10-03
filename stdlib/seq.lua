@@ -41,7 +41,7 @@ function seq_i:init (block, initial)
   self.iterator = block
   return self
 end
-  
+
 -- Object: seq instance
 -- Call: seq.next
 -- Call: seq.next current
@@ -86,7 +86,7 @@ end
 
 -- Object: seq instance
 -- Call: seq[index]
--- 
+--
 -- Returns the item at the given index.
 function seq_i:get (index)
   local item
@@ -121,7 +121,7 @@ function seq_i:take (num)
     if i < num then
       i = i + 1
       c = s:next(c)
-      return c 
+      return c
     else
       return seq.stop
     end
@@ -293,13 +293,13 @@ end
 --
 -- Convert a sequence to an array. If the sequence is inifinite this
 -- may be a bad idea.
-function seq_i:to_undera ()
+function seq_i:to_underarray ()
   local a = {}
-  local c = self:next()
-  while c ~= seq.stop do
-    table.insert(a, c)
-    c = self:next(c)
+  local f = function (self, item)
+    table.insert(a, item)
   end
+
+  self:each(f)
 
   return array:new(a)
 end

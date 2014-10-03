@@ -20,6 +20,6 @@ happy? = { n, seen = set.new |
 
 happies = seq.new({ n | n + 1} 1).select(->happy?)
 
-p "First eight happy numbers: #{happies.take(8).to_a}"
+p "First eight happy numbers: #{happies.take(8).to_array}"
 p "Happy numbers found: #{happiness.to_array.sort}"
 p "Sad numbers found: #{sadness.to_array.sort}"
