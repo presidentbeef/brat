@@ -13,6 +13,18 @@ end
 
 seq.get = seq.new
 
+function seq:range (start, stop)
+  local f = function (self, item)
+    if item >= stop then
+      return seq.stop
+    else
+      return item + 1
+    end
+  end
+
+  return seq:new(f, start)
+end
+
 -- Object: seq
 -- Call: seq.new block
 -- Call: seq.new block, initial_value
