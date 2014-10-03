@@ -1,0 +1,9 @@
+include :seq
+
+f = { pair |
+  [pair.last, pair.first + pair.last]
+}
+
+fibs = seq[->f [0 1]].map(:first)
+
+p fibs[100]
