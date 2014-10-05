@@ -99,4 +99,12 @@ add_results setup name: "seq tests" {
     assert_equal a, { a.to_seq.to_array }
     assert_equal [2 4 6] { a.to_seq.map({ n | n * 2 }).take(3).to_array }
   }
+
+  test "seq.take_while" {
+    a = [0 1 2 3 4]
+
+    assert_equal a, { nums.take_while({ n | n < 5 }).to_array }
+    assert_equal a, { a.to_seq.take_while({ n | n < 10 }).to_array }
+    assert_equal [] { nums.take_while({ n | n < 0 }).to_array }
+  }
 }

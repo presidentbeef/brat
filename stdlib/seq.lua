@@ -288,6 +288,34 @@ function seq_i:select (block_or_name)
 end
 
 -- Object: seq instance
+-- Call: seq.take_while block
+-- Call: seq.take_while meth_name
+-- Returns: seq
+--
+-- Creates a new sequence of values while the block given is returns true
+-- or the method name called on the values returns true.
+function seq_i:take_underwhile (block_or_name)
+  local f = make_invoke(self, block_or_name)
+  local s = self
+  local c
+  local g = function(self, item)
+    if item == seq.start then
+      c = s:next()
+    else
+      c = s:next(c)
+    end
+
+    if c == seq.stop or object._is_true(f(s, c)) then
+      return c
+    else
+      return seq.stop
+    end
+  end
+
+  return seq:new(g, seq.start)
+end
+
+-- Object: seq instance
 -- Call: seq.to_a
 -- Returns: array
 --
