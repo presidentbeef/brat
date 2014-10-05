@@ -320,6 +320,73 @@ function seq_i:select (block_or_name)
 end
 
 -- Object: seq instance
+-- Call: seq.reduce block
+-- Call: seq.reduce initial, block
+-- Call: seq.reduce method_name
+-- Call: seq.reduce initial, method_name
+--
+-- Combines elements in seq.
+--
+-- There are several forms of reduce: one that provides an initial value for
+-- memo, one that does not, and two that just provide a method name instead
+-- of a function.
+--
+-- Example:
+--
+-- #These are all equivalent:
+-- seq.range(1, 10).reduce 0 { sum, item | sum + item }
+-- seq.range(1, 10).reduce { sum, item | sum + item }
+-- seq.range(1, 10).reduce 0 :+
+-- seq.range(1, 10).reduce :+
+
+function seq_i:reduce (start, block_or_name)
+  if block_or_name == nil then
+    block_or_name = start
+    start = nil
+  end
+
+  local f
+  if object._is_callable(block_or_name) then
+    f = function(self, memo, item)
+      if item == seq.stop then
+        return item
+      else
+        return block_or_name(self, memo, item)
+      end
+    end
+  else
+    f = function(self, memo, item)
+      if type(memo) == "number" then
+        return number:new(memo):call_undermethod(block_or_name, item)
+      elseif item == seq.stop then
+        return item
+      else
+        return memo:call_undermethod(block_or_name, item)
+      end
+    end
+  end
+
+  local m = start
+  local item = self:next()
+
+  if m == nil then
+    m = item
+    item = self:next(item)
+  end
+
+  while item ~= seq.stop do
+    m = f(self, m, item)
+    item = self:next(item)
+  end
+
+  if m == seq.stop or m == nil then
+    return object.__null
+  else
+    return m
+  end
+end
+
+-- Object: seq instance
 -- Call: seq.take_while block
 -- Call: seq.take_while meth_name
 -- Returns: seq
