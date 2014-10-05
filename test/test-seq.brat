@@ -107,4 +107,11 @@ add_results setup name: "seq tests" {
     assert_equal a, { a.to_seq.take_while({ n | n < 10 }).to_array }
     assert_equal [] { nums.take_while({ n | n < 0 }).to_array }
   }
+
+  test "seq.drop_while" {
+    a = [5 6 7 8 9]
+
+    assert_equal a, { nums.drop_while({ n | n < 5 }).take(5).to_array }
+    assert_equal [] { [1 2 3].to_seq.drop_while({ n | n < 5 }).take(5).to_array }
+  }
 }

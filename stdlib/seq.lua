@@ -292,7 +292,7 @@ end
 -- Call: seq.take_while meth_name
 -- Returns: seq
 --
--- Creates a new sequence of values while the block given is returns true
+-- Creates a new sequence of values while the block given returns true
 -- or the method name called on the values returns true.
 function seq_i:take_underwhile (block_or_name)
   local f = make_invoke(self, block_or_name)
@@ -309,6 +309,41 @@ function seq_i:take_underwhile (block_or_name)
       return c
     else
       return seq.stop
+    end
+  end
+
+  return seq:new(g, seq.start)
+end
+
+-- Object: seq instance
+-- Call: seq.drop_while block
+-- Call: seq.drop_while meth_name
+-- Returns: seq
+--
+-- Creates a new sequence of values starting when the block given
+-- returns true or the method name called on the values returns true.
+function seq_i:drop_underwhile (block_or_name)
+  local f = make_invoke(self, block_or_name)
+  local flag = false
+  local s = self
+  local c
+  local g = function(self, item)
+    if item == seq.start then
+      c = s:next()
+      flag = false
+    else
+      c = s:next(c)
+    end
+
+    if flag then
+      return c
+    else
+      while c ~= seq.stop and object._is_true(f(s, c)) do
+        c = s:next(c)
+      end
+
+      flag = true
+      return c
     end
   end
 
