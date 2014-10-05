@@ -256,6 +256,38 @@ function seq_i:map (block_or_name)
 end
 
 -- Object: seq instance
+-- Call: seq.reject name
+-- Call: seq.reject block
+-- Returns: seq
+--
+-- Returns a new sequence which will only return items for which
+-- the given block or method name returns false.
+function seq_i:reject (block_or_name)
+  local f = make_invoke(self, block_or_name)
+  local s = self
+  local c
+  local g = function(self, item)
+    if item == seq.start then
+      c = s:next()
+    end
+
+    while true do
+      if c == seq.stop then
+        return c
+      elseif object._is_true(f(s, c)) then
+        c = s:next(c)
+      else
+        local item = c
+        c = s:next(c)
+        return item
+      end
+    end
+  end
+
+  return seq:new(g, seq.start)
+end
+
+-- Object: seq instance
 -- Call: seq.select name
 -- Call: seq.select block
 -- Returns: seq
