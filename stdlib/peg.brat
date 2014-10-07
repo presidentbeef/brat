@@ -122,8 +122,6 @@ peg.prototype.seq = { rule, *rules |
 
     rules.each_while { rule |
       matched = rule x
-      true? matched
-        { p matched.rule_name }
       matches << matched
       matched
     }

@@ -81,9 +81,9 @@ add_results setup name: "PEG tests" {
     assert number_parser.parse("10.10" :number true) "Didn't parse 10.10"
 
     result = number_parser.parse "-1"
-    assert_equal :number, result.rule_name
-    assert_equal :x, result.elements
-    assert_equal :digit, result.elements.first.rule_name
+    assert_equal :number result.rule_name
+    assert_equal :result? result.elements.first.rule_name
+    assert_equal :digit* result.elements[1].rule_name
   }
 
   test "simple calculator" {
