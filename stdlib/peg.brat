@@ -7,7 +7,7 @@ include 'scanner'
 
 result_match = object.new
 result_match.prototype.to_s = {
-  name = my.label || "result"
+  name = my.label || my.rule_name || "result"
   "<#{name} text='#{my.text}' start=#{my.start_pos} end=#{my.end_pos}>"
 }
 
@@ -15,6 +15,7 @@ peg = object.new
 
 peg.init = { gramma |
   my.named_rules = [:]
+  my.rule_names = [:]
   my.first = null
   my.rule_id = 0
   my.memo = [:]
@@ -39,15 +40,18 @@ peg.make_memo = { result, pos |
 peg.prototype.make_rule = { rule |
   id = next_id
   memo = my.memo
+  rules = my.rule_names
   memo[id] = [:]
 
-  { x |
+  real = { x |
     m = memo[id][x.pos]
     null? m
       {
         current = x.pos
         res = rule x
         memo[id][current] = peg.make_memo res, x.pos
+        true? res && { null? res.rule_name }
+          { res.rule_name = rules[->real] }
         res
       }
       {
@@ -60,12 +64,13 @@ peg.prototype.make_rule = { rule |
   }
 }
 
-peg.make_result = { match_pos, end_pos, matched |
+peg.make_result = { match_pos, end_pos, matched, rule_name = null |
   result = result_match.new
   result.start_pos = match_pos
   result.end_pos = end_pos
   result.matched = matched
   result.label = null
+  result.rule_name = rule_name
 
   when { matched.string? } { result.text = matched }
        { matched.has_method? :full_match } { result.text = matched.full_match }
@@ -169,7 +174,7 @@ peg.prototype.num_of = { rule, min, max |
 
     true? num_matches >= min
       { null? max
-        { peg.make_result matches }
+        { peg.make_result start, x.pos, matches }
         { true? num_matches <= max
             { peg.make_result start, x.pos, matches }
         }
@@ -184,8 +189,14 @@ peg.prototype.maybe = { rule |
 
     matched = rule x
     true? matched
-      { peg.make_result start, x.pos, matched }
-      { peg.make_result start, start, "" }
+      {
+        res = peg.make_result start, x.pos, matched
+        res.rule_name = "#{matched.rule_name || 'result'}?"
+        res
+      }
+      {
+        peg.make_result start, start, ""
+      }
   }
 }
 
@@ -202,7 +213,13 @@ peg.prototype.kleene = { rule |
         { matches << res }
     }
 
-    peg.make_result start, x.pos, matches
+    res = peg.make_result start, x.pos, matches
+    false? matches.empty?
+      {
+        rule_name = matches.first.rule_name
+        res.rule_name = "#{rule_name || 'result'}*"
+      }
+    res
   }
 }
 
@@ -224,7 +241,12 @@ peg.prototype.many = { rule |
     }
 
     false? matches.empty?
-      { peg.make_result start, x.pos, matches }
+      {
+        rule_name = matches.first.rule_name
+        res = peg.make_result start, x.pos, matches
+        res.rule_name = "#{rule_name}+"
+        res
+      }
   }
 }
 
@@ -280,6 +302,7 @@ peg.prototype.set = { name, rule |
   null? my.first
     { my.first = name }
 
+  my.rule_names[->rule] = name
   my.named_rules[name] = ->rule
 }
 
@@ -300,14 +323,22 @@ peg.prototype.ref = { name |
   }
 }
 
+
+all_labels = [:]
+
 peg.fetch_labels = { rule |
   labels = []
+#*  true? all_labels[rule]
+    { p rule }
+    { all_labels[rule] = true }
+*#
   true? (rule.has_method?(:label) && { rule.label })
     { labels << rule }
 
+
   true? rule.has_method?(:elements)
-   { labels + rule.elements.map({ r | peg.fetch_labels r }).compact!.flatten }
-   { labels }
+    { labels + rule.elements.map({ r | peg.fetch_labels r }).compact!.flatten }
+    { labels }
 }
 
 #Execute action upon match
@@ -316,16 +347,19 @@ peg.prototype.action = { rule, block |
     res = rule x
     true? res
       {
-        labeled_rules = peg.fetch_labels res
-
-        labeled_rules.each { result |
-          false? res.has_method?(result.label)
-            { res.add_method result.label, { result } }
-        }
-
+        peg.add_labels res
         res.with_this ->block
         res
       }
+  }
+}
+
+peg.add_labels = { res |
+  labeled_rules = peg.fetch_labels res
+
+  labeled_rules.each { result |
+    false? res.has_method?(result.label)
+      { res.add_method result.label, { result } }
   }
 }
 

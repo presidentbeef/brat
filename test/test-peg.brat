@@ -70,15 +70,20 @@ add_results setup name: "PEG tests" {
 
   test "named rules" {
     number_parser = peg.new {
-      set :number seq many(ref :digit) maybe(seq(str(".") many(ref :digit)))
-      set :digit reg /[0-9]/
+      set :number seq maybe(str('-')) kleene(ref :digit) maybe(seq(str(".") many(ref :digit)))
+      set :digit any(str('0') str('1'))
     }
 
     assert number_parser.parse("1" :number true) "Didn't parse 1"
     assert number_parser.parse("10" :number true) "Didn't parse 10"
-    assert number_parser.parse("1.0" :number true) "Didin't parse 1.0"
-    assert number_parser.parse("10.0" :number true) "Didin't parse 10.0"
-    assert number_parser.parse("10.10" :number true) "Didin't parse 10.10"
+    assert number_parser.parse("1.0" :number true) "Didn't parse 1.0"
+    assert number_parser.parse("10.0" :number true) "Didn't parse 10.0"
+    assert number_parser.parse("10.10" :number true) "Didn't parse 10.10"
+
+    result = number_parser.parse "-1"
+    assert_equal :number result.rule_name
+    assert_equal :result? result.elements.first.rule_name
+    assert_equal :digit* result.elements[1].rule_name
   }
 
   test "simple calculator" {
