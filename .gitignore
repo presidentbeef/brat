@@ -18,3 +18,4 @@ src/common/onig-5.9.2/config.status
 src/common/onig-5.9.2/libtool
 src/common/onig-5.9.2/sample/.deps/
 src/common/onig-5.9.2/sample/Makefile
+stdlib/turbo
