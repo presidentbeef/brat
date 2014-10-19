@@ -10,11 +10,7 @@ unsigned int sleep(unsigned int seconds);
 local meta_index = function(table, key)
   local parent = table:parent()
   if parent then
-    if rawget(parent._prototype, key) then
-      return parent._prototype[key]
-    else
-      return parent[key]
-    end
+    return (rawget(parent._prototype, key) or parent[key])
   else
     return nil
   end
