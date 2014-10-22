@@ -1,0 +1,39 @@
+#* http://rosettacode.org/wiki/Sorting_algorithms/Quicksort
+   Implementation of quicksort
+*#
+
+quicksort = { list |
+  true? list.length <= 1
+    { list }
+    {
+      less = []
+      equal = []
+      greater = []
+
+      pivot = list[random(list.length - 1)]
+
+      list.each { elem |
+        when { elem < pivot } { less << elem }
+             { elem == pivot } { equal << elem }
+             { elem > pivot } { greater << elem }
+      }
+
+      quicksort(less) + equal + quicksort(greater)
+    }
+}
+
+quicksort(1.to(10000).shuffle!)
+
+
+#* Sadly, nested calls is actually ~38% faster than using when:
+
+  true? elem < pivot
+    { less << elem }
+    { true? elem == pivot
+      { equal << elem }
+      { true? elem > pivot
+        { greater << elem }
+      }
+    }
+
+But it's uglier than the code above.
