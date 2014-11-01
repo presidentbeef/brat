@@ -1,0 +1,12 @@
+include :ProFi
+
+profiler = object.new
+
+profiler.report = { block |
+  ProFi.start
+  block
+  ProFi.stop
+  ProFi.writeReport
+}
+
+export profiler, :profiler
