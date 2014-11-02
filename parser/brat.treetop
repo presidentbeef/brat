@@ -61,6 +61,8 @@ grammar BaseBrat
 
     def interactive_brat
       $interactive = true
+      $lifted_functions = []
+      $potentials = []
       elements.reject! { |e| e.respond_to? :comment or e.respond_to? :empty_line or not e.respond_to? :brat }
 
       code = elements[0..-2].map { |e| e.brat }
@@ -926,7 +928,7 @@ grammar BaseBrat
         inside << "\n" << inner_function << "\nend\n"
 
       upvalues = $upvalues.pop
-      should_lift = !$set_upvalue && already_inside_function && $lifted_functions.length <= 30 && ($inner_function == false or upvalues.empty?)
+      should_lift = !$interactive && !$set_upvalue && already_inside_function && $lifted_functions.length <= 30 && ($inner_function == false or upvalues.empty?)
 
       if should_lift
           $inner_function = false
