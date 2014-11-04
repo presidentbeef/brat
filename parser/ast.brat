@@ -1,3 +1,5 @@
+include 'parser/sexp'
+
 node = object.new
 node.prototype [
     init: { name |
@@ -29,7 +31,7 @@ ast = { name, block |
 }
 
 ast :program {
-  out = [:program]
+  out = s[:program]
   add_ast my, out
 }
 
@@ -40,15 +42,15 @@ ast :simple_exp {
 }
 
 ast :bnumber {
-  [:number text.to_f]
+  s[:number text.to_f]
 }
 
 ast :empty_array {
-  [:array]
+  s[:array]
 }
 
 ast :barray {
-  [:array].concat inner.ast
+  s[:array].concat inner.ast
 }
 
 ast :array_inner {
@@ -61,27 +63,27 @@ ast :array_inner {
 }
 
 ast :empty_hash {
-  [:hash]
+  s[:hash]
 }
 
 ast :bhash {
-  [:hash].concat inner.ast
+  s[:hash].concat inner.ast
 }
 
 ast :hash_arg {
-  [my.key.ast, my.value.ast]
+  s[my.key.ast, my.value.ast]
 }
 
 ast :hash_key_arg {
-  [[:string my.key.text], my.value.ast]
+  [s[:string my.key.text], my.value.ast]
 }
 
 ast :bregex {
-  [:regex my.text]
+  s[:regex my.text]
 }
 
 ast :simple_string {
-  [:string my.svalue.text]
+  s[:string my.svalue.text]
 }
 
 ast :string_interp {
@@ -91,20 +93,20 @@ ast :string_interp {
       { list << e.ast }
       {
         # Combine consecutive strings into one string
-        true? list.last && { list.last.first == :string }
+        true? sexp?(list.last) && { list.last.name == :string }
           { list.last.last << e.text }
-          { list << [:string e.text] }
+          { list << s[:string e.text] }
       }
   }
 
   # If just one simple string, return that
-  true? list.length == 1 && { list[0][0] == :string }
+  true? list.length == 1 && { list[0].name == :string }
     { list[0] }
-    { [:string_interp].concat list }
+    { s[:string_interp].concat list }
 }
 
 ast :interp_value {
-  value = [:string_eval]
+  value = s[:string_eval]
 
   true? first, {
     add_ast first, value
@@ -114,7 +116,7 @@ ast :interp_value {
 }
 
 ast :bfunction {
-  list = [:function]
+  list = s[:function]
 
   arg_list = []
   add_ast args, arg_list
@@ -138,19 +140,19 @@ ast :bfunction {
 }
 
 ast :plain_arg {
-  [:arg my.text]
+  s[:arg my.text]
 }
 
 ast :default_arg {
-  [:def_arg, my.arg_var.text, my.arg_val.ast]
+  s[:def_arg, my.arg_var.text, my.arg_val.ast]
 }
 
 ast :variable_args {
-  [:var_arg my.arg_var.text]
+  s[:var_arg my.arg_var.text]
 }
 
 ast :unary_op {
-  list = [:call]
+  list = s[:call]
 
   add_ast my, list
 
@@ -171,12 +173,12 @@ ast :simple_call {
   var = my.elements.first.text
 
   true? args.empty?
-    { [:get_value var] }
-    { [:call, null, var, args.first] }
+    { s[:get_value var] }
+    { s[:call, null, var, args.first] }
 }
 
 ast :chain_call {
-  list = [:call]
+  list = s[:call]
 
   list << my.elements.first.ast
 
@@ -193,8 +195,8 @@ ast :simple_meth_lhs {
   var = my.elements.first.text
 
   true? args.empty?
-    { [:get_value var] }
-    { [:call, null, var, args.first] }
+    { s[:get_value var] }
+    { s[:call, null, var, args.first] }
 }
 
 ast :method_chain {
@@ -203,39 +205,39 @@ ast :method_chain {
   add_ast my, list
 
   list.reduce { memo, call |
-    true? call.first == :get_value
-      { call[0] = :call; call.insert(1, memo)}
-      { call[1] = memo }
+    true? call.name == :get_value
+      { c = s[:call]; c.nodes = call.nodes; c.nodes.insert(1, memo); call = c }
+      { call.nodes[0] = memo }
     call
   }
 }
 
 ast :paren_call {
-  list = [:invoke]
+  list = s[:invoke]
 
   add_ast my, list
 }
 
 ast :var_assign {
-  list = [:var_assign my.var.text]
+  list = s[:var_assign my.var.text]
 
   add_ast my, list
 }
 
 ast :field_assign {
-  list = [:field_assign]
+  list = s[:field_assign]
   add_ast my, list
 }
 
 ast :field_access {
-  list = [:field_access]
+  list = s[:field_access]
 
   add_ast my, list
   list << my.elements.last.text
 }
 
 ast :binary_op {
-  list = [:binop].concat my.elements.first.ast
+  list = s[:binop].concat my.elements.first.ast
 
   list << my.elements.last.ast
 }
@@ -252,17 +254,17 @@ ast :binary_op_chain {
 }
 
 ast :simple_meth_access {
-  [:meth_access, null, my.meth.text]
+  s[:meth_access, null, my.meth.text]
 }
 
 ast :simple_paren_meth_access {
-  list = [:meth_access null]
+  list = s[:meth_access null]
 
   add_ast my, list
 }
 
 ast :paren_meth_access {
-  list = [:meth_access]
+  list = s[:meth_access]
 
   add_ast my, list
 
@@ -270,24 +272,24 @@ ast :paren_meth_access {
 }
 
 ast :index_get {
-  list = [:call, my.elements.first.ast, :get]
+  list = s[:call, my.elements.first.ast, :get]
   index_args = add_ast my.gindexes, []
 
   list << index_args.deq
 
   list = index_args.reduce(list, { memo, index |
-      [:call, memo, :get, index]
+    s[:call, memo, :get, index]
    })
 
   args = add_ast(my.iargs, []).first
 
   null? args
     { list }
-    { [:invoke, list, args] }
+    { s[:invoke, list, args] }
 }
 
 ast :index_set {
-  list = [:call, my.elements.first.ast]
+  list = s[:call, my.elements.first.ast]
 
   true? my.sindexes.elements.length > 1
     {
@@ -299,12 +301,12 @@ ast :index_set {
       final_arg = index_args.pop
 
       list = index_args.reduce(list, { memo, index |
-        [:call, memo, :get, [index]]
+        s[:call, memo, :get, [index]]
       })
 
       value = my.elements.last.ast
 
-      [:call, list, :set, [final_arg, value]]
+      s[:call, list, :set, [final_arg, value]]
     }
     {
       args = add_ast my.sindexes, []
