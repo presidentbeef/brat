@@ -1489,19 +1489,7 @@ grammar BaseBrat
       name = identifier.brat
       temp = var_exist? name
 
-      output << init_result
-
-      if t = type_of(temp)
-        if t == :function then
-          return output << invoke(@result, temp, arg_list.list, arg_list.length)
-        else
-          assign @result, t
-          return output << "#@result = #{temp}\n"
-        end
-      end
-
-
-      output <<
+      output << init_result <<
       if temp
         <<-LUA
         local _t = _type(#{temp})

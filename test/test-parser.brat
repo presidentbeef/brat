@@ -222,5 +222,13 @@ add_results setup name: "parser tests" {
     z = f 2
     assert_false { y == z }
   }
+
+  test "method call on index call with known 'type'" {
+    a = object.new
+    a.x = 1
+    b = [a]
+
+    assert_equal 1 { b[0].x }
+  }
 }
 
