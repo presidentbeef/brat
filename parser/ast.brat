@@ -206,7 +206,7 @@ ast :method_chain {
 
   list.reduce { memo, call |
     true? call.name == :get_value
-      { c = s[:call]; c.nodes = call.nodes; c.nodes.insert(1, memo); call = c }
+      { c = s[:call]; c.nodes = call.nodes; c.nodes.insert(0, memo); call = c }
       { call.nodes[0] = memo }
     call
   }
