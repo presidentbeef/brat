@@ -19,10 +19,12 @@ sexp.prototype.== = { rhs |
 
 sexp.prototype.<< = { val |
   my.nodes << val
+  my
 }
 
 sexp.prototype.concat = { val |
   my.nodes.concat val
+  my
 }
 
 sexp.prototype.last = {
