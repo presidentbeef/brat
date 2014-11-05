@@ -71,7 +71,7 @@ ast :bhash {
 }
 
 ast :hash_arg {
-  s[my.key.ast, my.value.ast]
+  [my.key.ast, my.value.ast]
 }
 
 ast :hash_key_arg {
