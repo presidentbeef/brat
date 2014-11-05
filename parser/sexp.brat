@@ -11,6 +11,12 @@ sexp.prototype.to_s = {
   "s#{[my.name] + my.nodes}"
 }
 
+sexp.prototype.== = { rhs |
+  my = my
+  true? rhs.has_method?(:name) && rhs.has_method?(:nodes)
+    { my.name == rhs.name && { my.nodes == rhs.nodes } }
+}
+
 sexp.prototype.<< = { val |
   my.nodes << val
 }
