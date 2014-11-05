@@ -51,7 +51,7 @@ make = { name, *meths |
   sexp.types[name] = new_thing
 }
 
-make :program, :body
+make :program
 
 make :var_assign, :lhs, :rhs
 
