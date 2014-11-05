@@ -230,5 +230,13 @@ add_results setup name: "parser tests" {
 
     assert_equal 1 { b[0].x }
   }
+
+  test "newlines as separators in index get" {
+    {
+      x[1
+        2
+        3]
+    }
+  }
 }
 

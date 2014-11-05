@@ -482,7 +482,7 @@ grammar BaseBrat
 
   #Retrieving value via index (e.g., "a[1]")
   rule index_get
-    e:indexed_expression a:("[" inner_arg_list "]")+ !"." args:arg_list {
+    e:indexed_expression a:("[" index_inner_arg_list "]")+ !"." args:arg_list {
     def brat(res_var = nil)
       if res_var
         @result = res_var
@@ -505,25 +505,25 @@ grammar BaseBrat
       accesses = a.elements
 
       # Optimize hash["string"]
-      if is_hash and accesses.length == 1 and accesses.first.inner_arg_list.o.elements.empty?
-        access = accesses.first.inner_arg_list.e
+      if is_hash and accesses.length == 1 and accesses.first.index_inner_arg_list.o.elements.empty?
+        access = accesses.first.index_inner_arg_list.e
         if access.type == :string and access.can_be_literal?
           elem = accesses.pop
 
           output << "if #{@result}._unchanged('get') then\n" <<
               "#@result = #@result:get(#{access.as_literal})\n" <<
               "else\n"  <<
-              elem.inner_arg_list.brat << "\n" <<
-              "#@result = #@result:get(#{elem.inner_arg_list.list})\nend\n"
+              elem.index_inner_arg_list.brat << "\n" <<
+              "#@result = #@result:get(#{elem.index_inner_arg_list.list})\nend\n"
 
-          elem.inner_arg_list.unset_args
+          elem.index_inner_arg_list.unset_args
         end
       end
 
       accesses.each do |elem|
-        output << elem.inner_arg_list.brat << "\n" <<
-          "#@result = #@result:get(#{elem.inner_arg_list.list})\n"
-        elem.inner_arg_list.unset_args
+        output << elem.index_inner_arg_list.brat << "\n" <<
+          "#@result = #@result:get(#{elem.index_inner_arg_list.list})\n"
+        elem.index_inner_arg_list.unset_args
       end
 
       unless args.respond_to? :nothing?
@@ -1831,6 +1831,59 @@ grammar BaseBrat
   }
   end
 
+  rule index_inner_arg_list
+    e:arg_first o:index_arg_next* {
+    attr_reader :length, :list, :args
+    def brat(res_var = nil)
+      output = ""
+      args = []
+      named_args = []
+
+      output << e.brat << "\n"
+
+      if e.respond_to? :named_argument?
+        named_args << e
+      else
+        args << e.result
+      end
+
+      o.elements.each do |elem|
+        if elem.respond_to? :brat
+          output << elem.arg_first.brat << "\n"
+
+          if elem.arg_first.respond_to? :named_argument?
+            named_args << elem.arg_first
+          else
+            args << elem.arg_first.result
+          end
+        end
+      end
+
+      unless named_args.empty?
+        get_result
+        args << @result
+        output << set_result("{}")
+        named_args.map do |e|
+          output << "#@result[#{e.key}] = #{e.value}\n"
+          unset e.key
+          unset e.value
+        end
+        output << "#@result = hash:new(#@result)\n"
+      end
+
+      @list = args.join(',')
+      @length = args.length
+      @args = args
+      output
+    end
+
+    def unset_args
+      @args.each { |a| unset a }
+    end
+  }
+  end
+
+
   #Matches a single argument
   rule arg_first
   named_argument / expression
@@ -1857,6 +1910,15 @@ grammar BaseBrat
     def brat(res_var = nil)
     end
   }
+  end
+
+  rule index_arg_next
+    arg_next
+    /
+    (space / eol_not_semicolon)+ arg_first {
+      def brat(res_var = nil)
+      end
+    }
   end
 
   #Matches a 'named' argument
