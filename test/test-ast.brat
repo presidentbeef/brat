@@ -461,4 +461,10 @@ add_results setup name: "Brat AST tests" {
                            :/
                            s[:binop s[:number 2], :+ s[:number 3]]]
   }
+
+  test "var assign at beginning of function" {
+    ast "{ a = 1 }" s[:function
+                      null
+                      [s[:var_assign, :a, s[:number 1]]]]
+  }
 }

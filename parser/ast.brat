@@ -219,9 +219,7 @@ ast :paren_call {
 }
 
 ast :var_assign {
-  list = s[:var_assign my.var.text]
-
-  add_ast my, list
+  s[:var_assign my.var.text, my.elements.last.ast]
 }
 
 ast :field_assign {
