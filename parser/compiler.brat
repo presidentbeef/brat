@@ -1,0 +1,82 @@
+compiler = object.new
+
+compiler.node_types = [:]
+
+compiler.init = { ast |
+  my.ast = ast
+}
+
+compiler.prototype.compile = {
+  "#{file_header}
+  _exports = {}
+  local _main = function()
+    #{method_header}
+
+    setfenv(1, {})
+
+    #{inner_brat}
+  end
+
+  local _result = coxpcall(_main, exception._handler)
+  if not _lib then
+    if not _result then
+      os.exit(-1)
+    else
+      os.exit(0)
+    end
+  end
+  "
+}
+
+compiler.file_header = "
+  require \"coxpcall\"
+  local _lib
+  if package.loaded.core then
+    _lib = true
+  else
+    _lib = false
+    require \"core\"
+  end
+  "
+
+compiler.method_header = "
+  local object = object
+  local array = array
+  local number = number
+  local string = base_string
+  local exception = exception
+  local hash = hash
+  local regex = regex
+  local _self = object
+  local _type = type
+  local _error = error
+  local _tostring = tostring
+  local brat_function = brat_function
+  local _lifted_call = _lifted_call
+  local _rawget = rawget
+  "
+
+compiler.prototype.inner_brat = {
+  process my.ast
+}
+
+compiler.prototype.process = { n |
+  my.call_method "process_#{n[0]}", n
+}
+
+process = { name, block |
+  compiler.prototype.add_method "process_#{name}", ->block
+}
+
+process :program { node |
+  node.map({ n |
+    true? n.array?
+      { process n }
+      { "" }
+  }).join("\n")
+}
+
+process :var_assign { node |
+}
+
+export compiler, :compiler
