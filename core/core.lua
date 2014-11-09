@@ -467,6 +467,13 @@ function object:p (...)
   return object.__null
 end
 
+local dont_squish = {
+  parent = true;
+  prototype = true;
+  _prototype = true;
+  _parent_object = true;
+}
+
 -- Object: object instance
 -- Call: object.squish other_object
 -- Returns: self
@@ -476,7 +483,7 @@ end
 -- Also useful for bringing external libraries into the current context.
 function object:squish (obj)
   for k,v in pairs(obj) do
-    if k ~= "parent" then
+    if dont_squish[k] == nil then
       self[k] = v
     end
   end
