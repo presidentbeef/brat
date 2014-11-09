@@ -140,32 +140,34 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "empty function with no args" {
-    ast "{}" s[:function]
+    ast "{}" s[:function [] []]
+    ast "{|}" s[:function [] []]
   }
 
   test "function with no args" {
     ast "{ 1 }" s[:function
-                  null
+                  []
                   [s[:number 1]]]
   }
 
   test "multiline expression function with no args" {
     ast "{\n1\n'a'\n}" s[:function
-                          null
+                          []
                           [s[:number 1]
                             s[:string :a]]]
   }
 
   test "function with one formal arg" {
     ast "{ x | }" s[:function
-                    [s[:arg :x]]]
+                    [s[:arg :x]]
+                    []]
   }
 
   test "function with two formal args" {
     ast "{ x, y | }" s[:function
-                      [
-                        s[:arg :x]
-                        s[:arg :y]]]
+                        [s[:arg :x]
+                          s[:arg :y]]
+                        []]
   }
 
   test "function with default arg" {
@@ -173,7 +175,8 @@ add_results setup name: "Brat AST tests" {
                         [
                           s[:def_arg
                             :x
-                            s[:number 1]]]]
+                            s[:number 1]]]
+                        []]
 
   }
 
@@ -184,26 +187,30 @@ add_results setup name: "Brat AST tests" {
                                   s[:number 1]]
                                 s[:def_arg
                                   :y
-                                s[:number 2]]]]
+                                s[:number 2]]]
+                                []]
   }
 
   test "function with variable args" {
     ast "{ *x | }" s[:function
-                    [s[:var_arg :x]]]
+                    [s[:var_arg :x]]
+                    []]
   }
 
   test "function with plain and default args" {
     ast "{ x, y = 1 | }" s[:function
-                          [s[:arg :x]
-                            s[:def_arg
-                              :y
-                              s[:number 1]]]]
+                            [s[:arg :x]
+                              s[:def_arg
+                                :y
+                                s[:number 1]]]
+                            []]
   }
 
   test "function with plain and variable args" {
     ast "{ x, *y | }" s[:function
                         [s[:arg :x]
-                          s[:var_arg :y]]]
+                          s[:var_arg :y]]
+                        []]
   }
 
   test "function with default args and variable args" {
@@ -211,16 +218,18 @@ add_results setup name: "Brat AST tests" {
                             [s[:def_arg
                                 :x
                                 s[:number 1]]
-                              s[:var_arg :y]]]
+                              s[:var_arg :y]]
+                            []]
   }
 
   test "function with all kinds of args" {
     ast "{ x, y = 1, *z | }" s[:function
-                              [s[:arg :x]
-                                s[:def_arg
-                                  :y
-                                  s[:number 1]]
-                                s[:var_arg :z]]]
+                               [s[:arg :x]
+                                 s[:def_arg
+                                   :y
+                                   s[:number 1]]
+                                 s[:var_arg :z]]
+                               []]
   }
 
   test "unary operation" {
@@ -303,7 +312,7 @@ add_results setup name: "Brat AST tests" {
                       s[:field_access
                         s[:get_value :x]
                         :y]
-                      s[:function]]
+                      s[:function [] []]]
   }
 
   test "field assignment to method access" {
@@ -464,7 +473,7 @@ add_results setup name: "Brat AST tests" {
 
   test "var assign at beginning of function" {
     ast "{ a = 1 }" s[:function
-                      null
+                      []
                       [s[:var_assign, :a, s[:number 1]]]]
   }
 }
