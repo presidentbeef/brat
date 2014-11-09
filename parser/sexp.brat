@@ -71,11 +71,11 @@ make :string_interp
 
 make :function, :args, :body
 
-make :arg, :name
+make :arg, :id
 
-make :def_arg, :name, :value
+make :def_arg, :id, :value
 
-make :var_arg, :name
+make :var_arg, :id
 
 make :call, :target, :method, :args
 
