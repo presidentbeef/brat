@@ -1,0 +1,33 @@
+include 'parser/sexp'
+
+walker = object.new
+
+walker.prototype.inner_brat = {
+  process my.ast
+}
+
+walker.prototype.process = { node |
+  meth = "proc_#{node.name}"
+
+  true? my.has_method?(meth)
+    { my.call_method meth, node }
+    { my.unhandled node }
+}
+
+walker.unhandled = { node |
+  throw "No process method for '#{node.name}'"
+}
+
+walker.prototype.walk_sexps = { nodes |
+  w = my
+  nodes.each { n |
+    true? sexp?(n)
+      { w.process n }
+  }
+}
+
+walker.walk = { name, block |
+  my.prototype.add_method "proc_#{name}", ->block
+}
+
+export walker, :walker
