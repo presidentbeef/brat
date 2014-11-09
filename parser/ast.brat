@@ -168,9 +168,9 @@ ast :inner_arg_list {
 ast :simple_call {
   args = []
 
-  add_ast my, args
+  add_ast my.alist, args
 
-  var = my.elements.first.text
+  var = my.m_name.text
 
   true? args.empty?
     { s[:get_value var] }

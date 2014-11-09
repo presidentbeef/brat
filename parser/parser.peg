@@ -109,7 +109,7 @@ operator = !("->" !operator) !("=" !(operator | "=")) ("!=" | ">=" | "<=" | /[!?
 #-- Calling methods and functions
 
 method_invocation = method_chain (identifier | operator) arg_list <chain_call>
-                  | identifier arg_list <simple_call>
+                  | m_name:identifier alist:arg_list <simple_call>
                   | paren_exp simple_arg_list <paren_call>
                   | function_literal_invocation
 
