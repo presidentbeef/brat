@@ -7,6 +7,9 @@ bin/lua
 stdlib/*.lua
 examples/*.lua
 examples/rosetta_code/*.lua
+parser/*.lua
+parser/parser.brat
+test/*.lua
 lib/*.so*
 lib/*.dylib
 lib/mime/
@@ -19,3 +22,4 @@ src/common/onig-5.9.2/libtool
 src/common/onig-5.9.2/sample/.deps/
 src/common/onig-5.9.2/sample/Makefile
 stdlib/turbo
+*.swp
