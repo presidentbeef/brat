@@ -55,6 +55,12 @@ make :program
 
 make :var_assign, :lhs, :rhs
 
+make :local_var_assign, :lhs, :rhs
+
+make :local_var_reassign, :lhs, :rhs
+
+make :upvar_assign, :lhs, :rhs
+
 make :number
 
 make :array
@@ -80,6 +86,10 @@ make :var_arg, :id
 make :call, :target, :method, :args
 
 make :get_value
+
+make :get_local_value
+
+make :get_up_value
 
 make :invoke
 

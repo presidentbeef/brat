@@ -1,0 +1,86 @@
+includes 'parser/walker' 'parser/sexp' 'parser/env'
+
+a = walker.new
+
+a.init = { ast |
+  my.ast = ast
+  my.functions = []
+  my.env = env.new
+}
+
+a.prototype.assign = {
+  my.walk_sexps(my.ast.nodes)
+  my.ast
+}
+
+a.prototype.set_upvar = {
+  f = my.functions.last
+  true? f
+    { f.has_upvar_assign? = true }
+}
+
+a.prototype.var_type = { var |
+  true? my.env.local_var?(var)
+    { :local }
+    {
+      true? my.env[var]
+        { :up }
+        { :new }
+    }
+}
+
+a.unhandled = { node |
+  walk_sexps node.nodes
+}
+
+a.walk :var_assign { node |
+  process node.rhs
+  var = node.lhs
+  t = var_type var
+  true? t == :local
+    { node.name = "local_var_reassign" }
+    {
+      true? t == :up
+        {
+          node.name = "upvar_assign"
+          set_upvar
+        }
+        {
+          node.name = "local_var_assign"
+          my.env[var] = true
+        }
+    }
+}
+
+a.walk :function { node |
+  my.env.new_scope
+  my.functions << node
+  node.has_upvar_assign? = false
+  walk_sexps node.args
+  walk_sexps node.body
+  my.functions.pop
+  my.env.pop_scope
+}
+
+a.walk :get_value { node |
+  t = var_type(node.value)
+  true? t == :local
+    { node.name = :get_local_value }
+    { true? t == :up
+        { node.name = :get_up_value }
+    }
+}
+
+a.walk :arg { node |
+  my.env[node.id] = true
+}
+
+a.walk :def_arg { node |
+  my.env[node.id] = true
+}
+
+a.walk :var_arg { node |
+  my.env[node.id] = true
+}
+
+export a, :var_assigner

@@ -1,0 +1,74 @@
+includes :assert :file 'parser/parser' 'parser/sexp' 'parser/var_assigner'
+
+add_results setup name: "Var assigner tests" {
+  ast = { input, expected_ast |
+    parsed = brat_parser.parse input, :program, :fully
+    assert parsed, "Failed to parse '#{input}'"
+
+    input_ast = var_assigner.new(parsed.ast).assign
+
+    true? input_ast.nodes.length == 1
+      { assert_equal expected_ast, input_ast.nodes.last }
+      { assert_equal expected_ast, input_ast }
+  }
+
+  test "local assignment" {
+    ast "a = 1" s[:local_var_assign, :a, s[:number, 1]]
+  }
+
+  test "local reassignment" {
+    ast "a = 1; a = 2" s[:program,
+                          s[:local_var_assign, :a, s[:number, 1]],
+                          s[:local_var_reassign, :a, s[:number, 2]]]
+  }
+
+  test "local use" {
+    ast "a = 1; a" s[:program,
+                      s[:local_var_assign, :a, s[:number, 1]],
+                      s[:get_local_value, :a]]
+  }
+
+  test "assign in :function" {
+    ast "{ a = 1 }" s[:function, [], [s[:local_var_assign, :a, s[:number, 1]]]]
+  }
+
+  test "use arg" {
+    ast "{ a | a }" s[:function, [s[:arg, :a]], [s[:get_local_value, :a]]]
+  }
+
+  test "use default arg" {
+    ast "{ a = 1 | a }" s[:function, [s[:def_arg, :a, s[:number, 1]]], [s[:get_local_value, :a]]]
+  }
+
+  test "use var arg" {
+    ast "{ *a | a[0] }" s[:function, [s[:var_arg, :a]], [s[:call, s[:get_local_value, :a], :get, [s[:number, 0]]]]]
+  }
+
+  test "reassign arg" {
+    ast "{ a | a = 1 }" s[:function, [s[:arg, :a]], [s[:local_var_reassign, :a, s[:number, 1]]]]
+  }
+
+  test ":function scope" {
+    ast "{ a = 1}; a" s[:program,
+                        s[:function, [], [s[:local_var_assign, :a, s[:number, 1]]]],
+                        s[:get_value, :a]]
+  }
+
+  test "use upvalue" {
+    ast "a = 1; { a }" s[:program,
+                          s[:local_var_assign, :a, s[:number, 1]],
+                          s[:function, [], [s[:get_up_value, :a]]]]
+  }
+
+  test "upvalue reassign" {
+    ast "a = 1; { a = 2 }" s[:program,
+                              s[:local_var_assign, :a, s[:number, 1]],
+                              s[:function, [], [s[:upvar_assign, :a, s[:number, 2]]]]]
+  }
+
+  test "arg shadow" {
+    ast "a = 1; { a | a }" s[:program,
+                              s[:local_var_assign, :a, s[:number, 1]],
+                              s[:function, [s[:arg, :a]], [s[:get_local_value, :a]]]]
+  }
+}
