@@ -50,7 +50,7 @@ hash_inner = first:hash_argument rest:(((spaceorbreak "," spaceorbreak) | ((spac
 hash_argument = key:((identifier | operator) (identifier | operator | number)*) ":" spaceorbreak value:expression <hash_key_arg>
               | key:expression spaceorbreak ":" spaceorbreak value:expression <hash_arg>
 
-regex   = "/" (/[^\/]+/ | "\\/" | !"/" . )* "/" /[mix]*/ <bregex>
+regex   = "/" (/[^\\/]+/ | "\\/" | !"/" . )* "/" /[mix]*/ <bregex>
 
 string  = "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | !"\"" .)* "\"" <string_interp>
         | "'" svalue:(/[^']*/) "'" <simple_string>
