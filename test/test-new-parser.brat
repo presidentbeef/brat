@@ -1,13 +1,12 @@
 #This is for testing progress on the new parser, written using stdlib/peg
 
-includes :peg :file
+includes :peg_parser :file :peg_parser
 
-file.open "brat_parser.brat" "w" { f |
-  parser = peg.make_parser(:brat file.read("parser/parser.peg"))
-  true? parser
-    { f.write parser }
-    { p "Failure" }
-}
+# Build parser from PEG
+parser_text = peg.make_parser("brat", file.read("parser/parser.peg"), 'parser/ast')
+file.open "parser/parser.brat", "w" { f | f.write parser_text }
+
+include 'parser/parser'
 
 do_check = { str, rule = null, full = true |
   res = brat_parser.parse str, rule, full
@@ -21,15 +20,6 @@ checks = []
 check = { string, rule_name |
   checks << [string, rule_name]
 }
-
-run! = {
-  checks.each { c |
-    do_check c[0], c[1]
-  }
-  p
-}
-
-include "brat_parser"
 
 check "//" :regex
 check "/x/" :regex
@@ -110,12 +100,8 @@ check "x->y" :method_access
 check "x.y->z" :method_access
 check "->(z)" :method_access
 
-check file.read("brat_parser.brat") :program
+check file.read("parser/parser.brat") :program
 
-run!
-
-true? file.exists?("brat_parser.brat")
-  { file.delete "brat_parser.brat" }
-
-true? file.exists?("brat_parser.lua")
-  { file.delete "brat_parser.lua" }
+checks.each { c |
+  do_check c[0], c[1]
+}
