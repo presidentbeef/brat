@@ -1,6 +1,7 @@
-includes 'parser/walker' 'parser/sexp' 'parser/env'
+includes 'parser/walker' 'parser/sexp' 'parser/env' 'parser/compiler_helper'
 
 c = walker.new
+c.squish compiler_helper
 
 c.init = { ast |
   my.ast = ast
@@ -58,11 +59,11 @@ c.method_header = "
   "
 
 
-c.prototype.r = { result_var, output, extras = null |
+c.prototype.r = { result_var, output, extras = [:] |
   o = object.new
   o.var = result_var
   o.output = output
-  o.extras = extras
+  o.get = { v | extras[v] }
   o
 }
 
@@ -80,21 +81,27 @@ c.walk :program { node |
 c.walk :local_var_assign { node |
   rhs = process node.rhs
   temp = my.env.new_var node.lhs
+  my.env.set_type temp, rhs[:type]
   r temp, "local #{temp} = #{rhs.var}"
 }
 
 var_reassign = { node |
   rhs = process node.rhs
   temp = my.env[node.lhs]
+  my.env.set_type temp, node.rhs[:type]
   r temp, "#{temp} = #{rhs.var}"
 }
 
 c.walk :local_var_reassign, ->var_reassign
 c.walk :upvar_assign, ->var_reassign
 
+c.walk :get_local_value { node, var = "_dummy_" |
+  r var, get_local_value(node.value, var)
+}
+
 c.walk :number { node |
   val = node.value.to_s
-  r val, val
+  r val, val, type: :number
 }
 
 export c, :compiler

@@ -1,0 +1,42 @@
+h = object.new
+
+h.callable? = { name |
+  "_type(#{name}) == \"function\" or (_type(#{name}) == \"table\" and _rawget(#{name}, \"__call_thing\"))"
+}
+
+h.get_local_value = { name, res_var |
+  temp = my.env[name]
+
+  action = true? res_var
+            { "#{res_var} = " }
+            { "return " }
+
+  call_it = "#{action} #{temp}(_self)\n"
+
+  t = my.env.get_type temp
+
+  true? t
+   {
+    true? t == :function
+      { call_it }
+      {
+        true? res_var
+          { my.env.set_type res_var, t }
+
+        "#{action} #{temp}\n"
+      }
+   }
+   {
+    "
+    if #{callable? temp} then
+      #{call_it}
+    elsif #{temp} then
+      #{action} #{temp}
+    else
+      _error(exception:name_error(\"#{name}\"))
+    end
+    "
+  }
+}
+
+export h, :compiler_helper
