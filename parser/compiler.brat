@@ -1,13 +1,13 @@
 includes 'parser/walker' 'parser/sexp' 'parser/env'
 
-compiler = walker.new
+c = walker.new
 
-compiler.init = { ast |
+c.init = { ast |
   my.ast = ast
   my.env = env.new
 }
 
-compiler.prototype.compile = {
+c.prototype.compile = {
   "#{file_header}
   _exports = {}
   local _main = function()
@@ -29,7 +29,7 @@ compiler.prototype.compile = {
   "
 }
 
-compiler.file_header = "
+c.file_header = "
   require \"coxpcall\"
   local _lib
   if package.loaded.core then
@@ -40,7 +40,7 @@ compiler.file_header = "
   end
   "
 
-compiler.method_header = "
+c.method_header = "
   local object = object
   local array = array
   local number = number
@@ -58,7 +58,7 @@ compiler.method_header = "
   "
 
 
-compiler.prototype.r = { result_var, output, extras = null |
+c.prototype.r = { result_var, output, extras = null |
   o = object.new
   o.var = result_var
   o.output = output
@@ -66,7 +66,7 @@ compiler.prototype.r = { result_var, output, extras = null |
   o
 }
 
-compiler.walk :program { node |
+c.walk :program { node |
   c = my
   results = node.nodes.map({ n |
     true? sexp?(n)
@@ -77,15 +77,24 @@ compiler.walk :program { node |
   results.map(:output).join("\n")
 }
 
-compiler.walk :local_var_assign { node |
+c.walk :local_var_assign { node |
   rhs = process node.rhs
   temp = my.env.new_var node.lhs
   r temp, "local #{temp} = #{rhs.var}"
 }
 
-compiler.walk :number { node |
+var_reassign = { node |
+  rhs = process node.rhs
+  temp = my.env[node.lhs]
+  r temp, "#{temp} = #{rhs.var}"
+}
+
+c.walk :local_var_reassign, ->var_reassign
+c.walk :upvar_assign, ->var_reassign
+
+c.walk :number { node |
   val = node.value.to_s
   r val, val
 }
 
-export compiler, :compiler
+export c, :compiler
