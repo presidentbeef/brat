@@ -1,9 +1,10 @@
-compiler = object.new
+includes 'parser/walker' 'parser/sexp' 'parser/env'
 
-compiler.node_types = [:]
+compiler = walker.new
 
 compiler.init = { ast |
   my.ast = ast
+  my.env = env.new
 }
 
 compiler.prototype.compile = {
@@ -56,27 +57,35 @@ compiler.method_header = "
   local _rawget = rawget
   "
 
-compiler.prototype.inner_brat = {
-  process my.ast
+
+compiler.prototype.r = { result_var, output, extras = null |
+  o = object.new
+  o.var = result_var
+  o.output = output
+  o.extras = extras
+  o
 }
 
-compiler.prototype.process = { n |
-  my.call_method "process_#{n[0]}", n
-}
-
-process = { name, block |
-  compiler.prototype.add_method "process_#{name}", ->block
-}
-
-process :program { node |
-  node.map({ n |
-    true? n.array?
-      { process n }
+compiler.walk :program { node |
+  c = my
+  results = node.nodes.map({ n |
+    true? sexp?(n)
+      { c.process n }
       { "" }
-  }).join("\n")
+  })
+
+  results.map(:output).join("\n")
 }
 
-process :var_assign { node |
+compiler.walk :local_var_assign { node |
+  rhs = process node.rhs
+  temp = my.env.new_var node.lhs
+  r temp, "local #{temp} = #{rhs.var}"
+}
+
+compiler.walk :number { node |
+  val = node.value.to_s
+  r val, val
 }
 
 export compiler, :compiler
