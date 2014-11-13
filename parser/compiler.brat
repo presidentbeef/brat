@@ -98,22 +98,31 @@ c.walk :number { node |
 }
 
 c.walk :array { node, var = null |
-  res = set_result(null, '{}')
-  next_var = res.var
-  out = res.out
-  comp = my
-  node.nodes.each_with_index { n, i |
-    elem = comp.process n, next_var
-    out << elem.output << "\n" <<
-      "#{next_var}[#{i + 1}] = #{elem.var}\n"
-  }
+  true? node.nodes.empty?
+    {
+      res = set_result var, "array:new()"
+      r res.var, res.out, type: :array
+    }
+    {
+      res = set_result var
+      ares_var = res.var
+      temp_var = my.env.next_temp
+      out = "#{res.out}\ndo\nlocal #{temp_var}\n#{ares_var} = {}\n"
+      comp = my
 
-  res = set_result var, "array:new(#{next_var})"
-  out << res.out
-  my.env.unset next_var
+      node.nodes.each_with_index { n, i |
+        elem = comp.process n, temp_var
+        out << elem.output << "\n" <<
+          "#{ares_var}[#{i + 1}] = #{elem.var}\n"
+      }
 
-  r res.var, out, type: :array
+      out << "#{ares_var} = array:new(#{ares_var})\nend\n"
+
+      r ares_var, out, type: :array
+    }
 }
+
+c.walk :hash { node, var = null |
 }
 
 export c, :compiler
