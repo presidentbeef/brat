@@ -6,12 +6,20 @@ walker.prototype.inner_brat = {
   process my.ast
 }
 
-walker.prototype.process = { node |
+walker.prototype.process = { node, var = null |
   meth = "proc_#{node.name}"
 
-  true? my.has_method?(meth)
-    { my.call_method meth, node }
-    { my.unhandled node }
+  null? var
+    {
+      true? my.has_method?(meth)
+        { my.call_method meth, node }
+        { my.unhandled node }
+    }
+    {
+      true? my.has_method?(meth)
+        { my.call_method meth, node, var }
+        { my.unhandled node, var }
+    }
 }
 
 walker.unhandled = { node |

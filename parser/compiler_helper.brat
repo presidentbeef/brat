@@ -39,4 +39,35 @@ h.get_local_value = { name, res_var |
   }
 }
 
+h.set_result = { var = null, initial = null |
+  res = object.new
+  res.out = ''
+  res.var = var
+
+  null? res.var
+    { res.var = my.env.next_unset }
+
+  null? res.var
+    {
+      res.var = my.env.next_var
+      res.out = true? initial
+              { "local #{res.var} = #{initial}\n" }
+              { "local #{res.var}\n" }
+    }
+    {
+      true? initial
+        { res.out = "#{res.var} = #{initial}\n" }
+    }
+
+  res
+}
+
+h.r = { result_var, output, extras = [:] |
+  o = object.new
+  o.var = result_var
+  o.output = output
+  o.get = { v | extras[v] }
+  o
+}
+
 export h, :compiler_helper
