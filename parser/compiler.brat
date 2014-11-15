@@ -123,6 +123,34 @@ c.walk :array { node, var = null |
 }
 
 c.walk :hash { node, var = null |
+  true? node.nodes.empty?
+    {
+      res = set_result var, "hash:new()"
+      r res.var, res.out, type: :hash
+    }
+    {
+      res = set_result var, "{}"
+      hres_var = res.var
+      key_temp = my.env.next_temp
+      val_temp = my.env.next_temp
+
+      out = "#{res.out}\ndo\nlocal #{key_temp};local #{val_temp}\n"
+
+      w = my
+      node.nodes.each { pair |
+        key = w.process pair.first, key_temp
+        val = w.process pair.last, val_temp
+
+        out << "#{key.output}\n#{val.output}\n#{hres_var}[#{key.var}] = #{val.var}"
+      }
+
+      my.env.unset key_temp
+      my.env.unset val_temp
+
+      out << "\n#{hres_var} = hash:new(#{hres_var})\nend\n"
+
+      r hres_var, out, type: :hash
+    }
 }
 
 export c, :compiler
