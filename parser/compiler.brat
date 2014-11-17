@@ -153,4 +153,16 @@ c.walk :hash { node, var = null |
     }
 }
 
+c.walk :string { node, var = null |
+  true? node.nodes.empty?
+    {
+      res = set_result var, 'string:new("")'
+      r res.var, res.out, type: :string
+    }
+    {
+      res = set_result var, "string:new(\"#{node.value}\")"
+      r res.var, res.out, type: :string
+    }
+}
+
 export c, :compiler
