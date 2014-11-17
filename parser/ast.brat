@@ -102,7 +102,10 @@ ast :string_interp {
   # If just one simple string, return that
   true? list.length == 1 && { list[0].name == :string }
     { list[0] }
-    { s[:string_interp].concat list }
+    { true? list.length == 0
+      { s[:string] }
+      { s[:string_interp].concat list }
+    }
 }
 
 ast :interp_value {
