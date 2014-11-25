@@ -2020,11 +2020,22 @@ end
 enumerable = new_brat(object)
 
 -- Object: enumerable instance
+-- Call: enum.any?
 -- Call: enum.any? block
 -- Returns: boolean
 --
 -- Returns true if, for any object in the collection, the block returns true.
+--
+-- If no block is given, returns true if the collection has any elements at all.
 function enumerable:any_question (block)
+  if block == nil then
+    if self._length == 0 then
+      return object.__false
+    else
+      return object.__true
+    end
+  end
+
   local flag = false
   local f = function (_self, item)
     if not flag and is_true(block(_self, item)) then
