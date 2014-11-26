@@ -90,6 +90,10 @@ c.walk :upvar_assign, ->var_reassign
 
 c.walk :get_local_value { node, var = "_dummy_" |
   r var, get_local_value(node.value, var)
+c.walk :get_local_value { node, var = null |
+  res = set_result var
+  res.out << get_local_value(node.value, res.var)
+  res
 }
 
 c.walk :number { node |
@@ -221,7 +225,7 @@ c.walk :function { node, var = null |
   body = node.body.copy
   last = body.pop
 
-  body_res = body.map({ n | w.process(n).out }).join("\n")
+  body_res = body.map({ n | w.process(n, '_dummy').out }).join("\n")
   res.out << body_res
 
   true? last
