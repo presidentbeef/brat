@@ -7,6 +7,9 @@ h.callable? = { name |
 h.get_local_value = { name, res_var |
   temp = my.env[name]
 
+  true? res_var == '_return_'
+    { res_var = null }
+
   action = true? res_var
             { "#{res_var} = " }
             { "return " }
@@ -30,7 +33,7 @@ h.get_local_value = { name, res_var |
     "
     if #{callable? temp} then
       #{call_it}
-    elsif #{temp} then
+    elseif #{temp} then
       #{action} #{temp}
     else
       _error(exception:name_error(\"#{name}\"))

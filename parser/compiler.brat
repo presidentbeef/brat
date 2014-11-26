@@ -165,4 +165,102 @@ c.walk :string { node, var = null |
     }
 }
 
+c.prototype.do_args = { node |
+  w = my
+  out = ""
+  args = node.args.map({ n | w.process(n) })
+  arg_list = args.map({ a | a.var }).join(", ")
+
+  true? arg_list.empty?
+    { arg_list = "_self" }
+    { arg_list = "_self, " << arg_list }
+
+  required = args.select({ n | n[:arg_type] == :arg })
+  default = args.select({ n | n[:arg_type] == :def_arg })
+  optional = args.select({ n | n[:arg_type] == :var_arg })
+
+  true? all_required = (default.empty? && { optional.empty? })
+    { arg_list << ", _too_many_" }
+
+  true? all_required
+    {
+      out << "
+        if _too_many_ then
+          _error(exception:argument_error('function', #{required.length}, 'too many'))
+        end
+      "
+    }
+
+  required.each_with_index { n, i |
+    out << "
+      if #{n.var} == nil then
+        _error(exception:argument_error('function', #{i + 1}, #{i}))
+      end
+    "
+  }
+
+  default.each { n |
+    out << n.output
+  }
+
+  optional.each { n |
+    out << n.output
+  }
+
+  [ arg_list: arg_list, out: out ]
+}
+
+c.walk :function { node, var = null |
+  w = my
+
+  args = do_args node
+
+  res = set_result var, "function(#{args[:arg_list]})"
+  res.out << args[:out]
+
+  body = node.body.copy
+  last = body.pop
+
+  body_res = body.map({ n | w.process(n).output }).join("\n")
+  res.out << body_res
+
+  true? last
+   {
+     last_res = my.process last, "_return_"
+     res.out << last_res.output << "\n"
+     false? last_res.var == '_return_'
+       { res.out << "return #{last_res.var}\n" }
+   }
+
+  res.out << "\nend\n"
+
+  r res.var, res.out, type: :function
+}
+
+c.walk :arg { node, var = null |
+  temp = my.env.new_var node.id
+  r temp, '', arg_type: :arg
+}
+
+c.walk :var_arg { node, var = null |
+  temp = my.env.new_var node.id
+  r '...', "local #{temp} = array:new(...)\n", arg_type: :var_arg
+}
+
+c.walk :def_arg { node, var = null |
+  temp = my.env.new_var node.id
+  rhs = process node.value, temp
+  out = "
+    if #{temp} == nil then
+      #{rhs.output}
+  "
+
+  false? rhs.var == temp
+    { out << "#{temp} = #{rhs.var}\n" }
+
+  out << "end\n"
+
+  r temp, out, arg_type: :def_arg
+}
+
 export c, :compiler
