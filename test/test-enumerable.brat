@@ -26,4 +26,11 @@ add_results setup name: "enumerable tests" {
   test "reject with method name" {
     assert_equal [1 2 3] { [1 :a :b 2 :c 3].reject :string? }
   }
+
+  test "any with no block" {
+    assert_false { [].any? }
+    assert { [1].any? }
+    assert { [null].any? }
+    assert { [false].any? }
+  }
 }
