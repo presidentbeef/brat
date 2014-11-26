@@ -34,7 +34,6 @@ a.unhandled = { node |
 }
 
 a.walk :var_assign { node |
-  process node.rhs
   var = node.lhs
   t = var_type var
   true? t == :local
@@ -50,6 +49,8 @@ a.walk :var_assign { node |
           my.env[var] = true
         }
     }
+
+  process node.rhs
 }
 
 a.walk :function { node |
