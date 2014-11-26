@@ -66,7 +66,7 @@ c.walk :program { node |
       { "" }
   })
 
-  results.map(:output).join("\n")
+  results.map(:out).join("\n")
 }
 
 c.walk :local_var_assign { node |
@@ -74,15 +74,15 @@ c.walk :local_var_assign { node |
   rhs = process node.rhs, temp
   my.env.set_type temp, rhs[:type]
   true? temp == rhs.var
-  { r temp, "local #{temp}\n#{rhs.output}" }
-  { r temp, "#{rhs.output}\nlocal #{temp} = #{rhs.var}" }
+  { r temp, "local #{temp}\n#{rhs.out}" }
+  { r temp, "#{rhs.out}\nlocal #{temp} = #{rhs.var}" }
 }
 
 var_reassign = { node |
   rhs = process node.rhs
   temp = my.env[node.lhs]
   my.env.set_type temp, rhs[:type]
-  r temp, "#{rhs.output}\n#{temp} = #{rhs.var}"
+  r temp, "#{rhs.out}\n#{temp} = #{rhs.var}"
 }
 
 c.walk :local_var_reassign, ->var_reassign
@@ -112,7 +112,7 @@ c.walk :array { node, var = null |
 
       node.nodes.each_with_index { n, i |
         elem = comp.process n, temp_var
-        out << elem.output << "\n" <<
+        out << elem.out << "\n" <<
           "#{ares_var}[#{i + 1}] = #{elem.var}\n"
       }
 
@@ -141,7 +141,7 @@ c.walk :hash { node, var = null |
         key = w.process pair.first, key_temp
         val = w.process pair.last, val_temp
 
-        out << "#{key.output}\n#{val.output}\n#{hres_var}[#{key.var}] = #{val.var}"
+        out << "#{key.out}\n#{val.out}\n#{hres_var}[#{key.var}] = #{val.var}"
       }
 
       my.env.unset key_temp
@@ -200,11 +200,11 @@ c.prototype.do_args = { node |
   }
 
   default.each { n |
-    out << n.output
+    out << n.out
   }
 
   optional.each { n |
-    out << n.output
+    out << n.out
   }
 
   [ arg_list: arg_list, out: out ]
@@ -221,13 +221,13 @@ c.walk :function { node, var = null |
   body = node.body.copy
   last = body.pop
 
-  body_res = body.map({ n | w.process(n).output }).join("\n")
+  body_res = body.map({ n | w.process(n).out }).join("\n")
   res.out << body_res
 
   true? last
    {
      last_res = my.process last, "_return_"
-     res.out << last_res.output << "\n"
+     res.out << last_res.out << "\n"
      false? last_res.var == '_return_'
        { res.out << "return #{last_res.var}\n" }
    }
@@ -252,7 +252,7 @@ c.walk :def_arg { node, var = null |
   rhs = process node.value, temp
   out = "
     if #{temp} == nil then
-      #{rhs.output}
+      #{rhs.out}
   "
 
   false? rhs.var == temp

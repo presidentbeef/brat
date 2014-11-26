@@ -68,7 +68,7 @@ h.set_result = { var = null, initial = null |
 h.r = { result_var, output, extras = [:] |
   o = object.new
   o.var = result_var
-  o.output = output
+  o.out = output
   o.get = { v | extras[v] }
   o
 }
