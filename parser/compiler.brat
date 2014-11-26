@@ -88,8 +88,22 @@ var_reassign = { node |
 c.walk :local_var_reassign, ->var_reassign
 c.walk :upvar_assign, ->var_reassign
 
-c.walk :get_local_value { node, var = "_dummy_" |
-  r var, get_local_value(node.value, var)
+c.walk :field_assign { node, var = null |
+  lhs = process node.lhs.target
+  var = node.lhs.field
+  rhs = process node.rhs
+
+  out = lhs.out << "\n" << rhs.out << "
+    if _type(#{lhs.var}) == 'table' then
+      #{lhs.var}['#{var}'] = #{rhs.var}
+    else
+      _error('Cannot set method on ' .. #{lhs.var})
+    end
+    "
+
+  r rhs.var, out
+}
+
 c.walk :get_local_value { node, var = null |
   res = set_result var
   res.out << get_local_value(node.value, res.var)
