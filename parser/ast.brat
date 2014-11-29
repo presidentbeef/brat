@@ -260,6 +260,14 @@ ast :paren_meth_access {
   list << my.meth.text
 }
 
+ast :meth_access {
+  list = s[:meth_access]
+
+  add_ast my, list
+
+  list << my.meth.text
+}
+
 ast :index_get {
   list = s[:call, my.elements.first.ast, :get]
   index_args = add_ast my.gindexes, []

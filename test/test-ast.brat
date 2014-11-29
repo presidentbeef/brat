@@ -343,6 +343,10 @@ add_results setup name: "Brat AST tests" {
     ast "->x" s[:meth_access, null, :x]
   }
 
+  test "regular method access" {
+    ast "a->b" s[:meth_access, s[:get_value, :a], :b]
+  }
+
   test "simple method access with operator" {
     ast "->!" s[:meth_access, null, :!]
   }
