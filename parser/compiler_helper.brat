@@ -42,6 +42,28 @@ h.get_local_value = { name, res_var |
   }
 }
 
+h.get_value = { name, res_var |
+  true? res_var == '_return_'
+    { res_var = null }
+
+  action = true? res_var
+            { "#{res_var} =" }
+            { "return" }
+
+  call_it = "#{action} #{name}(_self)\n"
+
+  "
+   local _m = _self[\"#{name}\"]
+   if #{callable? '_m'} then
+     #{action} _m(_self)
+   elseif _m then
+     #{action} _m
+   else
+     _error(exception:name_error(\"#{name}\"))
+   end
+  "
+}
+
 h.set_result = { var = null, initial = null |
   res = object.new
   res.out = ''

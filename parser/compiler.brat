@@ -104,9 +104,18 @@ c.walk :field_assign { node, var = null |
   r rhs.var, out
 }
 
-c.walk :get_local_value { node, var = null |
+get_a_value = { node, var = null |
   res = set_result var
   res.out << get_local_value(node.value, res.var)
+  res
+}
+
+c.walk :get_local_value, ->get_a_value
+c.walk :get_up_value, ->get_a_value
+
+c.walk :get_value { node, var = null |
+  res = set_result var
+  res.out << get_value(node.value, res.var)
   res
 }
 
