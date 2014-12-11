@@ -61,13 +61,10 @@ c.method_header = "
 c.walk :program { node |
   c = my
   results = node.nodes.map({ n |
-    true? sexp?(n)
-      { c.process n }
-      { "" }
-  })
-
-  results.map(:out).join("\n")
+    c.process(n).out
+  }).join("\n")
 }
+
 
 c.walk :local_var_assign { node |
   temp = my.env.new_var node.lhs
