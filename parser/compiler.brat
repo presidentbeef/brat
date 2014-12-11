@@ -118,6 +118,14 @@ c.walk :get_value { node, var = null |
   res.out << get_value(node.value, res.var)
   r res
 }
+
+c.walk :invoke_local { node, var = null |
+  res = set_result var
+  w = my
+  args = node.args.map { n | w.process n }
+  res.out << args.map({ a | a.out }).join("\n")
+  res.out << invoke_local node.method, args.map({ a | a.var }), var
+  r res
 }
 
 c.walk :number { node |

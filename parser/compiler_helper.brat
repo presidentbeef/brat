@@ -13,6 +13,38 @@ h.get_action = { res_var |
     { "return " }
 }
 
+h.invoke_local = { name, args, res_var |
+  args = (["_self"] + args).join(", ")
+  temp = my.env[name]
+
+  action = get_action res_var
+
+  call_it = "#{action} #{temp}(#{args})\n"
+
+  nonmethod_error = "_error(exception:new(\"Tried to invoke non-method: #{name} (\" .. object.__type(#{temp}) .. \")\"))"
+
+  t = my.env.get_type temp
+
+  true? t
+   {
+    true? t == :function
+      { call_it }
+      {
+        nonmethod_error
+      }
+   }
+   {
+    "
+    if #{callable? temp} then
+      #{call_it}
+    elseif #{temp} then
+      #{action} #{temp}(#{args})
+    else
+      #{nonmethod_error}
+    end
+    "
+  }
+}
 
 h.get_local_value = { name, res_var |
   temp = my.env[name]
