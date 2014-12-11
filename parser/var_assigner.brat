@@ -63,6 +63,22 @@ a.walk :function { node |
   my.env.pop_scope
 }
 
+a.walk :call { node |
+  target = node.target
+  true? target
+    { process node.target }
+  walk_sexps node.args
+  meth = node.method
+
+  null? target
+    {
+      t = var_type meth
+      true? (t == :local || t == :up)
+        { node.name = :invoke_local }
+        { node.name = :invoke_self }
+    }
+}
+
 a.walk :get_value { node |
   t = var_type(node.value)
   true? t == :local
