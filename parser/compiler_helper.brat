@@ -4,15 +4,20 @@ h.callable? = { name |
   "_type(#{name}) == \"function\" or (_type(#{name}) == \"table\" and _rawget(#{name}, \"__call_thing\"))"
 }
 
-h.get_local_value = { name, res_var |
-  temp = my.env[name]
-
+h.get_action = { res_var |
   true? res_var == '_return_'
     { res_var = null }
 
-  action = true? res_var
-            { "#{res_var} = " }
-            { "return " }
+  true? res_var
+    { "#{res_var} = " }
+    { "return " }
+}
+
+
+h.get_local_value = { name, res_var |
+  temp = my.env[name]
+
+  action = get_action res_var
 
   call_it = "#{action} #{temp}(_self)\n"
 
