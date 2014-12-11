@@ -87,12 +87,19 @@ h.set_result = { var = null, initial = null |
   res
 }
 
-h.r = { result_var, output, extras = [:] |
-  o = object.new
-  o.var = result_var
-  o.out = output
-  o.get = { v | extras[v] }
-  o
+h.r = { result_var, output = null, extras = [:] |
+  true? (output.null? && { result_var.object? })
+    {
+      result_var.get = { v | null }
+      result_var
+    }
+    {
+      o = object.new
+      o.var = result_var
+      o.out = output
+      o.get = { v | extras[v] }
+      o
+    }
 }
 
 export h, :compiler_helper

@@ -116,7 +116,8 @@ c.walk :get_up_value, ->get_a_value
 c.walk :get_value { node, var = null |
   res = set_result var
   res.out << get_value(node.value, res.var)
-  res
+  r res
+}
 }
 
 c.walk :number { node |
