@@ -21,7 +21,7 @@ h.invoke_local = { name, args, res_var |
 
   call_it = "#{action} #{temp}(#{args})\n"
 
-  nonmethod_error = "_error(exception:new(\"Tried to invoke non-method: #{name} (\" .. object.__type(#{temp}) .. \")\"))"
+  nonmethod_error = "_error(exception:new(\"Tried to invoke non-method: '#{name}' (\" .. object.__type(#{temp}) .. \")\"))"
 
   t = my.env.get_type temp
 
@@ -44,6 +44,20 @@ h.invoke_local = { name, args, res_var |
     end
     "
   }
+}
+
+h.invoke_self = { name, args, res_var |
+  arg_list = args.join(", ")
+
+  action = get_action res_var
+
+  "
+    if #{callable? "_self.#{name}"} then
+      #{action} _self:#{name}(#{arg_list})
+    else
+      _error(exception:method_error(_self, #{name}))
+    end
+  "
 }
 
 h.get_local_value = { name, res_var |
