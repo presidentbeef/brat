@@ -30,34 +30,6 @@ c.prototype.compile = {
   "
 }
 
-c.file_header = "
-  require \"coxpcall\"
-  local _lib
-  if package.loaded.core then
-    _lib = true
-  else
-    _lib = false
-    require \"core\"
-  end
-  "
-
-c.method_header = "
-  local object = object
-  local array = array
-  local number = number
-  local string = base_string
-  local exception = exception
-  local hash = hash
-  local regex = regex
-  local _self = object
-  local _type = type
-  local _error = error
-  local _tostring = tostring
-  local brat_function = brat_function
-  local _lifted_call = _lifted_call
-  local _rawget = rawget
-  "
-
 c.walk :program { node |
   c = my
   results = node.nodes.map({ n |
@@ -75,15 +47,8 @@ c.walk :local_var_assign { node |
   { r temp, "#{rhs.out}\nlocal #{temp} = #{rhs.var}" }
 }
 
-var_reassign = { node |
-  rhs = process node.rhs
-  temp = my.env[node.lhs]
-  my.env.set_type temp, rhs[:type]
-  r temp, "#{rhs.out}\n#{temp} = #{rhs.var}"
-}
-
-c.walk :local_var_reassign, ->var_reassign
-c.walk :upvar_assign, ->var_reassign
+c.walk :local_var_reassign, c->var_reassign
+c.walk :upvar_assign, c->var_reassign
 
 c.walk :field_assign { node, var = null |
   lhs = process node.lhs.target
@@ -101,27 +66,12 @@ c.walk :field_assign { node, var = null |
   r rhs.var, out
 }
 
-get_a_value = { node, var = null |
-  res = set_result var
-  res.out << get_local_value(node.value, res.var)
-  res
-}
-
-c.walk :get_local_value, ->get_a_value
-c.walk :get_up_value, ->get_a_value
+c.walk :get_local_value, c->get_a_value
+c.walk :get_up_value, c->get_a_value
 
 c.walk :get_value { node, var = null |
   res = set_result var
   res.out << get_value(node.value, res.var)
-  r res
-}
-
-invoke = { node, invoke_meth, var = null |
-  res = set_result var
-  w = my
-  args = node.args.map { n | w.process n }
-  res.out << args.map({ a | a.out }).join("\n")
-  res.out << invoke_meth node.method, args.map({ a | a.var }), var
   r res
 }
 
@@ -131,6 +81,17 @@ c.walk :invoke_local { node, var = null |
 
 c.walk :invoke_self { node, var = null |
   invoke node, ->invoke_self, var
+}
+
+c.walk :call { node, var = null |
+  res = set_result var
+  w = my
+  target = process node.target
+  res.out << target.out
+  args = node.args.map { n | w.process n }
+  res.out << args.map({ a | a.out }).join("\n")
+  res.out << call_method target.var, node.method, args.map({ a | a.var }), var
+  r res
 }
 
 c.walk :number { node |
@@ -204,51 +165,6 @@ c.walk :string { node, var = null |
       res = set_result var, "string:new(\"#{node.value}\")"
       r res.var, res.out, type: :string
     }
-}
-
-c.prototype.do_args = { node |
-  w = my
-  out = ""
-  args = node.args.map({ n | w.process(n) })
-  arg_list = args.map({ a | a.var }).join(", ")
-
-  true? arg_list.empty?
-    { arg_list = "_self" }
-    { arg_list = "_self, " << arg_list }
-
-  required = args.select({ n | n[:arg_type] == :arg })
-  default = args.select({ n | n[:arg_type] == :def_arg })
-  optional = args.select({ n | n[:arg_type] == :var_arg })
-
-  true? all_required = (default.empty? && { optional.empty? })
-    { arg_list << ", _too_many_" }
-
-  true? all_required
-    {
-      out << "
-        if _too_many_ then
-          _error(exception:argument_error('function', #{required.length}, 'too many'))
-        end
-      "
-    }
-
-  required.each_with_index { n, i |
-    out << "
-      if #{n.var} == nil then
-        _error(exception:argument_error('function', #{i + 1}, #{i}))
-      end
-    "
-  }
-
-  default.each { n |
-    out << n.out
-  }
-
-  optional.each { n |
-    out << n.out
-  }
-
-  [ arg_list: arg_list, out: out ]
 }
 
 c.walk :function { node, var = null |

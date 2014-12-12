@@ -4,6 +4,41 @@ h.callable? = { name |
   "_type(#{name}) == \"function\" or (_type(#{name}) == \"table\" and _rawget(#{name}, \"__call_thing\"))"
 }
 
+h.file_header = "
+  require \"coxpcall\"
+  local _lib
+  if package.loaded.core then
+    _lib = true
+  else
+    _lib = false
+    require \"core\"
+  end
+  "
+
+h.method_header = "
+  local object = object
+  local array = array
+  local number = number
+  local string = base_string
+  local exception = exception
+  local hash = hash
+  local regex = regex
+  local _self = object
+  local _type = type
+  local _error = error
+  local _tostring = tostring
+  local brat_function = brat_function
+  local _lifted_call = _lifted_call
+  local _rawget = rawget
+  "
+
+h.var_reassign = { node |
+  rhs = process node.rhs
+  temp = my.env[node.lhs]
+  my.env.set_type temp, rhs[:type]
+  r temp, "#{rhs.out}\n#{temp} = #{rhs.var}"
+}
+
 h.get_action = { res_var |
   true? res_var == '_return_'
     { res_var = null }
@@ -13,7 +48,7 @@ h.get_action = { res_var |
     { "return " }
 }
 
-invoke = { node, invoke_meth, var = null |
+h.invoke = { node, invoke_meth, var = null |
   res = set_result var
   w = my
   args = node.args.map { n | w.process n }
@@ -69,6 +104,12 @@ h.invoke_self = { name, args, res_var |
   "
 }
 
+h.get_a_value = { node, var = null |
+  res = set_result var
+  res.out << get_local_value(node.value, res.var)
+  res
+}
+
 h.get_local_value = { name, res_var |
   temp = my.env[name]
 
@@ -122,6 +163,51 @@ h.get_value = { name, res_var |
      _error(exception:name_error(\"#{name}\"))
    end
   "
+}
+
+h.do_args = { node |
+  w = my
+  out = ""
+  args = node.args.map({ n | w.process(n) })
+  arg_list = args.map({ a | a.var }).join(", ")
+
+  true? arg_list.empty?
+    { arg_list = "_self" }
+    { arg_list = "_self, " << arg_list }
+
+  required = args.select({ n | n[:arg_type] == :arg })
+  default = args.select({ n | n[:arg_type] == :def_arg })
+  optional = args.select({ n | n[:arg_type] == :var_arg })
+
+  true? all_required = (default.empty? && { optional.empty? })
+    { arg_list << ", _too_many_" }
+
+  true? all_required
+    {
+      out << "
+        if _too_many_ then
+          _error(exception:argument_error('function', #{required.length}, 'too many'))
+        end
+      "
+    }
+
+  required.each_with_index { n, i |
+    out << "
+      if #{n.var} == nil then
+        _error(exception:argument_error('function', #{i + 1}, #{i}))
+      end
+    "
+  }
+
+  default.each { n |
+    out << n.out
+  }
+
+  optional.each { n |
+    out << n.out
+  }
+
+  [ arg_list: arg_list, out: out ]
 }
 
 h.set_result = { var = null, initial = null |
