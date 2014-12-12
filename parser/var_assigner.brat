@@ -67,7 +67,8 @@ a.walk :call { node |
   target = node.target
   true? target
     { process node.target }
-  walk_sexps node.args
+  true? node.args
+    { walk_sexps node.args }
   meth = node.method
 
   null? target
