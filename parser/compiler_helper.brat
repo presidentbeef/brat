@@ -210,10 +210,23 @@ h.do_args = { node |
   [ arg_list: arg_list, out: out ]
 }
 
-h.set_result = { var = null, initial = null |
-  res = object.new
-  res.out = ''
-  res.var = var
+result = object.new
+result.init = { var = null, extras = [:] |
+  my.var = var
+  my.out = ''
+  my.extras = extras
+}
+
+result.prototype.get = { v |
+  my.extras[v]
+}
+
+result.prototype.set = { k, v |
+  my.extras[k] = v
+}
+
+h.set_result = { var = null, initial = null, extras = [:] |
+  res = result.new var, extras
 
   null? res.var
     { res.var = my.env.next_unset }
@@ -234,18 +247,9 @@ h.set_result = { var = null, initial = null |
 }
 
 h.r = { result_var, output = null, extras = [:] |
-  true? (output.null? && { result_var.object? })
-    {
-      result_var.get = { v | null }
-      result_var
-    }
-    {
-      o = object.new
-      o.var = result_var
-      o.out = output
-      o.get = { v | extras[v] }
-      o
-    }
+  res = result.new result_var, extras
+  res.out = output
+  res
 }
 
 export h, :compiler_helper

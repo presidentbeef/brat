@@ -72,7 +72,7 @@ c.walk :get_up_value, c->get_a_value
 c.walk :get_value { node, var = null |
   res = set_result var
   res.out << get_value(node.value, res.var)
-  r res
+  res
 }
 
 c.walk :invoke_local { node, var = null |
@@ -91,7 +91,7 @@ c.walk :call { node, var = null |
   args = node.args.map { n | w.process n }
   res.out << args.map({ a | a.out }).join("\n")
   res.out << call_method target.var, node.method, args.map({ a | a.var }), var
-  r res
+  res
 }
 
 c.walk :number { node |
@@ -102,8 +102,7 @@ c.walk :number { node |
 c.walk :array { node, var = null |
   true? node.nodes.empty?
     {
-      res = set_result var, "array:new()"
-      r res.var, res.out, type: :array
+      set_result var, "array:new()", type: :array
     }
     {
       res = set_result var
@@ -127,8 +126,7 @@ c.walk :array { node, var = null |
 c.walk :hash { node, var = null |
   true? node.nodes.empty?
     {
-      res = set_result var, "hash:new()"
-      r res.var, res.out, type: :hash
+      set_result var, "hash:new()", type: :hash
     }
     {
       res = set_result var, "{}"
@@ -158,12 +156,10 @@ c.walk :hash { node, var = null |
 c.walk :string { node, var = null |
   true? node.nodes.empty?
     {
-      res = set_result var, 'string:new("")'
-      r res.var, res.out, type: :string
+      set_result var, 'string:new("")', type: :string
     }
     {
-      res = set_result var, "string:new(\"#{node.value}\")"
-      r res.var, res.out, type: :string
+      set_result var, "string:new(\"#{node.value}\")", type: :string
     }
 }
 
@@ -190,8 +186,8 @@ c.walk :function { node, var = null |
    }
 
   res.out << "\nend\n"
-
-  r res.var, res.out, type: :function
+  res[:type] = :function
+  res
 }
 
 c.walk :arg { node, var = null |
