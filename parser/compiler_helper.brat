@@ -13,6 +13,15 @@ h.get_action = { res_var |
     { "return " }
 }
 
+invoke = { node, invoke_meth, var = null |
+  res = set_result var
+  w = my
+  args = node.args.map { n | w.process n }
+  res.out << args.map({ a | a.out }).join("\n")
+  res.out << invoke_meth node.method, args.map({ a | a.var }), var
+  r res
+}
+
 h.invoke_local = { name, args, res_var |
   args = (["_self"] + args).join(", ")
   temp = my.env[name]
@@ -55,7 +64,7 @@ h.invoke_self = { name, args, res_var |
     if #{callable? "_self.#{name}"} then
       #{action} _self:#{name}(#{arg_list})
     else
-      _error(exception:method_error(_self, #{name}))
+      _error(exception:method_error(_self, '#{name}'))
     end
   "
 }
