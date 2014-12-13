@@ -164,7 +164,23 @@ ast :simple_call {
   var = my.m_name.text
 
   true? args.empty?
-    { s[:get_value var] }
+  {
+    true? my.alist.text.empty? # simple call with no args and no parens
+      { s[:get_value, var] }
+      { s[:call, null, var] }
+  }
+  { s[:call, null, var, args.first] }
+}
+
+ast :simpler_call {
+  args = []
+
+  add_ast my.alist, args
+
+  var = my.m_name.text
+
+  true? args.empty?
+    { s[:call, null, var] }
     { s[:call, null, var, args.first] }
 }
 
@@ -186,8 +202,12 @@ ast :simple_meth_lhs {
   var = my.elements.first.text
 
   true? args.empty?
-    { s[:get_value var] }
-    { s[:call, null, var, args.first] }
+  {
+    true? my.args.text.empty? # simple call with no args and no parens
+    { s[:get_value, var] }
+    { s[:call, null, var] }
+  }
+  { s[:call, null, var, args.first] }
 }
 
 ast :method_chain {
