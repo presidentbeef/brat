@@ -718,7 +718,7 @@ grammar BaseBrat
 
   #Matches doubly-quoted strings
   rule string
-    '"' content:((string_interpolation / '\"' / !'"' . )*) '"' {
+    '"' content:((string_interpolation / '\"' / '\\\\' / !'"' . )*) '"' {
     def brat(res_var = nil)
       get_result res_var
       assign @result, type

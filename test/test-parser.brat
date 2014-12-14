@@ -238,5 +238,11 @@ add_results setup name: "parser tests" {
         3]
     }
   }
+
+  test "escaped double quote in string" {
+    {
+      "\\"
+    }
+  }
 }
 
