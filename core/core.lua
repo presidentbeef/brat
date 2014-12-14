@@ -4596,19 +4596,7 @@ function string_instance:sub (pattern, replacement, limit)
     error(exception:argument_error("string.sub", "regular expression", tostring(pattern)))
   end
 
-  if type(replacement) == "table" then
-    if replacement._lua_string then
-      replacement = replacement._lua_string
-    elseif replacement._lua_hash then
-      local r = {}
-      for k,v in pairs(replacement._lua_hash) do
-        r[k._lua_string] = v._lua_string
-      end
-      replacement = r
-    else
-      error(exception:argument_error("string.sub", "string", tostring(replacement)))
-    end
-  elseif is_callable(replacement) then
+  if is_callable(replacement) then
     local f = replacement
     replacement = function (s)
       local s = base_string:new(s)
@@ -4620,6 +4608,18 @@ function string_instance:sub (pattern, replacement, limit)
       else
         return r
       end
+    end
+  elseif type(replacement) == "table" then
+    if replacement._lua_string then
+      replacement = replacement._lua_string
+    elseif replacement._lua_hash then
+      local r = {}
+      for k,v in pairs(replacement._lua_hash) do
+        r[k._lua_string] = v._lua_string
+      end
+      replacement = r
+    else
+      error(exception:argument_error("string.sub", "string", tostring(replacement)))
     end
   else
     error(exception:argument_error("string.sub", "string", tostring(replacement)))
