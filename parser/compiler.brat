@@ -136,6 +136,7 @@ c.walk :string { node, var = null |
 
 c.walk :function { node, var = null |
   w = my
+  my.env.new_scope
 
   args = do_args node
 
@@ -156,6 +157,7 @@ c.walk :function { node, var = null |
        { res.out << "return #{last_res.var}\n" }
    }
 
+  my.env.pop_scope
   res.out << "\nend\n"
   res[:type] = :function
   res
