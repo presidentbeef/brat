@@ -1,4 +1,6 @@
 include 'parser/sexp'
+sh = import('parser/string_helper', :string_helper)
+to_id = { name | sh.escape_identifier name }
 
 node = object.new
 node.prototype [
@@ -131,15 +133,15 @@ ast :bfunction {
 }
 
 ast :plain_arg {
-  s[:arg my.text]
+  s[:arg to_id my.text]
 }
 
 ast :default_arg {
-  s[:def_arg, my.arg_var.text, my.arg_val.ast]
+  s[:def_arg, to_id(my.arg_var.text), my.arg_val.ast]
 }
 
 ast :variable_args {
-  s[:var_arg my.arg_var.text]
+  s[:var_arg to_id(my.arg_var.text)]
 }
 
 ast :unary_op {
@@ -147,7 +149,7 @@ ast :unary_op {
 
   add_ast my, list
 
-  list << my.elements[1].text
+  list << to_id(my.elements[1].text)
 }
 
 ast :inner_arg_list {
@@ -161,7 +163,7 @@ ast :simple_call {
 
   add_ast my.alist, args
 
-  var = my.m_name.text
+  var = to_id my.m_name.text
 
   true? args.empty?
   {
@@ -177,7 +179,7 @@ ast :simpler_call {
 
   add_ast my.alist, args
 
-  var = my.m_name.text
+  var = to_id my.m_name.text
 
   true? args.empty?
     { s[:call, null, var] }
@@ -189,7 +191,7 @@ ast :chain_call {
 
   list << my.elements.first.ast
 
-  list << my.elements[1].text
+  list << to_id(my.elements[1].text)
 
   add_ast my.elements.last, list
 }
@@ -199,7 +201,7 @@ ast :simple_meth_lhs {
 
   add_ast my.args, args
 
-  var = my.elements.first.text
+  var = to_id(my.elements.first.text)
 
   true? args.empty?
   {
@@ -230,7 +232,7 @@ ast :paren_call {
 }
 
 ast :var_assign {
-  s[:var_assign my.var.text, my.elements.last.ast]
+  s[:var_assign to_id(my.var.text), my.elements.last.ast]
 }
 
 ast :field_assign {
@@ -242,7 +244,7 @@ ast :field_access {
   list = s[:field_access]
 
   add_ast my, list
-  list << my.elements.last.text
+  list << to_id(my.elements.last.text)
 }
 
 ast :binary_op {
@@ -256,14 +258,14 @@ ast :binary_op_chain {
 
   my.elements.each { e |
     list << e.elements.first.ast
-    list << e.elements[2].text
+    list << to_id(e.elements[2].text)
   }
 
   list
 }
 
 ast :simple_meth_access {
-  s[:meth_access, null, my.meth.text]
+  s[:meth_access, null, to_id(my.meth.text)]
 }
 
 ast :simple_paren_meth_access {
@@ -277,7 +279,7 @@ ast :paren_meth_access {
 
   add_ast my, list
 
-  list << my.meth.text
+  list << to_id(my.meth.text)
 }
 
 ast :meth_access {
@@ -285,7 +287,7 @@ ast :meth_access {
 
   add_ast my, list
 
-  list << my.meth.text
+  list << to_id(my.meth.text)
 }
 
 ast :index_get {
