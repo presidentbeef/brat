@@ -53,22 +53,16 @@ c.walk :get_value { node, var = null |
 }
 
 c.walk :invoke_local { node, var = null |
-  invoke node, ->invoke_local, var
+  invoke node, null, ->invoke_local, var
 }
 
 c.walk :invoke_self { node, var = null |
-  invoke node, ->invoke_self, var
+  invoke node, null, ->invoke_self, var
 }
 
 c.walk :call { node, var = null |
-  res = set_result var
-  w = my
   target = process node.target
-  res.out << target.out
-  args = (node.args || {[]}).map { n | w.process n }
-  res.out << args.map({ a | a.out }).join("\n")
-  res.out << invoke_method target.var, node.method, args.map({ a | a.var }), res.var
-  res
+  invoke node, target, ->invoke_method, var
 }
 
 c.walk :number { node |

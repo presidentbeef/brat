@@ -13,16 +13,21 @@ h.get_action = { res_var |
     }
 }
 
-h.invoke = { node, invoke_meth, var = null |
+h.invoke = { node, target, invoke_meth, var |
   res = set_result var
   w = my
+  target_var = null
+  true? target
+    { res.out << target.out; target_var = target.var }
+
   args = (node.args || {[]}).map { n | w.process n }
+  avars = args.map({ a | a.var })
   res.out << args.map({ a | a.out }).join("\n")
-  res.out << invoke_meth node.method, args.map({ a | a.var }), res.var
+  res.out << invoke_meth target_var, node.method, avars, res.var
   res
 }
 
-h.invoke_local = { name, args, res_var |
+h.invoke_local = { t_, name, args, res_var |
   args = (["_self"] + args).join(", ")
   temp = my.env[name]
 
@@ -54,7 +59,7 @@ h.invoke_local = { name, args, res_var |
   }
 }
 
-h.invoke_self = { name, args, res_var |
+h.invoke_self = { t_, name, args, res_var |
   invoke_method '_self', name, args, res_var
 }
 
