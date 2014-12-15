@@ -1,7 +1,33 @@
-h = object.new
+[:variable, :invoke, :string, :function].each { helper |
+  include "parser/#{helper}_helper"
+}
 
-h.callable? = { name |
-  "_type(#{name}) == \"function\" or (_type(#{name}) == \"table\" and _rawget(#{name}, \"__call_thing\"))"
+h = object.new
+h.squish variable_helper
+h.squish invoke_helper
+h.squish string_helper
+h.squish function_helper
+
+h.compile = {
+  "#{file_header}
+  _exports = {}
+  local _main = function()
+    #{method_header}
+
+    setfenv(1, {})
+
+    #{inner_brat}
+  end
+
+  local _result = coxpcall(_main, exception._handler)
+  if not _lib then
+    if not _result then
+      os.exit(-1)
+    else
+      os.exit(0)
+    end
+  end
+  "
 }
 
 h.file_header = "
@@ -32,183 +58,7 @@ h.method_header = "
   local _rawget = rawget
   "
 
-h.var_reassign = { node |
-  rhs = process node.rhs
-  temp = my.env[node.lhs]
-  my.env.set_type temp, rhs[:type]
-  r temp, "#{rhs.out}\n#{temp} = #{rhs.var}"
-}
 
-h.get_action = { res_var |
-  true? res_var == '_return_'
-    { res_var = null }
-
-  true? res_var
-    { "#{res_var} = " }
-    { "return " }
-}
-
-h.invoke = { node, invoke_meth, var = null |
-  res = set_result var
-  w = my
-  args = node.args.map { n | w.process n }
-  res.out << args.map({ a | a.out }).join("\n")
-  res.out << invoke_meth node.method, args.map({ a | a.var }), var
-  r res
-}
-
-h.invoke_local = { name, args, res_var |
-  args = (["_self"] + args).join(", ")
-  temp = my.env[name]
-
-  action = get_action res_var
-
-  call_it = "#{action} #{temp}(#{args})\n"
-
-  nonmethod_error = "_error(exception:new(\"Tried to invoke non-method: '#{name}' (\" .. object.__type(#{temp}) .. \")\"))"
-
-  t = my.env.get_type temp
-
-  true? t
-   {
-    true? t == :function
-      { call_it }
-      {
-        nonmethod_error
-      }
-   }
-   {
-    "
-    if #{callable? temp} then
-      #{call_it}
-    elseif #{temp} then
-      #{action} #{temp}(#{args})
-    else
-      #{nonmethod_error}
-    end
-    "
-  }
-}
-
-h.invoke_self = { name, args, res_var |
-  arg_list = args.join(", ")
-
-  action = get_action res_var
-
-  "
-    if #{callable? "_self.#{name}"} then
-      #{action} _self:#{name}(#{arg_list})
-    else
-      _error(exception:method_error(_self, '#{name}'))
-    end
-  "
-}
-
-h.get_a_value = { node, var = null |
-  res = set_result var
-  res.out << get_local_value(node.value, res.var)
-  res
-}
-
-h.get_local_value = { name, res_var |
-  temp = my.env[name]
-
-  action = get_action res_var
-
-  call_it = "#{action} #{temp}(_self)\n"
-
-  t = my.env.get_type temp
-
-  true? t
-   {
-    true? t == :function
-      { call_it }
-      {
-        true? res_var
-          { my.env.set_type res_var, t }
-
-        "#{action} #{temp}\n"
-      }
-   }
-   {
-    "
-    if #{callable? temp} then
-      #{call_it}
-    elseif #{temp} then
-      #{action} #{temp}
-    else
-      _error(exception:name_error(\"#{name}\"))
-    end
-    "
-  }
-}
-
-h.get_value = { name, res_var |
-  true? res_var == '_return_'
-    { res_var = null }
-
-  action = true? res_var
-            { "#{res_var} =" }
-            { "return" }
-
-  call_it = "#{action} #{name}(_self)\n"
-
-  "
-   local _m = _self[\"#{name}\"]
-   if #{callable? '_m'} then
-     #{action} _m(_self)
-   elseif _m then
-     #{action} _m
-   else
-     _error(exception:name_error(\"#{name}\"))
-   end
-  "
-}
-
-h.do_args = { node |
-  w = my
-  out = ""
-  args = node.args.map({ n | w.process(n) })
-  arg_list = args.map({ a | a.var }).join(", ")
-
-  true? arg_list.empty?
-    { arg_list = "_self" }
-    { arg_list = "_self, " << arg_list }
-
-  required = args.select({ n | n[:arg_type] == :arg })
-  default = args.select({ n | n[:arg_type] == :def_arg })
-  optional = args.select({ n | n[:arg_type] == :var_arg })
-
-  true? all_required = (default.empty? && { optional.empty? })
-    { arg_list << ", _too_many_" }
-
-  true? all_required
-    {
-      out << "
-        if _too_many_ then
-          _error(exception:argument_error('function', #{required.length}, 'too many'))
-        end
-      "
-    }
-
-  required.each_with_index { n, i |
-    out << "
-      if #{n.var} == nil then
-        _error(exception:argument_error('function', #{i + 1}, #{i}))
-      end
-    "
-  }
-
-  default.each { n |
-    out << n.out
-  }
-
-  optional.each { n |
-    out << n.out
-  }
-
-  [ arg_list: arg_list, out: out ]
-}
 
 result = object.new
 result.init = { var = null, extras = [:] |

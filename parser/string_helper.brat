@@ -1,0 +1,36 @@
+h = object.new
+
+op_escape = [ "!" : "_bang",
+          "*" : "_star",
+          "-" : "_minus",
+          "+" : "_plus",
+          "|" : "_or",
+          "&" : "_and",
+          "@" : "_at",
+          "~" : "_tilde",
+          "^" : "_up",
+          "/" : "_forward",
+          "\\" : "_back",
+          "?" : "_question",
+          "<" : "_less",
+          ">" : "_greater",
+          "=" : "_equal",
+          "%" : "_percent",
+          "_" : "_under",
+          "$" : "_dollar" ]
+
+escape_op = { input |
+  input.sub /([!?\-*+^@~\/\\><$_%|&=~])/, { o |
+    op_escape[o]
+  }
+}
+
+escape_keyword = { input |
+  input.sub /\A(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\Z/i, { m | "_" + m }
+}
+
+h.escape_identifier = { identifier |
+  escape_keyword(escape_op(identifier))
+}
+
+export h, :string_helper

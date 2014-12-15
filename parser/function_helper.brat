@@ -1,0 +1,48 @@
+h = object.new
+
+h.do_args = { node |
+  w = my
+  out = ""
+  args = node.args.map({ n | w.process(n) })
+  arg_list = args.map({ a | a.var }).join(", ")
+
+  true? arg_list.empty?
+    { arg_list = "_self" }
+    { arg_list = "_self, " << arg_list }
+
+  required = args.select({ n | n[:arg_type] == :arg })
+  default = args.select({ n | n[:arg_type] == :def_arg })
+  optional = args.select({ n | n[:arg_type] == :var_arg })
+
+  true? all_required = (default.empty? && { optional.empty? })
+    { arg_list << ", _too_many_" }
+
+  true? all_required
+    {
+      out << "
+        if _too_many_ then
+          _error(exception:argument_error('function', #{required.length}, 'too many'))
+        end
+      "
+    }
+
+  required.each_with_index { n, i |
+    out << "
+      if #{n.var} == nil then
+        _error(exception:argument_error('function', #{i + 1}, #{i}))
+      end
+    "
+  }
+
+  default.each { n |
+    out << n.out
+  }
+
+  optional.each { n |
+    out << n.out
+  }
+
+  [ arg_list: arg_list, out: out ]
+}
+
+export h, :function_helper

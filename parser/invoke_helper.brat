@@ -1,0 +1,157 @@
+h = object.new
+
+h.callable? = { name |
+  "_type(#{name}) == \"function\" or (_type(#{name}) == \"table\" and _rawget(#{name}, \"__call_thing\"))"
+}
+
+h.get_action = { res_var |
+  true? res_var == '_return_'
+    { "return " }
+    { true? res_var
+      { "#{res_var} = " }
+      { "_dummy_ = " }
+    }
+}
+
+h.invoke = { node, invoke_meth, var = null |
+  res = set_result var
+  w = my
+  args = (node.args || {[]}).map { n | w.process n }
+  res.out << args.map({ a | a.out }).join("\n")
+  res.out << invoke_meth node.method, args.map({ a | a.var }), res.var
+  res
+}
+
+h.invoke_local = { name, args, res_var |
+  args = (["_self"] + args).join(", ")
+  temp = my.env[name]
+
+  action = get_action res_var
+  p "invoke res is #{res_var}"
+
+  call_it = "#{action} #{temp}(#{args})\n"
+
+  nonmethod_error = "_error(exception:new(\"Tried to invoke non-method: '#{name}' (\" .. object.__type(#{temp}) .. \")\"))"
+
+  t = my.env.get_type temp
+
+  true? t
+   {
+    true? t == :function
+      { call_it }
+      {
+        nonmethod_error
+      }
+   }
+   {
+    "
+    if #{callable? temp} then
+      #{call_it}
+    elseif #{temp} then
+      #{action} #{temp}(#{args})
+    else
+      #{nonmethod_error}
+    end
+    "
+  }
+}
+
+h.invoke_self = { name, args, res_var |
+  invoke_method '_self', name, args, res_var
+}
+
+h.invoke_method = { target, name, args, res_var |
+  action = get_action res_var
+
+  true? args.empty?
+  {
+     "
+      local _m = #{target}.#{name}
+      if #{callable? '_m'} then
+        #{action} _m(#{target})
+      elseif _m ~= nil then
+        #{action} _m
+      else
+        _error(exception:method_error(#{target}, '#{name}'))
+      end
+    "
+  }
+  {
+    arg_list = ([target] + args).join(', ')
+
+    "
+      local _m = #{target}.#{name}
+      if #{callable? '_m'} then
+        #{action} _m(#{arg_list})
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, #{args.length -1 }))
+      else
+        _error(exception:method_error(#{target}, '#{name}'))
+      end
+    "
+  }
+}
+
+h.get_a_value = { node, var = null |
+  res = set_result var
+  res.out << get_local_value(node.value, res.var)
+  res
+}
+
+h.get_local_value = { name, res_var |
+  temp = my.env[name]
+
+  action = get_action res_var
+
+  call_it = "#{action} #{temp}(_self)\n"
+
+  t = my.env.get_type temp
+
+  true? t
+   {
+    true? t == :function
+      { call_it }
+      {
+        true? res_var
+          { my.env.set_type res_var, t }
+
+        "#{action} #{temp}\n"
+      }
+   }
+   {
+    "
+    if #{callable? temp} then
+      #{call_it}
+    elseif #{temp} then
+      #{action} #{temp}
+    else
+      _error(exception:name_error(\"#{name}\"))
+    end
+    "
+  }
+}
+
+
+h.get_value = { name, res_var |
+  true? res_var == '_return_'
+    { res_var = null }
+
+  action = true? res_var
+            { "#{res_var} =" }
+            { "return" }
+
+  call_it = "#{action} #{name}(_self)\n"
+
+  "
+   local _m = _self[\"#{name}\"]
+   if #{callable? '_m'} then
+     #{action} _m(_self)
+   elseif _m then
+     #{action} _m
+   else
+     _error(exception:name_error(\"#{name}\"))
+   end
+  "
+}
+
+export h, :invoke_helper

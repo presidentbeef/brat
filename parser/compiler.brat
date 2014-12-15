@@ -8,35 +8,12 @@ c.init = { ast |
   my.env = env.new
 }
 
-c.prototype.compile = {
-  "#{file_header}
-  _exports = {}
-  local _main = function()
-    #{method_header}
-
-    setfenv(1, {})
-
-    #{inner_brat}
-  end
-
-  local _result = coxpcall(_main, exception._handler)
-  if not _lib then
-    if not _result then
-      os.exit(-1)
-    else
-      os.exit(0)
-    end
-  end
-  "
-}
-
 c.walk :program { node |
   c = my
   results = node.nodes.map({ n |
     c.process(n).out
   }).join("\n")
 }
-
 
 c.walk :local_var_assign { node |
   temp = my.env.new_var node.lhs
@@ -88,9 +65,9 @@ c.walk :call { node, var = null |
   w = my
   target = process node.target
   res.out << target.out
-  args = node.args.map { n | w.process n }
+  args = (node.args || {[]}).map { n | w.process n }
   res.out << args.map({ a | a.out }).join("\n")
-  res.out << call_method target.var, node.method, args.map({ a | a.var }), var
+  res.out << invoke_method target.var, node.method, args.map({ a | a.var }), res.var
   res
 }
 
