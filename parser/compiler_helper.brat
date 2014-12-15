@@ -1,6 +1,7 @@
-[:variable, :invoke, :string, :function].each { helper |
-  include "parser/#{helper}_helper"
-}
+include "parser/variable_helper"
+include "parser/invoke_helper"
+include "parser/string_helper"
+include "parser/function_helper"
 
 h = object.new
 h.squish variable_helper
