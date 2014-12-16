@@ -151,10 +151,8 @@ c.walk :function { node, var = null |
 
   true? last
    {
-     last_res = my.process last, "_return_"
-     res.out << last_res.out << "\n"
-     false? last_res.var == '_return_'
-       { res.out << "return #{last_res.var}\n" }
+     last_res = my.process last
+     res.out << last_res.out << "\n" << "return #{last_res.var}\n"
    }
 
   my.env.pop_scope
