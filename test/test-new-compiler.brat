@@ -1,0 +1,94 @@
+includes :assert
+includes "parser/parser" "parser/var_assigner" "parser/compiler"
+
+add_results setup name: "array tests" {
+  compiles? = { input |
+    parsed = brat_parser.parse(input, "program", true)
+    assert parsed, "Could not parse '#{input}'"
+
+    ast = var_assigner.new(parsed.ast).assign
+    assert ast, "Something went wrong with second pass"
+
+    assert compiler.new(ast).compile, "Could not compile '#{input}'"
+  }
+
+  check = { input, name |
+    test name, {
+      compiles? input
+    }
+  }
+
+  check "//" :regex
+  check "/x/" :regex
+  check "/[a-zA-Z]/" :regex
+  check "/[a-zA-Z0-9_!?\\-*+^&@~\\/\\\\><$%]/" :regex
+
+  check "#" :comment
+  check "#* *#" :comment
+  check "#*\n*#" :comment
+  check "  #* blah blah blah\n   *#" :comment
+
+  check "[:]" :hash
+
+  check "'hello'" :string
+  check '"hello"' :string
+  check ":jello" :string
+  check '"hell#{whee}o"' :string
+  check '"\'"' :string
+
+  check "1" :number
+  check "-11" :number
+  check "12.34" :number
+  check "-12.34" :number
+
+  check "[]" :array
+  check "[ ]" :array
+  check "[1, 2, 3]" :array
+  check "[1 2 3]" :array
+  check "[\n1\n2 3\n]" :array
+
+  check "([])" :paren_exp
+  check "([x: 1])" :paren_exp
+  check "((1))" :paren_exp
+
+  check "{ }" :function_definition
+  check "{ x, y | \n }" :function_definition
+  check "{ x, y = 1, z = 2 | }" :function_definition
+  check "{ x, y = 1, *z | \n }" :function_definition
+  check "{ y = 1, *z|}" :function_definition
+  check "{ y, *z |\n }" :function_definition
+  check "{ *z | }" :function_definition
+  check "{ z | 1;2; 3}" :function_definition
+  check "{ *z | 'hi'\n [1 2 3] }" :function_definition
+
+  check "++('test')" :unary_operation
+  check "*1" :unary_operation
+  check "-->>!!@!@!*&&-|\\//|:jello" :unary_operation
+
+  check "1 + 1" :binary_operation
+  check "1 + 3 * 10 - 1" :binary_operation
+
+  check "x" :method_invocation
+  check "x()" :method_invocation
+  check "x.y()" :method_invocation
+  check "x.y().z" :method_invocation
+  check "x().y().z()" :method_invocation
+  check "x(1 2 3).y(1,2,3).z" :method_invocation
+  check "x[1,2].y.z" :method_invocation
+  check "x.y.z" :method_invocation
+  check "x.y[3].z" :method_invocation
+  check "x a:1" :method_invocation
+  check "x b: 2 c:3" :method_invocation
+
+  check "a = 1" :assignment
+  check "a.b = 1" :assignment
+  check "a.b = {x | x}" :assignment
+  check "a.b = x.y { \n }" :assignment
+
+  check "->a" :method_access
+  check "b->a" :method_access
+  check "x->y" :method_access
+  check "x.y->z" :method_access
+  check "->(z)" :method_access
+
+}

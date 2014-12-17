@@ -1,0 +1,8 @@
+includes :peg_parser :file
+
+true? file.exists? "parser/parser.brat"
+  { file.delete "parser/parser.brat" }
+x = peg.make_parser("brat", file.read("parser/parser.peg"), 'parser/ast')
+file.open "parser/parser.brat", "w" { f | f.write x }
+
+include "parser/parser"

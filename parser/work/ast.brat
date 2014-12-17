@@ -1,0 +1,14 @@
+includes "parser/parser" "parser/var_assigner" "parser/compiler" :file :subprocess
+
+loop {
+  ast = brat_parser.parse(g, "program", true).ast
+  p ast
+  ast = var_assigner.new(ast).assign
+  p ast
+  out = compiler.new(ast).compile
+  p out
+  p "-" * 30
+  file.open "testg.lua" "w" { f | f.write out }
+  p subprocess.run "./brat testg.brat"
+  p "-" * 30
+}
