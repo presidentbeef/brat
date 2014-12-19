@@ -57,6 +57,7 @@ h.method_header = "
   local brat_function = brat_function
   local _lifted_call = _lifted_call
   local _rawget = rawget
+  local _table = table
   "
 
 
