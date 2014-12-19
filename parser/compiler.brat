@@ -215,19 +215,19 @@ c.walk :regex { node, var = null |
 
 c.walk :string_interp { node, var = null |
   res = set_result var
-  res.out << "do\n"
-  strings = []
+  temp = my.env.next_temp
+  res.out << "do\nlocal #{temp} = {}\n"
   w = my
-  node.nodes.each { n |
+  node.nodes.each_with_index { n, i |
     true? n.name == :string
-      { strings << "\"#{n.value}\"" }
+      {  res.out << "#{temp}[#{i}] = \"#{n.value}\"\n" }
       {
-        o = w.process n
+        o = w.process n, "#{temp}[#{i}]"
         res.out << o.out
-        strings << "_tostring(#{o.var})"
+        res.out << "#{temp}[#{i}] = _tostring(#{o.var})\n"
       }
   }
-  res.out << "#{res.var} = _table.concat({#{strings.join(', ')}})\nend\n"
+  res.out << "#{res.var} = _table.concat(#{temp})\nend\n"
   res
 }
 
