@@ -101,4 +101,17 @@ a.walk :var_arg { node |
   my.env[node.id] = true
 }
 
+a.walk :meth_access { node |
+  null? node.target
+    {
+      t = var_type(node.method)
+      true? (t == :local || t == :up)
+        { node.name = :meth_access_local }
+        { node.name = :meth_access_self }
+    }
+    {
+      process node.target
+    }
+}
+
 export a, :var_assigner

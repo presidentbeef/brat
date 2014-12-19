@@ -187,4 +187,24 @@ c.walk :def_arg { node, var = null |
   r temp, out, arg_type: :def_arg
 }
 
+c.walk :meth_access_local { node, var = null |
+  res = set_result var
+  res.out << get_method_local node.method, res.var
+  res
+}
+
+c.walk :meth_access_self { node, var = null |
+  res = set_result var
+  res.out << get_method_self node.method, res.var
+  res
+}
+
+c.walk :meth_access { node, var = null |
+  res = set_result var
+  target = process node.target
+  res.out << target.out
+  res.out << get_method target.var, node.method, res.var
+  res
+}
+
 export c, :compiler

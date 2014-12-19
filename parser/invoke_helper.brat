@@ -158,4 +158,41 @@ h.get_value = { name, res_var |
   "
 }
 
+h.get_method_local = { name, res_var |
+  action = get_action res_var
+  temp = my.env[name]
+
+  "
+  if #{temp} then
+    #{action} #{temp}
+  else
+    _error(exception:null_error(\"#{name}\", \"access it\"))
+  end
+  "
+}
+
+h.get_method_self = { name, res_var |
+  action = get_action res_var
+
+  "
+  if _self[\"#{name}\"] then
+    #{action} _self[\"#{name}\"]
+  else
+    _error(exception:null_error(\"#{name}\", \"access it\"))
+  end
+  "
+}
+
+h.get_method = { target, name, res_var |
+  action = get_action res_var
+
+  "
+  if #{target}[\"#{name}\"] then
+    #{action} #{target}[\"#{name}\"]
+  else
+    _error(exception:method_error(\"#{target}\", \"#{name|}\"))
+  end
+  "
+}
+
 export h, :invoke_helper
