@@ -81,7 +81,7 @@ ast :hash_key_arg {
 }
 
 ast :bregex {
-  s[:regex my.text]
+  s[:regex my.body.text, my.opts.text]
 }
 
 ast :simple_string {

@@ -67,7 +67,7 @@ make :array
 
 make :hash
 
-make :regex
+make :regex, :body, :opts
 
 make :string
 
