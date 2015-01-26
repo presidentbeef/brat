@@ -91,6 +91,8 @@ make :get_local_value
 
 make :get_up_value
 
+make :invoke, :target, :args
+
 make :invoke_local, :empty, :method, :args
 
 make :invoke_self, :empty, :method, :args
