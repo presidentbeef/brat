@@ -28,7 +28,8 @@ object.add_results = { r |
 
 file.delete "test/test.lua"
 
-p "Overall results: #{overall_results[:tests]} tests, #{overall_results[:assertions]} assertions, #{overall_results[:failures]} failures."
+date = subprocess.run('date "+%b %d, %Y"').strip!
+p "Test results: #{overall_results[:tests]} tests, #{overall_results[:assertions]} assertions, #{overall_results[:failures]} failures on #{date}."
 
 true? overall_results[:failures] == 0
   { exit 0 }
