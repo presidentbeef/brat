@@ -101,7 +101,7 @@ make :field_assign, :lhs, :rhs
 
 make :field_access, :target, :field
 
-make :binop, :lhs, :rhs
+make :binop, :lhs, :op, :rhs
 
 make :meth_access, :target, :method
 
