@@ -1719,6 +1719,10 @@ function number_instance:_equal_equal (rhs)
 end
 
 function number_instance:_less_equal_greater (rhs)
+  if type(rhs) == "table" and rhs._lua_number then
+    rhs = rhs._lua_number
+  end
+
   if type(rhs) ~= "number" then
     error("Cannot compare number to " .. type(rhs))
   end
