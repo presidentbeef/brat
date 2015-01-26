@@ -80,7 +80,7 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "regex" {
-    ast "/^r\\d+.*?/i" s[:regex "/^r\\d+.*?/i"]
+    ast "/^r\\d+.*?/i" s[:regex "^r\\d+.*?" "i"]
   }
 
   test "simple string" {
@@ -233,7 +233,7 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "unary operation" {
-    ast "~>1", s[:call s[:number 1], "~>"]
+    ast "~>1", s[:call s[:number 1], :_tilde_greater]
   }
 
   test "simple call no args" {
@@ -326,16 +326,16 @@ add_results setup name: "Brat AST tests" {
   test "binary operation" {
     ast "2 * 2" s[:binop
                   s[:number 2]
-                  :*
+                  :_star
                   s[:number 2]]
   }
 
   test "chained binary operation" {
     ast "2 * 2 + 1" s[:binop
                       s[:number 2]
-                      :*
+                      :_star
                         s[:number 2]
-                        :+
+                        :_plus
                         s[:number 1]]
   }
 
@@ -348,7 +348,7 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "simple method access with operator" {
-    ast "->!" s[:meth_access, null, :!]
+    ast "->!" s[:meth_access, null, :_bang]
   }
 
   test "simple paren method access" {
@@ -427,7 +427,7 @@ add_results setup name: "Brat AST tests" {
                           s[:get_value :x]
                           :get
                           [s[:number 1]]]
-                        :+
+                        :_plus
                         s[:call
                           s[:get_value :y]
                           :get
@@ -441,7 +441,7 @@ add_results setup name: "Brat AST tests" {
                     s[:get_value :x]
                     :get
                     [s[:number 1]]]
-                  :@]
+                  :_at]
   }
 
   test "simple index set" {
@@ -471,8 +471,8 @@ add_results setup name: "Brat AST tests" {
   test "parenthesized expression" {
     ast "1 / (2 + 3)"  s[:binop
                          s[:number 1]
-                           :/
-                           s[:binop s[:number 2], :+ s[:number 3]]]
+                           :_forward
+                           s[:binop s[:number 2], :_plus s[:number 3]]]
   }
 
   test "var assign at beginning of function" {
