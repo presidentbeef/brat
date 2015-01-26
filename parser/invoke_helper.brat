@@ -18,7 +18,11 @@ h.invoke = { node, target, invoke_meth, var |
   w = my
   target_var = null
   true? target
-    { res.out << target.out; target_var = target.var }
+    {
+      true? target[:type] == :number
+      { res.out << "local _n = number:new(#{target.var})\n"; target_var = "_n" }
+      { res.out << target.out; target_var = target.var }
+    }
 
   args = (node.args || {[]}).map { n | w.process n }
   avars = args.map({ a | a.var })
@@ -70,6 +74,9 @@ h.invoke_method = { target, name, args, res_var |
   true? args.empty?
   {
      "
+      if _type(#{target}) == 'number' then
+        #{target} = number:new(#{target})
+      end
       local _m = #{target}.#{name}
       if #{callable? '_m'} then
         #{action} _m(#{target})
@@ -84,6 +91,9 @@ h.invoke_method = { target, name, args, res_var |
     arg_list = ([target] + args).join(', ')
 
     "
+      if _type(#{target}) == 'number' then
+        #{target} = number:new(#{target})
+      end
       local _m = #{target}.#{name}
       if #{callable? '_m'} then
         #{action} _m(#{arg_list})
