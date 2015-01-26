@@ -240,4 +240,9 @@ c.walk :string_eval { node, var = null |
   res
 }
 
+c.walk :binop { node, var = null |
+  p reorder_ops node
+  node
+}
+
 export c, :compiler

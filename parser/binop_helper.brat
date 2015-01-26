@@ -1,0 +1,63 @@
+include "parser/sexp"
+
+h = object.new
+
+precedence = [
+  "_or_or" : 1, 
+  "_and_and" : 2, 
+  "_less_equal_greater" : 3, 
+  "_equal_equal" : 3, 
+  "_not_equal" : 3, 
+  "_tilde" : 3,
+  "_bang_tilde" : 3,
+  "_less_equal" : 4,
+  "_greater_equal" : 4,
+  "_less" : 4,
+  "_greater" : 4,
+  "_less_less" : 5,
+  "_greater_greater" : 6,
+  "_plus" : 7, 
+  "_minus" : 8, 
+  "_star" : 9, 
+  "_forward" : 9, 
+  "_percent" : 9, 
+  "_up" : 10
+]
+
+prec = { op |
+  precedence[op] || 0
+}
+
+h.reorder_ops = { node |
+  operands = []
+  operators = []
+
+  w = my
+  node.nodes.each { n |
+    true? n.string?
+      {
+        true? prec(n) > prec(operators.last)
+          { operators << n }
+          {
+            op1 = operands.pop
+            op2 = operands.pop
+            operands << s[:binop op2, n, op1]
+          }
+      }
+      {
+        operands << n
+      }
+  }
+
+  until { operators.empty? }
+    {
+      op = operators.pop
+      op1 = operands.pop
+      op2 = operands.pop
+      operands << s[:binop op2, op, op1]
+    }
+
+  operands
+}
+
+export h, :binop_helper

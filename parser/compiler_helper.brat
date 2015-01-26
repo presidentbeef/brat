@@ -2,12 +2,14 @@ include "parser/variable_helper"
 include "parser/invoke_helper"
 include "parser/string_helper"
 include "parser/function_helper"
+include "parser/binop_helper"
 
 h = object.new
 h.squish variable_helper
 h.squish invoke_helper
 h.squish string_helper
 h.squish function_helper
+h.squish binop_helper
 
 h.compile = {
   "#{file_header}
