@@ -14,18 +14,6 @@ h.do_args = { node |
   default = args.select({ n | n[:arg_type] == :def_arg })
   optional = args.select({ n | n[:arg_type] == :var_arg })
 
-  true? all_required = (default.empty? && { optional.empty? })
-    { arg_list << ", _too_many_" }
-
-  true? all_required
-    {
-      out << "
-        if _too_many_ then
-          _error(exception:argument_error('function', #{required.length}, 'too many'))
-        end
-      "
-    }
-
   required.each_with_index { n, i |
     out << "
       if #{n.var} == nil then
