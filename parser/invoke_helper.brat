@@ -19,9 +19,7 @@ h.invoke = { node, target, invoke_meth, var |
   target_var = null
   true? target
     {
-      true? target[:type] == :number
-      { res.out << "local _n = number:new(#{target.var})\n"; target_var = "_n" }
-      { res.out << target.out; target_var = target.var }
+       res.out << target.out; target_var = target.var
     }
 
   args = (node.args || {[]}).map { n | w.process n }
@@ -68,15 +66,29 @@ h.invoke_self = { t_, name, args, res_var |
   invoke_method '_self', name, args, res_var
 }
 
-h.invoke_method = { target, name, args, res_var |
-  action = get_action res_var
+h.invoke_number_method = { target, name, args, res_var |
+  "
+    local _n = number:new(#{target})
+    #{invoke_method_helper '_n', name, args, res_var}"
+}
 
+h.invoke_method = { target, name, args, res_var |
+  true? (target.number? || { h.number? target })
+  { invoke_number_method target, name, args, res_var }
+  {
+    "if _type(#{target}) == 'number' then
+      #{target} = number:new(#{target})
+    end
+    #{invoke_method_helper target, name, args, res_var}"
+  }
+
+}
+
+h.invoke_method_helper = { target, name, args, res_var |
+  action = get_action res_var
   true? args.empty?
   {
      "
-      if _type(#{target}) == 'number' then
-        #{target} = number:new(#{target})
-      end
       local _m = #{target}.#{name}
       if #{callable? '_m'} then
         #{action} _m(#{target})
@@ -91,9 +103,6 @@ h.invoke_method = { target, name, args, res_var |
     arg_list = ([target] + args).join(', ')
 
     "
-      if _type(#{target}) == 'number' then
-        #{target} = number:new(#{target})
-      end
       local _m = #{target}.#{name}
       if #{callable? '_m'} then
         #{action} _m(#{arg_list})
@@ -104,6 +113,18 @@ h.invoke_method = { target, name, args, res_var |
       end
     "
   }
+}
+
+h.invoke_numbers = { lhs, op, rhs, res_var |
+  action = get_action res_var
+
+  "
+    if number._unchanged('op') then
+      #{action} #{lhs} #{unescape_op op} #{rhs}
+    else
+      #{h.invoke_method lhs, op, [rhs], res_var}
+    end
+  "
 }
 
 h.get_a_value = { node, var = null |

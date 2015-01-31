@@ -66,7 +66,7 @@ c.walk :call { node, var = null |
 }
 
 c.walk :number { node |
-  val = node.value.to_s
+  val = node.value.to_f
   r val, '', type: :number
 }
 
@@ -241,8 +241,22 @@ c.walk :string_eval { node, var = null |
 }
 
 c.walk :binop { node, var = null |
-  p reorder_ops node
-  node
+  res = reorder_ops node
+  process res
+}
+
+c.walk :invoke_numbers { node, var = null |
+  res = set_result var
+  res.out << invoke_numbers node.lhs.value, node.op, node.rhs.value, res.var
+  res
+}
+
+c.walk :invoke_number { node, var = null |
+  res = set_result var
+  rhs = process node.rhs
+  res.out << rhs.out << "\n"
+  res.out << invoke_method node.lhs.value, node.op, [rhs.var], res.var
+  res
 }
 
 export c, :compiler

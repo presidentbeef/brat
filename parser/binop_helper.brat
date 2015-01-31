@@ -3,11 +3,11 @@ include "parser/sexp"
 h = object.new
 
 precedence = [
-  "_or_or" : 1, 
-  "_and_and" : 2, 
-  "_less_equal_greater" : 3, 
-  "_equal_equal" : 3, 
-  "_not_equal" : 3, 
+  "_or_or" : 1,
+  "_and_and" : 2,
+  "_less_equal_greater" : 3,
+  "_equal_equal" : 3,
+  "_not_equal" : 3,
   "_tilde" : 3,
   "_bang_tilde" : 3,
   "_less_equal" : 4,
@@ -16,16 +16,64 @@ precedence = [
   "_greater" : 4,
   "_less_less" : 5,
   "_greater_greater" : 6,
-  "_plus" : 7, 
-  "_minus" : 8, 
-  "_star" : 9, 
-  "_forward" : 9, 
-  "_percent" : 9, 
+  "_plus" : 7,
+  "_minus" : 8,
+  "_star" : 9,
+  "_forward" : 9,
+  "_percent" : 9,
   "_up" : 10
 ]
 
+op_escape = [ "!" : "_bang",
+      "*" : "_star",
+      "-" : "_minus",
+      "+" : "_plus",
+      "|" : "_or",
+      "&" : "_and",
+      "@" : "_at",
+      "~" : "_tilde",
+      "^" : "_up",
+      "/" : "_forward",
+      "\\" : "_back",
+      "?" : "_question",
+      "<" : "_less",
+      ">" : "_greater",
+      "=" : "_equal",
+      "%" : "_percent",
+      "_" : "_under",
+      "$" : "_dollar"
+]
+
+op_unescape = [ "bang" : "!",
+      "star" : "*",
+      "minus" : "-",
+      "plus" : "+",
+      "or" :  "|" ,
+      "and" : "&",
+      "at" : "@",
+      "tilde" : "~",
+      "up" : "^",
+      "forward" : "/",
+      "back" : "\\\\",
+      "question" : "?",
+      "less" : "<",
+      "greater" : ">",
+      "notequal" : "!=",
+      "equal" : "=",
+      "percent" : "%",
+      "under" : "_",
+      "dollar" : "$"
+]
+
+ID_CONVERT_RE_OP = /_(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)/
+ID_CONVERT_RE_KW = /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)/
+
 prec = { op |
   precedence[op] || 0
+}
+
+h.unescape_op = { op |
+  op.sub ID_CONVERT_RE_OP, { x | op_unescape[x] }
 }
 
 h.reorder_ops = { node |
@@ -57,7 +105,30 @@ h.reorder_ops = { node |
       operands << s[:binop op2, op, op1]
     }
 
-  operands
+  rewrite_binop operands.first
+}
+
+h.number? = { exp |
+  sexp?(exp) && { exp.name == :number }
+}
+
+h.rewrite_binop = { node |
+  true? sexp?(node) && { node.name == :binop }
+  {
+    lhs = rewrite_binop node.lhs
+    rhs = rewrite_binop node.rhs
+
+    true? h.number?(lhs)
+    {
+      true? h.number?(rhs)
+      { s[:invoke_numbers, lhs, node.op, rhs] }
+      { s[:invoke_number, lhs, node.op, rhs] }
+    }
+    { s[:call, lhs, node.op, [rhs]] }
+  }
+  {
+    node
+  }
 }
 
 export h, :binop_helper
