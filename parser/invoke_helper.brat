@@ -188,7 +188,12 @@ h.get_value = { name, res_var |
   call_it = "#{action} #{name}(_self)\n"
 
   "
-   local _m = _self[\"#{name}\"]
+   local _m
+   if #{name} then
+     _m = #{name}
+   else
+     _m = _self[\"#{name}\"]
+   end
    if #{callable? '_m'} then
      #{action} _m(_self)
    elseif _m then
