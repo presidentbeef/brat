@@ -115,16 +115,26 @@ h.invoke_method_helper = { target, name, args, res_var |
   }
 }
 
+native_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal", "_percent", "_plus", "_minus", "_forward", "_star", "_up"]
+
 h.invoke_numbers = { lhs, op, rhs, res_var |
   action = get_action res_var
 
-  "
+  invoked = h.invoke_method lhs, op, [rhs], res_var
+
+  true? native_ops.include?(op)
+  {
+    "
     if number._unchanged('op') then
       #{action} #{lhs} #{unescape_op op} #{rhs}
     else
-      #{h.invoke_method lhs, op, [rhs], res_var}
+      #{invoked}
     end
-  "
+    "
+  }
+  {
+    invoked
+  }
 }
 
 h.get_a_value = { node, var = null |
