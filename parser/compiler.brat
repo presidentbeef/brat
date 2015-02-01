@@ -220,11 +220,11 @@ c.walk :string_interp { node, var = null |
   w = my
   node.nodes.each_with_index { n, i |
     true? n.name == :string
-      {  res.out << "#{temp}[#{i}] = \"#{n.value}\"\n" }
+      {  res.out << "#{temp}[#{i + 1}] = \"#{n.value}\"\n" }
       {
-        o = w.process n, "#{temp}[#{i}]"
+        o = w.process n, "#{temp}[#{i + 1}]"
         res.out << o.out
-        res.out << "#{temp}[#{i}] = _tostring(#{o.var})\n"
+        res.out << "#{temp}[#{i + 1}] = _tostring(#{o.var})\n"
       }
   }
   res.out << "#{res.var} = _table.concat(#{temp})\nend\n"
