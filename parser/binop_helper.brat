@@ -84,7 +84,7 @@ h.reorder_ops = { node |
   node.nodes.each { n |
     true? n.string?
       {
-        true? prec(n) > prec(operators.last)
+        true? prec(n) >= prec(operators.last)
           { operators << n }
           {
             op1 = operands.pop
