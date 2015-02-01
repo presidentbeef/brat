@@ -112,7 +112,7 @@ c.walk :hash { node, var = null |
         key = w.process pair.first, key_temp
         val = w.process pair.last, val_temp
 
-        out << "#{key.out}\n#{val.out}\n#{hres_var}[#{key.var}] = #{val.var}"
+        out << "#{key.out}\n#{val.out}\n#{hres_var}[#{key.var}] = #{val.var}\n"
       }
 
       my.env.unset key_temp
