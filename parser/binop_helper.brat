@@ -76,42 +76,61 @@ h.unescape_op = { op |
   op.sub ID_CONVERT_RE_OP, { x | op_unescape[x] }
 }
 
+h.number? = { exp |
+  sexp?(exp) && { exp.name == :number }
+}
+
+# Reorder binary operations to RPN using the shunting yard algorithm
 h.reorder_ops = { node |
-  operands = []
-  operators = []
+  output = []
+  stack = []
 
   w = my
   node.nodes.each { n |
     true? n.string?
       {
-        true? prec(n) >= prec(operators.last)
-          { operators << n }
-          {
-            op1 = operands.pop
-            op2 = operands.pop
-            operands << s[:binop op2, n, op1]
-          }
+        o1 = n
+        o2 = null
+
+        while { n.string? && { o2 = stack.last; o2 && { prec(o1) < prec(o2) }}}
+              { output.push stack.pop }
+
+        stack.push o1
       }
       {
-        operands << n
+        output.push n
       }
   }
 
-  until { operators.empty? }
+  until { stack.empty? }
     {
-      op = operators.pop
-      op1 = operands.pop
-      op2 = operands.pop
-      operands << s[:binop op2, op, op1]
+      output.push stack.pop
     }
 
-  rewrite_binop operands.first
+  rewrite_binop rewrite_to_binops output
 }
 
-h.number? = { exp |
-  sexp?(exp) && { exp.name == :number }
+# Rewrite RPN to binary operations
+h.rewrite_to_binops = { input |
+  stack = []
+
+  input.each { i |
+    true? i.string?
+      {
+        rhs = stack.pop
+        lhs = stack.pop
+        stack.push s[:binop, lhs, i, rhs]
+      }
+      {
+        stack.push i
+      }
+  }
+
+  stack.pop
 }
 
+# Rewrite binary operations to method invocations,
+# including special ones for numbers
 h.rewrite_binop = { node |
   true? sexp?(node) && { node.name == :binop }
   {
