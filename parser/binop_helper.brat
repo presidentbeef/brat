@@ -98,7 +98,9 @@ h.reorder_ops = { node |
         stack.push o1
       }
       {
-        output.push n
+        true? sexp?(n) && { n.name == :binop }
+          { output.push h.reorder_ops(n) }
+          { output.push n }
       }
   }
 
