@@ -18,7 +18,9 @@ h.invoke = { node, target, invoke_meth, var |
   w = my
   target_var = null
   true? target
-    { res.out << target.out; target_var = target.var }
+    {
+       res.out << target.out; target_var = target.var
+    }
 
   args = (node.args || {[]}).map { n | w.process n }
   avars = args.map({ a | a.var })
@@ -64,9 +66,26 @@ h.invoke_self = { t_, name, args, res_var |
   invoke_method '_self', name, args, res_var
 }
 
-h.invoke_method = { target, name, args, res_var |
-  action = get_action res_var
+h.invoke_number_method = { target, name, args, res_var |
+  "
+    local _n = number:new(#{target})
+    #{invoke_method_helper '_n', name, args, res_var}"
+}
 
+h.invoke_method = { target, name, args, res_var |
+  true? (target.number? || { h.number? target })
+  { invoke_number_method target, name, args, res_var }
+  {
+    "if _type(#{target}) == 'number' then
+      #{target} = number:new(#{target})
+    end
+    #{invoke_method_helper target, name, args, res_var}"
+  }
+
+}
+
+h.invoke_method_helper = { target, name, args, res_var |
+  action = get_action res_var
   true? args.empty?
   {
      "
@@ -93,6 +112,45 @@ h.invoke_method = { target, name, args, res_var |
         _error(exception:method_error(#{target}, '#{name}'))
       end
     "
+  }
+}
+
+native_ops = ["_percent", "_plus", "_minus", "_forward", "_star", "_up"]
+compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"]
+
+h.invoke_numbers = { lhs, op, rhs, res_var |
+  action = get_action res_var
+
+  invoked = h.invoke_method lhs, op, [rhs], res_var
+
+  true? native_ops.include?(op)
+  {
+    "
+    if number._unchanged('op') then
+      #{action} #{lhs} #{unescape_op op} #{rhs}
+    else
+      #{invoked}
+    end
+    "
+  }
+  {
+    true? compare_ops.include?(op)
+    {
+      "
+      if number._unchanged('op') then
+        if #{lhs} #{unescape_op op} #{rhs} then
+          #{action} object.__true
+        else
+          #{action} object.__false
+        end
+      else
+        #{invoked}
+      end
+      "
+    }
+    {
+      invoked
+    }
   }
 }
 
@@ -147,7 +205,12 @@ h.get_value = { name, res_var |
   call_it = "#{action} #{name}(_self)\n"
 
   "
-   local _m = _self[\"#{name}\"]
+   local _m
+   if #{name} then
+     _m = #{name}
+   else
+     _m = _self[\"#{name}\"]
+   end
    if #{callable? '_m'} then
      #{action} _m(_self)
    elseif _m then

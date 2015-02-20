@@ -97,6 +97,10 @@ make :invoke_local, :empty, :method, :args
 
 make :invoke_self, :empty, :method, :args
 
+make :invoke_numbers, :lhs, :op, :rhs
+
+make :invoke_number, :lhs, :op, :rhs
+
 make :field_assign, :lhs, :rhs
 
 make :field_access, :target, :field

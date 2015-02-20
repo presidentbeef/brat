@@ -3,11 +3,11 @@ include "parser/sexp"
 h = object.new
 
 precedence = [
-  "_or_or" : 1, 
-  "_and_and" : 2, 
-  "_less_equal_greater" : 3, 
-  "_equal_equal" : 3, 
-  "_not_equal" : 3, 
+  "_or_or" : 1,
+  "_and_and" : 2,
+  "_less_equal_greater" : 3,
+  "_equal_equal" : 3,
+  "_not_equal" : 3,
   "_tilde" : 3,
   "_bang_tilde" : 3,
   "_less_equal" : 4,
@@ -16,48 +16,140 @@ precedence = [
   "_greater" : 4,
   "_less_less" : 5,
   "_greater_greater" : 6,
-  "_plus" : 7, 
-  "_minus" : 8, 
-  "_star" : 9, 
-  "_forward" : 9, 
-  "_percent" : 9, 
+  "_plus" : 7,
+  "_minus" : 8,
+  "_star" : 9,
+  "_forward" : 9,
+  "_percent" : 9,
   "_up" : 10
 ]
+
+op_escape = [ "!" : "_bang",
+      "*" : "_star",
+      "-" : "_minus",
+      "+" : "_plus",
+      "|" : "_or",
+      "&" : "_and",
+      "@" : "_at",
+      "~" : "_tilde",
+      "^" : "_up",
+      "/" : "_forward",
+      "\\" : "_back",
+      "?" : "_question",
+      "<" : "_less",
+      ">" : "_greater",
+      "=" : "_equal",
+      "%" : "_percent",
+      "_" : "_under",
+      "$" : "_dollar"
+]
+
+op_unescape = [ "bang" : "!",
+      "star" : "*",
+      "minus" : "-",
+      "plus" : "+",
+      "or" :  "|" ,
+      "and" : "&",
+      "at" : "@",
+      "tilde" : "~",
+      "up" : "^",
+      "forward" : "/",
+      "back" : "\\\\",
+      "question" : "?",
+      "less" : "<",
+      "greater" : ">",
+      "notequal" : "!=",
+      "equal" : "=",
+      "percent" : "%",
+      "under" : "_",
+      "dollar" : "$"
+]
+
+ID_CONVERT_RE_OP = /_(bang|star|minus|plus|oror|or|andand|and|at|tilde|up|forward|back|question|less|greater|notequal|equal|percent|under|dollar)/
+ID_CONVERT_RE_KW = /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)/
 
 prec = { op |
   precedence[op] || 0
 }
 
+h.unescape_op = { op |
+  op.sub ID_CONVERT_RE_OP, { x | op_unescape[x] }
+}
+
+h.number? = { exp |
+  sexp?(exp) && { exp.name == :number }
+}
+
+# Reorder binary operations to RPN using the shunting yard algorithm
 h.reorder_ops = { node |
-  operands = []
-  operators = []
+  output = []
+  stack = []
 
   w = my
   node.nodes.each { n |
     true? n.string?
       {
-        true? prec(n) > prec(operators.last)
-          { operators << n }
-          {
-            op1 = operands.pop
-            op2 = operands.pop
-            operands << s[:binop op2, n, op1]
-          }
+        o1 = n
+        o2 = null
+
+        while { n.string? && { o2 = stack.last; o2 && { prec(o1) < prec(o2) }}}
+              { output.push stack.pop }
+
+        stack.push o1
       }
       {
-        operands << n
+        true? sexp?(n) && { n.name == :binop }
+          { output.push h.reorder_ops(n) }
+          { output.push n }
       }
   }
 
-  until { operators.empty? }
+  until { stack.empty? }
     {
-      op = operators.pop
-      op1 = operands.pop
-      op2 = operands.pop
-      operands << s[:binop op2, op, op1]
+      output.push stack.pop
     }
 
-  operands
+  rewrite_binop rewrite_to_binops output
+}
+
+# Rewrite RPN to binary operations
+h.rewrite_to_binops = { input |
+  stack = []
+
+  input.each { i |
+    true? i.string?
+      {
+        rhs = stack.pop
+        lhs = stack.pop
+        stack.push s[:binop, lhs, i, rhs]
+      }
+      {
+        stack.push i
+      }
+  }
+
+  stack.pop
+}
+
+# Rewrite binary operations to method invocations,
+# including special ones for numbers
+h.rewrite_binop = { node |
+  true? sexp?(node) && { node.name == :binop }
+  {
+    lhs = rewrite_binop node.lhs
+    rhs = rewrite_binop node.rhs
+
+    true? h.number?(lhs)
+    {
+      true? h.number?(rhs)
+      { s[:invoke_numbers, lhs, node.op, rhs] }
+      { s[:invoke_number, lhs, node.op, rhs] }
+    }
+    { s[:call, lhs, node.op, [rhs]] }
+  }
+  {
+    node
+  }
 }
 
 export h, :binop_helper

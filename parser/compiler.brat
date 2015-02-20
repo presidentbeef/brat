@@ -66,7 +66,7 @@ c.walk :call { node, var = null |
 }
 
 c.walk :number { node |
-  val = node.value.to_s
+  val = node.value.to_f
   r val, '', type: :number
 }
 
@@ -112,7 +112,7 @@ c.walk :hash { node, var = null |
         key = w.process pair.first, key_temp
         val = w.process pair.last, val_temp
 
-        out << "#{key.out}\n#{val.out}\n#{hres_var}[#{key.var}] = #{val.var}"
+        out << "#{key.out}\n#{val.out}\n#{hres_var}[#{key.var}] = #{val.var}\n"
       }
 
       my.env.unset key_temp
@@ -220,11 +220,11 @@ c.walk :string_interp { node, var = null |
   w = my
   node.nodes.each_with_index { n, i |
     true? n.name == :string
-      {  res.out << "#{temp}[#{i}] = \"#{n.value}\"\n" }
+      {  res.out << "#{temp}[#{i + 1}] = \"#{n.value}\"\n" }
       {
-        o = w.process n, "#{temp}[#{i}]"
+        o = w.process n, "#{temp}[#{i + 1}]"
         res.out << o.out
-        res.out << "#{temp}[#{i}] = _tostring(#{o.var})\n"
+        res.out << "#{temp}[#{i + 1}] = _tostring(#{o.var})\n"
       }
   }
   res.out << "#{res.var} = _table.concat(#{temp})\nend\n"
@@ -241,8 +241,22 @@ c.walk :string_eval { node, var = null |
 }
 
 c.walk :binop { node, var = null |
-  p reorder_ops node
-  node
+  res = reorder_ops node
+  process res
+}
+
+c.walk :invoke_numbers { node, var = null |
+  res = set_result var
+  res.out << invoke_numbers node.lhs.value, node.op, node.rhs.value, res.var
+  res
+}
+
+c.walk :invoke_number { node, var = null |
+  res = set_result var
+  rhs = process node.rhs
+  res.out << rhs.out << "\n"
+  res.out << invoke_method node.lhs.value, node.op, [rhs.var], res.var
+  res
 }
 
 export c, :compiler
