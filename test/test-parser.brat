@@ -76,6 +76,7 @@ add_results setup name: "parser tests" {
     { a + b }
     { 1 + a.b }
     { 1 + 2 ! 3 @ b }
+    { 1.a + b }
   }
 
   test "formal_parse" {

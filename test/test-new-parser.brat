@@ -100,6 +100,8 @@ check "x->y" :method_access
 check "x.y->z" :method_access
 check "->(z)" :method_access
 
+check "1.a + b" :binary_operation
+
 check file.read("parser/parser.brat") :program
 
 checks.each { c |

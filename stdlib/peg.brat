@@ -47,16 +47,23 @@ peg.prototype.make_rule = { rule |
     m = memo[id][x.pos]
     null? m
       {
+        true? rules[->real]
+          { p "Trying #{rules[->real]} at #{x.pos}" }
         current = x.pos
         res = rule x
         memo[id][current] = peg.make_memo res, x.pos
         true? res && { null? res.rule_name }
           { res.rule_name = rules[->real] }
+        true? res && { rules[->real] }
+          { p "! Matched #{rules[->real]} at #{current} - #{x.pos}" }
+          { true? rules[->real]
+            { p "Failed #{rules[->real]} at #{current}" }}
         res
       }
       {
         true? m
           {
+            p "Matched #{rules[->real]}"
             x.pos = m.pos
             m.result
           }
