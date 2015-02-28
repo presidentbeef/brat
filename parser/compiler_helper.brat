@@ -89,12 +89,12 @@ h.set_result = { var = null, initial = null, extras = [:] |
     {
       res.var = my.env.next_var
       res.out = true? initial
-              { "local #{res.var} = #{initial}\n" }
-              { "local #{res.var}\n" }
+              { "\nlocal #{res.var} = #{initial}\n" }
+              { "\nlocal #{res.var}\n" }
     }
     {
       true? initial
-        { res.out = "#{res.var} = #{initial}\n" }
+        { res.out = "\n#{res.var} = #{initial}\n" }
     }
 
   res
