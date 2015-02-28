@@ -98,7 +98,7 @@ binary_operation = binary_operation_chain expression <binary_op>
 
 binary_operation_chain = (binary_lhs_expression space operator ((space? eol space?) | space))+ <binary_op_chain>
 
-binary_lhs_expression = index_get | paren_exp | string | array | hash | regex | unary_operation | method_invocation | number
+binary_lhs_expression = index_get | method_invocation | paren_exp | string | array | hash | regex | unary_operation | number
 
 #-- Basic building blocks
 
