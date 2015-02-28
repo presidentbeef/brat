@@ -31,6 +31,8 @@ walker.prototype.walk_sexps = { nodes |
   nodes.each { n |
     true? sexp?(n)
       { w.process n }
+      { true? n.array?
+        { n.each { i | w.process i } } }
   }
 }
 
