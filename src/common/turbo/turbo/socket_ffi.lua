@@ -1,24 +1,18 @@
 --- Turbo.lua Socket Module
 --
--- Copyright John Abrahamsen 2011, 2012, 2013 < JhnAbrhmsn@gmail.com >
+-- Copyright 2013 John Abrahamsen
 --
--- "Permission is hereby granted, free of charge, to any person obtaining a copy of
--- this software and associated documentation files (the "Software"), to deal in
--- the Software without restriction, including without limitation the rights to
--- use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
--- of the Software, and to permit persons to whom the Software is furnished to do
--- so, subject to the following conditions:
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
 --
--- The above copyright notice and this permission notice shall be included in all
--- copies or substantial portions of the Software.
+-- http://www.apache.org/licenses/LICENSE-2.0
 --
--- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
--- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
--- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
--- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
--- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
--- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
--- SOFTWARE."            
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.          
 
 local log =     require "turbo.log"
 local util =    require "turbo.util"
@@ -261,7 +255,8 @@ local function set_reuseaddr_opt(fd)
         setopt,
         ffi.sizeof("int32_t"))
     if rc ~= 0 then
-       return -1
+       errno = ffi.errno()
+       return -1, string.format("setsockopt SO_REUSEADDR failed. %s", strerror(errno))
     end
     return 0
 end
@@ -311,28 +306,7 @@ return util.tablemerge({
     set_reuseaddr_opt = set_reuseaddr_opt,
     new_nonblock_socket = new_nonblock_socket,
     get_socket_error = get_socket_error,
-    inet_pton = ffi.C.inet_pton,
-    inet_ntop = ffi.C.inet_ntop,
-    inet_ntoa = ffi.C.inet_ntoa,
-    ntohl = ffi.C.ntohl,
-    htonl = ffi.C.htonl,
-    ntohs = ffi.C.ntohs,
-    htons = ffi.C.htons,
-    fcntl = ffi.C.fcntl,
     INADDR_ANY = 0x00000000,
     INADDR_BROADCAST = 0xffffffff,
     INADDR_NONE =   0xffffffff,
-    socket = ffi.C.socket,
-    dup = ffi.C.dup,
-    bind = ffi.C.bind,
-    listen = ffi.C.listen,
-    connect = ffi.C.connect,
-    send = ffi.C.send,
-    close = ffi.C.close,
-    recv = ffi.C.recv,
-    sendto = ffi.C.sendto,
-    recvfrom = ffi.C.recvfrom,
-    setsockopt = ffi.C.setsockopt,
-    getsockopt = ffi.C.getsockopt,
-    accept = ffi.C.accept,
 }, export)

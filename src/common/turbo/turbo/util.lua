@@ -1,28 +1,23 @@
 -- Turbo.lua Utilities module.
 --
--- Copyright John Abrahamsen 2011, 2012, 2013 < JhnAbrhmsn@gmail.com >
+-- Copyright 2011, 2012, 2013, 2014 John Abrahamsen
 --
--- "Permission is hereby granted, free of charge, to any person obtaining a copy of
--- this software and associated documentation files (the "Software"), to deal in
--- the Software without restriction, including without limitation the rights to
--- use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
--- of the Software, and to permit persons to whom the Software is furnished to do
--- so, subject to the following conditions:
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
 --
--- The above copyright notice and this permission notice shall be included in all
--- copies or substantial portions of the Software.
+-- http://www.apache.org/licenses/LICENSE-2.0
 --
--- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
--- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
--- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
--- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
--- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
--- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
--- SOFTWARE."       
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
 
 local ffi = require "ffi"
-local C = ffi.C
+local buffer = require "turbo.structs.buffer"
 require "turbo.cdef"
+local C = ffi.C
 local UCHAR_MAX = tonumber(ffi.new("uint8_t", -1))
 local g_time_str_buf = ffi.new("char[1024]")
 local g_time_t = ffi.new("time_t[1]")
@@ -30,10 +25,11 @@ local g_timeval = ffi.new("struct timeval")
 
 local util = {}
 
---*************** String library extensions *************** 
+
+--*************** String library extensions ***************
 
 --- Extends the standard string library with a split method.
-function string:split(sep, max, pattern)    
+function string:split(sep, max, pattern)
     assert(sep ~= '', "Separator is not a string or a empty string.")
     assert(max == nil or max >= 1, "Max is 0 or a negative number.")
 
@@ -55,6 +51,7 @@ function string:split(sep, max, pattern)
     return record
 end
 
+-- strip white space from sides of a string
 function string:strip()
     return self:match("^%s*(.-)%s*$")
 end
@@ -75,7 +72,20 @@ function string:substr(from, to)
     return ffi.string(ptr + from, to - from)
 end
 
---*************** Table utilites *************** 
+--- Create a random string.
+function util.rand_str(len)
+    math.randomseed(util.gettimeofday()+math.random(0x0,0xffffffff))
+    len = len or 64
+    local bytes = buffer(len)
+    for i = 1, len do
+        bytes:append_char_right(ffi.cast("char", math.random(0x0, 0x80)))
+    end
+    bytes = tostring(bytes)
+    return bytes
+end
+
+
+--*************** Table utilites ***************
 
 --- Merge two tables to one.
 function util.tablemerge(t1, t2)
@@ -89,26 +99,26 @@ function util.tablemerge(t1, t2)
     return t1
 end
 
---- Join a list into a string with  given delimiter. 
+--- Join a list into a string with  given delimiter.
 function util.join(delimiter, list)
     local len = #list
-    if len == 0 then 
-        return "" 
+    if len == 0 then
+        return ""
     end
     local string = list[1]
-    for i = 2, len do 
-        string = string .. delimiter .. list[i] 
+    for i = 2, len do
+        string = string .. delimiter .. list[i]
     end
     return string
 end
 
 --- Returns true if value exists in table.
 function util.is_in(needle, haystack)
-    if not needle or not haystack then 
-        return nil 
+    if not needle or not haystack then
+        return nil
     end
     local i
-    for i = 1, #haystack, 1 do 
+    for i = 1, #haystack, 1 do
         if needle == haystack[i] then
             return true
         end
@@ -125,14 +135,33 @@ function util.funpack(t, i)
     end
 end
 
---*************** Time and date *************** 
+
+--*************** Time and date ***************
 
 --- Current msecs since epoch. Better granularity than Lua builtin.
 -- @return Number
 function util.gettimeofday()
     C.gettimeofday(g_timeval, nil)
-    return ((tonumber(g_timeval.tv_sec) * 1000) + 
-        math.floor(tonumber(g_timeval.tv_usec) / 1000))
+    return (tonumber((g_timeval.tv_sec * 1000)+
+                     (g_timeval.tv_usec / 1000)))
+end
+
+do
+    local rt_support, rt = pcall(ffi.load, "rt")
+    if not rt_support then
+        util.gettimemonotonic = util.gettimeofday
+        print(
+            "Warning: Could not load rt.so, falling back to gettimeofday.")
+    else
+        local ts = ffi.new("struct timespec")
+        -- Current msecs since arbitrary start point, doesn't jump due to
+        -- time changes
+        -- @return Number
+        function util.gettimemonotonic()
+            rt.clock_gettime(rt.CLOCK_MONOTONIC, ts)
+            return (tonumber((ts.tv_sec*1000)+(ts.tv_nsec/1000000)))
+        end
+    end
 end
 
 --- Create a time string used in HTTP cookies.
@@ -141,9 +170,9 @@ function util.time_format_cookie(epoch)
     g_time_t[0] = epoch
     local tm = C.gmtime(g_time_t)
     local sz = C.strftime(
-        g_time_str_buf, 
-        1024, 
-        "%a, %d-%b-%Y %H:%M:%S GMT", 
+        g_time_str_buf,
+        1024,
+        "%a, %d-%b-%Y %H:%M:%S GMT",
         tm)
     return ffi.string(g_time_str_buf, sz)
 end
@@ -154,12 +183,13 @@ function util.time_format_http_header(time_t)
     g_time_t[0] = time_t
     local tm = C.gmtime(g_time_t)
     local sz = C.strftime(
-        g_time_str_buf, 
-        1024, 
-        "%a, %d %b %Y %H:%M:%S GMT", 
+        g_time_str_buf,
+        1024,
+        "%a, %d %b %Y %H:%M:%S GMT",
         tm)
     return ffi.string(g_time_str_buf, sz)
 end
+
 
 --*************** File ***************
 
@@ -176,129 +206,20 @@ function util.file_exists(path)
     end
 end
 
---******** Low-level buffer search *********
-
-local function suffixes(x, m, suff)
-    local f, g, i
-  
-    suff[m - 1] = m
-    g = m - 1
-    i = m - 2
-    while i >= 0 do 
-        if i > g and suff[i + m - 1 - f] < i - g then
-            suff[i] = suff[i + m - 1 - f]
-        else 
-            if i < g then
-                g = i
-            end
-            f = i
-            while g >= 0 and x[g] == x[g + m - 1 - f] do
-                g = g - 1
-            end
-            suff[i] = f - g
-        end
-        i = i -1
-    end
-end
-
-local function preBmGs(x, m, bmGs)
-    local i, j
-    local suff = {}
-
-    suffixes(x, m, suff);
-    i = 0
-    while i < m do
-        bmGs[i] = m
-        i = i + 1
-    end
-    j = 0
-    i = m - 1
-    while i >= 0 do
-        if suff[i] == i + 1 then
-            while j < m - 1 - i do
-                if bmGs[j] == m then
-                    bmGs[j] = m - 1 - i;
-                end
-            j = j + 1
-            end
-        end
-        i = i -1
-    end
-    i = 0
-    while i <= m - 2 do
-        bmGs[m - 1 - suff[i]] = m - 1 - i;
-        i = i +1
-    end
-end
-
-local function preBmBc(x, m, bmBc)
-    local i
-    for i = 0, UCHAR_MAX - 1 do
-        bmBc[i] = m
-    end
-    i = 0
-    while i < m - 1 do
-        bmBc[x[i]] = m - i - 1;
-        i = i + 1
-    end
-end
-
-local NEEDLE_MAX = 1024
---- Turbo Booyer-Moore memory search algorithm. 
--- Search through arbitrary memory and find first occurence of given byte sequence.
--- @param x char* Needle memory pointer
--- @param m int Needle size
--- @param y char* Haystack memory pointer
--- @param n int Haystack size.
-function util.TBM(x, m, y, n)
-    local bmGs = ffi.new("int[?]", NEEDLE_MAX)
-    local bmBc = ffi.new("int[?]", NEEDLE_MAX)
-    if m == 0 or n == 0 then
-        return
-    elseif m > NEEDLE_MAX then
-        error("Needle exceeds NEEDLE_MAX defined in util.lua. \
-            Can not do memory search.")
-    end
-    local bcShift, i, j, shift, u, v, turboShift  
-    preBmGs(x, m, bmGs);
-    preBmBc(x, m, bmBc);
-    j = 0
-    u = 0
-    shift = m
-    while j <= n - m do
-        i = m -1
-        while i >= 0 and x[i] == y[i + j] do
-            i = i - 1
-            if u ~= 0 and i == m - 1 - shift then
-                i = i - u
-            end
-        end
-        if i < 0 then
-            return j
-        else
-            v = m - 1 - i;
-            turboShift = u - v;
-            bcShift = bmBc[y[i + j]] - m + 1 + i;
-            shift = math.max(turboShift, bcShift);
-            shift = math.max(shift, bmGs[i]);
-            if shift == bmGs[i] then
-                u = math.min(m - shift, v)
-            else
-                if turboShift < bcShift then
-                    shift = math.max(shift, u + 1);
-                    u = 0
-                end
-            end
-        end
-        j = j + shift
-    end
-end
-
 function util.read_all(file)
     local f = io.open(file, "rb")
+    assert(f, "Could not open file " .. file .. " for reading.")
     local content = f:read("*all")
     f:close()
     return content
+end
+
+
+--******** Low-level buffer search *********
+
+-- Fast string case agnostic comparison
+function util.strcasecmp(str1, str2)
+    return tonumber(ffi.C.strcasecmp(str1, str2))
 end
 
 --- Find substring in memory string.
@@ -315,7 +236,7 @@ function util.str_find(s, p, slen, plen)
             local q
             while slen > 0 do
                 q = ffi.cast("char*", C.memchr(s, c, slen))
-                if q == nil then 
+                if q == nil then
                     break
                 end
                 if C.memcmp(q + 1, p, plen) == 0 then
@@ -329,6 +250,17 @@ function util.str_find(s, p, slen, plen)
     end
 end
 
+--- Turbo Booyer-Moore memory search algorithm.
+-- DEPRECATED as of v.1.1.
+-- @param x char* Needle memory pointer
+-- @param m int Needle size
+-- @param y char* Haystack memory pointer
+-- @param n int Haystack size.
+function util.TBM(x, m, y, n)
+    log.warning("turbo.util.TBM is deprecated.")
+    return util.str_find(y, x, n, m)
+end
+
 --- Convert number value to hexadecimal string format.
 -- @param num The number to convert.
 -- @return String
@@ -340,15 +272,15 @@ function util.hex(num)
         s = string.sub(hexstr, mod+1, mod+1) .. s
         num = math.floor(num / 16)
     end
-    if s == '' then 
-        s = '0' 
+    if s == '' then
+        s = '0'
     end
     return s
 end
 local hex = util.hex
 
---- Dump memory region to stdout, from ptr to given size. Usefull for 
--- debugging Luajit FFI. Notice! This can and will cause a SIGSEGV if 
+--- Dump memory region to stdout, from ptr to given size. Usefull for
+-- debugging Luajit FFI. Notice! This can and will cause a SIGSEGV if
 -- not being used on valid pointers.
 -- @param ptr A cdata pointer (from FFI)
 -- @param sz (Number) Length to dump contents for.
@@ -383,5 +315,3 @@ function util.mem_dump(ptr, sz)
 end
 
 return util
-
-
