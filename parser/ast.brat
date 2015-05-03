@@ -56,11 +56,10 @@ ast :barray {
 }
 
 ast :array_inner {
-  list = [my.first.ast]
+  list = []
 
-  my.rest.elements.each { e |
-    add_ast e, list
-  }
+  add_ast my, list
+
   list
 }
 
