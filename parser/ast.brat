@@ -155,6 +155,28 @@ ast :inner_arg_list {
   list = []
 
   add_ast my, list
+
+  reg_args = []
+  named_args = s[:hash]
+  list.each { arg |
+    true? arg.name == :named_arg
+      { named_args << [arg.key, arg.value] }
+      { reg_args << arg }
+  }
+
+  true? named_args.nodes.empty?
+   { reg_args }
+   { reg_args << named_args }
+}
+
+ast :named_argument {
+  a = s[:named_arg]
+
+  true? my.key.elements.first.rule_name == :identifier
+    { a << s[:string my.key.text] }
+    { a << my.key.ast  }
+
+  a << my.value.ast
 }
 
 ast :simple_call {

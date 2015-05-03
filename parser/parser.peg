@@ -147,8 +147,8 @@ arg_next = arg_space "," arg_space arg_first
          | arg_space named_argument
          | space? expression
 
-named_argument = (identifier | operator) (identifier | operator | number)* ":" spaceorbreak expression
-               | expression space? ":" space spaceorbreak expression
+named_argument = key:((identifier | operator) (identifier | operator | number)*) ":" spaceorbreak value:expression <named_argument>
+               | key:expression space? ":" space spaceorbreak value:expression <named_argument>
 
 #-- Spaces
 
