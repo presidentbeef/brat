@@ -63,7 +63,17 @@ h.invoke_local = { t_, name, args, res_var |
 }
 
 h.invoke_self = { t_, name, args, res_var |
-  invoke_method '_self', name, args, res_var
+  args_array = (["_self"] + args).join(", ")
+  action = get_action res_var
+  call_it = "#{action} #{name}(#{args_array})\n"
+
+  "
+  if #{name} then
+    #{call_it}
+  else
+    #{invoke_method '_self', name, args, res_var}
+  end
+  "
 }
 
 h.invoke_number_method = { target, name, args, res_var |
