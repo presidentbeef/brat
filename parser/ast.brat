@@ -219,18 +219,29 @@ ast :chain_call {
 
 ast :simple_meth_lhs {
   args = []
+  index_args = []
 
   add_ast my.args, args
+  true? my.has_method?(:index_args) {
+    add_ast my.index_args, index_args
+  }
 
   var = to_id(my.elements.first.text)
 
-  true? args.empty?
+  lhs_call = true? args.empty?
   {
     true? my.args.text.empty? # simple call with no args and no parens
     { s[:get_value, var] }
     { s[:call, null, var] }
   }
   { s[:call, null, var, args.first] }
+
+  false? index_args.empty?
+  {
+    lhs_call = s[:call, lhs_call, "get", index_args]
+  }
+
+  lhs_call
 }
 
 ast :method_chain {

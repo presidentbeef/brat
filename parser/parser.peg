@@ -118,7 +118,7 @@ function_literal_invocation = function_definition !space simple_arg_list
 
 method_chain = (method_lhs ".")+ <method_chain>
 
-method_lhs = var:identifier !space args:arg_list ("[" space? inner_arg_list space? "]")* <simple_meth_lhs>
+method_lhs = var:identifier !space args:arg_list ("[" space? index_args:inner_arg_list space? "]")* <simple_meth_lhs>
            | array ("[" space? inner_arg_list space? "]")
            | function_definition !space simple_arg_list
            | function_definition &"."
