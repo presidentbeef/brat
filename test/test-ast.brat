@@ -480,4 +480,13 @@ add_results setup name: "Brat AST tests" {
                       []
                       [s[:var_assign, :a, s[:number 1]]]]
   }
+
+  test "method call on array literal access" {
+    ast "[1][0].to_s" s[:call
+                        s[:call
+                          s[:array, s[:number 1]]
+                          :get
+                          [s[:number 0]]]
+                        :to_unders]
+  }
 }

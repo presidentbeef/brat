@@ -244,6 +244,13 @@ ast :simple_meth_lhs {
   lhs_call
 }
 
+ast :array_index_lhs {
+  args = []
+  add_ast my.index_args, args
+
+  s[:call, my.target.ast, :get, args]
+}
+
 ast :method_chain {
   list = []
 
