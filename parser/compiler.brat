@@ -227,7 +227,7 @@ c.walk :string_interp { node, var = null |
         res.out << "#{temp}[#{i + 1}] = _tostring(#{o.var})\n"
       }
   }
-  res.out << "#{res.var} = _table.concat(#{temp})\nend\n"
+  res.out << "#{res.var} = string:new(_table.concat(#{temp}))\nend\n"
   res
 }
 
