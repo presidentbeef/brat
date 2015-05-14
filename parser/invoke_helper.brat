@@ -104,6 +104,8 @@ h.invoke_method_helper = { target, name, args, res_var |
         #{action} _m(#{target})
       elseif _m ~= nil then
         #{action} _m
+      elseif #{target}.no_undermethod then
+        #{action} #{target}:no_undermethod('#{unescape_identifier name}')
       else
         _error(exception:method_error(#{target}, '#{name}'))
       end
@@ -117,7 +119,9 @@ h.invoke_method_helper = { target, name, args, res_var |
       if #{callable? '_m'} then
         #{action} _m(#{arg_list})
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, #{args.length -1 }))
+          _error(exception:argument_error('function', 0, #{args.length - 1 }))
+      elseif #{target}.no_undermethod then
+        #{action} #{target}:no_undermethod('#{unescape_identifier name}', #{args.join(', ')})
       else
         _error(exception:method_error(#{target}, '#{name}'))
       end

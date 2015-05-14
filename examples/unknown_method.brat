@@ -9,3 +9,4 @@ example.no_method = { meth_name, *args |
 }
 
 example.this_does_not_exist "at all"  #Prints "this_does_not_exist was called with these arguments: [at all]"
+example.!

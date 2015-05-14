@@ -33,4 +33,36 @@ h.escape_identifier = { identifier |
   escape_keyword(escape_op(identifier))
 }
 
+unescape_ops = ["bang" : "!",
+      "star" : "*",
+      "minus" : "-",
+      "plus" : "+",
+      "or" : "|" ,
+      "and" : "&",
+      "at" : "@",
+      "tilde" : "~",
+      "up" : "^",
+      "forward" : "/",
+      "back" : "\\",
+      "question" : "?",
+      "less" : "<",
+      "greater" : ">",
+      "notequal" : "!=",
+      "equal" : "=",
+      "percent" : "%",
+      "under" : "_",
+      "dollar" : "$" ]
+
+unescape_op = { input |
+  input.sub /_(bang|star|minus|plus|or|and|at|tilde|up|forward|back|question|less|greater|equal|percent|under|dollar)/, { m | unescape_ops[m] }
+}
+
+unescape_keyword = { input |
+  input.sub /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)/, { m | m }
+}
+
+h.unescape_identifier = { identifier |
+  unescape_op(unescape_keyword(identifier))
+}
+
 export h, :string_helper
