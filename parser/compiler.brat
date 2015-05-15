@@ -130,7 +130,8 @@ c.walk :string { node, var = null |
       set_result var, 'string:new("")', type: :string
     }
     {
-      set_result var, "string:new(\"#{node.value}\")", type: :string
+      s = node.value.sub /(([^\\]|^)")/ { m | "#{m[0]}\\\"" }
+      set_result var, "string:new(\"#{s}\")", type: :string
     }
 }
 
