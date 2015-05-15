@@ -135,7 +135,7 @@ compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equ
 h.invoke_numbers = { lhs, op, rhs, res_var |
   action = get_action res_var
 
-  invoked = h.invoke_method lhs, op, [rhs], res_var
+  invoked = invoke_method lhs, op, [rhs], res_var
 
   true? native_ops.include?(op)
   {
