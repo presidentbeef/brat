@@ -234,10 +234,11 @@ c.walk :string_interp { node, var = null |
 
 c.walk :string_eval { node, var = null |
   res = set_result var
-  value = process node.value, res.var
-  res.out << value.out
-  true? res.var != value.var
-    { res.out << "#{res.var} = #{value.var}\n" }
+  w = my
+  values = node.nodes.map { n | w.process(n, res.var) }
+  res.out << values.map(:out).join("\n")
+  true? res.var != values.last.var
+    { res.out << "\n#{res.var} = #{values.last.var}\n" }
   res
 }
 
