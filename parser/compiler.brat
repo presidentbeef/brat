@@ -60,6 +60,12 @@ c.walk :invoke_self { node, var = null |
   invoke node, null, ->invoke_self, var
 }
 
+c.walk :invoke_index_get { node, var = null |
+  target = process node.target, var
+  node.method = null
+  invoke node, target, ->invoke_index_get, var
+}
+
 c.walk :call { node, var = null |
   target = process node.target
   invoke node, target, ->invoke_method, var

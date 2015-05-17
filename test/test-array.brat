@@ -77,7 +77,10 @@ add_results setup name: "array tests" {
 
   test "array_method" {
     assert_equal 2 { z = object.new; z.test = { [1,2,3] }; z.test[1] }
-    assert_equal 1 { y = {x| x}; z = [->y]; z[0] 1 }
+  }
+
+  test "array invoke" {
+    assert_equal 1 { y = {x| x}; z = [->y]; z[0](1) }
   }
 
   test "array_reverse" {

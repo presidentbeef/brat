@@ -94,6 +94,18 @@ h.invoke_method = { target, name, args, res_var |
 
 }
 
+h.invoke_index_get = { target, n_, args, res_var |
+  args_array = (['_self'] + args).join(", ")
+  action = get_action res_var
+  "
+  if #{callable? target} then
+    #{action} #{target}(#{args_array})
+  else
+    _error(exception:new(\"Tried to invoke non-method: '#{target}' (\" .. object.__type(#{target}) .. \")\"))
+  end
+  "
+}
+
 h.invoke_method_helper = { target, name, args, res_var |
   action = get_action res_var
   true? args.empty?

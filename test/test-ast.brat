@@ -381,7 +381,7 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "simple index get invoke" {
-    ast "x[1](2)" s[:invoke
+    ast "x[1](2)" s[:invoke_index_get
                     s[:call
                       s[:get_value :x]
                       :get
@@ -390,7 +390,7 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "nested index get invoke" {
-    ast "x[1][2](:a)" s[:invoke
+    ast "x[1][2](:a)" s[:invoke_index_get
                         s[:call
                           s[:call
                             s[:get_value :x]

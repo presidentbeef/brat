@@ -343,7 +343,7 @@ ast :index_get {
 
   null? args
     { list }
-    { s[:invoke, list, args] }
+    { s[:invoke_index_get, list, args] }
 }
 
 ast :index_set {
