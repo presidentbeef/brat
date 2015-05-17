@@ -92,7 +92,7 @@ h.reorder_ops = { node |
         o1 = n
         o2 = null
 
-        while { n.string? && { o2 = stack.last; o2 && { prec(o1) < prec(o2) }}}
+        while { o2 = stack.last; o2.string? && { prec(o1) <= prec(o2) }}
               { output.push stack.pop }
 
         stack.push o1
