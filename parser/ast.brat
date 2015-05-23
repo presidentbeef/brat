@@ -263,7 +263,22 @@ ast :method_chain {
   list.reduce { memo, call |
     true? call.name == :get_value
       { c = s[:call]; c.nodes = call.nodes; c.nodes.insert(0, memo); call = c }
-      { call.nodes[0] = memo }
+      { null? call.nodes.first
+          { call.nodes[0] = memo }
+          { true? call.name == :call && { call.method == :get }
+              {
+                # Flip [] arround to target
+                call.nodes[1] = call.target.value
+                call.nodes[0] = memo
+                args = call.nodes.pop
+                call = s[:call, call, :get, args]
+              }
+              {
+                p "wut #{call}"
+              }
+          }
+      }
+
     call
   }
 }
