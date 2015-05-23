@@ -76,7 +76,7 @@ ast :hash_arg {
 }
 
 ast :hash_key_arg {
-  [s[:string my.key.text], my.value.ast]
+  [s[:simple_string my.key.text], my.value.ast]
 }
 
 ast :bregex {

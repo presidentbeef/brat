@@ -67,15 +67,15 @@ add_results setup name: "Brat AST tests" {
 
   test "symbol key hash table" {
     ast "[a: 1]" s[:hash
-                   [s[:string :a]
+                   [s[:simple_string :a]
                      s[:number 1]]]
   }
 
   test "symbol keys hash table" {
     ast "[a: 1, b: 2]" s[:hash
-                         [s[:string :a]
+                         [s[:simple_string :a]
                           s[:number 1]]
-                         [s[:string :b]
+                         [s[:simple_string :b]
                           s[:number 2]]]
   }
 
