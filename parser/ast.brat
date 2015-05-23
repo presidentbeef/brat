@@ -84,7 +84,11 @@ ast :bregex {
 }
 
 ast :simple_string {
-  s[:string my.svalue.text]
+  s[:simple_string my.svalue.text]
+}
+
+ast :empty_string {
+  s[:string]
 }
 
 ast :string_interp {

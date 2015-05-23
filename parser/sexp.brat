@@ -75,6 +75,8 @@ make :string_eval, :value
 
 make :string_interp
 
+make :simple_string
+
 make :function, :args, :body
 
 make :arg, :id
