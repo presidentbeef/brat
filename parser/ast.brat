@@ -183,6 +183,10 @@ ast :named_argument {
   a << my.value.ast
 }
 
+ast :named_argument_call {
+  s[:named_arg, s[:get_value, my.key.text], my.value.ast]
+}
+
 ast :simple_call {
   args = []
 

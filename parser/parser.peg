@@ -110,10 +110,12 @@ operator = !("->" !operator) !("=" !(operator | "=")) ("!=" | ">=" | "<=" | /[!?
 #-- Calling methods and functions
 
 method_invocation = method_chain (identifier | operator) arg_list <chain_call>
-                  | m_name:identifier alist:simple_arg_list <simpler_call>
+                  | simple_method_invocation
                   | m_name:identifier alist:arg_list <simple_call>
                   | paren_exp simple_arg_list <paren_call>
                   | function_literal_invocation
+
+simple_method_invocation =  m_name:identifier alist:simple_arg_list <simpler_call>
 
 function_literal_invocation = function_definition !space simple_arg_list
 
@@ -141,21 +143,22 @@ inner_arg_list = arg_first arg_next* <inner_arg_list>
 
 arg_first = named_argument | expression
 
-arg_space = (space | eol_not_semicolon)*
+arg_space = (space | eol_not_semicolon)
 
-arg_next = arg_space "," arg_space arg_first
-         | arg_space function_definition
-         | arg_space named_argument
+arg_next = arg_space* "," arg_space* arg_first
+         | arg_space+ function_definition
+         | arg_space+ named_argument
          | space? expression
 
-named_argument = key:((identifier | operator) (identifier | operator | number)*) ":" spaceorbreak value:expression <named_argument>
-               | key:expression space? ":" space spaceorbreak value:expression <named_argument>
+named_argument = key:identifier ":" spaceorbreak value:expression <named_argument>
+               | key:(method_target_expression | simple_method_invocation) space ":" space spaceorbreak value:expression <named_argument>
+               | key:identifier space ":" spaceorbreak value:expression <named_argument_call>
 
 #-- Spaces
 
 spaceorbreak = space? eol? space?
 
-eol_not_semicolon = ("\n" | "\r\n")+
+eol_not_semicolon = ("\n" | "\r\n")
 
 space   = /(?: |\t)+/
 
