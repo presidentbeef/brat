@@ -259,6 +259,10 @@ ast :array_index_lhs {
   s[:call, my.target.ast, :get, args]
 }
 
+ast :access_meth_lhs {
+  s[:meth_access, null, to_id(my.var.text)]
+}
+
 ast :method_chain {
   list = []
 

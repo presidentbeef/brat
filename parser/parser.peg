@@ -125,6 +125,7 @@ method_lhs = var:identifier !space args:arg_list ("[" space? index_args:inner_ar
            | target:array ("[" space? index_args:inner_arg_list space? "]") <array_index_lhs>
            | function_definition !space simple_arg_list
            | function_definition &"."
+           | "->" var:identifier <access_meth_lhs>
            | method_target_expression
 
 method_target_expression = array | hash | paren_exp | number | string | regex | unary_operation
