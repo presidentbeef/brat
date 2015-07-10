@@ -105,6 +105,8 @@ make :invoke_number, :lhs, :op, :rhs
 
 make :invoke_index_get, :target, :args
 
+make :invoke_function, :target, :args
+
 make :field_assign, :lhs, :rhs
 
 make :field_access, :target, :field

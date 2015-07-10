@@ -106,6 +106,15 @@ h.invoke_index_get = { target, n_, args, res_var |
   "
 }
 
+h.invoke_function = { target, n_, args, res_var |
+  args_array = (['_self'] + args).join(", ")
+  action = get_action res_var
+
+  "
+  #{action} #{target}(#{args_array})
+  "
+}
+
 h.invoke_method_helper = { target, name, args, res_var |
   action = get_action res_var
   true? args.empty?

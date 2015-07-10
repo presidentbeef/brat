@@ -293,6 +293,11 @@ ast :paren_call {
   add_ast my, list
 }
 
+ast :func_lit_call {
+  list = s[:invoke_function]
+  add_ast my, list
+}
+
 ast :var_assign {
   s[:var_assign to_id(my.var.text), my.elements.last.ast]
 }

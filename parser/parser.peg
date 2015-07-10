@@ -117,7 +117,7 @@ method_invocation = method_chain (identifier | operator) arg_list <chain_call>
 
 simple_method_invocation =  m_name:identifier alist:simple_arg_list <simpler_call>
 
-function_literal_invocation = function_definition !space simple_arg_list
+function_literal_invocation = func:function_definition alist:simple_arg_list <func_lit_call>
 
 method_chain = (method_lhs ".")+ <method_chain>
 
