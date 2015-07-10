@@ -266,7 +266,7 @@ add_results setup name: "function tests" {
   }
 
   test "method_invocation_assignment" {
-    assert_equal 5 { a = { x | x }; b = [->a]; c = b[0] 5; c }
+    assert_equal 5 { a = { x | x }; b = [->a]; c = b[0](5); c }
   }
 
   test "function?" {
