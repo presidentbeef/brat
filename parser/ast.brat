@@ -176,7 +176,7 @@ ast :inner_arg_list {
 ast :named_argument {
   a = s[:named_arg]
 
-  true? my.key.elements.first.rule_name == :identifier
+  true? my.key.rule_name == :identifier
     { a << s[:string my.key.text] }
     { a << my.key.ast  }
 
