@@ -115,6 +115,8 @@ h.invoke_function = { target, n_, args, res_var |
   "
 }
 
+eb = { s | s.sub(/[\\]/, "\\\\") }
+
 h.invoke_method_helper = { target, name, args, res_var |
   action = get_action res_var
   true? args.empty?
@@ -126,7 +128,7 @@ h.invoke_method_helper = { target, name, args, res_var |
       elseif _m ~= nil then
         #{action} _m
       elseif #{target}.no_undermethod then
-        #{action} #{target}:no_undermethod('#{unescape_identifier name}')
+        #{action} #{target}:no_undermethod('#{eb unescape_identifier name}')
       else
         _error(exception:method_error(#{target}, '#{name}'))
       end
@@ -142,7 +144,7 @@ h.invoke_method_helper = { target, name, args, res_var |
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, #{args.length - 1 }))
       elseif #{target}.no_undermethod then
-        #{action} #{target}:no_undermethod('#{unescape_identifier name}', #{args.join(', ')})
+        #{action} #{target}:no_undermethod('#{eb unescape_identifier name}', #{args.join(', ')})
       else
         _error(exception:method_error(#{target}, '#{name}'))
       end
