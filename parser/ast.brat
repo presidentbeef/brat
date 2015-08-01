@@ -215,6 +215,10 @@ ast :simpler_call {
     { s[:call, null, var, args.first] }
 }
 
+ast :simplest_call {
+  s[:get_value, to_id(my.elements.first.text)]
+}
+
 ast :chain_call {
   list = s[:call]
 

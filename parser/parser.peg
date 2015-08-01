@@ -12,7 +12,7 @@ expression = regex | binary_operation
            | paren_exp !(/\.|\(|->/) <simple_exp>
            | unary_operation
            | method_access | method_invocation | number | string
-           | function_definition | array | hash 
+           | function_definition | array | hash
 
 paren_exp  = "(" space? exp:expression space? ")" <simple_exp>
 
@@ -50,7 +50,7 @@ hash_inner = first:hash_argument rest:(((spaceorbreak "," spaceorbreak) | ((spac
 hash_argument = key:((identifier | operator) (identifier | operator | number)*) ":" spaceorbreak value:expression <hash_key_arg>
               | key:expression spaceorbreak ":" spaceorbreak value:expression <hash_arg>
 
-regex   = "/" body:((/[^\\/]+/ | "\\/" | !"/" . )*) "/" opts:/[mix]*/ <bregex>
+regex   = "/" body:("\\/" | !"/" . )* "/" opts:/[mix]*/ <bregex>
 
 string  = ("''" | "\"\"") <empty_string>
         | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | !"\"" .)* "\"" <string_interp>
@@ -99,7 +99,7 @@ binary_operation = binary_operation_chain expression <binary_op>
 
 binary_operation_chain = (binary_lhs_expression space operator ((space? eol space?) | space))+ <binary_op_chain>
 
-binary_lhs_expression = index_get | method_invocation | paren_exp | string | array | hash | regex | unary_operation | number
+binary_lhs_expression = simple_method_chain | index_get | paren_exp | string | array | hash | regex | unary_operation | number | method_invocation
 
 #-- Basic building blocks
 
@@ -116,6 +116,11 @@ method_invocation = method_chain (identifier | operator) arg_list <chain_call>
                   | function_literal_invocation
 
 simple_method_invocation =  m_name:identifier alist:simple_arg_list <simpler_call>
+
+simple_method_chain = method_chain (identifier | operator) simple_arg_list <chain_call>
+                    | method_chain (identifier | operator) &space <chain_call>
+                    | simple_method_invocation
+                    | identifier &space <simplest_call>
 
 function_literal_invocation = func:function_definition alist:simple_arg_list <func_lit_call>
 
