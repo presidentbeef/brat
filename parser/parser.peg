@@ -159,7 +159,6 @@ arg_next = arg_space* "," arg_space* arg_first
 named_argument = key:identifier ":" spaceorbreak value:expression <named_argument>
                | key:string ":" spaceorbreak value:expression <named_argument>
                | key:(method_target_expression | simple_method_invocation) space ":" space spaceorbreak value:expression <named_argument>
-               | key:identifier space ":" spaceorbreak value:expression <named_argument_call>
 
 #-- Spaces
 

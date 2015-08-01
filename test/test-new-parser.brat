@@ -88,7 +88,7 @@ check "x.y.z" :method_invocation
 check "x.y[3].z" :method_invocation
 check "x a:1" :method_invocation
 check "x b: 2 c:3" :method_invocation
-check "a(b : 1)" :method_invocation
+check "a(b() : 1)" :method_invocation
 check "a 1\n b(1) : 1" :method_invocation
 check "a 2\n1 : 1" :method_invocation
 
