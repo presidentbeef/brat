@@ -170,6 +170,10 @@ c.walk :function { node, var = null |
      last_res = my.process last
      res.out << last_res.out << "\n" << "return #{last_res.var}\n"
    }
+   {
+     true? body.empty?
+       { res.out << "return object:null()" }
+   }
 
   my.env.pop_scope
   res.out << "\nend\n"
