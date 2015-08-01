@@ -209,10 +209,6 @@ add_results setup name: "function tests" {
     assert_equal "abc" { a = object.new; a.no_method = { *args | args[0] }; b = a.new; b.abc }
   }
 
-  test "no_method_local" {
-    assert_equal "abc" { a = object.new; a.with_this { no_method = { *args | args[0] }; abc } }
-  }
-
   test "simple_method_call" {
     assert_equal 1 { test = { 1 }; test }
   }
