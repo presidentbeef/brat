@@ -24,7 +24,7 @@ field_access = method_chain (identifier | operator) <field_access>
 
 index_set = indexed_expression sindexes:("[" expression "]")+ space? "=" spaceorbreak expression <index_set>
 
-index_get = indexed_expression gindexes:("[" inner_arg_list "]")+ !"." iargs:simple_arg_list? <index_get>
+index_get = indexed_expression gindexes:("[" index_inner_arg_list "]")+ !"." iargs:simple_arg_list? <index_get>
 
 indexed_expression = array | hash | paren_exp | unary_operation | method_invocation | string
 
@@ -159,6 +159,11 @@ arg_next = arg_space* "," arg_space* arg_first
 named_argument = key:identifier ":" spaceorbreak value:expression <named_argument>
                | key:string ":" spaceorbreak value:expression <named_argument>
                | key:(method_target_expression | simple_method_invocation) space ":" space spaceorbreak value:expression <named_argument>
+
+index_inner_arg_list = arg_first inner_arg_next* <inner_arg_list>
+
+inner_arg_next = arg_next
+               | arg_space+ arg_first
 
 #-- Spaces
 
