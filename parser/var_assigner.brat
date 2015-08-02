@@ -95,6 +95,7 @@ a.walk :arg { node |
 
 a.walk :def_arg { node |
   my.env[node.id] = true
+  process node.value
 }
 
 a.walk :var_arg { node |
