@@ -519,7 +519,9 @@ end
 --
 -- Returns true if given variable is a function, false otherwise.
 function object:function_question (obj)
-  if is_callable(obj) then
+  if obj == nil then
+    return false
+  elseif is_callable(obj) then
     return object.__true
   else
     return object.__false
@@ -5125,6 +5127,11 @@ end
 function brat_function_instance:object_question ()
   return object.__false
 end
+
+function brat_function_instance:function_question ()
+  return object.__true
+end
+
 
 --Small object addendum which had to wait for other stuff to be defined
 

@@ -90,6 +90,8 @@ h.invoke_method = { target, name, args, res_var |
   {
     "if _type(#{target}) == 'number' then
       #{target} = number:new(#{target})
+    elseif #{callable? target} then
+      #{target} = brat_function:new(#{target})
     end
     #{invoke_method_helper target, name, args, res_var}"
   }
