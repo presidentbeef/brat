@@ -26,7 +26,7 @@ h.invoke = { node, target, invoke_meth, var |
 
   args = (node.args || {[]}).map { n | w.process n }
   avars = args.map({ a | a.var })
-  res.out << args.map({ a | a.out }).join("\n")
+  res.out << args.map({ a | a.out }).join("\n") << "\n"
   res.out << invoke_meth target_var, node.method, avars, res.var
   avars.each { v | w.env.unset v }
   res
