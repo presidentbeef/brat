@@ -236,7 +236,7 @@ c.walk :regex { node, var = null |
 c.walk :string_interp { node, var = null |
   res = set_result var
   temp = my.env.next_temp
-  res.out << "do\nlocal #{temp} = {}\n"
+  res.out << "\ndo\nlocal #{temp} = {}\n"
   w = my
   node.nodes.each_with_index { n, i |
     true? n.name == :string
