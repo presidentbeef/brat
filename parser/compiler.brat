@@ -228,7 +228,7 @@ c.walk :meth_access { node, var = null |
 }
 
 c.walk :regex { node, var = null |
-  body = node.body.sub(/[\\]/, "\\\\").sub(/\//, "\\/").sub(/"/, "\\\"")
+  body = node.body.sub(/[\\]/, "\\\\").sub(/"/, "\\\"")
   opts = node.opts.dice.unique.join.sub(/m/, 's')
   set_result var, "regex:new(\"#{body}\", \"#{opts}\")"
 }
