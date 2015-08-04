@@ -65,4 +65,8 @@ h.unescape_identifier = { identifier |
   unescape_op(unescape_keyword(identifier))
 }
 
+h.escape_string = { str |
+  str.sub(/\n/, '\n')
+}
+
 export h, :string_helper

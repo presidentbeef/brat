@@ -142,7 +142,7 @@ c.walk :string { node, var = null |
       set_result var, 'string:new("")', type: :string
     }
     {
-      set_result var, "string:new(\"#{node.value}\")", type: :string
+      set_result var, "string:new(\"#{escape_string node.value}\")", type: :string
     }
 }
 
@@ -240,7 +240,7 @@ c.walk :string_interp { node, var = null |
   w = my
   node.nodes.each_with_index { n, i |
     true? n.name == :string
-      {  res.out << "#{temp}[#{i + 1}] = \"#{n.value}\"\n" }
+      {  res.out << "#{temp}[#{i + 1}] = \"#{w.escape_string n.value}\"\n" }
       {
         o = w.process n, "#{temp}[#{i + 1}]"
         res.out << o.out
