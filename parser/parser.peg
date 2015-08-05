@@ -53,7 +53,7 @@ hash_argument = key:((identifier | operator) (identifier | operator | number)*) 
 regex   = "/" body:("\\/" | !"/" . )* "/" opts:/[mix]*/ <bregex>
 
 string  = ("''" | "\"\"") <empty_string>
-        | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | !"\"" .)* "\"" <string_interp>
+        | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | "\\\\" | !"\"" .)* "\"" <string_interp>
         | "'" svalue:("\\'" | !"'" .)+ "'" <simple_string>
         | ":" svalue:(identifier | operator | number)+ <simple_string>
 
