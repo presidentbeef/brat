@@ -93,7 +93,7 @@ peg_syntax = peg.new {
   }
 
   #Matches a string literal
-  set :str_literal action seq(str('"') kleene(any str('\"') seq(no(str '"') anything)) str('"')) {
+  set :str_literal action seq(str('"') kleene(any str('\\\\') str('\"') seq(no(str '"') anything)) str('"')) {
     my.output = "str(#{text})"
   }
 
