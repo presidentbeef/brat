@@ -5145,3 +5145,15 @@ local load_path = array:new({base_string:new('.'), base_string:new(program_path 
 function object:load_underpath ()
   return load_path
 end
+
+
+function object:argv ()
+  if object._argv == nil then
+    local f = function (self, a)
+      return base_string:new(a)
+    end
+    object._argv = array:new(arg):map_bang(f)
+  end
+
+  return object._argv
+end
