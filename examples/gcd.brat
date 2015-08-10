@@ -1,0 +1,9 @@
+# Greatest common denominator
+
+gcd = { a, b |
+  true? b == 0
+    { a }
+    { gcd b, (a % b) }
+}
+
+p gcd 40902, 24140
