@@ -54,7 +54,7 @@ regex   = "/" body:("\\/" | !"/" . )* "/" opts:/[mix]*/ <bregex>
 
 string  = ("''" | "\"\"") <empty_string>
         | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | "\\\\" | !"\"" .)* "\"" <string_interp>
-        | "'" svalue:("\\'" | !"'" .)+ "'" <simple_string>
+        | "'" svalue:("\\'" | "\\\\" | !"'" .)+ "'" <simple_string>
         | ":" svalue:(identifier | operator | number)+ <simple_string>
 
 string_interpolation = "#" "{" space? first:expression? space? rest:(eol space? expression space?)* spaceorbreak "}" <interp_value>
