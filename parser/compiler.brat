@@ -147,7 +147,7 @@ c.walk :string { node, var = null |
 }
 
 c.walk :simple_string { node, var = null |
-  set_result var, "string:new('#{node.value}')", type: :string
+  set_result var, "string:new('#{node.value.sub(/\n/, '\n')}')", type: :string
 }
 
 c.walk :function { node, var = null |
