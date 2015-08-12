@@ -127,7 +127,7 @@ function_literal_invocation = func:function_definition alist:simple_arg_list <fu
 method_chain = (method_lhs ".")+ <method_chain>
 
 method_lhs = var:identifier !space args:arg_list ("[" space? index_args:inner_arg_list space? "]")* <simple_meth_lhs>
-           | target:array ("[" space? index_args:inner_arg_list space? "]") <array_index_lhs>
+           | target:array indexes:("[" space? index_args:inner_arg_list space? "]")+ <array_index_lhs>
            | function_definition !space simple_arg_list
            | function_definition &"."
            | "->" var:identifier <access_meth_lhs>
