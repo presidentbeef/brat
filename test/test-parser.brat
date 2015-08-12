@@ -67,8 +67,6 @@ add_results setup name: "parser tests" {
     { sup dog.bark }
     { call_this wacky:method, then:this.one, 1, 2    
       ,3, 4 }
-      { call_this wacky : method, then : this.one, 1, 2    
-        ,3, 4 }
   }
 
   test "operation_parse" {
