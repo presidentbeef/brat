@@ -93,6 +93,7 @@ check "x b: 2 c:3" :method_invocation
 check "a(b() : 1)" :method_invocation
 check "a 1\n b(1) : 1" :method_invocation
 check "a 2\n1 : 1" :method_invocation
+check "1.a[2].b(3)[4][5].c" :method_invocation
 
 check "a = 1" :assignment
 check "a.b = 1" :assignment
