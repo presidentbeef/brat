@@ -38,6 +38,7 @@ check '"hello"' :string
 check ":jello" :string
 check '"hell#{whee}o"' :string
 check '"\'"' :string
+check "'\\\\'" :string
 
 check "1" :number
 check "-11" :number
