@@ -279,10 +279,21 @@ ast :method_chain {
           { call.nodes[0] = memo }
           { true? call.name == :call && { call.method == :get }
               {
-                # Flip [] arround to target
-                call.nodes[1] = call.target.value
-                call.nodes[0] = memo
+                #Call is treated as target instead of a call on the target
+                #and [] is on the result of the call instead of the call on
+                #the target. So flip things around.
                 args = call.nodes.pop
+                target = call.target
+
+                true? target.name == :call
+                {
+                  call.nodes[1] = target.method
+                  call.nodes[2] = target.args
+                }
+                {
+                  call.nodes[1] = target.value
+                }
+                call.nodes[0] = memo
                 call = s[:call, call, :get, args]
               }
               {
