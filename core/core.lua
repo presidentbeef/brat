@@ -1329,9 +1329,13 @@ function object:_compile (name)
     end
 
     local file_name = path .. "/" .. name
+    local lua_modified = lfs.attributes(file_name .. ".lua", "modified")
+    local brat_modified = lfs.attributes(file_name .. ".brat", "modified")
 
-    if lfs.attributes(file_name .. ".brat", "modified") then
-      compile_file(file_name)
+    if brat_modified then
+      if lua_modified == nil or brat_modified > lua_modified then
+        compile_file(file_name)
+      end
     end
   end
 

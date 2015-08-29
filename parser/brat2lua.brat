@@ -1,0 +1,20 @@
+include 'parser/parser'
+include 'parser/var_assigner'
+include 'parser/compiler'
+include 'file'
+
+brat2lua = object.new
+brat2lua.compile_string = { str |
+  parsed = brat_parser.parse(str, "program", true)
+  ast = parsed.ast
+  ast = var_assigner.new(ast).assign
+  compiler.new(ast).compile
+}
+
+brat2lua.compile_file = { file_name |
+  src = file.read "#{file_name}.brat"
+  out = brat2lua.compile_string src
+  file.open "#{file_name}.lua", :w, { f | f.write out }
+}
+
+export brat2lua, :brat2lua

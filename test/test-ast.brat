@@ -1,10 +1,4 @@
-includes :assert :file :peg_parser
-
-# Build parser from PEG
-parser_text = peg.make_parser("brat", file.read("parser/parser.peg"), 'parser/ast')
-file.open "parser/parser.brat", "w" { f | f.write parser_text }
-
-includes "parser/parser" "parser/sexp"
+includes :assert :file "parser/parser" "parser/sexp"
 
 add_results setup name: "Brat AST tests" {
   ast = { input, expected_ast |
