@@ -19,12 +19,30 @@ local abort = function (message)
   os.exit(-1)
 end
 
+require 'core'
+require "parser/brat2lua"
+local brat2lua = _exports['brat2lua']
+
+compile_file = function (file_name)
+  brat_file_name = file_name .. ".brat"
+  lua_file_name = file_name .. ".lua"
+
+  brat_modified = lfs.attributes(brat_file_name, "modification")
+
+  --.brat file does not exist
+  if brat_modified == nil then
+    abort("Could not open " .. brat_file_name)
+  end
+
+  lua_modified = lfs.attributes(lua_file_name, "modification")
+
+  if lua_modified == nil or brat_modified > lua_modified then
+    os.remove(file_name .. ".lua")
+    brat2lua:compile_underfile(base_string:new(file_name))
+  end
+end
+
 local interactive = function ()
-  require "lpty"
-
-  local parser = lpty.new{no_local_echo = true}
-  parser:startproc("ruby", program_path .. "/parser/parse.rb", "--interactive")
-
   local ffi = require "ffi"
 
   ffi.cdef[[
@@ -45,7 +63,7 @@ local interactive = function ()
   local lua_code
   local current_env = getfenv()
   _exports = {}
-  require "core"
+
   local interactive_env = {
     require = require;
     package = package;
@@ -81,28 +99,15 @@ local interactive = function ()
     end
 
     if input == nil or input == "quit" then
-      parser:endproc()
       return
     elseif input ~= "" and not input:match("^%s+$") then
       line = line + 1
       add_line(input)
 
-      parser:send(input)
-      parser:send("\n\1\n")
+      lua_code = brat2lua:interactive(base_string:new(input))._lua_string
 
-      parsed = ""
 
-      while true do
-        lua_code = parser:read()
-        if lua_code:sub(-1) == "\1" then
-          parsed = parsed .. lua_code:sub(0, -2)
-          break
-        else
-          parsed = parsed .. lua_code
-        end
-      end
-
-      parsed_function = assert(loadstring(parsed, "interactive"))
+      parsed_function = assert(loadstring(lua_code, "interactive"))
 
       setfenv(parsed_function, interactive_env)
 
@@ -117,52 +122,8 @@ local interactive = function ()
   end
 end
 
-require 'core'
-require "parser/brat2lua"
-local brat2lua = _exports['brat2lua']
-
-compile_file = function (file_name)
-  brat_file_name = file_name .. ".brat"
-  lua_file_name = file_name .. ".lua"
-
-  brat_modified = lfs.attributes(brat_file_name, "modification")
-
-  --.brat file does not exist
-  if brat_modified == nil then
-    abort("Could not open " .. brat_file_name)
-  end
-
-  lua_modified = lfs.attributes(lua_file_name, "modification")
-
-  if lua_modified == nil or brat_modified > lua_modified then
-    os.remove(file_name .. ".lua")
-    brat2lua:compile_underfile(base_string:new(file_name))
-  end
-end
-
 run_string = function (string)
-  require "lpty"
-
-  local parser = lpty.new{no_local_echo = true}
-  parser:startproc("ruby", program_path .. "/parser/parse.rb")
-  parser:send(string)
-  parser:send("\004")
-
-  local parsed =""
-
-  while true do
-    lua_code = parser:read(2)
-    if lua_code == nil then
-      break
-    elseif lua_code:sub(-1) == "\1" then
-      parsed = parsed .. lua_code:sub(0, -2)
-      break
-    else
-      parsed = parsed .. lua_code
-    end
-  end
-  
-  require "core"
+  local parsed = brat2lua:compile_understring(base_string:new(string))._lua_string
 
   parsed_function = assert(loadstring(parsed, "string"))
 
@@ -173,8 +134,6 @@ run_string = function (string)
   local protect_options = hash:new({ [base_string:new("rescue")] = rescue })
 
   local result = tostring(object:protect(parsed_function, protect_options))
-
-  parser:endproc()
 
   return result
 end

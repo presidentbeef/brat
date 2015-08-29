@@ -62,7 +62,9 @@ h.method_header = "
   local _table = table
   "
 
-
+h.interactive = {
+  inner_brat
+}
 
 result = object.new
 result.init = { var = null, extras = [:] |
