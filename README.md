@@ -2,7 +2,7 @@
 
 Brat is a simple and flexible little toy language.
 
-Brat uses a [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) parser written using [TreeTop](http://treetop.rubyforge.org/index.html), a [Ruby](http://ruby-lang.org) parser generator. The Brat code is compiled to [Lua](http://www.lua.org/).
+Brat uses a [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) parser to compile to [Lua](http://www.lua.org/) and executes using [LuaJIT](http://luajit.org/).
 
 Brat is flexible enough that you can get by with a very small core and write any functionality that most languages use keywords for. For example, you can write and use a while loop like so:
 
@@ -46,9 +46,6 @@ Please have on hand:
 * Linux or OS X
 * The usual development tools (like `make` and `gcc`)
 * OpenSSL headers (`sudo urpmi libssl-devel` or similar)
-* Ruby
-* [RubyGems](http://rubyforge.org/projects/rubygems/) so you may get the next requirement
-* [Treetop](http://treetop.rubyforge.org/) - `gem install treetop`
 * Git if you want to check it out of the repository directly - `sudo urpmi git-core` (or the equivalent for your platform)
 
 # Installation

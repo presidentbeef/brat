@@ -4,39 +4,6 @@ ONIG=onig-5.9.2
 LREX=lrexlib-2.4.0
 LPTY=lpty-0.9-1
 
-
-which ruby > /dev/null
-
-if  [ "$?" -ne "0" ] 
-then
-  echo Ruby not found in path. Please install Ruby or add it to your path.
-  exit
-fi
-
-which gem > /dev/null
-
-if [ "$?" = "127" ]
-then
-  echo Could not find RubyGems. Please install it.
-fi
-
-gem list -i treetop > /dev/null
-
-if [ "$?" -ne "0" ]
-then
-  echo Could not find Treetop gem. Please install it via: gem install treetop
-  exit
-fi
-
-which tt > /dev/null
-
-if [ "$?" -ne "0" ]
-then
-  echo Treetop executable \'tt\' could not be found, but Treetop gem is installed. 
-  echo Please adjust your path or install Treetop using: sudo gem install treetop
-  exit
-fi
-
 set -e
 
 SYSTEM=`uname`
@@ -159,10 +126,6 @@ make
 mkdir -p $LIB/mime
 cp src/mime.so.1.0.2 $LIB/mime/core.so
 cp src/socket.so.2.0.2 $LIB/socket/core.so
-
-echo Building parser
-cd $BRATPATH/parser
-tt brat.treetop
 
 echo Cleaning up...
 
