@@ -4,6 +4,7 @@ walker = object.new
 
 walker.prototype.inner_brat = {
   process my.ast
+  my.results.map(:out).join("\n")
 }
 
 walker.prototype.process = { node, var = null |

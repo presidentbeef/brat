@@ -63,7 +63,8 @@ h.method_header = "
   "
 
 h.interactive = {
-  inner_brat
+  out = inner_brat
+  out << "\nreturn #{my.results.last.var}"
 }
 
 result = object.new

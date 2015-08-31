@@ -10,9 +10,9 @@ c.init = { ast |
 
 c.walk :program { node |
   c = my
-  results = node.nodes.map({ n |
-    c.process(n).out
-  }).join("\n")
+  my.results = node.nodes.map({ n |
+    c.process(n)
+  })
 }
 
 c.walk :local_var_assign { node |
