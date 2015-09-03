@@ -65,10 +65,10 @@ end
 
 local _call_table = { ["__call"] = _call_it }
 
-function _lifted_call (block, arg_table)
+function _lifted_call (block)
   local _call_thing = {}
   _call_thing.block = block
-  _call_thing.arg_table = arg_table
+  _call_thing.arg_table = {}
   _call_thing.__call_thing = true
   setmetatable(_call_thing, _call_table)
 

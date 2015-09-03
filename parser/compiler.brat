@@ -6,6 +6,7 @@ c.squish compiler_helper
 c.init = { ast |
   my.ast = ast
   my.env = env.new
+  my.liftable_functions = []
 }
 
 c.walk :program { node |
@@ -13,6 +14,7 @@ c.walk :program { node |
   my.results = node.nodes.map({ n |
     c.process(n)
   })
+  my.results = my.liftable_functions + my.results
 }
 
 c.walk :local_var_assign { node |
@@ -53,6 +55,10 @@ c.walk :get_value { node, var = null |
 }
 
 c.walk :invoke_local { node, var = null |
+  invoke node, null, ->invoke_local, var
+}
+
+c.walk :invoke_up { node, var = null |
   invoke node, null, ->invoke_local, var
 }
 
@@ -181,6 +187,54 @@ c.walk :function { node, var = null |
   res
 }
 
+c.walk :simple_liftable_function { node, var = null |
+  res_var = "_lifted#{my.liftable_functions.length}"
+  func_res = proc_function node, res_var
+  my.liftable_functions << func_res
+  r res_var, "", type: :function
+}
+
+c.walk :liftable_function { node, var = null |
+  w = my
+  my.env.new_scope
+
+  args = do_args node
+
+  res = set_result "_lifted#{my.liftable_functions.length}", "function(_argtable, #{args[:arg_list]})"
+  res.out << node.upvars.map({ u |
+    "local #{w.env[u]} = _argtable['#{w.env[u]}']"
+  }).join("\n")
+
+  res.out << args[:out]
+
+  body = node.body.copy
+  last = body.pop
+
+  body_res = body.map({ n | w.process(n, '_dummy').out }).join("\n")
+  res.out << body_res
+
+  true? last
+   {
+     last_res = my.process last
+     res.out << last_res.out << "\n" << "return #{last_res.var}\n"
+   }
+   {
+     true? body.empty?
+       { res.out << "return object:null()" }
+   }
+
+  my.env.pop_scope
+  res.out << "\nend\n"
+  res[:type] = :function
+  my.liftable_functions << res
+
+  lifted = set_result var, "_lifted_call(#{res.var})"
+  lifted.out << node.upvars.map({ u |
+    "#{lifted.var}.arg_table['#{w.env[u]}'] = #{w.env[u]}"
+  }).join("\n")
+  lifted
+}
+
 c.walk :arg { node, var = null |
   temp = my.env.new_var node.id
   r temp, '', arg_type: :arg
@@ -208,6 +262,12 @@ c.walk :def_arg { node, var = null |
 }
 
 c.walk :meth_access_local { node, var = null |
+  res = set_result var
+  res.out << get_method_local node.method, res.var
+  res
+}
+
+c.walk :meth_access_up { node, var = null |
   res = set_result var
   res.out << get_method_local node.method, res.var
   res

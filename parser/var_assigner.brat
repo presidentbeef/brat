@@ -75,7 +75,7 @@ a.walk :call { node |
     {
       t = var_type meth
       true? (t == :local || t == :up)
-        { node.name = :invoke_local }
+        { node.name = "invoke_#{t}" }
         { node.name = :invoke_self }
     }
 }
@@ -107,7 +107,7 @@ a.walk :meth_access { node |
     {
       t = var_type(node.method)
       true? (t == :local || t == :up)
-        { node.name = :meth_access_local }
+        { node.name = "meth_access_#{t}" }
         { node.name = :meth_access_self }
     }
     {

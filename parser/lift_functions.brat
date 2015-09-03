@@ -1,0 +1,67 @@
+includes 'parser/walker' 'parser/sexp'
+
+a = walker.new
+
+a.init = { ast |
+  my.ast = ast
+  my.functions = []
+}
+
+a.prototype.set_upvar_access = { access |
+  my.functions.each { f | f.upvar_access? = true }
+  f = my.functions.last
+  null? f.upvars
+    { f.upvars = [] }
+
+  true? access.name == :invoke_up
+    { f.upvars << access.method }
+    { f.upvars << access.value }
+}
+
+a.prototype.set_upvar_assign = {
+  my.functions.each { f | f.upvar_assign? = true }
+}
+
+a.walk :function { node |
+  my.functions << node
+  node.upvar_access? = false
+  node.upvar_assign? = false
+  node.upvars = null
+  walk_sexps node.body
+  my.functions.pop
+  false? (my.functions.empty? || { node.upvar_assign? })
+    {
+      null? node.upvars
+        { node.name = :simple_liftable_function }
+        { node.name = :liftable_function }
+    }
+}
+
+a.walk :get_up_value { node |
+  set_upvar_access node
+}
+
+a.walk :meth_access_up { node |
+  set_upvar_access node
+}
+
+a.walk :invoke_up { node |
+  set_upvar_access node
+  walk_sexps node.nodes
+}
+
+a.walk :upvar_assign { node |
+  set_upvar_assign
+  walk_sexps node.nodes
+}
+
+a.prototype.set_liftable = {
+  my.walk_sexps(my.ast.nodes)
+  my.ast
+}
+
+a.unhandled = { node |
+  walk_sexps node.nodes
+}
+
+export a, :liftable
