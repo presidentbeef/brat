@@ -64,6 +64,17 @@ function set_instance:each (block)
   return self
 end
 
+function set_instance:map (block)
+  local s = set:new()
+  local f = function (ignore, item)
+    s:add(block(self, item))
+  end
+
+  self._internal_hash:each_underkey(f)
+
+  return s
+end
+
 function set_instance:empty_question ()
   if self._internal_hash:length() == 0 then
     return object.__true
