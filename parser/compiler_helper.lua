@@ -1832,7 +1832,7 @@ _temp1 = string:new("\n  require \"coxpcall\"\n  local _lib\n  if package.loaded
           _error(exception:method_error("self", "h"))
         end
 
-local _temp10 = string:new("\n  local object = object\n  local array = array\n  local number = number\n  local string = base_string\n  local exception = exception\n  local hash = hash\n  local regex = regex\n  local _self = object\n  local _type = type\n  local _error = error\n  local _tostring = tostring\n  local brat_function = brat_function\n  local _lifted_call = _lifted_call\n  local _rawget = rawget\n  local _table = table\n  ")
+local _temp10 = string:new("\n  local object = object\n  local array = array\n  local number = number\n  local string = base_string\n  local exception = exception\n  local hash = hash\n  local regex = regex\n  local _self = object\n  local _type = type\n  local _error = error\n  local _tostring = tostring\n  local brat_function = brat_function\n  local _lifted_call = _lifted_call\n  local _rawget = rawget\n  local _table = table\n  local _lifted = {}\n  ")
 
         if _type(_temp3) == "table" then
           _temp3["method_underheader"] = _temp10

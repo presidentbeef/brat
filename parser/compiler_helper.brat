@@ -60,6 +60,7 @@ h.method_header = "
   local _lifted_call = _lifted_call
   local _rawget = rawget
   local _table = table
+  local _lifted = {}
   "
 
 h.interactive = {

@@ -1,4 +1,4 @@
-includes 'parser/walker' 'parser/sexp' 'parser/env'
+includes 'parser/walker' 'parser/sexp' 'parser/env' :set
 
 a = walker.new
 
@@ -13,10 +13,43 @@ a.prototype.assign = {
   my.ast
 }
 
-a.prototype.set_upvar = {
+a.prototype.set_upvar_assign = {
+  my.functions.each { f | f.upvar_assign? = true }
+}
+
+
+a.prototype.set_upvar_access = { access |
+  my.functions.each { f | f.upvar_access? = true }
   f = my.functions.last
-  true? f
-    { f.has_upvar_assign? = true }
+  env_index = -1
+  var = true? (access.name == :invoke_up || { access.name == :meth_access_up })
+          { access.method }
+          { access.value }
+  not_found_local = true
+  c = my
+  c.set = set
+
+  my.functions.reverse_each_while { func |
+    false? func == f # skip current function
+      {
+        env_index = env_index - 1
+        false? c.env.variables[env_index][var]
+          {
+            null? func.upvars, { func.upvars = c.set.new }
+            func.upvars << var
+          }
+          {
+            not_found_local = false
+          }
+      }
+
+    not_found_local
+  }
+
+  null? f.upvars
+    { f.upvars = c.set.new }
+
+  f.upvars << var
 }
 
 a.prototype.var_type = { var |
@@ -42,7 +75,7 @@ a.walk :var_assign { node |
       true? t == :up
         {
           node.name = "upvar_assign"
-          set_upvar
+          set_upvar_assign
         }
         {
           node.name = "local_var_assign"
@@ -56,10 +89,17 @@ a.walk :var_assign { node |
 a.walk :function { node |
   my.env.new_scope
   my.functions << node
-  node.has_upvar_assign? = false
+  node.upvar_access? = false
+  node.upvar_assign? = false
+  node.upvars = null
   walk_sexps node.args
   walk_sexps node.body
   my.functions.pop
+  false? (my.functions.empty? || { node.upvar_assign? })
+  {
+    node.name = :liftable_function
+  }
+
   my.env.pop_scope
 }
 
@@ -74,9 +114,12 @@ a.walk :call { node |
   null? target
     {
       t = var_type meth
-      true? (t == :local || t == :up)
-        { node.name = "invoke_#{t}" }
-        { node.name = :invoke_self }
+      true? t == :local
+        { node.name = :invoke_local }
+        { true? t == :up
+            { node.name = :invoke_up; set_upvar_access node }
+            { node.name = :invoke_self }
+        }
     }
 }
 
@@ -85,7 +128,7 @@ a.walk :get_value { node |
   true? t == :local
     { node.name = :get_local_value }
     { true? t == :up
-        { node.name = :get_up_value }
+        { node.name = :get_up_value; set_upvar_access node }
     }
 }
 
@@ -106,9 +149,12 @@ a.walk :meth_access { node |
   null? node.target
     {
       t = var_type(node.method)
-      true? (t == :local || t == :up)
-        { node.name = "meth_access_#{t}" }
-        { node.name = :meth_access_self }
+      true? t == :local
+        { node.name = :meth_access_local }
+        { true? t == :up
+            { node.name = :meth_access_up; set_upvar_access node }
+            { node.name = :meth_access_self }
+        }
     }
     {
       process node.target

@@ -1,7 +1,6 @@
 include 'parser/parser'
 include 'parser/var_assigner'
 include 'parser/compiler'
-include 'parser/lift_functions'
 include 'file'
 
 brat2lua = object.new
@@ -9,7 +8,6 @@ brat2lua.compile_string = { str |
   parsed = brat_parser.parse(str, "program", true)
   ast = parsed.ast
   ast = var_assigner.new(ast).assign
-  ast = liftable.new(ast).set_liftable
   compiler.new(ast).compile
 }
 
