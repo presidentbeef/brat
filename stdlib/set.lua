@@ -122,6 +122,10 @@ function set_instance:_equal_equal (rhs)
   return object.__true
 end
 
+function set_instance:join (separator, final)
+  return self:to_underarray():join(separator, final)
+end
+
 function set_instance:to_unders ()
   return base_string:new("Set:" .. tostring(self._internal_hash:keys():to_unders()))
 end
