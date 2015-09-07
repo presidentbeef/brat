@@ -8,11 +8,11 @@ Brat uses functions all over the place. Everything between curly braces is a fun
 For example, here is the standard recursive definition of the Fibonacci sequence:
 
 <pre>
-fibonacci =&nbsp;<span class="Special">{</span>&nbsp;x |<br>
-&nbsp;&nbsp;true? x &lt;&nbsp;<span class="Constant">2</span>, x,&nbsp;<span class="Special">{</span>&nbsp;fibonacci(x -&nbsp;<span class="Constant">1</span>) + fibonacci(x -&nbsp;<span class="Constant">2</span>)&nbsp;<span class="Special">}</span><br>
-<span class="Special">}</span><br>
-<br>
-fibonacci&nbsp;<span class="Constant">25</span><br>
+fibonacci =&nbsp;<span class="Special">{</span>&nbsp;x |
+&nbsp;&nbsp;true? x &lt;&nbsp;<span class="Constant">2</span>, x,&nbsp;<span class="Special">{</span>&nbsp;fibonacci(x -&nbsp;<span class="Constant">1</span>) + fibonacci(x -&nbsp;<span class="Constant">2</span>)&nbsp;<span class="Special">}</span>
+<span class="Special">}</span>
+
+fibonacci&nbsp;<span class="Constant">25</span>
 </pre>
 
 Of course `fibonacci` itself is a function, but so is the block passed to the call to `true?`.
@@ -48,8 +48,8 @@ This is accomplished with [a simple data structure](https://github.com/president
 The creation of this data structure looks like this:
 
 <pre>
-<span class="Statement">local</span>&nbsp;_temp13 = _lifted_call(_lifted1,&nbsp;<span class="Type">{}</span>)<br>
-_temp13.arg_table[<span class="Constant">'_temp1'</span>] = _temp1<br>
+<span class="Statement">local</span>&nbsp;_temp13 = _lifted_call(_lifted1,&nbsp;<span class="Type">{}</span>)
+_temp13.arg_table[<span class="Constant">'_temp1'</span>] = _temp1
 _temp13.arg_table[<span class="Constant">'_temp2'</span>] = _temp2
 </pre>
 
@@ -64,8 +64,8 @@ The next step is to move the function creation outside of any other functions, e
 The lifted function accepts the table of variables, `self`, and then any normal arguments. In our example, there are no normal arguments, so the function starts like this:
 
 <pre>
-_lifted1 =&nbsp;<span class="Identifier">function</span>(_argtable, _self)<br>
-&nbsp;&nbsp;<span class="Statement">local</span>&nbsp;_temp1 = _argtable[<span class="Constant">'_temp1'</span>]<br>
+_lifted1 =&nbsp;<span class="Identifier">function</span>(_argtable, _self)
+&nbsp;&nbsp;<span class="Statement">local</span>&nbsp;_temp1 = _argtable[<span class="Constant">'_temp1'</span>]
 &nbsp;&nbsp;<span class="Statement">local</span>&nbsp;_temp2 = _argtable[<span class="Constant">'_temp2'</span>]
 </pre>
 
@@ -82,9 +82,9 @@ Even worse, if a function at the same level or lower sets an upvar, none of the 
 For example:
 
 <pre>
-f =&nbsp;<span class="Special">{</span><br>
-&nbsp;&nbsp;x =&nbsp;<span class="Constant">1</span><br>
-&nbsp;&nbsp;<span class="Statement">while</span>&nbsp;<span class="Special">{</span>&nbsp;x &lt;&nbsp;<span class="Constant">10</span>&nbsp;<span class="Special">}</span>&nbsp;<span class="Special">{</span>&nbsp;x = x +&nbsp;<span class="Constant">1</span>&nbsp;<span class="Special">}</span><br>
+f =&nbsp;<span class="Special">{</span>
+&nbsp;&nbsp;x =&nbsp;<span class="Constant">1</span>
+&nbsp;&nbsp;<span class="Statement">while</span>&nbsp;<span class="Special">{</span>&nbsp;x &lt;&nbsp;<span class="Constant">10</span>&nbsp;<span class="Special">}</span>&nbsp;<span class="Special">{</span>&nbsp;x = x +&nbsp;<span class="Constant">1</span>&nbsp;<span class="Special">}</span>
 <span class="Special">}</span>
 </pre>
 
