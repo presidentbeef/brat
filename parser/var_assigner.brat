@@ -5,6 +5,7 @@ a = walker.new
 a.init = { ast |
   my.ast = ast
   my.functions = []
+  my.inner_functions = [[]]
   my.env = env.new
 }
 
@@ -16,7 +17,6 @@ a.prototype.assign = {
 a.prototype.set_upvar_assign = {
   my.functions.each { f | f.upvar_assign? = true }
 }
-
 
 a.prototype.set_upvar_access = { access |
   my.functions.each { f | f.upvar_access? = true }
@@ -86,21 +86,31 @@ a.walk :var_assign { node |
   process node.rhs
 }
 
+a.prototype.check_potentials = {
+  ps = my.inner_functions.pop
+  false? my.functions.empty?
+    {
+      true? ps.any?({ f | f.upvar_assign? })
+      { ps.each { f | false? (f.upvar_access? || { f.upvar_assign? }) { f.name = :liftable_function }}}
+      { ps.each { f | false? f.upvar_assign?, { f.name = :liftable_function }}}
+    }
+}
+
 a.walk :function { node |
   my.env.new_scope
   my.functions << node
+  my.inner_functions << []
   node.upvar_access? = false
   node.upvar_assign? = false
   node.upvars = null
   walk_sexps node.args
   walk_sexps node.body
-  my.functions.pop
-  false? (my.functions.empty? || { node.upvar_assign? })
-  {
-    node.name = :liftable_function
-  }
 
+  check_potentials
+
+  my.functions.pop
   my.env.pop_scope
+  my.inner_functions.last << node
 }
 
 a.walk :call { node |
