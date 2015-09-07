@@ -3329,39 +3329,7 @@ _temp2 = string:new("rhs")
 
 _dummy_ =  _temp63(_self, _temp81,_temp82,_temp83,_temp2)
 
-_temp2 = string:new("invoke_index_get")
-
-_temp83 = string:new("target")
-
-_temp82 = string:new("args")
-
-_dummy_ =  _temp63(_self, _temp2,_temp83,_temp82)
-
-_temp82 = string:new("invoke_function")
-
-_temp83 = string:new("target")
-
-_temp2 = string:new("args")
-
-_dummy_ =  _temp63(_self, _temp82,_temp83,_temp2)
-
-_temp2 = string:new("field_assign")
-
-_temp83 = string:new("lhs")
-
-_temp82 = string:new("rhs")
-
-_dummy_ =  _temp63(_self, _temp2,_temp83,_temp82)
-
-_temp82 = string:new("field_access")
-
-_temp83 = string:new("target")
-
-_temp2 = string:new("field")
-
-_dummy_ =  _temp63(_self, _temp82,_temp83,_temp2)
-
-_temp2 = string:new("binop")
+_temp2 = string:new("invoke_number_rhs")
 
 _temp83 = string:new("lhs")
 
@@ -3371,37 +3339,79 @@ _temp81 = string:new("rhs")
 
 _dummy_ =  _temp63(_self, _temp2,_temp83,_temp82,_temp81)
 
-_temp81 = string:new("meth_access")
+_temp81 = string:new("invoke_index_get")
 
 _temp82 = string:new("target")
 
-_temp83 = string:new("method")
+_temp83 = string:new("args")
 
 _dummy_ =  _temp63(_self, _temp81,_temp82,_temp83)
 
-_temp83 = string:new("meth_access_local")
+_temp83 = string:new("invoke_function")
 
 _temp82 = string:new("target")
 
-_temp81 = string:new("method")
+_temp81 = string:new("args")
 
 _dummy_ =  _temp63(_self, _temp83,_temp82,_temp81)
 
-_temp81 = string:new("meth_access_up")
+_temp81 = string:new("field_assign")
 
-_temp82 = string:new("target")
+_temp82 = string:new("lhs")
 
-_temp83 = string:new("method")
+_temp83 = string:new("rhs")
 
 _dummy_ =  _temp63(_self, _temp81,_temp82,_temp83)
 
-_temp83 = string:new("named_arg")
+_temp83 = string:new("field_access")
 
-_temp82 = string:new("key")
+_temp82 = string:new("target")
 
-_temp81 = string:new("value")
+_temp81 = string:new("field")
 
 _dummy_ =  _temp63(_self, _temp83,_temp82,_temp81)
+
+_temp81 = string:new("binop")
+
+_temp82 = string:new("lhs")
+
+_temp83 = string:new("op")
+
+_temp2 = string:new("rhs")
+
+_dummy_ =  _temp63(_self, _temp81,_temp82,_temp83,_temp2)
+
+_temp2 = string:new("meth_access")
+
+_temp83 = string:new("target")
+
+_temp82 = string:new("method")
+
+_dummy_ =  _temp63(_self, _temp2,_temp83,_temp82)
+
+_temp82 = string:new("meth_access_local")
+
+_temp83 = string:new("target")
+
+_temp2 = string:new("method")
+
+_dummy_ =  _temp63(_self, _temp82,_temp83,_temp2)
+
+_temp2 = string:new("meth_access_up")
+
+_temp83 = string:new("target")
+
+_temp82 = string:new("method")
+
+_dummy_ =  _temp63(_self, _temp2,_temp83,_temp82)
+
+_temp82 = string:new("named_arg")
+
+_temp83 = string:new("key")
+
+_temp2 = string:new("value")
+
+_dummy_ =  _temp63(_self, _temp82,_temp83,_temp2)
 
 --comment
 
@@ -3459,40 +3469,40 @@ local _temp84
         local _t = _type(_temp84)
         if _t == "table" then
           if _rawget(_temp84, "__call_thing") == nil then
-            _temp81 = _temp84
+            _temp2 = _temp84
           else
                   if _temp84 == nil then
               if _type(_self._temp84) == "function" or (_type(_self._temp84) == "table" and _rawget(_self._temp84, "__call_thing")) then
-        _temp81 =  _self:_temp84()
+        _temp2 =  _self:_temp84()
       elseif _self._temp84 ~= nil then
-        _temp81 =  _self._temp84
+        _temp2 =  _self._temp84
 
         elseif _self.no_undermethod ~= nil then
-          _temp81 =  _self:no_undermethod(string:new("_temp84"))
+          _temp2 =  _self:no_undermethod(string:new("_temp84"))
         else
           _error(exception:null_error("s", "invoke method"))
         end
       else 
-        _temp81 =  _temp84(_self)
+        _temp2 =  _temp84(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp81 = _temp84
+          _temp2 = _temp84
         elseif _t == "function" then
                 if _temp84 == nil then
               if _type(_self._temp84) == "function" or (_type(_self._temp84) == "table" and _rawget(_self._temp84, "__call_thing")) then
-        _temp81 =  _self:_temp84()
+        _temp2 =  _self:_temp84()
       elseif _self._temp84 ~= nil then
-        _temp81 =  _self._temp84
+        _temp2 =  _self._temp84
 
         elseif _self.no_undermethod ~= nil then
-          _temp81 =  _self:no_undermethod(string:new("_temp84"))
+          _temp2 =  _self:no_undermethod(string:new("_temp84"))
         else
           _error(exception:null_error("s", "invoke method"))
         end
       else 
-        _temp81 =  _temp84(_self)
+        _temp2 =  _temp84(_self)
       end
 
         elseif _temp84 == nil then
@@ -3680,12 +3690,12 @@ _temp87 = _temp87:get(_temp88);    if _type(_temp85) == "function" or (_type(_te
 
 end
 
-        if _type(_temp81) == "table" then
-          _temp81["get"] = _temp90
-        elseif _type(_temp81) == "number" then
+        if _type(_temp2) == "table" then
+          _temp2["get"] = _temp90
+        elseif _type(_temp2) == "number" then
           number["get"] =  _temp90
         else
-          _error("Cannot set method on " .. _temp81)
+          _error("Cannot set method on " .. _temp2)
         end
 
 local _temp91
@@ -3836,16 +3846,16 @@ return _temp93
 end
 
 
-_temp81 = string:new("sexp?")
+_temp2 = string:new("sexp?")
 
     if _type(export) == "function" or (_type(export) == "table" and _rawget(export, "__call_thing")) then
-      _dummy_ =  export(_self, _temp91,_temp81)
+      _dummy_ =  export(_self, _temp91,_temp2)
 
     elseif export then
       _error(exception:new("Tried to invoke non-method: export (" .. object.__type(export) .. ")"))
     else
             if _type(_self.export) == "function" or (_type(_self.export) == "table" and _rawget(_self.export, "__call_thing")) then
-        _dummy_ =  _self:export(_temp91,_temp81)
+        _dummy_ =  _self:export(_temp91,_temp2)
       elseif _self.export ~= nil then
         _dummy_ =  _self.export
 
@@ -3853,47 +3863,47 @@ _temp81 = string:new("sexp?")
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _dummy_ =  _self:no_undermethod(string:new("export") , _temp91,_temp81)
+        _dummy_ =  _self:no_undermethod(string:new("export") , _temp91,_temp2)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _dummy_ =  no_undermethod(_self, string:new("export") , _temp91,_temp81)
+        _dummy_ =  no_undermethod(_self, string:new("export") , _temp91,_temp2)
       else
         _error(exception:name_error("export"))
       end
     end
 
     if _type(_temp84) == "function" or (_type(_temp84) == "table" and _rawget(_temp84, "__call_thing")) then
-      _temp81 =  _temp84(_self)
+      _temp2 =  _temp84(_self)
 
     elseif _temp84 then
-      _temp81 =  _temp84
+      _temp2 =  _temp84
     else
             if _type(_self.s) == "function" or (_type(_self.s) == "table" and _rawget(_self.s, "__call_thing")) then
-        _temp81 =  _self:s()
+        _temp2 =  _self:s()
       elseif _self.s ~= nil then
-        _temp81 =  _self.s
+        _temp2 =  _self.s
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp81 =  _self:no_undermethod(string:new("s"))
+        _temp2 =  _self:no_undermethod(string:new("s"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp81 =  no_undermethod(_self, string:new("s"))
+        _temp2 =  no_undermethod(_self, string:new("s"))
       else
         _error(exception:name_error("s"))
       end
     end
 
-_temp82 = string:new("s")
+_temp83 = string:new("s")
 
     if _type(export) == "function" or (_type(export) == "table" and _rawget(export, "__call_thing")) then
-      _dummy_ =  export(_self, _temp81,_temp82)
+      _dummy_ =  export(_self, _temp2,_temp83)
 
     elseif export then
       _error(exception:new("Tried to invoke non-method: export (" .. object.__type(export) .. ")"))
     else
             if _type(_self.export) == "function" or (_type(_self.export) == "table" and _rawget(_self.export, "__call_thing")) then
-        _dummy_ =  _self:export(_temp81,_temp82)
+        _dummy_ =  _self:export(_temp2,_temp83)
       elseif _self.export ~= nil then
         _dummy_ =  _self.export
 
@@ -3901,9 +3911,9 @@ _temp82 = string:new("s")
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _dummy_ =  _self:no_undermethod(string:new("export") , _temp81,_temp82)
+        _dummy_ =  _self:no_undermethod(string:new("export") , _temp2,_temp83)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _dummy_ =  no_undermethod(_self, string:new("export") , _temp81,_temp82)
+        _dummy_ =  no_undermethod(_self, string:new("export") , _temp2,_temp83)
       else
         _error(exception:name_error("export"))
       end

@@ -145,7 +145,12 @@ h.rewrite_binop = { node |
       { s[:invoke_numbers, lhs, node.op, rhs] }
       { s[:invoke_number, lhs, node.op, rhs] }
     }
-    { s[:call, lhs, node.op, [rhs]] }
+    {
+      n = my
+      true? (n.number?(rhs) && { n.native_ops.include?(node.op) || { n.compare_ops.include?(node.op) }})
+      { s[:invoke_number_rhs, lhs, node.op, rhs] }
+      { s[:call, lhs, node.op, [rhs]] }
+    }
   }
   {
     node

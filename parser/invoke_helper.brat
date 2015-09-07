@@ -154,8 +154,8 @@ h.invoke_method_helper = { target, name, args, res_var |
   }
 }
 
-native_ops = ["_percent", "_plus", "_minus", "_forward", "_star", "_up"]
-compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"]
+h.native_ops = ["_percent", "_plus", "_minus", "_forward", "_star", "_up"]
+h.compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"]
 
 h.invoke_numbers = { lhs, op, rhs, res_var |
   action = get_action res_var
@@ -165,7 +165,7 @@ h.invoke_numbers = { lhs, op, rhs, res_var |
   true? native_ops.include?(op)
   {
     "
-    if number._unchanged('op') then
+    if number._unchanged('#{op}') then
       #{action} #{lhs} #{unescape_op op} #{rhs}
     else
       #{invoked}
@@ -176,7 +176,7 @@ h.invoke_numbers = { lhs, op, rhs, res_var |
     true? compare_ops.include?(op)
     {
       "
-      if number._unchanged('op') then
+      if number._unchanged('#{op}') then
         if #{lhs} #{unescape_op op} #{rhs} then
           #{action} object.__true
         else
@@ -191,6 +191,27 @@ h.invoke_numbers = { lhs, op, rhs, res_var |
       invoked
     }
   }
+}
+
+# When LHS is number literal
+h.invoke_number_lhs = { lhs, op, rhs, res_var |
+  "
+  if _type(#{rhs}) == 'number' then
+    #{invoke_numbers lhs, op, rhs, res_var}
+  else
+    #{invoke_method lhs, op, [rhs], res_var}
+  end
+  "
+}
+
+h.invoke_number_rhs = { lhs, op, rhs, res_var |
+  "
+  if _type(#{lhs}) == 'number' then
+    #{invoke_numbers lhs, op, rhs, res_var}
+  else
+    #{invoke_method lhs, op, [rhs], res_var}
+  end
+  "
 }
 
 h.get_a_value = { node, var = null |

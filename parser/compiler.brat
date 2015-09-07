@@ -351,7 +351,15 @@ c.walk :invoke_number { node, var = null |
   res = set_result var
   rhs = process node.rhs
   res.out << rhs.out << "\n"
-  res.out << invoke_method node.lhs.value, node.op, [rhs.var], res.var
+  res.out << invoke_number_lhs node.lhs.value, node.op, rhs.var, res.var
+  res
+}
+
+c.walk :invoke_number_rhs { node, var = null |
+  res = set_result var
+  lhs = process node.lhs
+  res.out << lhs.out << "\n"
+  res.out << invoke_number_rhs lhs.var, node.op, node.rhs.value, res.var
   res
 }
 
