@@ -51,7 +51,7 @@ The creation of this data structure looks like this:
 <span class="Statement">local</span>&nbsp;_temp13 = _lifted_call(_lifted1,&nbsp;<span class="Type">{}</span>)<br>
 _temp13.arg_table[<span class="Constant">'_temp1'</span>] = _temp1<br>
 _temp13.arg_table[<span class="Constant">'_temp2'</span>] = _temp2
-<pre>
+</pre>
 
 For reasons covered below, this is called a "lifted call". `_lifted1` is the name of the function being stored. After creating the new stored call, the variables are stored into the table. For simplicity, the keys are the same as the variable names.
 
