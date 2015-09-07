@@ -241,6 +241,7 @@ add_results setup name: "array tests" {
 
   test "array_any?" {
     assert { [1,2,3].any? { x | x > 2 } }
+    assert { [3,2,1].any? { x | x > 2 } }
     assert_false { [1,2,3].any? { x | x > 4 } }
     assert_false { [].any? { x | x > 4 } }
   }

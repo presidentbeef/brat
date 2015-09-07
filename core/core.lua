@@ -2050,8 +2050,6 @@ function enumerable:any_question (block)
   local f = function (_self, item)
     if not flag and is_true(block(_self, item)) then
       flag = true
-    else
-      flag = false
     end
   end
 
