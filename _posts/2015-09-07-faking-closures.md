@@ -47,9 +47,11 @@ This is accomplished with [a simple data structure](https://github.com/president
 
 The creation of this data structure looks like this:
 
-    local _temp13 = _lifted_call(_lifted1, {})
-    _temp13.arg_table['_temp1'] = _temp1
-    _temp13.arg_table['_temp2'] = _temp2
+<pre>
+<span class="Statement">local</span>&nbsp;_temp13 = _lifted_call(_lifted1,&nbsp;<span class="Type">{}</span>)<br>
+_temp13.arg_table[<span class="Constant">'_temp1'</span>] = _temp1<br>
+_temp13.arg_table[<span class="Constant">'_temp2'</span>] = _temp2
+<pre>
 
 For reasons covered below, this is called a "lifted call". `_lifted1` is the name of the function being stored. After creating the new stored call, the variables are stored into the table. For simplicity, the keys are the same as the variable names.
 
@@ -61,9 +63,11 @@ The next step is to move the function creation outside of any other functions, e
 
 The lifted function accepts the table of variables, `self`, and then any normal arguments. In our example, there are no normal arguments, so the function starts like this:
 
-    _lifted1 = function(_argtable, _self)
-      local _temp1 = _argtable['_temp1']
-      local _temp2 = _argtable['_temp2']
+<pre>
+_lifted1 =&nbsp;<span class="Identifier">function</span>(_argtable, _self)<br>
+&nbsp;&nbsp;<span class="Statement">local</span>&nbsp;_temp1 = _argtable[<span class="Constant">'_temp1'</span>]<br>
+&nbsp;&nbsp;<span class="Statement">local</span>&nbsp;_temp2 = _argtable[<span class="Constant">'_temp2'</span>]
+</pre>
 
 At the beginning of the function it reads the variables back out of the table and into local variables. These have the same names as before, so the function can be compiled the same as if it had not been lifted.
 
@@ -77,15 +81,16 @@ Even worse, if a function at the same level or lower sets an upvar, none of the 
 
 For example:
 
-
-f = {
-  x = 1
-  while { x < 10 } { x = x + 1 }
-}
+<pre>
+f =&nbsp;<span class="Special">{</span><br>
+&nbsp;&nbsp;x =&nbsp;<span class="Constant">1</span><br>
+&nbsp;&nbsp;<span class="Statement">while</span>&nbsp;<span class="Special">{</span>&nbsp;x &lt;&nbsp;<span class="Constant">10</span>&nbsp;<span class="Special">}</span>&nbsp;<span class="Special">{</span>&nbsp;x = x +&nbsp;<span class="Constant">1</span>&nbsp;<span class="Special">}</span><br>
+<span class="Special">}</span>
+</pre>
 
 None of the two inner functions can be lifted. If `{ x < 10 }` is lifted, it will get a snapshot of `x` and the later assignment will not affect it.
 
-In theory `f` could be lifted although as a top-level function that would not do any good.
+In theory `f` could be lifted although as a top-level function it would not do any good.
 
 ### Results
 
