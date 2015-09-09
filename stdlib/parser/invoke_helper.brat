@@ -154,8 +154,8 @@ h.invoke_method_helper = { target, name, args, res_var |
   }
 }
 
-h.native_ops = ["_percent", "_plus", "_minus", "_forward", "_star", "_up"]
-h.compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"]
+native_ops = ["_percent", "_plus", "_minus", "_forward", "_star", "_up"]
+compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"]
 
 h.invoke_numbers = { lhs, op, rhs, res_var |
   action = get_action res_var

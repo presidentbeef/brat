@@ -131,6 +131,9 @@ h.rewrite_to_binops = { input |
   stack.pop
 }
 
+native_ops = ["_percent", "_plus", "_minus", "_forward", "_star", "_up"]
+compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"]
+
 # Rewrite binary operations to method invocations,
 # including special ones for numbers
 h.rewrite_binop = { node |
@@ -147,7 +150,7 @@ h.rewrite_binop = { node |
     }
     {
       n = my
-      true? (n.number?(rhs) && { n.native_ops.include?(node.op) || { n.compare_ops.include?(node.op) }})
+      true? (n.number?(rhs) && { native_ops.include?(node.op) || { compare_ops.include?(node.op) }})
       { s[:invoke_number_rhs, lhs, node.op, rhs] }
       { s[:call, lhs, node.op, [rhs]] }
     }
