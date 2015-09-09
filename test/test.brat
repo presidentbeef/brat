@@ -1,7 +1,5 @@
 includes :file :assert :subprocess
 
-subprocess.run "touch stdlib/*.brat"
-
 overall_results = [tests: 0 assertions: 0 failures: 0]
 
 object.add_results = { r |
