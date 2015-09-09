@@ -45,6 +45,7 @@ methlist:
 ---
 
 <a id="*"></a>
+
 ### (string) \*
 > _string_ \* _num_
 
@@ -52,6 +53,7 @@ Create a new string with num copies of the original string.
 
 
 <a id="+"></a>
+
 ### (string) +
 > _string1_ + _string2_
 
@@ -74,6 +76,7 @@ Compares two strings. Returns 1 if lhs is greater, -1 if rhs is greater, and 0 i
 
 
 <a id="=="></a>
+
 ### (boolean) ==
 > _string1_ == _string2_
 
@@ -81,6 +84,7 @@ Compare the contents of two strings.
 
 
 <a id="alpha?"></a>
+
 ### (boolean) alpha?
 > _string_.alpha?
 
@@ -90,6 +94,7 @@ Returns true if the string contains only letters.
      "X1z".alpha?     # Returns false
 
 <a id="alphanum?"></a>
+
 ### (boolean) alphanum?
 > _string_.alphanum?
 
@@ -99,6 +104,7 @@ Returns true if the string contains only letters and numbers.
      "bl_nk".alphanum?     # Returns false
 
 <a id="blank?"></a>
+
 ### (boolean) blank?
 > _string_.blank?
 
@@ -108,6 +114,7 @@ Returns true if the string is empty or only contains whitespace characters.
      "\n".blank?    # Returns true
 
 <a id="chomp"></a>
+
 ### (string) chomp
 > _string_.chomp
 
@@ -116,6 +123,7 @@ Create a new string with any line endings removed.
      "a\n\n".chomp  # Returns "a"
 
 <a id="chomp!"></a>
+
 ### (string) chomp!
 > _string_.chomp!
 
@@ -126,6 +134,7 @@ Remove any line endings from string.
      a              # Returns "a"
 
 <a id="dice"></a>
+
 ### (array) dice
 > _string_.dice
 
@@ -134,6 +143,7 @@ Splits string into an array with each character as as single element.
      "abc".dice == ["a" "b" "c"]
 
 <a id="downcase"></a>
+
 ### (string) downcase
 > _string_.downcase
 
@@ -141,6 +151,7 @@ Create a new string with all letters downcased.
 
 
 <a id="downcase!"></a>
+
 ### (self) downcase!
 > _string_.downcase!
 
@@ -148,6 +159,7 @@ Downcase all letters in the string,
 
 
 <a id="each"></a>
+
 ### (string) each
 > _string_.each _block_
 
@@ -161,6 +173,7 @@ Interate over each character in the string, passing them into the given block.
      a             # Returns ["a", "b", "c"]
 
 <a id="empty?"></a>
+
 ### (boolean) empty?
 > _string_.empty?
 
@@ -171,6 +184,7 @@ Returns true if the string is empty (zero length), false otherwise.
      "\n".empty?    # Returns false
 
 <a id="find"></a>
+
 ### (number) find
 > _string_.find _substring_
 
@@ -178,6 +192,7 @@ Returns the index of the given substring inside the original string. If no match
 
 
 <a id="get"></a>
+
 ### (string) get
 > _string_.get _index_  
 > _string_.get _start_, _end_
@@ -191,6 +206,7 @@ Retrieves a section of the string. If a single index is used, returns at most on
      "abc"[-1 ,1]  # Returns "bc"
 
 <a id="include?"></a>
+
 ### (boolean) include?
 > _string_.include? _substring_  
 > _string_.include? _regex_
@@ -199,6 +215,7 @@ Returns true if the string includes the given substring or regular expression.
 
 
 <a id="length"></a>
+
 ### (number) length
 > _string_.length
 
@@ -206,6 +223,7 @@ Returns the length of the string.
 
 
 <a id="match"></a>
+
 ### (object) match
 > _string_.match _regex_  
 > _string_.match _regex_, _index_
@@ -214,6 +232,7 @@ Returns: object or false This method can be used to find substrings inside a str
 
 
 <a id="new"></a>
+
 ### (string) new
 > string.new
 
@@ -221,6 +240,7 @@ Create a new string. There should be no reason to use this directly.
 
 
 <a id="numeric?"></a>
+
 ### (boolean) numeric?
 > _string_.numeric?
 
@@ -230,6 +250,7 @@ Returns true if the string only includes decimal digits and an optional leading 
      "-127".numeric?      # Returns true
 
 <a id="reverse"></a>
+
 ### (string) reverse
 > _string_.reverse
 
@@ -237,6 +258,7 @@ Copy and reverse string.
 
 
 <a id="reverse!"></a>
+
 ### (self) reverse!
 > _string_.reverse!
 
@@ -244,6 +266,7 @@ Reverse string.
 
 
 <a id="reverse_each"></a>
+
 ### (boolean) reverse_each
 > _string_.reverse_each _block_
 
@@ -257,6 +280,7 @@ Iterates over each character in string, starting from the end.
      a             # Returns ["c", "b", "a"]
 
 <a id="set"></a>
+
 ### (self) set
 > _string_.set _index_, _character_
 
@@ -264,6 +288,7 @@ Sets the given index in the string to the given character.
 
 
 <a id="split"></a>
+
 ### (array) split
 > _string_.split _separator_
 
@@ -275,6 +300,7 @@ Splits the string into an array based on the given separator, which should be a 
      a.split "z"   #["hello, there"]
 
 <a id="string?"></a>
+
 ### (boolean) string?
 > _string_.string?
 
@@ -282,6 +308,7 @@ Returns true...because it is a string.
 
 
 <a id="strip"></a>
+
 ### (string) strip
 > _string_.strip
 
@@ -290,6 +317,7 @@ Returns a new string with all whitespace removed from the beginning and end of t
      "  a\n".strip       # Returns "a"
 
 <a id="strip!"></a>
+
 ### (self) strip!
 > _string_.strip!
 
@@ -300,6 +328,7 @@ Removes all whitespace from the beginning and end of the string.
      a                  # Returns "a"
 
 <a id="sub"></a>
+
 ### (string) sub
 > _string_.sub _regex_, _replacement_  
 > _string_.sub _regex_, _replacement_, _limit_
@@ -308,6 +337,7 @@ Returns a new string with instances of the given pattern replaced by the provide
 
 
 <a id="sub"></a>
+
 ### (string) sub
 > _string_.sub _regex_, _replacement_
 
@@ -315,6 +345,7 @@ Same as using string.sub with a limit of 1.
 
 
 <a id="sub!"></a>
+
 ### (self) sub!
 > _string_.sub! _regex_, _replacement_
 
@@ -322,6 +353,7 @@ Same as using string.sub! with a limit of 1.
 
 
 <a id="sub!"></a>
+
 ### (self) sub!
 > _string_.sub! _regex_, _replacement_  
 > _string_.sub! _regex_, _replacement_, _limit_
@@ -330,6 +362,7 @@ Same as string.sub, but modifies the original string.
 
 
 <a id="to_byte"></a>
+
 ### (object) to_byte
 > _string_.to_byte
 
@@ -339,6 +372,7 @@ Returns: number or array If string is a single character, returns the decimal va
      "abc".to_byte # [97, 98, 99]
 
 <a id="to_f"></a>
+
 ### (number) to_f
 > _string_.to_f
 
@@ -346,6 +380,7 @@ Interprets the given string as an number.
 
 
 <a id="to_i"></a>
+
 ### (number) to_i
 > _string_.to_i   
 > _string_.to_i _base_
@@ -354,6 +389,7 @@ Interprets the given string as an integer. By default the string is expected to 
 
 
 <a id="to_s"></a>
+
 ### (self) to_s
 > _string_.to_s
 
@@ -361,6 +397,7 @@ Does nothing, just returns the string itself.
 
 
 <a id="upcase"></a>
+
 ### (string) upcase
 > _string_.upcase
 
@@ -368,6 +405,7 @@ Return a new string with all letters changed to uppercase.
 
 
 <a id="upcase!"></a>
+
 ### (self) upcase!
 > _string_.upcase!
 

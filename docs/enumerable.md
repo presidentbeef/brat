@@ -14,6 +14,7 @@ methlist:
 ---
 
 <a id="all?"></a>
+
 ### (boolean) all?
 > _enum_.all? _block_
 
@@ -21,6 +22,7 @@ Returns true if, for every object in the collection, the block returns true.
 
 
 <a id="any?"></a>
+
 ### (boolean) any?
 > _enum_.any? _block_
 
@@ -28,6 +30,7 @@ Returns true if, for any object in the collection, the block returns true.
 
 
 <a id="find"></a>
+
 ### (boolean) find
 > _enum_.find _block_
 
@@ -35,6 +38,7 @@ Returns the first object for which the block returns true.
 
 
 <a id="max"></a>
+
 ### (boolean) max
 > _enum_.max 
 
@@ -42,6 +46,7 @@ Returns maximum value in enumerable. All items in the enumerable must be compara
 
 
 <a id="min"></a>
+
 ### (boolean) min
 > _enum_.min 
 
@@ -49,6 +54,7 @@ Returns minimum value in enumerable. All items in the enumerable must be compara
 
 
 <a id="reject"></a>
+
 ### (array) reject
 > _enum_.reject _block_  
 > _enum_.reject _method\_name_
@@ -57,6 +63,7 @@ If passed a method name, invokes method on each element and returns an array con
 
 
 <a id="select"></a>
+
 ### (array) select
 > _enum_.select _block_  
 > _enum_.select _method\_name_

@@ -90,6 +90,7 @@ Performs exponentiation.
 
 
 <a id="cos"></a>
+
 ### (number) cos
 > _num_.cos 
 
@@ -97,6 +98,7 @@ Returns the cosine.
 
 
 <a id="new"></a>
+
 ### (number) new
 > number.new _num_
 
@@ -104,6 +106,7 @@ Create a new number object. No real reason to use this directly.
 
 
 <a id="number?"></a>
+
 ### (true) number?
 > _number_.number? 
 
@@ -111,6 +114,7 @@ Returns true.
 
 
 <a id="of"></a>
+
 ### (array) of
 > _number_.of _item_
 
@@ -119,6 +123,7 @@ Generates an array of the given item. If item is a function, uses the result of 
      3.of "ha" # Returns ["ha", "ha", "ha"]
 
 <a id="sin"></a>
+
 ### (number) sin
 > _num_.sin 
 
@@ -126,6 +131,7 @@ Returns the sine.
 
 
 <a id="tan"></a>
+
 ### (number) tan
 > _num_.tan 
 
@@ -133,6 +139,7 @@ Returns the tangent.
 
 
 <a id="times"></a>
+
 ### (number) times
 > _number_.times _block_
 
@@ -140,6 +147,7 @@ Performs the block the specified number of times. Passes in the current number t
 
 
 <a id="to"></a>
+
 ### (object) to
 > _number_.to _limit_  
 > _number_.to _limit_, _block_
@@ -149,6 +157,7 @@ With no function argument, returns an array containing the numbers from the targ
      10.to 1 { n | p n }  # Prints 10 to 1 in decreasing order.
 
 <a id="to_char"></a>
+
 ### (string) to_char
 > _number_.to_char 
 
@@ -156,6 +165,7 @@ Converts number to ASCII representation.
 
 
 <a id="to_hex"></a>
+
 ### (string) to_hex
 > _number_.to_hex 
 
@@ -163,6 +173,7 @@ Converts number to hexadecimal.
 
 
 <a id="to_i"></a>
+
 ### (number) to_i
 > _number_.to_i 
 
@@ -170,6 +181,7 @@ Truncates number.
 
 
 <a id="to_rad"></a>
+
 ### (number) to_rad
 > _num_.to_rad 
 
@@ -177,6 +189,7 @@ Converts to radians.
 
 
 <a id="to_s"></a>
+
 ### (string) to_s
 > _number_.to_s 
 
