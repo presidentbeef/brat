@@ -25,7 +25,7 @@ COMMON=$BRATPATH/src/common
 LIB=$BRATPATH/lib
 STDLIB=$BRATPATH/stdlib
 export LUA_SRC_PATH=$BRATPATH/bin/lua/
-export LUA_INC_PATH=$BRATPATH/bin/lua/include/luajit-2.0
+export LUA_INC_PATH=$BRATPATH/bin/lua/include/luajit-2.1
 export BRAT_LIB_PATH=$LIB
 
 cd $SRC
