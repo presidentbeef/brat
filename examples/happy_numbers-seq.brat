@@ -12,9 +12,9 @@ sum_of_squares_of_digits = { num |
 }
 
 happy? = { n, seen = set.new |
-  when {true? happiness.include? n } { happiness.merge seen << n; true }
-    { true? sadness.include? n } { sadness.merge seen; false }
-    { true? seen.include? n } { sadness.merge seen; false }
+  when { happiness.include? n } { happiness.merge seen << n; true }
+    { sadness.include? n } { sadness.merge seen; false }
+    { seen.include? n } { sadness.merge seen; false }
     { true } { seen << n; happy? sum_of_squares_of_digits(n), seen }
 }
 
