@@ -4646,7 +4646,7 @@ end
 function string_instance:sub_bang (pattern, replacement, limit)
   if type(pattern) ~= "table" or not pattern._lua_regex then
     error(exception:argument_error("string.sub!", "regular expression", tostring(pattern)))
-  elseif (type(replacement) == "table" and replacement._lua_string == nil) and type(replacement) ~= "function" then
+  elseif (type(replacement) == "table" and replacement._lua_string == nil) and not is_callable(replacement) then
     error(exception:argument_error("string.sub!", "string", tostring(replacement)))
   end
 
