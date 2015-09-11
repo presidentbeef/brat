@@ -13166,7 +13166,7 @@ end
         end
 _temp4 = string:new("liftable_function")
 
-local _temp420 = function (_self, _temp314,_temp313)
+_temp389 = function (_self, _temp314,_temp313)
         if _temp314 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
@@ -13199,8 +13199,30 @@ if _temp313 == nil then
 end
 end
 
-local _temp315 
-do
+local _temp315
+    if _type(my) == "function" or (_type(my) == "table" and _rawget(my, "__call_thing")) then
+      _temp315 =  my(_self)
+
+    elseif my then
+      _temp315 =  my
+    else
+            if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
+        _temp315 =  _self:my()
+      elseif _self.my ~= nil then
+        _temp315 =  _self.my
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp315 =  _self:no_undermethod(string:new("my"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp315 =  no_undermethod(_self, string:new("my"))
+      else
+        _error(exception:name_error("my"))
+      end
+    end
+
 local _temp316 = nil
               if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
         _temp316 =  _self:my()
@@ -13214,485 +13236,238 @@ local _temp316 = nil
         end
       local _t = _type(_temp316)
       if _t == "table" then
-                      if _type(_temp316.liftable_underfunctions) == "function" or (_type(_temp316.liftable_underfunctions) == "table" and _rawget(_temp316.liftable_underfunctions, "__call_thing")) then
-        _temp316 = _temp316:liftable_underfunctions()
-      elseif _temp316.liftable_underfunctions ~= nil then
-        _temp316 = _temp316.liftable_underfunctions
+                      if _type(_temp316.env) == "function" or (_type(_temp316.env) == "table" and _rawget(_temp316.env, "__call_thing")) then
+        _temp316 = _temp316:env()
+      elseif _temp316.env ~= nil then
+        _temp316 = _temp316.env
 
         elseif _temp316.no_undermethod ~= nil then
-          _temp316 =  _temp316:no_undermethod(string:new("liftable_functions"))
+          _temp316 =  _temp316:no_undermethod(string:new("env"))
         else
-          _error(exception:method_error(_temp316, "liftable_functions"))
+          _error(exception:method_error(_temp316, "env"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp316)
-      if _n.liftable_underfunctions ~= nil then
-        _temp316 = _n:liftable_underfunctions()
+      if _n.env ~= nil then
+        _temp316 = _n:env()
       elseif _n.no_undermethod ~= nil then
-        _temp316 =  _n:no_undermethod(string:new("liftable_functions"))
+        _temp316 =  _n:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp316, "liftable_functions"))
+        _error(exception:method_error(_temp316, "env"))
       end
 
       elseif _t == "function" then
               local _f = brat_function:new(_temp316)
-      if _f.liftable_underfunctions ~= nil then
-        _temp316 = _f:liftable_underfunctions()
+      if _f.env ~= nil then
+        _temp316 = _f:env()
       elseif _f.no_undermethod ~= nil then
-        _temp316 =  _f:no_undermethod(string:new("liftable_functions"))
+        _temp316 =  _f:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp316, "liftable_functions"))
+        _error(exception:method_error(_temp316, "env"))
       end
 
       elseif _temp316 == nil then
-        _error(exception:null_error("_temp316", "invoke liftable_functions on it"))
+        _error(exception:null_error("_temp316", "invoke env on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(_temp316))
       end
 
-
-local _temp317 = nil
       local _t = _type(_temp316)
       if _t == "table" then
-                      if _type(_temp316.length) == "function" or (_type(_temp316.length) == "table" and _rawget(_temp316.length, "__call_thing")) then
-        _temp317 = _temp316:length()
-      elseif _temp316.length ~= nil then
-        _temp317 = _temp316.length
+                      if _type(_temp316.new_underscope) == "function" or (_type(_temp316.new_underscope) == "table" and _rawget(_temp316.new_underscope, "__call_thing")) then
+        _dummy_ = _temp316:new_underscope()
+      elseif _temp316.new_underscope ~= nil then
+        _dummy_ = _temp316.new_underscope
 
         elseif _temp316.no_undermethod ~= nil then
-          _temp317 =  _temp316:no_undermethod(string:new("length"))
+          _dummy_ =  _temp316:no_undermethod(string:new("new_scope"))
         else
-          _error(exception:method_error(_temp316, "length"))
+          _error(exception:method_error(_temp316, "new_scope"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp316)
-      if _n.length ~= nil then
-        _temp317 = _n:length()
-      elseif _n.no_undermethod ~= nil then
-        _temp317 =  _n:no_undermethod(string:new("length"))
-      else
-        _error(exception:method_error(_temp316, "length"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp316)
-      if _f.length ~= nil then
-        _temp317 = _f:length()
-      elseif _f.no_undermethod ~= nil then
-        _temp317 =  _f:no_undermethod(string:new("length"))
-      else
-        _error(exception:method_error(_temp316, "length"))
-      end
-
-      elseif _temp316 == nil then
-        _error(exception:null_error("_temp316", "invoke length on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp316))
-      end
-
-local _temp318
-      local _t = _type(_temp317)
-      if _t == "table" then
-                      if _type(_temp317._greater) == "function" or (_type(_temp317._greater) == "table" and _rawget(_temp317._greater, "__call_thing")) then
-        _temp318 = _temp317:_greater(30)
-      elseif _temp317._greater ~= nil then
-        _temp318 = _temp317._greater
-
-        elseif _temp317.no_undermethod ~= nil then
-          _temp318 =  _temp317:no_undermethod(string:new(">") , 30)
-        else
-          _error(exception:method_error(_temp317, ">"))
-        end
-
-      elseif _t == "number" then
-              if number._unchanged('_greater')  then
-              if _temp317 > 30 then
-        _temp318 = object.__true
-      else
-        _temp318 = object.__false
-      end
-
-      else
-              local _n = number:new(_temp317)
-      if _n._greater ~= nil then
-        _temp318 = _n:_greater(30)
-      elseif _n.no_undermethod ~= nil then
-        _temp318 =  _n:no_undermethod(string:new(">") , 30)
-      else
-        _error(exception:method_error(_temp317, ">"))
-      end
-
-      end 
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp317)
-      if _f._greater ~= nil then
-        _temp318 = _f:_greater(30)
-      elseif _f.no_undermethod ~= nil then
-        _temp318 =  _f:no_undermethod(string:new(">") , 30)
-      else
-        _error(exception:method_error(_temp317, ">"))
-      end
-
-      elseif _temp317 == nil then
-        _error(exception:null_error("_temp317", "invoke > on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp317))
-      end
-
-_temp315 = _temp318 
-end
-
-
-local _temp322 = function (_self)
-
-local _temp319 = nil
-    if _type(_temp314) == "function" or (_type(_temp314) == "table" and _rawget(_temp314, "__call_thing")) then
-      _temp319 =  _temp314(_self)
-
-    elseif _temp314 then
-      _temp319 =  _temp314
-    else
-            if _type(_self.node) == "function" or (_type(_self.node) == "table" and _rawget(_self.node, "__call_thing")) then
-        _temp319 =  _self:node()
-      elseif _self.node ~= nil then
-        _temp319 =  _self.node
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp319 =  _self:no_undermethod(string:new("node"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp319 =  no_undermethod(_self, string:new("node"))
-      else
-        _error(exception:name_error("node"))
-      end
-    end
-
-local _temp320 = nil
-    if _type(_temp313) == "function" or (_type(_temp313) == "table" and _rawget(_temp313, "__call_thing")) then
-      _temp320 =  _temp313(_self)
-
-    elseif _temp313 then
-      _temp320 =  _temp313
-    else
-            if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
-        _temp320 =  _self:var()
-      elseif _self.var ~= nil then
-        _temp320 =  _self.var
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp320 =  _self:no_undermethod(string:new("var"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp320 =  no_undermethod(_self, string:new("var"))
-      else
-        _error(exception:name_error("var"))
-      end
-    end
-
-    if _type(proc_underfunction) == "function" or (_type(proc_underfunction) == "table" and _rawget(proc_underfunction, "__call_thing")) then
-      return  proc_underfunction(_self, _temp319,_temp320)
-
-    elseif proc_underfunction then
-      _error(exception:new("Tried to invoke non-method: proc_function (" .. object.__type(proc_underfunction) .. ")"))
-    else
-            if _type(_self.proc_underfunction) == "function" or (_type(_self.proc_underfunction) == "table" and _rawget(_self.proc_underfunction, "__call_thing")) then
-        return  _self:proc_underfunction(_temp319,_temp320)
-      elseif _self.proc_underfunction ~= nil then
-        return  _self.proc_underfunction
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("proc_function") , _temp319,_temp320)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("proc_function") , _temp319,_temp320)
-      else
-        _error(exception:name_error("proc_function"))
-      end
-    end
-
-end
-
-
-_temp397 = function (_self)
-
-local _temp323
-    if _type(my) == "function" or (_type(my) == "table" and _rawget(my, "__call_thing")) then
-      _temp323 =  my(_self)
-
-    elseif my then
-      _temp323 =  my
-    else
-            if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp323 =  _self:my()
-      elseif _self.my ~= nil then
-        _temp323 =  _self.my
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp323 =  _self:no_undermethod(string:new("my"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp323 =  no_undermethod(_self, string:new("my"))
-      else
-        _error(exception:name_error("my"))
-      end
-    end
-
-local _temp324 = nil
-              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp324 =  _self:my()
-      elseif _self.my ~= nil then
-        _temp324 =  _self.my
-
-        elseif my ~= nil then
-          _temp324 = my;
-        else
-          _error(exception:method_error("self", "my"))
-        end
-      local _t = _type(_temp324)
-      if _t == "table" then
-                      if _type(_temp324.env) == "function" or (_type(_temp324.env) == "table" and _rawget(_temp324.env, "__call_thing")) then
-        _temp324 = _temp324:env()
-      elseif _temp324.env ~= nil then
-        _temp324 = _temp324.env
-
-        elseif _temp324.no_undermethod ~= nil then
-          _temp324 =  _temp324:no_undermethod(string:new("env"))
-        else
-          _error(exception:method_error(_temp324, "env"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp324)
-      if _n.env ~= nil then
-        _temp324 = _n:env()
-      elseif _n.no_undermethod ~= nil then
-        _temp324 =  _n:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error(_temp324, "env"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp324)
-      if _f.env ~= nil then
-        _temp324 = _f:env()
-      elseif _f.no_undermethod ~= nil then
-        _temp324 =  _f:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error(_temp324, "env"))
-      end
-
-      elseif _temp324 == nil then
-        _error(exception:null_error("_temp324", "invoke env on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp324))
-      end
-
-      local _t = _type(_temp324)
-      if _t == "table" then
-                      if _type(_temp324.new_underscope) == "function" or (_type(_temp324.new_underscope) == "table" and _rawget(_temp324.new_underscope, "__call_thing")) then
-        _dummy_ = _temp324:new_underscope()
-      elseif _temp324.new_underscope ~= nil then
-        _dummy_ = _temp324.new_underscope
-
-        elseif _temp324.no_undermethod ~= nil then
-          _dummy_ =  _temp324:no_undermethod(string:new("new_scope"))
-        else
-          _error(exception:method_error(_temp324, "new_scope"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp324)
       if _n.new_underscope ~= nil then
         _dummy_ = _n:new_underscope()
       elseif _n.no_undermethod ~= nil then
         _dummy_ =  _n:no_undermethod(string:new("new_scope"))
       else
-        _error(exception:method_error(_temp324, "new_scope"))
+        _error(exception:method_error(_temp316, "new_scope"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp324)
+              local _f = brat_function:new(_temp316)
       if _f.new_underscope ~= nil then
         _dummy_ = _f:new_underscope()
       elseif _f.no_undermethod ~= nil then
         _dummy_ =  _f:no_undermethod(string:new("new_scope"))
       else
-        _error(exception:method_error(_temp324, "new_scope"))
+        _error(exception:method_error(_temp316, "new_scope"))
       end
 
-      elseif _temp324 == nil then
-        _error(exception:null_error("_temp324", "invoke new_scope on it"))
+      elseif _temp316 == nil then
+        _error(exception:null_error("_temp316", "invoke new_scope on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp324))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp316))
       end
 
-local _temp325
+local _temp317
     if _type(_temp314) == "function" or (_type(_temp314) == "table" and _rawget(_temp314, "__call_thing")) then
-      _temp324 =  _temp314(_self)
+      _temp316 =  _temp314(_self)
 
     elseif _temp314 then
-      _temp324 =  _temp314
+      _temp316 =  _temp314
     else
             if _type(_self.node) == "function" or (_type(_self.node) == "table" and _rawget(_self.node, "__call_thing")) then
-        _temp324 =  _self:node()
+        _temp316 =  _self:node()
       elseif _self.node ~= nil then
-        _temp324 =  _self.node
+        _temp316 =  _self.node
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp324 =  _self:no_undermethod(string:new("node"))
+        _temp316 =  _self:no_undermethod(string:new("node"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp324 =  no_undermethod(_self, string:new("node"))
+        _temp316 =  no_undermethod(_self, string:new("node"))
       else
         _error(exception:name_error("node"))
       end
     end
 
     if _type(do_underargs) == "function" or (_type(do_underargs) == "table" and _rawget(do_underargs, "__call_thing")) then
-      _temp325 =  do_underargs(_self, _temp324)
+      _temp317 =  do_underargs(_self, _temp316)
 
     elseif do_underargs then
       _error(exception:new("Tried to invoke non-method: do_args (" .. object.__type(do_underargs) .. ")"))
     else
             if _type(_self.do_underargs) == "function" or (_type(_self.do_underargs) == "table" and _rawget(_self.do_underargs, "__call_thing")) then
-        _temp325 =  _self:do_underargs(_temp324)
+        _temp317 =  _self:do_underargs(_temp316)
       elseif _self.do_underargs ~= nil then
-        _temp325 =  _self.do_underargs
+        _temp317 =  _self.do_underargs
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp325 =  _self:no_undermethod(string:new("do_args") , _temp324)
+        _temp317 =  _self:no_undermethod(string:new("do_args") , _temp316)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp325 =  no_undermethod(_self, string:new("do_args") , _temp324)
+        _temp317 =  no_undermethod(_self, string:new("do_args") , _temp316)
       else
         _error(exception:name_error("do_args"))
       end
     end
 
-local _temp326
+local _temp318
 do
-local _temp327 = nil
+local _temp319 = nil
               if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp327 =  _self:my()
+        _temp319 =  _self:my()
       elseif _self.my ~= nil then
-        _temp327 =  _self.my
+        _temp319 =  _self.my
 
         elseif my ~= nil then
-          _temp327 = my;
+          _temp319 = my;
         else
           _error(exception:method_error("self", "my"))
         end
-      local _t = _type(_temp327)
+      local _t = _type(_temp319)
       if _t == "table" then
-                      if _type(_temp327.next_underliftable) == "function" or (_type(_temp327.next_underliftable) == "table" and _rawget(_temp327.next_underliftable, "__call_thing")) then
-        _temp327 = _temp327:next_underliftable()
-      elseif _temp327.next_underliftable ~= nil then
-        _temp327 = _temp327.next_underliftable
+                      if _type(_temp319.next_underliftable) == "function" or (_type(_temp319.next_underliftable) == "table" and _rawget(_temp319.next_underliftable, "__call_thing")) then
+        _temp319 = _temp319:next_underliftable()
+      elseif _temp319.next_underliftable ~= nil then
+        _temp319 = _temp319.next_underliftable
 
-        elseif _temp327.no_undermethod ~= nil then
-          _temp327 =  _temp327:no_undermethod(string:new("next_liftable"))
+        elseif _temp319.no_undermethod ~= nil then
+          _temp319 =  _temp319:no_undermethod(string:new("next_liftable"))
         else
-          _error(exception:method_error(_temp327, "next_liftable"))
+          _error(exception:method_error(_temp319, "next_liftable"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp327)
+              local _n = number:new(_temp319)
       if _n.next_underliftable ~= nil then
-        _temp327 = _n:next_underliftable()
+        _temp319 = _n:next_underliftable()
       elseif _n.no_undermethod ~= nil then
-        _temp327 =  _n:no_undermethod(string:new("next_liftable"))
+        _temp319 =  _n:no_undermethod(string:new("next_liftable"))
       else
-        _error(exception:method_error(_temp327, "next_liftable"))
+        _error(exception:method_error(_temp319, "next_liftable"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp327)
+              local _f = brat_function:new(_temp319)
       if _f.next_underliftable ~= nil then
-        _temp327 = _f:next_underliftable()
+        _temp319 = _f:next_underliftable()
       elseif _f.no_undermethod ~= nil then
-        _temp327 =  _f:no_undermethod(string:new("next_liftable"))
+        _temp319 =  _f:no_undermethod(string:new("next_liftable"))
       else
-        _error(exception:method_error(_temp327, "next_liftable"))
+        _error(exception:method_error(_temp319, "next_liftable"))
       end
 
-      elseif _temp327 == nil then
-        _error(exception:null_error("_temp327", "invoke next_liftable on it"))
+      elseif _temp319 == nil then
+        _error(exception:null_error("_temp319", "invoke next_liftable on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp327))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp319))
       end
 
 
-_temp324 = string:new("_lifted" .. _tostring(_temp327) .. "")
+_temp316 = string:new("_lifted[" .. _tostring(_temp319) .. "]")
 end
 
-local _temp328 = nil
+local _temp320 = nil
 do
-local _temp329
+local _temp321
 do
-    if _type(_temp325) == "function" or (_type(_temp325) == "table" and _rawget(_temp325, "__call_thing")) then
-      _temp329 =  _temp325(_self)
+    if _type(_temp317) == "function" or (_type(_temp317) == "table" and _rawget(_temp317, "__call_thing")) then
+      _temp321 =  _temp317(_self)
 
-    elseif _temp325 then
-      _temp329 =  _temp325
+    elseif _temp317 then
+      _temp321 =  _temp317
     else
             if _type(_self.args) == "function" or (_type(_self.args) == "table" and _rawget(_self.args, "__call_thing")) then
-        _temp329 =  _self:args()
+        _temp321 =  _self:args()
       elseif _self.args ~= nil then
-        _temp329 =  _self.args
+        _temp321 =  _self.args
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp329 =  _self:no_undermethod(string:new("args"))
+        _temp321 =  _self:no_undermethod(string:new("args"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp329 =  no_undermethod(_self, string:new("args"))
+        _temp321 =  no_undermethod(_self, string:new("args"))
       else
         _error(exception:name_error("args"))
       end
     end
-local _temp330 = string:new("arg_list")
+local _temp322 = string:new("arg_list")
 
 
-_temp329 = _temp329:get(_temp330)
+_temp321 = _temp321:get(_temp322)
 end
 
-_temp328 = string:new("function(_argtable, " .. _tostring(_temp329) .. ")")
+_temp320 = string:new("function(_argtable, " .. _tostring(_temp321) .. ")")
 end
 
     if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
-      _temp326 =  set_underresult(_self, _temp324,_temp328)
+      _temp318 =  set_underresult(_self, _temp316,_temp320)
 
     elseif set_underresult then
       _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
     else
             if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
-        _temp326 =  _self:set_underresult(_temp324,_temp328)
+        _temp318 =  _self:set_underresult(_temp316,_temp320)
       elseif _self.set_underresult ~= nil then
-        _temp326 =  _self.set_underresult
+        _temp318 =  _self.set_underresult
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp326 =  _self:no_undermethod(string:new("set_result") , _temp324,_temp328)
+        _temp318 =  _self:no_undermethod(string:new("set_result") , _temp316,_temp320)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp326 =  no_undermethod(_self, string:new("set_result") , _temp324,_temp328)
+        _temp318 =  no_undermethod(_self, string:new("set_result") , _temp316,_temp320)
       else
         _error(exception:name_error("set_result"))
       end
@@ -13701,40 +13476,40 @@ end
         local _t = _type(_temp314)
         if _t == "table" then
           if _rawget(_temp314, "__call_thing") == nil then
-            _temp328 = _temp314
+            _temp320 = _temp314
           else
                   if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp328 =  _self:_temp314()
+        _temp320 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp328 =  _self._temp314
+        _temp320 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp328 =  _self:no_undermethod(string:new("_temp314"))
+          _temp320 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp328 =  _temp314(_self)
+        _temp320 =  _temp314(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp328 = _temp314
+          _temp320 = _temp314
         elseif _t == "function" then
                 if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp328 =  _self:_temp314()
+        _temp320 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp328 =  _self._temp314
+        _temp320 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp328 =  _self:no_undermethod(string:new("_temp314"))
+          _temp320 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp328 =  _temp314(_self)
+        _temp320 =  _temp314(_self)
       end
 
         elseif _temp314 == nil then
@@ -13742,175 +13517,175 @@ end
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp328)
+      local _t = _type(_temp320)
       if _t == "table" then
-                      if _type(_temp328.upvars) == "function" or (_type(_temp328.upvars) == "table" and _rawget(_temp328.upvars, "__call_thing")) then
-        _temp328 = _temp328:upvars()
-      elseif _temp328.upvars ~= nil then
-        _temp328 = _temp328.upvars
+                      if _type(_temp320.upvars) == "function" or (_type(_temp320.upvars) == "table" and _rawget(_temp320.upvars, "__call_thing")) then
+        _temp320 = _temp320:upvars()
+      elseif _temp320.upvars ~= nil then
+        _temp320 = _temp320.upvars
 
-        elseif _temp328.no_undermethod ~= nil then
-          _temp328 =  _temp328:no_undermethod(string:new("upvars"))
+        elseif _temp320.no_undermethod ~= nil then
+          _temp320 =  _temp320:no_undermethod(string:new("upvars"))
         else
-          _error(exception:method_error(_temp328, "upvars"))
+          _error(exception:method_error(_temp320, "upvars"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp328)
+              local _n = number:new(_temp320)
       if _n.upvars ~= nil then
-        _temp328 = _n:upvars()
+        _temp320 = _n:upvars()
       elseif _n.no_undermethod ~= nil then
-        _temp328 =  _n:no_undermethod(string:new("upvars"))
+        _temp320 =  _n:no_undermethod(string:new("upvars"))
       else
-        _error(exception:method_error(_temp328, "upvars"))
+        _error(exception:method_error(_temp320, "upvars"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp328)
+              local _f = brat_function:new(_temp320)
       if _f.upvars ~= nil then
-        _temp328 = _f:upvars()
+        _temp320 = _f:upvars()
       elseif _f.no_undermethod ~= nil then
-        _temp328 =  _f:no_undermethod(string:new("upvars"))
+        _temp320 =  _f:no_undermethod(string:new("upvars"))
       else
-        _error(exception:method_error(_temp328, "upvars"))
+        _error(exception:method_error(_temp320, "upvars"))
       end
 
-      elseif _temp328 == nil then
-        _error(exception:null_error("_temp328", "invoke upvars on it"))
+      elseif _temp320 == nil then
+        _error(exception:null_error("_temp320", "invoke upvars on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp328))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp320))
       end
 
 
 
-local _temp344 = function (_self)
+local _temp336 = function (_self)
 
-local _temp331 
+local _temp323 
 do
-local _temp332 = nil
-        local _t = _type(_temp326)
+local _temp324 = nil
+        local _t = _type(_temp318)
         if _t == "table" then
-          if _rawget(_temp326, "__call_thing") == nil then
-            _temp332 = _temp326
+          if _rawget(_temp318, "__call_thing") == nil then
+            _temp324 = _temp318
           else
-                  if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp332 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp332 =  _self._temp326
+                  if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp324 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp324 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp332 =  _self:no_undermethod(string:new("_temp326"))
+          _temp324 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp332 =  _temp326(_self)
+        _temp324 =  _temp318(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp332 = _temp326
+          _temp324 = _temp318
         elseif _t == "function" then
-                if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp332 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp332 =  _self._temp326
+                if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp324 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp324 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp332 =  _self:no_undermethod(string:new("_temp326"))
+          _temp324 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp332 =  _temp326(_self)
+        _temp324 =  _temp318(_self)
       end
 
-        elseif _temp326 == nil then
+        elseif _temp318 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
 
-local _temp333 = nil
-      local _t = _type(_temp332)
+local _temp325 = nil
+      local _t = _type(_temp324)
       if _t == "table" then
-                      if _type(_temp332.out) == "function" or (_type(_temp332.out) == "table" and _rawget(_temp332.out, "__call_thing")) then
-        _temp333 = _temp332:out()
-      elseif _temp332.out ~= nil then
-        _temp333 = _temp332.out
+                      if _type(_temp324.out) == "function" or (_type(_temp324.out) == "table" and _rawget(_temp324.out, "__call_thing")) then
+        _temp325 = _temp324:out()
+      elseif _temp324.out ~= nil then
+        _temp325 = _temp324.out
 
-        elseif _temp332.no_undermethod ~= nil then
-          _temp333 =  _temp332:no_undermethod(string:new("out"))
+        elseif _temp324.no_undermethod ~= nil then
+          _temp325 =  _temp324:no_undermethod(string:new("out"))
         else
-          _error(exception:method_error(_temp332, "out"))
+          _error(exception:method_error(_temp324, "out"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp332)
+              local _n = number:new(_temp324)
       if _n.out ~= nil then
-        _temp333 = _n:out()
+        _temp325 = _n:out()
       elseif _n.no_undermethod ~= nil then
-        _temp333 =  _n:no_undermethod(string:new("out"))
+        _temp325 =  _n:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp332, "out"))
+        _error(exception:method_error(_temp324, "out"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp332)
+              local _f = brat_function:new(_temp324)
       if _f.out ~= nil then
-        _temp333 = _f:out()
+        _temp325 = _f:out()
       elseif _f.no_undermethod ~= nil then
-        _temp333 =  _f:no_undermethod(string:new("out"))
+        _temp325 =  _f:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp332, "out"))
+        _error(exception:method_error(_temp324, "out"))
       end
 
-      elseif _temp332 == nil then
-        _error(exception:null_error("_temp332", "invoke out on it"))
+      elseif _temp324 == nil then
+        _error(exception:null_error("_temp324", "invoke out on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp332))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp324))
       end
 
-local _temp334 = nil
+local _temp326 = nil
         local _t = _type(_temp314)
         if _t == "table" then
           if _rawget(_temp314, "__call_thing") == nil then
-            _temp334 = _temp314
+            _temp326 = _temp314
           else
                   if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp334 =  _self:_temp314()
+        _temp326 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp334 =  _self._temp314
+        _temp326 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp334 =  _self:no_undermethod(string:new("_temp314"))
+          _temp326 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp334 =  _temp314(_self)
+        _temp326 =  _temp314(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp334 = _temp314
+          _temp326 = _temp314
         elseif _t == "function" then
                 if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp334 =  _self:_temp314()
+        _temp326 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp334 =  _self._temp314
+        _temp326 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp334 =  _self:no_undermethod(string:new("_temp314"))
+          _temp326 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp334 =  _temp314(_self)
+        _temp326 =  _temp314(_self)
       end
 
         elseif _temp314 == nil then
@@ -13918,419 +13693,419 @@ local _temp334 = nil
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp334)
+      local _t = _type(_temp326)
       if _t == "table" then
-                      if _type(_temp334.upvars) == "function" or (_type(_temp334.upvars) == "table" and _rawget(_temp334.upvars, "__call_thing")) then
-        _temp334 = _temp334:upvars()
-      elseif _temp334.upvars ~= nil then
-        _temp334 = _temp334.upvars
+                      if _type(_temp326.upvars) == "function" or (_type(_temp326.upvars) == "table" and _rawget(_temp326.upvars, "__call_thing")) then
+        _temp326 = _temp326:upvars()
+      elseif _temp326.upvars ~= nil then
+        _temp326 = _temp326.upvars
 
-        elseif _temp334.no_undermethod ~= nil then
-          _temp334 =  _temp334:no_undermethod(string:new("upvars"))
+        elseif _temp326.no_undermethod ~= nil then
+          _temp326 =  _temp326:no_undermethod(string:new("upvars"))
         else
-          _error(exception:method_error(_temp334, "upvars"))
+          _error(exception:method_error(_temp326, "upvars"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp334)
+              local _n = number:new(_temp326)
       if _n.upvars ~= nil then
-        _temp334 = _n:upvars()
+        _temp326 = _n:upvars()
       elseif _n.no_undermethod ~= nil then
-        _temp334 =  _n:no_undermethod(string:new("upvars"))
+        _temp326 =  _n:no_undermethod(string:new("upvars"))
       else
-        _error(exception:method_error(_temp334, "upvars"))
+        _error(exception:method_error(_temp326, "upvars"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp334)
+              local _f = brat_function:new(_temp326)
       if _f.upvars ~= nil then
-        _temp334 = _f:upvars()
+        _temp326 = _f:upvars()
       elseif _f.no_undermethod ~= nil then
-        _temp334 =  _f:no_undermethod(string:new("upvars"))
+        _temp326 =  _f:no_undermethod(string:new("upvars"))
       else
-        _error(exception:method_error(_temp334, "upvars"))
+        _error(exception:method_error(_temp326, "upvars"))
       end
 
-      elseif _temp334 == nil then
-        _error(exception:null_error("_temp334", "invoke upvars on it"))
+      elseif _temp326 == nil then
+        _error(exception:null_error("_temp326", "invoke upvars on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp334))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp326))
       end
 
 
-local _temp342 = function (_self, _temp335)
-        if _temp335 == nil then
+local _temp334 = function (_self, _temp327)
+        if _temp327 == nil then
           _error(exception:argument_error("function", 1, 0))
 
 end
-local _temp336 = nil
+local _temp328 = nil
 do
-local _temp337
+local _temp329
 do
-        local _t = _type(_temp323)
+        local _t = _type(_temp315)
         if _t == "table" then
-          if _rawget(_temp323, "__call_thing") == nil then
-            _temp337 = _temp323
+          if _rawget(_temp315, "__call_thing") == nil then
+            _temp329 = _temp315
           else
-                  if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp337 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp337 =  _self._temp323
+                  if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp329 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp329 =  _self._temp315
 
         elseif _self.no_undermethod ~= nil then
-          _temp337 =  _self:no_undermethod(string:new("_temp323"))
+          _temp329 =  _self:no_undermethod(string:new("_temp315"))
         else
           _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp337 =  _temp323(_self)
+        _temp329 =  _temp315(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp337 = _temp323
+          _temp329 = _temp315
         elseif _t == "function" then
-                if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp337 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp337 =  _self._temp323
+                if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp329 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp329 =  _self._temp315
 
         elseif _self.no_undermethod ~= nil then
-          _temp337 =  _self:no_undermethod(string:new("_temp323"))
+          _temp329 =  _self:no_undermethod(string:new("_temp315"))
         else
           _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp337 =  _temp323(_self)
+        _temp329 =  _temp315(_self)
       end
 
-        elseif _temp323 == nil then
+        elseif _temp315 == nil then
           _error(exception:null_error("w", "cannot call method on it"))
         else
           _error(exception:method_error("self", "w"))
         end
-      local _t = _type(_temp337)
+      local _t = _type(_temp329)
       if _t == "table" then
-                      if _type(_temp337.env) == "function" or (_type(_temp337.env) == "table" and _rawget(_temp337.env, "__call_thing")) then
-        _temp337 = _temp337:env()
-      elseif _temp337.env ~= nil then
-        _temp337 = _temp337.env
+                      if _type(_temp329.env) == "function" or (_type(_temp329.env) == "table" and _rawget(_temp329.env, "__call_thing")) then
+        _temp329 = _temp329:env()
+      elseif _temp329.env ~= nil then
+        _temp329 = _temp329.env
 
-        elseif _temp337.no_undermethod ~= nil then
-          _temp337 =  _temp337:no_undermethod(string:new("env"))
+        elseif _temp329.no_undermethod ~= nil then
+          _temp329 =  _temp329:no_undermethod(string:new("env"))
         else
-          _error(exception:method_error(_temp337, "env"))
+          _error(exception:method_error(_temp329, "env"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp337)
+              local _n = number:new(_temp329)
       if _n.env ~= nil then
-        _temp337 = _n:env()
+        _temp329 = _n:env()
       elseif _n.no_undermethod ~= nil then
-        _temp337 =  _n:no_undermethod(string:new("env"))
+        _temp329 =  _n:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp337, "env"))
+        _error(exception:method_error(_temp329, "env"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp337)
+              local _f = brat_function:new(_temp329)
       if _f.env ~= nil then
-        _temp337 = _f:env()
+        _temp329 = _f:env()
       elseif _f.no_undermethod ~= nil then
-        _temp337 =  _f:no_undermethod(string:new("env"))
+        _temp329 =  _f:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp337, "env"))
+        _error(exception:method_error(_temp329, "env"))
       end
 
-      elseif _temp337 == nil then
-        _error(exception:null_error("_temp337", "invoke env on it"))
+      elseif _temp329 == nil then
+        _error(exception:null_error("_temp329", "invoke env on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp337))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp329))
       end
 
-local _temp338 = nil
-    if _type(_temp335) == "function" or (_type(_temp335) == "table" and _rawget(_temp335, "__call_thing")) then
-      _temp338 =  _temp335(_self)
+local _temp330 = nil
+    if _type(_temp327) == "function" or (_type(_temp327) == "table" and _rawget(_temp327, "__call_thing")) then
+      _temp330 =  _temp327(_self)
 
-    elseif _temp335 then
-      _temp338 =  _temp335
+    elseif _temp327 then
+      _temp330 =  _temp327
     else
             if _type(_self.u) == "function" or (_type(_self.u) == "table" and _rawget(_self.u, "__call_thing")) then
-        _temp338 =  _self:u()
+        _temp330 =  _self:u()
       elseif _self.u ~= nil then
-        _temp338 =  _self.u
+        _temp330 =  _self.u
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp338 =  _self:no_undermethod(string:new("u"))
+        _temp330 =  _self:no_undermethod(string:new("u"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp338 =  no_undermethod(_self, string:new("u"))
+        _temp330 =  no_undermethod(_self, string:new("u"))
       else
         _error(exception:name_error("u"))
       end
     end
 
 
-_temp337 = _temp337:get(_temp338)
+_temp329 = _temp329:get(_temp330)
 end
 
-local _temp339
+local _temp331
 do
-        local _t = _type(_temp323)
+        local _t = _type(_temp315)
         if _t == "table" then
-          if _rawget(_temp323, "__call_thing") == nil then
-            _temp339 = _temp323
+          if _rawget(_temp315, "__call_thing") == nil then
+            _temp331 = _temp315
           else
-                  if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp339 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp339 =  _self._temp323
+                  if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp331 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp331 =  _self._temp315
 
         elseif _self.no_undermethod ~= nil then
-          _temp339 =  _self:no_undermethod(string:new("_temp323"))
+          _temp331 =  _self:no_undermethod(string:new("_temp315"))
         else
           _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp339 =  _temp323(_self)
+        _temp331 =  _temp315(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp339 = _temp323
+          _temp331 = _temp315
         elseif _t == "function" then
-                if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp339 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp339 =  _self._temp323
+                if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp331 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp331 =  _self._temp315
 
         elseif _self.no_undermethod ~= nil then
-          _temp339 =  _self:no_undermethod(string:new("_temp323"))
+          _temp331 =  _self:no_undermethod(string:new("_temp315"))
         else
           _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp339 =  _temp323(_self)
+        _temp331 =  _temp315(_self)
       end
 
-        elseif _temp323 == nil then
+        elseif _temp315 == nil then
           _error(exception:null_error("w", "cannot call method on it"))
         else
           _error(exception:method_error("self", "w"))
         end
-      local _t = _type(_temp339)
+      local _t = _type(_temp331)
       if _t == "table" then
-                      if _type(_temp339.env) == "function" or (_type(_temp339.env) == "table" and _rawget(_temp339.env, "__call_thing")) then
-        _temp339 = _temp339:env()
-      elseif _temp339.env ~= nil then
-        _temp339 = _temp339.env
+                      if _type(_temp331.env) == "function" or (_type(_temp331.env) == "table" and _rawget(_temp331.env, "__call_thing")) then
+        _temp331 = _temp331:env()
+      elseif _temp331.env ~= nil then
+        _temp331 = _temp331.env
 
-        elseif _temp339.no_undermethod ~= nil then
-          _temp339 =  _temp339:no_undermethod(string:new("env"))
+        elseif _temp331.no_undermethod ~= nil then
+          _temp331 =  _temp331:no_undermethod(string:new("env"))
         else
-          _error(exception:method_error(_temp339, "env"))
+          _error(exception:method_error(_temp331, "env"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp339)
+              local _n = number:new(_temp331)
       if _n.env ~= nil then
-        _temp339 = _n:env()
+        _temp331 = _n:env()
       elseif _n.no_undermethod ~= nil then
-        _temp339 =  _n:no_undermethod(string:new("env"))
+        _temp331 =  _n:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp339, "env"))
+        _error(exception:method_error(_temp331, "env"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp339)
+              local _f = brat_function:new(_temp331)
       if _f.env ~= nil then
-        _temp339 = _f:env()
+        _temp331 = _f:env()
       elseif _f.no_undermethod ~= nil then
-        _temp339 =  _f:no_undermethod(string:new("env"))
+        _temp331 =  _f:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp339, "env"))
+        _error(exception:method_error(_temp331, "env"))
       end
 
-      elseif _temp339 == nil then
-        _error(exception:null_error("_temp339", "invoke env on it"))
+      elseif _temp331 == nil then
+        _error(exception:null_error("_temp331", "invoke env on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp339))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp331))
       end
 
-local _temp340 = nil
-    if _type(_temp335) == "function" or (_type(_temp335) == "table" and _rawget(_temp335, "__call_thing")) then
-      _temp340 =  _temp335(_self)
+local _temp332 = nil
+    if _type(_temp327) == "function" or (_type(_temp327) == "table" and _rawget(_temp327, "__call_thing")) then
+      _temp332 =  _temp327(_self)
 
-    elseif _temp335 then
-      _temp340 =  _temp335
+    elseif _temp327 then
+      _temp332 =  _temp327
     else
             if _type(_self.u) == "function" or (_type(_self.u) == "table" and _rawget(_self.u, "__call_thing")) then
-        _temp340 =  _self:u()
+        _temp332 =  _self:u()
       elseif _self.u ~= nil then
-        _temp340 =  _self.u
+        _temp332 =  _self.u
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp340 =  _self:no_undermethod(string:new("u"))
+        _temp332 =  _self:no_undermethod(string:new("u"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp340 =  no_undermethod(_self, string:new("u"))
+        _temp332 =  no_undermethod(_self, string:new("u"))
       else
         _error(exception:name_error("u"))
       end
     end
 
 
-_temp339 = _temp339:get(_temp340)
+_temp331 = _temp331:get(_temp332)
 end
 
-_temp336 = string:new("local " .. _tostring(_temp337) .. " = _argtable['" .. _tostring(_temp339) .. "']")
+_temp328 = string:new("local " .. _tostring(_temp329) .. " = _argtable['" .. _tostring(_temp331) .. "']")
 end
 
-return _temp336
+return _temp328
 end
 
-      local _t = _type(_temp334)
+      local _t = _type(_temp326)
       if _t == "table" then
-                      if _type(_temp334.map) == "function" or (_type(_temp334.map) == "table" and _rawget(_temp334.map, "__call_thing")) then
-        _temp334 = _temp334:map(_temp342)
-      elseif _temp334.map ~= nil then
-        _temp334 = _temp334.map
+                      if _type(_temp326.map) == "function" or (_type(_temp326.map) == "table" and _rawget(_temp326.map, "__call_thing")) then
+        _temp326 = _temp326:map(_temp334)
+      elseif _temp326.map ~= nil then
+        _temp326 = _temp326.map
 
-        elseif _temp334.no_undermethod ~= nil then
-          _temp334 =  _temp334:no_undermethod(string:new("map") , _temp342)
+        elseif _temp326.no_undermethod ~= nil then
+          _temp326 =  _temp326:no_undermethod(string:new("map") , _temp334)
         else
-          _error(exception:method_error(_temp334, "map"))
+          _error(exception:method_error(_temp326, "map"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp334)
+              local _n = number:new(_temp326)
       if _n.map ~= nil then
-        _temp334 = _n:map(_temp342)
+        _temp326 = _n:map(_temp334)
       elseif _n.no_undermethod ~= nil then
-        _temp334 =  _n:no_undermethod(string:new("map") , _temp342)
+        _temp326 =  _n:no_undermethod(string:new("map") , _temp334)
       else
-        _error(exception:method_error(_temp334, "map"))
+        _error(exception:method_error(_temp326, "map"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp334)
+              local _f = brat_function:new(_temp326)
       if _f.map ~= nil then
-        _temp334 = _f:map(_temp342)
+        _temp326 = _f:map(_temp334)
       elseif _f.no_undermethod ~= nil then
-        _temp334 =  _f:no_undermethod(string:new("map") , _temp342)
+        _temp326 =  _f:no_undermethod(string:new("map") , _temp334)
       else
-        _error(exception:method_error(_temp334, "map"))
+        _error(exception:method_error(_temp326, "map"))
       end
 
-      elseif _temp334 == nil then
-        _error(exception:null_error("_temp334", "invoke map on it"))
+      elseif _temp326 == nil then
+        _error(exception:null_error("_temp326", "invoke map on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp334))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp326))
       end
 
-_temp342 = string:new("\n")
+_temp334 = string:new("\n")
 
-      local _t = _type(_temp334)
+      local _t = _type(_temp326)
       if _t == "table" then
-                      if _type(_temp334.join) == "function" or (_type(_temp334.join) == "table" and _rawget(_temp334.join, "__call_thing")) then
-        _temp334 = _temp334:join(_temp342)
-      elseif _temp334.join ~= nil then
-        _temp334 = _temp334.join
+                      if _type(_temp326.join) == "function" or (_type(_temp326.join) == "table" and _rawget(_temp326.join, "__call_thing")) then
+        _temp326 = _temp326:join(_temp334)
+      elseif _temp326.join ~= nil then
+        _temp326 = _temp326.join
 
-        elseif _temp334.no_undermethod ~= nil then
-          _temp334 =  _temp334:no_undermethod(string:new("join") , _temp342)
+        elseif _temp326.no_undermethod ~= nil then
+          _temp326 =  _temp326:no_undermethod(string:new("join") , _temp334)
         else
-          _error(exception:method_error(_temp334, "join"))
+          _error(exception:method_error(_temp326, "join"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp334)
+              local _n = number:new(_temp326)
       if _n.join ~= nil then
-        _temp334 = _n:join(_temp342)
+        _temp326 = _n:join(_temp334)
       elseif _n.no_undermethod ~= nil then
-        _temp334 =  _n:no_undermethod(string:new("join") , _temp342)
+        _temp326 =  _n:no_undermethod(string:new("join") , _temp334)
       else
-        _error(exception:method_error(_temp334, "join"))
+        _error(exception:method_error(_temp326, "join"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp334)
+              local _f = brat_function:new(_temp326)
       if _f.join ~= nil then
-        _temp334 = _f:join(_temp342)
+        _temp326 = _f:join(_temp334)
       elseif _f.no_undermethod ~= nil then
-        _temp334 =  _f:no_undermethod(string:new("join") , _temp342)
+        _temp326 =  _f:no_undermethod(string:new("join") , _temp334)
       else
-        _error(exception:method_error(_temp334, "join"))
+        _error(exception:method_error(_temp326, "join"))
       end
 
-      elseif _temp334 == nil then
-        _error(exception:null_error("_temp334", "invoke join on it"))
+      elseif _temp326 == nil then
+        _error(exception:null_error("_temp326", "invoke join on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp334))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp326))
       end
 
-local _temp342
-      local _t = _type(_temp333)
+local _temp334
+      local _t = _type(_temp325)
       if _t == "table" then
-                      if _type(_temp333._less_less) == "function" or (_type(_temp333._less_less) == "table" and _rawget(_temp333._less_less, "__call_thing")) then
-        _temp342 = _temp333:_less_less(_temp334)
-      elseif _temp333._less_less ~= nil then
-        _temp342 = _temp333._less_less
+                      if _type(_temp325._less_less) == "function" or (_type(_temp325._less_less) == "table" and _rawget(_temp325._less_less, "__call_thing")) then
+        _temp334 = _temp325:_less_less(_temp326)
+      elseif _temp325._less_less ~= nil then
+        _temp334 = _temp325._less_less
 
-        elseif _temp333.no_undermethod ~= nil then
-          _temp342 =  _temp333:no_undermethod(string:new("<<") , _temp334)
+        elseif _temp325.no_undermethod ~= nil then
+          _temp334 =  _temp325:no_undermethod(string:new("<<") , _temp326)
         else
-          _error(exception:method_error(_temp333, "<<"))
+          _error(exception:method_error(_temp325, "<<"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp333)
+              local _n = number:new(_temp325)
       if _n._less_less ~= nil then
-        _temp342 = _n:_less_less(_temp334)
+        _temp334 = _n:_less_less(_temp326)
       elseif _n.no_undermethod ~= nil then
-        _temp342 =  _n:no_undermethod(string:new("<<") , _temp334)
+        _temp334 =  _n:no_undermethod(string:new("<<") , _temp326)
       else
-        _error(exception:method_error(_temp333, "<<"))
+        _error(exception:method_error(_temp325, "<<"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp333)
+              local _f = brat_function:new(_temp325)
       if _f._less_less ~= nil then
-        _temp342 = _f:_less_less(_temp334)
+        _temp334 = _f:_less_less(_temp326)
       elseif _f.no_undermethod ~= nil then
-        _temp342 =  _f:no_undermethod(string:new("<<") , _temp334)
+        _temp334 =  _f:no_undermethod(string:new("<<") , _temp326)
       else
-        _error(exception:method_error(_temp333, "<<"))
+        _error(exception:method_error(_temp325, "<<"))
       end
 
-      elseif _temp333 == nil then
-        _error(exception:null_error("_temp333", "invoke << on it"))
+      elseif _temp325 == nil then
+        _error(exception:null_error("_temp325", "invoke << on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp333))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp325))
       end
 
-_temp331 = _temp342 
+_temp323 = _temp334 
 end
 
-return _temp331
+return _temp323
 end
 
     if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
-      _dummy_ =  true_question(_self, _temp328,_temp344)
+      _dummy_ =  true_question(_self, _temp320,_temp336)
 
     elseif true_question then
       _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
     else
             if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
-        _dummy_ =  _self:true_question(_temp328,_temp344)
+        _dummy_ =  _self:true_question(_temp320,_temp336)
       elseif _self.true_question ~= nil then
         _dummy_ =  _self.true_question
 
@@ -14338,211 +14113,211 @@ end
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _dummy_ =  _self:no_undermethod(string:new("true?") , _temp328,_temp344)
+        _dummy_ =  _self:no_undermethod(string:new("true?") , _temp320,_temp336)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _dummy_ =  no_undermethod(_self, string:new("true?") , _temp328,_temp344)
+        _dummy_ =  no_undermethod(_self, string:new("true?") , _temp320,_temp336)
       else
         _error(exception:name_error("true?"))
       end
     end
 
 do
-local _temp345 = nil
-        local _t = _type(_temp326)
+local _temp337 = nil
+        local _t = _type(_temp318)
         if _t == "table" then
-          if _rawget(_temp326, "__call_thing") == nil then
-            _temp345 = _temp326
+          if _rawget(_temp318, "__call_thing") == nil then
+            _temp337 = _temp318
           else
-                  if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp345 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp345 =  _self._temp326
+                  if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp337 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp337 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp345 =  _self:no_undermethod(string:new("_temp326"))
+          _temp337 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp345 =  _temp326(_self)
+        _temp337 =  _temp318(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp345 = _temp326
+          _temp337 = _temp318
         elseif _t == "function" then
-                if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp345 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp345 =  _self._temp326
+                if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp337 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp337 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp345 =  _self:no_undermethod(string:new("_temp326"))
+          _temp337 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp345 =  _temp326(_self)
+        _temp337 =  _temp318(_self)
       end
 
-        elseif _temp326 == nil then
+        elseif _temp318 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
 
-local _temp346 = nil
-      local _t = _type(_temp345)
+local _temp338 = nil
+      local _t = _type(_temp337)
       if _t == "table" then
-                      if _type(_temp345.out) == "function" or (_type(_temp345.out) == "table" and _rawget(_temp345.out, "__call_thing")) then
-        _temp346 = _temp345:out()
-      elseif _temp345.out ~= nil then
-        _temp346 = _temp345.out
+                      if _type(_temp337.out) == "function" or (_type(_temp337.out) == "table" and _rawget(_temp337.out, "__call_thing")) then
+        _temp338 = _temp337:out()
+      elseif _temp337.out ~= nil then
+        _temp338 = _temp337.out
 
-        elseif _temp345.no_undermethod ~= nil then
-          _temp346 =  _temp345:no_undermethod(string:new("out"))
+        elseif _temp337.no_undermethod ~= nil then
+          _temp338 =  _temp337:no_undermethod(string:new("out"))
         else
-          _error(exception:method_error(_temp345, "out"))
+          _error(exception:method_error(_temp337, "out"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp345)
+              local _n = number:new(_temp337)
       if _n.out ~= nil then
-        _temp346 = _n:out()
+        _temp338 = _n:out()
       elseif _n.no_undermethod ~= nil then
-        _temp346 =  _n:no_undermethod(string:new("out"))
+        _temp338 =  _n:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp345, "out"))
+        _error(exception:method_error(_temp337, "out"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp345)
+              local _f = brat_function:new(_temp337)
       if _f.out ~= nil then
-        _temp346 = _f:out()
+        _temp338 = _f:out()
       elseif _f.no_undermethod ~= nil then
-        _temp346 =  _f:no_undermethod(string:new("out"))
+        _temp338 =  _f:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp345, "out"))
+        _error(exception:method_error(_temp337, "out"))
       end
 
-      elseif _temp345 == nil then
-        _error(exception:null_error("_temp345", "invoke out on it"))
+      elseif _temp337 == nil then
+        _error(exception:null_error("_temp337", "invoke out on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp345))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp337))
       end
 
-local _temp347
+local _temp339
 do
-    if _type(_temp325) == "function" or (_type(_temp325) == "table" and _rawget(_temp325, "__call_thing")) then
-      _temp347 =  _temp325(_self)
+    if _type(_temp317) == "function" or (_type(_temp317) == "table" and _rawget(_temp317, "__call_thing")) then
+      _temp339 =  _temp317(_self)
 
-    elseif _temp325 then
-      _temp347 =  _temp325
+    elseif _temp317 then
+      _temp339 =  _temp317
     else
             if _type(_self.args) == "function" or (_type(_self.args) == "table" and _rawget(_self.args, "__call_thing")) then
-        _temp347 =  _self:args()
+        _temp339 =  _self:args()
       elseif _self.args ~= nil then
-        _temp347 =  _self.args
+        _temp339 =  _self.args
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp347 =  _self:no_undermethod(string:new("args"))
+        _temp339 =  _self:no_undermethod(string:new("args"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp347 =  no_undermethod(_self, string:new("args"))
+        _temp339 =  no_undermethod(_self, string:new("args"))
       else
         _error(exception:name_error("args"))
       end
     end
-local _temp348 = string:new("out")
+local _temp340 = string:new("out")
 
 
-_temp347 = _temp347:get(_temp348)
+_temp339 = _temp339:get(_temp340)
 end
-local _temp349
-      local _t = _type(_temp346)
+local _temp341
+      local _t = _type(_temp338)
       if _t == "table" then
-                      if _type(_temp346._less_less) == "function" or (_type(_temp346._less_less) == "table" and _rawget(_temp346._less_less, "__call_thing")) then
-        _temp349 = _temp346:_less_less(_temp347)
-      elseif _temp346._less_less ~= nil then
-        _temp349 = _temp346._less_less
+                      if _type(_temp338._less_less) == "function" or (_type(_temp338._less_less) == "table" and _rawget(_temp338._less_less, "__call_thing")) then
+        _temp341 = _temp338:_less_less(_temp339)
+      elseif _temp338._less_less ~= nil then
+        _temp341 = _temp338._less_less
 
-        elseif _temp346.no_undermethod ~= nil then
-          _temp349 =  _temp346:no_undermethod(string:new("<<") , _temp347)
+        elseif _temp338.no_undermethod ~= nil then
+          _temp341 =  _temp338:no_undermethod(string:new("<<") , _temp339)
         else
-          _error(exception:method_error(_temp346, "<<"))
+          _error(exception:method_error(_temp338, "<<"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp346)
+              local _n = number:new(_temp338)
       if _n._less_less ~= nil then
-        _temp349 = _n:_less_less(_temp347)
+        _temp341 = _n:_less_less(_temp339)
       elseif _n.no_undermethod ~= nil then
-        _temp349 =  _n:no_undermethod(string:new("<<") , _temp347)
+        _temp341 =  _n:no_undermethod(string:new("<<") , _temp339)
       else
-        _error(exception:method_error(_temp346, "<<"))
+        _error(exception:method_error(_temp338, "<<"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp346)
+              local _f = brat_function:new(_temp338)
       if _f._less_less ~= nil then
-        _temp349 = _f:_less_less(_temp347)
+        _temp341 = _f:_less_less(_temp339)
       elseif _f.no_undermethod ~= nil then
-        _temp349 =  _f:no_undermethod(string:new("<<") , _temp347)
+        _temp341 =  _f:no_undermethod(string:new("<<") , _temp339)
       else
-        _error(exception:method_error(_temp346, "<<"))
+        _error(exception:method_error(_temp338, "<<"))
       end
 
-      elseif _temp346 == nil then
-        _error(exception:null_error("_temp346", "invoke << on it"))
+      elseif _temp338 == nil then
+        _error(exception:null_error("_temp338", "invoke << on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp346))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp338))
       end
 
-_dummy_ = _temp349 
+_dummy_ = _temp341 
 end
 
-local _temp350
+local _temp342
         local _t = _type(_temp314)
         if _t == "table" then
           if _rawget(_temp314, "__call_thing") == nil then
-            _temp350 = _temp314
+            _temp342 = _temp314
           else
                   if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp350 =  _self:_temp314()
+        _temp342 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp350 =  _self._temp314
+        _temp342 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp350 =  _self:no_undermethod(string:new("_temp314"))
+          _temp342 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp350 =  _temp314(_self)
+        _temp342 =  _temp314(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp350 = _temp314
+          _temp342 = _temp314
         elseif _t == "function" then
                 if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp350 =  _self:_temp314()
+        _temp342 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp350 =  _self._temp314
+        _temp342 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp350 =  _self:no_undermethod(string:new("_temp314"))
+          _temp342 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp350 =  _temp314(_self)
+        _temp342 =  _temp314(_self)
       end
 
         elseif _temp314 == nil then
@@ -14550,498 +14325,839 @@ local _temp350
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp350)
+      local _t = _type(_temp342)
       if _t == "table" then
-                      if _type(_temp350.body) == "function" or (_type(_temp350.body) == "table" and _rawget(_temp350.body, "__call_thing")) then
-        _temp350 = _temp350:body()
-      elseif _temp350.body ~= nil then
-        _temp350 = _temp350.body
+                      if _type(_temp342.body) == "function" or (_type(_temp342.body) == "table" and _rawget(_temp342.body, "__call_thing")) then
+        _temp342 = _temp342:body()
+      elseif _temp342.body ~= nil then
+        _temp342 = _temp342.body
 
-        elseif _temp350.no_undermethod ~= nil then
-          _temp350 =  _temp350:no_undermethod(string:new("body"))
+        elseif _temp342.no_undermethod ~= nil then
+          _temp342 =  _temp342:no_undermethod(string:new("body"))
         else
           _error(exception:method_error("body", "body"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp350)
+              local _n = number:new(_temp342)
       if _n.body ~= nil then
-        _temp350 = _n:body()
+        _temp342 = _n:body()
       elseif _n.no_undermethod ~= nil then
-        _temp350 =  _n:no_undermethod(string:new("body"))
+        _temp342 =  _n:no_undermethod(string:new("body"))
       else
         _error(exception:method_error("body", "body"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp350)
+              local _f = brat_function:new(_temp342)
       if _f.body ~= nil then
-        _temp350 = _f:body()
+        _temp342 = _f:body()
       elseif _f.no_undermethod ~= nil then
-        _temp350 =  _f:no_undermethod(string:new("body"))
+        _temp342 =  _f:no_undermethod(string:new("body"))
       else
         _error(exception:method_error("body", "body"))
       end
 
-      elseif _temp350 == nil then
+      elseif _temp342 == nil then
         _error(exception:null_error("body", "invoke body on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp350))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp342))
       end
 
-      local _t = _type(_temp350)
+      local _t = _type(_temp342)
       if _t == "table" then
-                      if _type(_temp350.copy) == "function" or (_type(_temp350.copy) == "table" and _rawget(_temp350.copy, "__call_thing")) then
-        _temp350 = _temp350:copy()
-      elseif _temp350.copy ~= nil then
-        _temp350 = _temp350.copy
+                      if _type(_temp342.copy) == "function" or (_type(_temp342.copy) == "table" and _rawget(_temp342.copy, "__call_thing")) then
+        _temp342 = _temp342:copy()
+      elseif _temp342.copy ~= nil then
+        _temp342 = _temp342.copy
 
-        elseif _temp350.no_undermethod ~= nil then
-          _temp350 =  _temp350:no_undermethod(string:new("copy"))
+        elseif _temp342.no_undermethod ~= nil then
+          _temp342 =  _temp342:no_undermethod(string:new("copy"))
         else
           _error(exception:method_error("body", "copy"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp350)
+              local _n = number:new(_temp342)
       if _n.copy ~= nil then
-        _temp350 = _n:copy()
+        _temp342 = _n:copy()
       elseif _n.no_undermethod ~= nil then
-        _temp350 =  _n:no_undermethod(string:new("copy"))
+        _temp342 =  _n:no_undermethod(string:new("copy"))
       else
         _error(exception:method_error("body", "copy"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp350)
+              local _f = brat_function:new(_temp342)
       if _f.copy ~= nil then
-        _temp350 = _f:copy()
+        _temp342 = _f:copy()
       elseif _f.no_undermethod ~= nil then
-        _temp350 =  _f:no_undermethod(string:new("copy"))
+        _temp342 =  _f:no_undermethod(string:new("copy"))
       else
         _error(exception:method_error("body", "copy"))
       end
 
-      elseif _temp350 == nil then
+      elseif _temp342 == nil then
         _error(exception:null_error("body", "invoke copy on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp350))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp342))
       end
 
 
-local _temp351
-        local _t = _type(_temp350)
+local _temp343
+        local _t = _type(_temp342)
         if _t == "table" then
-          if _rawget(_temp350, "__call_thing") == nil then
-            _temp351 = _temp350
+          if _rawget(_temp342, "__call_thing") == nil then
+            _temp343 = _temp342
           else
-                  if _temp350 == nil then
-              if _type(_self._temp350) == "function" or (_type(_self._temp350) == "table" and _rawget(_self._temp350, "__call_thing")) then
-        _temp351 =  _self:_temp350()
-      elseif _self._temp350 ~= nil then
-        _temp351 =  _self._temp350
+                  if _temp342 == nil then
+              if _type(_self._temp342) == "function" or (_type(_self._temp342) == "table" and _rawget(_self._temp342, "__call_thing")) then
+        _temp343 =  _self:_temp342()
+      elseif _self._temp342 ~= nil then
+        _temp343 =  _self._temp342
 
         elseif _self.no_undermethod ~= nil then
-          _temp351 =  _self:no_undermethod(string:new("_temp350"))
+          _temp343 =  _self:no_undermethod(string:new("_temp342"))
         else
           _error(exception:null_error("body", "invoke method"))
         end
       else 
-        _temp351 =  _temp350(_self)
+        _temp343 =  _temp342(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp351 = _temp350
+          _temp343 = _temp342
         elseif _t == "function" then
-                if _temp350 == nil then
-              if _type(_self._temp350) == "function" or (_type(_self._temp350) == "table" and _rawget(_self._temp350, "__call_thing")) then
-        _temp351 =  _self:_temp350()
-      elseif _self._temp350 ~= nil then
-        _temp351 =  _self._temp350
+                if _temp342 == nil then
+              if _type(_self._temp342) == "function" or (_type(_self._temp342) == "table" and _rawget(_self._temp342, "__call_thing")) then
+        _temp343 =  _self:_temp342()
+      elseif _self._temp342 ~= nil then
+        _temp343 =  _self._temp342
 
         elseif _self.no_undermethod ~= nil then
-          _temp351 =  _self:no_undermethod(string:new("_temp350"))
+          _temp343 =  _self:no_undermethod(string:new("_temp342"))
         else
           _error(exception:null_error("body", "invoke method"))
         end
       else 
-        _temp351 =  _temp350(_self)
+        _temp343 =  _temp342(_self)
       end
 
-        elseif _temp350 == nil then
+        elseif _temp342 == nil then
           _error(exception:null_error("body", "cannot call method on it"))
         else
           _error(exception:method_error("self", "body"))
         end
-      local _t = _type(_temp351)
+      local _t = _type(_temp343)
       if _t == "table" then
-                      if _type(_temp351.pop) == "function" or (_type(_temp351.pop) == "table" and _rawget(_temp351.pop, "__call_thing")) then
-        _temp351 = _temp351:pop()
-      elseif _temp351.pop ~= nil then
-        _temp351 = _temp351.pop
+                      if _type(_temp343.pop) == "function" or (_type(_temp343.pop) == "table" and _rawget(_temp343.pop, "__call_thing")) then
+        _temp343 = _temp343:pop()
+      elseif _temp343.pop ~= nil then
+        _temp343 = _temp343.pop
 
-        elseif _temp351.no_undermethod ~= nil then
-          _temp351 =  _temp351:no_undermethod(string:new("pop"))
+        elseif _temp343.no_undermethod ~= nil then
+          _temp343 =  _temp343:no_undermethod(string:new("pop"))
         else
           _error(exception:method_error("last", "pop"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp351)
+              local _n = number:new(_temp343)
       if _n.pop ~= nil then
-        _temp351 = _n:pop()
+        _temp343 = _n:pop()
       elseif _n.no_undermethod ~= nil then
-        _temp351 =  _n:no_undermethod(string:new("pop"))
+        _temp343 =  _n:no_undermethod(string:new("pop"))
       else
         _error(exception:method_error("last", "pop"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp351)
+              local _f = brat_function:new(_temp343)
       if _f.pop ~= nil then
-        _temp351 = _f:pop()
+        _temp343 = _f:pop()
       elseif _f.no_undermethod ~= nil then
-        _temp351 =  _f:no_undermethod(string:new("pop"))
+        _temp343 =  _f:no_undermethod(string:new("pop"))
       else
         _error(exception:method_error("last", "pop"))
       end
 
-      elseif _temp351 == nil then
+      elseif _temp343 == nil then
         _error(exception:null_error("last", "invoke pop on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp351))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp343))
       end
 
 
-local _temp352
-        local _t = _type(_temp350)
+local _temp344
+        local _t = _type(_temp342)
         if _t == "table" then
-          if _rawget(_temp350, "__call_thing") == nil then
-            _temp352 = _temp350
+          if _rawget(_temp342, "__call_thing") == nil then
+            _temp344 = _temp342
           else
-                  if _temp350 == nil then
-              if _type(_self._temp350) == "function" or (_type(_self._temp350) == "table" and _rawget(_self._temp350, "__call_thing")) then
-        _temp352 =  _self:_temp350()
-      elseif _self._temp350 ~= nil then
-        _temp352 =  _self._temp350
+                  if _temp342 == nil then
+              if _type(_self._temp342) == "function" or (_type(_self._temp342) == "table" and _rawget(_self._temp342, "__call_thing")) then
+        _temp344 =  _self:_temp342()
+      elseif _self._temp342 ~= nil then
+        _temp344 =  _self._temp342
 
         elseif _self.no_undermethod ~= nil then
-          _temp352 =  _self:no_undermethod(string:new("_temp350"))
+          _temp344 =  _self:no_undermethod(string:new("_temp342"))
         else
           _error(exception:null_error("body", "invoke method"))
         end
       else 
-        _temp352 =  _temp350(_self)
+        _temp344 =  _temp342(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp352 = _temp350
+          _temp344 = _temp342
         elseif _t == "function" then
-                if _temp350 == nil then
-              if _type(_self._temp350) == "function" or (_type(_self._temp350) == "table" and _rawget(_self._temp350, "__call_thing")) then
-        _temp352 =  _self:_temp350()
-      elseif _self._temp350 ~= nil then
-        _temp352 =  _self._temp350
+                if _temp342 == nil then
+              if _type(_self._temp342) == "function" or (_type(_self._temp342) == "table" and _rawget(_self._temp342, "__call_thing")) then
+        _temp344 =  _self:_temp342()
+      elseif _self._temp342 ~= nil then
+        _temp344 =  _self._temp342
 
         elseif _self.no_undermethod ~= nil then
-          _temp352 =  _self:no_undermethod(string:new("_temp350"))
+          _temp344 =  _self:no_undermethod(string:new("_temp342"))
         else
           _error(exception:null_error("body", "invoke method"))
         end
       else 
-        _temp352 =  _temp350(_self)
+        _temp344 =  _temp342(_self)
       end
 
-        elseif _temp350 == nil then
+        elseif _temp342 == nil then
           _error(exception:null_error("body", "cannot call method on it"))
         else
           _error(exception:method_error("self", "body"))
         end
 
-_temp355 = function (_self, _temp353)
-        if _temp353 == nil then
+_temp347 = function (_self, _temp345)
+        if _temp345 == nil then
           _error(exception:argument_error("body_res", 1, 0))
 
 end
-local _temp354 = nil
-        local _t = _type(_temp323)
+local _temp346 = nil
+        local _t = _type(_temp315)
         if _t == "table" then
-          if _rawget(_temp323, "__call_thing") == nil then
-            _temp354 = _temp323
+          if _rawget(_temp315, "__call_thing") == nil then
+            _temp346 = _temp315
           else
-                  if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp354 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp354 =  _self._temp323
+                  if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp346 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp346 =  _self._temp315
 
         elseif _self.no_undermethod ~= nil then
-          _temp354 =  _self:no_undermethod(string:new("_temp323"))
+          _temp346 =  _self:no_undermethod(string:new("_temp315"))
         else
           _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp354 =  _temp323(_self)
+        _temp346 =  _temp315(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp354 = _temp323
+          _temp346 = _temp315
         elseif _t == "function" then
-                if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp354 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp354 =  _self._temp323
+                if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp346 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp346 =  _self._temp315
 
         elseif _self.no_undermethod ~= nil then
-          _temp354 =  _self:no_undermethod(string:new("_temp323"))
+          _temp346 =  _self:no_undermethod(string:new("_temp315"))
         else
           _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp354 =  _temp323(_self)
+        _temp346 =  _temp315(_self)
       end
 
-        elseif _temp323 == nil then
+        elseif _temp315 == nil then
           _error(exception:null_error("w", "cannot call method on it"))
         else
           _error(exception:method_error("self", "w"))
         end
-local _temp355 = nil
-    if _type(_temp353) == "function" or (_type(_temp353) == "table" and _rawget(_temp353, "__call_thing")) then
-      _temp355 =  _temp353(_self)
+local _temp347 = nil
+    if _type(_temp345) == "function" or (_type(_temp345) == "table" and _rawget(_temp345, "__call_thing")) then
+      _temp347 =  _temp345(_self)
 
-    elseif _temp353 then
-      _temp355 =  _temp353
+    elseif _temp345 then
+      _temp347 =  _temp345
     else
             if _type(_self.n) == "function" or (_type(_self.n) == "table" and _rawget(_self.n, "__call_thing")) then
-        _temp355 =  _self:n()
+        _temp347 =  _self:n()
       elseif _self.n ~= nil then
-        _temp355 =  _self.n
+        _temp347 =  _self.n
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp355 =  _self:no_undermethod(string:new("n"))
+        _temp347 =  _self:no_undermethod(string:new("n"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp355 =  no_undermethod(_self, string:new("n"))
+        _temp347 =  no_undermethod(_self, string:new("n"))
       else
         _error(exception:name_error("n"))
       end
     end
 
-local _temp356 = string:new("_dummy")
+local _temp348 = string:new("_dummy")
 
-      local _t = _type(_temp354)
+      local _t = _type(_temp346)
       if _t == "table" then
-                      if _type(_temp354.process) == "function" or (_type(_temp354.process) == "table" and _rawget(_temp354.process, "__call_thing")) then
-        _temp354 = _temp354:process(_temp355,_temp356)
-      elseif _temp354.process ~= nil then
-        _temp354 = _temp354.process
+                      if _type(_temp346.process) == "function" or (_type(_temp346.process) == "table" and _rawget(_temp346.process, "__call_thing")) then
+        _temp346 = _temp346:process(_temp347,_temp348)
+      elseif _temp346.process ~= nil then
+        _temp346 = _temp346.process
 
-        elseif _temp354.no_undermethod ~= nil then
-          _temp354 =  _temp354:no_undermethod(string:new("process") , _temp355,_temp356)
+        elseif _temp346.no_undermethod ~= nil then
+          _temp346 =  _temp346:no_undermethod(string:new("process") , _temp347,_temp348)
         else
-          _error(exception:method_error(_temp354, "process"))
+          _error(exception:method_error(_temp346, "process"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp354)
+              local _n = number:new(_temp346)
       if _n.process ~= nil then
-        _temp354 = _n:process(_temp355,_temp356)
+        _temp346 = _n:process(_temp347,_temp348)
       elseif _n.no_undermethod ~= nil then
-        _temp354 =  _n:no_undermethod(string:new("process") , _temp355,_temp356)
+        _temp346 =  _n:no_undermethod(string:new("process") , _temp347,_temp348)
       else
-        _error(exception:method_error(_temp354, "process"))
+        _error(exception:method_error(_temp346, "process"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp354)
+              local _f = brat_function:new(_temp346)
       if _f.process ~= nil then
-        _temp354 = _f:process(_temp355,_temp356)
+        _temp346 = _f:process(_temp347,_temp348)
       elseif _f.no_undermethod ~= nil then
-        _temp354 =  _f:no_undermethod(string:new("process") , _temp355,_temp356)
+        _temp346 =  _f:no_undermethod(string:new("process") , _temp347,_temp348)
       else
-        _error(exception:method_error(_temp354, "process"))
+        _error(exception:method_error(_temp346, "process"))
       end
 
-      elseif _temp354 == nil then
-        _error(exception:null_error("_temp354", "invoke process on it"))
+      elseif _temp346 == nil then
+        _error(exception:null_error("_temp346", "invoke process on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp354))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp346))
       end
 
-      local _t = _type(_temp354)
+      local _t = _type(_temp346)
       if _t == "table" then
-                      if _type(_temp354.out) == "function" or (_type(_temp354.out) == "table" and _rawget(_temp354.out, "__call_thing")) then
-        return _temp354:out()
-      elseif _temp354.out ~= nil then
-        return _temp354.out
+                      if _type(_temp346.out) == "function" or (_type(_temp346.out) == "table" and _rawget(_temp346.out, "__call_thing")) then
+        return _temp346:out()
+      elseif _temp346.out ~= nil then
+        return _temp346.out
 
-        elseif _temp354.no_undermethod ~= nil then
-          return  _temp354:no_undermethod(string:new("out"))
+        elseif _temp346.no_undermethod ~= nil then
+          return  _temp346:no_undermethod(string:new("out"))
         else
-          _error(exception:method_error(_temp354, "out"))
+          _error(exception:method_error(_temp346, "out"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp354)
+              local _n = number:new(_temp346)
       if _n.out ~= nil then
         return _n:out()
       elseif _n.no_undermethod ~= nil then
         return  _n:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp354, "out"))
+        _error(exception:method_error(_temp346, "out"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp354)
+              local _f = brat_function:new(_temp346)
       if _f.out ~= nil then
         return _f:out()
       elseif _f.no_undermethod ~= nil then
         return  _f:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp354, "out"))
+        _error(exception:method_error(_temp346, "out"))
       end
 
-      elseif _temp354 == nil then
-        _error(exception:null_error("_temp354", "invoke out on it"))
+      elseif _temp346 == nil then
+        _error(exception:null_error("_temp346", "invoke out on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp354))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp346))
       end
 
 end
 
-      local _t = _type(_temp352)
+      local _t = _type(_temp344)
       if _t == "table" then
-                      if _type(_temp352.map) == "function" or (_type(_temp352.map) == "table" and _rawget(_temp352.map, "__call_thing")) then
-        _temp352 = _temp352:map(_temp355)
-      elseif _temp352.map ~= nil then
-        _temp352 = _temp352.map
+                      if _type(_temp344.map) == "function" or (_type(_temp344.map) == "table" and _rawget(_temp344.map, "__call_thing")) then
+        _temp344 = _temp344:map(_temp347)
+      elseif _temp344.map ~= nil then
+        _temp344 = _temp344.map
 
-        elseif _temp352.no_undermethod ~= nil then
-          _temp352 =  _temp352:no_undermethod(string:new("map") , _temp355)
+        elseif _temp344.no_undermethod ~= nil then
+          _temp344 =  _temp344:no_undermethod(string:new("map") , _temp347)
         else
           _error(exception:method_error("body_res", "map"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp352)
+              local _n = number:new(_temp344)
       if _n.map ~= nil then
-        _temp352 = _n:map(_temp355)
+        _temp344 = _n:map(_temp347)
       elseif _n.no_undermethod ~= nil then
-        _temp352 =  _n:no_undermethod(string:new("map") , _temp355)
+        _temp344 =  _n:no_undermethod(string:new("map") , _temp347)
       else
         _error(exception:method_error("body_res", "map"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp352)
+              local _f = brat_function:new(_temp344)
       if _f.map ~= nil then
-        _temp352 = _f:map(_temp355)
+        _temp344 = _f:map(_temp347)
       elseif _f.no_undermethod ~= nil then
-        _temp352 =  _f:no_undermethod(string:new("map") , _temp355)
+        _temp344 =  _f:no_undermethod(string:new("map") , _temp347)
       else
         _error(exception:method_error("body_res", "map"))
       end
 
-      elseif _temp352 == nil then
+      elseif _temp344 == nil then
         _error(exception:null_error("body_res", "invoke map on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp352))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp344))
       end
 
-_temp355 = string:new("\n")
+_temp347 = string:new("\n")
 
-      local _t = _type(_temp352)
+      local _t = _type(_temp344)
       if _t == "table" then
-                      if _type(_temp352.join) == "function" or (_type(_temp352.join) == "table" and _rawget(_temp352.join, "__call_thing")) then
-        _temp352 = _temp352:join(_temp355)
-      elseif _temp352.join ~= nil then
-        _temp352 = _temp352.join
+                      if _type(_temp344.join) == "function" or (_type(_temp344.join) == "table" and _rawget(_temp344.join, "__call_thing")) then
+        _temp344 = _temp344:join(_temp347)
+      elseif _temp344.join ~= nil then
+        _temp344 = _temp344.join
 
-        elseif _temp352.no_undermethod ~= nil then
-          _temp352 =  _temp352:no_undermethod(string:new("join") , _temp355)
+        elseif _temp344.no_undermethod ~= nil then
+          _temp344 =  _temp344:no_undermethod(string:new("join") , _temp347)
         else
           _error(exception:method_error("body_res", "join"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp352)
+              local _n = number:new(_temp344)
       if _n.join ~= nil then
-        _temp352 = _n:join(_temp355)
+        _temp344 = _n:join(_temp347)
       elseif _n.no_undermethod ~= nil then
-        _temp352 =  _n:no_undermethod(string:new("join") , _temp355)
+        _temp344 =  _n:no_undermethod(string:new("join") , _temp347)
       else
         _error(exception:method_error("body_res", "join"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp352)
+              local _f = brat_function:new(_temp344)
       if _f.join ~= nil then
-        _temp352 = _f:join(_temp355)
+        _temp344 = _f:join(_temp347)
       elseif _f.no_undermethod ~= nil then
-        _temp352 =  _f:no_undermethod(string:new("join") , _temp355)
+        _temp344 =  _f:no_undermethod(string:new("join") , _temp347)
       else
         _error(exception:method_error("body_res", "join"))
       end
 
-      elseif _temp352 == nil then
+      elseif _temp344 == nil then
         _error(exception:null_error("body_res", "invoke join on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp352))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp344))
       end
 
 
 do
-local _temp357 = nil
-        local _t = _type(_temp326)
+local _temp349 = nil
+        local _t = _type(_temp318)
         if _t == "table" then
-          if _rawget(_temp326, "__call_thing") == nil then
-            _temp357 = _temp326
+          if _rawget(_temp318, "__call_thing") == nil then
+            _temp349 = _temp318
           else
-                  if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp357 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp357 =  _self._temp326
+                  if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp349 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp349 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp357 =  _self:no_undermethod(string:new("_temp326"))
+          _temp349 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp357 =  _temp326(_self)
+        _temp349 =  _temp318(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp357 = _temp326
+          _temp349 = _temp318
         elseif _t == "function" then
-                if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp357 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp357 =  _self._temp326
+                if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp349 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp349 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp357 =  _self:no_undermethod(string:new("_temp326"))
+          _temp349 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp357 =  _temp326(_self)
+        _temp349 =  _temp318(_self)
       end
 
-        elseif _temp326 == nil then
+        elseif _temp318 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
+        end
+
+local _temp350 = nil
+      local _t = _type(_temp349)
+      if _t == "table" then
+                      if _type(_temp349.out) == "function" or (_type(_temp349.out) == "table" and _rawget(_temp349.out, "__call_thing")) then
+        _temp350 = _temp349:out()
+      elseif _temp349.out ~= nil then
+        _temp350 = _temp349.out
+
+        elseif _temp349.no_undermethod ~= nil then
+          _temp350 =  _temp349:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp349, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp349)
+      if _n.out ~= nil then
+        _temp350 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp350 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp349, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp349)
+      if _f.out ~= nil then
+        _temp350 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp350 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp349, "out"))
+      end
+
+      elseif _temp349 == nil then
+        _error(exception:null_error("_temp349", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp349))
+      end
+
+local _temp351 = nil
+    if _type(_temp344) == "function" or (_type(_temp344) == "table" and _rawget(_temp344, "__call_thing")) then
+      _temp351 =  _temp344(_self)
+
+    elseif _temp344 then
+      _temp351 =  _temp344
+    else
+            if _type(_self.body_underres) == "function" or (_type(_self.body_underres) == "table" and _rawget(_self.body_underres, "__call_thing")) then
+        _temp351 =  _self:body_underres()
+      elseif _self.body_underres ~= nil then
+        _temp351 =  _self.body_underres
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp351 =  _self:no_undermethod(string:new("body_res"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp351 =  no_undermethod(_self, string:new("body_res"))
+      else
+        _error(exception:name_error("body_res"))
+      end
+    end
+local _temp352
+      local _t = _type(_temp350)
+      if _t == "table" then
+                      if _type(_temp350._less_less) == "function" or (_type(_temp350._less_less) == "table" and _rawget(_temp350._less_less, "__call_thing")) then
+        _temp352 = _temp350:_less_less(_temp351)
+      elseif _temp350._less_less ~= nil then
+        _temp352 = _temp350._less_less
+
+        elseif _temp350.no_undermethod ~= nil then
+          _temp352 =  _temp350:no_undermethod(string:new("<<") , _temp351)
+        else
+          _error(exception:method_error(_temp350, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp350)
+      if _n._less_less ~= nil then
+        _temp352 = _n:_less_less(_temp351)
+      elseif _n.no_undermethod ~= nil then
+        _temp352 =  _n:no_undermethod(string:new("<<") , _temp351)
+      else
+        _error(exception:method_error(_temp350, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp350)
+      if _f._less_less ~= nil then
+        _temp352 = _f:_less_less(_temp351)
+      elseif _f.no_undermethod ~= nil then
+        _temp352 =  _f:no_undermethod(string:new("<<") , _temp351)
+      else
+        _error(exception:method_error(_temp350, "<<"))
+      end
+
+      elseif _temp350 == nil then
+        _error(exception:null_error("_temp350", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp350))
+      end
+
+_dummy_ = _temp352 
+end
+
+    if _type(_temp343) == "function" or (_type(_temp343) == "table" and _rawget(_temp343, "__call_thing")) then
+      _temp347 =  _temp343(_self)
+
+    elseif _temp343 then
+      _temp347 =  _temp343
+    else
+            if _type(_self.last) == "function" or (_type(_self.last) == "table" and _rawget(_self.last, "__call_thing")) then
+        _temp347 =  _self:last()
+      elseif _self.last ~= nil then
+        _temp347 =  _self.last
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp347 =  _self:no_undermethod(string:new("last"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp347 =  no_undermethod(_self, string:new("last"))
+      else
+        _error(exception:name_error("last"))
+      end
+    end
+
+
+local _temp364 = function (_self)
+
+local _temp353
+              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
+        _temp353 =  _self:my()
+      elseif _self.my ~= nil then
+        _temp353 =  _self.my
+
+        elseif my ~= nil then
+          _temp353 = my;
+        else
+          _error(exception:method_error("self", "my"))
+        end
+local _temp354 = nil
+    if _type(_temp343) == "function" or (_type(_temp343) == "table" and _rawget(_temp343, "__call_thing")) then
+      _temp354 =  _temp343(_self)
+
+    elseif _temp343 then
+      _temp354 =  _temp343
+    else
+            if _type(_self.last) == "function" or (_type(_self.last) == "table" and _rawget(_self.last, "__call_thing")) then
+        _temp354 =  _self:last()
+      elseif _self.last ~= nil then
+        _temp354 =  _self.last
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp354 =  _self:no_undermethod(string:new("last"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp354 =  no_undermethod(_self, string:new("last"))
+      else
+        _error(exception:name_error("last"))
+      end
+    end
+
+      local _t = _type(_temp353)
+      if _t == "table" then
+                      if _type(_temp353.process) == "function" or (_type(_temp353.process) == "table" and _rawget(_temp353.process, "__call_thing")) then
+        _temp353 = _temp353:process(_temp354)
+      elseif _temp353.process ~= nil then
+        _temp353 = _temp353.process
+
+        elseif _temp353.no_undermethod ~= nil then
+          _temp353 =  _temp353:no_undermethod(string:new("process") , _temp354)
+        else
+          _error(exception:method_error("last_res", "process"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp353)
+      if _n.process ~= nil then
+        _temp353 = _n:process(_temp354)
+      elseif _n.no_undermethod ~= nil then
+        _temp353 =  _n:no_undermethod(string:new("process") , _temp354)
+      else
+        _error(exception:method_error("last_res", "process"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp353)
+      if _f.process ~= nil then
+        _temp353 = _f:process(_temp354)
+      elseif _f.no_undermethod ~= nil then
+        _temp353 =  _f:no_undermethod(string:new("process") , _temp354)
+      else
+        _error(exception:method_error("last_res", "process"))
+      end
+
+      elseif _temp353 == nil then
+        _error(exception:null_error("last_res", "invoke process on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp353))
+      end
+
+
+local _temp354 
+do
+local _temp355 = nil
+        local _t = _type(_temp318)
+        if _t == "table" then
+          if _rawget(_temp318, "__call_thing") == nil then
+            _temp355 = _temp318
+          else
+                  if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp355 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp355 =  _self._temp318
+
+        elseif _self.no_undermethod ~= nil then
+          _temp355 =  _self:no_undermethod(string:new("_temp318"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp355 =  _temp318(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp355 = _temp318
+        elseif _t == "function" then
+                if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp355 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp355 =  _self._temp318
+
+        elseif _self.no_undermethod ~= nil then
+          _temp355 =  _self:no_undermethod(string:new("_temp318"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp355 =  _temp318(_self)
+      end
+
+        elseif _temp318 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp356 = nil
+      local _t = _type(_temp355)
+      if _t == "table" then
+                      if _type(_temp355.out) == "function" or (_type(_temp355.out) == "table" and _rawget(_temp355.out, "__call_thing")) then
+        _temp356 = _temp355:out()
+      elseif _temp355.out ~= nil then
+        _temp356 = _temp355.out
+
+        elseif _temp355.no_undermethod ~= nil then
+          _temp356 =  _temp355:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp355, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp355)
+      if _n.out ~= nil then
+        _temp356 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp356 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp355, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp355)
+      if _f.out ~= nil then
+        _temp356 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp356 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp355, "out"))
+      end
+
+      elseif _temp355 == nil then
+        _error(exception:null_error("_temp355", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp355))
+      end
+
+local _temp357 = nil
+        local _t = _type(_temp353)
+        if _t == "table" then
+          if _rawget(_temp353, "__call_thing") == nil then
+            _temp357 = _temp353
+          else
+                  if _temp353 == nil then
+              if _type(_self._temp353) == "function" or (_type(_self._temp353) == "table" and _rawget(_self._temp353, "__call_thing")) then
+        _temp357 =  _self:_temp353()
+      elseif _self._temp353 ~= nil then
+        _temp357 =  _self._temp353
+
+        elseif _self.no_undermethod ~= nil then
+          _temp357 =  _self:no_undermethod(string:new("_temp353"))
+        else
+          _error(exception:null_error("last_res", "invoke method"))
+        end
+      else 
+        _temp357 =  _temp353(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp357 = _temp353
+        elseif _t == "function" then
+                if _temp353 == nil then
+              if _type(_self._temp353) == "function" or (_type(_self._temp353) == "table" and _rawget(_self._temp353, "__call_thing")) then
+        _temp357 =  _self:_temp353()
+      elseif _self._temp353 ~= nil then
+        _temp357 =  _self._temp353
+
+        elseif _self.no_undermethod ~= nil then
+          _temp357 =  _self:no_undermethod(string:new("_temp353"))
+        else
+          _error(exception:null_error("last_res", "invoke method"))
+        end
+      else 
+        _temp357 =  _temp353(_self)
+      end
+
+        elseif _temp353 == nil then
+          _error(exception:null_error("last_res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "last_res"))
         end
 
 local _temp358 = nil
@@ -15084,39 +15200,187 @@ local _temp358 = nil
         _error("Tried to invoke method on something strange: " .. _tostring(_temp357))
       end
 
-local _temp359 = nil
-    if _type(_temp352) == "function" or (_type(_temp352) == "table" and _rawget(_temp352, "__call_thing")) then
-      _temp359 =  _temp352(_self)
+local _temp359 = string:new("\n")
 
-    elseif _temp352 then
-      _temp359 =  _temp352
-    else
-            if _type(_self.body_underres) == "function" or (_type(_self.body_underres) == "table" and _rawget(_self.body_underres, "__call_thing")) then
-        _temp359 =  _self:body_underres()
-      elseif _self.body_underres ~= nil then
-        _temp359 =  _self.body_underres
+local _temp360 = nil
+do
+local _temp361 = nil
+        local _t = _type(_temp353)
+        if _t == "table" then
+          if _rawget(_temp353, "__call_thing") == nil then
+            _temp361 = _temp353
+          else
+                  if _temp353 == nil then
+              if _type(_self._temp353) == "function" or (_type(_self._temp353) == "table" and _rawget(_self._temp353, "__call_thing")) then
+        _temp361 =  _self:_temp353()
+      elseif _self._temp353 ~= nil then
+        _temp361 =  _self._temp353
 
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp359 =  _self:no_undermethod(string:new("body_res"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp359 =  no_undermethod(_self, string:new("body_res"))
-      else
-        _error(exception:name_error("body_res"))
+        elseif _self.no_undermethod ~= nil then
+          _temp361 =  _self:no_undermethod(string:new("_temp353"))
+        else
+          _error(exception:null_error("last_res", "invoke method"))
+        end
+      else 
+        _temp361 =  _temp353(_self)
       end
-    end
-local _temp360
+
+          end
+        elseif _t == "number" then
+          _temp361 = _temp353
+        elseif _t == "function" then
+                if _temp353 == nil then
+              if _type(_self._temp353) == "function" or (_type(_self._temp353) == "table" and _rawget(_self._temp353, "__call_thing")) then
+        _temp361 =  _self:_temp353()
+      elseif _self._temp353 ~= nil then
+        _temp361 =  _self._temp353
+
+        elseif _self.no_undermethod ~= nil then
+          _temp361 =  _self:no_undermethod(string:new("_temp353"))
+        else
+          _error(exception:null_error("last_res", "invoke method"))
+        end
+      else 
+        _temp361 =  _temp353(_self)
+      end
+
+        elseif _temp353 == nil then
+          _error(exception:null_error("last_res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "last_res"))
+        end
+      local _t = _type(_temp361)
+      if _t == "table" then
+                      if _type(_temp361.var) == "function" or (_type(_temp361.var) == "table" and _rawget(_temp361.var, "__call_thing")) then
+        _temp361 = _temp361:var()
+      elseif _temp361.var ~= nil then
+        _temp361 = _temp361.var
+
+        elseif _temp361.no_undermethod ~= nil then
+          _temp361 =  _temp361:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp361, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp361)
+      if _n.var ~= nil then
+        _temp361 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp361 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp361, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp361)
+      if _f.var ~= nil then
+        _temp361 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp361 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp361, "var"))
+      end
+
+      elseif _temp361 == nil then
+        _error(exception:null_error("_temp361", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp361))
+      end
+
+
+_temp360 = string:new("return " .. _tostring(_temp361) .. "\n")
+end
+local _temp362
+      local _t = _type(_temp356)
+      if _t == "table" then
+                      if _type(_temp356._less_less) == "function" or (_type(_temp356._less_less) == "table" and _rawget(_temp356._less_less, "__call_thing")) then
+        _temp362 = _temp356:_less_less(_temp358)
+      elseif _temp356._less_less ~= nil then
+        _temp362 = _temp356._less_less
+
+        elseif _temp356.no_undermethod ~= nil then
+          _temp362 =  _temp356:no_undermethod(string:new("<<") , _temp358)
+        else
+          _error(exception:method_error(_temp356, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp356)
+      if _n._less_less ~= nil then
+        _temp362 = _n:_less_less(_temp358)
+      elseif _n.no_undermethod ~= nil then
+        _temp362 =  _n:no_undermethod(string:new("<<") , _temp358)
+      else
+        _error(exception:method_error(_temp356, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp356)
+      if _f._less_less ~= nil then
+        _temp362 = _f:_less_less(_temp358)
+      elseif _f.no_undermethod ~= nil then
+        _temp362 =  _f:no_undermethod(string:new("<<") , _temp358)
+      else
+        _error(exception:method_error(_temp356, "<<"))
+      end
+
+      elseif _temp356 == nil then
+        _error(exception:null_error("_temp356", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp356))
+      end
+
+local _temp358
+      local _t = _type(_temp362)
+      if _t == "table" then
+                      if _type(_temp362._less_less) == "function" or (_type(_temp362._less_less) == "table" and _rawget(_temp362._less_less, "__call_thing")) then
+        _temp358 = _temp362:_less_less(_temp359)
+      elseif _temp362._less_less ~= nil then
+        _temp358 = _temp362._less_less
+
+        elseif _temp362.no_undermethod ~= nil then
+          _temp358 =  _temp362:no_undermethod(string:new("<<") , _temp359)
+        else
+          _error(exception:method_error(_temp362, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp362)
+      if _n._less_less ~= nil then
+        _temp358 = _n:_less_less(_temp359)
+      elseif _n.no_undermethod ~= nil then
+        _temp358 =  _n:no_undermethod(string:new("<<") , _temp359)
+      else
+        _error(exception:method_error(_temp362, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp362)
+      if _f._less_less ~= nil then
+        _temp358 = _f:_less_less(_temp359)
+      elseif _f.no_undermethod ~= nil then
+        _temp358 =  _f:no_undermethod(string:new("<<") , _temp359)
+      else
+        _error(exception:method_error(_temp362, "<<"))
+      end
+
+      elseif _temp362 == nil then
+        _error(exception:null_error("_temp362", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp362))
+      end
+
+local _temp359
       local _t = _type(_temp358)
       if _t == "table" then
                       if _type(_temp358._less_less) == "function" or (_type(_temp358._less_less) == "table" and _rawget(_temp358._less_less, "__call_thing")) then
-        _temp360 = _temp358:_less_less(_temp359)
+        _temp359 = _temp358:_less_less(_temp360)
       elseif _temp358._less_less ~= nil then
-        _temp360 = _temp358._less_less
+        _temp359 = _temp358._less_less
 
         elseif _temp358.no_undermethod ~= nil then
-          _temp360 =  _temp358:no_undermethod(string:new("<<") , _temp359)
+          _temp359 =  _temp358:no_undermethod(string:new("<<") , _temp360)
         else
           _error(exception:method_error(_temp358, "<<"))
         end
@@ -15124,9 +15388,9 @@ local _temp360
       elseif _t == "number" then
               local _n = number:new(_temp358)
       if _n._less_less ~= nil then
-        _temp360 = _n:_less_less(_temp359)
+        _temp359 = _n:_less_less(_temp360)
       elseif _n.no_undermethod ~= nil then
-        _temp360 =  _n:no_undermethod(string:new("<<") , _temp359)
+        _temp359 =  _n:no_undermethod(string:new("<<") , _temp360)
       else
         _error(exception:method_error(_temp358, "<<"))
       end
@@ -15134,9 +15398,9 @@ local _temp360
       elseif _t == "function" then
               local _f = brat_function:new(_temp358)
       if _f._less_less ~= nil then
-        _temp360 = _f:_less_less(_temp359)
+        _temp359 = _f:_less_less(_temp360)
       elseif _f.no_undermethod ~= nil then
-        _temp360 =  _f:no_undermethod(string:new("<<") , _temp359)
+        _temp359 =  _f:no_undermethod(string:new("<<") , _temp360)
       else
         _error(exception:method_error(_temp358, "<<"))
       end
@@ -15147,635 +15411,416 @@ local _temp360
         _error("Tried to invoke method on something strange: " .. _tostring(_temp358))
       end
 
-_dummy_ = _temp360 
+_temp354 = _temp359 
 end
 
-    if _type(_temp351) == "function" or (_type(_temp351) == "table" and _rawget(_temp351, "__call_thing")) then
-      _temp355 =  _temp351(_self)
-
-    elseif _temp351 then
-      _temp355 =  _temp351
-    else
-            if _type(_self.last) == "function" or (_type(_self.last) == "table" and _rawget(_self.last, "__call_thing")) then
-        _temp355 =  _self:last()
-      elseif _self.last ~= nil then
-        _temp355 =  _self.last
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp355 =  _self:no_undermethod(string:new("last"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp355 =  no_undermethod(_self, string:new("last"))
-      else
-        _error(exception:name_error("last"))
-      end
-    end
+return _temp354
+end
 
 
-local _temp372 = function (_self)
+local _temp374 = function (_self)
 
-local _temp361
-              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp361 =  _self:my()
-      elseif _self.my ~= nil then
-        _temp361 =  _self.my
-
-        elseif my ~= nil then
-          _temp361 = my;
-        else
-          _error(exception:method_error("self", "my"))
-        end
-local _temp362 = nil
-    if _type(_temp351) == "function" or (_type(_temp351) == "table" and _rawget(_temp351, "__call_thing")) then
-      _temp362 =  _temp351(_self)
-
-    elseif _temp351 then
-      _temp362 =  _temp351
-    else
-            if _type(_self.last) == "function" or (_type(_self.last) == "table" and _rawget(_self.last, "__call_thing")) then
-        _temp362 =  _self:last()
-      elseif _self.last ~= nil then
-        _temp362 =  _self.last
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp362 =  _self:no_undermethod(string:new("last"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp362 =  no_undermethod(_self, string:new("last"))
-      else
-        _error(exception:name_error("last"))
-      end
-    end
-
-      local _t = _type(_temp361)
-      if _t == "table" then
-                      if _type(_temp361.process) == "function" or (_type(_temp361.process) == "table" and _rawget(_temp361.process, "__call_thing")) then
-        _temp361 = _temp361:process(_temp362)
-      elseif _temp361.process ~= nil then
-        _temp361 = _temp361.process
-
-        elseif _temp361.no_undermethod ~= nil then
-          _temp361 =  _temp361:no_undermethod(string:new("process") , _temp362)
-        else
-          _error(exception:method_error("last_res", "process"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp361)
-      if _n.process ~= nil then
-        _temp361 = _n:process(_temp362)
-      elseif _n.no_undermethod ~= nil then
-        _temp361 =  _n:no_undermethod(string:new("process") , _temp362)
-      else
-        _error(exception:method_error("last_res", "process"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp361)
-      if _f.process ~= nil then
-        _temp361 = _f:process(_temp362)
-      elseif _f.no_undermethod ~= nil then
-        _temp361 =  _f:no_undermethod(string:new("process") , _temp362)
-      else
-        _error(exception:method_error("last_res", "process"))
-      end
-
-      elseif _temp361 == nil then
-        _error(exception:null_error("last_res", "invoke process on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp361))
-      end
-
-
-local _temp362 
-do
-local _temp363 = nil
-        local _t = _type(_temp326)
+local _temp365 = nil
+        local _t = _type(_temp342)
         if _t == "table" then
-          if _rawget(_temp326, "__call_thing") == nil then
-            _temp363 = _temp326
+          if _rawget(_temp342, "__call_thing") == nil then
+            _temp365 = _temp342
           else
-                  if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp363 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp363 =  _self._temp326
+                  if _temp342 == nil then
+              if _type(_self._temp342) == "function" or (_type(_self._temp342) == "table" and _rawget(_self._temp342, "__call_thing")) then
+        _temp365 =  _self:_temp342()
+      elseif _self._temp342 ~= nil then
+        _temp365 =  _self._temp342
 
         elseif _self.no_undermethod ~= nil then
-          _temp363 =  _self:no_undermethod(string:new("_temp326"))
+          _temp365 =  _self:no_undermethod(string:new("_temp342"))
         else
-          _error(exception:null_error("res", "invoke method"))
+          _error(exception:null_error("body", "invoke method"))
         end
       else 
-        _temp363 =  _temp326(_self)
+        _temp365 =  _temp342(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp363 = _temp326
+          _temp365 = _temp342
         elseif _t == "function" then
-                if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp363 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp363 =  _self._temp326
+                if _temp342 == nil then
+              if _type(_self._temp342) == "function" or (_type(_self._temp342) == "table" and _rawget(_self._temp342, "__call_thing")) then
+        _temp365 =  _self:_temp342()
+      elseif _self._temp342 ~= nil then
+        _temp365 =  _self._temp342
 
         elseif _self.no_undermethod ~= nil then
-          _temp363 =  _self:no_undermethod(string:new("_temp326"))
+          _temp365 =  _self:no_undermethod(string:new("_temp342"))
+        else
+          _error(exception:null_error("body", "invoke method"))
+        end
+      else 
+        _temp365 =  _temp342(_self)
+      end
+
+        elseif _temp342 == nil then
+          _error(exception:null_error("body", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "body"))
+        end
+      local _t = _type(_temp365)
+      if _t == "table" then
+                      if _type(_temp365.empty_question) == "function" or (_type(_temp365.empty_question) == "table" and _rawget(_temp365.empty_question, "__call_thing")) then
+        _temp365 = _temp365:empty_question()
+      elseif _temp365.empty_question ~= nil then
+        _temp365 = _temp365.empty_question
+
+        elseif _temp365.no_undermethod ~= nil then
+          _temp365 =  _temp365:no_undermethod(string:new("empty?"))
+        else
+          _error(exception:method_error(_temp365, "empty?"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp365)
+      if _n.empty_question ~= nil then
+        _temp365 = _n:empty_question()
+      elseif _n.no_undermethod ~= nil then
+        _temp365 =  _n:no_undermethod(string:new("empty?"))
+      else
+        _error(exception:method_error(_temp365, "empty?"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp365)
+      if _f.empty_question ~= nil then
+        _temp365 = _f:empty_question()
+      elseif _f.no_undermethod ~= nil then
+        _temp365 =  _f:no_undermethod(string:new("empty?"))
+      else
+        _error(exception:method_error(_temp365, "empty?"))
+      end
+
+      elseif _temp365 == nil then
+        _error(exception:null_error("_temp365", "invoke empty? on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp365))
+      end
+
+
+
+local _temp372 = function (_self)
+
+local _temp366 
+do
+local _temp367 = nil
+        local _t = _type(_temp318)
+        if _t == "table" then
+          if _rawget(_temp318, "__call_thing") == nil then
+            _temp367 = _temp318
+          else
+                  if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp367 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp367 =  _self._temp318
+
+        elseif _self.no_undermethod ~= nil then
+          _temp367 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp363 =  _temp326(_self)
+        _temp367 =  _temp318(_self)
       end
 
-        elseif _temp326 == nil then
+          end
+        elseif _t == "number" then
+          _temp367 = _temp318
+        elseif _t == "function" then
+                if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp367 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp367 =  _self._temp318
+
+        elseif _self.no_undermethod ~= nil then
+          _temp367 =  _self:no_undermethod(string:new("_temp318"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp367 =  _temp318(_self)
+      end
+
+        elseif _temp318 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
 
-local _temp364 = nil
-      local _t = _type(_temp363)
-      if _t == "table" then
-                      if _type(_temp363.out) == "function" or (_type(_temp363.out) == "table" and _rawget(_temp363.out, "__call_thing")) then
-        _temp364 = _temp363:out()
-      elseif _temp363.out ~= nil then
-        _temp364 = _temp363.out
-
-        elseif _temp363.no_undermethod ~= nil then
-          _temp364 =  _temp363:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp363, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp363)
-      if _n.out ~= nil then
-        _temp364 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp364 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp363, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp363)
-      if _f.out ~= nil then
-        _temp364 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp364 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp363, "out"))
-      end
-
-      elseif _temp363 == nil then
-        _error(exception:null_error("_temp363", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp363))
-      end
-
-local _temp365 = nil
-        local _t = _type(_temp361)
-        if _t == "table" then
-          if _rawget(_temp361, "__call_thing") == nil then
-            _temp365 = _temp361
-          else
-                  if _temp361 == nil then
-              if _type(_self._temp361) == "function" or (_type(_self._temp361) == "table" and _rawget(_self._temp361, "__call_thing")) then
-        _temp365 =  _self:_temp361()
-      elseif _self._temp361 ~= nil then
-        _temp365 =  _self._temp361
-
-        elseif _self.no_undermethod ~= nil then
-          _temp365 =  _self:no_undermethod(string:new("_temp361"))
-        else
-          _error(exception:null_error("last_res", "invoke method"))
-        end
-      else 
-        _temp365 =  _temp361(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp365 = _temp361
-        elseif _t == "function" then
-                if _temp361 == nil then
-              if _type(_self._temp361) == "function" or (_type(_self._temp361) == "table" and _rawget(_self._temp361, "__call_thing")) then
-        _temp365 =  _self:_temp361()
-      elseif _self._temp361 ~= nil then
-        _temp365 =  _self._temp361
-
-        elseif _self.no_undermethod ~= nil then
-          _temp365 =  _self:no_undermethod(string:new("_temp361"))
-        else
-          _error(exception:null_error("last_res", "invoke method"))
-        end
-      else 
-        _temp365 =  _temp361(_self)
-      end
-
-        elseif _temp361 == nil then
-          _error(exception:null_error("last_res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "last_res"))
-        end
-
-local _temp366 = nil
-      local _t = _type(_temp365)
-      if _t == "table" then
-                      if _type(_temp365.out) == "function" or (_type(_temp365.out) == "table" and _rawget(_temp365.out, "__call_thing")) then
-        _temp366 = _temp365:out()
-      elseif _temp365.out ~= nil then
-        _temp366 = _temp365.out
-
-        elseif _temp365.no_undermethod ~= nil then
-          _temp366 =  _temp365:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp365, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp365)
-      if _n.out ~= nil then
-        _temp366 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp366 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp365, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp365)
-      if _f.out ~= nil then
-        _temp366 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp366 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp365, "out"))
-      end
-
-      elseif _temp365 == nil then
-        _error(exception:null_error("_temp365", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp365))
-      end
-
-local _temp367 = string:new("\n")
-
 local _temp368 = nil
-do
-local _temp369 = nil
-        local _t = _type(_temp361)
-        if _t == "table" then
-          if _rawget(_temp361, "__call_thing") == nil then
-            _temp369 = _temp361
-          else
-                  if _temp361 == nil then
-              if _type(_self._temp361) == "function" or (_type(_self._temp361) == "table" and _rawget(_self._temp361, "__call_thing")) then
-        _temp369 =  _self:_temp361()
-      elseif _self._temp361 ~= nil then
-        _temp369 =  _self._temp361
-
-        elseif _self.no_undermethod ~= nil then
-          _temp369 =  _self:no_undermethod(string:new("_temp361"))
-        else
-          _error(exception:null_error("last_res", "invoke method"))
-        end
-      else 
-        _temp369 =  _temp361(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp369 = _temp361
-        elseif _t == "function" then
-                if _temp361 == nil then
-              if _type(_self._temp361) == "function" or (_type(_self._temp361) == "table" and _rawget(_self._temp361, "__call_thing")) then
-        _temp369 =  _self:_temp361()
-      elseif _self._temp361 ~= nil then
-        _temp369 =  _self._temp361
-
-        elseif _self.no_undermethod ~= nil then
-          _temp369 =  _self:no_undermethod(string:new("_temp361"))
-        else
-          _error(exception:null_error("last_res", "invoke method"))
-        end
-      else 
-        _temp369 =  _temp361(_self)
-      end
-
-        elseif _temp361 == nil then
-          _error(exception:null_error("last_res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "last_res"))
-        end
-      local _t = _type(_temp369)
+      local _t = _type(_temp367)
       if _t == "table" then
-                      if _type(_temp369.var) == "function" or (_type(_temp369.var) == "table" and _rawget(_temp369.var, "__call_thing")) then
-        _temp369 = _temp369:var()
-      elseif _temp369.var ~= nil then
-        _temp369 = _temp369.var
+                      if _type(_temp367.out) == "function" or (_type(_temp367.out) == "table" and _rawget(_temp367.out, "__call_thing")) then
+        _temp368 = _temp367:out()
+      elseif _temp367.out ~= nil then
+        _temp368 = _temp367.out
 
-        elseif _temp369.no_undermethod ~= nil then
-          _temp369 =  _temp369:no_undermethod(string:new("var"))
+        elseif _temp367.no_undermethod ~= nil then
+          _temp368 =  _temp367:no_undermethod(string:new("out"))
         else
-          _error(exception:method_error(_temp369, "var"))
+          _error(exception:method_error(_temp367, "out"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp369)
-      if _n.var ~= nil then
-        _temp369 = _n:var()
+              local _n = number:new(_temp367)
+      if _n.out ~= nil then
+        _temp368 = _n:out()
       elseif _n.no_undermethod ~= nil then
-        _temp369 =  _n:no_undermethod(string:new("var"))
+        _temp368 =  _n:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp369, "var"))
+        _error(exception:method_error(_temp367, "out"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp369)
-      if _f.var ~= nil then
-        _temp369 = _f:var()
+              local _f = brat_function:new(_temp367)
+      if _f.out ~= nil then
+        _temp368 = _f:out()
       elseif _f.no_undermethod ~= nil then
-        _temp369 =  _f:no_undermethod(string:new("var"))
+        _temp368 =  _f:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp369, "var"))
+        _error(exception:method_error(_temp367, "out"))
       end
 
-      elseif _temp369 == nil then
-        _error(exception:null_error("_temp369", "invoke var on it"))
+      elseif _temp367 == nil then
+        _error(exception:null_error("_temp367", "invoke out on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp369))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp367))
       end
 
-
-_temp368 = string:new("return " .. _tostring(_temp369) .. "\n")
-end
+local _temp369 = string:new("return object:null()")
 local _temp370
-      local _t = _type(_temp364)
+      local _t = _type(_temp368)
       if _t == "table" then
-                      if _type(_temp364._less_less) == "function" or (_type(_temp364._less_less) == "table" and _rawget(_temp364._less_less, "__call_thing")) then
-        _temp370 = _temp364:_less_less(_temp366)
-      elseif _temp364._less_less ~= nil then
-        _temp370 = _temp364._less_less
+                      if _type(_temp368._less_less) == "function" or (_type(_temp368._less_less) == "table" and _rawget(_temp368._less_less, "__call_thing")) then
+        _temp370 = _temp368:_less_less(_temp369)
+      elseif _temp368._less_less ~= nil then
+        _temp370 = _temp368._less_less
 
-        elseif _temp364.no_undermethod ~= nil then
-          _temp370 =  _temp364:no_undermethod(string:new("<<") , _temp366)
+        elseif _temp368.no_undermethod ~= nil then
+          _temp370 =  _temp368:no_undermethod(string:new("<<") , _temp369)
         else
-          _error(exception:method_error(_temp364, "<<"))
+          _error(exception:method_error(_temp368, "<<"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp364)
+              local _n = number:new(_temp368)
       if _n._less_less ~= nil then
-        _temp370 = _n:_less_less(_temp366)
+        _temp370 = _n:_less_less(_temp369)
       elseif _n.no_undermethod ~= nil then
-        _temp370 =  _n:no_undermethod(string:new("<<") , _temp366)
+        _temp370 =  _n:no_undermethod(string:new("<<") , _temp369)
       else
-        _error(exception:method_error(_temp364, "<<"))
+        _error(exception:method_error(_temp368, "<<"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp364)
+              local _f = brat_function:new(_temp368)
       if _f._less_less ~= nil then
-        _temp370 = _f:_less_less(_temp366)
+        _temp370 = _f:_less_less(_temp369)
       elseif _f.no_undermethod ~= nil then
-        _temp370 =  _f:no_undermethod(string:new("<<") , _temp366)
+        _temp370 =  _f:no_undermethod(string:new("<<") , _temp369)
       else
-        _error(exception:method_error(_temp364, "<<"))
+        _error(exception:method_error(_temp368, "<<"))
       end
 
-      elseif _temp364 == nil then
-        _error(exception:null_error("_temp364", "invoke << on it"))
+      elseif _temp368 == nil then
+        _error(exception:null_error("_temp368", "invoke << on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp364))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp368))
       end
 
-local _temp366
-      local _t = _type(_temp370)
-      if _t == "table" then
-                      if _type(_temp370._less_less) == "function" or (_type(_temp370._less_less) == "table" and _rawget(_temp370._less_less, "__call_thing")) then
-        _temp366 = _temp370:_less_less(_temp367)
-      elseif _temp370._less_less ~= nil then
-        _temp366 = _temp370._less_less
-
-        elseif _temp370.no_undermethod ~= nil then
-          _temp366 =  _temp370:no_undermethod(string:new("<<") , _temp367)
-        else
-          _error(exception:method_error(_temp370, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp370)
-      if _n._less_less ~= nil then
-        _temp366 = _n:_less_less(_temp367)
-      elseif _n.no_undermethod ~= nil then
-        _temp366 =  _n:no_undermethod(string:new("<<") , _temp367)
-      else
-        _error(exception:method_error(_temp370, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp370)
-      if _f._less_less ~= nil then
-        _temp366 = _f:_less_less(_temp367)
-      elseif _f.no_undermethod ~= nil then
-        _temp366 =  _f:no_undermethod(string:new("<<") , _temp367)
-      else
-        _error(exception:method_error(_temp370, "<<"))
-      end
-
-      elseif _temp370 == nil then
-        _error(exception:null_error("_temp370", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp370))
-      end
-
-local _temp367
-      local _t = _type(_temp366)
-      if _t == "table" then
-                      if _type(_temp366._less_less) == "function" or (_type(_temp366._less_less) == "table" and _rawget(_temp366._less_less, "__call_thing")) then
-        _temp367 = _temp366:_less_less(_temp368)
-      elseif _temp366._less_less ~= nil then
-        _temp367 = _temp366._less_less
-
-        elseif _temp366.no_undermethod ~= nil then
-          _temp367 =  _temp366:no_undermethod(string:new("<<") , _temp368)
-        else
-          _error(exception:method_error(_temp366, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp366)
-      if _n._less_less ~= nil then
-        _temp367 = _n:_less_less(_temp368)
-      elseif _n.no_undermethod ~= nil then
-        _temp367 =  _n:no_undermethod(string:new("<<") , _temp368)
-      else
-        _error(exception:method_error(_temp366, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp366)
-      if _f._less_less ~= nil then
-        _temp367 = _f:_less_less(_temp368)
-      elseif _f.no_undermethod ~= nil then
-        _temp367 =  _f:no_undermethod(string:new("<<") , _temp368)
-      else
-        _error(exception:method_error(_temp366, "<<"))
-      end
-
-      elseif _temp366 == nil then
-        _error(exception:null_error("_temp366", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp366))
-      end
-
-_temp362 = _temp367 
+_temp366 = _temp370 
 end
 
-return _temp362
+return _temp366
 end
 
+    if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
+      return  true_question(_self, _temp365,_temp372)
 
-local _temp382 = function (_self)
+    elseif true_question then
+      _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
+    else
+            if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
+        return  _self:true_question(_temp365,_temp372)
+      elseif _self.true_question ~= nil then
+        return  _self.true_question
 
-local _temp373 = nil
-        local _t = _type(_temp350)
-        if _t == "table" then
-          if _rawget(_temp350, "__call_thing") == nil then
-            _temp373 = _temp350
-          else
-                  if _temp350 == nil then
-              if _type(_self._temp350) == "function" or (_type(_self._temp350) == "table" and _rawget(_self._temp350, "__call_thing")) then
-        _temp373 =  _self:_temp350()
-      elseif _self._temp350 ~= nil then
-        _temp373 =  _self._temp350
-
-        elseif _self.no_undermethod ~= nil then
-          _temp373 =  _self:no_undermethod(string:new("_temp350"))
-        else
-          _error(exception:null_error("body", "invoke method"))
-        end
-      else 
-        _temp373 =  _temp350(_self)
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        return  _self:no_undermethod(string:new("true?") , _temp365,_temp372)
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        return  no_undermethod(_self, string:new("true?") , _temp365,_temp372)
+      else
+        _error(exception:name_error("true?"))
       end
+    end
 
-          end
-        elseif _t == "number" then
-          _temp373 = _temp350
-        elseif _t == "function" then
-                if _temp350 == nil then
-              if _type(_self._temp350) == "function" or (_type(_self._temp350) == "table" and _rawget(_self._temp350, "__call_thing")) then
-        _temp373 =  _self:_temp350()
-      elseif _self._temp350 ~= nil then
-        _temp373 =  _self._temp350
+end
 
-        elseif _self.no_undermethod ~= nil then
-          _temp373 =  _self:no_undermethod(string:new("_temp350"))
-        else
-          _error(exception:null_error("body", "invoke method"))
-        end
-      else 
-        _temp373 =  _temp350(_self)
+    if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
+      _dummy_ =  true_question(_self, _temp347,_temp364,_temp374)
+
+    elseif true_question then
+      _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
+    else
+            if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
+        _dummy_ =  _self:true_question(_temp347,_temp364,_temp374)
+      elseif _self.true_question ~= nil then
+        _dummy_ =  _self.true_question
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _dummy_ =  _self:no_undermethod(string:new("true?") , _temp347,_temp364,_temp374)
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _dummy_ =  no_undermethod(_self, string:new("true?") , _temp347,_temp364,_temp374)
+      else
+        _error(exception:name_error("true?"))
       end
+    end
 
-        elseif _temp350 == nil then
-          _error(exception:null_error("body", "cannot call method on it"))
+              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
+        _temp374 =  _self:my()
+      elseif _self.my ~= nil then
+        _temp374 =  _self.my
+
+        elseif my ~= nil then
+          _temp374 = my;
         else
-          _error(exception:method_error("self", "body"))
+          _error(exception:method_error("self", "my"))
         end
-      local _t = _type(_temp373)
+      local _t = _type(_temp374)
       if _t == "table" then
-                      if _type(_temp373.empty_question) == "function" or (_type(_temp373.empty_question) == "table" and _rawget(_temp373.empty_question, "__call_thing")) then
-        _temp373 = _temp373:empty_question()
-      elseif _temp373.empty_question ~= nil then
-        _temp373 = _temp373.empty_question
+                      if _type(_temp374.env) == "function" or (_type(_temp374.env) == "table" and _rawget(_temp374.env, "__call_thing")) then
+        _temp374 = _temp374:env()
+      elseif _temp374.env ~= nil then
+        _temp374 = _temp374.env
 
-        elseif _temp373.no_undermethod ~= nil then
-          _temp373 =  _temp373:no_undermethod(string:new("empty?"))
+        elseif _temp374.no_undermethod ~= nil then
+          _temp374 =  _temp374:no_undermethod(string:new("env"))
         else
-          _error(exception:method_error(_temp373, "empty?"))
+          _error(exception:method_error(_temp374, "env"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp373)
-      if _n.empty_question ~= nil then
-        _temp373 = _n:empty_question()
+              local _n = number:new(_temp374)
+      if _n.env ~= nil then
+        _temp374 = _n:env()
       elseif _n.no_undermethod ~= nil then
-        _temp373 =  _n:no_undermethod(string:new("empty?"))
+        _temp374 =  _n:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp373, "empty?"))
+        _error(exception:method_error(_temp374, "env"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp373)
-      if _f.empty_question ~= nil then
-        _temp373 = _f:empty_question()
+              local _f = brat_function:new(_temp374)
+      if _f.env ~= nil then
+        _temp374 = _f:env()
       elseif _f.no_undermethod ~= nil then
-        _temp373 =  _f:no_undermethod(string:new("empty?"))
+        _temp374 =  _f:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp373, "empty?"))
+        _error(exception:method_error(_temp374, "env"))
       end
 
-      elseif _temp373 == nil then
-        _error(exception:null_error("_temp373", "invoke empty? on it"))
+      elseif _temp374 == nil then
+        _error(exception:null_error("_temp374", "invoke env on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp373))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp374))
       end
 
+      local _t = _type(_temp374)
+      if _t == "table" then
+                      if _type(_temp374.pop_underscope) == "function" or (_type(_temp374.pop_underscope) == "table" and _rawget(_temp374.pop_underscope, "__call_thing")) then
+        _dummy_ = _temp374:pop_underscope()
+      elseif _temp374.pop_underscope ~= nil then
+        _dummy_ = _temp374.pop_underscope
 
+        elseif _temp374.no_undermethod ~= nil then
+          _dummy_ =  _temp374:no_undermethod(string:new("pop_scope"))
+        else
+          _error(exception:method_error(_temp374, "pop_scope"))
+        end
 
-local _temp380 = function (_self)
+      elseif _t == "number" then
+              local _n = number:new(_temp374)
+      if _n.pop_underscope ~= nil then
+        _dummy_ = _n:pop_underscope()
+      elseif _n.no_undermethod ~= nil then
+        _dummy_ =  _n:no_undermethod(string:new("pop_scope"))
+      else
+        _error(exception:method_error(_temp374, "pop_scope"))
+      end
 
-local _temp374 
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp374)
+      if _f.pop_underscope ~= nil then
+        _dummy_ = _f:pop_underscope()
+      elseif _f.no_undermethod ~= nil then
+        _dummy_ =  _f:no_undermethod(string:new("pop_scope"))
+      else
+        _error(exception:method_error(_temp374, "pop_scope"))
+      end
+
+      elseif _temp374 == nil then
+        _error(exception:null_error("_temp374", "invoke pop_scope on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp374))
+      end
+
 do
 local _temp375 = nil
-        local _t = _type(_temp326)
+        local _t = _type(_temp318)
         if _t == "table" then
-          if _rawget(_temp326, "__call_thing") == nil then
-            _temp375 = _temp326
+          if _rawget(_temp318, "__call_thing") == nil then
+            _temp375 = _temp318
           else
-                  if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp375 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp375 =  _self._temp326
+                  if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp375 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp375 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp375 =  _self:no_undermethod(string:new("_temp326"))
+          _temp375 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp375 =  _temp326(_self)
+        _temp375 =  _temp318(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp375 = _temp326
+          _temp375 = _temp318
         elseif _t == "function" then
-                if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp375 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp375 =  _self._temp326
+                if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp375 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp375 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp375 =  _self:no_undermethod(string:new("_temp326"))
+          _temp375 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp375 =  _temp326(_self)
+        _temp375 =  _temp318(_self)
       end
 
-        elseif _temp326 == nil then
+        elseif _temp318 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
@@ -15821,7 +15866,7 @@ local _temp376 = nil
         _error("Tried to invoke method on something strange: " .. _tostring(_temp375))
       end
 
-local _temp377 = string:new("return object:null()")
+local _temp377 = string:new("\nend\n")
 local _temp378
       local _t = _type(_temp376)
       if _t == "table" then
@@ -15862,468 +15907,198 @@ local _temp378
         _error("Tried to invoke method on something strange: " .. _tostring(_temp376))
       end
 
-_temp374 = _temp378 
-end
-
-return _temp374
-end
-
-    if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
-      return  true_question(_self, _temp373,_temp380)
-
-    elseif true_question then
-      _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
-    else
-            if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
-        return  _self:true_question(_temp373,_temp380)
-      elseif _self.true_question ~= nil then
-        return  _self.true_question
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("true?") , _temp373,_temp380)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("true?") , _temp373,_temp380)
-      else
-        _error(exception:name_error("true?"))
-      end
-    end
-
-end
-
-    if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
-      _dummy_ =  true_question(_self, _temp355,_temp372,_temp382)
-
-    elseif true_question then
-      _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
-    else
-            if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
-        _dummy_ =  _self:true_question(_temp355,_temp372,_temp382)
-      elseif _self.true_question ~= nil then
-        _dummy_ =  _self.true_question
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _dummy_ =  _self:no_undermethod(string:new("true?") , _temp355,_temp372,_temp382)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _dummy_ =  no_undermethod(_self, string:new("true?") , _temp355,_temp372,_temp382)
-      else
-        _error(exception:name_error("true?"))
-      end
-    end
-
-              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp382 =  _self:my()
-      elseif _self.my ~= nil then
-        _temp382 =  _self.my
-
-        elseif my ~= nil then
-          _temp382 = my;
-        else
-          _error(exception:method_error("self", "my"))
-        end
-      local _t = _type(_temp382)
-      if _t == "table" then
-                      if _type(_temp382.env) == "function" or (_type(_temp382.env) == "table" and _rawget(_temp382.env, "__call_thing")) then
-        _temp382 = _temp382:env()
-      elseif _temp382.env ~= nil then
-        _temp382 = _temp382.env
-
-        elseif _temp382.no_undermethod ~= nil then
-          _temp382 =  _temp382:no_undermethod(string:new("env"))
-        else
-          _error(exception:method_error(_temp382, "env"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp382)
-      if _n.env ~= nil then
-        _temp382 = _n:env()
-      elseif _n.no_undermethod ~= nil then
-        _temp382 =  _n:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error(_temp382, "env"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp382)
-      if _f.env ~= nil then
-        _temp382 = _f:env()
-      elseif _f.no_undermethod ~= nil then
-        _temp382 =  _f:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error(_temp382, "env"))
-      end
-
-      elseif _temp382 == nil then
-        _error(exception:null_error("_temp382", "invoke env on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp382))
-      end
-
-      local _t = _type(_temp382)
-      if _t == "table" then
-                      if _type(_temp382.pop_underscope) == "function" or (_type(_temp382.pop_underscope) == "table" and _rawget(_temp382.pop_underscope, "__call_thing")) then
-        _dummy_ = _temp382:pop_underscope()
-      elseif _temp382.pop_underscope ~= nil then
-        _dummy_ = _temp382.pop_underscope
-
-        elseif _temp382.no_undermethod ~= nil then
-          _dummy_ =  _temp382:no_undermethod(string:new("pop_scope"))
-        else
-          _error(exception:method_error(_temp382, "pop_scope"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp382)
-      if _n.pop_underscope ~= nil then
-        _dummy_ = _n:pop_underscope()
-      elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("pop_scope"))
-      else
-        _error(exception:method_error(_temp382, "pop_scope"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp382)
-      if _f.pop_underscope ~= nil then
-        _dummy_ = _f:pop_underscope()
-      elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("pop_scope"))
-      else
-        _error(exception:method_error(_temp382, "pop_scope"))
-      end
-
-      elseif _temp382 == nil then
-        _error(exception:null_error("_temp382", "invoke pop_scope on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp382))
-      end
-
-do
-local _temp383 = nil
-        local _t = _type(_temp326)
-        if _t == "table" then
-          if _rawget(_temp326, "__call_thing") == nil then
-            _temp383 = _temp326
-          else
-                  if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp383 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp383 =  _self._temp326
-
-        elseif _self.no_undermethod ~= nil then
-          _temp383 =  _self:no_undermethod(string:new("_temp326"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp383 =  _temp326(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp383 = _temp326
-        elseif _t == "function" then
-                if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp383 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp383 =  _self._temp326
-
-        elseif _self.no_undermethod ~= nil then
-          _temp383 =  _self:no_undermethod(string:new("_temp326"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp383 =  _temp326(_self)
-      end
-
-        elseif _temp326 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp384 = nil
-      local _t = _type(_temp383)
-      if _t == "table" then
-                      if _type(_temp383.out) == "function" or (_type(_temp383.out) == "table" and _rawget(_temp383.out, "__call_thing")) then
-        _temp384 = _temp383:out()
-      elseif _temp383.out ~= nil then
-        _temp384 = _temp383.out
-
-        elseif _temp383.no_undermethod ~= nil then
-          _temp384 =  _temp383:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp383, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp383)
-      if _n.out ~= nil then
-        _temp384 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp384 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp383, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp383)
-      if _f.out ~= nil then
-        _temp384 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp384 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp383, "out"))
-      end
-
-      elseif _temp383 == nil then
-        _error(exception:null_error("_temp383", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp383))
-      end
-
-local _temp385 = string:new("\nend\n")
-local _temp386
-      local _t = _type(_temp384)
-      if _t == "table" then
-                      if _type(_temp384._less_less) == "function" or (_type(_temp384._less_less) == "table" and _rawget(_temp384._less_less, "__call_thing")) then
-        _temp386 = _temp384:_less_less(_temp385)
-      elseif _temp384._less_less ~= nil then
-        _temp386 = _temp384._less_less
-
-        elseif _temp384.no_undermethod ~= nil then
-          _temp386 =  _temp384:no_undermethod(string:new("<<") , _temp385)
-        else
-          _error(exception:method_error(_temp384, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp384)
-      if _n._less_less ~= nil then
-        _temp386 = _n:_less_less(_temp385)
-      elseif _n.no_undermethod ~= nil then
-        _temp386 =  _n:no_undermethod(string:new("<<") , _temp385)
-      else
-        _error(exception:method_error(_temp384, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp384)
-      if _f._less_less ~= nil then
-        _temp386 = _f:_less_less(_temp385)
-      elseif _f.no_undermethod ~= nil then
-        _temp386 =  _f:no_undermethod(string:new("<<") , _temp385)
-      else
-        _error(exception:method_error(_temp384, "<<"))
-      end
-
-      elseif _temp384 == nil then
-        _error(exception:null_error("_temp384", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp384))
-      end
-
-_dummy_ = _temp386 
+_dummy_ = _temp378 
 end
 
 do
-local _temp372
-    if _type(_temp326) == "function" or (_type(_temp326) == "table" and _rawget(_temp326, "__call_thing")) then
-      _temp372 =  _temp326(_self)
+local _temp364
+    if _type(_temp318) == "function" or (_type(_temp318) == "table" and _rawget(_temp318, "__call_thing")) then
+      _temp364 =  _temp318(_self)
 
-    elseif _temp326 then
-      _temp372 =  _temp326
+    elseif _temp318 then
+      _temp364 =  _temp318
     else
             if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
-        _temp372 =  _self:res()
+        _temp364 =  _self:res()
       elseif _self.res ~= nil then
-        _temp372 =  _self.res
+        _temp364 =  _self.res
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp372 =  _self:no_undermethod(string:new("res"))
+        _temp364 =  _self:no_undermethod(string:new("res"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp372 =  no_undermethod(_self, string:new("res"))
+        _temp364 =  no_undermethod(_self, string:new("res"))
       else
         _error(exception:name_error("res"))
       end
     end
 
-local _temp387 = string:new("function")
+local _temp379 = string:new("function")
 
-local _temp388 = string:new("type")
+local _temp380 = string:new("type")
 
-_temp372:set(_temp388, _temp387)
+_temp364:set(_temp380, _temp379)
 end
 
 do
-local _temp389 = nil
+local _temp381 = nil
               if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp389 =  _self:my()
+        _temp381 =  _self:my()
       elseif _self.my ~= nil then
-        _temp389 =  _self.my
+        _temp381 =  _self.my
 
         elseif my ~= nil then
-          _temp389 = my;
+          _temp381 = my;
         else
           _error(exception:method_error("self", "my"))
         end
 
-local _temp390 = nil
-      local _t = _type(_temp389)
+local _temp382 = nil
+      local _t = _type(_temp381)
       if _t == "table" then
-                      if _type(_temp389.liftable_underfunctions) == "function" or (_type(_temp389.liftable_underfunctions) == "table" and _rawget(_temp389.liftable_underfunctions, "__call_thing")) then
-        _temp390 = _temp389:liftable_underfunctions()
-      elseif _temp389.liftable_underfunctions ~= nil then
-        _temp390 = _temp389.liftable_underfunctions
+                      if _type(_temp381.liftable_underfunctions) == "function" or (_type(_temp381.liftable_underfunctions) == "table" and _rawget(_temp381.liftable_underfunctions, "__call_thing")) then
+        _temp382 = _temp381:liftable_underfunctions()
+      elseif _temp381.liftable_underfunctions ~= nil then
+        _temp382 = _temp381.liftable_underfunctions
 
-        elseif _temp389.no_undermethod ~= nil then
-          _temp390 =  _temp389:no_undermethod(string:new("liftable_functions"))
+        elseif _temp381.no_undermethod ~= nil then
+          _temp382 =  _temp381:no_undermethod(string:new("liftable_functions"))
         else
-          _error(exception:method_error(_temp389, "liftable_functions"))
+          _error(exception:method_error(_temp381, "liftable_functions"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp389)
+              local _n = number:new(_temp381)
       if _n.liftable_underfunctions ~= nil then
-        _temp390 = _n:liftable_underfunctions()
+        _temp382 = _n:liftable_underfunctions()
       elseif _n.no_undermethod ~= nil then
-        _temp390 =  _n:no_undermethod(string:new("liftable_functions"))
+        _temp382 =  _n:no_undermethod(string:new("liftable_functions"))
       else
-        _error(exception:method_error(_temp389, "liftable_functions"))
+        _error(exception:method_error(_temp381, "liftable_functions"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp389)
+              local _f = brat_function:new(_temp381)
       if _f.liftable_underfunctions ~= nil then
-        _temp390 = _f:liftable_underfunctions()
+        _temp382 = _f:liftable_underfunctions()
       elseif _f.no_undermethod ~= nil then
-        _temp390 =  _f:no_undermethod(string:new("liftable_functions"))
+        _temp382 =  _f:no_undermethod(string:new("liftable_functions"))
       else
-        _error(exception:method_error(_temp389, "liftable_functions"))
+        _error(exception:method_error(_temp381, "liftable_functions"))
       end
 
-      elseif _temp389 == nil then
-        _error(exception:null_error("_temp389", "invoke liftable_functions on it"))
+      elseif _temp381 == nil then
+        _error(exception:null_error("_temp381", "invoke liftable_functions on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp389))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp381))
       end
 
-local _temp391 = nil
-    if _type(_temp326) == "function" or (_type(_temp326) == "table" and _rawget(_temp326, "__call_thing")) then
-      _temp391 =  _temp326(_self)
+local _temp383 = nil
+    if _type(_temp318) == "function" or (_type(_temp318) == "table" and _rawget(_temp318, "__call_thing")) then
+      _temp383 =  _temp318(_self)
 
-    elseif _temp326 then
-      _temp391 =  _temp326
+    elseif _temp318 then
+      _temp383 =  _temp318
     else
             if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
-        _temp391 =  _self:res()
+        _temp383 =  _self:res()
       elseif _self.res ~= nil then
-        _temp391 =  _self.res
+        _temp383 =  _self.res
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp391 =  _self:no_undermethod(string:new("res"))
+        _temp383 =  _self:no_undermethod(string:new("res"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp391 =  no_undermethod(_self, string:new("res"))
+        _temp383 =  no_undermethod(_self, string:new("res"))
       else
         _error(exception:name_error("res"))
       end
     end
-local _temp392
-      local _t = _type(_temp390)
+local _temp384
+      local _t = _type(_temp382)
       if _t == "table" then
-                      if _type(_temp390._less_less) == "function" or (_type(_temp390._less_less) == "table" and _rawget(_temp390._less_less, "__call_thing")) then
-        _temp392 = _temp390:_less_less(_temp391)
-      elseif _temp390._less_less ~= nil then
-        _temp392 = _temp390._less_less
+                      if _type(_temp382._less_less) == "function" or (_type(_temp382._less_less) == "table" and _rawget(_temp382._less_less, "__call_thing")) then
+        _temp384 = _temp382:_less_less(_temp383)
+      elseif _temp382._less_less ~= nil then
+        _temp384 = _temp382._less_less
 
-        elseif _temp390.no_undermethod ~= nil then
-          _temp392 =  _temp390:no_undermethod(string:new("<<") , _temp391)
+        elseif _temp382.no_undermethod ~= nil then
+          _temp384 =  _temp382:no_undermethod(string:new("<<") , _temp383)
         else
-          _error(exception:method_error(_temp390, "<<"))
+          _error(exception:method_error(_temp382, "<<"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp390)
+              local _n = number:new(_temp382)
       if _n._less_less ~= nil then
-        _temp392 = _n:_less_less(_temp391)
+        _temp384 = _n:_less_less(_temp383)
       elseif _n.no_undermethod ~= nil then
-        _temp392 =  _n:no_undermethod(string:new("<<") , _temp391)
+        _temp384 =  _n:no_undermethod(string:new("<<") , _temp383)
       else
-        _error(exception:method_error(_temp390, "<<"))
+        _error(exception:method_error(_temp382, "<<"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp390)
+              local _f = brat_function:new(_temp382)
       if _f._less_less ~= nil then
-        _temp392 = _f:_less_less(_temp391)
+        _temp384 = _f:_less_less(_temp383)
       elseif _f.no_undermethod ~= nil then
-        _temp392 =  _f:no_undermethod(string:new("<<") , _temp391)
+        _temp384 =  _f:no_undermethod(string:new("<<") , _temp383)
       else
-        _error(exception:method_error(_temp390, "<<"))
+        _error(exception:method_error(_temp382, "<<"))
       end
 
-      elseif _temp390 == nil then
-        _error(exception:null_error("_temp390", "invoke << on it"))
+      elseif _temp382 == nil then
+        _error(exception:null_error("_temp382", "invoke << on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp390))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp382))
       end
 
-_dummy_ = _temp392 
+_dummy_ = _temp384 
 end
 
-local _temp393
+local _temp385
         local _t = _type(_temp314)
         if _t == "table" then
           if _rawget(_temp314, "__call_thing") == nil then
-            _temp355 = _temp314
+            _temp347 = _temp314
           else
                   if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp355 =  _self:_temp314()
+        _temp347 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp355 =  _self._temp314
+        _temp347 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp355 =  _self:no_undermethod(string:new("_temp314"))
+          _temp347 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp355 =  _temp314(_self)
+        _temp347 =  _temp314(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp355 = _temp314
+          _temp347 = _temp314
         elseif _t == "function" then
                 if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp355 =  _self:_temp314()
+        _temp347 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp355 =  _self._temp314
+        _temp347 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp355 =  _self:no_undermethod(string:new("_temp314"))
+          _temp347 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp355 =  _temp314(_self)
+        _temp347 =  _temp314(_self)
       end
 
         elseif _temp314 == nil then
@@ -16331,326 +16106,326 @@ local _temp393
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp355)
+      local _t = _type(_temp347)
       if _t == "table" then
-                      if _type(_temp355.upvars) == "function" or (_type(_temp355.upvars) == "table" and _rawget(_temp355.upvars, "__call_thing")) then
-        _temp355 = _temp355:upvars()
-      elseif _temp355.upvars ~= nil then
-        _temp355 = _temp355.upvars
+                      if _type(_temp347.upvars) == "function" or (_type(_temp347.upvars) == "table" and _rawget(_temp347.upvars, "__call_thing")) then
+        _temp347 = _temp347:upvars()
+      elseif _temp347.upvars ~= nil then
+        _temp347 = _temp347.upvars
 
-        elseif _temp355.no_undermethod ~= nil then
-          _temp355 =  _temp355:no_undermethod(string:new("upvars"))
+        elseif _temp347.no_undermethod ~= nil then
+          _temp347 =  _temp347:no_undermethod(string:new("upvars"))
         else
-          _error(exception:method_error(_temp355, "upvars"))
+          _error(exception:method_error(_temp347, "upvars"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp355)
+              local _n = number:new(_temp347)
       if _n.upvars ~= nil then
-        _temp355 = _n:upvars()
+        _temp347 = _n:upvars()
       elseif _n.no_undermethod ~= nil then
-        _temp355 =  _n:no_undermethod(string:new("upvars"))
+        _temp347 =  _n:no_undermethod(string:new("upvars"))
       else
-        _error(exception:method_error(_temp355, "upvars"))
+        _error(exception:method_error(_temp347, "upvars"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp355)
+              local _f = brat_function:new(_temp347)
       if _f.upvars ~= nil then
-        _temp355 = _f:upvars()
+        _temp347 = _f:upvars()
       elseif _f.no_undermethod ~= nil then
-        _temp355 =  _f:no_undermethod(string:new("upvars"))
+        _temp347 =  _f:no_undermethod(string:new("upvars"))
       else
-        _error(exception:method_error(_temp355, "upvars"))
+        _error(exception:method_error(_temp347, "upvars"))
       end
 
-      elseif _temp355 == nil then
-        _error(exception:null_error("_temp355", "invoke upvars on it"))
+      elseif _temp347 == nil then
+        _error(exception:null_error("_temp347", "invoke upvars on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp355))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp347))
       end
 
 
 
-local _temp397 = function (_self)
+local _temp389 = function (_self)
 
-local _temp394 = nil
+local _temp386 = nil
 do
-local _temp395 = nil
-        local _t = _type(_temp326)
+local _temp387 = nil
+        local _t = _type(_temp318)
         if _t == "table" then
-          if _rawget(_temp326, "__call_thing") == nil then
-            _temp395 = _temp326
+          if _rawget(_temp318, "__call_thing") == nil then
+            _temp387 = _temp318
           else
-                  if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp395 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp395 =  _self._temp326
+                  if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp387 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp387 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp395 =  _self:no_undermethod(string:new("_temp326"))
+          _temp387 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp395 =  _temp326(_self)
+        _temp387 =  _temp318(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp395 = _temp326
+          _temp387 = _temp318
         elseif _t == "function" then
-                if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp395 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp395 =  _self._temp326
+                if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp387 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp387 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp395 =  _self:no_undermethod(string:new("_temp326"))
+          _temp387 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp395 =  _temp326(_self)
+        _temp387 =  _temp318(_self)
       end
 
-        elseif _temp326 == nil then
+        elseif _temp318 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
-      local _t = _type(_temp395)
+      local _t = _type(_temp387)
       if _t == "table" then
-                      if _type(_temp395.var) == "function" or (_type(_temp395.var) == "table" and _rawget(_temp395.var, "__call_thing")) then
-        _temp395 = _temp395:var()
-      elseif _temp395.var ~= nil then
-        _temp395 = _temp395.var
+                      if _type(_temp387.var) == "function" or (_type(_temp387.var) == "table" and _rawget(_temp387.var, "__call_thing")) then
+        _temp387 = _temp387:var()
+      elseif _temp387.var ~= nil then
+        _temp387 = _temp387.var
 
-        elseif _temp395.no_undermethod ~= nil then
-          _temp395 =  _temp395:no_undermethod(string:new("var"))
+        elseif _temp387.no_undermethod ~= nil then
+          _temp387 =  _temp387:no_undermethod(string:new("var"))
         else
-          _error(exception:method_error(_temp395, "var"))
+          _error(exception:method_error(_temp387, "var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp395)
+              local _n = number:new(_temp387)
       if _n.var ~= nil then
-        _temp395 = _n:var()
+        _temp387 = _n:var()
       elseif _n.no_undermethod ~= nil then
-        _temp395 =  _n:no_undermethod(string:new("var"))
+        _temp387 =  _n:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp395, "var"))
+        _error(exception:method_error(_temp387, "var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp395)
+              local _f = brat_function:new(_temp387)
       if _f.var ~= nil then
-        _temp395 = _f:var()
+        _temp387 = _f:var()
       elseif _f.no_undermethod ~= nil then
-        _temp395 =  _f:no_undermethod(string:new("var"))
+        _temp387 =  _f:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp395, "var"))
+        _error(exception:method_error(_temp387, "var"))
       end
 
-      elseif _temp395 == nil then
-        _error(exception:null_error("_temp395", "invoke var on it"))
+      elseif _temp387 == nil then
+        _error(exception:null_error("_temp387", "invoke var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp395))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp387))
       end
 
 
-_temp394 = string:new("_lifted_call(" .. _tostring(_temp395) .. ", {})")
+_temp386 = string:new("_lifted_call(" .. _tostring(_temp387) .. ", {})")
 end
 
-return _temp394
+return _temp386
 end
 
 
-local _temp401 = function (_self)
+local _temp393 = function (_self)
 
-local _temp398 = nil
+local _temp390 = nil
 do
-local _temp399 = nil
-        local _t = _type(_temp326)
+local _temp391 = nil
+        local _t = _type(_temp318)
         if _t == "table" then
-          if _rawget(_temp326, "__call_thing") == nil then
-            _temp399 = _temp326
+          if _rawget(_temp318, "__call_thing") == nil then
+            _temp391 = _temp318
           else
-                  if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp399 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp399 =  _self._temp326
+                  if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp391 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp391 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp399 =  _self:no_undermethod(string:new("_temp326"))
+          _temp391 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp399 =  _temp326(_self)
+        _temp391 =  _temp318(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp399 = _temp326
+          _temp391 = _temp318
         elseif _t == "function" then
-                if _temp326 == nil then
-              if _type(_self._temp326) == "function" or (_type(_self._temp326) == "table" and _rawget(_self._temp326, "__call_thing")) then
-        _temp399 =  _self:_temp326()
-      elseif _self._temp326 ~= nil then
-        _temp399 =  _self._temp326
+                if _temp318 == nil then
+              if _type(_self._temp318) == "function" or (_type(_self._temp318) == "table" and _rawget(_self._temp318, "__call_thing")) then
+        _temp391 =  _self:_temp318()
+      elseif _self._temp318 ~= nil then
+        _temp391 =  _self._temp318
 
         elseif _self.no_undermethod ~= nil then
-          _temp399 =  _self:no_undermethod(string:new("_temp326"))
+          _temp391 =  _self:no_undermethod(string:new("_temp318"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp399 =  _temp326(_self)
+        _temp391 =  _temp318(_self)
       end
 
-        elseif _temp326 == nil then
+        elseif _temp318 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
-      local _t = _type(_temp399)
+      local _t = _type(_temp391)
       if _t == "table" then
-                      if _type(_temp399.var) == "function" or (_type(_temp399.var) == "table" and _rawget(_temp399.var, "__call_thing")) then
-        _temp399 = _temp399:var()
-      elseif _temp399.var ~= nil then
-        _temp399 = _temp399.var
+                      if _type(_temp391.var) == "function" or (_type(_temp391.var) == "table" and _rawget(_temp391.var, "__call_thing")) then
+        _temp391 = _temp391:var()
+      elseif _temp391.var ~= nil then
+        _temp391 = _temp391.var
 
-        elseif _temp399.no_undermethod ~= nil then
-          _temp399 =  _temp399:no_undermethod(string:new("var"))
+        elseif _temp391.no_undermethod ~= nil then
+          _temp391 =  _temp391:no_undermethod(string:new("var"))
         else
-          _error(exception:method_error(_temp399, "var"))
+          _error(exception:method_error(_temp391, "var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp399)
+              local _n = number:new(_temp391)
       if _n.var ~= nil then
-        _temp399 = _n:var()
+        _temp391 = _n:var()
       elseif _n.no_undermethod ~= nil then
-        _temp399 =  _n:no_undermethod(string:new("var"))
+        _temp391 =  _n:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp399, "var"))
+        _error(exception:method_error(_temp391, "var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp399)
+              local _f = brat_function:new(_temp391)
       if _f.var ~= nil then
-        _temp399 = _f:var()
+        _temp391 = _f:var()
       elseif _f.no_undermethod ~= nil then
-        _temp399 =  _f:no_undermethod(string:new("var"))
+        _temp391 =  _f:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp399, "var"))
+        _error(exception:method_error(_temp391, "var"))
       end
 
-      elseif _temp399 == nil then
-        _error(exception:null_error("_temp399", "invoke var on it"))
+      elseif _temp391 == nil then
+        _error(exception:null_error("_temp391", "invoke var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp399))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp391))
       end
 
 
-_temp398 = string:new("_lifted_call(" .. _tostring(_temp399) .. ")")
+_temp390 = string:new("_lifted_call(" .. _tostring(_temp391) .. ")")
 end
 
-return _temp398
+return _temp390
 end
 
     if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
-      _temp393 =  true_question(_self, _temp355,_temp397,_temp401)
+      _temp385 =  true_question(_self, _temp347,_temp389,_temp393)
 
     elseif true_question then
       _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
     else
             if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
-        _temp393 =  _self:true_question(_temp355,_temp397,_temp401)
+        _temp385 =  _self:true_question(_temp347,_temp389,_temp393)
       elseif _self.true_question ~= nil then
-        _temp393 =  _self.true_question
+        _temp385 =  _self.true_question
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp393 =  _self:no_undermethod(string:new("true?") , _temp355,_temp397,_temp401)
+        _temp385 =  _self:no_undermethod(string:new("true?") , _temp347,_temp389,_temp393)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp393 =  no_undermethod(_self, string:new("true?") , _temp355,_temp397,_temp401)
+        _temp385 =  no_undermethod(_self, string:new("true?") , _temp347,_temp389,_temp393)
       else
         _error(exception:name_error("true?"))
       end
     end
 
-local _temp402
+local _temp394
     if _type(_temp313) == "function" or (_type(_temp313) == "table" and _rawget(_temp313, "__call_thing")) then
-      _temp401 =  _temp313(_self)
+      _temp393 =  _temp313(_self)
 
     elseif _temp313 then
-      _temp401 =  _temp313
+      _temp393 =  _temp313
     else
             if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
-        _temp401 =  _self:var()
+        _temp393 =  _self:var()
       elseif _self.var ~= nil then
-        _temp401 =  _self.var
+        _temp393 =  _self.var
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp401 =  _self:no_undermethod(string:new("var"))
+        _temp393 =  _self:no_undermethod(string:new("var"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp401 =  no_undermethod(_self, string:new("var"))
+        _temp393 =  no_undermethod(_self, string:new("var"))
       else
         _error(exception:name_error("var"))
       end
     end
 
-    if _type(_temp393) == "function" or (_type(_temp393) == "table" and _rawget(_temp393, "__call_thing")) then
-      _temp397 =  _temp393(_self)
+    if _type(_temp385) == "function" or (_type(_temp385) == "table" and _rawget(_temp385, "__call_thing")) then
+      _temp389 =  _temp385(_self)
 
-    elseif _temp393 then
-      _temp397 =  _temp393
+    elseif _temp385 then
+      _temp389 =  _temp385
     else
             if _type(_self.lifted_undercall) == "function" or (_type(_self.lifted_undercall) == "table" and _rawget(_self.lifted_undercall, "__call_thing")) then
-        _temp397 =  _self:lifted_undercall()
+        _temp389 =  _self:lifted_undercall()
       elseif _self.lifted_undercall ~= nil then
-        _temp397 =  _self.lifted_undercall
+        _temp389 =  _self.lifted_undercall
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp397 =  _self:no_undermethod(string:new("lifted_call"))
+        _temp389 =  _self:no_undermethod(string:new("lifted_call"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp397 =  no_undermethod(_self, string:new("lifted_call"))
+        _temp389 =  no_undermethod(_self, string:new("lifted_call"))
       else
         _error(exception:name_error("lifted_call"))
       end
     end
 
     if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
-      _temp402 =  set_underresult(_self, _temp401,_temp397)
+      _temp394 =  set_underresult(_self, _temp393,_temp389)
 
     elseif set_underresult then
       _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
     else
             if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
-        _temp402 =  _self:set_underresult(_temp401,_temp397)
+        _temp394 =  _self:set_underresult(_temp393,_temp389)
       elseif _self.set_underresult ~= nil then
-        _temp402 =  _self.set_underresult
+        _temp394 =  _self.set_underresult
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp402 =  _self:no_undermethod(string:new("set_result") , _temp401,_temp397)
+        _temp394 =  _self:no_undermethod(string:new("set_result") , _temp393,_temp389)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp402 =  no_undermethod(_self, string:new("set_result") , _temp401,_temp397)
+        _temp394 =  no_undermethod(_self, string:new("set_result") , _temp393,_temp389)
       else
         _error(exception:name_error("set_result"))
       end
@@ -16659,40 +16434,40 @@ local _temp402
         local _t = _type(_temp314)
         if _t == "table" then
           if _rawget(_temp314, "__call_thing") == nil then
-            _temp397 = _temp314
+            _temp389 = _temp314
           else
                   if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp397 =  _self:_temp314()
+        _temp389 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp397 =  _self._temp314
+        _temp389 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp397 =  _self:no_undermethod(string:new("_temp314"))
+          _temp389 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp397 =  _temp314(_self)
+        _temp389 =  _temp314(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp397 = _temp314
+          _temp389 = _temp314
         elseif _t == "function" then
                 if _temp314 == nil then
               if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp397 =  _self:_temp314()
+        _temp389 =  _self:_temp314()
       elseif _self._temp314 ~= nil then
-        _temp397 =  _self._temp314
+        _temp389 =  _self._temp314
 
         elseif _self.no_undermethod ~= nil then
-          _temp397 =  _self:no_undermethod(string:new("_temp314"))
+          _temp389 =  _self:no_undermethod(string:new("_temp314"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp397 =  _temp314(_self)
+        _temp389 =  _temp314(_self)
       end
 
         elseif _temp314 == nil then
@@ -16700,59 +16475,410 @@ local _temp402
         else
           _error(exception:method_error("self", "node"))
         end
+      local _t = _type(_temp389)
+      if _t == "table" then
+                      if _type(_temp389.upvars) == "function" or (_type(_temp389.upvars) == "table" and _rawget(_temp389.upvars, "__call_thing")) then
+        _temp389 = _temp389:upvars()
+      elseif _temp389.upvars ~= nil then
+        _temp389 = _temp389.upvars
+
+        elseif _temp389.no_undermethod ~= nil then
+          _temp389 =  _temp389:no_undermethod(string:new("upvars"))
+        else
+          _error(exception:method_error(_temp389, "upvars"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp389)
+      if _n.upvars ~= nil then
+        _temp389 = _n:upvars()
+      elseif _n.no_undermethod ~= nil then
+        _temp389 =  _n:no_undermethod(string:new("upvars"))
+      else
+        _error(exception:method_error(_temp389, "upvars"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp389)
+      if _f.upvars ~= nil then
+        _temp389 = _f:upvars()
+      elseif _f.no_undermethod ~= nil then
+        _temp389 =  _f:no_undermethod(string:new("upvars"))
+      else
+        _error(exception:method_error(_temp389, "upvars"))
+      end
+
+      elseif _temp389 == nil then
+        _error(exception:null_error("_temp389", "invoke upvars on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp389))
+      end
+
+
+
+local _temp410 = function (_self)
+
+local _temp395
+              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
+        _temp395 =  _self:my()
+      elseif _self.my ~= nil then
+        _temp395 =  _self.my
+
+        elseif my ~= nil then
+          _temp395 = my;
+        else
+          _error(exception:method_error("self", "my"))
+        end
+      local _t = _type(_temp395)
+      if _t == "table" then
+                      if _type(_temp395.env) == "function" or (_type(_temp395.env) == "table" and _rawget(_temp395.env, "__call_thing")) then
+        _temp395 = _temp395:env()
+      elseif _temp395.env ~= nil then
+        _temp395 = _temp395.env
+
+        elseif _temp395.no_undermethod ~= nil then
+          _temp395 =  _temp395:no_undermethod(string:new("env"))
+        else
+          _error(exception:method_error("e", "env"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp395)
+      if _n.env ~= nil then
+        _temp395 = _n:env()
+      elseif _n.no_undermethod ~= nil then
+        _temp395 =  _n:no_undermethod(string:new("env"))
+      else
+        _error(exception:method_error("e", "env"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp395)
+      if _f.env ~= nil then
+        _temp395 = _f:env()
+      elseif _f.no_undermethod ~= nil then
+        _temp395 =  _f:no_undermethod(string:new("env"))
+      else
+        _error(exception:method_error("e", "env"))
+      end
+
+      elseif _temp395 == nil then
+        _error(exception:null_error("e", "invoke env on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp395))
+      end
+
+
+local _temp396 
+do
+local _temp397 = nil
+        local _t = _type(_temp394)
+        if _t == "table" then
+          if _rawget(_temp394, "__call_thing") == nil then
+            _temp397 = _temp394
+          else
+                  if _temp394 == nil then
+              if _type(_self._temp394) == "function" or (_type(_self._temp394) == "table" and _rawget(_self._temp394, "__call_thing")) then
+        _temp397 =  _self:_temp394()
+      elseif _self._temp394 ~= nil then
+        _temp397 =  _self._temp394
+
+        elseif _self.no_undermethod ~= nil then
+          _temp397 =  _self:no_undermethod(string:new("_temp394"))
+        else
+          _error(exception:null_error("lifted", "invoke method"))
+        end
+      else 
+        _temp397 =  _temp394(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp397 = _temp394
+        elseif _t == "function" then
+                if _temp394 == nil then
+              if _type(_self._temp394) == "function" or (_type(_self._temp394) == "table" and _rawget(_self._temp394, "__call_thing")) then
+        _temp397 =  _self:_temp394()
+      elseif _self._temp394 ~= nil then
+        _temp397 =  _self._temp394
+
+        elseif _self.no_undermethod ~= nil then
+          _temp397 =  _self:no_undermethod(string:new("_temp394"))
+        else
+          _error(exception:null_error("lifted", "invoke method"))
+        end
+      else 
+        _temp397 =  _temp394(_self)
+      end
+
+        elseif _temp394 == nil then
+          _error(exception:null_error("lifted", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "lifted"))
+        end
+
+local _temp398 = nil
       local _t = _type(_temp397)
       if _t == "table" then
-                      if _type(_temp397.upvars) == "function" or (_type(_temp397.upvars) == "table" and _rawget(_temp397.upvars, "__call_thing")) then
-        _temp397 = _temp397:upvars()
-      elseif _temp397.upvars ~= nil then
-        _temp397 = _temp397.upvars
+                      if _type(_temp397.out) == "function" or (_type(_temp397.out) == "table" and _rawget(_temp397.out, "__call_thing")) then
+        _temp398 = _temp397:out()
+      elseif _temp397.out ~= nil then
+        _temp398 = _temp397.out
 
         elseif _temp397.no_undermethod ~= nil then
-          _temp397 =  _temp397:no_undermethod(string:new("upvars"))
+          _temp398 =  _temp397:no_undermethod(string:new("out"))
         else
-          _error(exception:method_error(_temp397, "upvars"))
+          _error(exception:method_error(_temp397, "out"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp397)
-      if _n.upvars ~= nil then
-        _temp397 = _n:upvars()
+      if _n.out ~= nil then
+        _temp398 = _n:out()
       elseif _n.no_undermethod ~= nil then
-        _temp397 =  _n:no_undermethod(string:new("upvars"))
+        _temp398 =  _n:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp397, "upvars"))
+        _error(exception:method_error(_temp397, "out"))
       end
 
       elseif _t == "function" then
               local _f = brat_function:new(_temp397)
-      if _f.upvars ~= nil then
-        _temp397 = _f:upvars()
+      if _f.out ~= nil then
+        _temp398 = _f:out()
       elseif _f.no_undermethod ~= nil then
-        _temp397 =  _f:no_undermethod(string:new("upvars"))
+        _temp398 =  _f:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp397, "upvars"))
+        _error(exception:method_error(_temp397, "out"))
       end
 
       elseif _temp397 == nil then
-        _error(exception:null_error("_temp397", "invoke upvars on it"))
+        _error(exception:null_error("_temp397", "invoke out on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(_temp397))
       end
 
+local _temp399 = nil
+        local _t = _type(_temp314)
+        if _t == "table" then
+          if _rawget(_temp314, "__call_thing") == nil then
+            _temp399 = _temp314
+          else
+                  if _temp314 == nil then
+              if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
+        _temp399 =  _self:_temp314()
+      elseif _self._temp314 ~= nil then
+        _temp399 =  _self._temp314
+
+        elseif _self.no_undermethod ~= nil then
+          _temp399 =  _self:no_undermethod(string:new("_temp314"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp399 =  _temp314(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp399 = _temp314
+        elseif _t == "function" then
+                if _temp314 == nil then
+              if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
+        _temp399 =  _self:_temp314()
+      elseif _self._temp314 ~= nil then
+        _temp399 =  _self._temp314
+
+        elseif _self.no_undermethod ~= nil then
+          _temp399 =  _self:no_undermethod(string:new("_temp314"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp399 =  _temp314(_self)
+      end
+
+        elseif _temp314 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
+      local _t = _type(_temp399)
+      if _t == "table" then
+                      if _type(_temp399.upvars) == "function" or (_type(_temp399.upvars) == "table" and _rawget(_temp399.upvars, "__call_thing")) then
+        _temp399 = _temp399:upvars()
+      elseif _temp399.upvars ~= nil then
+        _temp399 = _temp399.upvars
+
+        elseif _temp399.no_undermethod ~= nil then
+          _temp399 =  _temp399:no_undermethod(string:new("upvars"))
+        else
+          _error(exception:method_error(_temp399, "upvars"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp399)
+      if _n.upvars ~= nil then
+        _temp399 = _n:upvars()
+      elseif _n.no_undermethod ~= nil then
+        _temp399 =  _n:no_undermethod(string:new("upvars"))
+      else
+        _error(exception:method_error(_temp399, "upvars"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp399)
+      if _f.upvars ~= nil then
+        _temp399 = _f:upvars()
+      elseif _f.no_undermethod ~= nil then
+        _temp399 =  _f:no_undermethod(string:new("upvars"))
+      else
+        _error(exception:method_error(_temp399, "upvars"))
+      end
+
+      elseif _temp399 == nil then
+        _error(exception:null_error("_temp399", "invoke upvars on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp399))
+      end
 
 
-local _temp418 = function (_self)
+local _temp408 = function (_self, _temp400)
+        if _temp400 == nil then
+          _error(exception:argument_error("function", 1, 0))
+
+end
+local _temp401 = nil
+do
+local _temp402 = nil
+        local _t = _type(_temp394)
+        if _t == "table" then
+          if _rawget(_temp394, "__call_thing") == nil then
+            _temp402 = _temp394
+          else
+                  if _temp394 == nil then
+              if _type(_self._temp394) == "function" or (_type(_self._temp394) == "table" and _rawget(_self._temp394, "__call_thing")) then
+        _temp402 =  _self:_temp394()
+      elseif _self._temp394 ~= nil then
+        _temp402 =  _self._temp394
+
+        elseif _self.no_undermethod ~= nil then
+          _temp402 =  _self:no_undermethod(string:new("_temp394"))
+        else
+          _error(exception:null_error("lifted", "invoke method"))
+        end
+      else 
+        _temp402 =  _temp394(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp402 = _temp394
+        elseif _t == "function" then
+                if _temp394 == nil then
+              if _type(_self._temp394) == "function" or (_type(_self._temp394) == "table" and _rawget(_self._temp394, "__call_thing")) then
+        _temp402 =  _self:_temp394()
+      elseif _self._temp394 ~= nil then
+        _temp402 =  _self._temp394
+
+        elseif _self.no_undermethod ~= nil then
+          _temp402 =  _self:no_undermethod(string:new("_temp394"))
+        else
+          _error(exception:null_error("lifted", "invoke method"))
+        end
+      else 
+        _temp402 =  _temp394(_self)
+      end
+
+        elseif _temp394 == nil then
+          _error(exception:null_error("lifted", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "lifted"))
+        end
+      local _t = _type(_temp402)
+      if _t == "table" then
+                      if _type(_temp402.var) == "function" or (_type(_temp402.var) == "table" and _rawget(_temp402.var, "__call_thing")) then
+        _temp402 = _temp402:var()
+      elseif _temp402.var ~= nil then
+        _temp402 = _temp402.var
+
+        elseif _temp402.no_undermethod ~= nil then
+          _temp402 =  _temp402:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp402, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp402)
+      if _n.var ~= nil then
+        _temp402 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp402 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp402, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp402)
+      if _f.var ~= nil then
+        _temp402 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp402 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp402, "var"))
+      end
+
+      elseif _temp402 == nil then
+        _error(exception:null_error("_temp402", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp402))
+      end
+
 
 local _temp403
-              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp403 =  _self:my()
-      elseif _self.my ~= nil then
-        _temp403 =  _self.my
+do
+        local _t = _type(_temp315)
+        if _t == "table" then
+          if _rawget(_temp315, "__call_thing") == nil then
+            _temp403 = _temp315
+          else
+                  if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp403 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp403 =  _self._temp315
 
-        elseif my ~= nil then
-          _temp403 = my;
+        elseif _self.no_undermethod ~= nil then
+          _temp403 =  _self:no_undermethod(string:new("_temp315"))
         else
-          _error(exception:method_error("self", "my"))
+          _error(exception:null_error("w", "invoke method"))
+        end
+      else 
+        _temp403 =  _temp315(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp403 = _temp315
+        elseif _t == "function" then
+                if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp403 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp403 =  _self._temp315
+
+        elseif _self.no_undermethod ~= nil then
+          _temp403 =  _self:no_undermethod(string:new("_temp315"))
+        else
+          _error(exception:null_error("w", "invoke method"))
+        end
+      else 
+        _temp403 =  _temp315(_self)
+      end
+
+        elseif _temp315 == nil then
+          _error(exception:null_error("w", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "w"))
         end
       local _t = _type(_temp403)
       if _t == "table" then
@@ -16764,7 +16890,7 @@ local _temp403
         elseif _temp403.no_undermethod ~= nil then
           _temp403 =  _temp403:no_undermethod(string:new("env"))
         else
-          _error(exception:method_error("e", "env"))
+          _error(exception:method_error(_temp403, "env"))
         end
 
       elseif _t == "number" then
@@ -16774,7 +16900,7 @@ local _temp403
       elseif _n.no_undermethod ~= nil then
         _temp403 =  _n:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error("e", "env"))
+        _error(exception:method_error(_temp403, "env"))
       end
 
       elseif _t == "function" then
@@ -16784,647 +16910,296 @@ local _temp403
       elseif _f.no_undermethod ~= nil then
         _temp403 =  _f:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error("e", "env"))
+        _error(exception:method_error(_temp403, "env"))
       end
 
       elseif _temp403 == nil then
-        _error(exception:null_error("e", "invoke env on it"))
+        _error(exception:null_error("_temp403", "invoke env on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(_temp403))
       end
 
+local _temp404 = nil
+    if _type(_temp400) == "function" or (_type(_temp400) == "table" and _rawget(_temp400, "__call_thing")) then
+      _temp404 =  _temp400(_self)
 
-local _temp404 
+    elseif _temp400 then
+      _temp404 =  _temp400
+    else
+            if _type(_self.u) == "function" or (_type(_self.u) == "table" and _rawget(_self.u, "__call_thing")) then
+        _temp404 =  _self:u()
+      elseif _self.u ~= nil then
+        _temp404 =  _self.u
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp404 =  _self:no_undermethod(string:new("u"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp404 =  no_undermethod(_self, string:new("u"))
+      else
+        _error(exception:name_error("u"))
+      end
+    end
+
+
+_temp403 = _temp403:get(_temp404)
+end
+
+local _temp405
 do
-local _temp405 = nil
-        local _t = _type(_temp402)
+        local _t = _type(_temp315)
         if _t == "table" then
-          if _rawget(_temp402, "__call_thing") == nil then
-            _temp405 = _temp402
+          if _rawget(_temp315, "__call_thing") == nil then
+            _temp405 = _temp315
           else
-                  if _temp402 == nil then
-              if _type(_self._temp402) == "function" or (_type(_self._temp402) == "table" and _rawget(_self._temp402, "__call_thing")) then
-        _temp405 =  _self:_temp402()
-      elseif _self._temp402 ~= nil then
-        _temp405 =  _self._temp402
+                  if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp405 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp405 =  _self._temp315
 
         elseif _self.no_undermethod ~= nil then
-          _temp405 =  _self:no_undermethod(string:new("_temp402"))
+          _temp405 =  _self:no_undermethod(string:new("_temp315"))
         else
-          _error(exception:null_error("lifted", "invoke method"))
+          _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp405 =  _temp402(_self)
+        _temp405 =  _temp315(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp405 = _temp402
+          _temp405 = _temp315
         elseif _t == "function" then
-                if _temp402 == nil then
-              if _type(_self._temp402) == "function" or (_type(_self._temp402) == "table" and _rawget(_self._temp402, "__call_thing")) then
-        _temp405 =  _self:_temp402()
-      elseif _self._temp402 ~= nil then
-        _temp405 =  _self._temp402
+                if _temp315 == nil then
+              if _type(_self._temp315) == "function" or (_type(_self._temp315) == "table" and _rawget(_self._temp315, "__call_thing")) then
+        _temp405 =  _self:_temp315()
+      elseif _self._temp315 ~= nil then
+        _temp405 =  _self._temp315
 
         elseif _self.no_undermethod ~= nil then
-          _temp405 =  _self:no_undermethod(string:new("_temp402"))
+          _temp405 =  _self:no_undermethod(string:new("_temp315"))
         else
-          _error(exception:null_error("lifted", "invoke method"))
+          _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp405 =  _temp402(_self)
+        _temp405 =  _temp315(_self)
       end
 
-        elseif _temp402 == nil then
-          _error(exception:null_error("lifted", "cannot call method on it"))
+        elseif _temp315 == nil then
+          _error(exception:null_error("w", "cannot call method on it"))
         else
-          _error(exception:method_error("self", "lifted"))
+          _error(exception:method_error("self", "w"))
         end
-
-local _temp406 = nil
       local _t = _type(_temp405)
       if _t == "table" then
-                      if _type(_temp405.out) == "function" or (_type(_temp405.out) == "table" and _rawget(_temp405.out, "__call_thing")) then
-        _temp406 = _temp405:out()
-      elseif _temp405.out ~= nil then
-        _temp406 = _temp405.out
+                      if _type(_temp405.env) == "function" or (_type(_temp405.env) == "table" and _rawget(_temp405.env, "__call_thing")) then
+        _temp405 = _temp405:env()
+      elseif _temp405.env ~= nil then
+        _temp405 = _temp405.env
 
         elseif _temp405.no_undermethod ~= nil then
-          _temp406 =  _temp405:no_undermethod(string:new("out"))
+          _temp405 =  _temp405:no_undermethod(string:new("env"))
         else
-          _error(exception:method_error(_temp405, "out"))
+          _error(exception:method_error(_temp405, "env"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp405)
-      if _n.out ~= nil then
-        _temp406 = _n:out()
+      if _n.env ~= nil then
+        _temp405 = _n:env()
       elseif _n.no_undermethod ~= nil then
-        _temp406 =  _n:no_undermethod(string:new("out"))
+        _temp405 =  _n:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp405, "out"))
+        _error(exception:method_error(_temp405, "env"))
       end
 
       elseif _t == "function" then
               local _f = brat_function:new(_temp405)
-      if _f.out ~= nil then
-        _temp406 = _f:out()
+      if _f.env ~= nil then
+        _temp405 = _f:env()
       elseif _f.no_undermethod ~= nil then
-        _temp406 =  _f:no_undermethod(string:new("out"))
+        _temp405 =  _f:no_undermethod(string:new("env"))
       else
-        _error(exception:method_error(_temp405, "out"))
+        _error(exception:method_error(_temp405, "env"))
       end
 
       elseif _temp405 == nil then
-        _error(exception:null_error("_temp405", "invoke out on it"))
+        _error(exception:null_error("_temp405", "invoke env on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(_temp405))
       end
 
-local _temp407 = nil
-        local _t = _type(_temp314)
-        if _t == "table" then
-          if _rawget(_temp314, "__call_thing") == nil then
-            _temp407 = _temp314
-          else
-                  if _temp314 == nil then
-              if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp407 =  _self:_temp314()
-      elseif _self._temp314 ~= nil then
-        _temp407 =  _self._temp314
+local _temp406 = nil
+    if _type(_temp400) == "function" or (_type(_temp400) == "table" and _rawget(_temp400, "__call_thing")) then
+      _temp406 =  _temp400(_self)
 
-        elseif _self.no_undermethod ~= nil then
-          _temp407 =  _self:no_undermethod(string:new("_temp314"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp407 =  _temp314(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp407 = _temp314
-        elseif _t == "function" then
-                if _temp314 == nil then
-              if _type(_self._temp314) == "function" or (_type(_self._temp314) == "table" and _rawget(_self._temp314, "__call_thing")) then
-        _temp407 =  _self:_temp314()
-      elseif _self._temp314 ~= nil then
-        _temp407 =  _self._temp314
-
-        elseif _self.no_undermethod ~= nil then
-          _temp407 =  _self:no_undermethod(string:new("_temp314"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp407 =  _temp314(_self)
-      end
-
-        elseif _temp314 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp407)
-      if _t == "table" then
-                      if _type(_temp407.upvars) == "function" or (_type(_temp407.upvars) == "table" and _rawget(_temp407.upvars, "__call_thing")) then
-        _temp407 = _temp407:upvars()
-      elseif _temp407.upvars ~= nil then
-        _temp407 = _temp407.upvars
-
-        elseif _temp407.no_undermethod ~= nil then
-          _temp407 =  _temp407:no_undermethod(string:new("upvars"))
-        else
-          _error(exception:method_error(_temp407, "upvars"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp407)
-      if _n.upvars ~= nil then
-        _temp407 = _n:upvars()
-      elseif _n.no_undermethod ~= nil then
-        _temp407 =  _n:no_undermethod(string:new("upvars"))
-      else
-        _error(exception:method_error(_temp407, "upvars"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp407)
-      if _f.upvars ~= nil then
-        _temp407 = _f:upvars()
-      elseif _f.no_undermethod ~= nil then
-        _temp407 =  _f:no_undermethod(string:new("upvars"))
-      else
-        _error(exception:method_error(_temp407, "upvars"))
-      end
-
-      elseif _temp407 == nil then
-        _error(exception:null_error("_temp407", "invoke upvars on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp407))
-      end
-
-
-local _temp416 = function (_self, _temp408)
-        if _temp408 == nil then
-          _error(exception:argument_error("function", 1, 0))
-
-end
-local _temp409 = nil
-do
-local _temp410 = nil
-        local _t = _type(_temp402)
-        if _t == "table" then
-          if _rawget(_temp402, "__call_thing") == nil then
-            _temp410 = _temp402
-          else
-                  if _temp402 == nil then
-              if _type(_self._temp402) == "function" or (_type(_self._temp402) == "table" and _rawget(_self._temp402, "__call_thing")) then
-        _temp410 =  _self:_temp402()
-      elseif _self._temp402 ~= nil then
-        _temp410 =  _self._temp402
-
-        elseif _self.no_undermethod ~= nil then
-          _temp410 =  _self:no_undermethod(string:new("_temp402"))
-        else
-          _error(exception:null_error("lifted", "invoke method"))
-        end
-      else 
-        _temp410 =  _temp402(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp410 = _temp402
-        elseif _t == "function" then
-                if _temp402 == nil then
-              if _type(_self._temp402) == "function" or (_type(_self._temp402) == "table" and _rawget(_self._temp402, "__call_thing")) then
-        _temp410 =  _self:_temp402()
-      elseif _self._temp402 ~= nil then
-        _temp410 =  _self._temp402
-
-        elseif _self.no_undermethod ~= nil then
-          _temp410 =  _self:no_undermethod(string:new("_temp402"))
-        else
-          _error(exception:null_error("lifted", "invoke method"))
-        end
-      else 
-        _temp410 =  _temp402(_self)
-      end
-
-        elseif _temp402 == nil then
-          _error(exception:null_error("lifted", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "lifted"))
-        end
-      local _t = _type(_temp410)
-      if _t == "table" then
-                      if _type(_temp410.var) == "function" or (_type(_temp410.var) == "table" and _rawget(_temp410.var, "__call_thing")) then
-        _temp410 = _temp410:var()
-      elseif _temp410.var ~= nil then
-        _temp410 = _temp410.var
-
-        elseif _temp410.no_undermethod ~= nil then
-          _temp410 =  _temp410:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp410, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp410)
-      if _n.var ~= nil then
-        _temp410 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp410 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp410, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp410)
-      if _f.var ~= nil then
-        _temp410 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp410 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp410, "var"))
-      end
-
-      elseif _temp410 == nil then
-        _error(exception:null_error("_temp410", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp410))
-      end
-
-
-local _temp411
-do
-        local _t = _type(_temp323)
-        if _t == "table" then
-          if _rawget(_temp323, "__call_thing") == nil then
-            _temp411 = _temp323
-          else
-                  if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp411 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp411 =  _self._temp323
-
-        elseif _self.no_undermethod ~= nil then
-          _temp411 =  _self:no_undermethod(string:new("_temp323"))
-        else
-          _error(exception:null_error("w", "invoke method"))
-        end
-      else 
-        _temp411 =  _temp323(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp411 = _temp323
-        elseif _t == "function" then
-                if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp411 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp411 =  _self._temp323
-
-        elseif _self.no_undermethod ~= nil then
-          _temp411 =  _self:no_undermethod(string:new("_temp323"))
-        else
-          _error(exception:null_error("w", "invoke method"))
-        end
-      else 
-        _temp411 =  _temp323(_self)
-      end
-
-        elseif _temp323 == nil then
-          _error(exception:null_error("w", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "w"))
-        end
-      local _t = _type(_temp411)
-      if _t == "table" then
-                      if _type(_temp411.env) == "function" or (_type(_temp411.env) == "table" and _rawget(_temp411.env, "__call_thing")) then
-        _temp411 = _temp411:env()
-      elseif _temp411.env ~= nil then
-        _temp411 = _temp411.env
-
-        elseif _temp411.no_undermethod ~= nil then
-          _temp411 =  _temp411:no_undermethod(string:new("env"))
-        else
-          _error(exception:method_error(_temp411, "env"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp411)
-      if _n.env ~= nil then
-        _temp411 = _n:env()
-      elseif _n.no_undermethod ~= nil then
-        _temp411 =  _n:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error(_temp411, "env"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp411)
-      if _f.env ~= nil then
-        _temp411 = _f:env()
-      elseif _f.no_undermethod ~= nil then
-        _temp411 =  _f:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error(_temp411, "env"))
-      end
-
-      elseif _temp411 == nil then
-        _error(exception:null_error("_temp411", "invoke env on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp411))
-      end
-
-local _temp412 = nil
-    if _type(_temp408) == "function" or (_type(_temp408) == "table" and _rawget(_temp408, "__call_thing")) then
-      _temp412 =  _temp408(_self)
-
-    elseif _temp408 then
-      _temp412 =  _temp408
+    elseif _temp400 then
+      _temp406 =  _temp400
     else
             if _type(_self.u) == "function" or (_type(_self.u) == "table" and _rawget(_self.u, "__call_thing")) then
-        _temp412 =  _self:u()
+        _temp406 =  _self:u()
       elseif _self.u ~= nil then
-        _temp412 =  _self.u
+        _temp406 =  _self.u
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp412 =  _self:no_undermethod(string:new("u"))
+        _temp406 =  _self:no_undermethod(string:new("u"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp412 =  no_undermethod(_self, string:new("u"))
+        _temp406 =  no_undermethod(_self, string:new("u"))
       else
         _error(exception:name_error("u"))
       end
     end
 
 
-_temp411 = _temp411:get(_temp412)
+_temp405 = _temp405:get(_temp406)
 end
 
-local _temp413
-do
-        local _t = _type(_temp323)
-        if _t == "table" then
-          if _rawget(_temp323, "__call_thing") == nil then
-            _temp413 = _temp323
-          else
-                  if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp413 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp413 =  _self._temp323
+_temp401 = string:new("" .. _tostring(_temp402) .. ".arg_table['" .. _tostring(_temp403) .. "'] = " .. _tostring(_temp405) .. "")
+end
 
-        elseif _self.no_undermethod ~= nil then
-          _temp413 =  _self:no_undermethod(string:new("_temp323"))
-        else
-          _error(exception:null_error("w", "invoke method"))
-        end
-      else 
-        _temp413 =  _temp323(_self)
-      end
+return _temp401
+end
 
-          end
-        elseif _t == "number" then
-          _temp413 = _temp323
-        elseif _t == "function" then
-                if _temp323 == nil then
-              if _type(_self._temp323) == "function" or (_type(_self._temp323) == "table" and _rawget(_self._temp323, "__call_thing")) then
-        _temp413 =  _self:_temp323()
-      elseif _self._temp323 ~= nil then
-        _temp413 =  _self._temp323
-
-        elseif _self.no_undermethod ~= nil then
-          _temp413 =  _self:no_undermethod(string:new("_temp323"))
-        else
-          _error(exception:null_error("w", "invoke method"))
-        end
-      else 
-        _temp413 =  _temp323(_self)
-      end
-
-        elseif _temp323 == nil then
-          _error(exception:null_error("w", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "w"))
-        end
-      local _t = _type(_temp413)
+      local _t = _type(_temp399)
       if _t == "table" then
-                      if _type(_temp413.env) == "function" or (_type(_temp413.env) == "table" and _rawget(_temp413.env, "__call_thing")) then
-        _temp413 = _temp413:env()
-      elseif _temp413.env ~= nil then
-        _temp413 = _temp413.env
+                      if _type(_temp399.map) == "function" or (_type(_temp399.map) == "table" and _rawget(_temp399.map, "__call_thing")) then
+        _temp399 = _temp399:map(_temp408)
+      elseif _temp399.map ~= nil then
+        _temp399 = _temp399.map
 
-        elseif _temp413.no_undermethod ~= nil then
-          _temp413 =  _temp413:no_undermethod(string:new("env"))
+        elseif _temp399.no_undermethod ~= nil then
+          _temp399 =  _temp399:no_undermethod(string:new("map") , _temp408)
         else
-          _error(exception:method_error(_temp413, "env"))
+          _error(exception:method_error(_temp399, "map"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp413)
-      if _n.env ~= nil then
-        _temp413 = _n:env()
-      elseif _n.no_undermethod ~= nil then
-        _temp413 =  _n:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error(_temp413, "env"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp413)
-      if _f.env ~= nil then
-        _temp413 = _f:env()
-      elseif _f.no_undermethod ~= nil then
-        _temp413 =  _f:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error(_temp413, "env"))
-      end
-
-      elseif _temp413 == nil then
-        _error(exception:null_error("_temp413", "invoke env on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp413))
-      end
-
-local _temp414 = nil
-    if _type(_temp408) == "function" or (_type(_temp408) == "table" and _rawget(_temp408, "__call_thing")) then
-      _temp414 =  _temp408(_self)
-
-    elseif _temp408 then
-      _temp414 =  _temp408
-    else
-            if _type(_self.u) == "function" or (_type(_self.u) == "table" and _rawget(_self.u, "__call_thing")) then
-        _temp414 =  _self:u()
-      elseif _self.u ~= nil then
-        _temp414 =  _self.u
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp414 =  _self:no_undermethod(string:new("u"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp414 =  no_undermethod(_self, string:new("u"))
-      else
-        _error(exception:name_error("u"))
-      end
-    end
-
-
-_temp413 = _temp413:get(_temp414)
-end
-
-_temp409 = string:new("" .. _tostring(_temp410) .. ".arg_table['" .. _tostring(_temp411) .. "'] = " .. _tostring(_temp413) .. "")
-end
-
-return _temp409
-end
-
-      local _t = _type(_temp407)
-      if _t == "table" then
-                      if _type(_temp407.map) == "function" or (_type(_temp407.map) == "table" and _rawget(_temp407.map, "__call_thing")) then
-        _temp407 = _temp407:map(_temp416)
-      elseif _temp407.map ~= nil then
-        _temp407 = _temp407.map
-
-        elseif _temp407.no_undermethod ~= nil then
-          _temp407 =  _temp407:no_undermethod(string:new("map") , _temp416)
-        else
-          _error(exception:method_error(_temp407, "map"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp407)
+              local _n = number:new(_temp399)
       if _n.map ~= nil then
-        _temp407 = _n:map(_temp416)
+        _temp399 = _n:map(_temp408)
       elseif _n.no_undermethod ~= nil then
-        _temp407 =  _n:no_undermethod(string:new("map") , _temp416)
+        _temp399 =  _n:no_undermethod(string:new("map") , _temp408)
       else
-        _error(exception:method_error(_temp407, "map"))
+        _error(exception:method_error(_temp399, "map"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp407)
+              local _f = brat_function:new(_temp399)
       if _f.map ~= nil then
-        _temp407 = _f:map(_temp416)
+        _temp399 = _f:map(_temp408)
       elseif _f.no_undermethod ~= nil then
-        _temp407 =  _f:no_undermethod(string:new("map") , _temp416)
+        _temp399 =  _f:no_undermethod(string:new("map") , _temp408)
       else
-        _error(exception:method_error(_temp407, "map"))
+        _error(exception:method_error(_temp399, "map"))
       end
 
-      elseif _temp407 == nil then
-        _error(exception:null_error("_temp407", "invoke map on it"))
+      elseif _temp399 == nil then
+        _error(exception:null_error("_temp399", "invoke map on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp407))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp399))
       end
 
-_temp416 = string:new("\n")
+_temp408 = string:new("\n")
 
-      local _t = _type(_temp407)
+      local _t = _type(_temp399)
       if _t == "table" then
-                      if _type(_temp407.join) == "function" or (_type(_temp407.join) == "table" and _rawget(_temp407.join, "__call_thing")) then
-        _temp407 = _temp407:join(_temp416)
-      elseif _temp407.join ~= nil then
-        _temp407 = _temp407.join
+                      if _type(_temp399.join) == "function" or (_type(_temp399.join) == "table" and _rawget(_temp399.join, "__call_thing")) then
+        _temp399 = _temp399:join(_temp408)
+      elseif _temp399.join ~= nil then
+        _temp399 = _temp399.join
 
-        elseif _temp407.no_undermethod ~= nil then
-          _temp407 =  _temp407:no_undermethod(string:new("join") , _temp416)
+        elseif _temp399.no_undermethod ~= nil then
+          _temp399 =  _temp399:no_undermethod(string:new("join") , _temp408)
         else
-          _error(exception:method_error(_temp407, "join"))
+          _error(exception:method_error(_temp399, "join"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp407)
+              local _n = number:new(_temp399)
       if _n.join ~= nil then
-        _temp407 = _n:join(_temp416)
+        _temp399 = _n:join(_temp408)
       elseif _n.no_undermethod ~= nil then
-        _temp407 =  _n:no_undermethod(string:new("join") , _temp416)
+        _temp399 =  _n:no_undermethod(string:new("join") , _temp408)
       else
-        _error(exception:method_error(_temp407, "join"))
+        _error(exception:method_error(_temp399, "join"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp407)
+              local _f = brat_function:new(_temp399)
       if _f.join ~= nil then
-        _temp407 = _f:join(_temp416)
+        _temp399 = _f:join(_temp408)
       elseif _f.no_undermethod ~= nil then
-        _temp407 =  _f:no_undermethod(string:new("join") , _temp416)
+        _temp399 =  _f:no_undermethod(string:new("join") , _temp408)
       else
-        _error(exception:method_error(_temp407, "join"))
+        _error(exception:method_error(_temp399, "join"))
       end
 
-      elseif _temp407 == nil then
-        _error(exception:null_error("_temp407", "invoke join on it"))
+      elseif _temp399 == nil then
+        _error(exception:null_error("_temp399", "invoke join on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp407))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp399))
       end
 
-local _temp416
-      local _t = _type(_temp406)
+local _temp408
+      local _t = _type(_temp398)
       if _t == "table" then
-                      if _type(_temp406._less_less) == "function" or (_type(_temp406._less_less) == "table" and _rawget(_temp406._less_less, "__call_thing")) then
-        _temp416 = _temp406:_less_less(_temp407)
-      elseif _temp406._less_less ~= nil then
-        _temp416 = _temp406._less_less
+                      if _type(_temp398._less_less) == "function" or (_type(_temp398._less_less) == "table" and _rawget(_temp398._less_less, "__call_thing")) then
+        _temp408 = _temp398:_less_less(_temp399)
+      elseif _temp398._less_less ~= nil then
+        _temp408 = _temp398._less_less
 
-        elseif _temp406.no_undermethod ~= nil then
-          _temp416 =  _temp406:no_undermethod(string:new("<<") , _temp407)
+        elseif _temp398.no_undermethod ~= nil then
+          _temp408 =  _temp398:no_undermethod(string:new("<<") , _temp399)
         else
-          _error(exception:method_error(_temp406, "<<"))
+          _error(exception:method_error(_temp398, "<<"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp406)
+              local _n = number:new(_temp398)
       if _n._less_less ~= nil then
-        _temp416 = _n:_less_less(_temp407)
+        _temp408 = _n:_less_less(_temp399)
       elseif _n.no_undermethod ~= nil then
-        _temp416 =  _n:no_undermethod(string:new("<<") , _temp407)
+        _temp408 =  _n:no_undermethod(string:new("<<") , _temp399)
       else
-        _error(exception:method_error(_temp406, "<<"))
+        _error(exception:method_error(_temp398, "<<"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp406)
+              local _f = brat_function:new(_temp398)
       if _f._less_less ~= nil then
-        _temp416 = _f:_less_less(_temp407)
+        _temp408 = _f:_less_less(_temp399)
       elseif _f.no_undermethod ~= nil then
-        _temp416 =  _f:no_undermethod(string:new("<<") , _temp407)
+        _temp408 =  _f:no_undermethod(string:new("<<") , _temp399)
       else
-        _error(exception:method_error(_temp406, "<<"))
+        _error(exception:method_error(_temp398, "<<"))
       end
 
-      elseif _temp406 == nil then
-        _error(exception:null_error("_temp406", "invoke << on it"))
+      elseif _temp398 == nil then
+        _error(exception:null_error("_temp398", "invoke << on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp406))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp398))
       end
 
-_temp404 = _temp416 
+_temp396 = _temp408 
 end
 
-return _temp404
+return _temp396
 end
 
     if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
-      _dummy_ =  true_question(_self, _temp397,_temp418)
+      _dummy_ =  true_question(_self, _temp389,_temp410)
 
     elseif true_question then
       _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
     else
             if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
-        _dummy_ =  _self:true_question(_temp397,_temp418)
+        _dummy_ =  _self:true_question(_temp389,_temp410)
       elseif _self.true_question ~= nil then
         _dummy_ =  _self.true_question
 
@@ -17432,19 +17207,19 @@ end
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _dummy_ =  _self:no_undermethod(string:new("true?") , _temp397,_temp418)
+        _dummy_ =  _self:no_undermethod(string:new("true?") , _temp389,_temp410)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _dummy_ =  no_undermethod(_self, string:new("true?") , _temp397,_temp418)
+        _dummy_ =  no_undermethod(_self, string:new("true?") , _temp389,_temp410)
       else
         _error(exception:name_error("true?"))
       end
     end
 
-    if _type(_temp402) == "function" or (_type(_temp402) == "table" and _rawget(_temp402, "__call_thing")) then
-      return  _temp402(_self)
+    if _type(_temp394) == "function" or (_type(_temp394) == "table" and _rawget(_temp394, "__call_thing")) then
+      return  _temp394(_self)
 
-    elseif _temp402 then
-      return  _temp402
+    elseif _temp394 then
+      return  _temp394
     else
             if _type(_self.lifted) == "function" or (_type(_self.lifted) == "table" and _rawget(_self.lifted, "__call_thing")) then
         return  _self:lifted()
@@ -17465,40 +17240,15 @@ end
 
 end
 
-    if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
-      return  true_question(_self, _temp315,_temp322,_temp397)
-
-    elseif true_question then
-      _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
-    else
-            if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
-        return  _self:true_question(_temp315,_temp322,_temp397)
-      elseif _self.true_question ~= nil then
-        return  _self.true_question
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("true?") , _temp315,_temp322,_temp397)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("true?") , _temp315,_temp322,_temp397)
-      else
-        _error(exception:name_error("true?"))
-      end
-    end
-
-end
-
       local _t = _type(_temp266)
       if _t == "table" then
                       if _type(_temp266.walk) == "function" or (_type(_temp266.walk) == "table" and _rawget(_temp266.walk, "__call_thing")) then
-        _dummy_ = _temp266:walk(_temp4,_temp420)
+        _dummy_ = _temp266:walk(_temp4,_temp389)
       elseif _temp266.walk ~= nil then
         _dummy_ = _temp266.walk
 
         elseif _temp266.no_undermethod ~= nil then
-          _dummy_ =  _temp266:no_undermethod(string:new("walk") , _temp4,_temp420)
+          _dummy_ =  _temp266:no_undermethod(string:new("walk") , _temp4,_temp389)
         else
           _error(exception:method_error(_temp266, "walk"))
         end
@@ -17506,9 +17256,9 @@ end
       elseif _t == "number" then
               local _n = number:new(_temp266)
       if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp420)
+        _dummy_ = _n:walk(_temp4,_temp389)
       elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp420)
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp389)
       else
         _error(exception:method_error(_temp266, "walk"))
       end
@@ -17516,9 +17266,9 @@ end
       elseif _t == "function" then
               local _f = brat_function:new(_temp266)
       if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp420)
+        _dummy_ = _f:walk(_temp4,_temp389)
       elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp420)
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp389)
       else
         _error(exception:method_error(_temp266, "walk"))
       end
@@ -17532,40 +17282,40 @@ end
         local _t = _type(_temp5)
         if _t == "table" then
           if _rawget(_temp5, "__call_thing") == nil then
-            _temp420 = _temp5
+            _temp389 = _temp5
           else
                   if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp420 =  _self:_temp5()
+        _temp389 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp420 =  _self._temp5
+        _temp389 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp420 =  _self:no_undermethod(string:new("_temp5"))
+          _temp389 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp420 =  _temp5(_self)
+        _temp389 =  _temp5(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp420 = _temp5
+          _temp389 = _temp5
         elseif _t == "function" then
                 if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp420 =  _self:_temp5()
+        _temp389 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp420 =  _self._temp5
+        _temp389 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp420 =  _self:no_undermethod(string:new("_temp5"))
+          _temp389 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp420 =  _temp5(_self)
+        _temp389 =  _temp5(_self)
       end
 
         elseif _temp5 == nil then
@@ -17575,31 +17325,31 @@ end
         end
 _temp4 = string:new("arg")
 
-local _temp428 = function (_self, _temp422,_temp421)
-        if _temp422 == nil then
+local _temp418 = function (_self, _temp412,_temp411)
+        if _temp412 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
 end
-if _temp421 == nil then
+if _temp411 == nil then
  do
     if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp421 =  null(_self)
+      _temp411 =  null(_self)
 
     elseif null then
-      _temp421 =  null
+      _temp411 =  null
     else
             if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp421 =  _self:null()
+        _temp411 =  _self:null()
       elseif _self.null ~= nil then
-        _temp421 =  _self.null
+        _temp411 =  _self.null
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp421 =  _self:no_undermethod(string:new("null"))
+        _temp411 =  _self:no_undermethod(string:new("null"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp421 =  no_undermethod(_self, string:new("null"))
+        _temp411 =  no_undermethod(_self, string:new("null"))
       else
         _error(exception:name_error("null"))
       end
@@ -17608,186 +17358,539 @@ if _temp421 == nil then
 end
 end
 
-local _temp423
+local _temp413
               if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp423 =  _self:my()
+        _temp413 =  _self:my()
       elseif _self.my ~= nil then
-        _temp423 =  _self.my
+        _temp413 =  _self.my
 
         elseif my ~= nil then
-          _temp423 = my;
+          _temp413 = my;
         else
           _error(exception:method_error("self", "my"))
         end
-      local _t = _type(_temp423)
+      local _t = _type(_temp413)
       if _t == "table" then
-                      if _type(_temp423.env) == "function" or (_type(_temp423.env) == "table" and _rawget(_temp423.env, "__call_thing")) then
-        _temp423 = _temp423:env()
-      elseif _temp423.env ~= nil then
-        _temp423 = _temp423.env
+                      if _type(_temp413.env) == "function" or (_type(_temp413.env) == "table" and _rawget(_temp413.env, "__call_thing")) then
+        _temp413 = _temp413:env()
+      elseif _temp413.env ~= nil then
+        _temp413 = _temp413.env
 
-        elseif _temp423.no_undermethod ~= nil then
-          _temp423 =  _temp423:no_undermethod(string:new("env"))
+        elseif _temp413.no_undermethod ~= nil then
+          _temp413 =  _temp413:no_undermethod(string:new("env"))
         else
           _error(exception:method_error("temp", "env"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp423)
+              local _n = number:new(_temp413)
       if _n.env ~= nil then
-        _temp423 = _n:env()
+        _temp413 = _n:env()
       elseif _n.no_undermethod ~= nil then
-        _temp423 =  _n:no_undermethod(string:new("env"))
+        _temp413 =  _n:no_undermethod(string:new("env"))
       else
         _error(exception:method_error("temp", "env"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp423)
+              local _f = brat_function:new(_temp413)
       if _f.env ~= nil then
-        _temp423 = _f:env()
+        _temp413 = _f:env()
       elseif _f.no_undermethod ~= nil then
-        _temp423 =  _f:no_undermethod(string:new("env"))
+        _temp413 =  _f:no_undermethod(string:new("env"))
       else
         _error(exception:method_error("temp", "env"))
       end
 
-      elseif _temp423 == nil then
+      elseif _temp413 == nil then
         _error(exception:null_error("temp", "invoke env on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp423))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp413))
       end
 
-local _temp424 = nil
-        local _t = _type(_temp422)
+local _temp414 = nil
+        local _t = _type(_temp412)
         if _t == "table" then
-          if _rawget(_temp422, "__call_thing") == nil then
-            _temp424 = _temp422
+          if _rawget(_temp412, "__call_thing") == nil then
+            _temp414 = _temp412
           else
-                  if _temp422 == nil then
-              if _type(_self._temp422) == "function" or (_type(_self._temp422) == "table" and _rawget(_self._temp422, "__call_thing")) then
-        _temp424 =  _self:_temp422()
-      elseif _self._temp422 ~= nil then
-        _temp424 =  _self._temp422
+                  if _temp412 == nil then
+              if _type(_self._temp412) == "function" or (_type(_self._temp412) == "table" and _rawget(_self._temp412, "__call_thing")) then
+        _temp414 =  _self:_temp412()
+      elseif _self._temp412 ~= nil then
+        _temp414 =  _self._temp412
 
         elseif _self.no_undermethod ~= nil then
-          _temp424 =  _self:no_undermethod(string:new("_temp422"))
+          _temp414 =  _self:no_undermethod(string:new("_temp412"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp424 =  _temp422(_self)
+        _temp414 =  _temp412(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp424 = _temp422
+          _temp414 = _temp412
         elseif _t == "function" then
-                if _temp422 == nil then
-              if _type(_self._temp422) == "function" or (_type(_self._temp422) == "table" and _rawget(_self._temp422, "__call_thing")) then
-        _temp424 =  _self:_temp422()
-      elseif _self._temp422 ~= nil then
-        _temp424 =  _self._temp422
+                if _temp412 == nil then
+              if _type(_self._temp412) == "function" or (_type(_self._temp412) == "table" and _rawget(_self._temp412, "__call_thing")) then
+        _temp414 =  _self:_temp412()
+      elseif _self._temp412 ~= nil then
+        _temp414 =  _self._temp412
 
         elseif _self.no_undermethod ~= nil then
-          _temp424 =  _self:no_undermethod(string:new("_temp422"))
+          _temp414 =  _self:no_undermethod(string:new("_temp412"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp424 =  _temp422(_self)
+        _temp414 =  _temp412(_self)
       end
 
-        elseif _temp422 == nil then
+        elseif _temp412 == nil then
           _error(exception:null_error("node", "cannot call method on it"))
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp424)
+      local _t = _type(_temp414)
       if _t == "table" then
-                      if _type(_temp424.id) == "function" or (_type(_temp424.id) == "table" and _rawget(_temp424.id, "__call_thing")) then
-        _temp424 = _temp424:id()
-      elseif _temp424.id ~= nil then
-        _temp424 = _temp424.id
+                      if _type(_temp414.id) == "function" or (_type(_temp414.id) == "table" and _rawget(_temp414.id, "__call_thing")) then
+        _temp414 = _temp414:id()
+      elseif _temp414.id ~= nil then
+        _temp414 = _temp414.id
 
-        elseif _temp424.no_undermethod ~= nil then
-          _temp424 =  _temp424:no_undermethod(string:new("id"))
+        elseif _temp414.no_undermethod ~= nil then
+          _temp414 =  _temp414:no_undermethod(string:new("id"))
         else
-          _error(exception:method_error(_temp424, "id"))
+          _error(exception:method_error(_temp414, "id"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp424)
+              local _n = number:new(_temp414)
       if _n.id ~= nil then
-        _temp424 = _n:id()
+        _temp414 = _n:id()
       elseif _n.no_undermethod ~= nil then
-        _temp424 =  _n:no_undermethod(string:new("id"))
+        _temp414 =  _n:no_undermethod(string:new("id"))
       else
-        _error(exception:method_error(_temp424, "id"))
+        _error(exception:method_error(_temp414, "id"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp424)
+              local _f = brat_function:new(_temp414)
       if _f.id ~= nil then
-        _temp424 = _f:id()
+        _temp414 = _f:id()
       elseif _f.no_undermethod ~= nil then
-        _temp424 =  _f:no_undermethod(string:new("id"))
+        _temp414 =  _f:no_undermethod(string:new("id"))
       else
-        _error(exception:method_error(_temp424, "id"))
+        _error(exception:method_error(_temp414, "id"))
       end
 
-      elseif _temp424 == nil then
-        _error(exception:null_error("_temp424", "invoke id on it"))
+      elseif _temp414 == nil then
+        _error(exception:null_error("_temp414", "invoke id on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp424))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp414))
       end
 
 
-      local _t = _type(_temp423)
+      local _t = _type(_temp413)
       if _t == "table" then
-                      if _type(_temp423.new_undervar) == "function" or (_type(_temp423.new_undervar) == "table" and _rawget(_temp423.new_undervar, "__call_thing")) then
-        _temp423 = _temp423:new_undervar(_temp424)
-      elseif _temp423.new_undervar ~= nil then
-        _temp423 = _temp423.new_undervar
+                      if _type(_temp413.new_undervar) == "function" or (_type(_temp413.new_undervar) == "table" and _rawget(_temp413.new_undervar, "__call_thing")) then
+        _temp413 = _temp413:new_undervar(_temp414)
+      elseif _temp413.new_undervar ~= nil then
+        _temp413 = _temp413.new_undervar
 
-        elseif _temp423.no_undermethod ~= nil then
-          _temp423 =  _temp423:no_undermethod(string:new("new_var") , _temp424)
+        elseif _temp413.no_undermethod ~= nil then
+          _temp413 =  _temp413:no_undermethod(string:new("new_var") , _temp414)
         else
           _error(exception:method_error("temp", "new_var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp423)
+              local _n = number:new(_temp413)
       if _n.new_undervar ~= nil then
-        _temp423 = _n:new_undervar(_temp424)
+        _temp413 = _n:new_undervar(_temp414)
       elseif _n.no_undermethod ~= nil then
-        _temp423 =  _n:no_undermethod(string:new("new_var") , _temp424)
+        _temp413 =  _n:no_undermethod(string:new("new_var") , _temp414)
       else
         _error(exception:method_error("temp", "new_var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp423)
+              local _f = brat_function:new(_temp413)
       if _f.new_undervar ~= nil then
-        _temp423 = _f:new_undervar(_temp424)
+        _temp413 = _f:new_undervar(_temp414)
       elseif _f.no_undermethod ~= nil then
-        _temp423 =  _f:no_undermethod(string:new("new_var") , _temp424)
+        _temp413 =  _f:no_undermethod(string:new("new_var") , _temp414)
       else
         _error(exception:method_error("temp", "new_var"))
       end
 
-      elseif _temp423 == nil then
+      elseif _temp413 == nil then
         _error(exception:null_error("temp", "invoke new_var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp423))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp413))
       end
 
 
-    if _type(_temp423) == "function" or (_type(_temp423) == "table" and _rawget(_temp423, "__call_thing")) then
-      _temp424 =  _temp423(_self)
+    if _type(_temp413) == "function" or (_type(_temp413) == "table" and _rawget(_temp413, "__call_thing")) then
+      _temp414 =  _temp413(_self)
 
-    elseif _temp423 then
-      _temp424 =  _temp423
+    elseif _temp413 then
+      _temp414 =  _temp413
+    else
+            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
+        _temp414 =  _self:temp()
+      elseif _self.temp ~= nil then
+        _temp414 =  _self.temp
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp414 =  _self:no_undermethod(string:new("temp"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp414 =  no_undermethod(_self, string:new("temp"))
+      else
+        _error(exception:name_error("temp"))
+      end
+    end
+
+local _temp415 = string:new("")
+
+local _temp416 = string:new("arg")
+
+local _temp417 = {}
+_temp417[string:new("arg_type")] = _temp416
+_temp417 = hash:new(_temp417)
+    if _type(r) == "function" or (_type(r) == "table" and _rawget(r, "__call_thing")) then
+      return  r(_self, _temp414,_temp415,_temp417)
+
+    elseif r then
+      _error(exception:new("Tried to invoke non-method: r (" .. object.__type(r) .. ")"))
+    else
+            if _type(_self.r) == "function" or (_type(_self.r) == "table" and _rawget(_self.r, "__call_thing")) then
+        return  _self:r(_temp414,_temp415,_temp417)
+      elseif _self.r ~= nil then
+        return  _self.r
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        return  _self:no_undermethod(string:new("r") , _temp414,_temp415,_temp417)
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        return  no_undermethod(_self, string:new("r") , _temp414,_temp415,_temp417)
+      else
+        _error(exception:name_error("r"))
+      end
+    end
+
+end
+
+      local _t = _type(_temp389)
+      if _t == "table" then
+                      if _type(_temp389.walk) == "function" or (_type(_temp389.walk) == "table" and _rawget(_temp389.walk, "__call_thing")) then
+        _dummy_ = _temp389:walk(_temp4,_temp418)
+      elseif _temp389.walk ~= nil then
+        _dummy_ = _temp389.walk
+
+        elseif _temp389.no_undermethod ~= nil then
+          _dummy_ =  _temp389:no_undermethod(string:new("walk") , _temp4,_temp418)
+        else
+          _error(exception:method_error(_temp389, "walk"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp389)
+      if _n.walk ~= nil then
+        _dummy_ = _n:walk(_temp4,_temp418)
+      elseif _n.no_undermethod ~= nil then
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp418)
+      else
+        _error(exception:method_error(_temp389, "walk"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp389)
+      if _f.walk ~= nil then
+        _dummy_ = _f:walk(_temp4,_temp418)
+      elseif _f.no_undermethod ~= nil then
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp418)
+      else
+        _error(exception:method_error(_temp389, "walk"))
+      end
+
+      elseif _temp389 == nil then
+        _error(exception:null_error("_temp389", "invoke walk on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp389))
+      end
+
+        local _t = _type(_temp5)
+        if _t == "table" then
+          if _rawget(_temp5, "__call_thing") == nil then
+            _temp418 = _temp5
+          else
+                  if _temp5 == nil then
+              if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
+        _temp418 =  _self:_temp5()
+      elseif _self._temp5 ~= nil then
+        _temp418 =  _self._temp5
+
+        elseif _self.no_undermethod ~= nil then
+          _temp418 =  _self:no_undermethod(string:new("_temp5"))
+        else
+          _error(exception:null_error("c", "invoke method"))
+        end
+      else 
+        _temp418 =  _temp5(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp418 = _temp5
+        elseif _t == "function" then
+                if _temp5 == nil then
+              if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
+        _temp418 =  _self:_temp5()
+      elseif _self._temp5 ~= nil then
+        _temp418 =  _self._temp5
+
+        elseif _self.no_undermethod ~= nil then
+          _temp418 =  _self:no_undermethod(string:new("_temp5"))
+        else
+          _error(exception:null_error("c", "invoke method"))
+        end
+      else 
+        _temp418 =  _temp5(_self)
+      end
+
+        elseif _temp5 == nil then
+          _error(exception:null_error("c", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "c"))
+        end
+_temp4 = string:new("var_arg")
+
+local _temp427 = function (_self, _temp420,_temp419)
+        if _temp420 == nil then
+          _error(exception:argument_error("function", 'at least 1', 0))
+
+end
+if _temp419 == nil then
+ do
+    if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
+      _temp419 =  null(_self)
+
+    elseif null then
+      _temp419 =  null
+    else
+            if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
+        _temp419 =  _self:null()
+      elseif _self.null ~= nil then
+        _temp419 =  _self.null
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp419 =  _self:no_undermethod(string:new("null"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp419 =  no_undermethod(_self, string:new("null"))
+      else
+        _error(exception:name_error("null"))
+      end
+    end
+
+end
+end
+
+local _temp421
+              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
+        _temp421 =  _self:my()
+      elseif _self.my ~= nil then
+        _temp421 =  _self.my
+
+        elseif my ~= nil then
+          _temp421 = my;
+        else
+          _error(exception:method_error("self", "my"))
+        end
+      local _t = _type(_temp421)
+      if _t == "table" then
+                      if _type(_temp421.env) == "function" or (_type(_temp421.env) == "table" and _rawget(_temp421.env, "__call_thing")) then
+        _temp421 = _temp421:env()
+      elseif _temp421.env ~= nil then
+        _temp421 = _temp421.env
+
+        elseif _temp421.no_undermethod ~= nil then
+          _temp421 =  _temp421:no_undermethod(string:new("env"))
+        else
+          _error(exception:method_error("temp", "env"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp421)
+      if _n.env ~= nil then
+        _temp421 = _n:env()
+      elseif _n.no_undermethod ~= nil then
+        _temp421 =  _n:no_undermethod(string:new("env"))
+      else
+        _error(exception:method_error("temp", "env"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp421)
+      if _f.env ~= nil then
+        _temp421 = _f:env()
+      elseif _f.no_undermethod ~= nil then
+        _temp421 =  _f:no_undermethod(string:new("env"))
+      else
+        _error(exception:method_error("temp", "env"))
+      end
+
+      elseif _temp421 == nil then
+        _error(exception:null_error("temp", "invoke env on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp421))
+      end
+
+local _temp422 = nil
+        local _t = _type(_temp420)
+        if _t == "table" then
+          if _rawget(_temp420, "__call_thing") == nil then
+            _temp422 = _temp420
+          else
+                  if _temp420 == nil then
+              if _type(_self._temp420) == "function" or (_type(_self._temp420) == "table" and _rawget(_self._temp420, "__call_thing")) then
+        _temp422 =  _self:_temp420()
+      elseif _self._temp420 ~= nil then
+        _temp422 =  _self._temp420
+
+        elseif _self.no_undermethod ~= nil then
+          _temp422 =  _self:no_undermethod(string:new("_temp420"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp422 =  _temp420(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp422 = _temp420
+        elseif _t == "function" then
+                if _temp420 == nil then
+              if _type(_self._temp420) == "function" or (_type(_self._temp420) == "table" and _rawget(_self._temp420, "__call_thing")) then
+        _temp422 =  _self:_temp420()
+      elseif _self._temp420 ~= nil then
+        _temp422 =  _self._temp420
+
+        elseif _self.no_undermethod ~= nil then
+          _temp422 =  _self:no_undermethod(string:new("_temp420"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp422 =  _temp420(_self)
+      end
+
+        elseif _temp420 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
+      local _t = _type(_temp422)
+      if _t == "table" then
+                      if _type(_temp422.id) == "function" or (_type(_temp422.id) == "table" and _rawget(_temp422.id, "__call_thing")) then
+        _temp422 = _temp422:id()
+      elseif _temp422.id ~= nil then
+        _temp422 = _temp422.id
+
+        elseif _temp422.no_undermethod ~= nil then
+          _temp422 =  _temp422:no_undermethod(string:new("id"))
+        else
+          _error(exception:method_error(_temp422, "id"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp422)
+      if _n.id ~= nil then
+        _temp422 = _n:id()
+      elseif _n.no_undermethod ~= nil then
+        _temp422 =  _n:no_undermethod(string:new("id"))
+      else
+        _error(exception:method_error(_temp422, "id"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp422)
+      if _f.id ~= nil then
+        _temp422 = _f:id()
+      elseif _f.no_undermethod ~= nil then
+        _temp422 =  _f:no_undermethod(string:new("id"))
+      else
+        _error(exception:method_error(_temp422, "id"))
+      end
+
+      elseif _temp422 == nil then
+        _error(exception:null_error("_temp422", "invoke id on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp422))
+      end
+
+
+      local _t = _type(_temp421)
+      if _t == "table" then
+                      if _type(_temp421.new_undervar) == "function" or (_type(_temp421.new_undervar) == "table" and _rawget(_temp421.new_undervar, "__call_thing")) then
+        _temp421 = _temp421:new_undervar(_temp422)
+      elseif _temp421.new_undervar ~= nil then
+        _temp421 = _temp421.new_undervar
+
+        elseif _temp421.no_undermethod ~= nil then
+          _temp421 =  _temp421:no_undermethod(string:new("new_var") , _temp422)
+        else
+          _error(exception:method_error("temp", "new_var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp421)
+      if _n.new_undervar ~= nil then
+        _temp421 = _n:new_undervar(_temp422)
+      elseif _n.no_undermethod ~= nil then
+        _temp421 =  _n:no_undermethod(string:new("new_var") , _temp422)
+      else
+        _error(exception:method_error("temp", "new_var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp421)
+      if _f.new_undervar ~= nil then
+        _temp421 = _f:new_undervar(_temp422)
+      elseif _f.no_undermethod ~= nil then
+        _temp421 =  _f:no_undermethod(string:new("new_var") , _temp422)
+      else
+        _error(exception:method_error("temp", "new_var"))
+      end
+
+      elseif _temp421 == nil then
+        _error(exception:null_error("temp", "invoke new_var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp421))
+      end
+
+
+_temp422 = string:new("...")
+
+local _temp423 = nil
+do
+local _temp424 = nil
+    if _type(_temp421) == "function" or (_type(_temp421) == "table" and _rawget(_temp421, "__call_thing")) then
+      _temp424 =  _temp421(_self)
+
+    elseif _temp421 then
+      _temp424 =  _temp421
     else
             if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
         _temp424 =  _self:temp()
@@ -17806,21 +17909,22 @@ local _temp424 = nil
       end
     end
 
-local _temp425 = string:new("")
+_temp423 = string:new("local " .. _tostring(_temp424) .. " = array:new(...)\n")
+end
 
-local _temp426 = string:new("arg")
+local _temp425 = string:new("var_arg")
 
-local _temp427 = {}
-_temp427[string:new("arg_type")] = _temp426
-_temp427 = hash:new(_temp427)
+local _temp426 = {}
+_temp426[string:new("arg_type")] = _temp425
+_temp426 = hash:new(_temp426)
     if _type(r) == "function" or (_type(r) == "table" and _rawget(r, "__call_thing")) then
-      return  r(_self, _temp424,_temp425,_temp427)
+      return  r(_self, _temp422,_temp423,_temp426)
 
     elseif r then
       _error(exception:new("Tried to invoke non-method: r (" .. object.__type(r) .. ")"))
     else
             if _type(_self.r) == "function" or (_type(_self.r) == "table" and _rawget(_self.r, "__call_thing")) then
-        return  _self:r(_temp424,_temp425,_temp427)
+        return  _self:r(_temp422,_temp423,_temp426)
       elseif _self.r ~= nil then
         return  _self.r
 
@@ -17828,9 +17932,9 @@ _temp427 = hash:new(_temp427)
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("r") , _temp424,_temp425,_temp427)
+        return  _self:no_undermethod(string:new("r") , _temp422,_temp423,_temp426)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("r") , _temp424,_temp425,_temp427)
+        return  no_undermethod(_self, string:new("r") , _temp422,_temp423,_temp426)
       else
         _error(exception:name_error("r"))
       end
@@ -17838,436 +17942,82 @@ _temp427 = hash:new(_temp427)
 
 end
 
-      local _t = _type(_temp420)
+      local _t = _type(_temp418)
       if _t == "table" then
-                      if _type(_temp420.walk) == "function" or (_type(_temp420.walk) == "table" and _rawget(_temp420.walk, "__call_thing")) then
-        _dummy_ = _temp420:walk(_temp4,_temp428)
-      elseif _temp420.walk ~= nil then
-        _dummy_ = _temp420.walk
+                      if _type(_temp418.walk) == "function" or (_type(_temp418.walk) == "table" and _rawget(_temp418.walk, "__call_thing")) then
+        _dummy_ = _temp418:walk(_temp4,_temp427)
+      elseif _temp418.walk ~= nil then
+        _dummy_ = _temp418.walk
 
-        elseif _temp420.no_undermethod ~= nil then
-          _dummy_ =  _temp420:no_undermethod(string:new("walk") , _temp4,_temp428)
+        elseif _temp418.no_undermethod ~= nil then
+          _dummy_ =  _temp418:no_undermethod(string:new("walk") , _temp4,_temp427)
         else
-          _error(exception:method_error(_temp420, "walk"))
+          _error(exception:method_error(_temp418, "walk"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp420)
+              local _n = number:new(_temp418)
       if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp428)
+        _dummy_ = _n:walk(_temp4,_temp427)
       elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp428)
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp427)
       else
-        _error(exception:method_error(_temp420, "walk"))
+        _error(exception:method_error(_temp418, "walk"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp420)
+              local _f = brat_function:new(_temp418)
       if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp428)
+        _dummy_ = _f:walk(_temp4,_temp427)
       elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp428)
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp427)
       else
-        _error(exception:method_error(_temp420, "walk"))
+        _error(exception:method_error(_temp418, "walk"))
       end
 
-      elseif _temp420 == nil then
-        _error(exception:null_error("_temp420", "invoke walk on it"))
+      elseif _temp418 == nil then
+        _error(exception:null_error("_temp418", "invoke walk on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp420))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp418))
       end
 
         local _t = _type(_temp5)
         if _t == "table" then
           if _rawget(_temp5, "__call_thing") == nil then
-            _temp428 = _temp5
+            _temp427 = _temp5
           else
                   if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp428 =  _self:_temp5()
+        _temp427 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp428 =  _self._temp5
+        _temp427 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp428 =  _self:no_undermethod(string:new("_temp5"))
+          _temp427 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp428 =  _temp5(_self)
+        _temp427 =  _temp5(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp428 = _temp5
+          _temp427 = _temp5
         elseif _t == "function" then
                 if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp428 =  _self:_temp5()
+        _temp427 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp428 =  _self._temp5
+        _temp427 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp428 =  _self:no_undermethod(string:new("_temp5"))
+          _temp427 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp428 =  _temp5(_self)
-      end
-
-        elseif _temp5 == nil then
-          _error(exception:null_error("c", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "c"))
-        end
-_temp4 = string:new("var_arg")
-
-local _temp437 = function (_self, _temp430,_temp429)
-        if _temp430 == nil then
-          _error(exception:argument_error("function", 'at least 1', 0))
-
-end
-if _temp429 == nil then
- do
-    if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp429 =  null(_self)
-
-    elseif null then
-      _temp429 =  null
-    else
-            if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp429 =  _self:null()
-      elseif _self.null ~= nil then
-        _temp429 =  _self.null
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp429 =  _self:no_undermethod(string:new("null"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp429 =  no_undermethod(_self, string:new("null"))
-      else
-        _error(exception:name_error("null"))
-      end
-    end
-
-end
-end
-
-local _temp431
-              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp431 =  _self:my()
-      elseif _self.my ~= nil then
-        _temp431 =  _self.my
-
-        elseif my ~= nil then
-          _temp431 = my;
-        else
-          _error(exception:method_error("self", "my"))
-        end
-      local _t = _type(_temp431)
-      if _t == "table" then
-                      if _type(_temp431.env) == "function" or (_type(_temp431.env) == "table" and _rawget(_temp431.env, "__call_thing")) then
-        _temp431 = _temp431:env()
-      elseif _temp431.env ~= nil then
-        _temp431 = _temp431.env
-
-        elseif _temp431.no_undermethod ~= nil then
-          _temp431 =  _temp431:no_undermethod(string:new("env"))
-        else
-          _error(exception:method_error("temp", "env"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp431)
-      if _n.env ~= nil then
-        _temp431 = _n:env()
-      elseif _n.no_undermethod ~= nil then
-        _temp431 =  _n:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error("temp", "env"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp431)
-      if _f.env ~= nil then
-        _temp431 = _f:env()
-      elseif _f.no_undermethod ~= nil then
-        _temp431 =  _f:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error("temp", "env"))
-      end
-
-      elseif _temp431 == nil then
-        _error(exception:null_error("temp", "invoke env on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp431))
-      end
-
-local _temp432 = nil
-        local _t = _type(_temp430)
-        if _t == "table" then
-          if _rawget(_temp430, "__call_thing") == nil then
-            _temp432 = _temp430
-          else
-                  if _temp430 == nil then
-              if _type(_self._temp430) == "function" or (_type(_self._temp430) == "table" and _rawget(_self._temp430, "__call_thing")) then
-        _temp432 =  _self:_temp430()
-      elseif _self._temp430 ~= nil then
-        _temp432 =  _self._temp430
-
-        elseif _self.no_undermethod ~= nil then
-          _temp432 =  _self:no_undermethod(string:new("_temp430"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp432 =  _temp430(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp432 = _temp430
-        elseif _t == "function" then
-                if _temp430 == nil then
-              if _type(_self._temp430) == "function" or (_type(_self._temp430) == "table" and _rawget(_self._temp430, "__call_thing")) then
-        _temp432 =  _self:_temp430()
-      elseif _self._temp430 ~= nil then
-        _temp432 =  _self._temp430
-
-        elseif _self.no_undermethod ~= nil then
-          _temp432 =  _self:no_undermethod(string:new("_temp430"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp432 =  _temp430(_self)
-      end
-
-        elseif _temp430 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp432)
-      if _t == "table" then
-                      if _type(_temp432.id) == "function" or (_type(_temp432.id) == "table" and _rawget(_temp432.id, "__call_thing")) then
-        _temp432 = _temp432:id()
-      elseif _temp432.id ~= nil then
-        _temp432 = _temp432.id
-
-        elseif _temp432.no_undermethod ~= nil then
-          _temp432 =  _temp432:no_undermethod(string:new("id"))
-        else
-          _error(exception:method_error(_temp432, "id"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp432)
-      if _n.id ~= nil then
-        _temp432 = _n:id()
-      elseif _n.no_undermethod ~= nil then
-        _temp432 =  _n:no_undermethod(string:new("id"))
-      else
-        _error(exception:method_error(_temp432, "id"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp432)
-      if _f.id ~= nil then
-        _temp432 = _f:id()
-      elseif _f.no_undermethod ~= nil then
-        _temp432 =  _f:no_undermethod(string:new("id"))
-      else
-        _error(exception:method_error(_temp432, "id"))
-      end
-
-      elseif _temp432 == nil then
-        _error(exception:null_error("_temp432", "invoke id on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp432))
-      end
-
-
-      local _t = _type(_temp431)
-      if _t == "table" then
-                      if _type(_temp431.new_undervar) == "function" or (_type(_temp431.new_undervar) == "table" and _rawget(_temp431.new_undervar, "__call_thing")) then
-        _temp431 = _temp431:new_undervar(_temp432)
-      elseif _temp431.new_undervar ~= nil then
-        _temp431 = _temp431.new_undervar
-
-        elseif _temp431.no_undermethod ~= nil then
-          _temp431 =  _temp431:no_undermethod(string:new("new_var") , _temp432)
-        else
-          _error(exception:method_error("temp", "new_var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp431)
-      if _n.new_undervar ~= nil then
-        _temp431 = _n:new_undervar(_temp432)
-      elseif _n.no_undermethod ~= nil then
-        _temp431 =  _n:no_undermethod(string:new("new_var") , _temp432)
-      else
-        _error(exception:method_error("temp", "new_var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp431)
-      if _f.new_undervar ~= nil then
-        _temp431 = _f:new_undervar(_temp432)
-      elseif _f.no_undermethod ~= nil then
-        _temp431 =  _f:no_undermethod(string:new("new_var") , _temp432)
-      else
-        _error(exception:method_error("temp", "new_var"))
-      end
-
-      elseif _temp431 == nil then
-        _error(exception:null_error("temp", "invoke new_var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp431))
-      end
-
-
-_temp432 = string:new("...")
-
-local _temp433 = nil
-do
-local _temp434 = nil
-    if _type(_temp431) == "function" or (_type(_temp431) == "table" and _rawget(_temp431, "__call_thing")) then
-      _temp434 =  _temp431(_self)
-
-    elseif _temp431 then
-      _temp434 =  _temp431
-    else
-            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp434 =  _self:temp()
-      elseif _self.temp ~= nil then
-        _temp434 =  _self.temp
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp434 =  _self:no_undermethod(string:new("temp"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp434 =  no_undermethod(_self, string:new("temp"))
-      else
-        _error(exception:name_error("temp"))
-      end
-    end
-
-_temp433 = string:new("local " .. _tostring(_temp434) .. " = array:new(...)\n")
-end
-
-local _temp435 = string:new("var_arg")
-
-local _temp436 = {}
-_temp436[string:new("arg_type")] = _temp435
-_temp436 = hash:new(_temp436)
-    if _type(r) == "function" or (_type(r) == "table" and _rawget(r, "__call_thing")) then
-      return  r(_self, _temp432,_temp433,_temp436)
-
-    elseif r then
-      _error(exception:new("Tried to invoke non-method: r (" .. object.__type(r) .. ")"))
-    else
-            if _type(_self.r) == "function" or (_type(_self.r) == "table" and _rawget(_self.r, "__call_thing")) then
-        return  _self:r(_temp432,_temp433,_temp436)
-      elseif _self.r ~= nil then
-        return  _self.r
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("r") , _temp432,_temp433,_temp436)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("r") , _temp432,_temp433,_temp436)
-      else
-        _error(exception:name_error("r"))
-      end
-    end
-
-end
-
-      local _t = _type(_temp428)
-      if _t == "table" then
-                      if _type(_temp428.walk) == "function" or (_type(_temp428.walk) == "table" and _rawget(_temp428.walk, "__call_thing")) then
-        _dummy_ = _temp428:walk(_temp4,_temp437)
-      elseif _temp428.walk ~= nil then
-        _dummy_ = _temp428.walk
-
-        elseif _temp428.no_undermethod ~= nil then
-          _dummy_ =  _temp428:no_undermethod(string:new("walk") , _temp4,_temp437)
-        else
-          _error(exception:method_error(_temp428, "walk"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp428)
-      if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp437)
-      elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp437)
-      else
-        _error(exception:method_error(_temp428, "walk"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp428)
-      if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp437)
-      elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp437)
-      else
-        _error(exception:method_error(_temp428, "walk"))
-      end
-
-      elseif _temp428 == nil then
-        _error(exception:null_error("_temp428", "invoke walk on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp428))
-      end
-
-        local _t = _type(_temp5)
-        if _t == "table" then
-          if _rawget(_temp5, "__call_thing") == nil then
-            _temp437 = _temp5
-          else
-                  if _temp5 == nil then
-              if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp437 =  _self:_temp5()
-      elseif _self._temp5 ~= nil then
-        _temp437 =  _self._temp5
-
-        elseif _self.no_undermethod ~= nil then
-          _temp437 =  _self:no_undermethod(string:new("_temp5"))
-        else
-          _error(exception:null_error("c", "invoke method"))
-        end
-      else 
-        _temp437 =  _temp5(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp437 = _temp5
-        elseif _t == "function" then
-                if _temp5 == nil then
-              if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp437 =  _self:_temp5()
-      elseif _self._temp5 ~= nil then
-        _temp437 =  _self._temp5
-
-        elseif _self.no_undermethod ~= nil then
-          _temp437 =  _self:no_undermethod(string:new("_temp5"))
-        else
-          _error(exception:null_error("c", "invoke method"))
-        end
-      else 
-        _temp437 =  _temp5(_self)
+        _temp427 =  _temp5(_self)
       end
 
         elseif _temp5 == nil then
@@ -18277,31 +18027,31 @@ end
         end
 _temp4 = string:new("def_arg")
 
-local _temp463 = function (_self, _temp439,_temp438)
-        if _temp439 == nil then
+local _temp453 = function (_self, _temp429,_temp428)
+        if _temp429 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
 end
-if _temp438 == nil then
+if _temp428 == nil then
  do
     if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp438 =  null(_self)
+      _temp428 =  null(_self)
 
     elseif null then
-      _temp438 =  null
+      _temp428 =  null
     else
             if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp438 =  _self:null()
+        _temp428 =  _self:null()
       elseif _self.null ~= nil then
-        _temp438 =  _self.null
+        _temp428 =  _self.null
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp438 =  _self:no_undermethod(string:new("null"))
+        _temp428 =  _self:no_undermethod(string:new("null"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp438 =  no_undermethod(_self, string:new("null"))
+        _temp428 =  no_undermethod(_self, string:new("null"))
       else
         _error(exception:name_error("null"))
       end
@@ -18310,738 +18060,738 @@ if _temp438 == nil then
 end
 end
 
-local _temp440
+local _temp430
               if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp440 =  _self:my()
+        _temp430 =  _self:my()
       elseif _self.my ~= nil then
-        _temp440 =  _self.my
+        _temp430 =  _self.my
 
         elseif my ~= nil then
-          _temp440 = my;
+          _temp430 = my;
         else
           _error(exception:method_error("self", "my"))
         end
-      local _t = _type(_temp440)
+      local _t = _type(_temp430)
       if _t == "table" then
-                      if _type(_temp440.env) == "function" or (_type(_temp440.env) == "table" and _rawget(_temp440.env, "__call_thing")) then
-        _temp440 = _temp440:env()
-      elseif _temp440.env ~= nil then
-        _temp440 = _temp440.env
+                      if _type(_temp430.env) == "function" or (_type(_temp430.env) == "table" and _rawget(_temp430.env, "__call_thing")) then
+        _temp430 = _temp430:env()
+      elseif _temp430.env ~= nil then
+        _temp430 = _temp430.env
 
-        elseif _temp440.no_undermethod ~= nil then
-          _temp440 =  _temp440:no_undermethod(string:new("env"))
+        elseif _temp430.no_undermethod ~= nil then
+          _temp430 =  _temp430:no_undermethod(string:new("env"))
         else
           _error(exception:method_error("temp", "env"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp440)
+              local _n = number:new(_temp430)
       if _n.env ~= nil then
-        _temp440 = _n:env()
+        _temp430 = _n:env()
       elseif _n.no_undermethod ~= nil then
-        _temp440 =  _n:no_undermethod(string:new("env"))
+        _temp430 =  _n:no_undermethod(string:new("env"))
       else
         _error(exception:method_error("temp", "env"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp440)
+              local _f = brat_function:new(_temp430)
       if _f.env ~= nil then
-        _temp440 = _f:env()
+        _temp430 = _f:env()
       elseif _f.no_undermethod ~= nil then
-        _temp440 =  _f:no_undermethod(string:new("env"))
+        _temp430 =  _f:no_undermethod(string:new("env"))
       else
         _error(exception:method_error("temp", "env"))
       end
 
-      elseif _temp440 == nil then
+      elseif _temp430 == nil then
         _error(exception:null_error("temp", "invoke env on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp440))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp430))
       end
 
-local _temp441 = nil
-        local _t = _type(_temp439)
+local _temp431 = nil
+        local _t = _type(_temp429)
         if _t == "table" then
-          if _rawget(_temp439, "__call_thing") == nil then
-            _temp441 = _temp439
+          if _rawget(_temp429, "__call_thing") == nil then
+            _temp431 = _temp429
           else
-                  if _temp439 == nil then
-              if _type(_self._temp439) == "function" or (_type(_self._temp439) == "table" and _rawget(_self._temp439, "__call_thing")) then
-        _temp441 =  _self:_temp439()
-      elseif _self._temp439 ~= nil then
-        _temp441 =  _self._temp439
+                  if _temp429 == nil then
+              if _type(_self._temp429) == "function" or (_type(_self._temp429) == "table" and _rawget(_self._temp429, "__call_thing")) then
+        _temp431 =  _self:_temp429()
+      elseif _self._temp429 ~= nil then
+        _temp431 =  _self._temp429
 
         elseif _self.no_undermethod ~= nil then
-          _temp441 =  _self:no_undermethod(string:new("_temp439"))
+          _temp431 =  _self:no_undermethod(string:new("_temp429"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp441 =  _temp439(_self)
+        _temp431 =  _temp429(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp441 = _temp439
+          _temp431 = _temp429
         elseif _t == "function" then
-                if _temp439 == nil then
-              if _type(_self._temp439) == "function" or (_type(_self._temp439) == "table" and _rawget(_self._temp439, "__call_thing")) then
-        _temp441 =  _self:_temp439()
-      elseif _self._temp439 ~= nil then
-        _temp441 =  _self._temp439
+                if _temp429 == nil then
+              if _type(_self._temp429) == "function" or (_type(_self._temp429) == "table" and _rawget(_self._temp429, "__call_thing")) then
+        _temp431 =  _self:_temp429()
+      elseif _self._temp429 ~= nil then
+        _temp431 =  _self._temp429
 
         elseif _self.no_undermethod ~= nil then
-          _temp441 =  _self:no_undermethod(string:new("_temp439"))
+          _temp431 =  _self:no_undermethod(string:new("_temp429"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp441 =  _temp439(_self)
+        _temp431 =  _temp429(_self)
       end
 
-        elseif _temp439 == nil then
+        elseif _temp429 == nil then
           _error(exception:null_error("node", "cannot call method on it"))
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp441)
+      local _t = _type(_temp431)
       if _t == "table" then
-                      if _type(_temp441.id) == "function" or (_type(_temp441.id) == "table" and _rawget(_temp441.id, "__call_thing")) then
-        _temp441 = _temp441:id()
-      elseif _temp441.id ~= nil then
-        _temp441 = _temp441.id
+                      if _type(_temp431.id) == "function" or (_type(_temp431.id) == "table" and _rawget(_temp431.id, "__call_thing")) then
+        _temp431 = _temp431:id()
+      elseif _temp431.id ~= nil then
+        _temp431 = _temp431.id
 
-        elseif _temp441.no_undermethod ~= nil then
-          _temp441 =  _temp441:no_undermethod(string:new("id"))
+        elseif _temp431.no_undermethod ~= nil then
+          _temp431 =  _temp431:no_undermethod(string:new("id"))
         else
-          _error(exception:method_error(_temp441, "id"))
+          _error(exception:method_error(_temp431, "id"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp441)
+              local _n = number:new(_temp431)
       if _n.id ~= nil then
-        _temp441 = _n:id()
+        _temp431 = _n:id()
       elseif _n.no_undermethod ~= nil then
-        _temp441 =  _n:no_undermethod(string:new("id"))
+        _temp431 =  _n:no_undermethod(string:new("id"))
       else
-        _error(exception:method_error(_temp441, "id"))
+        _error(exception:method_error(_temp431, "id"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp441)
+              local _f = brat_function:new(_temp431)
       if _f.id ~= nil then
-        _temp441 = _f:id()
+        _temp431 = _f:id()
       elseif _f.no_undermethod ~= nil then
-        _temp441 =  _f:no_undermethod(string:new("id"))
+        _temp431 =  _f:no_undermethod(string:new("id"))
       else
-        _error(exception:method_error(_temp441, "id"))
+        _error(exception:method_error(_temp431, "id"))
       end
 
-      elseif _temp441 == nil then
-        _error(exception:null_error("_temp441", "invoke id on it"))
+      elseif _temp431 == nil then
+        _error(exception:null_error("_temp431", "invoke id on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp441))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp431))
       end
 
 
-      local _t = _type(_temp440)
+      local _t = _type(_temp430)
       if _t == "table" then
-                      if _type(_temp440.new_undervar) == "function" or (_type(_temp440.new_undervar) == "table" and _rawget(_temp440.new_undervar, "__call_thing")) then
-        _temp440 = _temp440:new_undervar(_temp441)
-      elseif _temp440.new_undervar ~= nil then
-        _temp440 = _temp440.new_undervar
+                      if _type(_temp430.new_undervar) == "function" or (_type(_temp430.new_undervar) == "table" and _rawget(_temp430.new_undervar, "__call_thing")) then
+        _temp430 = _temp430:new_undervar(_temp431)
+      elseif _temp430.new_undervar ~= nil then
+        _temp430 = _temp430.new_undervar
 
-        elseif _temp440.no_undermethod ~= nil then
-          _temp440 =  _temp440:no_undermethod(string:new("new_var") , _temp441)
+        elseif _temp430.no_undermethod ~= nil then
+          _temp430 =  _temp430:no_undermethod(string:new("new_var") , _temp431)
         else
           _error(exception:method_error("temp", "new_var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp440)
+              local _n = number:new(_temp430)
       if _n.new_undervar ~= nil then
-        _temp440 = _n:new_undervar(_temp441)
+        _temp430 = _n:new_undervar(_temp431)
       elseif _n.no_undermethod ~= nil then
-        _temp440 =  _n:no_undermethod(string:new("new_var") , _temp441)
+        _temp430 =  _n:no_undermethod(string:new("new_var") , _temp431)
       else
         _error(exception:method_error("temp", "new_var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp440)
+              local _f = brat_function:new(_temp430)
       if _f.new_undervar ~= nil then
-        _temp440 = _f:new_undervar(_temp441)
+        _temp430 = _f:new_undervar(_temp431)
       elseif _f.no_undermethod ~= nil then
-        _temp440 =  _f:no_undermethod(string:new("new_var") , _temp441)
+        _temp430 =  _f:no_undermethod(string:new("new_var") , _temp431)
       else
         _error(exception:method_error("temp", "new_var"))
       end
 
-      elseif _temp440 == nil then
+      elseif _temp430 == nil then
         _error(exception:null_error("temp", "invoke new_var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp440))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp430))
       end
 
 
-local _temp442
-        local _t = _type(_temp439)
+local _temp432
+        local _t = _type(_temp429)
         if _t == "table" then
-          if _rawget(_temp439, "__call_thing") == nil then
-            _temp441 = _temp439
+          if _rawget(_temp429, "__call_thing") == nil then
+            _temp431 = _temp429
           else
-                  if _temp439 == nil then
-              if _type(_self._temp439) == "function" or (_type(_self._temp439) == "table" and _rawget(_self._temp439, "__call_thing")) then
-        _temp441 =  _self:_temp439()
-      elseif _self._temp439 ~= nil then
-        _temp441 =  _self._temp439
+                  if _temp429 == nil then
+              if _type(_self._temp429) == "function" or (_type(_self._temp429) == "table" and _rawget(_self._temp429, "__call_thing")) then
+        _temp431 =  _self:_temp429()
+      elseif _self._temp429 ~= nil then
+        _temp431 =  _self._temp429
 
         elseif _self.no_undermethod ~= nil then
-          _temp441 =  _self:no_undermethod(string:new("_temp439"))
+          _temp431 =  _self:no_undermethod(string:new("_temp429"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp441 =  _temp439(_self)
+        _temp431 =  _temp429(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp441 = _temp439
+          _temp431 = _temp429
         elseif _t == "function" then
-                if _temp439 == nil then
-              if _type(_self._temp439) == "function" or (_type(_self._temp439) == "table" and _rawget(_self._temp439, "__call_thing")) then
-        _temp441 =  _self:_temp439()
-      elseif _self._temp439 ~= nil then
-        _temp441 =  _self._temp439
+                if _temp429 == nil then
+              if _type(_self._temp429) == "function" or (_type(_self._temp429) == "table" and _rawget(_self._temp429, "__call_thing")) then
+        _temp431 =  _self:_temp429()
+      elseif _self._temp429 ~= nil then
+        _temp431 =  _self._temp429
 
         elseif _self.no_undermethod ~= nil then
-          _temp441 =  _self:no_undermethod(string:new("_temp439"))
+          _temp431 =  _self:no_undermethod(string:new("_temp429"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp441 =  _temp439(_self)
+        _temp431 =  _temp429(_self)
       end
 
-        elseif _temp439 == nil then
+        elseif _temp429 == nil then
           _error(exception:null_error("node", "cannot call method on it"))
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp441)
+      local _t = _type(_temp431)
       if _t == "table" then
-                      if _type(_temp441.value) == "function" or (_type(_temp441.value) == "table" and _rawget(_temp441.value, "__call_thing")) then
-        _temp441 = _temp441:value()
-      elseif _temp441.value ~= nil then
-        _temp441 = _temp441.value
+                      if _type(_temp431.value) == "function" or (_type(_temp431.value) == "table" and _rawget(_temp431.value, "__call_thing")) then
+        _temp431 = _temp431:value()
+      elseif _temp431.value ~= nil then
+        _temp431 = _temp431.value
 
-        elseif _temp441.no_undermethod ~= nil then
-          _temp441 =  _temp441:no_undermethod(string:new("value"))
+        elseif _temp431.no_undermethod ~= nil then
+          _temp431 =  _temp431:no_undermethod(string:new("value"))
         else
-          _error(exception:method_error(_temp441, "value"))
+          _error(exception:method_error(_temp431, "value"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp441)
+              local _n = number:new(_temp431)
       if _n.value ~= nil then
-        _temp441 = _n:value()
+        _temp431 = _n:value()
       elseif _n.no_undermethod ~= nil then
-        _temp441 =  _n:no_undermethod(string:new("value"))
+        _temp431 =  _n:no_undermethod(string:new("value"))
       else
-        _error(exception:method_error(_temp441, "value"))
+        _error(exception:method_error(_temp431, "value"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp441)
+              local _f = brat_function:new(_temp431)
       if _f.value ~= nil then
-        _temp441 = _f:value()
+        _temp431 = _f:value()
       elseif _f.no_undermethod ~= nil then
-        _temp441 =  _f:no_undermethod(string:new("value"))
+        _temp431 =  _f:no_undermethod(string:new("value"))
       else
-        _error(exception:method_error(_temp441, "value"))
+        _error(exception:method_error(_temp431, "value"))
       end
 
-      elseif _temp441 == nil then
-        _error(exception:null_error("_temp441", "invoke value on it"))
+      elseif _temp431 == nil then
+        _error(exception:null_error("_temp431", "invoke value on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp441))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp431))
       end
 
 
-local _temp443 = nil
-    if _type(_temp440) == "function" or (_type(_temp440) == "table" and _rawget(_temp440, "__call_thing")) then
-      _temp443 =  _temp440(_self)
+local _temp433 = nil
+    if _type(_temp430) == "function" or (_type(_temp430) == "table" and _rawget(_temp430, "__call_thing")) then
+      _temp433 =  _temp430(_self)
 
-    elseif _temp440 then
-      _temp443 =  _temp440
+    elseif _temp430 then
+      _temp433 =  _temp430
     else
             if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp443 =  _self:temp()
+        _temp433 =  _self:temp()
       elseif _self.temp ~= nil then
-        _temp443 =  _self.temp
+        _temp433 =  _self.temp
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp443 =  _self:no_undermethod(string:new("temp"))
+        _temp433 =  _self:no_undermethod(string:new("temp"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp443 =  no_undermethod(_self, string:new("temp"))
+        _temp433 =  no_undermethod(_self, string:new("temp"))
       else
         _error(exception:name_error("temp"))
       end
     end
 
     if _type(process) == "function" or (_type(process) == "table" and _rawget(process, "__call_thing")) then
-      _temp442 =  process(_self, _temp441,_temp443)
+      _temp432 =  process(_self, _temp431,_temp433)
 
     elseif process then
       _error(exception:new("Tried to invoke non-method: process (" .. object.__type(process) .. ")"))
     else
             if _type(_self.process) == "function" or (_type(_self.process) == "table" and _rawget(_self.process, "__call_thing")) then
-        _temp442 =  _self:process(_temp441,_temp443)
+        _temp432 =  _self:process(_temp431,_temp433)
       elseif _self.process ~= nil then
-        _temp442 =  _self.process
+        _temp432 =  _self.process
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp442 =  _self:no_undermethod(string:new("process") , _temp441,_temp443)
+        _temp432 =  _self:no_undermethod(string:new("process") , _temp431,_temp433)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp442 =  no_undermethod(_self, string:new("process") , _temp441,_temp443)
+        _temp432 =  no_undermethod(_self, string:new("process") , _temp431,_temp433)
       else
         _error(exception:name_error("process"))
       end
     end
 
-local _temp444
+local _temp434
 do
-local _temp445 = nil
-    if _type(_temp440) == "function" or (_type(_temp440) == "table" and _rawget(_temp440, "__call_thing")) then
-      _temp445 =  _temp440(_self)
+local _temp435 = nil
+    if _type(_temp430) == "function" or (_type(_temp430) == "table" and _rawget(_temp430, "__call_thing")) then
+      _temp435 =  _temp430(_self)
 
-    elseif _temp440 then
-      _temp445 =  _temp440
+    elseif _temp430 then
+      _temp435 =  _temp430
     else
             if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp445 =  _self:temp()
+        _temp435 =  _self:temp()
       elseif _self.temp ~= nil then
-        _temp445 =  _self.temp
+        _temp435 =  _self.temp
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp445 =  _self:no_undermethod(string:new("temp"))
+        _temp435 =  _self:no_undermethod(string:new("temp"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp445 =  no_undermethod(_self, string:new("temp"))
+        _temp435 =  no_undermethod(_self, string:new("temp"))
       else
         _error(exception:name_error("temp"))
       end
     end
 
-local _temp446 = nil
-        local _t = _type(_temp442)
+local _temp436 = nil
+        local _t = _type(_temp432)
         if _t == "table" then
-          if _rawget(_temp442, "__call_thing") == nil then
-            _temp446 = _temp442
+          if _rawget(_temp432, "__call_thing") == nil then
+            _temp436 = _temp432
           else
-                  if _temp442 == nil then
-              if _type(_self._temp442) == "function" or (_type(_self._temp442) == "table" and _rawget(_self._temp442, "__call_thing")) then
-        _temp446 =  _self:_temp442()
-      elseif _self._temp442 ~= nil then
-        _temp446 =  _self._temp442
+                  if _temp432 == nil then
+              if _type(_self._temp432) == "function" or (_type(_self._temp432) == "table" and _rawget(_self._temp432, "__call_thing")) then
+        _temp436 =  _self:_temp432()
+      elseif _self._temp432 ~= nil then
+        _temp436 =  _self._temp432
 
         elseif _self.no_undermethod ~= nil then
-          _temp446 =  _self:no_undermethod(string:new("_temp442"))
+          _temp436 =  _self:no_undermethod(string:new("_temp432"))
         else
           _error(exception:null_error("rhs", "invoke method"))
         end
       else 
-        _temp446 =  _temp442(_self)
+        _temp436 =  _temp432(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp446 = _temp442
+          _temp436 = _temp432
         elseif _t == "function" then
-                if _temp442 == nil then
-              if _type(_self._temp442) == "function" or (_type(_self._temp442) == "table" and _rawget(_self._temp442, "__call_thing")) then
-        _temp446 =  _self:_temp442()
-      elseif _self._temp442 ~= nil then
-        _temp446 =  _self._temp442
+                if _temp432 == nil then
+              if _type(_self._temp432) == "function" or (_type(_self._temp432) == "table" and _rawget(_self._temp432, "__call_thing")) then
+        _temp436 =  _self:_temp432()
+      elseif _self._temp432 ~= nil then
+        _temp436 =  _self._temp432
 
         elseif _self.no_undermethod ~= nil then
-          _temp446 =  _self:no_undermethod(string:new("_temp442"))
+          _temp436 =  _self:no_undermethod(string:new("_temp432"))
         else
           _error(exception:null_error("rhs", "invoke method"))
         end
       else 
-        _temp446 =  _temp442(_self)
+        _temp436 =  _temp432(_self)
       end
 
-        elseif _temp442 == nil then
+        elseif _temp432 == nil then
           _error(exception:null_error("rhs", "cannot call method on it"))
         else
           _error(exception:method_error("self", "rhs"))
         end
-      local _t = _type(_temp446)
+      local _t = _type(_temp436)
       if _t == "table" then
-                      if _type(_temp446.out) == "function" or (_type(_temp446.out) == "table" and _rawget(_temp446.out, "__call_thing")) then
-        _temp446 = _temp446:out()
-      elseif _temp446.out ~= nil then
-        _temp446 = _temp446.out
+                      if _type(_temp436.out) == "function" or (_type(_temp436.out) == "table" and _rawget(_temp436.out, "__call_thing")) then
+        _temp436 = _temp436:out()
+      elseif _temp436.out ~= nil then
+        _temp436 = _temp436.out
 
-        elseif _temp446.no_undermethod ~= nil then
-          _temp446 =  _temp446:no_undermethod(string:new("out"))
+        elseif _temp436.no_undermethod ~= nil then
+          _temp436 =  _temp436:no_undermethod(string:new("out"))
         else
-          _error(exception:method_error(_temp446, "out"))
+          _error(exception:method_error(_temp436, "out"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp446)
+              local _n = number:new(_temp436)
       if _n.out ~= nil then
-        _temp446 = _n:out()
+        _temp436 = _n:out()
       elseif _n.no_undermethod ~= nil then
-        _temp446 =  _n:no_undermethod(string:new("out"))
+        _temp436 =  _n:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp446, "out"))
+        _error(exception:method_error(_temp436, "out"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp446)
+              local _f = brat_function:new(_temp436)
       if _f.out ~= nil then
-        _temp446 = _f:out()
+        _temp436 = _f:out()
       elseif _f.no_undermethod ~= nil then
-        _temp446 =  _f:no_undermethod(string:new("out"))
+        _temp436 =  _f:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp446, "out"))
+        _error(exception:method_error(_temp436, "out"))
       end
 
-      elseif _temp446 == nil then
-        _error(exception:null_error("_temp446", "invoke out on it"))
+      elseif _temp436 == nil then
+        _error(exception:null_error("_temp436", "invoke out on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp446))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp436))
       end
 
 
-_temp444 = string:new("\n    if " .. _tostring(_temp445) .. " == nil then\n      " .. _tostring(_temp446) .. "\n  ")
+_temp434 = string:new("\n    if " .. _tostring(_temp435) .. " == nil then\n      " .. _tostring(_temp436) .. "\n  ")
 end
 
-local _temp443 
+local _temp433 
 do
-local _temp447 = nil
-        local _t = _type(_temp442)
+local _temp437 = nil
+        local _t = _type(_temp432)
         if _t == "table" then
-          if _rawget(_temp442, "__call_thing") == nil then
-            _temp447 = _temp442
+          if _rawget(_temp432, "__call_thing") == nil then
+            _temp437 = _temp432
           else
-                  if _temp442 == nil then
-              if _type(_self._temp442) == "function" or (_type(_self._temp442) == "table" and _rawget(_self._temp442, "__call_thing")) then
-        _temp447 =  _self:_temp442()
-      elseif _self._temp442 ~= nil then
-        _temp447 =  _self._temp442
+                  if _temp432 == nil then
+              if _type(_self._temp432) == "function" or (_type(_self._temp432) == "table" and _rawget(_self._temp432, "__call_thing")) then
+        _temp437 =  _self:_temp432()
+      elseif _self._temp432 ~= nil then
+        _temp437 =  _self._temp432
 
         elseif _self.no_undermethod ~= nil then
-          _temp447 =  _self:no_undermethod(string:new("_temp442"))
+          _temp437 =  _self:no_undermethod(string:new("_temp432"))
         else
           _error(exception:null_error("rhs", "invoke method"))
         end
       else 
-        _temp447 =  _temp442(_self)
+        _temp437 =  _temp432(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp447 = _temp442
+          _temp437 = _temp432
         elseif _t == "function" then
-                if _temp442 == nil then
-              if _type(_self._temp442) == "function" or (_type(_self._temp442) == "table" and _rawget(_self._temp442, "__call_thing")) then
-        _temp447 =  _self:_temp442()
-      elseif _self._temp442 ~= nil then
-        _temp447 =  _self._temp442
+                if _temp432 == nil then
+              if _type(_self._temp432) == "function" or (_type(_self._temp432) == "table" and _rawget(_self._temp432, "__call_thing")) then
+        _temp437 =  _self:_temp432()
+      elseif _self._temp432 ~= nil then
+        _temp437 =  _self._temp432
 
         elseif _self.no_undermethod ~= nil then
-          _temp447 =  _self:no_undermethod(string:new("_temp442"))
+          _temp437 =  _self:no_undermethod(string:new("_temp432"))
         else
           _error(exception:null_error("rhs", "invoke method"))
         end
       else 
-        _temp447 =  _temp442(_self)
+        _temp437 =  _temp432(_self)
       end
 
-        elseif _temp442 == nil then
+        elseif _temp432 == nil then
           _error(exception:null_error("rhs", "cannot call method on it"))
         else
           _error(exception:method_error("self", "rhs"))
         end
 
-local _temp448 = nil
-      local _t = _type(_temp447)
+local _temp438 = nil
+      local _t = _type(_temp437)
       if _t == "table" then
-                      if _type(_temp447.var) == "function" or (_type(_temp447.var) == "table" and _rawget(_temp447.var, "__call_thing")) then
-        _temp448 = _temp447:var()
-      elseif _temp447.var ~= nil then
-        _temp448 = _temp447.var
+                      if _type(_temp437.var) == "function" or (_type(_temp437.var) == "table" and _rawget(_temp437.var, "__call_thing")) then
+        _temp438 = _temp437:var()
+      elseif _temp437.var ~= nil then
+        _temp438 = _temp437.var
 
-        elseif _temp447.no_undermethod ~= nil then
-          _temp448 =  _temp447:no_undermethod(string:new("var"))
+        elseif _temp437.no_undermethod ~= nil then
+          _temp438 =  _temp437:no_undermethod(string:new("var"))
         else
-          _error(exception:method_error(_temp447, "var"))
+          _error(exception:method_error(_temp437, "var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp447)
+              local _n = number:new(_temp437)
       if _n.var ~= nil then
-        _temp448 = _n:var()
+        _temp438 = _n:var()
       elseif _n.no_undermethod ~= nil then
-        _temp448 =  _n:no_undermethod(string:new("var"))
+        _temp438 =  _n:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp447, "var"))
+        _error(exception:method_error(_temp437, "var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp447)
+              local _f = brat_function:new(_temp437)
       if _f.var ~= nil then
-        _temp448 = _f:var()
+        _temp438 = _f:var()
       elseif _f.no_undermethod ~= nil then
-        _temp448 =  _f:no_undermethod(string:new("var"))
+        _temp438 =  _f:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp447, "var"))
+        _error(exception:method_error(_temp437, "var"))
       end
 
-      elseif _temp447 == nil then
-        _error(exception:null_error("_temp447", "invoke var on it"))
+      elseif _temp437 == nil then
+        _error(exception:null_error("_temp437", "invoke var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp447))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp437))
       end
 
-local _temp449 = nil
-    if _type(_temp440) == "function" or (_type(_temp440) == "table" and _rawget(_temp440, "__call_thing")) then
-      _temp449 =  _temp440(_self)
+local _temp439 = nil
+    if _type(_temp430) == "function" or (_type(_temp430) == "table" and _rawget(_temp430, "__call_thing")) then
+      _temp439 =  _temp430(_self)
 
-    elseif _temp440 then
-      _temp449 =  _temp440
+    elseif _temp430 then
+      _temp439 =  _temp430
     else
             if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp449 =  _self:temp()
+        _temp439 =  _self:temp()
       elseif _self.temp ~= nil then
-        _temp449 =  _self.temp
+        _temp439 =  _self.temp
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp449 =  _self:no_undermethod(string:new("temp"))
+        _temp439 =  _self:no_undermethod(string:new("temp"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp449 =  no_undermethod(_self, string:new("temp"))
+        _temp439 =  no_undermethod(_self, string:new("temp"))
       else
         _error(exception:name_error("temp"))
       end
     end
-local _temp450
-      local _t = _type(_temp448)
+local _temp440
+      local _t = _type(_temp438)
       if _t == "table" then
-                      if _type(_temp448._equal_equal) == "function" or (_type(_temp448._equal_equal) == "table" and _rawget(_temp448._equal_equal, "__call_thing")) then
-        _temp450 = _temp448:_equal_equal(_temp449)
-      elseif _temp448._equal_equal ~= nil then
-        _temp450 = _temp448._equal_equal
+                      if _type(_temp438._equal_equal) == "function" or (_type(_temp438._equal_equal) == "table" and _rawget(_temp438._equal_equal, "__call_thing")) then
+        _temp440 = _temp438:_equal_equal(_temp439)
+      elseif _temp438._equal_equal ~= nil then
+        _temp440 = _temp438._equal_equal
 
-        elseif _temp448.no_undermethod ~= nil then
-          _temp450 =  _temp448:no_undermethod(string:new("==") , _temp449)
+        elseif _temp438.no_undermethod ~= nil then
+          _temp440 =  _temp438:no_undermethod(string:new("==") , _temp439)
         else
-          _error(exception:method_error(_temp448, "=="))
+          _error(exception:method_error(_temp438, "=="))
         end
 
       elseif _t == "number" then
-              if number._unchanged('_equal_equal') and _type(_temp449) == 'number' then
-              if _temp448 == _temp449 then
-        _temp450 = object.__true
+              if number._unchanged('_equal_equal') and _type(_temp439) == 'number' then
+              if _temp438 == _temp439 then
+        _temp440 = object.__true
       else
-        _temp450 = object.__false
+        _temp440 = object.__false
       end
 
       else
-              local _n = number:new(_temp448)
+              local _n = number:new(_temp438)
       if _n._equal_equal ~= nil then
-        _temp450 = _n:_equal_equal(_temp449)
+        _temp440 = _n:_equal_equal(_temp439)
       elseif _n.no_undermethod ~= nil then
-        _temp450 =  _n:no_undermethod(string:new("==") , _temp449)
+        _temp440 =  _n:no_undermethod(string:new("==") , _temp439)
       else
-        _error(exception:method_error(_temp448, "=="))
+        _error(exception:method_error(_temp438, "=="))
       end
 
       end 
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp448)
+              local _f = brat_function:new(_temp438)
       if _f._equal_equal ~= nil then
-        _temp450 = _f:_equal_equal(_temp449)
+        _temp440 = _f:_equal_equal(_temp439)
       elseif _f.no_undermethod ~= nil then
-        _temp450 =  _f:no_undermethod(string:new("==") , _temp449)
+        _temp440 =  _f:no_undermethod(string:new("==") , _temp439)
       else
-        _error(exception:method_error(_temp448, "=="))
+        _error(exception:method_error(_temp438, "=="))
       end
 
-      elseif _temp448 == nil then
-        _error(exception:null_error("_temp448", "invoke == on it"))
+      elseif _temp438 == nil then
+        _error(exception:null_error("_temp438", "invoke == on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp448))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp438))
       end
 
-_temp443 = _temp450 
+_temp433 = _temp440 
 end
 
 
-local _temp458 = function (_self)
+local _temp448 = function (_self)
 
-local _temp451 
+local _temp441 
 do
-local _temp452 = nil
-_temp452 =  _temp444
+local _temp442 = nil
+_temp442 =  _temp434
 
-local _temp453 = nil
+local _temp443 = nil
 do
-local _temp454 = nil
-    if _type(_temp440) == "function" or (_type(_temp440) == "table" and _rawget(_temp440, "__call_thing")) then
-      _temp454 =  _temp440(_self)
+local _temp444 = nil
+    if _type(_temp430) == "function" or (_type(_temp430) == "table" and _rawget(_temp430, "__call_thing")) then
+      _temp444 =  _temp430(_self)
 
-    elseif _temp440 then
-      _temp454 =  _temp440
+    elseif _temp430 then
+      _temp444 =  _temp430
     else
             if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp454 =  _self:temp()
+        _temp444 =  _self:temp()
       elseif _self.temp ~= nil then
-        _temp454 =  _self.temp
+        _temp444 =  _self.temp
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp454 =  _self:no_undermethod(string:new("temp"))
+        _temp444 =  _self:no_undermethod(string:new("temp"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp454 =  no_undermethod(_self, string:new("temp"))
+        _temp444 =  no_undermethod(_self, string:new("temp"))
       else
         _error(exception:name_error("temp"))
       end
     end
 
-local _temp455 = nil
-        local _t = _type(_temp442)
+local _temp445 = nil
+        local _t = _type(_temp432)
         if _t == "table" then
-          if _rawget(_temp442, "__call_thing") == nil then
-            _temp455 = _temp442
+          if _rawget(_temp432, "__call_thing") == nil then
+            _temp445 = _temp432
           else
-                  if _temp442 == nil then
-              if _type(_self._temp442) == "function" or (_type(_self._temp442) == "table" and _rawget(_self._temp442, "__call_thing")) then
-        _temp455 =  _self:_temp442()
-      elseif _self._temp442 ~= nil then
-        _temp455 =  _self._temp442
+                  if _temp432 == nil then
+              if _type(_self._temp432) == "function" or (_type(_self._temp432) == "table" and _rawget(_self._temp432, "__call_thing")) then
+        _temp445 =  _self:_temp432()
+      elseif _self._temp432 ~= nil then
+        _temp445 =  _self._temp432
 
         elseif _self.no_undermethod ~= nil then
-          _temp455 =  _self:no_undermethod(string:new("_temp442"))
+          _temp445 =  _self:no_undermethod(string:new("_temp432"))
         else
           _error(exception:null_error("rhs", "invoke method"))
         end
       else 
-        _temp455 =  _temp442(_self)
+        _temp445 =  _temp432(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp455 = _temp442
+          _temp445 = _temp432
         elseif _t == "function" then
-                if _temp442 == nil then
-              if _type(_self._temp442) == "function" or (_type(_self._temp442) == "table" and _rawget(_self._temp442, "__call_thing")) then
-        _temp455 =  _self:_temp442()
-      elseif _self._temp442 ~= nil then
-        _temp455 =  _self._temp442
+                if _temp432 == nil then
+              if _type(_self._temp432) == "function" or (_type(_self._temp432) == "table" and _rawget(_self._temp432, "__call_thing")) then
+        _temp445 =  _self:_temp432()
+      elseif _self._temp432 ~= nil then
+        _temp445 =  _self._temp432
 
         elseif _self.no_undermethod ~= nil then
-          _temp455 =  _self:no_undermethod(string:new("_temp442"))
+          _temp445 =  _self:no_undermethod(string:new("_temp432"))
         else
           _error(exception:null_error("rhs", "invoke method"))
         end
       else 
-        _temp455 =  _temp442(_self)
+        _temp445 =  _temp432(_self)
       end
 
-        elseif _temp442 == nil then
+        elseif _temp432 == nil then
           _error(exception:null_error("rhs", "cannot call method on it"))
         else
           _error(exception:method_error("self", "rhs"))
         end
-      local _t = _type(_temp455)
+      local _t = _type(_temp445)
       if _t == "table" then
-                      if _type(_temp455.var) == "function" or (_type(_temp455.var) == "table" and _rawget(_temp455.var, "__call_thing")) then
-        _temp455 = _temp455:var()
-      elseif _temp455.var ~= nil then
-        _temp455 = _temp455.var
+                      if _type(_temp445.var) == "function" or (_type(_temp445.var) == "table" and _rawget(_temp445.var, "__call_thing")) then
+        _temp445 = _temp445:var()
+      elseif _temp445.var ~= nil then
+        _temp445 = _temp445.var
 
-        elseif _temp455.no_undermethod ~= nil then
-          _temp455 =  _temp455:no_undermethod(string:new("var"))
+        elseif _temp445.no_undermethod ~= nil then
+          _temp445 =  _temp445:no_undermethod(string:new("var"))
         else
-          _error(exception:method_error(_temp455, "var"))
+          _error(exception:method_error(_temp445, "var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp455)
+              local _n = number:new(_temp445)
       if _n.var ~= nil then
-        _temp455 = _n:var()
+        _temp445 = _n:var()
       elseif _n.no_undermethod ~= nil then
-        _temp455 =  _n:no_undermethod(string:new("var"))
+        _temp445 =  _n:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp455, "var"))
+        _error(exception:method_error(_temp445, "var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp455)
+              local _f = brat_function:new(_temp445)
       if _f.var ~= nil then
-        _temp455 = _f:var()
+        _temp445 = _f:var()
       elseif _f.no_undermethod ~= nil then
-        _temp455 =  _f:no_undermethod(string:new("var"))
+        _temp445 =  _f:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp455, "var"))
+        _error(exception:method_error(_temp445, "var"))
       end
 
-      elseif _temp455 == nil then
-        _error(exception:null_error("_temp455", "invoke var on it"))
+      elseif _temp445 == nil then
+        _error(exception:null_error("_temp445", "invoke var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp455))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp445))
       end
 
 
-_temp453 = string:new("" .. _tostring(_temp454) .. " = " .. _tostring(_temp455) .. "\n")
+_temp443 = string:new("" .. _tostring(_temp444) .. " = " .. _tostring(_temp445) .. "\n")
 end
-local _temp456
-              if _type(_temp452._less_less) == "function" or (_type(_temp452._less_less) == "table" and _rawget(_temp452._less_less, "__call_thing")) then
-        _temp456 = _temp452:_less_less(_temp453)
-      elseif _temp452._less_less ~= nil then
-        _temp456 = _temp452._less_less
+local _temp446
+              if _type(_temp442._less_less) == "function" or (_type(_temp442._less_less) == "table" and _rawget(_temp442._less_less, "__call_thing")) then
+        _temp446 = _temp442:_less_less(_temp443)
+      elseif _temp442._less_less ~= nil then
+        _temp446 = _temp442._less_less
 
-        elseif _temp452.no_undermethod ~= nil then
-          _temp456 =  _temp452:no_undermethod(string:new("<<") , _temp453)
+        elseif _temp442.no_undermethod ~= nil then
+          _temp446 =  _temp442:no_undermethod(string:new("<<") , _temp443)
         else
-          _error(exception:method_error(_temp452, "<<"))
+          _error(exception:method_error(_temp442, "<<"))
         end
 
-_temp451 = _temp456 
+_temp441 = _temp446 
 end
 
-return _temp451
+return _temp441
 end
 
     if _type(false_question) == "function" or (_type(false_question) == "table" and _rawget(false_question, "__call_thing")) then
-      _dummy_ =  false_question(_self, _temp443,_temp458)
+      _dummy_ =  false_question(_self, _temp433,_temp448)
 
     elseif false_question then
       _error(exception:new("Tried to invoke non-method: false? (" .. object.__type(false_question) .. ")"))
     else
             if _type(_self.false_question) == "function" or (_type(_self.false_question) == "table" and _rawget(_self.false_question, "__call_thing")) then
-        _dummy_ =  _self:false_question(_temp443,_temp458)
+        _dummy_ =  _self:false_question(_temp433,_temp448)
       elseif _self.false_question ~= nil then
         _dummy_ =  _self.false_question
 
@@ -19049,72 +18799,72 @@ end
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _dummy_ =  _self:no_undermethod(string:new("false?") , _temp443,_temp458)
+        _dummy_ =  _self:no_undermethod(string:new("false?") , _temp433,_temp448)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _dummy_ =  no_undermethod(_self, string:new("false?") , _temp443,_temp458)
+        _dummy_ =  no_undermethod(_self, string:new("false?") , _temp433,_temp448)
       else
         _error(exception:name_error("false?"))
       end
     end
 
 do
-local _temp459 = nil
-_temp459 =  _temp444
+local _temp449 = nil
+_temp449 =  _temp434
 
-local _temp460 = string:new("end\n")
-local _temp461
-              if _type(_temp459._less_less) == "function" or (_type(_temp459._less_less) == "table" and _rawget(_temp459._less_less, "__call_thing")) then
-        _temp461 = _temp459:_less_less(_temp460)
-      elseif _temp459._less_less ~= nil then
-        _temp461 = _temp459._less_less
+local _temp450 = string:new("end\n")
+local _temp451
+              if _type(_temp449._less_less) == "function" or (_type(_temp449._less_less) == "table" and _rawget(_temp449._less_less, "__call_thing")) then
+        _temp451 = _temp449:_less_less(_temp450)
+      elseif _temp449._less_less ~= nil then
+        _temp451 = _temp449._less_less
 
-        elseif _temp459.no_undermethod ~= nil then
-          _temp461 =  _temp459:no_undermethod(string:new("<<") , _temp460)
+        elseif _temp449.no_undermethod ~= nil then
+          _temp451 =  _temp449:no_undermethod(string:new("<<") , _temp450)
         else
-          _error(exception:method_error(_temp459, "<<"))
+          _error(exception:method_error(_temp449, "<<"))
         end
 
-_dummy_ = _temp461 
+_dummy_ = _temp451 
 end
 
-    if _type(_temp440) == "function" or (_type(_temp440) == "table" and _rawget(_temp440, "__call_thing")) then
-      _temp458 =  _temp440(_self)
+    if _type(_temp430) == "function" or (_type(_temp430) == "table" and _rawget(_temp430, "__call_thing")) then
+      _temp448 =  _temp430(_self)
 
-    elseif _temp440 then
-      _temp458 =  _temp440
+    elseif _temp430 then
+      _temp448 =  _temp430
     else
             if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp458 =  _self:temp()
+        _temp448 =  _self:temp()
       elseif _self.temp ~= nil then
-        _temp458 =  _self.temp
+        _temp448 =  _self.temp
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp458 =  _self:no_undermethod(string:new("temp"))
+        _temp448 =  _self:no_undermethod(string:new("temp"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp458 =  no_undermethod(_self, string:new("temp"))
+        _temp448 =  no_undermethod(_self, string:new("temp"))
       else
         _error(exception:name_error("temp"))
       end
     end
 
-_temp443 =  _temp444
+_temp433 =  _temp434
 
-_temp441 = string:new("def_arg")
+_temp431 = string:new("def_arg")
 
-local _temp462 = {}
-_temp462[string:new("arg_type")] = _temp441
-_temp462 = hash:new(_temp462)
+local _temp452 = {}
+_temp452[string:new("arg_type")] = _temp431
+_temp452 = hash:new(_temp452)
     if _type(r) == "function" or (_type(r) == "table" and _rawget(r, "__call_thing")) then
-      return  r(_self, _temp458,_temp443,_temp462)
+      return  r(_self, _temp448,_temp433,_temp452)
 
     elseif r then
       _error(exception:new("Tried to invoke non-method: r (" .. object.__type(r) .. ")"))
     else
             if _type(_self.r) == "function" or (_type(_self.r) == "table" and _rawget(_self.r, "__call_thing")) then
-        return  _self:r(_temp458,_temp443,_temp462)
+        return  _self:r(_temp448,_temp433,_temp452)
       elseif _self.r ~= nil then
         return  _self.r
 
@@ -19122,9 +18872,9 @@ _temp462 = hash:new(_temp462)
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("r") , _temp458,_temp443,_temp462)
+        return  _self:no_undermethod(string:new("r") , _temp448,_temp433,_temp452)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("r") , _temp458,_temp443,_temp462)
+        return  no_undermethod(_self, string:new("r") , _temp448,_temp433,_temp452)
       else
         _error(exception:name_error("r"))
       end
@@ -19132,43 +18882,557 @@ _temp462 = hash:new(_temp462)
 
 end
 
-      local _t = _type(_temp437)
+      local _t = _type(_temp427)
       if _t == "table" then
-                      if _type(_temp437.walk) == "function" or (_type(_temp437.walk) == "table" and _rawget(_temp437.walk, "__call_thing")) then
-        _dummy_ = _temp437:walk(_temp4,_temp463)
-      elseif _temp437.walk ~= nil then
-        _dummy_ = _temp437.walk
+                      if _type(_temp427.walk) == "function" or (_type(_temp427.walk) == "table" and _rawget(_temp427.walk, "__call_thing")) then
+        _dummy_ = _temp427:walk(_temp4,_temp453)
+      elseif _temp427.walk ~= nil then
+        _dummy_ = _temp427.walk
 
-        elseif _temp437.no_undermethod ~= nil then
-          _dummy_ =  _temp437:no_undermethod(string:new("walk") , _temp4,_temp463)
+        elseif _temp427.no_undermethod ~= nil then
+          _dummy_ =  _temp427:no_undermethod(string:new("walk") , _temp4,_temp453)
         else
-          _error(exception:method_error(_temp437, "walk"))
+          _error(exception:method_error(_temp427, "walk"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp437)
+              local _n = number:new(_temp427)
+      if _n.walk ~= nil then
+        _dummy_ = _n:walk(_temp4,_temp453)
+      elseif _n.no_undermethod ~= nil then
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp453)
+      else
+        _error(exception:method_error(_temp427, "walk"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp427)
+      if _f.walk ~= nil then
+        _dummy_ = _f:walk(_temp4,_temp453)
+      elseif _f.no_undermethod ~= nil then
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp453)
+      else
+        _error(exception:method_error(_temp427, "walk"))
+      end
+
+      elseif _temp427 == nil then
+        _error(exception:null_error("_temp427", "invoke walk on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp427))
+      end
+
+        local _t = _type(_temp5)
+        if _t == "table" then
+          if _rawget(_temp5, "__call_thing") == nil then
+            _temp453 = _temp5
+          else
+                  if _temp5 == nil then
+              if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
+        _temp453 =  _self:_temp5()
+      elseif _self._temp5 ~= nil then
+        _temp453 =  _self._temp5
+
+        elseif _self.no_undermethod ~= nil then
+          _temp453 =  _self:no_undermethod(string:new("_temp5"))
+        else
+          _error(exception:null_error("c", "invoke method"))
+        end
+      else 
+        _temp453 =  _temp5(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp453 = _temp5
+        elseif _t == "function" then
+                if _temp5 == nil then
+              if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
+        _temp453 =  _self:_temp5()
+      elseif _self._temp5 ~= nil then
+        _temp453 =  _self._temp5
+
+        elseif _self.no_undermethod ~= nil then
+          _temp453 =  _self:no_undermethod(string:new("_temp5"))
+        else
+          _error(exception:null_error("c", "invoke method"))
+        end
+      else 
+        _temp453 =  _temp5(_self)
+      end
+
+        elseif _temp5 == nil then
+          _error(exception:null_error("c", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "c"))
+        end
+_temp4 = string:new("meth_access_local")
+
+local _temp463 = function (_self, _temp455,_temp454)
+        if _temp455 == nil then
+          _error(exception:argument_error("function", 'at least 1', 0))
+
+end
+if _temp454 == nil then
+ do
+    if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
+      _temp454 =  null(_self)
+
+    elseif null then
+      _temp454 =  null
+    else
+            if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
+        _temp454 =  _self:null()
+      elseif _self.null ~= nil then
+        _temp454 =  _self.null
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp454 =  _self:no_undermethod(string:new("null"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp454 =  no_undermethod(_self, string:new("null"))
+      else
+        _error(exception:name_error("null"))
+      end
+    end
+
+end
+end
+
+local _temp456
+local _temp457 = nil
+    if _type(_temp454) == "function" or (_type(_temp454) == "table" and _rawget(_temp454, "__call_thing")) then
+      _temp457 =  _temp454(_self)
+
+    elseif _temp454 then
+      _temp457 =  _temp454
+    else
+            if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
+        _temp457 =  _self:var()
+      elseif _self.var ~= nil then
+        _temp457 =  _self.var
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp457 =  _self:no_undermethod(string:new("var"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp457 =  no_undermethod(_self, string:new("var"))
+      else
+        _error(exception:name_error("var"))
+      end
+    end
+
+    if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
+      _temp456 =  set_underresult(_self, _temp457)
+
+    elseif set_underresult then
+      _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
+    else
+            if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
+        _temp456 =  _self:set_underresult(_temp457)
+      elseif _self.set_underresult ~= nil then
+        _temp456 =  _self.set_underresult
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp456 =  _self:no_undermethod(string:new("set_result") , _temp457)
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp456 =  no_undermethod(_self, string:new("set_result") , _temp457)
+      else
+        _error(exception:name_error("set_result"))
+      end
+    end
+
+do
+local _temp458 = nil
+        local _t = _type(_temp456)
+        if _t == "table" then
+          if _rawget(_temp456, "__call_thing") == nil then
+            _temp458 = _temp456
+          else
+                  if _temp456 == nil then
+              if _type(_self._temp456) == "function" or (_type(_self._temp456) == "table" and _rawget(_self._temp456, "__call_thing")) then
+        _temp458 =  _self:_temp456()
+      elseif _self._temp456 ~= nil then
+        _temp458 =  _self._temp456
+
+        elseif _self.no_undermethod ~= nil then
+          _temp458 =  _self:no_undermethod(string:new("_temp456"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp458 =  _temp456(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp458 = _temp456
+        elseif _t == "function" then
+                if _temp456 == nil then
+              if _type(_self._temp456) == "function" or (_type(_self._temp456) == "table" and _rawget(_self._temp456, "__call_thing")) then
+        _temp458 =  _self:_temp456()
+      elseif _self._temp456 ~= nil then
+        _temp458 =  _self._temp456
+
+        elseif _self.no_undermethod ~= nil then
+          _temp458 =  _self:no_undermethod(string:new("_temp456"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp458 =  _temp456(_self)
+      end
+
+        elseif _temp456 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp459 = nil
+      local _t = _type(_temp458)
+      if _t == "table" then
+                      if _type(_temp458.out) == "function" or (_type(_temp458.out) == "table" and _rawget(_temp458.out, "__call_thing")) then
+        _temp459 = _temp458:out()
+      elseif _temp458.out ~= nil then
+        _temp459 = _temp458.out
+
+        elseif _temp458.no_undermethod ~= nil then
+          _temp459 =  _temp458:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp458, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp458)
+      if _n.out ~= nil then
+        _temp459 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp459 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp458, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp458)
+      if _f.out ~= nil then
+        _temp459 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp459 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp458, "out"))
+      end
+
+      elseif _temp458 == nil then
+        _error(exception:null_error("_temp458", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp458))
+      end
+
+local _temp460 = nil
+local _temp461 = nil
+        local _t = _type(_temp455)
+        if _t == "table" then
+          if _rawget(_temp455, "__call_thing") == nil then
+            _temp461 = _temp455
+          else
+                  if _temp455 == nil then
+              if _type(_self._temp455) == "function" or (_type(_self._temp455) == "table" and _rawget(_self._temp455, "__call_thing")) then
+        _temp461 =  _self:_temp455()
+      elseif _self._temp455 ~= nil then
+        _temp461 =  _self._temp455
+
+        elseif _self.no_undermethod ~= nil then
+          _temp461 =  _self:no_undermethod(string:new("_temp455"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp461 =  _temp455(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp461 = _temp455
+        elseif _t == "function" then
+                if _temp455 == nil then
+              if _type(_self._temp455) == "function" or (_type(_self._temp455) == "table" and _rawget(_self._temp455, "__call_thing")) then
+        _temp461 =  _self:_temp455()
+      elseif _self._temp455 ~= nil then
+        _temp461 =  _self._temp455
+
+        elseif _self.no_undermethod ~= nil then
+          _temp461 =  _self:no_undermethod(string:new("_temp455"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp461 =  _temp455(_self)
+      end
+
+        elseif _temp455 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
+      local _t = _type(_temp461)
+      if _t == "table" then
+                      if _type(_temp461.method) == "function" or (_type(_temp461.method) == "table" and _rawget(_temp461.method, "__call_thing")) then
+        _temp461 = _temp461:method()
+      elseif _temp461.method ~= nil then
+        _temp461 = _temp461.method
+
+        elseif _temp461.no_undermethod ~= nil then
+          _temp461 =  _temp461:no_undermethod(string:new("method"))
+        else
+          _error(exception:method_error(_temp461, "method"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp461)
+      if _n.method ~= nil then
+        _temp461 = _n:method()
+      elseif _n.no_undermethod ~= nil then
+        _temp461 =  _n:no_undermethod(string:new("method"))
+      else
+        _error(exception:method_error(_temp461, "method"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp461)
+      if _f.method ~= nil then
+        _temp461 = _f:method()
+      elseif _f.no_undermethod ~= nil then
+        _temp461 =  _f:no_undermethod(string:new("method"))
+      else
+        _error(exception:method_error(_temp461, "method"))
+      end
+
+      elseif _temp461 == nil then
+        _error(exception:null_error("_temp461", "invoke method on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp461))
+      end
+
+
+local _temp462 = nil
+        local _t = _type(_temp456)
+        if _t == "table" then
+          if _rawget(_temp456, "__call_thing") == nil then
+            _temp462 = _temp456
+          else
+                  if _temp456 == nil then
+              if _type(_self._temp456) == "function" or (_type(_self._temp456) == "table" and _rawget(_self._temp456, "__call_thing")) then
+        _temp462 =  _self:_temp456()
+      elseif _self._temp456 ~= nil then
+        _temp462 =  _self._temp456
+
+        elseif _self.no_undermethod ~= nil then
+          _temp462 =  _self:no_undermethod(string:new("_temp456"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp462 =  _temp456(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp462 = _temp456
+        elseif _t == "function" then
+                if _temp456 == nil then
+              if _type(_self._temp456) == "function" or (_type(_self._temp456) == "table" and _rawget(_self._temp456, "__call_thing")) then
+        _temp462 =  _self:_temp456()
+      elseif _self._temp456 ~= nil then
+        _temp462 =  _self._temp456
+
+        elseif _self.no_undermethod ~= nil then
+          _temp462 =  _self:no_undermethod(string:new("_temp456"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp462 =  _temp456(_self)
+      end
+
+        elseif _temp456 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+      local _t = _type(_temp462)
+      if _t == "table" then
+                      if _type(_temp462.var) == "function" or (_type(_temp462.var) == "table" and _rawget(_temp462.var, "__call_thing")) then
+        _temp462 = _temp462:var()
+      elseif _temp462.var ~= nil then
+        _temp462 = _temp462.var
+
+        elseif _temp462.no_undermethod ~= nil then
+          _temp462 =  _temp462:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp462, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp462)
+      if _n.var ~= nil then
+        _temp462 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp462 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp462, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp462)
+      if _f.var ~= nil then
+        _temp462 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp462 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp462, "var"))
+      end
+
+      elseif _temp462 == nil then
+        _error(exception:null_error("_temp462", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp462))
+      end
+
+
+    if _type(get_undermethod_underlocal) == "function" or (_type(get_undermethod_underlocal) == "table" and _rawget(get_undermethod_underlocal, "__call_thing")) then
+      _temp460 =  get_undermethod_underlocal(_self, _temp461,_temp462)
+
+    elseif get_undermethod_underlocal then
+      _error(exception:new("Tried to invoke non-method: get_method_local (" .. object.__type(get_undermethod_underlocal) .. ")"))
+    else
+            if _type(_self.get_undermethod_underlocal) == "function" or (_type(_self.get_undermethod_underlocal) == "table" and _rawget(_self.get_undermethod_underlocal, "__call_thing")) then
+        _temp460 =  _self:get_undermethod_underlocal(_temp461,_temp462)
+      elseif _self.get_undermethod_underlocal ~= nil then
+        _temp460 =  _self.get_undermethod_underlocal
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp460 =  _self:no_undermethod(string:new("get_method_local") , _temp461,_temp462)
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp460 =  no_undermethod(_self, string:new("get_method_local") , _temp461,_temp462)
+      else
+        _error(exception:name_error("get_method_local"))
+      end
+    end
+local _temp462
+      local _t = _type(_temp459)
+      if _t == "table" then
+                      if _type(_temp459._less_less) == "function" or (_type(_temp459._less_less) == "table" and _rawget(_temp459._less_less, "__call_thing")) then
+        _temp462 = _temp459:_less_less(_temp460)
+      elseif _temp459._less_less ~= nil then
+        _temp462 = _temp459._less_less
+
+        elseif _temp459.no_undermethod ~= nil then
+          _temp462 =  _temp459:no_undermethod(string:new("<<") , _temp460)
+        else
+          _error(exception:method_error(_temp459, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp459)
+      if _n._less_less ~= nil then
+        _temp462 = _n:_less_less(_temp460)
+      elseif _n.no_undermethod ~= nil then
+        _temp462 =  _n:no_undermethod(string:new("<<") , _temp460)
+      else
+        _error(exception:method_error(_temp459, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp459)
+      if _f._less_less ~= nil then
+        _temp462 = _f:_less_less(_temp460)
+      elseif _f.no_undermethod ~= nil then
+        _temp462 =  _f:no_undermethod(string:new("<<") , _temp460)
+      else
+        _error(exception:method_error(_temp459, "<<"))
+      end
+
+      elseif _temp459 == nil then
+        _error(exception:null_error("_temp459", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp459))
+      end
+
+_dummy_ = _temp462 
+end
+
+    if _type(_temp456) == "function" or (_type(_temp456) == "table" and _rawget(_temp456, "__call_thing")) then
+      return  _temp456(_self)
+
+    elseif _temp456 then
+      return  _temp456
+    else
+            if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
+        return  _self:res()
+      elseif _self.res ~= nil then
+        return  _self.res
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        return  _self:no_undermethod(string:new("res"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        return  no_undermethod(_self, string:new("res"))
+      else
+        _error(exception:name_error("res"))
+      end
+    end
+
+end
+
+      local _t = _type(_temp453)
+      if _t == "table" then
+                      if _type(_temp453.walk) == "function" or (_type(_temp453.walk) == "table" and _rawget(_temp453.walk, "__call_thing")) then
+        _dummy_ = _temp453:walk(_temp4,_temp463)
+      elseif _temp453.walk ~= nil then
+        _dummy_ = _temp453.walk
+
+        elseif _temp453.no_undermethod ~= nil then
+          _dummy_ =  _temp453:no_undermethod(string:new("walk") , _temp4,_temp463)
+        else
+          _error(exception:method_error(_temp453, "walk"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp453)
       if _n.walk ~= nil then
         _dummy_ = _n:walk(_temp4,_temp463)
       elseif _n.no_undermethod ~= nil then
         _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp463)
       else
-        _error(exception:method_error(_temp437, "walk"))
+        _error(exception:method_error(_temp453, "walk"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp437)
+              local _f = brat_function:new(_temp453)
       if _f.walk ~= nil then
         _dummy_ = _f:walk(_temp4,_temp463)
       elseif _f.no_undermethod ~= nil then
         _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp463)
       else
-        _error(exception:method_error(_temp437, "walk"))
+        _error(exception:method_error(_temp453, "walk"))
       end
 
-      elseif _temp437 == nil then
-        _error(exception:null_error("_temp437", "invoke walk on it"))
+      elseif _temp453 == nil then
+        _error(exception:null_error("_temp453", "invoke walk on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp437))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp453))
       end
 
         local _t = _type(_temp5)
@@ -19215,7 +19479,7 @@ end
         else
           _error(exception:method_error("self", "c"))
         end
-_temp4 = string:new("meth_access_local")
+_temp4 = string:new("meth_access_up")
 
 local _temp473 = function (_self, _temp465,_temp464)
         if _temp465 == nil then
@@ -19729,7 +19993,7 @@ end
         else
           _error(exception:method_error("self", "c"))
         end
-_temp4 = string:new("meth_access_up")
+_temp4 = string:new("meth_access_self")
 
 local _temp483 = function (_self, _temp475,_temp474)
         if _temp475 == nil then
@@ -20070,26 +20334,26 @@ local _temp482 = nil
       end
 
 
-    if _type(get_undermethod_underlocal) == "function" or (_type(get_undermethod_underlocal) == "table" and _rawget(get_undermethod_underlocal, "__call_thing")) then
-      _temp480 =  get_undermethod_underlocal(_self, _temp481,_temp482)
+    if _type(get_undermethod_underself) == "function" or (_type(get_undermethod_underself) == "table" and _rawget(get_undermethod_underself, "__call_thing")) then
+      _temp480 =  get_undermethod_underself(_self, _temp481,_temp482)
 
-    elseif get_undermethod_underlocal then
-      _error(exception:new("Tried to invoke non-method: get_method_local (" .. object.__type(get_undermethod_underlocal) .. ")"))
+    elseif get_undermethod_underself then
+      _error(exception:new("Tried to invoke non-method: get_method_self (" .. object.__type(get_undermethod_underself) .. ")"))
     else
-            if _type(_self.get_undermethod_underlocal) == "function" or (_type(_self.get_undermethod_underlocal) == "table" and _rawget(_self.get_undermethod_underlocal, "__call_thing")) then
-        _temp480 =  _self:get_undermethod_underlocal(_temp481,_temp482)
-      elseif _self.get_undermethod_underlocal ~= nil then
-        _temp480 =  _self.get_undermethod_underlocal
+            if _type(_self.get_undermethod_underself) == "function" or (_type(_self.get_undermethod_underself) == "table" and _rawget(_self.get_undermethod_underself, "__call_thing")) then
+        _temp480 =  _self:get_undermethod_underself(_temp481,_temp482)
+      elseif _self.get_undermethod_underself ~= nil then
+        _temp480 =  _self.get_undermethod_underself
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp480 =  _self:no_undermethod(string:new("get_method_local") , _temp481,_temp482)
+        _temp480 =  _self:no_undermethod(string:new("get_method_self") , _temp481,_temp482)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp480 =  no_undermethod(_self, string:new("get_method_local") , _temp481,_temp482)
+        _temp480 =  no_undermethod(_self, string:new("get_method_self") , _temp481,_temp482)
       else
-        _error(exception:name_error("get_method_local"))
+        _error(exception:name_error("get_method_self"))
       end
     end
 local _temp482
@@ -20243,9 +20507,9 @@ end
         else
           _error(exception:method_error("self", "c"))
         end
-_temp4 = string:new("meth_access_self")
+_temp4 = string:new("meth_access")
 
-local _temp493 = function (_self, _temp485,_temp484)
+local _temp499 = function (_self, _temp485,_temp484)
         if _temp485 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
@@ -20326,132 +20590,44 @@ local _temp487 = nil
       end
     end
 
-do
-local _temp488 = nil
-        local _t = _type(_temp486)
-        if _t == "table" then
-          if _rawget(_temp486, "__call_thing") == nil then
-            _temp488 = _temp486
-          else
-                  if _temp486 == nil then
-              if _type(_self._temp486) == "function" or (_type(_self._temp486) == "table" and _rawget(_self._temp486, "__call_thing")) then
-        _temp488 =  _self:_temp486()
-      elseif _self._temp486 ~= nil then
-        _temp488 =  _self._temp486
-
-        elseif _self.no_undermethod ~= nil then
-          _temp488 =  _self:no_undermethod(string:new("_temp486"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp488 =  _temp486(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp488 = _temp486
-        elseif _t == "function" then
-                if _temp486 == nil then
-              if _type(_self._temp486) == "function" or (_type(_self._temp486) == "table" and _rawget(_self._temp486, "__call_thing")) then
-        _temp488 =  _self:_temp486()
-      elseif _self._temp486 ~= nil then
-        _temp488 =  _self._temp486
-
-        elseif _self.no_undermethod ~= nil then
-          _temp488 =  _self:no_undermethod(string:new("_temp486"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp488 =  _temp486(_self)
-      end
-
-        elseif _temp486 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp489 = nil
-      local _t = _type(_temp488)
-      if _t == "table" then
-                      if _type(_temp488.out) == "function" or (_type(_temp488.out) == "table" and _rawget(_temp488.out, "__call_thing")) then
-        _temp489 = _temp488:out()
-      elseif _temp488.out ~= nil then
-        _temp489 = _temp488.out
-
-        elseif _temp488.no_undermethod ~= nil then
-          _temp489 =  _temp488:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp488, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp488)
-      if _n.out ~= nil then
-        _temp489 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp489 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp488, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp488)
-      if _f.out ~= nil then
-        _temp489 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp489 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp488, "out"))
-      end
-
-      elseif _temp488 == nil then
-        _error(exception:null_error("_temp488", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp488))
-      end
-
-local _temp490 = nil
-local _temp491 = nil
+local _temp488
         local _t = _type(_temp485)
         if _t == "table" then
           if _rawget(_temp485, "__call_thing") == nil then
-            _temp491 = _temp485
+            _temp487 = _temp485
           else
                   if _temp485 == nil then
               if _type(_self._temp485) == "function" or (_type(_self._temp485) == "table" and _rawget(_self._temp485, "__call_thing")) then
-        _temp491 =  _self:_temp485()
+        _temp487 =  _self:_temp485()
       elseif _self._temp485 ~= nil then
-        _temp491 =  _self._temp485
+        _temp487 =  _self._temp485
 
         elseif _self.no_undermethod ~= nil then
-          _temp491 =  _self:no_undermethod(string:new("_temp485"))
+          _temp487 =  _self:no_undermethod(string:new("_temp485"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp491 =  _temp485(_self)
+        _temp487 =  _temp485(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp491 = _temp485
+          _temp487 = _temp485
         elseif _t == "function" then
                 if _temp485 == nil then
               if _type(_self._temp485) == "function" or (_type(_self._temp485) == "table" and _rawget(_self._temp485, "__call_thing")) then
-        _temp491 =  _self:_temp485()
+        _temp487 =  _self:_temp485()
       elseif _self._temp485 ~= nil then
-        _temp491 =  _self._temp485
+        _temp487 =  _self._temp485
 
         elseif _self.no_undermethod ~= nil then
-          _temp491 =  _self:no_undermethod(string:new("_temp485"))
+          _temp487 =  _self:no_undermethod(string:new("_temp485"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp491 =  _temp485(_self)
+        _temp487 =  _temp485(_self)
       end
 
         elseif _temp485 == nil then
@@ -20459,84 +20635,108 @@ local _temp491 = nil
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp491)
+      local _t = _type(_temp487)
       if _t == "table" then
-                      if _type(_temp491.method) == "function" or (_type(_temp491.method) == "table" and _rawget(_temp491.method, "__call_thing")) then
-        _temp491 = _temp491:method()
-      elseif _temp491.method ~= nil then
-        _temp491 = _temp491.method
+                      if _type(_temp487.target) == "function" or (_type(_temp487.target) == "table" and _rawget(_temp487.target, "__call_thing")) then
+        _temp487 = _temp487:target()
+      elseif _temp487.target ~= nil then
+        _temp487 = _temp487.target
 
-        elseif _temp491.no_undermethod ~= nil then
-          _temp491 =  _temp491:no_undermethod(string:new("method"))
+        elseif _temp487.no_undermethod ~= nil then
+          _temp487 =  _temp487:no_undermethod(string:new("target"))
         else
-          _error(exception:method_error(_temp491, "method"))
+          _error(exception:method_error(_temp487, "target"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp491)
-      if _n.method ~= nil then
-        _temp491 = _n:method()
+              local _n = number:new(_temp487)
+      if _n.target ~= nil then
+        _temp487 = _n:target()
       elseif _n.no_undermethod ~= nil then
-        _temp491 =  _n:no_undermethod(string:new("method"))
+        _temp487 =  _n:no_undermethod(string:new("target"))
       else
-        _error(exception:method_error(_temp491, "method"))
+        _error(exception:method_error(_temp487, "target"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp491)
-      if _f.method ~= nil then
-        _temp491 = _f:method()
+              local _f = brat_function:new(_temp487)
+      if _f.target ~= nil then
+        _temp487 = _f:target()
       elseif _f.no_undermethod ~= nil then
-        _temp491 =  _f:no_undermethod(string:new("method"))
+        _temp487 =  _f:no_undermethod(string:new("target"))
       else
-        _error(exception:method_error(_temp491, "method"))
+        _error(exception:method_error(_temp487, "target"))
       end
 
-      elseif _temp491 == nil then
-        _error(exception:null_error("_temp491", "invoke method on it"))
+      elseif _temp487 == nil then
+        _error(exception:null_error("_temp487", "invoke target on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp491))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp487))
       end
 
 
-local _temp492 = nil
+    if _type(process) == "function" or (_type(process) == "table" and _rawget(process, "__call_thing")) then
+      _temp488 =  process(_self, _temp487)
+
+    elseif process then
+      _error(exception:new("Tried to invoke non-method: process (" .. object.__type(process) .. ")"))
+    else
+            if _type(_self.process) == "function" or (_type(_self.process) == "table" and _rawget(_self.process, "__call_thing")) then
+        _temp488 =  _self:process(_temp487)
+      elseif _self.process ~= nil then
+        _temp488 =  _self.process
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp488 =  _self:no_undermethod(string:new("process") , _temp487)
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp488 =  no_undermethod(_self, string:new("process") , _temp487)
+      else
+        _error(exception:name_error("process"))
+      end
+    end
+
+do
+local _temp489 = nil
         local _t = _type(_temp486)
         if _t == "table" then
           if _rawget(_temp486, "__call_thing") == nil then
-            _temp492 = _temp486
+            _temp489 = _temp486
           else
                   if _temp486 == nil then
               if _type(_self._temp486) == "function" or (_type(_self._temp486) == "table" and _rawget(_self._temp486, "__call_thing")) then
-        _temp492 =  _self:_temp486()
+        _temp489 =  _self:_temp486()
       elseif _self._temp486 ~= nil then
-        _temp492 =  _self._temp486
+        _temp489 =  _self._temp486
 
         elseif _self.no_undermethod ~= nil then
-          _temp492 =  _self:no_undermethod(string:new("_temp486"))
+          _temp489 =  _self:no_undermethod(string:new("_temp486"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp492 =  _temp486(_self)
+        _temp489 =  _temp486(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp492 = _temp486
+          _temp489 = _temp486
         elseif _t == "function" then
                 if _temp486 == nil then
               if _type(_self._temp486) == "function" or (_type(_self._temp486) == "table" and _rawget(_self._temp486, "__call_thing")) then
-        _temp492 =  _self:_temp486()
+        _temp489 =  _self:_temp486()
       elseif _self._temp486 ~= nil then
-        _temp492 =  _self._temp486
+        _temp489 =  _self._temp486
 
         elseif _self.no_undermethod ~= nil then
-          _temp492 =  _self:no_undermethod(string:new("_temp486"))
+          _temp489 =  _self:no_undermethod(string:new("_temp486"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp492 =  _temp486(_self)
+        _temp489 =  _temp486(_self)
       end
 
         elseif _temp486 == nil then
@@ -20544,109 +20744,580 @@ local _temp492 = nil
         else
           _error(exception:method_error("self", "res"))
         end
-      local _t = _type(_temp492)
-      if _t == "table" then
-                      if _type(_temp492.var) == "function" or (_type(_temp492.var) == "table" and _rawget(_temp492.var, "__call_thing")) then
-        _temp492 = _temp492:var()
-      elseif _temp492.var ~= nil then
-        _temp492 = _temp492.var
 
-        elseif _temp492.no_undermethod ~= nil then
-          _temp492 =  _temp492:no_undermethod(string:new("var"))
+local _temp490 = nil
+      local _t = _type(_temp489)
+      if _t == "table" then
+                      if _type(_temp489.out) == "function" or (_type(_temp489.out) == "table" and _rawget(_temp489.out, "__call_thing")) then
+        _temp490 = _temp489:out()
+      elseif _temp489.out ~= nil then
+        _temp490 = _temp489.out
+
+        elseif _temp489.no_undermethod ~= nil then
+          _temp490 =  _temp489:no_undermethod(string:new("out"))
         else
-          _error(exception:method_error(_temp492, "var"))
+          _error(exception:method_error(_temp489, "out"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp492)
-      if _n.var ~= nil then
-        _temp492 = _n:var()
+              local _n = number:new(_temp489)
+      if _n.out ~= nil then
+        _temp490 = _n:out()
       elseif _n.no_undermethod ~= nil then
-        _temp492 =  _n:no_undermethod(string:new("var"))
+        _temp490 =  _n:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp492, "var"))
+        _error(exception:method_error(_temp489, "out"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp492)
-      if _f.var ~= nil then
-        _temp492 = _f:var()
+              local _f = brat_function:new(_temp489)
+      if _f.out ~= nil then
+        _temp490 = _f:out()
       elseif _f.no_undermethod ~= nil then
-        _temp492 =  _f:no_undermethod(string:new("var"))
+        _temp490 =  _f:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp492, "var"))
+        _error(exception:method_error(_temp489, "out"))
       end
 
-      elseif _temp492 == nil then
-        _error(exception:null_error("_temp492", "invoke var on it"))
+      elseif _temp489 == nil then
+        _error(exception:null_error("_temp489", "invoke out on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp492))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp489))
+      end
+
+local _temp491 = nil
+        local _t = _type(_temp488)
+        if _t == "table" then
+          if _rawget(_temp488, "__call_thing") == nil then
+            _temp491 = _temp488
+          else
+                  if _temp488 == nil then
+              if _type(_self._temp488) == "function" or (_type(_self._temp488) == "table" and _rawget(_self._temp488, "__call_thing")) then
+        _temp491 =  _self:_temp488()
+      elseif _self._temp488 ~= nil then
+        _temp491 =  _self._temp488
+
+        elseif _self.no_undermethod ~= nil then
+          _temp491 =  _self:no_undermethod(string:new("_temp488"))
+        else
+          _error(exception:null_error("target", "invoke method"))
+        end
+      else 
+        _temp491 =  _temp488(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp491 = _temp488
+        elseif _t == "function" then
+                if _temp488 == nil then
+              if _type(_self._temp488) == "function" or (_type(_self._temp488) == "table" and _rawget(_self._temp488, "__call_thing")) then
+        _temp491 =  _self:_temp488()
+      elseif _self._temp488 ~= nil then
+        _temp491 =  _self._temp488
+
+        elseif _self.no_undermethod ~= nil then
+          _temp491 =  _self:no_undermethod(string:new("_temp488"))
+        else
+          _error(exception:null_error("target", "invoke method"))
+        end
+      else 
+        _temp491 =  _temp488(_self)
+      end
+
+        elseif _temp488 == nil then
+          _error(exception:null_error("target", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "target"))
+        end
+      local _t = _type(_temp491)
+      if _t == "table" then
+                      if _type(_temp491.out) == "function" or (_type(_temp491.out) == "table" and _rawget(_temp491.out, "__call_thing")) then
+        _temp491 = _temp491:out()
+      elseif _temp491.out ~= nil then
+        _temp491 = _temp491.out
+
+        elseif _temp491.no_undermethod ~= nil then
+          _temp491 =  _temp491:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp491, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp491)
+      if _n.out ~= nil then
+        _temp491 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp491 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp491, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp491)
+      if _f.out ~= nil then
+        _temp491 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp491 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp491, "out"))
+      end
+
+      elseif _temp491 == nil then
+        _error(exception:null_error("_temp491", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp491))
+      end
+
+local _temp492
+      local _t = _type(_temp490)
+      if _t == "table" then
+                      if _type(_temp490._less_less) == "function" or (_type(_temp490._less_less) == "table" and _rawget(_temp490._less_less, "__call_thing")) then
+        _temp492 = _temp490:_less_less(_temp491)
+      elseif _temp490._less_less ~= nil then
+        _temp492 = _temp490._less_less
+
+        elseif _temp490.no_undermethod ~= nil then
+          _temp492 =  _temp490:no_undermethod(string:new("<<") , _temp491)
+        else
+          _error(exception:method_error(_temp490, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp490)
+      if _n._less_less ~= nil then
+        _temp492 = _n:_less_less(_temp491)
+      elseif _n.no_undermethod ~= nil then
+        _temp492 =  _n:no_undermethod(string:new("<<") , _temp491)
+      else
+        _error(exception:method_error(_temp490, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp490)
+      if _f._less_less ~= nil then
+        _temp492 = _f:_less_less(_temp491)
+      elseif _f.no_undermethod ~= nil then
+        _temp492 =  _f:no_undermethod(string:new("<<") , _temp491)
+      else
+        _error(exception:method_error(_temp490, "<<"))
+      end
+
+      elseif _temp490 == nil then
+        _error(exception:null_error("_temp490", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp490))
+      end
+
+_dummy_ = _temp492 
+end
+
+do
+local _temp493 = nil
+        local _t = _type(_temp486)
+        if _t == "table" then
+          if _rawget(_temp486, "__call_thing") == nil then
+            _temp493 = _temp486
+          else
+                  if _temp486 == nil then
+              if _type(_self._temp486) == "function" or (_type(_self._temp486) == "table" and _rawget(_self._temp486, "__call_thing")) then
+        _temp493 =  _self:_temp486()
+      elseif _self._temp486 ~= nil then
+        _temp493 =  _self._temp486
+
+        elseif _self.no_undermethod ~= nil then
+          _temp493 =  _self:no_undermethod(string:new("_temp486"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp493 =  _temp486(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp493 = _temp486
+        elseif _t == "function" then
+                if _temp486 == nil then
+              if _type(_self._temp486) == "function" or (_type(_self._temp486) == "table" and _rawget(_self._temp486, "__call_thing")) then
+        _temp493 =  _self:_temp486()
+      elseif _self._temp486 ~= nil then
+        _temp493 =  _self._temp486
+
+        elseif _self.no_undermethod ~= nil then
+          _temp493 =  _self:no_undermethod(string:new("_temp486"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp493 =  _temp486(_self)
+      end
+
+        elseif _temp486 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp494 = nil
+      local _t = _type(_temp493)
+      if _t == "table" then
+                      if _type(_temp493.out) == "function" or (_type(_temp493.out) == "table" and _rawget(_temp493.out, "__call_thing")) then
+        _temp494 = _temp493:out()
+      elseif _temp493.out ~= nil then
+        _temp494 = _temp493.out
+
+        elseif _temp493.no_undermethod ~= nil then
+          _temp494 =  _temp493:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp493, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp493)
+      if _n.out ~= nil then
+        _temp494 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp494 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp493, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp493)
+      if _f.out ~= nil then
+        _temp494 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp494 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp493, "out"))
+      end
+
+      elseif _temp493 == nil then
+        _error(exception:null_error("_temp493", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp493))
+      end
+
+local _temp495 = nil
+local _temp496 = nil
+        local _t = _type(_temp488)
+        if _t == "table" then
+          if _rawget(_temp488, "__call_thing") == nil then
+            _temp496 = _temp488
+          else
+                  if _temp488 == nil then
+              if _type(_self._temp488) == "function" or (_type(_self._temp488) == "table" and _rawget(_self._temp488, "__call_thing")) then
+        _temp496 =  _self:_temp488()
+      elseif _self._temp488 ~= nil then
+        _temp496 =  _self._temp488
+
+        elseif _self.no_undermethod ~= nil then
+          _temp496 =  _self:no_undermethod(string:new("_temp488"))
+        else
+          _error(exception:null_error("target", "invoke method"))
+        end
+      else 
+        _temp496 =  _temp488(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp496 = _temp488
+        elseif _t == "function" then
+                if _temp488 == nil then
+              if _type(_self._temp488) == "function" or (_type(_self._temp488) == "table" and _rawget(_self._temp488, "__call_thing")) then
+        _temp496 =  _self:_temp488()
+      elseif _self._temp488 ~= nil then
+        _temp496 =  _self._temp488
+
+        elseif _self.no_undermethod ~= nil then
+          _temp496 =  _self:no_undermethod(string:new("_temp488"))
+        else
+          _error(exception:null_error("target", "invoke method"))
+        end
+      else 
+        _temp496 =  _temp488(_self)
+      end
+
+        elseif _temp488 == nil then
+          _error(exception:null_error("target", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "target"))
+        end
+      local _t = _type(_temp496)
+      if _t == "table" then
+                      if _type(_temp496.var) == "function" or (_type(_temp496.var) == "table" and _rawget(_temp496.var, "__call_thing")) then
+        _temp496 = _temp496:var()
+      elseif _temp496.var ~= nil then
+        _temp496 = _temp496.var
+
+        elseif _temp496.no_undermethod ~= nil then
+          _temp496 =  _temp496:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp496, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp496)
+      if _n.var ~= nil then
+        _temp496 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp496 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp496, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp496)
+      if _f.var ~= nil then
+        _temp496 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp496 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp496, "var"))
+      end
+
+      elseif _temp496 == nil then
+        _error(exception:null_error("_temp496", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp496))
       end
 
 
-    if _type(get_undermethod_underself) == "function" or (_type(get_undermethod_underself) == "table" and _rawget(get_undermethod_underself, "__call_thing")) then
-      _temp490 =  get_undermethod_underself(_self, _temp491,_temp492)
+local _temp497 = nil
+        local _t = _type(_temp485)
+        if _t == "table" then
+          if _rawget(_temp485, "__call_thing") == nil then
+            _temp497 = _temp485
+          else
+                  if _temp485 == nil then
+              if _type(_self._temp485) == "function" or (_type(_self._temp485) == "table" and _rawget(_self._temp485, "__call_thing")) then
+        _temp497 =  _self:_temp485()
+      elseif _self._temp485 ~= nil then
+        _temp497 =  _self._temp485
 
-    elseif get_undermethod_underself then
-      _error(exception:new("Tried to invoke non-method: get_method_self (" .. object.__type(get_undermethod_underself) .. ")"))
+        elseif _self.no_undermethod ~= nil then
+          _temp497 =  _self:no_undermethod(string:new("_temp485"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp497 =  _temp485(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp497 = _temp485
+        elseif _t == "function" then
+                if _temp485 == nil then
+              if _type(_self._temp485) == "function" or (_type(_self._temp485) == "table" and _rawget(_self._temp485, "__call_thing")) then
+        _temp497 =  _self:_temp485()
+      elseif _self._temp485 ~= nil then
+        _temp497 =  _self._temp485
+
+        elseif _self.no_undermethod ~= nil then
+          _temp497 =  _self:no_undermethod(string:new("_temp485"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp497 =  _temp485(_self)
+      end
+
+        elseif _temp485 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
+      local _t = _type(_temp497)
+      if _t == "table" then
+                      if _type(_temp497.method) == "function" or (_type(_temp497.method) == "table" and _rawget(_temp497.method, "__call_thing")) then
+        _temp497 = _temp497:method()
+      elseif _temp497.method ~= nil then
+        _temp497 = _temp497.method
+
+        elseif _temp497.no_undermethod ~= nil then
+          _temp497 =  _temp497:no_undermethod(string:new("method"))
+        else
+          _error(exception:method_error(_temp497, "method"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp497)
+      if _n.method ~= nil then
+        _temp497 = _n:method()
+      elseif _n.no_undermethod ~= nil then
+        _temp497 =  _n:no_undermethod(string:new("method"))
+      else
+        _error(exception:method_error(_temp497, "method"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp497)
+      if _f.method ~= nil then
+        _temp497 = _f:method()
+      elseif _f.no_undermethod ~= nil then
+        _temp497 =  _f:no_undermethod(string:new("method"))
+      else
+        _error(exception:method_error(_temp497, "method"))
+      end
+
+      elseif _temp497 == nil then
+        _error(exception:null_error("_temp497", "invoke method on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp497))
+      end
+
+
+local _temp498 = nil
+        local _t = _type(_temp486)
+        if _t == "table" then
+          if _rawget(_temp486, "__call_thing") == nil then
+            _temp498 = _temp486
+          else
+                  if _temp486 == nil then
+              if _type(_self._temp486) == "function" or (_type(_self._temp486) == "table" and _rawget(_self._temp486, "__call_thing")) then
+        _temp498 =  _self:_temp486()
+      elseif _self._temp486 ~= nil then
+        _temp498 =  _self._temp486
+
+        elseif _self.no_undermethod ~= nil then
+          _temp498 =  _self:no_undermethod(string:new("_temp486"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp498 =  _temp486(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp498 = _temp486
+        elseif _t == "function" then
+                if _temp486 == nil then
+              if _type(_self._temp486) == "function" or (_type(_self._temp486) == "table" and _rawget(_self._temp486, "__call_thing")) then
+        _temp498 =  _self:_temp486()
+      elseif _self._temp486 ~= nil then
+        _temp498 =  _self._temp486
+
+        elseif _self.no_undermethod ~= nil then
+          _temp498 =  _self:no_undermethod(string:new("_temp486"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp498 =  _temp486(_self)
+      end
+
+        elseif _temp486 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+      local _t = _type(_temp498)
+      if _t == "table" then
+                      if _type(_temp498.var) == "function" or (_type(_temp498.var) == "table" and _rawget(_temp498.var, "__call_thing")) then
+        _temp498 = _temp498:var()
+      elseif _temp498.var ~= nil then
+        _temp498 = _temp498.var
+
+        elseif _temp498.no_undermethod ~= nil then
+          _temp498 =  _temp498:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp498, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp498)
+      if _n.var ~= nil then
+        _temp498 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp498 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp498, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp498)
+      if _f.var ~= nil then
+        _temp498 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp498 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp498, "var"))
+      end
+
+      elseif _temp498 == nil then
+        _error(exception:null_error("_temp498", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp498))
+      end
+
+
+    if _type(get_undermethod) == "function" or (_type(get_undermethod) == "table" and _rawget(get_undermethod, "__call_thing")) then
+      _temp495 =  get_undermethod(_self, _temp496,_temp497,_temp498)
+
+    elseif get_undermethod then
+      _error(exception:new("Tried to invoke non-method: get_method (" .. object.__type(get_undermethod) .. ")"))
     else
-            if _type(_self.get_undermethod_underself) == "function" or (_type(_self.get_undermethod_underself) == "table" and _rawget(_self.get_undermethod_underself, "__call_thing")) then
-        _temp490 =  _self:get_undermethod_underself(_temp491,_temp492)
-      elseif _self.get_undermethod_underself ~= nil then
-        _temp490 =  _self.get_undermethod_underself
+            if _type(_self.get_undermethod) == "function" or (_type(_self.get_undermethod) == "table" and _rawget(_self.get_undermethod, "__call_thing")) then
+        _temp495 =  _self:get_undermethod(_temp496,_temp497,_temp498)
+      elseif _self.get_undermethod ~= nil then
+        _temp495 =  _self.get_undermethod
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp490 =  _self:no_undermethod(string:new("get_method_self") , _temp491,_temp492)
+        _temp495 =  _self:no_undermethod(string:new("get_method") , _temp496,_temp497,_temp498)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp490 =  no_undermethod(_self, string:new("get_method_self") , _temp491,_temp492)
+        _temp495 =  no_undermethod(_self, string:new("get_method") , _temp496,_temp497,_temp498)
       else
-        _error(exception:name_error("get_method_self"))
+        _error(exception:name_error("get_method"))
       end
     end
-local _temp492
-      local _t = _type(_temp489)
+local _temp498
+      local _t = _type(_temp494)
       if _t == "table" then
-                      if _type(_temp489._less_less) == "function" or (_type(_temp489._less_less) == "table" and _rawget(_temp489._less_less, "__call_thing")) then
-        _temp492 = _temp489:_less_less(_temp490)
-      elseif _temp489._less_less ~= nil then
-        _temp492 = _temp489._less_less
+                      if _type(_temp494._less_less) == "function" or (_type(_temp494._less_less) == "table" and _rawget(_temp494._less_less, "__call_thing")) then
+        _temp498 = _temp494:_less_less(_temp495)
+      elseif _temp494._less_less ~= nil then
+        _temp498 = _temp494._less_less
 
-        elseif _temp489.no_undermethod ~= nil then
-          _temp492 =  _temp489:no_undermethod(string:new("<<") , _temp490)
+        elseif _temp494.no_undermethod ~= nil then
+          _temp498 =  _temp494:no_undermethod(string:new("<<") , _temp495)
         else
-          _error(exception:method_error(_temp489, "<<"))
+          _error(exception:method_error(_temp494, "<<"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp489)
+              local _n = number:new(_temp494)
       if _n._less_less ~= nil then
-        _temp492 = _n:_less_less(_temp490)
+        _temp498 = _n:_less_less(_temp495)
       elseif _n.no_undermethod ~= nil then
-        _temp492 =  _n:no_undermethod(string:new("<<") , _temp490)
+        _temp498 =  _n:no_undermethod(string:new("<<") , _temp495)
       else
-        _error(exception:method_error(_temp489, "<<"))
+        _error(exception:method_error(_temp494, "<<"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp489)
+              local _f = brat_function:new(_temp494)
       if _f._less_less ~= nil then
-        _temp492 = _f:_less_less(_temp490)
+        _temp498 = _f:_less_less(_temp495)
       elseif _f.no_undermethod ~= nil then
-        _temp492 =  _f:no_undermethod(string:new("<<") , _temp490)
+        _temp498 =  _f:no_undermethod(string:new("<<") , _temp495)
       else
-        _error(exception:method_error(_temp489, "<<"))
+        _error(exception:method_error(_temp494, "<<"))
       end
 
-      elseif _temp489 == nil then
-        _error(exception:null_error("_temp489", "invoke << on it"))
+      elseif _temp494 == nil then
+        _error(exception:null_error("_temp494", "invoke << on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp489))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp494))
       end
 
-_dummy_ = _temp492 
+_dummy_ = _temp498 
 end
 
     if _type(_temp486) == "function" or (_type(_temp486) == "table" and _rawget(_temp486, "__call_thing")) then
@@ -20677,12 +21348,12 @@ end
       local _t = _type(_temp483)
       if _t == "table" then
                       if _type(_temp483.walk) == "function" or (_type(_temp483.walk) == "table" and _rawget(_temp483.walk, "__call_thing")) then
-        _dummy_ = _temp483:walk(_temp4,_temp493)
+        _dummy_ = _temp483:walk(_temp4,_temp499)
       elseif _temp483.walk ~= nil then
         _dummy_ = _temp483.walk
 
         elseif _temp483.no_undermethod ~= nil then
-          _dummy_ =  _temp483:no_undermethod(string:new("walk") , _temp4,_temp493)
+          _dummy_ =  _temp483:no_undermethod(string:new("walk") , _temp4,_temp499)
         else
           _error(exception:method_error(_temp483, "walk"))
         end
@@ -20690,9 +21361,9 @@ end
       elseif _t == "number" then
               local _n = number:new(_temp483)
       if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp493)
+        _dummy_ = _n:walk(_temp4,_temp499)
       elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp493)
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp499)
       else
         _error(exception:method_error(_temp483, "walk"))
       end
@@ -20700,9 +21371,9 @@ end
       elseif _t == "function" then
               local _f = brat_function:new(_temp483)
       if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp493)
+        _dummy_ = _f:walk(_temp4,_temp499)
       elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp493)
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp499)
       else
         _error(exception:method_error(_temp483, "walk"))
       end
@@ -20716,40 +21387,40 @@ end
         local _t = _type(_temp5)
         if _t == "table" then
           if _rawget(_temp5, "__call_thing") == nil then
-            _temp493 = _temp5
+            _temp499 = _temp5
           else
                   if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp493 =  _self:_temp5()
+        _temp499 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp493 =  _self._temp5
+        _temp499 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp493 =  _self:no_undermethod(string:new("_temp5"))
+          _temp499 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp493 =  _temp5(_self)
+        _temp499 =  _temp5(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp493 = _temp5
+          _temp499 = _temp5
         elseif _t == "function" then
                 if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp493 =  _self:_temp5()
+        _temp499 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp493 =  _self._temp5
+        _temp499 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp493 =  _self:no_undermethod(string:new("_temp5"))
+          _temp499 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp493 =  _temp5(_self)
+        _temp499 =  _temp5(_self)
       end
 
         elseif _temp5 == nil then
@@ -20757,33 +21428,33 @@ end
         else
           _error(exception:method_error("self", "c"))
         end
-_temp4 = string:new("meth_access")
+_temp4 = string:new("regex")
 
-local _temp509 = function (_self, _temp495,_temp494)
-        if _temp495 == nil then
+local _temp509 = function (_self, _temp501,_temp500)
+        if _temp501 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
 end
-if _temp494 == nil then
+if _temp500 == nil then
  do
     if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp494 =  null(_self)
+      _temp500 =  null(_self)
 
     elseif null then
-      _temp494 =  null
+      _temp500 =  null
     else
             if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp494 =  _self:null()
+        _temp500 =  _self:null()
       elseif _self.null ~= nil then
-        _temp494 =  _self.null
+        _temp500 =  _self.null
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp494 =  _self:no_undermethod(string:new("null"))
+        _temp500 =  _self:no_undermethod(string:new("null"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp494 =  no_undermethod(_self, string:new("null"))
+        _temp500 =  no_undermethod(_self, string:new("null"))
       else
         _error(exception:name_error("null"))
       end
@@ -20792,846 +21463,559 @@ if _temp494 == nil then
 end
 end
 
-local _temp496
-local _temp497 = nil
-    if _type(_temp494) == "function" or (_type(_temp494) == "table" and _rawget(_temp494, "__call_thing")) then
-      _temp497 =  _temp494(_self)
+local _temp502
+        local _t = _type(_temp501)
+        if _t == "table" then
+          if _rawget(_temp501, "__call_thing") == nil then
+            _temp502 = _temp501
+          else
+                  if _temp501 == nil then
+              if _type(_self._temp501) == "function" or (_type(_self._temp501) == "table" and _rawget(_self._temp501, "__call_thing")) then
+        _temp502 =  _self:_temp501()
+      elseif _self._temp501 ~= nil then
+        _temp502 =  _self._temp501
 
-    elseif _temp494 then
-      _temp497 =  _temp494
+        elseif _self.no_undermethod ~= nil then
+          _temp502 =  _self:no_undermethod(string:new("_temp501"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp502 =  _temp501(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp502 = _temp501
+        elseif _t == "function" then
+                if _temp501 == nil then
+              if _type(_self._temp501) == "function" or (_type(_self._temp501) == "table" and _rawget(_self._temp501, "__call_thing")) then
+        _temp502 =  _self:_temp501()
+      elseif _self._temp501 ~= nil then
+        _temp502 =  _self._temp501
+
+        elseif _self.no_undermethod ~= nil then
+          _temp502 =  _self:no_undermethod(string:new("_temp501"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp502 =  _temp501(_self)
+      end
+
+        elseif _temp501 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
+      local _t = _type(_temp502)
+      if _t == "table" then
+                      if _type(_temp502.body) == "function" or (_type(_temp502.body) == "table" and _rawget(_temp502.body, "__call_thing")) then
+        _temp502 = _temp502:body()
+      elseif _temp502.body ~= nil then
+        _temp502 = _temp502.body
+
+        elseif _temp502.no_undermethod ~= nil then
+          _temp502 =  _temp502:no_undermethod(string:new("body"))
+        else
+          _error(exception:method_error("body", "body"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp502)
+      if _n.body ~= nil then
+        _temp502 = _n:body()
+      elseif _n.no_undermethod ~= nil then
+        _temp502 =  _n:no_undermethod(string:new("body"))
+      else
+        _error(exception:method_error("body", "body"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp502)
+      if _f.body ~= nil then
+        _temp502 = _f:body()
+      elseif _f.no_undermethod ~= nil then
+        _temp502 =  _f:no_undermethod(string:new("body"))
+      else
+        _error(exception:method_error("body", "body"))
+      end
+
+      elseif _temp502 == nil then
+        _error(exception:null_error("body", "invoke body on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp502))
+      end
+
+local _temp503 = regex:new("[\\\\]")
+
+local _temp504 = string:new("\\\\")
+
+      local _t = _type(_temp502)
+      if _t == "table" then
+                      if _type(_temp502.sub) == "function" or (_type(_temp502.sub) == "table" and _rawget(_temp502.sub, "__call_thing")) then
+        _temp502 = _temp502:sub(_temp503,_temp504)
+      elseif _temp502.sub ~= nil then
+        _temp502 = _temp502.sub
+
+        elseif _temp502.no_undermethod ~= nil then
+          _temp502 =  _temp502:no_undermethod(string:new("sub") , _temp503,_temp504)
+        else
+          _error(exception:method_error("body", "sub"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp502)
+      if _n.sub ~= nil then
+        _temp502 = _n:sub(_temp503,_temp504)
+      elseif _n.no_undermethod ~= nil then
+        _temp502 =  _n:no_undermethod(string:new("sub") , _temp503,_temp504)
+      else
+        _error(exception:method_error("body", "sub"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp502)
+      if _f.sub ~= nil then
+        _temp502 = _f:sub(_temp503,_temp504)
+      elseif _f.no_undermethod ~= nil then
+        _temp502 =  _f:no_undermethod(string:new("sub") , _temp503,_temp504)
+      else
+        _error(exception:method_error("body", "sub"))
+      end
+
+      elseif _temp502 == nil then
+        _error(exception:null_error("body", "invoke sub on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp502))
+      end
+
+local _temp504 = regex:new("\"")
+
+_temp503 = string:new("\\\"")
+
+      local _t = _type(_temp502)
+      if _t == "table" then
+                      if _type(_temp502.sub) == "function" or (_type(_temp502.sub) == "table" and _rawget(_temp502.sub, "__call_thing")) then
+        _temp502 = _temp502:sub(_temp504,_temp503)
+      elseif _temp502.sub ~= nil then
+        _temp502 = _temp502.sub
+
+        elseif _temp502.no_undermethod ~= nil then
+          _temp502 =  _temp502:no_undermethod(string:new("sub") , _temp504,_temp503)
+        else
+          _error(exception:method_error("body", "sub"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp502)
+      if _n.sub ~= nil then
+        _temp502 = _n:sub(_temp504,_temp503)
+      elseif _n.no_undermethod ~= nil then
+        _temp502 =  _n:no_undermethod(string:new("sub") , _temp504,_temp503)
+      else
+        _error(exception:method_error("body", "sub"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp502)
+      if _f.sub ~= nil then
+        _temp502 = _f:sub(_temp504,_temp503)
+      elseif _f.no_undermethod ~= nil then
+        _temp502 =  _f:no_undermethod(string:new("sub") , _temp504,_temp503)
+      else
+        _error(exception:method_error("body", "sub"))
+      end
+
+      elseif _temp502 == nil then
+        _error(exception:null_error("body", "invoke sub on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp502))
+      end
+
+
+local _temp505
+        local _t = _type(_temp501)
+        if _t == "table" then
+          if _rawget(_temp501, "__call_thing") == nil then
+            _temp505 = _temp501
+          else
+                  if _temp501 == nil then
+              if _type(_self._temp501) == "function" or (_type(_self._temp501) == "table" and _rawget(_self._temp501, "__call_thing")) then
+        _temp505 =  _self:_temp501()
+      elseif _self._temp501 ~= nil then
+        _temp505 =  _self._temp501
+
+        elseif _self.no_undermethod ~= nil then
+          _temp505 =  _self:no_undermethod(string:new("_temp501"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp505 =  _temp501(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp505 = _temp501
+        elseif _t == "function" then
+                if _temp501 == nil then
+              if _type(_self._temp501) == "function" or (_type(_self._temp501) == "table" and _rawget(_self._temp501, "__call_thing")) then
+        _temp505 =  _self:_temp501()
+      elseif _self._temp501 ~= nil then
+        _temp505 =  _self._temp501
+
+        elseif _self.no_undermethod ~= nil then
+          _temp505 =  _self:no_undermethod(string:new("_temp501"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp505 =  _temp501(_self)
+      end
+
+        elseif _temp501 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
+      local _t = _type(_temp505)
+      if _t == "table" then
+                      if _type(_temp505.opts) == "function" or (_type(_temp505.opts) == "table" and _rawget(_temp505.opts, "__call_thing")) then
+        _temp505 = _temp505:opts()
+      elseif _temp505.opts ~= nil then
+        _temp505 = _temp505.opts
+
+        elseif _temp505.no_undermethod ~= nil then
+          _temp505 =  _temp505:no_undermethod(string:new("opts"))
+        else
+          _error(exception:method_error("opts", "opts"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp505)
+      if _n.opts ~= nil then
+        _temp505 = _n:opts()
+      elseif _n.no_undermethod ~= nil then
+        _temp505 =  _n:no_undermethod(string:new("opts"))
+      else
+        _error(exception:method_error("opts", "opts"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp505)
+      if _f.opts ~= nil then
+        _temp505 = _f:opts()
+      elseif _f.no_undermethod ~= nil then
+        _temp505 =  _f:no_undermethod(string:new("opts"))
+      else
+        _error(exception:method_error("opts", "opts"))
+      end
+
+      elseif _temp505 == nil then
+        _error(exception:null_error("opts", "invoke opts on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp505))
+      end
+
+      local _t = _type(_temp505)
+      if _t == "table" then
+                      if _type(_temp505.dice) == "function" or (_type(_temp505.dice) == "table" and _rawget(_temp505.dice, "__call_thing")) then
+        _temp505 = _temp505:dice()
+      elseif _temp505.dice ~= nil then
+        _temp505 = _temp505.dice
+
+        elseif _temp505.no_undermethod ~= nil then
+          _temp505 =  _temp505:no_undermethod(string:new("dice"))
+        else
+          _error(exception:method_error("opts", "dice"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp505)
+      if _n.dice ~= nil then
+        _temp505 = _n:dice()
+      elseif _n.no_undermethod ~= nil then
+        _temp505 =  _n:no_undermethod(string:new("dice"))
+      else
+        _error(exception:method_error("opts", "dice"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp505)
+      if _f.dice ~= nil then
+        _temp505 = _f:dice()
+      elseif _f.no_undermethod ~= nil then
+        _temp505 =  _f:no_undermethod(string:new("dice"))
+      else
+        _error(exception:method_error("opts", "dice"))
+      end
+
+      elseif _temp505 == nil then
+        _error(exception:null_error("opts", "invoke dice on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp505))
+      end
+
+      local _t = _type(_temp505)
+      if _t == "table" then
+                      if _type(_temp505.unique) == "function" or (_type(_temp505.unique) == "table" and _rawget(_temp505.unique, "__call_thing")) then
+        _temp505 = _temp505:unique()
+      elseif _temp505.unique ~= nil then
+        _temp505 = _temp505.unique
+
+        elseif _temp505.no_undermethod ~= nil then
+          _temp505 =  _temp505:no_undermethod(string:new("unique"))
+        else
+          _error(exception:method_error("opts", "unique"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp505)
+      if _n.unique ~= nil then
+        _temp505 = _n:unique()
+      elseif _n.no_undermethod ~= nil then
+        _temp505 =  _n:no_undermethod(string:new("unique"))
+      else
+        _error(exception:method_error("opts", "unique"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp505)
+      if _f.unique ~= nil then
+        _temp505 = _f:unique()
+      elseif _f.no_undermethod ~= nil then
+        _temp505 =  _f:no_undermethod(string:new("unique"))
+      else
+        _error(exception:method_error("opts", "unique"))
+      end
+
+      elseif _temp505 == nil then
+        _error(exception:null_error("opts", "invoke unique on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp505))
+      end
+
+      local _t = _type(_temp505)
+      if _t == "table" then
+                      if _type(_temp505.join) == "function" or (_type(_temp505.join) == "table" and _rawget(_temp505.join, "__call_thing")) then
+        _temp505 = _temp505:join()
+      elseif _temp505.join ~= nil then
+        _temp505 = _temp505.join
+
+        elseif _temp505.no_undermethod ~= nil then
+          _temp505 =  _temp505:no_undermethod(string:new("join"))
+        else
+          _error(exception:method_error("opts", "join"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp505)
+      if _n.join ~= nil then
+        _temp505 = _n:join()
+      elseif _n.no_undermethod ~= nil then
+        _temp505 =  _n:no_undermethod(string:new("join"))
+      else
+        _error(exception:method_error("opts", "join"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp505)
+      if _f.join ~= nil then
+        _temp505 = _f:join()
+      elseif _f.no_undermethod ~= nil then
+        _temp505 =  _f:no_undermethod(string:new("join"))
+      else
+        _error(exception:method_error("opts", "join"))
+      end
+
+      elseif _temp505 == nil then
+        _error(exception:null_error("opts", "invoke join on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp505))
+      end
+
+local _temp503 = regex:new("m")
+
+_temp504 = string:new("s")
+
+      local _t = _type(_temp505)
+      if _t == "table" then
+                      if _type(_temp505.sub) == "function" or (_type(_temp505.sub) == "table" and _rawget(_temp505.sub, "__call_thing")) then
+        _temp505 = _temp505:sub(_temp503,_temp504)
+      elseif _temp505.sub ~= nil then
+        _temp505 = _temp505.sub
+
+        elseif _temp505.no_undermethod ~= nil then
+          _temp505 =  _temp505:no_undermethod(string:new("sub") , _temp503,_temp504)
+        else
+          _error(exception:method_error("opts", "sub"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp505)
+      if _n.sub ~= nil then
+        _temp505 = _n:sub(_temp503,_temp504)
+      elseif _n.no_undermethod ~= nil then
+        _temp505 =  _n:no_undermethod(string:new("sub") , _temp503,_temp504)
+      else
+        _error(exception:method_error("opts", "sub"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp505)
+      if _f.sub ~= nil then
+        _temp505 = _f:sub(_temp503,_temp504)
+      elseif _f.no_undermethod ~= nil then
+        _temp505 =  _f:no_undermethod(string:new("sub") , _temp503,_temp504)
+      else
+        _error(exception:method_error("opts", "sub"))
+      end
+
+      elseif _temp505 == nil then
+        _error(exception:null_error("opts", "invoke sub on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp505))
+      end
+
+
+    if _type(_temp500) == "function" or (_type(_temp500) == "table" and _rawget(_temp500, "__call_thing")) then
+      _temp504 =  _temp500(_self)
+
+    elseif _temp500 then
+      _temp504 =  _temp500
     else
             if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
-        _temp497 =  _self:var()
+        _temp504 =  _self:var()
       elseif _self.var ~= nil then
-        _temp497 =  _self.var
+        _temp504 =  _self.var
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp497 =  _self:no_undermethod(string:new("var"))
+        _temp504 =  _self:no_undermethod(string:new("var"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp497 =  no_undermethod(_self, string:new("var"))
+        _temp504 =  no_undermethod(_self, string:new("var"))
       else
         _error(exception:name_error("var"))
       end
     end
 
+do
+local _temp506 = nil
+    if _type(_temp502) == "function" or (_type(_temp502) == "table" and _rawget(_temp502, "__call_thing")) then
+      _temp506 =  _temp502(_self)
+
+    elseif _temp502 then
+      _temp506 =  _temp502
+    else
+            if _type(_self.body) == "function" or (_type(_self.body) == "table" and _rawget(_self.body, "__call_thing")) then
+        _temp506 =  _self:body()
+      elseif _self.body ~= nil then
+        _temp506 =  _self.body
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp506 =  _self:no_undermethod(string:new("body"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp506 =  no_undermethod(_self, string:new("body"))
+      else
+        _error(exception:name_error("body"))
+      end
+    end
+
+local _temp507 = nil
+    if _type(_temp505) == "function" or (_type(_temp505) == "table" and _rawget(_temp505, "__call_thing")) then
+      _temp507 =  _temp505(_self)
+
+    elseif _temp505 then
+      _temp507 =  _temp505
+    else
+            if _type(_self.opts) == "function" or (_type(_self.opts) == "table" and _rawget(_self.opts, "__call_thing")) then
+        _temp507 =  _self:opts()
+      elseif _self.opts ~= nil then
+        _temp507 =  _self.opts
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp507 =  _self:no_undermethod(string:new("opts"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp507 =  no_undermethod(_self, string:new("opts"))
+      else
+        _error(exception:name_error("opts"))
+      end
+    end
+
+_temp503 = string:new("regex:new(\"" .. _tostring(_temp506) .. "\", \"" .. _tostring(_temp507) .. "\")")
+end
+
     if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
-      _temp496 =  set_underresult(_self, _temp497)
+      return  set_underresult(_self, _temp504,_temp503)
 
     elseif set_underresult then
       _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
     else
             if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
-        _temp496 =  _self:set_underresult(_temp497)
+        return  _self:set_underresult(_temp504,_temp503)
       elseif _self.set_underresult ~= nil then
-        _temp496 =  _self.set_underresult
+        return  _self.set_underresult
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp496 =  _self:no_undermethod(string:new("set_result") , _temp497)
+        return  _self:no_undermethod(string:new("set_result") , _temp504,_temp503)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp496 =  no_undermethod(_self, string:new("set_result") , _temp497)
+        return  no_undermethod(_self, string:new("set_result") , _temp504,_temp503)
       else
         _error(exception:name_error("set_result"))
       end
     end
 
-local _temp498
-        local _t = _type(_temp495)
-        if _t == "table" then
-          if _rawget(_temp495, "__call_thing") == nil then
-            _temp497 = _temp495
-          else
-                  if _temp495 == nil then
-              if _type(_self._temp495) == "function" or (_type(_self._temp495) == "table" and _rawget(_self._temp495, "__call_thing")) then
-        _temp497 =  _self:_temp495()
-      elseif _self._temp495 ~= nil then
-        _temp497 =  _self._temp495
+end
 
-        elseif _self.no_undermethod ~= nil then
-          _temp497 =  _self:no_undermethod(string:new("_temp495"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp497 =  _temp495(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp497 = _temp495
-        elseif _t == "function" then
-                if _temp495 == nil then
-              if _type(_self._temp495) == "function" or (_type(_self._temp495) == "table" and _rawget(_self._temp495, "__call_thing")) then
-        _temp497 =  _self:_temp495()
-      elseif _self._temp495 ~= nil then
-        _temp497 =  _self._temp495
-
-        elseif _self.no_undermethod ~= nil then
-          _temp497 =  _self:no_undermethod(string:new("_temp495"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp497 =  _temp495(_self)
-      end
-
-        elseif _temp495 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp497)
-      if _t == "table" then
-                      if _type(_temp497.target) == "function" or (_type(_temp497.target) == "table" and _rawget(_temp497.target, "__call_thing")) then
-        _temp497 = _temp497:target()
-      elseif _temp497.target ~= nil then
-        _temp497 = _temp497.target
-
-        elseif _temp497.no_undermethod ~= nil then
-          _temp497 =  _temp497:no_undermethod(string:new("target"))
-        else
-          _error(exception:method_error(_temp497, "target"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp497)
-      if _n.target ~= nil then
-        _temp497 = _n:target()
-      elseif _n.no_undermethod ~= nil then
-        _temp497 =  _n:no_undermethod(string:new("target"))
-      else
-        _error(exception:method_error(_temp497, "target"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp497)
-      if _f.target ~= nil then
-        _temp497 = _f:target()
-      elseif _f.no_undermethod ~= nil then
-        _temp497 =  _f:no_undermethod(string:new("target"))
-      else
-        _error(exception:method_error(_temp497, "target"))
-      end
-
-      elseif _temp497 == nil then
-        _error(exception:null_error("_temp497", "invoke target on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp497))
-      end
-
-
-    if _type(process) == "function" or (_type(process) == "table" and _rawget(process, "__call_thing")) then
-      _temp498 =  process(_self, _temp497)
-
-    elseif process then
-      _error(exception:new("Tried to invoke non-method: process (" .. object.__type(process) .. ")"))
-    else
-            if _type(_self.process) == "function" or (_type(_self.process) == "table" and _rawget(_self.process, "__call_thing")) then
-        _temp498 =  _self:process(_temp497)
-      elseif _self.process ~= nil then
-        _temp498 =  _self.process
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp498 =  _self:no_undermethod(string:new("process") , _temp497)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp498 =  no_undermethod(_self, string:new("process") , _temp497)
-      else
-        _error(exception:name_error("process"))
-      end
-    end
-
-do
-local _temp499 = nil
-        local _t = _type(_temp496)
-        if _t == "table" then
-          if _rawget(_temp496, "__call_thing") == nil then
-            _temp499 = _temp496
-          else
-                  if _temp496 == nil then
-              if _type(_self._temp496) == "function" or (_type(_self._temp496) == "table" and _rawget(_self._temp496, "__call_thing")) then
-        _temp499 =  _self:_temp496()
-      elseif _self._temp496 ~= nil then
-        _temp499 =  _self._temp496
-
-        elseif _self.no_undermethod ~= nil then
-          _temp499 =  _self:no_undermethod(string:new("_temp496"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp499 =  _temp496(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp499 = _temp496
-        elseif _t == "function" then
-                if _temp496 == nil then
-              if _type(_self._temp496) == "function" or (_type(_self._temp496) == "table" and _rawget(_self._temp496, "__call_thing")) then
-        _temp499 =  _self:_temp496()
-      elseif _self._temp496 ~= nil then
-        _temp499 =  _self._temp496
-
-        elseif _self.no_undermethod ~= nil then
-          _temp499 =  _self:no_undermethod(string:new("_temp496"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp499 =  _temp496(_self)
-      end
-
-        elseif _temp496 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp500 = nil
       local _t = _type(_temp499)
       if _t == "table" then
-                      if _type(_temp499.out) == "function" or (_type(_temp499.out) == "table" and _rawget(_temp499.out, "__call_thing")) then
-        _temp500 = _temp499:out()
-      elseif _temp499.out ~= nil then
-        _temp500 = _temp499.out
+                      if _type(_temp499.walk) == "function" or (_type(_temp499.walk) == "table" and _rawget(_temp499.walk, "__call_thing")) then
+        _dummy_ = _temp499:walk(_temp4,_temp509)
+      elseif _temp499.walk ~= nil then
+        _dummy_ = _temp499.walk
 
         elseif _temp499.no_undermethod ~= nil then
-          _temp500 =  _temp499:no_undermethod(string:new("out"))
+          _dummy_ =  _temp499:no_undermethod(string:new("walk") , _temp4,_temp509)
         else
-          _error(exception:method_error(_temp499, "out"))
+          _error(exception:method_error(_temp499, "walk"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp499)
-      if _n.out ~= nil then
-        _temp500 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp500 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp499, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp499)
-      if _f.out ~= nil then
-        _temp500 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp500 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp499, "out"))
-      end
-
-      elseif _temp499 == nil then
-        _error(exception:null_error("_temp499", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp499))
-      end
-
-local _temp501 = nil
-        local _t = _type(_temp498)
-        if _t == "table" then
-          if _rawget(_temp498, "__call_thing") == nil then
-            _temp501 = _temp498
-          else
-                  if _temp498 == nil then
-              if _type(_self._temp498) == "function" or (_type(_self._temp498) == "table" and _rawget(_self._temp498, "__call_thing")) then
-        _temp501 =  _self:_temp498()
-      elseif _self._temp498 ~= nil then
-        _temp501 =  _self._temp498
-
-        elseif _self.no_undermethod ~= nil then
-          _temp501 =  _self:no_undermethod(string:new("_temp498"))
-        else
-          _error(exception:null_error("target", "invoke method"))
-        end
-      else 
-        _temp501 =  _temp498(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp501 = _temp498
-        elseif _t == "function" then
-                if _temp498 == nil then
-              if _type(_self._temp498) == "function" or (_type(_self._temp498) == "table" and _rawget(_self._temp498, "__call_thing")) then
-        _temp501 =  _self:_temp498()
-      elseif _self._temp498 ~= nil then
-        _temp501 =  _self._temp498
-
-        elseif _self.no_undermethod ~= nil then
-          _temp501 =  _self:no_undermethod(string:new("_temp498"))
-        else
-          _error(exception:null_error("target", "invoke method"))
-        end
-      else 
-        _temp501 =  _temp498(_self)
-      end
-
-        elseif _temp498 == nil then
-          _error(exception:null_error("target", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "target"))
-        end
-      local _t = _type(_temp501)
-      if _t == "table" then
-                      if _type(_temp501.out) == "function" or (_type(_temp501.out) == "table" and _rawget(_temp501.out, "__call_thing")) then
-        _temp501 = _temp501:out()
-      elseif _temp501.out ~= nil then
-        _temp501 = _temp501.out
-
-        elseif _temp501.no_undermethod ~= nil then
-          _temp501 =  _temp501:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp501, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp501)
-      if _n.out ~= nil then
-        _temp501 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp501 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp501, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp501)
-      if _f.out ~= nil then
-        _temp501 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp501 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp501, "out"))
-      end
-
-      elseif _temp501 == nil then
-        _error(exception:null_error("_temp501", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp501))
-      end
-
-local _temp502
-      local _t = _type(_temp500)
-      if _t == "table" then
-                      if _type(_temp500._less_less) == "function" or (_type(_temp500._less_less) == "table" and _rawget(_temp500._less_less, "__call_thing")) then
-        _temp502 = _temp500:_less_less(_temp501)
-      elseif _temp500._less_less ~= nil then
-        _temp502 = _temp500._less_less
-
-        elseif _temp500.no_undermethod ~= nil then
-          _temp502 =  _temp500:no_undermethod(string:new("<<") , _temp501)
-        else
-          _error(exception:method_error(_temp500, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp500)
-      if _n._less_less ~= nil then
-        _temp502 = _n:_less_less(_temp501)
-      elseif _n.no_undermethod ~= nil then
-        _temp502 =  _n:no_undermethod(string:new("<<") , _temp501)
-      else
-        _error(exception:method_error(_temp500, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp500)
-      if _f._less_less ~= nil then
-        _temp502 = _f:_less_less(_temp501)
-      elseif _f.no_undermethod ~= nil then
-        _temp502 =  _f:no_undermethod(string:new("<<") , _temp501)
-      else
-        _error(exception:method_error(_temp500, "<<"))
-      end
-
-      elseif _temp500 == nil then
-        _error(exception:null_error("_temp500", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp500))
-      end
-
-_dummy_ = _temp502 
-end
-
-do
-local _temp503 = nil
-        local _t = _type(_temp496)
-        if _t == "table" then
-          if _rawget(_temp496, "__call_thing") == nil then
-            _temp503 = _temp496
-          else
-                  if _temp496 == nil then
-              if _type(_self._temp496) == "function" or (_type(_self._temp496) == "table" and _rawget(_self._temp496, "__call_thing")) then
-        _temp503 =  _self:_temp496()
-      elseif _self._temp496 ~= nil then
-        _temp503 =  _self._temp496
-
-        elseif _self.no_undermethod ~= nil then
-          _temp503 =  _self:no_undermethod(string:new("_temp496"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp503 =  _temp496(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp503 = _temp496
-        elseif _t == "function" then
-                if _temp496 == nil then
-              if _type(_self._temp496) == "function" or (_type(_self._temp496) == "table" and _rawget(_self._temp496, "__call_thing")) then
-        _temp503 =  _self:_temp496()
-      elseif _self._temp496 ~= nil then
-        _temp503 =  _self._temp496
-
-        elseif _self.no_undermethod ~= nil then
-          _temp503 =  _self:no_undermethod(string:new("_temp496"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp503 =  _temp496(_self)
-      end
-
-        elseif _temp496 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp504 = nil
-      local _t = _type(_temp503)
-      if _t == "table" then
-                      if _type(_temp503.out) == "function" or (_type(_temp503.out) == "table" and _rawget(_temp503.out, "__call_thing")) then
-        _temp504 = _temp503:out()
-      elseif _temp503.out ~= nil then
-        _temp504 = _temp503.out
-
-        elseif _temp503.no_undermethod ~= nil then
-          _temp504 =  _temp503:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp503, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp503)
-      if _n.out ~= nil then
-        _temp504 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp504 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp503, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp503)
-      if _f.out ~= nil then
-        _temp504 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp504 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp503, "out"))
-      end
-
-      elseif _temp503 == nil then
-        _error(exception:null_error("_temp503", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp503))
-      end
-
-local _temp505 = nil
-local _temp506 = nil
-        local _t = _type(_temp498)
-        if _t == "table" then
-          if _rawget(_temp498, "__call_thing") == nil then
-            _temp506 = _temp498
-          else
-                  if _temp498 == nil then
-              if _type(_self._temp498) == "function" or (_type(_self._temp498) == "table" and _rawget(_self._temp498, "__call_thing")) then
-        _temp506 =  _self:_temp498()
-      elseif _self._temp498 ~= nil then
-        _temp506 =  _self._temp498
-
-        elseif _self.no_undermethod ~= nil then
-          _temp506 =  _self:no_undermethod(string:new("_temp498"))
-        else
-          _error(exception:null_error("target", "invoke method"))
-        end
-      else 
-        _temp506 =  _temp498(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp506 = _temp498
-        elseif _t == "function" then
-                if _temp498 == nil then
-              if _type(_self._temp498) == "function" or (_type(_self._temp498) == "table" and _rawget(_self._temp498, "__call_thing")) then
-        _temp506 =  _self:_temp498()
-      elseif _self._temp498 ~= nil then
-        _temp506 =  _self._temp498
-
-        elseif _self.no_undermethod ~= nil then
-          _temp506 =  _self:no_undermethod(string:new("_temp498"))
-        else
-          _error(exception:null_error("target", "invoke method"))
-        end
-      else 
-        _temp506 =  _temp498(_self)
-      end
-
-        elseif _temp498 == nil then
-          _error(exception:null_error("target", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "target"))
-        end
-      local _t = _type(_temp506)
-      if _t == "table" then
-                      if _type(_temp506.var) == "function" or (_type(_temp506.var) == "table" and _rawget(_temp506.var, "__call_thing")) then
-        _temp506 = _temp506:var()
-      elseif _temp506.var ~= nil then
-        _temp506 = _temp506.var
-
-        elseif _temp506.no_undermethod ~= nil then
-          _temp506 =  _temp506:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp506, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp506)
-      if _n.var ~= nil then
-        _temp506 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp506 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp506, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp506)
-      if _f.var ~= nil then
-        _temp506 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp506 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp506, "var"))
-      end
-
-      elseif _temp506 == nil then
-        _error(exception:null_error("_temp506", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp506))
-      end
-
-
-local _temp507 = nil
-        local _t = _type(_temp495)
-        if _t == "table" then
-          if _rawget(_temp495, "__call_thing") == nil then
-            _temp507 = _temp495
-          else
-                  if _temp495 == nil then
-              if _type(_self._temp495) == "function" or (_type(_self._temp495) == "table" and _rawget(_self._temp495, "__call_thing")) then
-        _temp507 =  _self:_temp495()
-      elseif _self._temp495 ~= nil then
-        _temp507 =  _self._temp495
-
-        elseif _self.no_undermethod ~= nil then
-          _temp507 =  _self:no_undermethod(string:new("_temp495"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp507 =  _temp495(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp507 = _temp495
-        elseif _t == "function" then
-                if _temp495 == nil then
-              if _type(_self._temp495) == "function" or (_type(_self._temp495) == "table" and _rawget(_self._temp495, "__call_thing")) then
-        _temp507 =  _self:_temp495()
-      elseif _self._temp495 ~= nil then
-        _temp507 =  _self._temp495
-
-        elseif _self.no_undermethod ~= nil then
-          _temp507 =  _self:no_undermethod(string:new("_temp495"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp507 =  _temp495(_self)
-      end
-
-        elseif _temp495 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp507)
-      if _t == "table" then
-                      if _type(_temp507.method) == "function" or (_type(_temp507.method) == "table" and _rawget(_temp507.method, "__call_thing")) then
-        _temp507 = _temp507:method()
-      elseif _temp507.method ~= nil then
-        _temp507 = _temp507.method
-
-        elseif _temp507.no_undermethod ~= nil then
-          _temp507 =  _temp507:no_undermethod(string:new("method"))
-        else
-          _error(exception:method_error(_temp507, "method"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp507)
-      if _n.method ~= nil then
-        _temp507 = _n:method()
-      elseif _n.no_undermethod ~= nil then
-        _temp507 =  _n:no_undermethod(string:new("method"))
-      else
-        _error(exception:method_error(_temp507, "method"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp507)
-      if _f.method ~= nil then
-        _temp507 = _f:method()
-      elseif _f.no_undermethod ~= nil then
-        _temp507 =  _f:no_undermethod(string:new("method"))
-      else
-        _error(exception:method_error(_temp507, "method"))
-      end
-
-      elseif _temp507 == nil then
-        _error(exception:null_error("_temp507", "invoke method on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp507))
-      end
-
-
-local _temp508 = nil
-        local _t = _type(_temp496)
-        if _t == "table" then
-          if _rawget(_temp496, "__call_thing") == nil then
-            _temp508 = _temp496
-          else
-                  if _temp496 == nil then
-              if _type(_self._temp496) == "function" or (_type(_self._temp496) == "table" and _rawget(_self._temp496, "__call_thing")) then
-        _temp508 =  _self:_temp496()
-      elseif _self._temp496 ~= nil then
-        _temp508 =  _self._temp496
-
-        elseif _self.no_undermethod ~= nil then
-          _temp508 =  _self:no_undermethod(string:new("_temp496"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp508 =  _temp496(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp508 = _temp496
-        elseif _t == "function" then
-                if _temp496 == nil then
-              if _type(_self._temp496) == "function" or (_type(_self._temp496) == "table" and _rawget(_self._temp496, "__call_thing")) then
-        _temp508 =  _self:_temp496()
-      elseif _self._temp496 ~= nil then
-        _temp508 =  _self._temp496
-
-        elseif _self.no_undermethod ~= nil then
-          _temp508 =  _self:no_undermethod(string:new("_temp496"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp508 =  _temp496(_self)
-      end
-
-        elseif _temp496 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-      local _t = _type(_temp508)
-      if _t == "table" then
-                      if _type(_temp508.var) == "function" or (_type(_temp508.var) == "table" and _rawget(_temp508.var, "__call_thing")) then
-        _temp508 = _temp508:var()
-      elseif _temp508.var ~= nil then
-        _temp508 = _temp508.var
-
-        elseif _temp508.no_undermethod ~= nil then
-          _temp508 =  _temp508:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp508, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp508)
-      if _n.var ~= nil then
-        _temp508 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp508 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp508, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp508)
-      if _f.var ~= nil then
-        _temp508 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp508 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp508, "var"))
-      end
-
-      elseif _temp508 == nil then
-        _error(exception:null_error("_temp508", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp508))
-      end
-
-
-    if _type(get_undermethod) == "function" or (_type(get_undermethod) == "table" and _rawget(get_undermethod, "__call_thing")) then
-      _temp505 =  get_undermethod(_self, _temp506,_temp507,_temp508)
-
-    elseif get_undermethod then
-      _error(exception:new("Tried to invoke non-method: get_method (" .. object.__type(get_undermethod) .. ")"))
-    else
-            if _type(_self.get_undermethod) == "function" or (_type(_self.get_undermethod) == "table" and _rawget(_self.get_undermethod, "__call_thing")) then
-        _temp505 =  _self:get_undermethod(_temp506,_temp507,_temp508)
-      elseif _self.get_undermethod ~= nil then
-        _temp505 =  _self.get_undermethod
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp505 =  _self:no_undermethod(string:new("get_method") , _temp506,_temp507,_temp508)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp505 =  no_undermethod(_self, string:new("get_method") , _temp506,_temp507,_temp508)
-      else
-        _error(exception:name_error("get_method"))
-      end
-    end
-local _temp508
-      local _t = _type(_temp504)
-      if _t == "table" then
-                      if _type(_temp504._less_less) == "function" or (_type(_temp504._less_less) == "table" and _rawget(_temp504._less_less, "__call_thing")) then
-        _temp508 = _temp504:_less_less(_temp505)
-      elseif _temp504._less_less ~= nil then
-        _temp508 = _temp504._less_less
-
-        elseif _temp504.no_undermethod ~= nil then
-          _temp508 =  _temp504:no_undermethod(string:new("<<") , _temp505)
-        else
-          _error(exception:method_error(_temp504, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp504)
-      if _n._less_less ~= nil then
-        _temp508 = _n:_less_less(_temp505)
-      elseif _n.no_undermethod ~= nil then
-        _temp508 =  _n:no_undermethod(string:new("<<") , _temp505)
-      else
-        _error(exception:method_error(_temp504, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp504)
-      if _f._less_less ~= nil then
-        _temp508 = _f:_less_less(_temp505)
-      elseif _f.no_undermethod ~= nil then
-        _temp508 =  _f:no_undermethod(string:new("<<") , _temp505)
-      else
-        _error(exception:method_error(_temp504, "<<"))
-      end
-
-      elseif _temp504 == nil then
-        _error(exception:null_error("_temp504", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp504))
-      end
-
-_dummy_ = _temp508 
-end
-
-    if _type(_temp496) == "function" or (_type(_temp496) == "table" and _rawget(_temp496, "__call_thing")) then
-      return  _temp496(_self)
-
-    elseif _temp496 then
-      return  _temp496
-    else
-            if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
-        return  _self:res()
-      elseif _self.res ~= nil then
-        return  _self.res
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("res"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("res"))
-      else
-        _error(exception:name_error("res"))
-      end
-    end
-
-end
-
-      local _t = _type(_temp493)
-      if _t == "table" then
-                      if _type(_temp493.walk) == "function" or (_type(_temp493.walk) == "table" and _rawget(_temp493.walk, "__call_thing")) then
-        _dummy_ = _temp493:walk(_temp4,_temp509)
-      elseif _temp493.walk ~= nil then
-        _dummy_ = _temp493.walk
-
-        elseif _temp493.no_undermethod ~= nil then
-          _dummy_ =  _temp493:no_undermethod(string:new("walk") , _temp4,_temp509)
-        else
-          _error(exception:method_error(_temp493, "walk"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp493)
       if _n.walk ~= nil then
         _dummy_ = _n:walk(_temp4,_temp509)
       elseif _n.no_undermethod ~= nil then
         _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp509)
       else
-        _error(exception:method_error(_temp493, "walk"))
+        _error(exception:method_error(_temp499, "walk"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp493)
+              local _f = brat_function:new(_temp499)
       if _f.walk ~= nil then
         _dummy_ = _f:walk(_temp4,_temp509)
       elseif _f.no_undermethod ~= nil then
         _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp509)
       else
-        _error(exception:method_error(_temp493, "walk"))
+        _error(exception:method_error(_temp499, "walk"))
       end
 
-      elseif _temp493 == nil then
-        _error(exception:null_error("_temp493", "invoke walk on it"))
+      elseif _temp499 == nil then
+        _error(exception:null_error("_temp499", "invoke walk on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp493))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp499))
       end
 
         local _t = _type(_temp5)
@@ -21678,9 +22062,9 @@ end
         else
           _error(exception:method_error("self", "c"))
         end
-_temp4 = string:new("regex")
+_temp4 = string:new("string_interp")
 
-local _temp519 = function (_self, _temp511,_temp510)
+_temp513 = function (_self, _temp511,_temp510)
         if _temp511 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
@@ -21714,516 +22098,2044 @@ end
 end
 
 local _temp512
-        local _t = _type(_temp511)
-        if _t == "table" then
-          if _rawget(_temp511, "__call_thing") == nil then
-            _temp512 = _temp511
-          else
-                  if _temp511 == nil then
-              if _type(_self._temp511) == "function" or (_type(_self._temp511) == "table" and _rawget(_self._temp511, "__call_thing")) then
-        _temp512 =  _self:_temp511()
-      elseif _self._temp511 ~= nil then
-        _temp512 =  _self._temp511
-
-        elseif _self.no_undermethod ~= nil then
-          _temp512 =  _self:no_undermethod(string:new("_temp511"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp512 =  _temp511(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp512 = _temp511
-        elseif _t == "function" then
-                if _temp511 == nil then
-              if _type(_self._temp511) == "function" or (_type(_self._temp511) == "table" and _rawget(_self._temp511, "__call_thing")) then
-        _temp512 =  _self:_temp511()
-      elseif _self._temp511 ~= nil then
-        _temp512 =  _self._temp511
-
-        elseif _self.no_undermethod ~= nil then
-          _temp512 =  _self:no_undermethod(string:new("_temp511"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp512 =  _temp511(_self)
-      end
-
-        elseif _temp511 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp512)
-      if _t == "table" then
-                      if _type(_temp512.body) == "function" or (_type(_temp512.body) == "table" and _rawget(_temp512.body, "__call_thing")) then
-        _temp512 = _temp512:body()
-      elseif _temp512.body ~= nil then
-        _temp512 = _temp512.body
-
-        elseif _temp512.no_undermethod ~= nil then
-          _temp512 =  _temp512:no_undermethod(string:new("body"))
-        else
-          _error(exception:method_error("body", "body"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp512)
-      if _n.body ~= nil then
-        _temp512 = _n:body()
-      elseif _n.no_undermethod ~= nil then
-        _temp512 =  _n:no_undermethod(string:new("body"))
-      else
-        _error(exception:method_error("body", "body"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp512)
-      if _f.body ~= nil then
-        _temp512 = _f:body()
-      elseif _f.no_undermethod ~= nil then
-        _temp512 =  _f:no_undermethod(string:new("body"))
-      else
-        _error(exception:method_error("body", "body"))
-      end
-
-      elseif _temp512 == nil then
-        _error(exception:null_error("body", "invoke body on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp512))
-      end
-
-local _temp513 = regex:new("[\\\\]")
-
-local _temp514 = string:new("\\\\")
-
-      local _t = _type(_temp512)
-      if _t == "table" then
-                      if _type(_temp512.sub) == "function" or (_type(_temp512.sub) == "table" and _rawget(_temp512.sub, "__call_thing")) then
-        _temp512 = _temp512:sub(_temp513,_temp514)
-      elseif _temp512.sub ~= nil then
-        _temp512 = _temp512.sub
-
-        elseif _temp512.no_undermethod ~= nil then
-          _temp512 =  _temp512:no_undermethod(string:new("sub") , _temp513,_temp514)
-        else
-          _error(exception:method_error("body", "sub"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp512)
-      if _n.sub ~= nil then
-        _temp512 = _n:sub(_temp513,_temp514)
-      elseif _n.no_undermethod ~= nil then
-        _temp512 =  _n:no_undermethod(string:new("sub") , _temp513,_temp514)
-      else
-        _error(exception:method_error("body", "sub"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp512)
-      if _f.sub ~= nil then
-        _temp512 = _f:sub(_temp513,_temp514)
-      elseif _f.no_undermethod ~= nil then
-        _temp512 =  _f:no_undermethod(string:new("sub") , _temp513,_temp514)
-      else
-        _error(exception:method_error("body", "sub"))
-      end
-
-      elseif _temp512 == nil then
-        _error(exception:null_error("body", "invoke sub on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp512))
-      end
-
-local _temp514 = regex:new("\"")
-
-_temp513 = string:new("\\\"")
-
-      local _t = _type(_temp512)
-      if _t == "table" then
-                      if _type(_temp512.sub) == "function" or (_type(_temp512.sub) == "table" and _rawget(_temp512.sub, "__call_thing")) then
-        _temp512 = _temp512:sub(_temp514,_temp513)
-      elseif _temp512.sub ~= nil then
-        _temp512 = _temp512.sub
-
-        elseif _temp512.no_undermethod ~= nil then
-          _temp512 =  _temp512:no_undermethod(string:new("sub") , _temp514,_temp513)
-        else
-          _error(exception:method_error("body", "sub"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp512)
-      if _n.sub ~= nil then
-        _temp512 = _n:sub(_temp514,_temp513)
-      elseif _n.no_undermethod ~= nil then
-        _temp512 =  _n:no_undermethod(string:new("sub") , _temp514,_temp513)
-      else
-        _error(exception:method_error("body", "sub"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp512)
-      if _f.sub ~= nil then
-        _temp512 = _f:sub(_temp514,_temp513)
-      elseif _f.no_undermethod ~= nil then
-        _temp512 =  _f:no_undermethod(string:new("sub") , _temp514,_temp513)
-      else
-        _error(exception:method_error("body", "sub"))
-      end
-
-      elseif _temp512 == nil then
-        _error(exception:null_error("body", "invoke sub on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp512))
-      end
-
-
-local _temp515
-        local _t = _type(_temp511)
-        if _t == "table" then
-          if _rawget(_temp511, "__call_thing") == nil then
-            _temp515 = _temp511
-          else
-                  if _temp511 == nil then
-              if _type(_self._temp511) == "function" or (_type(_self._temp511) == "table" and _rawget(_self._temp511, "__call_thing")) then
-        _temp515 =  _self:_temp511()
-      elseif _self._temp511 ~= nil then
-        _temp515 =  _self._temp511
-
-        elseif _self.no_undermethod ~= nil then
-          _temp515 =  _self:no_undermethod(string:new("_temp511"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp515 =  _temp511(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp515 = _temp511
-        elseif _t == "function" then
-                if _temp511 == nil then
-              if _type(_self._temp511) == "function" or (_type(_self._temp511) == "table" and _rawget(_self._temp511, "__call_thing")) then
-        _temp515 =  _self:_temp511()
-      elseif _self._temp511 ~= nil then
-        _temp515 =  _self._temp511
-
-        elseif _self.no_undermethod ~= nil then
-          _temp515 =  _self:no_undermethod(string:new("_temp511"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp515 =  _temp511(_self)
-      end
-
-        elseif _temp511 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp515)
-      if _t == "table" then
-                      if _type(_temp515.opts) == "function" or (_type(_temp515.opts) == "table" and _rawget(_temp515.opts, "__call_thing")) then
-        _temp515 = _temp515:opts()
-      elseif _temp515.opts ~= nil then
-        _temp515 = _temp515.opts
-
-        elseif _temp515.no_undermethod ~= nil then
-          _temp515 =  _temp515:no_undermethod(string:new("opts"))
-        else
-          _error(exception:method_error("opts", "opts"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp515)
-      if _n.opts ~= nil then
-        _temp515 = _n:opts()
-      elseif _n.no_undermethod ~= nil then
-        _temp515 =  _n:no_undermethod(string:new("opts"))
-      else
-        _error(exception:method_error("opts", "opts"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp515)
-      if _f.opts ~= nil then
-        _temp515 = _f:opts()
-      elseif _f.no_undermethod ~= nil then
-        _temp515 =  _f:no_undermethod(string:new("opts"))
-      else
-        _error(exception:method_error("opts", "opts"))
-      end
-
-      elseif _temp515 == nil then
-        _error(exception:null_error("opts", "invoke opts on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp515))
-      end
-
-      local _t = _type(_temp515)
-      if _t == "table" then
-                      if _type(_temp515.dice) == "function" or (_type(_temp515.dice) == "table" and _rawget(_temp515.dice, "__call_thing")) then
-        _temp515 = _temp515:dice()
-      elseif _temp515.dice ~= nil then
-        _temp515 = _temp515.dice
-
-        elseif _temp515.no_undermethod ~= nil then
-          _temp515 =  _temp515:no_undermethod(string:new("dice"))
-        else
-          _error(exception:method_error("opts", "dice"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp515)
-      if _n.dice ~= nil then
-        _temp515 = _n:dice()
-      elseif _n.no_undermethod ~= nil then
-        _temp515 =  _n:no_undermethod(string:new("dice"))
-      else
-        _error(exception:method_error("opts", "dice"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp515)
-      if _f.dice ~= nil then
-        _temp515 = _f:dice()
-      elseif _f.no_undermethod ~= nil then
-        _temp515 =  _f:no_undermethod(string:new("dice"))
-      else
-        _error(exception:method_error("opts", "dice"))
-      end
-
-      elseif _temp515 == nil then
-        _error(exception:null_error("opts", "invoke dice on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp515))
-      end
-
-      local _t = _type(_temp515)
-      if _t == "table" then
-                      if _type(_temp515.unique) == "function" or (_type(_temp515.unique) == "table" and _rawget(_temp515.unique, "__call_thing")) then
-        _temp515 = _temp515:unique()
-      elseif _temp515.unique ~= nil then
-        _temp515 = _temp515.unique
-
-        elseif _temp515.no_undermethod ~= nil then
-          _temp515 =  _temp515:no_undermethod(string:new("unique"))
-        else
-          _error(exception:method_error("opts", "unique"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp515)
-      if _n.unique ~= nil then
-        _temp515 = _n:unique()
-      elseif _n.no_undermethod ~= nil then
-        _temp515 =  _n:no_undermethod(string:new("unique"))
-      else
-        _error(exception:method_error("opts", "unique"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp515)
-      if _f.unique ~= nil then
-        _temp515 = _f:unique()
-      elseif _f.no_undermethod ~= nil then
-        _temp515 =  _f:no_undermethod(string:new("unique"))
-      else
-        _error(exception:method_error("opts", "unique"))
-      end
-
-      elseif _temp515 == nil then
-        _error(exception:null_error("opts", "invoke unique on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp515))
-      end
-
-      local _t = _type(_temp515)
-      if _t == "table" then
-                      if _type(_temp515.join) == "function" or (_type(_temp515.join) == "table" and _rawget(_temp515.join, "__call_thing")) then
-        _temp515 = _temp515:join()
-      elseif _temp515.join ~= nil then
-        _temp515 = _temp515.join
-
-        elseif _temp515.no_undermethod ~= nil then
-          _temp515 =  _temp515:no_undermethod(string:new("join"))
-        else
-          _error(exception:method_error("opts", "join"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp515)
-      if _n.join ~= nil then
-        _temp515 = _n:join()
-      elseif _n.no_undermethod ~= nil then
-        _temp515 =  _n:no_undermethod(string:new("join"))
-      else
-        _error(exception:method_error("opts", "join"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp515)
-      if _f.join ~= nil then
-        _temp515 = _f:join()
-      elseif _f.no_undermethod ~= nil then
-        _temp515 =  _f:no_undermethod(string:new("join"))
-      else
-        _error(exception:method_error("opts", "join"))
-      end
-
-      elseif _temp515 == nil then
-        _error(exception:null_error("opts", "invoke join on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp515))
-      end
-
-local _temp513 = regex:new("m")
-
-_temp514 = string:new("s")
-
-      local _t = _type(_temp515)
-      if _t == "table" then
-                      if _type(_temp515.sub) == "function" or (_type(_temp515.sub) == "table" and _rawget(_temp515.sub, "__call_thing")) then
-        _temp515 = _temp515:sub(_temp513,_temp514)
-      elseif _temp515.sub ~= nil then
-        _temp515 = _temp515.sub
-
-        elseif _temp515.no_undermethod ~= nil then
-          _temp515 =  _temp515:no_undermethod(string:new("sub") , _temp513,_temp514)
-        else
-          _error(exception:method_error("opts", "sub"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp515)
-      if _n.sub ~= nil then
-        _temp515 = _n:sub(_temp513,_temp514)
-      elseif _n.no_undermethod ~= nil then
-        _temp515 =  _n:no_undermethod(string:new("sub") , _temp513,_temp514)
-      else
-        _error(exception:method_error("opts", "sub"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp515)
-      if _f.sub ~= nil then
-        _temp515 = _f:sub(_temp513,_temp514)
-      elseif _f.no_undermethod ~= nil then
-        _temp515 =  _f:no_undermethod(string:new("sub") , _temp513,_temp514)
-      else
-        _error(exception:method_error("opts", "sub"))
-      end
-
-      elseif _temp515 == nil then
-        _error(exception:null_error("opts", "invoke sub on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp515))
-      end
-
-
+local _temp513 = nil
     if _type(_temp510) == "function" or (_type(_temp510) == "table" and _rawget(_temp510, "__call_thing")) then
-      _temp514 =  _temp510(_self)
+      _temp513 =  _temp510(_self)
 
     elseif _temp510 then
-      _temp514 =  _temp510
+      _temp513 =  _temp510
     else
             if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
-        _temp514 =  _self:var()
+        _temp513 =  _self:var()
       elseif _self.var ~= nil then
-        _temp514 =  _self.var
+        _temp513 =  _self.var
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp514 =  _self:no_undermethod(string:new("var"))
+        _temp513 =  _self:no_undermethod(string:new("var"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp514 =  no_undermethod(_self, string:new("var"))
+        _temp513 =  no_undermethod(_self, string:new("var"))
       else
         _error(exception:name_error("var"))
       end
     end
 
-do
-local _temp516 = nil
-    if _type(_temp512) == "function" or (_type(_temp512) == "table" and _rawget(_temp512, "__call_thing")) then
-      _temp516 =  _temp512(_self)
-
-    elseif _temp512 then
-      _temp516 =  _temp512
-    else
-            if _type(_self.body) == "function" or (_type(_self.body) == "table" and _rawget(_self.body, "__call_thing")) then
-        _temp516 =  _self:body()
-      elseif _self.body ~= nil then
-        _temp516 =  _self.body
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp516 =  _self:no_undermethod(string:new("body"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp516 =  no_undermethod(_self, string:new("body"))
-      else
-        _error(exception:name_error("body"))
-      end
-    end
-
-local _temp517 = nil
-    if _type(_temp515) == "function" or (_type(_temp515) == "table" and _rawget(_temp515, "__call_thing")) then
-      _temp517 =  _temp515(_self)
-
-    elseif _temp515 then
-      _temp517 =  _temp515
-    else
-            if _type(_self.opts) == "function" or (_type(_self.opts) == "table" and _rawget(_self.opts, "__call_thing")) then
-        _temp517 =  _self:opts()
-      elseif _self.opts ~= nil then
-        _temp517 =  _self.opts
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp517 =  _self:no_undermethod(string:new("opts"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp517 =  no_undermethod(_self, string:new("opts"))
-      else
-        _error(exception:name_error("opts"))
-      end
-    end
-
-_temp513 = string:new("regex:new(\"" .. _tostring(_temp516) .. "\", \"" .. _tostring(_temp517) .. "\")")
-end
-
     if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
-      return  set_underresult(_self, _temp514,_temp513)
+      _temp512 =  set_underresult(_self, _temp513)
 
     elseif set_underresult then
       _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
     else
             if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
-        return  _self:set_underresult(_temp514,_temp513)
+        _temp512 =  _self:set_underresult(_temp513)
       elseif _self.set_underresult ~= nil then
-        return  _self.set_underresult
+        _temp512 =  _self.set_underresult
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("set_result") , _temp514,_temp513)
+        _temp512 =  _self:no_undermethod(string:new("set_result") , _temp513)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("set_result") , _temp514,_temp513)
+        _temp512 =  no_undermethod(_self, string:new("set_result") , _temp513)
       else
         _error(exception:name_error("set_result"))
+      end
+    end
+
+local _temp514
+              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
+        _temp514 =  _self:my()
+      elseif _self.my ~= nil then
+        _temp514 =  _self.my
+
+        elseif my ~= nil then
+          _temp514 = my;
+        else
+          _error(exception:method_error("self", "my"))
+        end
+      local _t = _type(_temp514)
+      if _t == "table" then
+                      if _type(_temp514.env) == "function" or (_type(_temp514.env) == "table" and _rawget(_temp514.env, "__call_thing")) then
+        _temp514 = _temp514:env()
+      elseif _temp514.env ~= nil then
+        _temp514 = _temp514.env
+
+        elseif _temp514.no_undermethod ~= nil then
+          _temp514 =  _temp514:no_undermethod(string:new("env"))
+        else
+          _error(exception:method_error("temp", "env"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp514)
+      if _n.env ~= nil then
+        _temp514 = _n:env()
+      elseif _n.no_undermethod ~= nil then
+        _temp514 =  _n:no_undermethod(string:new("env"))
+      else
+        _error(exception:method_error("temp", "env"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp514)
+      if _f.env ~= nil then
+        _temp514 = _f:env()
+      elseif _f.no_undermethod ~= nil then
+        _temp514 =  _f:no_undermethod(string:new("env"))
+      else
+        _error(exception:method_error("temp", "env"))
+      end
+
+      elseif _temp514 == nil then
+        _error(exception:null_error("temp", "invoke env on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp514))
+      end
+
+      local _t = _type(_temp514)
+      if _t == "table" then
+                      if _type(_temp514.next_undertemp) == "function" or (_type(_temp514.next_undertemp) == "table" and _rawget(_temp514.next_undertemp, "__call_thing")) then
+        _temp514 = _temp514:next_undertemp()
+      elseif _temp514.next_undertemp ~= nil then
+        _temp514 = _temp514.next_undertemp
+
+        elseif _temp514.no_undermethod ~= nil then
+          _temp514 =  _temp514:no_undermethod(string:new("next_temp"))
+        else
+          _error(exception:method_error("temp", "next_temp"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp514)
+      if _n.next_undertemp ~= nil then
+        _temp514 = _n:next_undertemp()
+      elseif _n.no_undermethod ~= nil then
+        _temp514 =  _n:no_undermethod(string:new("next_temp"))
+      else
+        _error(exception:method_error("temp", "next_temp"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp514)
+      if _f.next_undertemp ~= nil then
+        _temp514 = _f:next_undertemp()
+      elseif _f.no_undermethod ~= nil then
+        _temp514 =  _f:no_undermethod(string:new("next_temp"))
+      else
+        _error(exception:method_error("temp", "next_temp"))
+      end
+
+      elseif _temp514 == nil then
+        _error(exception:null_error("temp", "invoke next_temp on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp514))
+      end
+
+
+do
+local _temp515 = nil
+        local _t = _type(_temp512)
+        if _t == "table" then
+          if _rawget(_temp512, "__call_thing") == nil then
+            _temp515 = _temp512
+          else
+                  if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp515 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp515 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp515 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp515 =  _temp512(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp515 = _temp512
+        elseif _t == "function" then
+                if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp515 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp515 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp515 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp515 =  _temp512(_self)
+      end
+
+        elseif _temp512 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp516 = nil
+      local _t = _type(_temp515)
+      if _t == "table" then
+                      if _type(_temp515.out) == "function" or (_type(_temp515.out) == "table" and _rawget(_temp515.out, "__call_thing")) then
+        _temp516 = _temp515:out()
+      elseif _temp515.out ~= nil then
+        _temp516 = _temp515.out
+
+        elseif _temp515.no_undermethod ~= nil then
+          _temp516 =  _temp515:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp515, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp515)
+      if _n.out ~= nil then
+        _temp516 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp516 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp515, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp515)
+      if _f.out ~= nil then
+        _temp516 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp516 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp515, "out"))
+      end
+
+      elseif _temp515 == nil then
+        _error(exception:null_error("_temp515", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp515))
+      end
+
+local _temp517 = nil
+do
+local _temp518 = nil
+    if _type(_temp514) == "function" or (_type(_temp514) == "table" and _rawget(_temp514, "__call_thing")) then
+      _temp518 =  _temp514(_self)
+
+    elseif _temp514 then
+      _temp518 =  _temp514
+    else
+            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
+        _temp518 =  _self:temp()
+      elseif _self.temp ~= nil then
+        _temp518 =  _self.temp
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp518 =  _self:no_undermethod(string:new("temp"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp518 =  no_undermethod(_self, string:new("temp"))
+      else
+        _error(exception:name_error("temp"))
+      end
+    end
+
+_temp517 = string:new("\ndo\nlocal " .. _tostring(_temp518) .. " = {}\n")
+end
+local _temp519
+      local _t = _type(_temp516)
+      if _t == "table" then
+                      if _type(_temp516._less_less) == "function" or (_type(_temp516._less_less) == "table" and _rawget(_temp516._less_less, "__call_thing")) then
+        _temp519 = _temp516:_less_less(_temp517)
+      elseif _temp516._less_less ~= nil then
+        _temp519 = _temp516._less_less
+
+        elseif _temp516.no_undermethod ~= nil then
+          _temp519 =  _temp516:no_undermethod(string:new("<<") , _temp517)
+        else
+          _error(exception:method_error(_temp516, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp516)
+      if _n._less_less ~= nil then
+        _temp519 = _n:_less_less(_temp517)
+      elseif _n.no_undermethod ~= nil then
+        _temp519 =  _n:no_undermethod(string:new("<<") , _temp517)
+      else
+        _error(exception:method_error(_temp516, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp516)
+      if _f._less_less ~= nil then
+        _temp519 = _f:_less_less(_temp517)
+      elseif _f.no_undermethod ~= nil then
+        _temp519 =  _f:no_undermethod(string:new("<<") , _temp517)
+      else
+        _error(exception:method_error(_temp516, "<<"))
+      end
+
+      elseif _temp516 == nil then
+        _error(exception:null_error("_temp516", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp516))
+      end
+
+_dummy_ = _temp519 
+end
+
+local _temp520
+    if _type(my) == "function" or (_type(my) == "table" and _rawget(my, "__call_thing")) then
+      _temp520 =  my(_self)
+
+    elseif my then
+      _temp520 =  my
+    else
+            if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
+        _temp520 =  _self:my()
+      elseif _self.my ~= nil then
+        _temp520 =  _self.my
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp520 =  _self:no_undermethod(string:new("my"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp520 =  no_undermethod(_self, string:new("my"))
+      else
+        _error(exception:name_error("my"))
+      end
+    end
+
+        local _t = _type(_temp511)
+        if _t == "table" then
+          if _rawget(_temp511, "__call_thing") == nil then
+            _temp513 = _temp511
+          else
+                  if _temp511 == nil then
+              if _type(_self._temp511) == "function" or (_type(_self._temp511) == "table" and _rawget(_self._temp511, "__call_thing")) then
+        _temp513 =  _self:_temp511()
+      elseif _self._temp511 ~= nil then
+        _temp513 =  _self._temp511
+
+        elseif _self.no_undermethod ~= nil then
+          _temp513 =  _self:no_undermethod(string:new("_temp511"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp513 =  _temp511(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp513 = _temp511
+        elseif _t == "function" then
+                if _temp511 == nil then
+              if _type(_self._temp511) == "function" or (_type(_self._temp511) == "table" and _rawget(_self._temp511, "__call_thing")) then
+        _temp513 =  _self:_temp511()
+      elseif _self._temp511 ~= nil then
+        _temp513 =  _self._temp511
+
+        elseif _self.no_undermethod ~= nil then
+          _temp513 =  _self:no_undermethod(string:new("_temp511"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp513 =  _temp511(_self)
+      end
+
+        elseif _temp511 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
+      local _t = _type(_temp513)
+      if _t == "table" then
+                      if _type(_temp513.nodes) == "function" or (_type(_temp513.nodes) == "table" and _rawget(_temp513.nodes, "__call_thing")) then
+        _temp513 = _temp513:nodes()
+      elseif _temp513.nodes ~= nil then
+        _temp513 = _temp513.nodes
+
+        elseif _temp513.no_undermethod ~= nil then
+          _temp513 =  _temp513:no_undermethod(string:new("nodes"))
+        else
+          _error(exception:method_error(_temp513, "nodes"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp513)
+      if _n.nodes ~= nil then
+        _temp513 = _n:nodes()
+      elseif _n.no_undermethod ~= nil then
+        _temp513 =  _n:no_undermethod(string:new("nodes"))
+      else
+        _error(exception:method_error(_temp513, "nodes"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp513)
+      if _f.nodes ~= nil then
+        _temp513 = _f:nodes()
+      elseif _f.no_undermethod ~= nil then
+        _temp513 =  _f:no_undermethod(string:new("nodes"))
+      else
+        _error(exception:method_error(_temp513, "nodes"))
+      end
+
+      elseif _temp513 == nil then
+        _error(exception:null_error("_temp513", "invoke nodes on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp513))
+      end
+
+
+local _temp563 = function (_self, _temp521, _temp522)
+        if _temp521 == nil then
+          _error(exception:argument_error("function", 2, 0))
+          elseif _temp522 == nil then
+            _error(exception:argument_error("function", 2, 1))
+
+end
+local _temp523 
+do
+local _temp524 = nil
+        local _t = _type(_temp521)
+        if _t == "table" then
+          if _rawget(_temp521, "__call_thing") == nil then
+            _temp524 = _temp521
+          else
+                  if _temp521 == nil then
+              if _type(_self._temp521) == "function" or (_type(_self._temp521) == "table" and _rawget(_self._temp521, "__call_thing")) then
+        _temp524 =  _self:_temp521()
+      elseif _self._temp521 ~= nil then
+        _temp524 =  _self._temp521
+
+        elseif _self.no_undermethod ~= nil then
+          _temp524 =  _self:no_undermethod(string:new("_temp521"))
+        else
+          _error(exception:null_error("n", "invoke method"))
+        end
+      else 
+        _temp524 =  _temp521(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp524 = _temp521
+        elseif _t == "function" then
+                if _temp521 == nil then
+              if _type(_self._temp521) == "function" or (_type(_self._temp521) == "table" and _rawget(_self._temp521, "__call_thing")) then
+        _temp524 =  _self:_temp521()
+      elseif _self._temp521 ~= nil then
+        _temp524 =  _self._temp521
+
+        elseif _self.no_undermethod ~= nil then
+          _temp524 =  _self:no_undermethod(string:new("_temp521"))
+        else
+          _error(exception:null_error("n", "invoke method"))
+        end
+      else 
+        _temp524 =  _temp521(_self)
+      end
+
+        elseif _temp521 == nil then
+          _error(exception:null_error("n", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "n"))
+        end
+
+local _temp525 = nil
+      local _t = _type(_temp524)
+      if _t == "table" then
+                      if _type(_temp524.name) == "function" or (_type(_temp524.name) == "table" and _rawget(_temp524.name, "__call_thing")) then
+        _temp525 = _temp524:name()
+      elseif _temp524.name ~= nil then
+        _temp525 = _temp524.name
+
+        elseif _temp524.no_undermethod ~= nil then
+          _temp525 =  _temp524:no_undermethod(string:new("name"))
+        else
+          _error(exception:method_error(_temp524, "name"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp524)
+      if _n.name ~= nil then
+        _temp525 = _n:name()
+      elseif _n.no_undermethod ~= nil then
+        _temp525 =  _n:no_undermethod(string:new("name"))
+      else
+        _error(exception:method_error(_temp524, "name"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp524)
+      if _f.name ~= nil then
+        _temp525 = _f:name()
+      elseif _f.no_undermethod ~= nil then
+        _temp525 =  _f:no_undermethod(string:new("name"))
+      else
+        _error(exception:method_error(_temp524, "name"))
+      end
+
+      elseif _temp524 == nil then
+        _error(exception:null_error("_temp524", "invoke name on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp524))
+      end
+
+local _temp526 = string:new("string")
+local _temp527
+      local _t = _type(_temp525)
+      if _t == "table" then
+                      if _type(_temp525._equal_equal) == "function" or (_type(_temp525._equal_equal) == "table" and _rawget(_temp525._equal_equal, "__call_thing")) then
+        _temp527 = _temp525:_equal_equal(_temp526)
+      elseif _temp525._equal_equal ~= nil then
+        _temp527 = _temp525._equal_equal
+
+        elseif _temp525.no_undermethod ~= nil then
+          _temp527 =  _temp525:no_undermethod(string:new("==") , _temp526)
+        else
+          _error(exception:method_error(_temp525, "=="))
+        end
+
+      elseif _t == "number" then
+              if number._unchanged('_equal_equal') and _type(_temp526) == 'number' then
+              if _temp525 == _temp526 then
+        _temp527 = object.__true
+      else
+        _temp527 = object.__false
+      end
+
+      else
+              local _n = number:new(_temp525)
+      if _n._equal_equal ~= nil then
+        _temp527 = _n:_equal_equal(_temp526)
+      elseif _n.no_undermethod ~= nil then
+        _temp527 =  _n:no_undermethod(string:new("==") , _temp526)
+      else
+        _error(exception:method_error(_temp525, "=="))
+      end
+
+      end 
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp525)
+      if _f._equal_equal ~= nil then
+        _temp527 = _f:_equal_equal(_temp526)
+      elseif _f.no_undermethod ~= nil then
+        _temp527 =  _f:no_undermethod(string:new("==") , _temp526)
+      else
+        _error(exception:method_error(_temp525, "=="))
+      end
+
+      elseif _temp525 == nil then
+        _error(exception:null_error("_temp525", "invoke == on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp525))
+      end
+
+_temp523 = _temp527 
+end
+
+
+local _temp540 = function (_self)
+
+local _temp528 
+do
+local _temp529 = nil
+        local _t = _type(_temp512)
+        if _t == "table" then
+          if _rawget(_temp512, "__call_thing") == nil then
+            _temp529 = _temp512
+          else
+                  if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp529 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp529 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp529 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp529 =  _temp512(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp529 = _temp512
+        elseif _t == "function" then
+                if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp529 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp529 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp529 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp529 =  _temp512(_self)
+      end
+
+        elseif _temp512 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp530 = nil
+      local _t = _type(_temp529)
+      if _t == "table" then
+                      if _type(_temp529.out) == "function" or (_type(_temp529.out) == "table" and _rawget(_temp529.out, "__call_thing")) then
+        _temp530 = _temp529:out()
+      elseif _temp529.out ~= nil then
+        _temp530 = _temp529.out
+
+        elseif _temp529.no_undermethod ~= nil then
+          _temp530 =  _temp529:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp529, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp529)
+      if _n.out ~= nil then
+        _temp530 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp530 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp529, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp529)
+      if _f.out ~= nil then
+        _temp530 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp530 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp529, "out"))
+      end
+
+      elseif _temp529 == nil then
+        _error(exception:null_error("_temp529", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp529))
+      end
+
+local _temp531 = nil
+do
+local _temp532 = nil
+    if _type(_temp514) == "function" or (_type(_temp514) == "table" and _rawget(_temp514, "__call_thing")) then
+      _temp532 =  _temp514(_self)
+
+    elseif _temp514 then
+      _temp532 =  _temp514
+    else
+            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
+        _temp532 =  _self:temp()
+      elseif _self.temp ~= nil then
+        _temp532 =  _self.temp
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp532 =  _self:no_undermethod(string:new("temp"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp532 =  no_undermethod(_self, string:new("temp"))
+      else
+        _error(exception:name_error("temp"))
+      end
+    end
+
+local _temp533 
+do
+local _temp534 = nil
+    if _type(_temp522) == "function" or (_type(_temp522) == "table" and _rawget(_temp522, "__call_thing")) then
+      _temp534 =  _temp522(_self)
+
+    elseif _temp522 then
+      _temp534 =  _temp522
+    else
+            if _type(_self.i) == "function" or (_type(_self.i) == "table" and _rawget(_self.i, "__call_thing")) then
+        _temp534 =  _self:i()
+      elseif _self.i ~= nil then
+        _temp534 =  _self.i
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp534 =  _self:no_undermethod(string:new("i"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp534 =  no_undermethod(_self, string:new("i"))
+      else
+        _error(exception:name_error("i"))
+      end
+    end
+
+local _temp535
+      local _t = _type(_temp534)
+      if _t == "table" then
+                      if _type(_temp534._plus) == "function" or (_type(_temp534._plus) == "table" and _rawget(_temp534._plus, "__call_thing")) then
+        _temp535 = _temp534:_plus(1)
+      elseif _temp534._plus ~= nil then
+        _temp535 = _temp534._plus
+
+        elseif _temp534.no_undermethod ~= nil then
+          _temp535 =  _temp534:no_undermethod(string:new("+") , 1)
+        else
+          _error(exception:method_error(_temp534, "+"))
+        end
+
+      elseif _t == "number" then
+              if number._unchanged('_plus')  then
+        _temp535 = _temp534 + 1
+      else
+              local _n = number:new(_temp534)
+      if _n._plus ~= nil then
+        _temp535 = _n:_plus(1)
+      elseif _n.no_undermethod ~= nil then
+        _temp535 =  _n:no_undermethod(string:new("+") , 1)
+      else
+        _error(exception:method_error(_temp534, "+"))
+      end
+
+      end 
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp534)
+      if _f._plus ~= nil then
+        _temp535 = _f:_plus(1)
+      elseif _f.no_undermethod ~= nil then
+        _temp535 =  _f:no_undermethod(string:new("+") , 1)
+      else
+        _error(exception:method_error(_temp534, "+"))
+      end
+
+      elseif _temp534 == nil then
+        _error(exception:null_error("_temp534", "invoke + on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp534))
+      end
+
+_temp533 = _temp535 
+end
+
+local _temp536 = nil
+        local _t = _type(_temp520)
+        if _t == "table" then
+          if _rawget(_temp520, "__call_thing") == nil then
+            _temp536 = _temp520
+          else
+                  if _temp520 == nil then
+              if _type(_self._temp520) == "function" or (_type(_self._temp520) == "table" and _rawget(_self._temp520, "__call_thing")) then
+        _temp536 =  _self:_temp520()
+      elseif _self._temp520 ~= nil then
+        _temp536 =  _self._temp520
+
+        elseif _self.no_undermethod ~= nil then
+          _temp536 =  _self:no_undermethod(string:new("_temp520"))
+        else
+          _error(exception:null_error("w", "invoke method"))
+        end
+      else 
+        _temp536 =  _temp520(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp536 = _temp520
+        elseif _t == "function" then
+                if _temp520 == nil then
+              if _type(_self._temp520) == "function" or (_type(_self._temp520) == "table" and _rawget(_self._temp520, "__call_thing")) then
+        _temp536 =  _self:_temp520()
+      elseif _self._temp520 ~= nil then
+        _temp536 =  _self._temp520
+
+        elseif _self.no_undermethod ~= nil then
+          _temp536 =  _self:no_undermethod(string:new("_temp520"))
+        else
+          _error(exception:null_error("w", "invoke method"))
+        end
+      else 
+        _temp536 =  _temp520(_self)
+      end
+
+        elseif _temp520 == nil then
+          _error(exception:null_error("w", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "w"))
+        end
+local _temp537 = nil
+        local _t = _type(_temp521)
+        if _t == "table" then
+          if _rawget(_temp521, "__call_thing") == nil then
+            _temp537 = _temp521
+          else
+                  if _temp521 == nil then
+              if _type(_self._temp521) == "function" or (_type(_self._temp521) == "table" and _rawget(_self._temp521, "__call_thing")) then
+        _temp537 =  _self:_temp521()
+      elseif _self._temp521 ~= nil then
+        _temp537 =  _self._temp521
+
+        elseif _self.no_undermethod ~= nil then
+          _temp537 =  _self:no_undermethod(string:new("_temp521"))
+        else
+          _error(exception:null_error("n", "invoke method"))
+        end
+      else 
+        _temp537 =  _temp521(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp537 = _temp521
+        elseif _t == "function" then
+                if _temp521 == nil then
+              if _type(_self._temp521) == "function" or (_type(_self._temp521) == "table" and _rawget(_self._temp521, "__call_thing")) then
+        _temp537 =  _self:_temp521()
+      elseif _self._temp521 ~= nil then
+        _temp537 =  _self._temp521
+
+        elseif _self.no_undermethod ~= nil then
+          _temp537 =  _self:no_undermethod(string:new("_temp521"))
+        else
+          _error(exception:null_error("n", "invoke method"))
+        end
+      else 
+        _temp537 =  _temp521(_self)
+      end
+
+        elseif _temp521 == nil then
+          _error(exception:null_error("n", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "n"))
+        end
+      local _t = _type(_temp537)
+      if _t == "table" then
+                      if _type(_temp537.value) == "function" or (_type(_temp537.value) == "table" and _rawget(_temp537.value, "__call_thing")) then
+        _temp537 = _temp537:value()
+      elseif _temp537.value ~= nil then
+        _temp537 = _temp537.value
+
+        elseif _temp537.no_undermethod ~= nil then
+          _temp537 =  _temp537:no_undermethod(string:new("value"))
+        else
+          _error(exception:method_error(_temp537, "value"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp537)
+      if _n.value ~= nil then
+        _temp537 = _n:value()
+      elseif _n.no_undermethod ~= nil then
+        _temp537 =  _n:no_undermethod(string:new("value"))
+      else
+        _error(exception:method_error(_temp537, "value"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp537)
+      if _f.value ~= nil then
+        _temp537 = _f:value()
+      elseif _f.no_undermethod ~= nil then
+        _temp537 =  _f:no_undermethod(string:new("value"))
+      else
+        _error(exception:method_error(_temp537, "value"))
+      end
+
+      elseif _temp537 == nil then
+        _error(exception:null_error("_temp537", "invoke value on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp537))
+      end
+
+
+      local _t = _type(_temp536)
+      if _t == "table" then
+                      if _type(_temp536.escape_understring) == "function" or (_type(_temp536.escape_understring) == "table" and _rawget(_temp536.escape_understring, "__call_thing")) then
+        _temp536 = _temp536:escape_understring(_temp537)
+      elseif _temp536.escape_understring ~= nil then
+        _temp536 = _temp536.escape_understring
+
+        elseif _temp536.no_undermethod ~= nil then
+          _temp536 =  _temp536:no_undermethod(string:new("escape_string") , _temp537)
+        else
+          _error(exception:method_error(_temp536, "escape_string"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp536)
+      if _n.escape_understring ~= nil then
+        _temp536 = _n:escape_understring(_temp537)
+      elseif _n.no_undermethod ~= nil then
+        _temp536 =  _n:no_undermethod(string:new("escape_string") , _temp537)
+      else
+        _error(exception:method_error(_temp536, "escape_string"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp536)
+      if _f.escape_understring ~= nil then
+        _temp536 = _f:escape_understring(_temp537)
+      elseif _f.no_undermethod ~= nil then
+        _temp536 =  _f:no_undermethod(string:new("escape_string") , _temp537)
+      else
+        _error(exception:method_error(_temp536, "escape_string"))
+      end
+
+      elseif _temp536 == nil then
+        _error(exception:null_error("_temp536", "invoke escape_string on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp536))
+      end
+
+
+_temp531 = string:new("" .. _tostring(_temp532) .. "[" .. _tostring(_temp533) .. "] = \"" .. _tostring(_temp536) .. "\"\n")
+end
+local _temp538
+      local _t = _type(_temp530)
+      if _t == "table" then
+                      if _type(_temp530._less_less) == "function" or (_type(_temp530._less_less) == "table" and _rawget(_temp530._less_less, "__call_thing")) then
+        _temp538 = _temp530:_less_less(_temp531)
+      elseif _temp530._less_less ~= nil then
+        _temp538 = _temp530._less_less
+
+        elseif _temp530.no_undermethod ~= nil then
+          _temp538 =  _temp530:no_undermethod(string:new("<<") , _temp531)
+        else
+          _error(exception:method_error(_temp530, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp530)
+      if _n._less_less ~= nil then
+        _temp538 = _n:_less_less(_temp531)
+      elseif _n.no_undermethod ~= nil then
+        _temp538 =  _n:no_undermethod(string:new("<<") , _temp531)
+      else
+        _error(exception:method_error(_temp530, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp530)
+      if _f._less_less ~= nil then
+        _temp538 = _f:_less_less(_temp531)
+      elseif _f.no_undermethod ~= nil then
+        _temp538 =  _f:no_undermethod(string:new("<<") , _temp531)
+      else
+        _error(exception:method_error(_temp530, "<<"))
+      end
+
+      elseif _temp530 == nil then
+        _error(exception:null_error("_temp530", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp530))
+      end
+
+_temp528 = _temp538 
+end
+
+return _temp528
+end
+
+
+local _temp561 = function (_self)
+
+local _temp541
+        local _t = _type(_temp520)
+        if _t == "table" then
+          if _rawget(_temp520, "__call_thing") == nil then
+            _temp541 = _temp520
+          else
+                  if _temp520 == nil then
+              if _type(_self._temp520) == "function" or (_type(_self._temp520) == "table" and _rawget(_self._temp520, "__call_thing")) then
+        _temp541 =  _self:_temp520()
+      elseif _self._temp520 ~= nil then
+        _temp541 =  _self._temp520
+
+        elseif _self.no_undermethod ~= nil then
+          _temp541 =  _self:no_undermethod(string:new("_temp520"))
+        else
+          _error(exception:null_error("w", "invoke method"))
+        end
+      else 
+        _temp541 =  _temp520(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp541 = _temp520
+        elseif _t == "function" then
+                if _temp520 == nil then
+              if _type(_self._temp520) == "function" or (_type(_self._temp520) == "table" and _rawget(_self._temp520, "__call_thing")) then
+        _temp541 =  _self:_temp520()
+      elseif _self._temp520 ~= nil then
+        _temp541 =  _self._temp520
+
+        elseif _self.no_undermethod ~= nil then
+          _temp541 =  _self:no_undermethod(string:new("_temp520"))
+        else
+          _error(exception:null_error("w", "invoke method"))
+        end
+      else 
+        _temp541 =  _temp520(_self)
+      end
+
+        elseif _temp520 == nil then
+          _error(exception:null_error("w", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "w"))
+        end
+local _temp542 = nil
+    if _type(_temp521) == "function" or (_type(_temp521) == "table" and _rawget(_temp521, "__call_thing")) then
+      _temp542 =  _temp521(_self)
+
+    elseif _temp521 then
+      _temp542 =  _temp521
+    else
+            if _type(_self.n) == "function" or (_type(_self.n) == "table" and _rawget(_self.n, "__call_thing")) then
+        _temp542 =  _self:n()
+      elseif _self.n ~= nil then
+        _temp542 =  _self.n
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp542 =  _self:no_undermethod(string:new("n"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp542 =  no_undermethod(_self, string:new("n"))
+      else
+        _error(exception:name_error("n"))
+      end
+    end
+
+local _temp543 = nil
+do
+local _temp544 = nil
+    if _type(_temp514) == "function" or (_type(_temp514) == "table" and _rawget(_temp514, "__call_thing")) then
+      _temp544 =  _temp514(_self)
+
+    elseif _temp514 then
+      _temp544 =  _temp514
+    else
+            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
+        _temp544 =  _self:temp()
+      elseif _self.temp ~= nil then
+        _temp544 =  _self.temp
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp544 =  _self:no_undermethod(string:new("temp"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp544 =  no_undermethod(_self, string:new("temp"))
+      else
+        _error(exception:name_error("temp"))
+      end
+    end
+
+local _temp545 
+do
+local _temp546 = nil
+    if _type(_temp522) == "function" or (_type(_temp522) == "table" and _rawget(_temp522, "__call_thing")) then
+      _temp546 =  _temp522(_self)
+
+    elseif _temp522 then
+      _temp546 =  _temp522
+    else
+            if _type(_self.i) == "function" or (_type(_self.i) == "table" and _rawget(_self.i, "__call_thing")) then
+        _temp546 =  _self:i()
+      elseif _self.i ~= nil then
+        _temp546 =  _self.i
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp546 =  _self:no_undermethod(string:new("i"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp546 =  no_undermethod(_self, string:new("i"))
+      else
+        _error(exception:name_error("i"))
+      end
+    end
+
+local _temp547
+      local _t = _type(_temp546)
+      if _t == "table" then
+                      if _type(_temp546._plus) == "function" or (_type(_temp546._plus) == "table" and _rawget(_temp546._plus, "__call_thing")) then
+        _temp547 = _temp546:_plus(1)
+      elseif _temp546._plus ~= nil then
+        _temp547 = _temp546._plus
+
+        elseif _temp546.no_undermethod ~= nil then
+          _temp547 =  _temp546:no_undermethod(string:new("+") , 1)
+        else
+          _error(exception:method_error(_temp546, "+"))
+        end
+
+      elseif _t == "number" then
+              if number._unchanged('_plus')  then
+        _temp547 = _temp546 + 1
+      else
+              local _n = number:new(_temp546)
+      if _n._plus ~= nil then
+        _temp547 = _n:_plus(1)
+      elseif _n.no_undermethod ~= nil then
+        _temp547 =  _n:no_undermethod(string:new("+") , 1)
+      else
+        _error(exception:method_error(_temp546, "+"))
+      end
+
+      end 
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp546)
+      if _f._plus ~= nil then
+        _temp547 = _f:_plus(1)
+      elseif _f.no_undermethod ~= nil then
+        _temp547 =  _f:no_undermethod(string:new("+") , 1)
+      else
+        _error(exception:method_error(_temp546, "+"))
+      end
+
+      elseif _temp546 == nil then
+        _error(exception:null_error("_temp546", "invoke + on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp546))
+      end
+
+_temp545 = _temp547 
+end
+
+_temp543 = string:new("" .. _tostring(_temp544) .. "[" .. _tostring(_temp545) .. "]")
+end
+
+      local _t = _type(_temp541)
+      if _t == "table" then
+                      if _type(_temp541.process) == "function" or (_type(_temp541.process) == "table" and _rawget(_temp541.process, "__call_thing")) then
+        _temp541 = _temp541:process(_temp542,_temp543)
+      elseif _temp541.process ~= nil then
+        _temp541 = _temp541.process
+
+        elseif _temp541.no_undermethod ~= nil then
+          _temp541 =  _temp541:no_undermethod(string:new("process") , _temp542,_temp543)
+        else
+          _error(exception:method_error("o", "process"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp541)
+      if _n.process ~= nil then
+        _temp541 = _n:process(_temp542,_temp543)
+      elseif _n.no_undermethod ~= nil then
+        _temp541 =  _n:no_undermethod(string:new("process") , _temp542,_temp543)
+      else
+        _error(exception:method_error("o", "process"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp541)
+      if _f.process ~= nil then
+        _temp541 = _f:process(_temp542,_temp543)
+      elseif _f.no_undermethod ~= nil then
+        _temp541 =  _f:no_undermethod(string:new("process") , _temp542,_temp543)
+      else
+        _error(exception:method_error("o", "process"))
+      end
+
+      elseif _temp541 == nil then
+        _error(exception:null_error("o", "invoke process on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp541))
+      end
+
+
+do
+local _temp548 = nil
+        local _t = _type(_temp512)
+        if _t == "table" then
+          if _rawget(_temp512, "__call_thing") == nil then
+            _temp548 = _temp512
+          else
+                  if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp548 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp548 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp548 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp548 =  _temp512(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp548 = _temp512
+        elseif _t == "function" then
+                if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp548 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp548 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp548 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp548 =  _temp512(_self)
+      end
+
+        elseif _temp512 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp549 = nil
+      local _t = _type(_temp548)
+      if _t == "table" then
+                      if _type(_temp548.out) == "function" or (_type(_temp548.out) == "table" and _rawget(_temp548.out, "__call_thing")) then
+        _temp549 = _temp548:out()
+      elseif _temp548.out ~= nil then
+        _temp549 = _temp548.out
+
+        elseif _temp548.no_undermethod ~= nil then
+          _temp549 =  _temp548:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp548, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp548)
+      if _n.out ~= nil then
+        _temp549 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp549 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp548, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp548)
+      if _f.out ~= nil then
+        _temp549 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp549 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp548, "out"))
+      end
+
+      elseif _temp548 == nil then
+        _error(exception:null_error("_temp548", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp548))
+      end
+
+local _temp550 = nil
+        local _t = _type(_temp541)
+        if _t == "table" then
+          if _rawget(_temp541, "__call_thing") == nil then
+            _temp550 = _temp541
+          else
+                  if _temp541 == nil then
+              if _type(_self._temp541) == "function" or (_type(_self._temp541) == "table" and _rawget(_self._temp541, "__call_thing")) then
+        _temp550 =  _self:_temp541()
+      elseif _self._temp541 ~= nil then
+        _temp550 =  _self._temp541
+
+        elseif _self.no_undermethod ~= nil then
+          _temp550 =  _self:no_undermethod(string:new("_temp541"))
+        else
+          _error(exception:null_error("o", "invoke method"))
+        end
+      else 
+        _temp550 =  _temp541(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp550 = _temp541
+        elseif _t == "function" then
+                if _temp541 == nil then
+              if _type(_self._temp541) == "function" or (_type(_self._temp541) == "table" and _rawget(_self._temp541, "__call_thing")) then
+        _temp550 =  _self:_temp541()
+      elseif _self._temp541 ~= nil then
+        _temp550 =  _self._temp541
+
+        elseif _self.no_undermethod ~= nil then
+          _temp550 =  _self:no_undermethod(string:new("_temp541"))
+        else
+          _error(exception:null_error("o", "invoke method"))
+        end
+      else 
+        _temp550 =  _temp541(_self)
+      end
+
+        elseif _temp541 == nil then
+          _error(exception:null_error("o", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "o"))
+        end
+      local _t = _type(_temp550)
+      if _t == "table" then
+                      if _type(_temp550.out) == "function" or (_type(_temp550.out) == "table" and _rawget(_temp550.out, "__call_thing")) then
+        _temp550 = _temp550:out()
+      elseif _temp550.out ~= nil then
+        _temp550 = _temp550.out
+
+        elseif _temp550.no_undermethod ~= nil then
+          _temp550 =  _temp550:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp550, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp550)
+      if _n.out ~= nil then
+        _temp550 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp550 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp550, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp550)
+      if _f.out ~= nil then
+        _temp550 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp550 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp550, "out"))
+      end
+
+      elseif _temp550 == nil then
+        _error(exception:null_error("_temp550", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp550))
+      end
+
+local _temp551
+      local _t = _type(_temp549)
+      if _t == "table" then
+                      if _type(_temp549._less_less) == "function" or (_type(_temp549._less_less) == "table" and _rawget(_temp549._less_less, "__call_thing")) then
+        _temp551 = _temp549:_less_less(_temp550)
+      elseif _temp549._less_less ~= nil then
+        _temp551 = _temp549._less_less
+
+        elseif _temp549.no_undermethod ~= nil then
+          _temp551 =  _temp549:no_undermethod(string:new("<<") , _temp550)
+        else
+          _error(exception:method_error(_temp549, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp549)
+      if _n._less_less ~= nil then
+        _temp551 = _n:_less_less(_temp550)
+      elseif _n.no_undermethod ~= nil then
+        _temp551 =  _n:no_undermethod(string:new("<<") , _temp550)
+      else
+        _error(exception:method_error(_temp549, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp549)
+      if _f._less_less ~= nil then
+        _temp551 = _f:_less_less(_temp550)
+      elseif _f.no_undermethod ~= nil then
+        _temp551 =  _f:no_undermethod(string:new("<<") , _temp550)
+      else
+        _error(exception:method_error(_temp549, "<<"))
+      end
+
+      elseif _temp549 == nil then
+        _error(exception:null_error("_temp549", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp549))
+      end
+
+_dummy_ = _temp551 
+end
+
+local _temp543 
+do
+local _temp552 = nil
+        local _t = _type(_temp512)
+        if _t == "table" then
+          if _rawget(_temp512, "__call_thing") == nil then
+            _temp552 = _temp512
+          else
+                  if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp552 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp552 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp552 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp552 =  _temp512(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp552 = _temp512
+        elseif _t == "function" then
+                if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp552 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp552 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp552 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp552 =  _temp512(_self)
+      end
+
+        elseif _temp512 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp553 = nil
+      local _t = _type(_temp552)
+      if _t == "table" then
+                      if _type(_temp552.out) == "function" or (_type(_temp552.out) == "table" and _rawget(_temp552.out, "__call_thing")) then
+        _temp553 = _temp552:out()
+      elseif _temp552.out ~= nil then
+        _temp553 = _temp552.out
+
+        elseif _temp552.no_undermethod ~= nil then
+          _temp553 =  _temp552:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp552, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp552)
+      if _n.out ~= nil then
+        _temp553 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp553 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp552, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp552)
+      if _f.out ~= nil then
+        _temp553 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp553 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp552, "out"))
+      end
+
+      elseif _temp552 == nil then
+        _error(exception:null_error("_temp552", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp552))
+      end
+
+local _temp554 = nil
+do
+local _temp555 = nil
+    if _type(_temp514) == "function" or (_type(_temp514) == "table" and _rawget(_temp514, "__call_thing")) then
+      _temp555 =  _temp514(_self)
+
+    elseif _temp514 then
+      _temp555 =  _temp514
+    else
+            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
+        _temp555 =  _self:temp()
+      elseif _self.temp ~= nil then
+        _temp555 =  _self.temp
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp555 =  _self:no_undermethod(string:new("temp"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp555 =  no_undermethod(_self, string:new("temp"))
+      else
+        _error(exception:name_error("temp"))
+      end
+    end
+
+local _temp556 
+do
+local _temp557 = nil
+    if _type(_temp522) == "function" or (_type(_temp522) == "table" and _rawget(_temp522, "__call_thing")) then
+      _temp557 =  _temp522(_self)
+
+    elseif _temp522 then
+      _temp557 =  _temp522
+    else
+            if _type(_self.i) == "function" or (_type(_self.i) == "table" and _rawget(_self.i, "__call_thing")) then
+        _temp557 =  _self:i()
+      elseif _self.i ~= nil then
+        _temp557 =  _self.i
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp557 =  _self:no_undermethod(string:new("i"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp557 =  no_undermethod(_self, string:new("i"))
+      else
+        _error(exception:name_error("i"))
+      end
+    end
+
+local _temp558
+      local _t = _type(_temp557)
+      if _t == "table" then
+                      if _type(_temp557._plus) == "function" or (_type(_temp557._plus) == "table" and _rawget(_temp557._plus, "__call_thing")) then
+        _temp558 = _temp557:_plus(1)
+      elseif _temp557._plus ~= nil then
+        _temp558 = _temp557._plus
+
+        elseif _temp557.no_undermethod ~= nil then
+          _temp558 =  _temp557:no_undermethod(string:new("+") , 1)
+        else
+          _error(exception:method_error(_temp557, "+"))
+        end
+
+      elseif _t == "number" then
+              if number._unchanged('_plus')  then
+        _temp558 = _temp557 + 1
+      else
+              local _n = number:new(_temp557)
+      if _n._plus ~= nil then
+        _temp558 = _n:_plus(1)
+      elseif _n.no_undermethod ~= nil then
+        _temp558 =  _n:no_undermethod(string:new("+") , 1)
+      else
+        _error(exception:method_error(_temp557, "+"))
+      end
+
+      end 
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp557)
+      if _f._plus ~= nil then
+        _temp558 = _f:_plus(1)
+      elseif _f.no_undermethod ~= nil then
+        _temp558 =  _f:no_undermethod(string:new("+") , 1)
+      else
+        _error(exception:method_error(_temp557, "+"))
+      end
+
+      elseif _temp557 == nil then
+        _error(exception:null_error("_temp557", "invoke + on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp557))
+      end
+
+_temp556 = _temp558 
+end
+
+local _temp559 = nil
+        local _t = _type(_temp541)
+        if _t == "table" then
+          if _rawget(_temp541, "__call_thing") == nil then
+            _temp559 = _temp541
+          else
+                  if _temp541 == nil then
+              if _type(_self._temp541) == "function" or (_type(_self._temp541) == "table" and _rawget(_self._temp541, "__call_thing")) then
+        _temp559 =  _self:_temp541()
+      elseif _self._temp541 ~= nil then
+        _temp559 =  _self._temp541
+
+        elseif _self.no_undermethod ~= nil then
+          _temp559 =  _self:no_undermethod(string:new("_temp541"))
+        else
+          _error(exception:null_error("o", "invoke method"))
+        end
+      else 
+        _temp559 =  _temp541(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp559 = _temp541
+        elseif _t == "function" then
+                if _temp541 == nil then
+              if _type(_self._temp541) == "function" or (_type(_self._temp541) == "table" and _rawget(_self._temp541, "__call_thing")) then
+        _temp559 =  _self:_temp541()
+      elseif _self._temp541 ~= nil then
+        _temp559 =  _self._temp541
+
+        elseif _self.no_undermethod ~= nil then
+          _temp559 =  _self:no_undermethod(string:new("_temp541"))
+        else
+          _error(exception:null_error("o", "invoke method"))
+        end
+      else 
+        _temp559 =  _temp541(_self)
+      end
+
+        elseif _temp541 == nil then
+          _error(exception:null_error("o", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "o"))
+        end
+      local _t = _type(_temp559)
+      if _t == "table" then
+                      if _type(_temp559.var) == "function" or (_type(_temp559.var) == "table" and _rawget(_temp559.var, "__call_thing")) then
+        _temp559 = _temp559:var()
+      elseif _temp559.var ~= nil then
+        _temp559 = _temp559.var
+
+        elseif _temp559.no_undermethod ~= nil then
+          _temp559 =  _temp559:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp559, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp559)
+      if _n.var ~= nil then
+        _temp559 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp559 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp559, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp559)
+      if _f.var ~= nil then
+        _temp559 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp559 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp559, "var"))
+      end
+
+      elseif _temp559 == nil then
+        _error(exception:null_error("_temp559", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp559))
+      end
+
+
+_temp554 = string:new("" .. _tostring(_temp555) .. "[" .. _tostring(_temp556) .. "] = _tostring(" .. _tostring(_temp559) .. ")\n")
+end
+local _temp560
+      local _t = _type(_temp553)
+      if _t == "table" then
+                      if _type(_temp553._less_less) == "function" or (_type(_temp553._less_less) == "table" and _rawget(_temp553._less_less, "__call_thing")) then
+        _temp560 = _temp553:_less_less(_temp554)
+      elseif _temp553._less_less ~= nil then
+        _temp560 = _temp553._less_less
+
+        elseif _temp553.no_undermethod ~= nil then
+          _temp560 =  _temp553:no_undermethod(string:new("<<") , _temp554)
+        else
+          _error(exception:method_error(_temp553, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp553)
+      if _n._less_less ~= nil then
+        _temp560 = _n:_less_less(_temp554)
+      elseif _n.no_undermethod ~= nil then
+        _temp560 =  _n:no_undermethod(string:new("<<") , _temp554)
+      else
+        _error(exception:method_error(_temp553, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp553)
+      if _f._less_less ~= nil then
+        _temp560 = _f:_less_less(_temp554)
+      elseif _f.no_undermethod ~= nil then
+        _temp560 =  _f:no_undermethod(string:new("<<") , _temp554)
+      else
+        _error(exception:method_error(_temp553, "<<"))
+      end
+
+      elseif _temp553 == nil then
+        _error(exception:null_error("_temp553", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp553))
+      end
+
+_temp543 = _temp560 
+end
+
+return _temp543
+end
+
+    if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
+      return  true_question(_self, _temp523,_temp540,_temp561)
+
+    elseif true_question then
+      _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
+    else
+            if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
+        return  _self:true_question(_temp523,_temp540,_temp561)
+      elseif _self.true_question ~= nil then
+        return  _self.true_question
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        return  _self:no_undermethod(string:new("true?") , _temp523,_temp540,_temp561)
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        return  no_undermethod(_self, string:new("true?") , _temp523,_temp540,_temp561)
+      else
+        _error(exception:name_error("true?"))
+      end
+    end
+
+end
+
+      local _t = _type(_temp513)
+      if _t == "table" then
+                      if _type(_temp513.each_underwith_underindex) == "function" or (_type(_temp513.each_underwith_underindex) == "table" and _rawget(_temp513.each_underwith_underindex, "__call_thing")) then
+        _dummy_ = _temp513:each_underwith_underindex(_temp563)
+      elseif _temp513.each_underwith_underindex ~= nil then
+        _dummy_ = _temp513.each_underwith_underindex
+
+        elseif _temp513.no_undermethod ~= nil then
+          _dummy_ =  _temp513:no_undermethod(string:new("each_with_index") , _temp563)
+        else
+          _error(exception:method_error(_temp513, "each_with_index"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp513)
+      if _n.each_underwith_underindex ~= nil then
+        _dummy_ = _n:each_underwith_underindex(_temp563)
+      elseif _n.no_undermethod ~= nil then
+        _dummy_ =  _n:no_undermethod(string:new("each_with_index") , _temp563)
+      else
+        _error(exception:method_error(_temp513, "each_with_index"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp513)
+      if _f.each_underwith_underindex ~= nil then
+        _dummy_ = _f:each_underwith_underindex(_temp563)
+      elseif _f.no_undermethod ~= nil then
+        _dummy_ =  _f:no_undermethod(string:new("each_with_index") , _temp563)
+      else
+        _error(exception:method_error(_temp513, "each_with_index"))
+      end
+
+      elseif _temp513 == nil then
+        _error(exception:null_error("_temp513", "invoke each_with_index on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp513))
+      end
+
+do
+local _temp564 = nil
+        local _t = _type(_temp512)
+        if _t == "table" then
+          if _rawget(_temp512, "__call_thing") == nil then
+            _temp564 = _temp512
+          else
+                  if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp564 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp564 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp564 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp564 =  _temp512(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp564 = _temp512
+        elseif _t == "function" then
+                if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp564 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp564 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp564 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp564 =  _temp512(_self)
+      end
+
+        elseif _temp512 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp565 = nil
+      local _t = _type(_temp564)
+      if _t == "table" then
+                      if _type(_temp564.out) == "function" or (_type(_temp564.out) == "table" and _rawget(_temp564.out, "__call_thing")) then
+        _temp565 = _temp564:out()
+      elseif _temp564.out ~= nil then
+        _temp565 = _temp564.out
+
+        elseif _temp564.no_undermethod ~= nil then
+          _temp565 =  _temp564:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp564, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp564)
+      if _n.out ~= nil then
+        _temp565 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp565 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp564, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp564)
+      if _f.out ~= nil then
+        _temp565 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp565 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp564, "out"))
+      end
+
+      elseif _temp564 == nil then
+        _error(exception:null_error("_temp564", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp564))
+      end
+
+local _temp566 = nil
+do
+local _temp567 = nil
+        local _t = _type(_temp512)
+        if _t == "table" then
+          if _rawget(_temp512, "__call_thing") == nil then
+            _temp567 = _temp512
+          else
+                  if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp567 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp567 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp567 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp567 =  _temp512(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp567 = _temp512
+        elseif _t == "function" then
+                if _temp512 == nil then
+              if _type(_self._temp512) == "function" or (_type(_self._temp512) == "table" and _rawget(_self._temp512, "__call_thing")) then
+        _temp567 =  _self:_temp512()
+      elseif _self._temp512 ~= nil then
+        _temp567 =  _self._temp512
+
+        elseif _self.no_undermethod ~= nil then
+          _temp567 =  _self:no_undermethod(string:new("_temp512"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp567 =  _temp512(_self)
+      end
+
+        elseif _temp512 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+      local _t = _type(_temp567)
+      if _t == "table" then
+                      if _type(_temp567.var) == "function" or (_type(_temp567.var) == "table" and _rawget(_temp567.var, "__call_thing")) then
+        _temp567 = _temp567:var()
+      elseif _temp567.var ~= nil then
+        _temp567 = _temp567.var
+
+        elseif _temp567.no_undermethod ~= nil then
+          _temp567 =  _temp567:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp567, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp567)
+      if _n.var ~= nil then
+        _temp567 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp567 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp567, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp567)
+      if _f.var ~= nil then
+        _temp567 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp567 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp567, "var"))
+      end
+
+      elseif _temp567 == nil then
+        _error(exception:null_error("_temp567", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp567))
+      end
+
+
+local _temp568 = nil
+    if _type(_temp514) == "function" or (_type(_temp514) == "table" and _rawget(_temp514, "__call_thing")) then
+      _temp568 =  _temp514(_self)
+
+    elseif _temp514 then
+      _temp568 =  _temp514
+    else
+            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
+        _temp568 =  _self:temp()
+      elseif _self.temp ~= nil then
+        _temp568 =  _self.temp
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        _temp568 =  _self:no_undermethod(string:new("temp"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        _temp568 =  no_undermethod(_self, string:new("temp"))
+      else
+        _error(exception:name_error("temp"))
+      end
+    end
+
+_temp566 = string:new("" .. _tostring(_temp567) .. " = string:new(_table.concat(" .. _tostring(_temp568) .. "))\nend\n")
+end
+local _temp569
+      local _t = _type(_temp565)
+      if _t == "table" then
+                      if _type(_temp565._less_less) == "function" or (_type(_temp565._less_less) == "table" and _rawget(_temp565._less_less, "__call_thing")) then
+        _temp569 = _temp565:_less_less(_temp566)
+      elseif _temp565._less_less ~= nil then
+        _temp569 = _temp565._less_less
+
+        elseif _temp565.no_undermethod ~= nil then
+          _temp569 =  _temp565:no_undermethod(string:new("<<") , _temp566)
+        else
+          _error(exception:method_error(_temp565, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp565)
+      if _n._less_less ~= nil then
+        _temp569 = _n:_less_less(_temp566)
+      elseif _n.no_undermethod ~= nil then
+        _temp569 =  _n:no_undermethod(string:new("<<") , _temp566)
+      else
+        _error(exception:method_error(_temp565, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp565)
+      if _f._less_less ~= nil then
+        _temp569 = _f:_less_less(_temp566)
+      elseif _f.no_undermethod ~= nil then
+        _temp569 =  _f:no_undermethod(string:new("<<") , _temp566)
+      else
+        _error(exception:method_error(_temp565, "<<"))
+      end
+
+      elseif _temp565 == nil then
+        _error(exception:null_error("_temp565", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp565))
+      end
+
+_dummy_ = _temp569 
+end
+
+    if _type(_temp512) == "function" or (_type(_temp512) == "table" and _rawget(_temp512, "__call_thing")) then
+      return  _temp512(_self)
+
+    elseif _temp512 then
+      return  _temp512
+    else
+            if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
+        return  _self:res()
+      elseif _self.res ~= nil then
+        return  _self.res
+
+      elseif _type(_self) == "number" then
+        --I don't believe this will happen
+        _error("WHAT. No.")
+      elseif _self.no_undermethod ~= nil then
+        return  _self:no_undermethod(string:new("res"))
+      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
+        return  no_undermethod(_self, string:new("res"))
+      else
+        _error(exception:name_error("res"))
       end
     end
 
@@ -22232,12 +24144,12 @@ end
       local _t = _type(_temp509)
       if _t == "table" then
                       if _type(_temp509.walk) == "function" or (_type(_temp509.walk) == "table" and _rawget(_temp509.walk, "__call_thing")) then
-        _dummy_ = _temp509:walk(_temp4,_temp519)
+        _dummy_ = _temp509:walk(_temp4,_temp513)
       elseif _temp509.walk ~= nil then
         _dummy_ = _temp509.walk
 
         elseif _temp509.no_undermethod ~= nil then
-          _dummy_ =  _temp509:no_undermethod(string:new("walk") , _temp4,_temp519)
+          _dummy_ =  _temp509:no_undermethod(string:new("walk") , _temp4,_temp513)
         else
           _error(exception:method_error(_temp509, "walk"))
         end
@@ -22245,9 +24157,9 @@ end
       elseif _t == "number" then
               local _n = number:new(_temp509)
       if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp519)
+        _dummy_ = _n:walk(_temp4,_temp513)
       elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp519)
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp513)
       else
         _error(exception:method_error(_temp509, "walk"))
       end
@@ -22255,9 +24167,9 @@ end
       elseif _t == "function" then
               local _f = brat_function:new(_temp509)
       if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp519)
+        _dummy_ = _f:walk(_temp4,_temp513)
       elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp519)
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp513)
       else
         _error(exception:method_error(_temp509, "walk"))
       end
@@ -22271,2202 +24183,40 @@ end
         local _t = _type(_temp5)
         if _t == "table" then
           if _rawget(_temp5, "__call_thing") == nil then
-            _temp519 = _temp5
+            _temp513 = _temp5
           else
                   if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp519 =  _self:_temp5()
+        _temp513 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp519 =  _self._temp5
+        _temp513 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp519 =  _self:no_undermethod(string:new("_temp5"))
+          _temp513 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp519 =  _temp5(_self)
+        _temp513 =  _temp5(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp519 = _temp5
+          _temp513 = _temp5
         elseif _t == "function" then
                 if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp519 =  _self:_temp5()
+        _temp513 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp519 =  _self._temp5
+        _temp513 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp519 =  _self:no_undermethod(string:new("_temp5"))
+          _temp513 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp519 =  _temp5(_self)
-      end
-
-        elseif _temp5 == nil then
-          _error(exception:null_error("c", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "c"))
-        end
-_temp4 = string:new("string_interp")
-
-_temp523 = function (_self, _temp521,_temp520)
-        if _temp521 == nil then
-          _error(exception:argument_error("function", 'at least 1', 0))
-
-end
-if _temp520 == nil then
- do
-    if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp520 =  null(_self)
-
-    elseif null then
-      _temp520 =  null
-    else
-            if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp520 =  _self:null()
-      elseif _self.null ~= nil then
-        _temp520 =  _self.null
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp520 =  _self:no_undermethod(string:new("null"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp520 =  no_undermethod(_self, string:new("null"))
-      else
-        _error(exception:name_error("null"))
-      end
-    end
-
-end
-end
-
-local _temp522
-local _temp523 = nil
-    if _type(_temp520) == "function" or (_type(_temp520) == "table" and _rawget(_temp520, "__call_thing")) then
-      _temp523 =  _temp520(_self)
-
-    elseif _temp520 then
-      _temp523 =  _temp520
-    else
-            if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
-        _temp523 =  _self:var()
-      elseif _self.var ~= nil then
-        _temp523 =  _self.var
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp523 =  _self:no_undermethod(string:new("var"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp523 =  no_undermethod(_self, string:new("var"))
-      else
-        _error(exception:name_error("var"))
-      end
-    end
-
-    if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
-      _temp522 =  set_underresult(_self, _temp523)
-
-    elseif set_underresult then
-      _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
-    else
-            if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
-        _temp522 =  _self:set_underresult(_temp523)
-      elseif _self.set_underresult ~= nil then
-        _temp522 =  _self.set_underresult
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp522 =  _self:no_undermethod(string:new("set_result") , _temp523)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp522 =  no_undermethod(_self, string:new("set_result") , _temp523)
-      else
-        _error(exception:name_error("set_result"))
-      end
-    end
-
-local _temp524
-              if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp524 =  _self:my()
-      elseif _self.my ~= nil then
-        _temp524 =  _self.my
-
-        elseif my ~= nil then
-          _temp524 = my;
-        else
-          _error(exception:method_error("self", "my"))
-        end
-      local _t = _type(_temp524)
-      if _t == "table" then
-                      if _type(_temp524.env) == "function" or (_type(_temp524.env) == "table" and _rawget(_temp524.env, "__call_thing")) then
-        _temp524 = _temp524:env()
-      elseif _temp524.env ~= nil then
-        _temp524 = _temp524.env
-
-        elseif _temp524.no_undermethod ~= nil then
-          _temp524 =  _temp524:no_undermethod(string:new("env"))
-        else
-          _error(exception:method_error("temp", "env"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp524)
-      if _n.env ~= nil then
-        _temp524 = _n:env()
-      elseif _n.no_undermethod ~= nil then
-        _temp524 =  _n:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error("temp", "env"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp524)
-      if _f.env ~= nil then
-        _temp524 = _f:env()
-      elseif _f.no_undermethod ~= nil then
-        _temp524 =  _f:no_undermethod(string:new("env"))
-      else
-        _error(exception:method_error("temp", "env"))
-      end
-
-      elseif _temp524 == nil then
-        _error(exception:null_error("temp", "invoke env on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp524))
-      end
-
-      local _t = _type(_temp524)
-      if _t == "table" then
-                      if _type(_temp524.next_undertemp) == "function" or (_type(_temp524.next_undertemp) == "table" and _rawget(_temp524.next_undertemp, "__call_thing")) then
-        _temp524 = _temp524:next_undertemp()
-      elseif _temp524.next_undertemp ~= nil then
-        _temp524 = _temp524.next_undertemp
-
-        elseif _temp524.no_undermethod ~= nil then
-          _temp524 =  _temp524:no_undermethod(string:new("next_temp"))
-        else
-          _error(exception:method_error("temp", "next_temp"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp524)
-      if _n.next_undertemp ~= nil then
-        _temp524 = _n:next_undertemp()
-      elseif _n.no_undermethod ~= nil then
-        _temp524 =  _n:no_undermethod(string:new("next_temp"))
-      else
-        _error(exception:method_error("temp", "next_temp"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp524)
-      if _f.next_undertemp ~= nil then
-        _temp524 = _f:next_undertemp()
-      elseif _f.no_undermethod ~= nil then
-        _temp524 =  _f:no_undermethod(string:new("next_temp"))
-      else
-        _error(exception:method_error("temp", "next_temp"))
-      end
-
-      elseif _temp524 == nil then
-        _error(exception:null_error("temp", "invoke next_temp on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp524))
-      end
-
-
-do
-local _temp525 = nil
-        local _t = _type(_temp522)
-        if _t == "table" then
-          if _rawget(_temp522, "__call_thing") == nil then
-            _temp525 = _temp522
-          else
-                  if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp525 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp525 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp525 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp525 =  _temp522(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp525 = _temp522
-        elseif _t == "function" then
-                if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp525 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp525 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp525 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp525 =  _temp522(_self)
-      end
-
-        elseif _temp522 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp526 = nil
-      local _t = _type(_temp525)
-      if _t == "table" then
-                      if _type(_temp525.out) == "function" or (_type(_temp525.out) == "table" and _rawget(_temp525.out, "__call_thing")) then
-        _temp526 = _temp525:out()
-      elseif _temp525.out ~= nil then
-        _temp526 = _temp525.out
-
-        elseif _temp525.no_undermethod ~= nil then
-          _temp526 =  _temp525:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp525, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp525)
-      if _n.out ~= nil then
-        _temp526 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp526 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp525, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp525)
-      if _f.out ~= nil then
-        _temp526 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp526 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp525, "out"))
-      end
-
-      elseif _temp525 == nil then
-        _error(exception:null_error("_temp525", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp525))
-      end
-
-local _temp527 = nil
-do
-local _temp528 = nil
-    if _type(_temp524) == "function" or (_type(_temp524) == "table" and _rawget(_temp524, "__call_thing")) then
-      _temp528 =  _temp524(_self)
-
-    elseif _temp524 then
-      _temp528 =  _temp524
-    else
-            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp528 =  _self:temp()
-      elseif _self.temp ~= nil then
-        _temp528 =  _self.temp
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp528 =  _self:no_undermethod(string:new("temp"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp528 =  no_undermethod(_self, string:new("temp"))
-      else
-        _error(exception:name_error("temp"))
-      end
-    end
-
-_temp527 = string:new("\ndo\nlocal " .. _tostring(_temp528) .. " = {}\n")
-end
-local _temp529
-      local _t = _type(_temp526)
-      if _t == "table" then
-                      if _type(_temp526._less_less) == "function" or (_type(_temp526._less_less) == "table" and _rawget(_temp526._less_less, "__call_thing")) then
-        _temp529 = _temp526:_less_less(_temp527)
-      elseif _temp526._less_less ~= nil then
-        _temp529 = _temp526._less_less
-
-        elseif _temp526.no_undermethod ~= nil then
-          _temp529 =  _temp526:no_undermethod(string:new("<<") , _temp527)
-        else
-          _error(exception:method_error(_temp526, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp526)
-      if _n._less_less ~= nil then
-        _temp529 = _n:_less_less(_temp527)
-      elseif _n.no_undermethod ~= nil then
-        _temp529 =  _n:no_undermethod(string:new("<<") , _temp527)
-      else
-        _error(exception:method_error(_temp526, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp526)
-      if _f._less_less ~= nil then
-        _temp529 = _f:_less_less(_temp527)
-      elseif _f.no_undermethod ~= nil then
-        _temp529 =  _f:no_undermethod(string:new("<<") , _temp527)
-      else
-        _error(exception:method_error(_temp526, "<<"))
-      end
-
-      elseif _temp526 == nil then
-        _error(exception:null_error("_temp526", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp526))
-      end
-
-_dummy_ = _temp529 
-end
-
-local _temp530
-    if _type(my) == "function" or (_type(my) == "table" and _rawget(my, "__call_thing")) then
-      _temp530 =  my(_self)
-
-    elseif my then
-      _temp530 =  my
-    else
-            if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp530 =  _self:my()
-      elseif _self.my ~= nil then
-        _temp530 =  _self.my
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp530 =  _self:no_undermethod(string:new("my"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp530 =  no_undermethod(_self, string:new("my"))
-      else
-        _error(exception:name_error("my"))
-      end
-    end
-
-        local _t = _type(_temp521)
-        if _t == "table" then
-          if _rawget(_temp521, "__call_thing") == nil then
-            _temp523 = _temp521
-          else
-                  if _temp521 == nil then
-              if _type(_self._temp521) == "function" or (_type(_self._temp521) == "table" and _rawget(_self._temp521, "__call_thing")) then
-        _temp523 =  _self:_temp521()
-      elseif _self._temp521 ~= nil then
-        _temp523 =  _self._temp521
-
-        elseif _self.no_undermethod ~= nil then
-          _temp523 =  _self:no_undermethod(string:new("_temp521"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp523 =  _temp521(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp523 = _temp521
-        elseif _t == "function" then
-                if _temp521 == nil then
-              if _type(_self._temp521) == "function" or (_type(_self._temp521) == "table" and _rawget(_self._temp521, "__call_thing")) then
-        _temp523 =  _self:_temp521()
-      elseif _self._temp521 ~= nil then
-        _temp523 =  _self._temp521
-
-        elseif _self.no_undermethod ~= nil then
-          _temp523 =  _self:no_undermethod(string:new("_temp521"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp523 =  _temp521(_self)
-      end
-
-        elseif _temp521 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp523)
-      if _t == "table" then
-                      if _type(_temp523.nodes) == "function" or (_type(_temp523.nodes) == "table" and _rawget(_temp523.nodes, "__call_thing")) then
-        _temp523 = _temp523:nodes()
-      elseif _temp523.nodes ~= nil then
-        _temp523 = _temp523.nodes
-
-        elseif _temp523.no_undermethod ~= nil then
-          _temp523 =  _temp523:no_undermethod(string:new("nodes"))
-        else
-          _error(exception:method_error(_temp523, "nodes"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp523)
-      if _n.nodes ~= nil then
-        _temp523 = _n:nodes()
-      elseif _n.no_undermethod ~= nil then
-        _temp523 =  _n:no_undermethod(string:new("nodes"))
-      else
-        _error(exception:method_error(_temp523, "nodes"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp523)
-      if _f.nodes ~= nil then
-        _temp523 = _f:nodes()
-      elseif _f.no_undermethod ~= nil then
-        _temp523 =  _f:no_undermethod(string:new("nodes"))
-      else
-        _error(exception:method_error(_temp523, "nodes"))
-      end
-
-      elseif _temp523 == nil then
-        _error(exception:null_error("_temp523", "invoke nodes on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp523))
-      end
-
-
-local _temp573 = function (_self, _temp531, _temp532)
-        if _temp531 == nil then
-          _error(exception:argument_error("function", 2, 0))
-          elseif _temp532 == nil then
-            _error(exception:argument_error("function", 2, 1))
-
-end
-local _temp533 
-do
-local _temp534 = nil
-        local _t = _type(_temp531)
-        if _t == "table" then
-          if _rawget(_temp531, "__call_thing") == nil then
-            _temp534 = _temp531
-          else
-                  if _temp531 == nil then
-              if _type(_self._temp531) == "function" or (_type(_self._temp531) == "table" and _rawget(_self._temp531, "__call_thing")) then
-        _temp534 =  _self:_temp531()
-      elseif _self._temp531 ~= nil then
-        _temp534 =  _self._temp531
-
-        elseif _self.no_undermethod ~= nil then
-          _temp534 =  _self:no_undermethod(string:new("_temp531"))
-        else
-          _error(exception:null_error("n", "invoke method"))
-        end
-      else 
-        _temp534 =  _temp531(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp534 = _temp531
-        elseif _t == "function" then
-                if _temp531 == nil then
-              if _type(_self._temp531) == "function" or (_type(_self._temp531) == "table" and _rawget(_self._temp531, "__call_thing")) then
-        _temp534 =  _self:_temp531()
-      elseif _self._temp531 ~= nil then
-        _temp534 =  _self._temp531
-
-        elseif _self.no_undermethod ~= nil then
-          _temp534 =  _self:no_undermethod(string:new("_temp531"))
-        else
-          _error(exception:null_error("n", "invoke method"))
-        end
-      else 
-        _temp534 =  _temp531(_self)
-      end
-
-        elseif _temp531 == nil then
-          _error(exception:null_error("n", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "n"))
-        end
-
-local _temp535 = nil
-      local _t = _type(_temp534)
-      if _t == "table" then
-                      if _type(_temp534.name) == "function" or (_type(_temp534.name) == "table" and _rawget(_temp534.name, "__call_thing")) then
-        _temp535 = _temp534:name()
-      elseif _temp534.name ~= nil then
-        _temp535 = _temp534.name
-
-        elseif _temp534.no_undermethod ~= nil then
-          _temp535 =  _temp534:no_undermethod(string:new("name"))
-        else
-          _error(exception:method_error(_temp534, "name"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp534)
-      if _n.name ~= nil then
-        _temp535 = _n:name()
-      elseif _n.no_undermethod ~= nil then
-        _temp535 =  _n:no_undermethod(string:new("name"))
-      else
-        _error(exception:method_error(_temp534, "name"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp534)
-      if _f.name ~= nil then
-        _temp535 = _f:name()
-      elseif _f.no_undermethod ~= nil then
-        _temp535 =  _f:no_undermethod(string:new("name"))
-      else
-        _error(exception:method_error(_temp534, "name"))
-      end
-
-      elseif _temp534 == nil then
-        _error(exception:null_error("_temp534", "invoke name on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp534))
-      end
-
-local _temp536 = string:new("string")
-local _temp537
-      local _t = _type(_temp535)
-      if _t == "table" then
-                      if _type(_temp535._equal_equal) == "function" or (_type(_temp535._equal_equal) == "table" and _rawget(_temp535._equal_equal, "__call_thing")) then
-        _temp537 = _temp535:_equal_equal(_temp536)
-      elseif _temp535._equal_equal ~= nil then
-        _temp537 = _temp535._equal_equal
-
-        elseif _temp535.no_undermethod ~= nil then
-          _temp537 =  _temp535:no_undermethod(string:new("==") , _temp536)
-        else
-          _error(exception:method_error(_temp535, "=="))
-        end
-
-      elseif _t == "number" then
-              if number._unchanged('_equal_equal') and _type(_temp536) == 'number' then
-              if _temp535 == _temp536 then
-        _temp537 = object.__true
-      else
-        _temp537 = object.__false
-      end
-
-      else
-              local _n = number:new(_temp535)
-      if _n._equal_equal ~= nil then
-        _temp537 = _n:_equal_equal(_temp536)
-      elseif _n.no_undermethod ~= nil then
-        _temp537 =  _n:no_undermethod(string:new("==") , _temp536)
-      else
-        _error(exception:method_error(_temp535, "=="))
-      end
-
-      end 
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp535)
-      if _f._equal_equal ~= nil then
-        _temp537 = _f:_equal_equal(_temp536)
-      elseif _f.no_undermethod ~= nil then
-        _temp537 =  _f:no_undermethod(string:new("==") , _temp536)
-      else
-        _error(exception:method_error(_temp535, "=="))
-      end
-
-      elseif _temp535 == nil then
-        _error(exception:null_error("_temp535", "invoke == on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp535))
-      end
-
-_temp533 = _temp537 
-end
-
-
-local _temp550 = function (_self)
-
-local _temp538 
-do
-local _temp539 = nil
-        local _t = _type(_temp522)
-        if _t == "table" then
-          if _rawget(_temp522, "__call_thing") == nil then
-            _temp539 = _temp522
-          else
-                  if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp539 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp539 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp539 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp539 =  _temp522(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp539 = _temp522
-        elseif _t == "function" then
-                if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp539 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp539 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp539 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp539 =  _temp522(_self)
-      end
-
-        elseif _temp522 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp540 = nil
-      local _t = _type(_temp539)
-      if _t == "table" then
-                      if _type(_temp539.out) == "function" or (_type(_temp539.out) == "table" and _rawget(_temp539.out, "__call_thing")) then
-        _temp540 = _temp539:out()
-      elseif _temp539.out ~= nil then
-        _temp540 = _temp539.out
-
-        elseif _temp539.no_undermethod ~= nil then
-          _temp540 =  _temp539:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp539, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp539)
-      if _n.out ~= nil then
-        _temp540 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp540 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp539, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp539)
-      if _f.out ~= nil then
-        _temp540 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp540 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp539, "out"))
-      end
-
-      elseif _temp539 == nil then
-        _error(exception:null_error("_temp539", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp539))
-      end
-
-local _temp541 = nil
-do
-local _temp542 = nil
-    if _type(_temp524) == "function" or (_type(_temp524) == "table" and _rawget(_temp524, "__call_thing")) then
-      _temp542 =  _temp524(_self)
-
-    elseif _temp524 then
-      _temp542 =  _temp524
-    else
-            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp542 =  _self:temp()
-      elseif _self.temp ~= nil then
-        _temp542 =  _self.temp
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp542 =  _self:no_undermethod(string:new("temp"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp542 =  no_undermethod(_self, string:new("temp"))
-      else
-        _error(exception:name_error("temp"))
-      end
-    end
-
-local _temp543 
-do
-local _temp544 = nil
-    if _type(_temp532) == "function" or (_type(_temp532) == "table" and _rawget(_temp532, "__call_thing")) then
-      _temp544 =  _temp532(_self)
-
-    elseif _temp532 then
-      _temp544 =  _temp532
-    else
-            if _type(_self.i) == "function" or (_type(_self.i) == "table" and _rawget(_self.i, "__call_thing")) then
-        _temp544 =  _self:i()
-      elseif _self.i ~= nil then
-        _temp544 =  _self.i
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp544 =  _self:no_undermethod(string:new("i"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp544 =  no_undermethod(_self, string:new("i"))
-      else
-        _error(exception:name_error("i"))
-      end
-    end
-
-local _temp545
-      local _t = _type(_temp544)
-      if _t == "table" then
-                      if _type(_temp544._plus) == "function" or (_type(_temp544._plus) == "table" and _rawget(_temp544._plus, "__call_thing")) then
-        _temp545 = _temp544:_plus(1)
-      elseif _temp544._plus ~= nil then
-        _temp545 = _temp544._plus
-
-        elseif _temp544.no_undermethod ~= nil then
-          _temp545 =  _temp544:no_undermethod(string:new("+") , 1)
-        else
-          _error(exception:method_error(_temp544, "+"))
-        end
-
-      elseif _t == "number" then
-              if number._unchanged('_plus')  then
-        _temp545 = _temp544 + 1
-      else
-              local _n = number:new(_temp544)
-      if _n._plus ~= nil then
-        _temp545 = _n:_plus(1)
-      elseif _n.no_undermethod ~= nil then
-        _temp545 =  _n:no_undermethod(string:new("+") , 1)
-      else
-        _error(exception:method_error(_temp544, "+"))
-      end
-
-      end 
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp544)
-      if _f._plus ~= nil then
-        _temp545 = _f:_plus(1)
-      elseif _f.no_undermethod ~= nil then
-        _temp545 =  _f:no_undermethod(string:new("+") , 1)
-      else
-        _error(exception:method_error(_temp544, "+"))
-      end
-
-      elseif _temp544 == nil then
-        _error(exception:null_error("_temp544", "invoke + on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp544))
-      end
-
-_temp543 = _temp545 
-end
-
-local _temp546 = nil
-        local _t = _type(_temp530)
-        if _t == "table" then
-          if _rawget(_temp530, "__call_thing") == nil then
-            _temp546 = _temp530
-          else
-                  if _temp530 == nil then
-              if _type(_self._temp530) == "function" or (_type(_self._temp530) == "table" and _rawget(_self._temp530, "__call_thing")) then
-        _temp546 =  _self:_temp530()
-      elseif _self._temp530 ~= nil then
-        _temp546 =  _self._temp530
-
-        elseif _self.no_undermethod ~= nil then
-          _temp546 =  _self:no_undermethod(string:new("_temp530"))
-        else
-          _error(exception:null_error("w", "invoke method"))
-        end
-      else 
-        _temp546 =  _temp530(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp546 = _temp530
-        elseif _t == "function" then
-                if _temp530 == nil then
-              if _type(_self._temp530) == "function" or (_type(_self._temp530) == "table" and _rawget(_self._temp530, "__call_thing")) then
-        _temp546 =  _self:_temp530()
-      elseif _self._temp530 ~= nil then
-        _temp546 =  _self._temp530
-
-        elseif _self.no_undermethod ~= nil then
-          _temp546 =  _self:no_undermethod(string:new("_temp530"))
-        else
-          _error(exception:null_error("w", "invoke method"))
-        end
-      else 
-        _temp546 =  _temp530(_self)
-      end
-
-        elseif _temp530 == nil then
-          _error(exception:null_error("w", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "w"))
-        end
-local _temp547 = nil
-        local _t = _type(_temp531)
-        if _t == "table" then
-          if _rawget(_temp531, "__call_thing") == nil then
-            _temp547 = _temp531
-          else
-                  if _temp531 == nil then
-              if _type(_self._temp531) == "function" or (_type(_self._temp531) == "table" and _rawget(_self._temp531, "__call_thing")) then
-        _temp547 =  _self:_temp531()
-      elseif _self._temp531 ~= nil then
-        _temp547 =  _self._temp531
-
-        elseif _self.no_undermethod ~= nil then
-          _temp547 =  _self:no_undermethod(string:new("_temp531"))
-        else
-          _error(exception:null_error("n", "invoke method"))
-        end
-      else 
-        _temp547 =  _temp531(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp547 = _temp531
-        elseif _t == "function" then
-                if _temp531 == nil then
-              if _type(_self._temp531) == "function" or (_type(_self._temp531) == "table" and _rawget(_self._temp531, "__call_thing")) then
-        _temp547 =  _self:_temp531()
-      elseif _self._temp531 ~= nil then
-        _temp547 =  _self._temp531
-
-        elseif _self.no_undermethod ~= nil then
-          _temp547 =  _self:no_undermethod(string:new("_temp531"))
-        else
-          _error(exception:null_error("n", "invoke method"))
-        end
-      else 
-        _temp547 =  _temp531(_self)
-      end
-
-        elseif _temp531 == nil then
-          _error(exception:null_error("n", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "n"))
-        end
-      local _t = _type(_temp547)
-      if _t == "table" then
-                      if _type(_temp547.value) == "function" or (_type(_temp547.value) == "table" and _rawget(_temp547.value, "__call_thing")) then
-        _temp547 = _temp547:value()
-      elseif _temp547.value ~= nil then
-        _temp547 = _temp547.value
-
-        elseif _temp547.no_undermethod ~= nil then
-          _temp547 =  _temp547:no_undermethod(string:new("value"))
-        else
-          _error(exception:method_error(_temp547, "value"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp547)
-      if _n.value ~= nil then
-        _temp547 = _n:value()
-      elseif _n.no_undermethod ~= nil then
-        _temp547 =  _n:no_undermethod(string:new("value"))
-      else
-        _error(exception:method_error(_temp547, "value"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp547)
-      if _f.value ~= nil then
-        _temp547 = _f:value()
-      elseif _f.no_undermethod ~= nil then
-        _temp547 =  _f:no_undermethod(string:new("value"))
-      else
-        _error(exception:method_error(_temp547, "value"))
-      end
-
-      elseif _temp547 == nil then
-        _error(exception:null_error("_temp547", "invoke value on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp547))
-      end
-
-
-      local _t = _type(_temp546)
-      if _t == "table" then
-                      if _type(_temp546.escape_understring) == "function" or (_type(_temp546.escape_understring) == "table" and _rawget(_temp546.escape_understring, "__call_thing")) then
-        _temp546 = _temp546:escape_understring(_temp547)
-      elseif _temp546.escape_understring ~= nil then
-        _temp546 = _temp546.escape_understring
-
-        elseif _temp546.no_undermethod ~= nil then
-          _temp546 =  _temp546:no_undermethod(string:new("escape_string") , _temp547)
-        else
-          _error(exception:method_error(_temp546, "escape_string"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp546)
-      if _n.escape_understring ~= nil then
-        _temp546 = _n:escape_understring(_temp547)
-      elseif _n.no_undermethod ~= nil then
-        _temp546 =  _n:no_undermethod(string:new("escape_string") , _temp547)
-      else
-        _error(exception:method_error(_temp546, "escape_string"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp546)
-      if _f.escape_understring ~= nil then
-        _temp546 = _f:escape_understring(_temp547)
-      elseif _f.no_undermethod ~= nil then
-        _temp546 =  _f:no_undermethod(string:new("escape_string") , _temp547)
-      else
-        _error(exception:method_error(_temp546, "escape_string"))
-      end
-
-      elseif _temp546 == nil then
-        _error(exception:null_error("_temp546", "invoke escape_string on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp546))
-      end
-
-
-_temp541 = string:new("" .. _tostring(_temp542) .. "[" .. _tostring(_temp543) .. "] = \"" .. _tostring(_temp546) .. "\"\n")
-end
-local _temp548
-      local _t = _type(_temp540)
-      if _t == "table" then
-                      if _type(_temp540._less_less) == "function" or (_type(_temp540._less_less) == "table" and _rawget(_temp540._less_less, "__call_thing")) then
-        _temp548 = _temp540:_less_less(_temp541)
-      elseif _temp540._less_less ~= nil then
-        _temp548 = _temp540._less_less
-
-        elseif _temp540.no_undermethod ~= nil then
-          _temp548 =  _temp540:no_undermethod(string:new("<<") , _temp541)
-        else
-          _error(exception:method_error(_temp540, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp540)
-      if _n._less_less ~= nil then
-        _temp548 = _n:_less_less(_temp541)
-      elseif _n.no_undermethod ~= nil then
-        _temp548 =  _n:no_undermethod(string:new("<<") , _temp541)
-      else
-        _error(exception:method_error(_temp540, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp540)
-      if _f._less_less ~= nil then
-        _temp548 = _f:_less_less(_temp541)
-      elseif _f.no_undermethod ~= nil then
-        _temp548 =  _f:no_undermethod(string:new("<<") , _temp541)
-      else
-        _error(exception:method_error(_temp540, "<<"))
-      end
-
-      elseif _temp540 == nil then
-        _error(exception:null_error("_temp540", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp540))
-      end
-
-_temp538 = _temp548 
-end
-
-return _temp538
-end
-
-
-local _temp571 = function (_self)
-
-local _temp551
-        local _t = _type(_temp530)
-        if _t == "table" then
-          if _rawget(_temp530, "__call_thing") == nil then
-            _temp551 = _temp530
-          else
-                  if _temp530 == nil then
-              if _type(_self._temp530) == "function" or (_type(_self._temp530) == "table" and _rawget(_self._temp530, "__call_thing")) then
-        _temp551 =  _self:_temp530()
-      elseif _self._temp530 ~= nil then
-        _temp551 =  _self._temp530
-
-        elseif _self.no_undermethod ~= nil then
-          _temp551 =  _self:no_undermethod(string:new("_temp530"))
-        else
-          _error(exception:null_error("w", "invoke method"))
-        end
-      else 
-        _temp551 =  _temp530(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp551 = _temp530
-        elseif _t == "function" then
-                if _temp530 == nil then
-              if _type(_self._temp530) == "function" or (_type(_self._temp530) == "table" and _rawget(_self._temp530, "__call_thing")) then
-        _temp551 =  _self:_temp530()
-      elseif _self._temp530 ~= nil then
-        _temp551 =  _self._temp530
-
-        elseif _self.no_undermethod ~= nil then
-          _temp551 =  _self:no_undermethod(string:new("_temp530"))
-        else
-          _error(exception:null_error("w", "invoke method"))
-        end
-      else 
-        _temp551 =  _temp530(_self)
-      end
-
-        elseif _temp530 == nil then
-          _error(exception:null_error("w", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "w"))
-        end
-local _temp552 = nil
-    if _type(_temp531) == "function" or (_type(_temp531) == "table" and _rawget(_temp531, "__call_thing")) then
-      _temp552 =  _temp531(_self)
-
-    elseif _temp531 then
-      _temp552 =  _temp531
-    else
-            if _type(_self.n) == "function" or (_type(_self.n) == "table" and _rawget(_self.n, "__call_thing")) then
-        _temp552 =  _self:n()
-      elseif _self.n ~= nil then
-        _temp552 =  _self.n
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp552 =  _self:no_undermethod(string:new("n"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp552 =  no_undermethod(_self, string:new("n"))
-      else
-        _error(exception:name_error("n"))
-      end
-    end
-
-local _temp553 = nil
-do
-local _temp554 = nil
-    if _type(_temp524) == "function" or (_type(_temp524) == "table" and _rawget(_temp524, "__call_thing")) then
-      _temp554 =  _temp524(_self)
-
-    elseif _temp524 then
-      _temp554 =  _temp524
-    else
-            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp554 =  _self:temp()
-      elseif _self.temp ~= nil then
-        _temp554 =  _self.temp
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp554 =  _self:no_undermethod(string:new("temp"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp554 =  no_undermethod(_self, string:new("temp"))
-      else
-        _error(exception:name_error("temp"))
-      end
-    end
-
-local _temp555 
-do
-local _temp556 = nil
-    if _type(_temp532) == "function" or (_type(_temp532) == "table" and _rawget(_temp532, "__call_thing")) then
-      _temp556 =  _temp532(_self)
-
-    elseif _temp532 then
-      _temp556 =  _temp532
-    else
-            if _type(_self.i) == "function" or (_type(_self.i) == "table" and _rawget(_self.i, "__call_thing")) then
-        _temp556 =  _self:i()
-      elseif _self.i ~= nil then
-        _temp556 =  _self.i
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp556 =  _self:no_undermethod(string:new("i"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp556 =  no_undermethod(_self, string:new("i"))
-      else
-        _error(exception:name_error("i"))
-      end
-    end
-
-local _temp557
-      local _t = _type(_temp556)
-      if _t == "table" then
-                      if _type(_temp556._plus) == "function" or (_type(_temp556._plus) == "table" and _rawget(_temp556._plus, "__call_thing")) then
-        _temp557 = _temp556:_plus(1)
-      elseif _temp556._plus ~= nil then
-        _temp557 = _temp556._plus
-
-        elseif _temp556.no_undermethod ~= nil then
-          _temp557 =  _temp556:no_undermethod(string:new("+") , 1)
-        else
-          _error(exception:method_error(_temp556, "+"))
-        end
-
-      elseif _t == "number" then
-              if number._unchanged('_plus')  then
-        _temp557 = _temp556 + 1
-      else
-              local _n = number:new(_temp556)
-      if _n._plus ~= nil then
-        _temp557 = _n:_plus(1)
-      elseif _n.no_undermethod ~= nil then
-        _temp557 =  _n:no_undermethod(string:new("+") , 1)
-      else
-        _error(exception:method_error(_temp556, "+"))
-      end
-
-      end 
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp556)
-      if _f._plus ~= nil then
-        _temp557 = _f:_plus(1)
-      elseif _f.no_undermethod ~= nil then
-        _temp557 =  _f:no_undermethod(string:new("+") , 1)
-      else
-        _error(exception:method_error(_temp556, "+"))
-      end
-
-      elseif _temp556 == nil then
-        _error(exception:null_error("_temp556", "invoke + on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp556))
-      end
-
-_temp555 = _temp557 
-end
-
-_temp553 = string:new("" .. _tostring(_temp554) .. "[" .. _tostring(_temp555) .. "]")
-end
-
-      local _t = _type(_temp551)
-      if _t == "table" then
-                      if _type(_temp551.process) == "function" or (_type(_temp551.process) == "table" and _rawget(_temp551.process, "__call_thing")) then
-        _temp551 = _temp551:process(_temp552,_temp553)
-      elseif _temp551.process ~= nil then
-        _temp551 = _temp551.process
-
-        elseif _temp551.no_undermethod ~= nil then
-          _temp551 =  _temp551:no_undermethod(string:new("process") , _temp552,_temp553)
-        else
-          _error(exception:method_error("o", "process"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp551)
-      if _n.process ~= nil then
-        _temp551 = _n:process(_temp552,_temp553)
-      elseif _n.no_undermethod ~= nil then
-        _temp551 =  _n:no_undermethod(string:new("process") , _temp552,_temp553)
-      else
-        _error(exception:method_error("o", "process"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp551)
-      if _f.process ~= nil then
-        _temp551 = _f:process(_temp552,_temp553)
-      elseif _f.no_undermethod ~= nil then
-        _temp551 =  _f:no_undermethod(string:new("process") , _temp552,_temp553)
-      else
-        _error(exception:method_error("o", "process"))
-      end
-
-      elseif _temp551 == nil then
-        _error(exception:null_error("o", "invoke process on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp551))
-      end
-
-
-do
-local _temp558 = nil
-        local _t = _type(_temp522)
-        if _t == "table" then
-          if _rawget(_temp522, "__call_thing") == nil then
-            _temp558 = _temp522
-          else
-                  if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp558 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp558 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp558 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp558 =  _temp522(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp558 = _temp522
-        elseif _t == "function" then
-                if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp558 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp558 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp558 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp558 =  _temp522(_self)
-      end
-
-        elseif _temp522 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp559 = nil
-      local _t = _type(_temp558)
-      if _t == "table" then
-                      if _type(_temp558.out) == "function" or (_type(_temp558.out) == "table" and _rawget(_temp558.out, "__call_thing")) then
-        _temp559 = _temp558:out()
-      elseif _temp558.out ~= nil then
-        _temp559 = _temp558.out
-
-        elseif _temp558.no_undermethod ~= nil then
-          _temp559 =  _temp558:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp558, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp558)
-      if _n.out ~= nil then
-        _temp559 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp559 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp558, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp558)
-      if _f.out ~= nil then
-        _temp559 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp559 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp558, "out"))
-      end
-
-      elseif _temp558 == nil then
-        _error(exception:null_error("_temp558", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp558))
-      end
-
-local _temp560 = nil
-        local _t = _type(_temp551)
-        if _t == "table" then
-          if _rawget(_temp551, "__call_thing") == nil then
-            _temp560 = _temp551
-          else
-                  if _temp551 == nil then
-              if _type(_self._temp551) == "function" or (_type(_self._temp551) == "table" and _rawget(_self._temp551, "__call_thing")) then
-        _temp560 =  _self:_temp551()
-      elseif _self._temp551 ~= nil then
-        _temp560 =  _self._temp551
-
-        elseif _self.no_undermethod ~= nil then
-          _temp560 =  _self:no_undermethod(string:new("_temp551"))
-        else
-          _error(exception:null_error("o", "invoke method"))
-        end
-      else 
-        _temp560 =  _temp551(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp560 = _temp551
-        elseif _t == "function" then
-                if _temp551 == nil then
-              if _type(_self._temp551) == "function" or (_type(_self._temp551) == "table" and _rawget(_self._temp551, "__call_thing")) then
-        _temp560 =  _self:_temp551()
-      elseif _self._temp551 ~= nil then
-        _temp560 =  _self._temp551
-
-        elseif _self.no_undermethod ~= nil then
-          _temp560 =  _self:no_undermethod(string:new("_temp551"))
-        else
-          _error(exception:null_error("o", "invoke method"))
-        end
-      else 
-        _temp560 =  _temp551(_self)
-      end
-
-        elseif _temp551 == nil then
-          _error(exception:null_error("o", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "o"))
-        end
-      local _t = _type(_temp560)
-      if _t == "table" then
-                      if _type(_temp560.out) == "function" or (_type(_temp560.out) == "table" and _rawget(_temp560.out, "__call_thing")) then
-        _temp560 = _temp560:out()
-      elseif _temp560.out ~= nil then
-        _temp560 = _temp560.out
-
-        elseif _temp560.no_undermethod ~= nil then
-          _temp560 =  _temp560:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp560, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp560)
-      if _n.out ~= nil then
-        _temp560 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp560 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp560, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp560)
-      if _f.out ~= nil then
-        _temp560 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp560 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp560, "out"))
-      end
-
-      elseif _temp560 == nil then
-        _error(exception:null_error("_temp560", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp560))
-      end
-
-local _temp561
-      local _t = _type(_temp559)
-      if _t == "table" then
-                      if _type(_temp559._less_less) == "function" or (_type(_temp559._less_less) == "table" and _rawget(_temp559._less_less, "__call_thing")) then
-        _temp561 = _temp559:_less_less(_temp560)
-      elseif _temp559._less_less ~= nil then
-        _temp561 = _temp559._less_less
-
-        elseif _temp559.no_undermethod ~= nil then
-          _temp561 =  _temp559:no_undermethod(string:new("<<") , _temp560)
-        else
-          _error(exception:method_error(_temp559, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp559)
-      if _n._less_less ~= nil then
-        _temp561 = _n:_less_less(_temp560)
-      elseif _n.no_undermethod ~= nil then
-        _temp561 =  _n:no_undermethod(string:new("<<") , _temp560)
-      else
-        _error(exception:method_error(_temp559, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp559)
-      if _f._less_less ~= nil then
-        _temp561 = _f:_less_less(_temp560)
-      elseif _f.no_undermethod ~= nil then
-        _temp561 =  _f:no_undermethod(string:new("<<") , _temp560)
-      else
-        _error(exception:method_error(_temp559, "<<"))
-      end
-
-      elseif _temp559 == nil then
-        _error(exception:null_error("_temp559", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp559))
-      end
-
-_dummy_ = _temp561 
-end
-
-local _temp553 
-do
-local _temp562 = nil
-        local _t = _type(_temp522)
-        if _t == "table" then
-          if _rawget(_temp522, "__call_thing") == nil then
-            _temp562 = _temp522
-          else
-                  if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp562 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp562 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp562 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp562 =  _temp522(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp562 = _temp522
-        elseif _t == "function" then
-                if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp562 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp562 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp562 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp562 =  _temp522(_self)
-      end
-
-        elseif _temp522 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp563 = nil
-      local _t = _type(_temp562)
-      if _t == "table" then
-                      if _type(_temp562.out) == "function" or (_type(_temp562.out) == "table" and _rawget(_temp562.out, "__call_thing")) then
-        _temp563 = _temp562:out()
-      elseif _temp562.out ~= nil then
-        _temp563 = _temp562.out
-
-        elseif _temp562.no_undermethod ~= nil then
-          _temp563 =  _temp562:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp562, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp562)
-      if _n.out ~= nil then
-        _temp563 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp563 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp562, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp562)
-      if _f.out ~= nil then
-        _temp563 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp563 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp562, "out"))
-      end
-
-      elseif _temp562 == nil then
-        _error(exception:null_error("_temp562", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp562))
-      end
-
-local _temp564 = nil
-do
-local _temp565 = nil
-    if _type(_temp524) == "function" or (_type(_temp524) == "table" and _rawget(_temp524, "__call_thing")) then
-      _temp565 =  _temp524(_self)
-
-    elseif _temp524 then
-      _temp565 =  _temp524
-    else
-            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp565 =  _self:temp()
-      elseif _self.temp ~= nil then
-        _temp565 =  _self.temp
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp565 =  _self:no_undermethod(string:new("temp"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp565 =  no_undermethod(_self, string:new("temp"))
-      else
-        _error(exception:name_error("temp"))
-      end
-    end
-
-local _temp566 
-do
-local _temp567 = nil
-    if _type(_temp532) == "function" or (_type(_temp532) == "table" and _rawget(_temp532, "__call_thing")) then
-      _temp567 =  _temp532(_self)
-
-    elseif _temp532 then
-      _temp567 =  _temp532
-    else
-            if _type(_self.i) == "function" or (_type(_self.i) == "table" and _rawget(_self.i, "__call_thing")) then
-        _temp567 =  _self:i()
-      elseif _self.i ~= nil then
-        _temp567 =  _self.i
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp567 =  _self:no_undermethod(string:new("i"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp567 =  no_undermethod(_self, string:new("i"))
-      else
-        _error(exception:name_error("i"))
-      end
-    end
-
-local _temp568
-      local _t = _type(_temp567)
-      if _t == "table" then
-                      if _type(_temp567._plus) == "function" or (_type(_temp567._plus) == "table" and _rawget(_temp567._plus, "__call_thing")) then
-        _temp568 = _temp567:_plus(1)
-      elseif _temp567._plus ~= nil then
-        _temp568 = _temp567._plus
-
-        elseif _temp567.no_undermethod ~= nil then
-          _temp568 =  _temp567:no_undermethod(string:new("+") , 1)
-        else
-          _error(exception:method_error(_temp567, "+"))
-        end
-
-      elseif _t == "number" then
-              if number._unchanged('_plus')  then
-        _temp568 = _temp567 + 1
-      else
-              local _n = number:new(_temp567)
-      if _n._plus ~= nil then
-        _temp568 = _n:_plus(1)
-      elseif _n.no_undermethod ~= nil then
-        _temp568 =  _n:no_undermethod(string:new("+") , 1)
-      else
-        _error(exception:method_error(_temp567, "+"))
-      end
-
-      end 
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp567)
-      if _f._plus ~= nil then
-        _temp568 = _f:_plus(1)
-      elseif _f.no_undermethod ~= nil then
-        _temp568 =  _f:no_undermethod(string:new("+") , 1)
-      else
-        _error(exception:method_error(_temp567, "+"))
-      end
-
-      elseif _temp567 == nil then
-        _error(exception:null_error("_temp567", "invoke + on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp567))
-      end
-
-_temp566 = _temp568 
-end
-
-local _temp569 = nil
-        local _t = _type(_temp551)
-        if _t == "table" then
-          if _rawget(_temp551, "__call_thing") == nil then
-            _temp569 = _temp551
-          else
-                  if _temp551 == nil then
-              if _type(_self._temp551) == "function" or (_type(_self._temp551) == "table" and _rawget(_self._temp551, "__call_thing")) then
-        _temp569 =  _self:_temp551()
-      elseif _self._temp551 ~= nil then
-        _temp569 =  _self._temp551
-
-        elseif _self.no_undermethod ~= nil then
-          _temp569 =  _self:no_undermethod(string:new("_temp551"))
-        else
-          _error(exception:null_error("o", "invoke method"))
-        end
-      else 
-        _temp569 =  _temp551(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp569 = _temp551
-        elseif _t == "function" then
-                if _temp551 == nil then
-              if _type(_self._temp551) == "function" or (_type(_self._temp551) == "table" and _rawget(_self._temp551, "__call_thing")) then
-        _temp569 =  _self:_temp551()
-      elseif _self._temp551 ~= nil then
-        _temp569 =  _self._temp551
-
-        elseif _self.no_undermethod ~= nil then
-          _temp569 =  _self:no_undermethod(string:new("_temp551"))
-        else
-          _error(exception:null_error("o", "invoke method"))
-        end
-      else 
-        _temp569 =  _temp551(_self)
-      end
-
-        elseif _temp551 == nil then
-          _error(exception:null_error("o", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "o"))
-        end
-      local _t = _type(_temp569)
-      if _t == "table" then
-                      if _type(_temp569.var) == "function" or (_type(_temp569.var) == "table" and _rawget(_temp569.var, "__call_thing")) then
-        _temp569 = _temp569:var()
-      elseif _temp569.var ~= nil then
-        _temp569 = _temp569.var
-
-        elseif _temp569.no_undermethod ~= nil then
-          _temp569 =  _temp569:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp569, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp569)
-      if _n.var ~= nil then
-        _temp569 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp569 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp569, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp569)
-      if _f.var ~= nil then
-        _temp569 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp569 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp569, "var"))
-      end
-
-      elseif _temp569 == nil then
-        _error(exception:null_error("_temp569", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp569))
-      end
-
-
-_temp564 = string:new("" .. _tostring(_temp565) .. "[" .. _tostring(_temp566) .. "] = _tostring(" .. _tostring(_temp569) .. ")\n")
-end
-local _temp570
-      local _t = _type(_temp563)
-      if _t == "table" then
-                      if _type(_temp563._less_less) == "function" or (_type(_temp563._less_less) == "table" and _rawget(_temp563._less_less, "__call_thing")) then
-        _temp570 = _temp563:_less_less(_temp564)
-      elseif _temp563._less_less ~= nil then
-        _temp570 = _temp563._less_less
-
-        elseif _temp563.no_undermethod ~= nil then
-          _temp570 =  _temp563:no_undermethod(string:new("<<") , _temp564)
-        else
-          _error(exception:method_error(_temp563, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp563)
-      if _n._less_less ~= nil then
-        _temp570 = _n:_less_less(_temp564)
-      elseif _n.no_undermethod ~= nil then
-        _temp570 =  _n:no_undermethod(string:new("<<") , _temp564)
-      else
-        _error(exception:method_error(_temp563, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp563)
-      if _f._less_less ~= nil then
-        _temp570 = _f:_less_less(_temp564)
-      elseif _f.no_undermethod ~= nil then
-        _temp570 =  _f:no_undermethod(string:new("<<") , _temp564)
-      else
-        _error(exception:method_error(_temp563, "<<"))
-      end
-
-      elseif _temp563 == nil then
-        _error(exception:null_error("_temp563", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp563))
-      end
-
-_temp553 = _temp570 
-end
-
-return _temp553
-end
-
-    if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
-      return  true_question(_self, _temp533,_temp550,_temp571)
-
-    elseif true_question then
-      _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
-    else
-            if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
-        return  _self:true_question(_temp533,_temp550,_temp571)
-      elseif _self.true_question ~= nil then
-        return  _self.true_question
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("true?") , _temp533,_temp550,_temp571)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("true?") , _temp533,_temp550,_temp571)
-      else
-        _error(exception:name_error("true?"))
-      end
-    end
-
-end
-
-      local _t = _type(_temp523)
-      if _t == "table" then
-                      if _type(_temp523.each_underwith_underindex) == "function" or (_type(_temp523.each_underwith_underindex) == "table" and _rawget(_temp523.each_underwith_underindex, "__call_thing")) then
-        _dummy_ = _temp523:each_underwith_underindex(_temp573)
-      elseif _temp523.each_underwith_underindex ~= nil then
-        _dummy_ = _temp523.each_underwith_underindex
-
-        elseif _temp523.no_undermethod ~= nil then
-          _dummy_ =  _temp523:no_undermethod(string:new("each_with_index") , _temp573)
-        else
-          _error(exception:method_error(_temp523, "each_with_index"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp523)
-      if _n.each_underwith_underindex ~= nil then
-        _dummy_ = _n:each_underwith_underindex(_temp573)
-      elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("each_with_index") , _temp573)
-      else
-        _error(exception:method_error(_temp523, "each_with_index"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp523)
-      if _f.each_underwith_underindex ~= nil then
-        _dummy_ = _f:each_underwith_underindex(_temp573)
-      elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("each_with_index") , _temp573)
-      else
-        _error(exception:method_error(_temp523, "each_with_index"))
-      end
-
-      elseif _temp523 == nil then
-        _error(exception:null_error("_temp523", "invoke each_with_index on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp523))
-      end
-
-do
-local _temp574 = nil
-        local _t = _type(_temp522)
-        if _t == "table" then
-          if _rawget(_temp522, "__call_thing") == nil then
-            _temp574 = _temp522
-          else
-                  if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp574 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp574 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp574 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp574 =  _temp522(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp574 = _temp522
-        elseif _t == "function" then
-                if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp574 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp574 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp574 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp574 =  _temp522(_self)
-      end
-
-        elseif _temp522 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp575 = nil
-      local _t = _type(_temp574)
-      if _t == "table" then
-                      if _type(_temp574.out) == "function" or (_type(_temp574.out) == "table" and _rawget(_temp574.out, "__call_thing")) then
-        _temp575 = _temp574:out()
-      elseif _temp574.out ~= nil then
-        _temp575 = _temp574.out
-
-        elseif _temp574.no_undermethod ~= nil then
-          _temp575 =  _temp574:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp574, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp574)
-      if _n.out ~= nil then
-        _temp575 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp575 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp574, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp574)
-      if _f.out ~= nil then
-        _temp575 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp575 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp574, "out"))
-      end
-
-      elseif _temp574 == nil then
-        _error(exception:null_error("_temp574", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp574))
-      end
-
-local _temp576 = nil
-do
-local _temp577 = nil
-        local _t = _type(_temp522)
-        if _t == "table" then
-          if _rawget(_temp522, "__call_thing") == nil then
-            _temp577 = _temp522
-          else
-                  if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp577 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp577 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp577 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp577 =  _temp522(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp577 = _temp522
-        elseif _t == "function" then
-                if _temp522 == nil then
-              if _type(_self._temp522) == "function" or (_type(_self._temp522) == "table" and _rawget(_self._temp522, "__call_thing")) then
-        _temp577 =  _self:_temp522()
-      elseif _self._temp522 ~= nil then
-        _temp577 =  _self._temp522
-
-        elseif _self.no_undermethod ~= nil then
-          _temp577 =  _self:no_undermethod(string:new("_temp522"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp577 =  _temp522(_self)
-      end
-
-        elseif _temp522 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-      local _t = _type(_temp577)
-      if _t == "table" then
-                      if _type(_temp577.var) == "function" or (_type(_temp577.var) == "table" and _rawget(_temp577.var, "__call_thing")) then
-        _temp577 = _temp577:var()
-      elseif _temp577.var ~= nil then
-        _temp577 = _temp577.var
-
-        elseif _temp577.no_undermethod ~= nil then
-          _temp577 =  _temp577:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp577, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp577)
-      if _n.var ~= nil then
-        _temp577 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp577 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp577, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp577)
-      if _f.var ~= nil then
-        _temp577 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp577 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp577, "var"))
-      end
-
-      elseif _temp577 == nil then
-        _error(exception:null_error("_temp577", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp577))
-      end
-
-
-local _temp578 = nil
-    if _type(_temp524) == "function" or (_type(_temp524) == "table" and _rawget(_temp524, "__call_thing")) then
-      _temp578 =  _temp524(_self)
-
-    elseif _temp524 then
-      _temp578 =  _temp524
-    else
-            if _type(_self.temp) == "function" or (_type(_self.temp) == "table" and _rawget(_self.temp, "__call_thing")) then
-        _temp578 =  _self:temp()
-      elseif _self.temp ~= nil then
-        _temp578 =  _self.temp
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp578 =  _self:no_undermethod(string:new("temp"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp578 =  no_undermethod(_self, string:new("temp"))
-      else
-        _error(exception:name_error("temp"))
-      end
-    end
-
-_temp576 = string:new("" .. _tostring(_temp577) .. " = string:new(_table.concat(" .. _tostring(_temp578) .. "))\nend\n")
-end
-local _temp579
-      local _t = _type(_temp575)
-      if _t == "table" then
-                      if _type(_temp575._less_less) == "function" or (_type(_temp575._less_less) == "table" and _rawget(_temp575._less_less, "__call_thing")) then
-        _temp579 = _temp575:_less_less(_temp576)
-      elseif _temp575._less_less ~= nil then
-        _temp579 = _temp575._less_less
-
-        elseif _temp575.no_undermethod ~= nil then
-          _temp579 =  _temp575:no_undermethod(string:new("<<") , _temp576)
-        else
-          _error(exception:method_error(_temp575, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp575)
-      if _n._less_less ~= nil then
-        _temp579 = _n:_less_less(_temp576)
-      elseif _n.no_undermethod ~= nil then
-        _temp579 =  _n:no_undermethod(string:new("<<") , _temp576)
-      else
-        _error(exception:method_error(_temp575, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp575)
-      if _f._less_less ~= nil then
-        _temp579 = _f:_less_less(_temp576)
-      elseif _f.no_undermethod ~= nil then
-        _temp579 =  _f:no_undermethod(string:new("<<") , _temp576)
-      else
-        _error(exception:method_error(_temp575, "<<"))
-      end
-
-      elseif _temp575 == nil then
-        _error(exception:null_error("_temp575", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp575))
-      end
-
-_dummy_ = _temp579 
-end
-
-    if _type(_temp522) == "function" or (_type(_temp522) == "table" and _rawget(_temp522, "__call_thing")) then
-      return  _temp522(_self)
-
-    elseif _temp522 then
-      return  _temp522
-    else
-            if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
-        return  _self:res()
-      elseif _self.res ~= nil then
-        return  _self.res
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("res"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("res"))
-      else
-        _error(exception:name_error("res"))
-      end
-    end
-
-end
-
-      local _t = _type(_temp519)
-      if _t == "table" then
-                      if _type(_temp519.walk) == "function" or (_type(_temp519.walk) == "table" and _rawget(_temp519.walk, "__call_thing")) then
-        _dummy_ = _temp519:walk(_temp4,_temp523)
-      elseif _temp519.walk ~= nil then
-        _dummy_ = _temp519.walk
-
-        elseif _temp519.no_undermethod ~= nil then
-          _dummy_ =  _temp519:no_undermethod(string:new("walk") , _temp4,_temp523)
-        else
-          _error(exception:method_error(_temp519, "walk"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp519)
-      if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp523)
-      elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp523)
-      else
-        _error(exception:method_error(_temp519, "walk"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp519)
-      if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp523)
-      elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp523)
-      else
-        _error(exception:method_error(_temp519, "walk"))
-      end
-
-      elseif _temp519 == nil then
-        _error(exception:null_error("_temp519", "invoke walk on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp519))
-      end
-
-        local _t = _type(_temp5)
-        if _t == "table" then
-          if _rawget(_temp5, "__call_thing") == nil then
-            _temp523 = _temp5
-          else
-                  if _temp5 == nil then
-              if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp523 =  _self:_temp5()
-      elseif _self._temp5 ~= nil then
-        _temp523 =  _self._temp5
-
-        elseif _self.no_undermethod ~= nil then
-          _temp523 =  _self:no_undermethod(string:new("_temp5"))
-        else
-          _error(exception:null_error("c", "invoke method"))
-        end
-      else 
-        _temp523 =  _temp5(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp523 = _temp5
-        elseif _t == "function" then
-                if _temp5 == nil then
-              if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp523 =  _self:_temp5()
-      elseif _self._temp5 ~= nil then
-        _temp523 =  _self._temp5
-
-        elseif _self.no_undermethod ~= nil then
-          _temp523 =  _self:no_undermethod(string:new("_temp5"))
-        else
-          _error(exception:null_error("c", "invoke method"))
-        end
-      else 
-        _temp523 =  _temp5(_self)
+        _temp513 =  _temp5(_self)
       end
 
         elseif _temp5 == nil then
@@ -24476,31 +24226,31 @@ end
         end
 _temp4 = string:new("string_eval")
 
-_temp591 = function (_self, _temp581,_temp580)
-        if _temp581 == nil then
+_temp581 = function (_self, _temp571,_temp570)
+        if _temp571 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
 end
-if _temp580 == nil then
+if _temp570 == nil then
  do
     if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp580 =  null(_self)
+      _temp570 =  null(_self)
 
     elseif null then
-      _temp580 =  null
+      _temp570 =  null
     else
             if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp580 =  _self:null()
+        _temp570 =  _self:null()
       elseif _self.null ~= nil then
-        _temp580 =  _self.null
+        _temp570 =  _self.null
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp580 =  _self:no_undermethod(string:new("null"))
+        _temp570 =  _self:no_undermethod(string:new("null"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp580 =  no_undermethod(_self, string:new("null"))
+        _temp570 =  no_undermethod(_self, string:new("null"))
       else
         _error(exception:name_error("null"))
       end
@@ -24509,1272 +24259,1272 @@ if _temp580 == nil then
 end
 end
 
-local _temp582
-local _temp583 = nil
-    if _type(_temp580) == "function" or (_type(_temp580) == "table" and _rawget(_temp580, "__call_thing")) then
-      _temp583 =  _temp580(_self)
+local _temp572
+local _temp573 = nil
+    if _type(_temp570) == "function" or (_type(_temp570) == "table" and _rawget(_temp570, "__call_thing")) then
+      _temp573 =  _temp570(_self)
 
-    elseif _temp580 then
-      _temp583 =  _temp580
+    elseif _temp570 then
+      _temp573 =  _temp570
     else
             if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
-        _temp583 =  _self:var()
+        _temp573 =  _self:var()
       elseif _self.var ~= nil then
-        _temp583 =  _self.var
+        _temp573 =  _self.var
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp583 =  _self:no_undermethod(string:new("var"))
+        _temp573 =  _self:no_undermethod(string:new("var"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp583 =  no_undermethod(_self, string:new("var"))
+        _temp573 =  no_undermethod(_self, string:new("var"))
       else
         _error(exception:name_error("var"))
       end
     end
 
     if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
-      _temp582 =  set_underresult(_self, _temp583)
+      _temp572 =  set_underresult(_self, _temp573)
 
     elseif set_underresult then
       _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
     else
             if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
-        _temp582 =  _self:set_underresult(_temp583)
+        _temp572 =  _self:set_underresult(_temp573)
       elseif _self.set_underresult ~= nil then
-        _temp582 =  _self.set_underresult
+        _temp572 =  _self.set_underresult
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp582 =  _self:no_undermethod(string:new("set_result") , _temp583)
+        _temp572 =  _self:no_undermethod(string:new("set_result") , _temp573)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp582 =  no_undermethod(_self, string:new("set_result") , _temp583)
+        _temp572 =  no_undermethod(_self, string:new("set_result") , _temp573)
       else
         _error(exception:name_error("set_result"))
       end
     end
 
-local _temp584
+local _temp574
     if _type(my) == "function" or (_type(my) == "table" and _rawget(my, "__call_thing")) then
-      _temp584 =  my(_self)
+      _temp574 =  my(_self)
 
     elseif my then
-      _temp584 =  my
+      _temp574 =  my
     else
             if _type(_self.my) == "function" or (_type(_self.my) == "table" and _rawget(_self.my, "__call_thing")) then
-        _temp584 =  _self:my()
+        _temp574 =  _self:my()
       elseif _self.my ~= nil then
-        _temp584 =  _self.my
+        _temp574 =  _self.my
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp584 =  _self:no_undermethod(string:new("my"))
+        _temp574 =  _self:no_undermethod(string:new("my"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp584 =  no_undermethod(_self, string:new("my"))
+        _temp574 =  no_undermethod(_self, string:new("my"))
       else
         _error(exception:name_error("my"))
       end
     end
 
-local _temp585
-        local _t = _type(_temp581)
+local _temp575
+        local _t = _type(_temp571)
         if _t == "table" then
-          if _rawget(_temp581, "__call_thing") == nil then
-            _temp585 = _temp581
+          if _rawget(_temp571, "__call_thing") == nil then
+            _temp575 = _temp571
           else
-                  if _temp581 == nil then
-              if _type(_self._temp581) == "function" or (_type(_self._temp581) == "table" and _rawget(_self._temp581, "__call_thing")) then
-        _temp585 =  _self:_temp581()
-      elseif _self._temp581 ~= nil then
-        _temp585 =  _self._temp581
+                  if _temp571 == nil then
+              if _type(_self._temp571) == "function" or (_type(_self._temp571) == "table" and _rawget(_self._temp571, "__call_thing")) then
+        _temp575 =  _self:_temp571()
+      elseif _self._temp571 ~= nil then
+        _temp575 =  _self._temp571
 
         elseif _self.no_undermethod ~= nil then
-          _temp585 =  _self:no_undermethod(string:new("_temp581"))
+          _temp575 =  _self:no_undermethod(string:new("_temp571"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp585 =  _temp581(_self)
+        _temp575 =  _temp571(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp585 = _temp581
+          _temp575 = _temp571
         elseif _t == "function" then
-                if _temp581 == nil then
-              if _type(_self._temp581) == "function" or (_type(_self._temp581) == "table" and _rawget(_self._temp581, "__call_thing")) then
-        _temp585 =  _self:_temp581()
-      elseif _self._temp581 ~= nil then
-        _temp585 =  _self._temp581
+                if _temp571 == nil then
+              if _type(_self._temp571) == "function" or (_type(_self._temp571) == "table" and _rawget(_self._temp571, "__call_thing")) then
+        _temp575 =  _self:_temp571()
+      elseif _self._temp571 ~= nil then
+        _temp575 =  _self._temp571
 
         elseif _self.no_undermethod ~= nil then
-          _temp585 =  _self:no_undermethod(string:new("_temp581"))
+          _temp575 =  _self:no_undermethod(string:new("_temp571"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp585 =  _temp581(_self)
+        _temp575 =  _temp571(_self)
       end
 
-        elseif _temp581 == nil then
+        elseif _temp571 == nil then
           _error(exception:null_error("node", "cannot call method on it"))
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp585)
+      local _t = _type(_temp575)
       if _t == "table" then
-                      if _type(_temp585.nodes) == "function" or (_type(_temp585.nodes) == "table" and _rawget(_temp585.nodes, "__call_thing")) then
-        _temp585 = _temp585:nodes()
-      elseif _temp585.nodes ~= nil then
-        _temp585 = _temp585.nodes
+                      if _type(_temp575.nodes) == "function" or (_type(_temp575.nodes) == "table" and _rawget(_temp575.nodes, "__call_thing")) then
+        _temp575 = _temp575:nodes()
+      elseif _temp575.nodes ~= nil then
+        _temp575 = _temp575.nodes
 
-        elseif _temp585.no_undermethod ~= nil then
-          _temp585 =  _temp585:no_undermethod(string:new("nodes"))
+        elseif _temp575.no_undermethod ~= nil then
+          _temp575 =  _temp575:no_undermethod(string:new("nodes"))
         else
           _error(exception:method_error("values", "nodes"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp585)
+              local _n = number:new(_temp575)
       if _n.nodes ~= nil then
-        _temp585 = _n:nodes()
+        _temp575 = _n:nodes()
       elseif _n.no_undermethod ~= nil then
-        _temp585 =  _n:no_undermethod(string:new("nodes"))
+        _temp575 =  _n:no_undermethod(string:new("nodes"))
       else
         _error(exception:method_error("values", "nodes"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp585)
+              local _f = brat_function:new(_temp575)
       if _f.nodes ~= nil then
-        _temp585 = _f:nodes()
+        _temp575 = _f:nodes()
       elseif _f.no_undermethod ~= nil then
-        _temp585 =  _f:no_undermethod(string:new("nodes"))
+        _temp575 =  _f:no_undermethod(string:new("nodes"))
       else
         _error(exception:method_error("values", "nodes"))
       end
 
-      elseif _temp585 == nil then
+      elseif _temp575 == nil then
         _error(exception:null_error("values", "invoke nodes on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp585))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp575))
       end
 
 
-local _temp591 = function (_self, _temp586)
-        if _temp586 == nil then
+local _temp581 = function (_self, _temp576)
+        if _temp576 == nil then
           _error(exception:argument_error("values", 1, 0))
 
 end
-local _temp587 = nil
-        local _t = _type(_temp584)
+local _temp577 = nil
+        local _t = _type(_temp574)
         if _t == "table" then
-          if _rawget(_temp584, "__call_thing") == nil then
-            _temp587 = _temp584
+          if _rawget(_temp574, "__call_thing") == nil then
+            _temp577 = _temp574
           else
-                  if _temp584 == nil then
-              if _type(_self._temp584) == "function" or (_type(_self._temp584) == "table" and _rawget(_self._temp584, "__call_thing")) then
-        _temp587 =  _self:_temp584()
-      elseif _self._temp584 ~= nil then
-        _temp587 =  _self._temp584
+                  if _temp574 == nil then
+              if _type(_self._temp574) == "function" or (_type(_self._temp574) == "table" and _rawget(_self._temp574, "__call_thing")) then
+        _temp577 =  _self:_temp574()
+      elseif _self._temp574 ~= nil then
+        _temp577 =  _self._temp574
 
         elseif _self.no_undermethod ~= nil then
-          _temp587 =  _self:no_undermethod(string:new("_temp584"))
+          _temp577 =  _self:no_undermethod(string:new("_temp574"))
         else
           _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp587 =  _temp584(_self)
+        _temp577 =  _temp574(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp587 = _temp584
+          _temp577 = _temp574
         elseif _t == "function" then
-                if _temp584 == nil then
-              if _type(_self._temp584) == "function" or (_type(_self._temp584) == "table" and _rawget(_self._temp584, "__call_thing")) then
-        _temp587 =  _self:_temp584()
-      elseif _self._temp584 ~= nil then
-        _temp587 =  _self._temp584
+                if _temp574 == nil then
+              if _type(_self._temp574) == "function" or (_type(_self._temp574) == "table" and _rawget(_self._temp574, "__call_thing")) then
+        _temp577 =  _self:_temp574()
+      elseif _self._temp574 ~= nil then
+        _temp577 =  _self._temp574
 
         elseif _self.no_undermethod ~= nil then
-          _temp587 =  _self:no_undermethod(string:new("_temp584"))
+          _temp577 =  _self:no_undermethod(string:new("_temp574"))
         else
           _error(exception:null_error("w", "invoke method"))
         end
       else 
-        _temp587 =  _temp584(_self)
+        _temp577 =  _temp574(_self)
       end
 
-        elseif _temp584 == nil then
+        elseif _temp574 == nil then
           _error(exception:null_error("w", "cannot call method on it"))
         else
           _error(exception:method_error("self", "w"))
         end
-local _temp588 = nil
-    if _type(_temp586) == "function" or (_type(_temp586) == "table" and _rawget(_temp586, "__call_thing")) then
-      _temp588 =  _temp586(_self)
+local _temp578 = nil
+    if _type(_temp576) == "function" or (_type(_temp576) == "table" and _rawget(_temp576, "__call_thing")) then
+      _temp578 =  _temp576(_self)
 
-    elseif _temp586 then
-      _temp588 =  _temp586
+    elseif _temp576 then
+      _temp578 =  _temp576
     else
             if _type(_self.n) == "function" or (_type(_self.n) == "table" and _rawget(_self.n, "__call_thing")) then
-        _temp588 =  _self:n()
+        _temp578 =  _self:n()
       elseif _self.n ~= nil then
-        _temp588 =  _self.n
+        _temp578 =  _self.n
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp588 =  _self:no_undermethod(string:new("n"))
+        _temp578 =  _self:no_undermethod(string:new("n"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp588 =  no_undermethod(_self, string:new("n"))
+        _temp578 =  no_undermethod(_self, string:new("n"))
       else
         _error(exception:name_error("n"))
       end
     end
 
-local _temp589 = nil
-        local _t = _type(_temp582)
+local _temp579 = nil
+        local _t = _type(_temp572)
         if _t == "table" then
-          if _rawget(_temp582, "__call_thing") == nil then
-            _temp589 = _temp582
+          if _rawget(_temp572, "__call_thing") == nil then
+            _temp579 = _temp572
           else
-                  if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp589 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp589 =  _self._temp582
+                  if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp579 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp579 =  _self._temp572
 
         elseif _self.no_undermethod ~= nil then
-          _temp589 =  _self:no_undermethod(string:new("_temp582"))
+          _temp579 =  _self:no_undermethod(string:new("_temp572"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp589 =  _temp582(_self)
+        _temp579 =  _temp572(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp589 = _temp582
+          _temp579 = _temp572
         elseif _t == "function" then
-                if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp589 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp589 =  _self._temp582
+                if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp579 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp579 =  _self._temp572
 
         elseif _self.no_undermethod ~= nil then
-          _temp589 =  _self:no_undermethod(string:new("_temp582"))
+          _temp579 =  _self:no_undermethod(string:new("_temp572"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp589 =  _temp582(_self)
+        _temp579 =  _temp572(_self)
       end
 
-        elseif _temp582 == nil then
+        elseif _temp572 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
-      local _t = _type(_temp589)
+      local _t = _type(_temp579)
       if _t == "table" then
-                      if _type(_temp589.var) == "function" or (_type(_temp589.var) == "table" and _rawget(_temp589.var, "__call_thing")) then
-        _temp589 = _temp589:var()
-      elseif _temp589.var ~= nil then
-        _temp589 = _temp589.var
+                      if _type(_temp579.var) == "function" or (_type(_temp579.var) == "table" and _rawget(_temp579.var, "__call_thing")) then
+        _temp579 = _temp579:var()
+      elseif _temp579.var ~= nil then
+        _temp579 = _temp579.var
 
-        elseif _temp589.no_undermethod ~= nil then
-          _temp589 =  _temp589:no_undermethod(string:new("var"))
+        elseif _temp579.no_undermethod ~= nil then
+          _temp579 =  _temp579:no_undermethod(string:new("var"))
         else
-          _error(exception:method_error(_temp589, "var"))
+          _error(exception:method_error(_temp579, "var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp589)
+              local _n = number:new(_temp579)
       if _n.var ~= nil then
-        _temp589 = _n:var()
+        _temp579 = _n:var()
       elseif _n.no_undermethod ~= nil then
-        _temp589 =  _n:no_undermethod(string:new("var"))
+        _temp579 =  _n:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp589, "var"))
+        _error(exception:method_error(_temp579, "var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp589)
+              local _f = brat_function:new(_temp579)
       if _f.var ~= nil then
-        _temp589 = _f:var()
+        _temp579 = _f:var()
       elseif _f.no_undermethod ~= nil then
-        _temp589 =  _f:no_undermethod(string:new("var"))
+        _temp579 =  _f:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp589, "var"))
+        _error(exception:method_error(_temp579, "var"))
       end
 
-      elseif _temp589 == nil then
-        _error(exception:null_error("_temp589", "invoke var on it"))
+      elseif _temp579 == nil then
+        _error(exception:null_error("_temp579", "invoke var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp589))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp579))
       end
 
 
-      local _t = _type(_temp587)
+      local _t = _type(_temp577)
       if _t == "table" then
-                      if _type(_temp587.process) == "function" or (_type(_temp587.process) == "table" and _rawget(_temp587.process, "__call_thing")) then
-        return _temp587:process(_temp588,_temp589)
-      elseif _temp587.process ~= nil then
-        return _temp587.process
+                      if _type(_temp577.process) == "function" or (_type(_temp577.process) == "table" and _rawget(_temp577.process, "__call_thing")) then
+        return _temp577:process(_temp578,_temp579)
+      elseif _temp577.process ~= nil then
+        return _temp577.process
 
-        elseif _temp587.no_undermethod ~= nil then
-          return  _temp587:no_undermethod(string:new("process") , _temp588,_temp589)
+        elseif _temp577.no_undermethod ~= nil then
+          return  _temp577:no_undermethod(string:new("process") , _temp578,_temp579)
         else
-          _error(exception:method_error(_temp587, "process"))
+          _error(exception:method_error(_temp577, "process"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp587)
+              local _n = number:new(_temp577)
       if _n.process ~= nil then
-        return _n:process(_temp588,_temp589)
+        return _n:process(_temp578,_temp579)
       elseif _n.no_undermethod ~= nil then
-        return  _n:no_undermethod(string:new("process") , _temp588,_temp589)
+        return  _n:no_undermethod(string:new("process") , _temp578,_temp579)
       else
-        _error(exception:method_error(_temp587, "process"))
+        _error(exception:method_error(_temp577, "process"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp587)
+              local _f = brat_function:new(_temp577)
       if _f.process ~= nil then
-        return _f:process(_temp588,_temp589)
+        return _f:process(_temp578,_temp579)
       elseif _f.no_undermethod ~= nil then
-        return  _f:no_undermethod(string:new("process") , _temp588,_temp589)
+        return  _f:no_undermethod(string:new("process") , _temp578,_temp579)
       else
-        _error(exception:method_error(_temp587, "process"))
+        _error(exception:method_error(_temp577, "process"))
       end
 
-      elseif _temp587 == nil then
-        _error(exception:null_error("_temp587", "invoke process on it"))
+      elseif _temp577 == nil then
+        _error(exception:null_error("_temp577", "invoke process on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp587))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp577))
       end
 
 end
 
-      local _t = _type(_temp585)
+      local _t = _type(_temp575)
       if _t == "table" then
-                      if _type(_temp585.map) == "function" or (_type(_temp585.map) == "table" and _rawget(_temp585.map, "__call_thing")) then
-        _temp585 = _temp585:map(_temp591)
-      elseif _temp585.map ~= nil then
-        _temp585 = _temp585.map
+                      if _type(_temp575.map) == "function" or (_type(_temp575.map) == "table" and _rawget(_temp575.map, "__call_thing")) then
+        _temp575 = _temp575:map(_temp581)
+      elseif _temp575.map ~= nil then
+        _temp575 = _temp575.map
 
-        elseif _temp585.no_undermethod ~= nil then
-          _temp585 =  _temp585:no_undermethod(string:new("map") , _temp591)
+        elseif _temp575.no_undermethod ~= nil then
+          _temp575 =  _temp575:no_undermethod(string:new("map") , _temp581)
         else
           _error(exception:method_error("values", "map"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp585)
+              local _n = number:new(_temp575)
       if _n.map ~= nil then
-        _temp585 = _n:map(_temp591)
+        _temp575 = _n:map(_temp581)
       elseif _n.no_undermethod ~= nil then
-        _temp585 =  _n:no_undermethod(string:new("map") , _temp591)
+        _temp575 =  _n:no_undermethod(string:new("map") , _temp581)
       else
         _error(exception:method_error("values", "map"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp585)
+              local _f = brat_function:new(_temp575)
       if _f.map ~= nil then
-        _temp585 = _f:map(_temp591)
+        _temp575 = _f:map(_temp581)
       elseif _f.no_undermethod ~= nil then
-        _temp585 =  _f:no_undermethod(string:new("map") , _temp591)
+        _temp575 =  _f:no_undermethod(string:new("map") , _temp581)
       else
         _error(exception:method_error("values", "map"))
       end
 
-      elseif _temp585 == nil then
+      elseif _temp575 == nil then
         _error(exception:null_error("values", "invoke map on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp585))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp575))
       end
 
 
 do
-local _temp592 = nil
-        local _t = _type(_temp582)
+local _temp582 = nil
+        local _t = _type(_temp572)
         if _t == "table" then
-          if _rawget(_temp582, "__call_thing") == nil then
-            _temp592 = _temp582
+          if _rawget(_temp572, "__call_thing") == nil then
+            _temp582 = _temp572
           else
-                  if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp592 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp592 =  _self._temp582
+                  if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp582 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp582 =  _self._temp572
 
         elseif _self.no_undermethod ~= nil then
-          _temp592 =  _self:no_undermethod(string:new("_temp582"))
+          _temp582 =  _self:no_undermethod(string:new("_temp572"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp592 =  _temp582(_self)
+        _temp582 =  _temp572(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp592 = _temp582
+          _temp582 = _temp572
         elseif _t == "function" then
-                if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp592 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp592 =  _self._temp582
+                if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp582 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp582 =  _self._temp572
 
         elseif _self.no_undermethod ~= nil then
-          _temp592 =  _self:no_undermethod(string:new("_temp582"))
+          _temp582 =  _self:no_undermethod(string:new("_temp572"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp592 =  _temp582(_self)
+        _temp582 =  _temp572(_self)
       end
 
-        elseif _temp582 == nil then
+        elseif _temp572 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
 
+local _temp583 = nil
+      local _t = _type(_temp582)
+      if _t == "table" then
+                      if _type(_temp582.out) == "function" or (_type(_temp582.out) == "table" and _rawget(_temp582.out, "__call_thing")) then
+        _temp583 = _temp582:out()
+      elseif _temp582.out ~= nil then
+        _temp583 = _temp582.out
+
+        elseif _temp582.no_undermethod ~= nil then
+          _temp583 =  _temp582:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp582, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp582)
+      if _n.out ~= nil then
+        _temp583 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp583 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp582, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp582)
+      if _f.out ~= nil then
+        _temp583 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp583 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp582, "out"))
+      end
+
+      elseif _temp582 == nil then
+        _error(exception:null_error("_temp582", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp582))
+      end
+
+local _temp584 = nil
+        local _t = _type(_temp575)
+        if _t == "table" then
+          if _rawget(_temp575, "__call_thing") == nil then
+            _temp584 = _temp575
+          else
+                  if _temp575 == nil then
+              if _type(_self._temp575) == "function" or (_type(_self._temp575) == "table" and _rawget(_self._temp575, "__call_thing")) then
+        _temp584 =  _self:_temp575()
+      elseif _self._temp575 ~= nil then
+        _temp584 =  _self._temp575
+
+        elseif _self.no_undermethod ~= nil then
+          _temp584 =  _self:no_undermethod(string:new("_temp575"))
+        else
+          _error(exception:null_error("values", "invoke method"))
+        end
+      else 
+        _temp584 =  _temp575(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp584 = _temp575
+        elseif _t == "function" then
+                if _temp575 == nil then
+              if _type(_self._temp575) == "function" or (_type(_self._temp575) == "table" and _rawget(_self._temp575, "__call_thing")) then
+        _temp584 =  _self:_temp575()
+      elseif _self._temp575 ~= nil then
+        _temp584 =  _self._temp575
+
+        elseif _self.no_undermethod ~= nil then
+          _temp584 =  _self:no_undermethod(string:new("_temp575"))
+        else
+          _error(exception:null_error("values", "invoke method"))
+        end
+      else 
+        _temp584 =  _temp575(_self)
+      end
+
+        elseif _temp575 == nil then
+          _error(exception:null_error("values", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "values"))
+        end
+local _temp585 = string:new("out")
+
+      local _t = _type(_temp584)
+      if _t == "table" then
+                      if _type(_temp584.map) == "function" or (_type(_temp584.map) == "table" and _rawget(_temp584.map, "__call_thing")) then
+        _temp584 = _temp584:map(_temp585)
+      elseif _temp584.map ~= nil then
+        _temp584 = _temp584.map
+
+        elseif _temp584.no_undermethod ~= nil then
+          _temp584 =  _temp584:no_undermethod(string:new("map") , _temp585)
+        else
+          _error(exception:method_error(_temp584, "map"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp584)
+      if _n.map ~= nil then
+        _temp584 = _n:map(_temp585)
+      elseif _n.no_undermethod ~= nil then
+        _temp584 =  _n:no_undermethod(string:new("map") , _temp585)
+      else
+        _error(exception:method_error(_temp584, "map"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp584)
+      if _f.map ~= nil then
+        _temp584 = _f:map(_temp585)
+      elseif _f.no_undermethod ~= nil then
+        _temp584 =  _f:no_undermethod(string:new("map") , _temp585)
+      else
+        _error(exception:method_error(_temp584, "map"))
+      end
+
+      elseif _temp584 == nil then
+        _error(exception:null_error("_temp584", "invoke map on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp584))
+      end
+
+_temp585 = string:new("\n")
+
+      local _t = _type(_temp584)
+      if _t == "table" then
+                      if _type(_temp584.join) == "function" or (_type(_temp584.join) == "table" and _rawget(_temp584.join, "__call_thing")) then
+        _temp584 = _temp584:join(_temp585)
+      elseif _temp584.join ~= nil then
+        _temp584 = _temp584.join
+
+        elseif _temp584.no_undermethod ~= nil then
+          _temp584 =  _temp584:no_undermethod(string:new("join") , _temp585)
+        else
+          _error(exception:method_error(_temp584, "join"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp584)
+      if _n.join ~= nil then
+        _temp584 = _n:join(_temp585)
+      elseif _n.no_undermethod ~= nil then
+        _temp584 =  _n:no_undermethod(string:new("join") , _temp585)
+      else
+        _error(exception:method_error(_temp584, "join"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp584)
+      if _f.join ~= nil then
+        _temp584 = _f:join(_temp585)
+      elseif _f.no_undermethod ~= nil then
+        _temp584 =  _f:no_undermethod(string:new("join") , _temp585)
+      else
+        _error(exception:method_error(_temp584, "join"))
+      end
+
+      elseif _temp584 == nil then
+        _error(exception:null_error("_temp584", "invoke join on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp584))
+      end
+
+local _temp585
+      local _t = _type(_temp583)
+      if _t == "table" then
+                      if _type(_temp583._less_less) == "function" or (_type(_temp583._less_less) == "table" and _rawget(_temp583._less_less, "__call_thing")) then
+        _temp585 = _temp583:_less_less(_temp584)
+      elseif _temp583._less_less ~= nil then
+        _temp585 = _temp583._less_less
+
+        elseif _temp583.no_undermethod ~= nil then
+          _temp585 =  _temp583:no_undermethod(string:new("<<") , _temp584)
+        else
+          _error(exception:method_error(_temp583, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp583)
+      if _n._less_less ~= nil then
+        _temp585 = _n:_less_less(_temp584)
+      elseif _n.no_undermethod ~= nil then
+        _temp585 =  _n:no_undermethod(string:new("<<") , _temp584)
+      else
+        _error(exception:method_error(_temp583, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp583)
+      if _f._less_less ~= nil then
+        _temp585 = _f:_less_less(_temp584)
+      elseif _f.no_undermethod ~= nil then
+        _temp585 =  _f:no_undermethod(string:new("<<") , _temp584)
+      else
+        _error(exception:method_error(_temp583, "<<"))
+      end
+
+      elseif _temp583 == nil then
+        _error(exception:null_error("_temp583", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp583))
+      end
+
+_dummy_ = _temp585 
+end
+
+local _temp581 
+do
+local _temp586 = nil
+        local _t = _type(_temp572)
+        if _t == "table" then
+          if _rawget(_temp572, "__call_thing") == nil then
+            _temp586 = _temp572
+          else
+                  if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp586 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp586 =  _self._temp572
+
+        elseif _self.no_undermethod ~= nil then
+          _temp586 =  _self:no_undermethod(string:new("_temp572"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp586 =  _temp572(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp586 = _temp572
+        elseif _t == "function" then
+                if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp586 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp586 =  _self._temp572
+
+        elseif _self.no_undermethod ~= nil then
+          _temp586 =  _self:no_undermethod(string:new("_temp572"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp586 =  _temp572(_self)
+      end
+
+        elseif _temp572 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp587 = nil
+      local _t = _type(_temp586)
+      if _t == "table" then
+                      if _type(_temp586.var) == "function" or (_type(_temp586.var) == "table" and _rawget(_temp586.var, "__call_thing")) then
+        _temp587 = _temp586:var()
+      elseif _temp586.var ~= nil then
+        _temp587 = _temp586.var
+
+        elseif _temp586.no_undermethod ~= nil then
+          _temp587 =  _temp586:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp586, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp586)
+      if _n.var ~= nil then
+        _temp587 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp587 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp586, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp586)
+      if _f.var ~= nil then
+        _temp587 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp587 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp586, "var"))
+      end
+
+      elseif _temp586 == nil then
+        _error(exception:null_error("_temp586", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp586))
+      end
+
+local _temp588 = nil
+        local _t = _type(_temp575)
+        if _t == "table" then
+          if _rawget(_temp575, "__call_thing") == nil then
+            _temp588 = _temp575
+          else
+                  if _temp575 == nil then
+              if _type(_self._temp575) == "function" or (_type(_self._temp575) == "table" and _rawget(_self._temp575, "__call_thing")) then
+        _temp588 =  _self:_temp575()
+      elseif _self._temp575 ~= nil then
+        _temp588 =  _self._temp575
+
+        elseif _self.no_undermethod ~= nil then
+          _temp588 =  _self:no_undermethod(string:new("_temp575"))
+        else
+          _error(exception:null_error("values", "invoke method"))
+        end
+      else 
+        _temp588 =  _temp575(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp588 = _temp575
+        elseif _t == "function" then
+                if _temp575 == nil then
+              if _type(_self._temp575) == "function" or (_type(_self._temp575) == "table" and _rawget(_self._temp575, "__call_thing")) then
+        _temp588 =  _self:_temp575()
+      elseif _self._temp575 ~= nil then
+        _temp588 =  _self._temp575
+
+        elseif _self.no_undermethod ~= nil then
+          _temp588 =  _self:no_undermethod(string:new("_temp575"))
+        else
+          _error(exception:null_error("values", "invoke method"))
+        end
+      else 
+        _temp588 =  _temp575(_self)
+      end
+
+        elseif _temp575 == nil then
+          _error(exception:null_error("values", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "values"))
+        end
+      local _t = _type(_temp588)
+      if _t == "table" then
+                      if _type(_temp588.last) == "function" or (_type(_temp588.last) == "table" and _rawget(_temp588.last, "__call_thing")) then
+        _temp588 = _temp588:last()
+      elseif _temp588.last ~= nil then
+        _temp588 = _temp588.last
+
+        elseif _temp588.no_undermethod ~= nil then
+          _temp588 =  _temp588:no_undermethod(string:new("last"))
+        else
+          _error(exception:method_error(_temp588, "last"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp588)
+      if _n.last ~= nil then
+        _temp588 = _n:last()
+      elseif _n.no_undermethod ~= nil then
+        _temp588 =  _n:no_undermethod(string:new("last"))
+      else
+        _error(exception:method_error(_temp588, "last"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp588)
+      if _f.last ~= nil then
+        _temp588 = _f:last()
+      elseif _f.no_undermethod ~= nil then
+        _temp588 =  _f:no_undermethod(string:new("last"))
+      else
+        _error(exception:method_error(_temp588, "last"))
+      end
+
+      elseif _temp588 == nil then
+        _error(exception:null_error("_temp588", "invoke last on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp588))
+      end
+
+      local _t = _type(_temp588)
+      if _t == "table" then
+                      if _type(_temp588.var) == "function" or (_type(_temp588.var) == "table" and _rawget(_temp588.var, "__call_thing")) then
+        _temp588 = _temp588:var()
+      elseif _temp588.var ~= nil then
+        _temp588 = _temp588.var
+
+        elseif _temp588.no_undermethod ~= nil then
+          _temp588 =  _temp588:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp588, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp588)
+      if _n.var ~= nil then
+        _temp588 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp588 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp588, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp588)
+      if _f.var ~= nil then
+        _temp588 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp588 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp588, "var"))
+      end
+
+      elseif _temp588 == nil then
+        _error(exception:null_error("_temp588", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp588))
+      end
+
+local _temp589
+      local _t = _type(_temp587)
+      if _t == "table" then
+                      if _type(_temp587._bang_equal) == "function" or (_type(_temp587._bang_equal) == "table" and _rawget(_temp587._bang_equal, "__call_thing")) then
+        _temp589 = _temp587:_bang_equal(_temp588)
+      elseif _temp587._bang_equal ~= nil then
+        _temp589 = _temp587._bang_equal
+
+        elseif _temp587.no_undermethod ~= nil then
+          _temp589 =  _temp587:no_undermethod(string:new("!=") , _temp588)
+        else
+          _error(exception:method_error(_temp587, "!="))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp587)
+      if _n._bang_equal ~= nil then
+        _temp589 = _n:_bang_equal(_temp588)
+      elseif _n.no_undermethod ~= nil then
+        _temp589 =  _n:no_undermethod(string:new("!=") , _temp588)
+      else
+        _error(exception:method_error(_temp587, "!="))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp587)
+      if _f._bang_equal ~= nil then
+        _temp589 = _f:_bang_equal(_temp588)
+      elseif _f.no_undermethod ~= nil then
+        _temp589 =  _f:no_undermethod(string:new("!=") , _temp588)
+      else
+        _error(exception:method_error(_temp587, "!="))
+      end
+
+      elseif _temp587 == nil then
+        _error(exception:null_error("_temp587", "invoke != on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp587))
+      end
+
+_temp581 = _temp589 
+end
+
+
+local _temp598 = function (_self)
+
+local _temp590 
+do
+local _temp591 = nil
+        local _t = _type(_temp572)
+        if _t == "table" then
+          if _rawget(_temp572, "__call_thing") == nil then
+            _temp591 = _temp572
+          else
+                  if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp591 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp591 =  _self._temp572
+
+        elseif _self.no_undermethod ~= nil then
+          _temp591 =  _self:no_undermethod(string:new("_temp572"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp591 =  _temp572(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp591 = _temp572
+        elseif _t == "function" then
+                if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp591 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp591 =  _self._temp572
+
+        elseif _self.no_undermethod ~= nil then
+          _temp591 =  _self:no_undermethod(string:new("_temp572"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp591 =  _temp572(_self)
+      end
+
+        elseif _temp572 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp592 = nil
+      local _t = _type(_temp591)
+      if _t == "table" then
+                      if _type(_temp591.out) == "function" or (_type(_temp591.out) == "table" and _rawget(_temp591.out, "__call_thing")) then
+        _temp592 = _temp591:out()
+      elseif _temp591.out ~= nil then
+        _temp592 = _temp591.out
+
+        elseif _temp591.no_undermethod ~= nil then
+          _temp592 =  _temp591:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp591, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp591)
+      if _n.out ~= nil then
+        _temp592 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp592 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp591, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp591)
+      if _f.out ~= nil then
+        _temp592 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp592 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp591, "out"))
+      end
+
+      elseif _temp591 == nil then
+        _error(exception:null_error("_temp591", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp591))
+      end
+
 local _temp593 = nil
+do
+local _temp594 = nil
+        local _t = _type(_temp572)
+        if _t == "table" then
+          if _rawget(_temp572, "__call_thing") == nil then
+            _temp594 = _temp572
+          else
+                  if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp594 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp594 =  _self._temp572
+
+        elseif _self.no_undermethod ~= nil then
+          _temp594 =  _self:no_undermethod(string:new("_temp572"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp594 =  _temp572(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp594 = _temp572
+        elseif _t == "function" then
+                if _temp572 == nil then
+              if _type(_self._temp572) == "function" or (_type(_self._temp572) == "table" and _rawget(_self._temp572, "__call_thing")) then
+        _temp594 =  _self:_temp572()
+      elseif _self._temp572 ~= nil then
+        _temp594 =  _self._temp572
+
+        elseif _self.no_undermethod ~= nil then
+          _temp594 =  _self:no_undermethod(string:new("_temp572"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp594 =  _temp572(_self)
+      end
+
+        elseif _temp572 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+      local _t = _type(_temp594)
+      if _t == "table" then
+                      if _type(_temp594.var) == "function" or (_type(_temp594.var) == "table" and _rawget(_temp594.var, "__call_thing")) then
+        _temp594 = _temp594:var()
+      elseif _temp594.var ~= nil then
+        _temp594 = _temp594.var
+
+        elseif _temp594.no_undermethod ~= nil then
+          _temp594 =  _temp594:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp594, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp594)
+      if _n.var ~= nil then
+        _temp594 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp594 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp594, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp594)
+      if _f.var ~= nil then
+        _temp594 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp594 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp594, "var"))
+      end
+
+      elseif _temp594 == nil then
+        _error(exception:null_error("_temp594", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp594))
+      end
+
+
+local _temp595 = nil
+        local _t = _type(_temp575)
+        if _t == "table" then
+          if _rawget(_temp575, "__call_thing") == nil then
+            _temp595 = _temp575
+          else
+                  if _temp575 == nil then
+              if _type(_self._temp575) == "function" or (_type(_self._temp575) == "table" and _rawget(_self._temp575, "__call_thing")) then
+        _temp595 =  _self:_temp575()
+      elseif _self._temp575 ~= nil then
+        _temp595 =  _self._temp575
+
+        elseif _self.no_undermethod ~= nil then
+          _temp595 =  _self:no_undermethod(string:new("_temp575"))
+        else
+          _error(exception:null_error("values", "invoke method"))
+        end
+      else 
+        _temp595 =  _temp575(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp595 = _temp575
+        elseif _t == "function" then
+                if _temp575 == nil then
+              if _type(_self._temp575) == "function" or (_type(_self._temp575) == "table" and _rawget(_self._temp575, "__call_thing")) then
+        _temp595 =  _self:_temp575()
+      elseif _self._temp575 ~= nil then
+        _temp595 =  _self._temp575
+
+        elseif _self.no_undermethod ~= nil then
+          _temp595 =  _self:no_undermethod(string:new("_temp575"))
+        else
+          _error(exception:null_error("values", "invoke method"))
+        end
+      else 
+        _temp595 =  _temp575(_self)
+      end
+
+        elseif _temp575 == nil then
+          _error(exception:null_error("values", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "values"))
+        end
+      local _t = _type(_temp595)
+      if _t == "table" then
+                      if _type(_temp595.last) == "function" or (_type(_temp595.last) == "table" and _rawget(_temp595.last, "__call_thing")) then
+        _temp595 = _temp595:last()
+      elseif _temp595.last ~= nil then
+        _temp595 = _temp595.last
+
+        elseif _temp595.no_undermethod ~= nil then
+          _temp595 =  _temp595:no_undermethod(string:new("last"))
+        else
+          _error(exception:method_error(_temp595, "last"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp595)
+      if _n.last ~= nil then
+        _temp595 = _n:last()
+      elseif _n.no_undermethod ~= nil then
+        _temp595 =  _n:no_undermethod(string:new("last"))
+      else
+        _error(exception:method_error(_temp595, "last"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp595)
+      if _f.last ~= nil then
+        _temp595 = _f:last()
+      elseif _f.no_undermethod ~= nil then
+        _temp595 =  _f:no_undermethod(string:new("last"))
+      else
+        _error(exception:method_error(_temp595, "last"))
+      end
+
+      elseif _temp595 == nil then
+        _error(exception:null_error("_temp595", "invoke last on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp595))
+      end
+
+      local _t = _type(_temp595)
+      if _t == "table" then
+                      if _type(_temp595.var) == "function" or (_type(_temp595.var) == "table" and _rawget(_temp595.var, "__call_thing")) then
+        _temp595 = _temp595:var()
+      elseif _temp595.var ~= nil then
+        _temp595 = _temp595.var
+
+        elseif _temp595.no_undermethod ~= nil then
+          _temp595 =  _temp595:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp595, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp595)
+      if _n.var ~= nil then
+        _temp595 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp595 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp595, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp595)
+      if _f.var ~= nil then
+        _temp595 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp595 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp595, "var"))
+      end
+
+      elseif _temp595 == nil then
+        _error(exception:null_error("_temp595", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp595))
+      end
+
+
+_temp593 = string:new("\n" .. _tostring(_temp594) .. " = " .. _tostring(_temp595) .. "\n")
+end
+local _temp596
       local _t = _type(_temp592)
       if _t == "table" then
-                      if _type(_temp592.out) == "function" or (_type(_temp592.out) == "table" and _rawget(_temp592.out, "__call_thing")) then
-        _temp593 = _temp592:out()
-      elseif _temp592.out ~= nil then
-        _temp593 = _temp592.out
+                      if _type(_temp592._less_less) == "function" or (_type(_temp592._less_less) == "table" and _rawget(_temp592._less_less, "__call_thing")) then
+        _temp596 = _temp592:_less_less(_temp593)
+      elseif _temp592._less_less ~= nil then
+        _temp596 = _temp592._less_less
 
         elseif _temp592.no_undermethod ~= nil then
-          _temp593 =  _temp592:no_undermethod(string:new("out"))
+          _temp596 =  _temp592:no_undermethod(string:new("<<") , _temp593)
         else
-          _error(exception:method_error(_temp592, "out"))
+          _error(exception:method_error(_temp592, "<<"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp592)
-      if _n.out ~= nil then
-        _temp593 = _n:out()
+      if _n._less_less ~= nil then
+        _temp596 = _n:_less_less(_temp593)
       elseif _n.no_undermethod ~= nil then
-        _temp593 =  _n:no_undermethod(string:new("out"))
+        _temp596 =  _n:no_undermethod(string:new("<<") , _temp593)
       else
-        _error(exception:method_error(_temp592, "out"))
+        _error(exception:method_error(_temp592, "<<"))
       end
 
       elseif _t == "function" then
               local _f = brat_function:new(_temp592)
-      if _f.out ~= nil then
-        _temp593 = _f:out()
+      if _f._less_less ~= nil then
+        _temp596 = _f:_less_less(_temp593)
       elseif _f.no_undermethod ~= nil then
-        _temp593 =  _f:no_undermethod(string:new("out"))
+        _temp596 =  _f:no_undermethod(string:new("<<") , _temp593)
       else
-        _error(exception:method_error(_temp592, "out"))
+        _error(exception:method_error(_temp592, "<<"))
       end
 
       elseif _temp592 == nil then
-        _error(exception:null_error("_temp592", "invoke out on it"))
+        _error(exception:null_error("_temp592", "invoke << on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(_temp592))
       end
 
-local _temp594 = nil
-        local _t = _type(_temp585)
-        if _t == "table" then
-          if _rawget(_temp585, "__call_thing") == nil then
-            _temp594 = _temp585
-          else
-                  if _temp585 == nil then
-              if _type(_self._temp585) == "function" or (_type(_self._temp585) == "table" and _rawget(_self._temp585, "__call_thing")) then
-        _temp594 =  _self:_temp585()
-      elseif _self._temp585 ~= nil then
-        _temp594 =  _self._temp585
-
-        elseif _self.no_undermethod ~= nil then
-          _temp594 =  _self:no_undermethod(string:new("_temp585"))
-        else
-          _error(exception:null_error("values", "invoke method"))
-        end
-      else 
-        _temp594 =  _temp585(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp594 = _temp585
-        elseif _t == "function" then
-                if _temp585 == nil then
-              if _type(_self._temp585) == "function" or (_type(_self._temp585) == "table" and _rawget(_self._temp585, "__call_thing")) then
-        _temp594 =  _self:_temp585()
-      elseif _self._temp585 ~= nil then
-        _temp594 =  _self._temp585
-
-        elseif _self.no_undermethod ~= nil then
-          _temp594 =  _self:no_undermethod(string:new("_temp585"))
-        else
-          _error(exception:null_error("values", "invoke method"))
-        end
-      else 
-        _temp594 =  _temp585(_self)
-      end
-
-        elseif _temp585 == nil then
-          _error(exception:null_error("values", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "values"))
-        end
-local _temp595 = string:new("out")
-
-      local _t = _type(_temp594)
-      if _t == "table" then
-                      if _type(_temp594.map) == "function" or (_type(_temp594.map) == "table" and _rawget(_temp594.map, "__call_thing")) then
-        _temp594 = _temp594:map(_temp595)
-      elseif _temp594.map ~= nil then
-        _temp594 = _temp594.map
-
-        elseif _temp594.no_undermethod ~= nil then
-          _temp594 =  _temp594:no_undermethod(string:new("map") , _temp595)
-        else
-          _error(exception:method_error(_temp594, "map"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp594)
-      if _n.map ~= nil then
-        _temp594 = _n:map(_temp595)
-      elseif _n.no_undermethod ~= nil then
-        _temp594 =  _n:no_undermethod(string:new("map") , _temp595)
-      else
-        _error(exception:method_error(_temp594, "map"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp594)
-      if _f.map ~= nil then
-        _temp594 = _f:map(_temp595)
-      elseif _f.no_undermethod ~= nil then
-        _temp594 =  _f:no_undermethod(string:new("map") , _temp595)
-      else
-        _error(exception:method_error(_temp594, "map"))
-      end
-
-      elseif _temp594 == nil then
-        _error(exception:null_error("_temp594", "invoke map on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp594))
-      end
-
-_temp595 = string:new("\n")
-
-      local _t = _type(_temp594)
-      if _t == "table" then
-                      if _type(_temp594.join) == "function" or (_type(_temp594.join) == "table" and _rawget(_temp594.join, "__call_thing")) then
-        _temp594 = _temp594:join(_temp595)
-      elseif _temp594.join ~= nil then
-        _temp594 = _temp594.join
-
-        elseif _temp594.no_undermethod ~= nil then
-          _temp594 =  _temp594:no_undermethod(string:new("join") , _temp595)
-        else
-          _error(exception:method_error(_temp594, "join"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp594)
-      if _n.join ~= nil then
-        _temp594 = _n:join(_temp595)
-      elseif _n.no_undermethod ~= nil then
-        _temp594 =  _n:no_undermethod(string:new("join") , _temp595)
-      else
-        _error(exception:method_error(_temp594, "join"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp594)
-      if _f.join ~= nil then
-        _temp594 = _f:join(_temp595)
-      elseif _f.no_undermethod ~= nil then
-        _temp594 =  _f:no_undermethod(string:new("join") , _temp595)
-      else
-        _error(exception:method_error(_temp594, "join"))
-      end
-
-      elseif _temp594 == nil then
-        _error(exception:null_error("_temp594", "invoke join on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp594))
-      end
-
-local _temp595
-      local _t = _type(_temp593)
-      if _t == "table" then
-                      if _type(_temp593._less_less) == "function" or (_type(_temp593._less_less) == "table" and _rawget(_temp593._less_less, "__call_thing")) then
-        _temp595 = _temp593:_less_less(_temp594)
-      elseif _temp593._less_less ~= nil then
-        _temp595 = _temp593._less_less
-
-        elseif _temp593.no_undermethod ~= nil then
-          _temp595 =  _temp593:no_undermethod(string:new("<<") , _temp594)
-        else
-          _error(exception:method_error(_temp593, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp593)
-      if _n._less_less ~= nil then
-        _temp595 = _n:_less_less(_temp594)
-      elseif _n.no_undermethod ~= nil then
-        _temp595 =  _n:no_undermethod(string:new("<<") , _temp594)
-      else
-        _error(exception:method_error(_temp593, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp593)
-      if _f._less_less ~= nil then
-        _temp595 = _f:_less_less(_temp594)
-      elseif _f.no_undermethod ~= nil then
-        _temp595 =  _f:no_undermethod(string:new("<<") , _temp594)
-      else
-        _error(exception:method_error(_temp593, "<<"))
-      end
-
-      elseif _temp593 == nil then
-        _error(exception:null_error("_temp593", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp593))
-      end
-
-_dummy_ = _temp595 
+_temp590 = _temp596 
 end
 
-local _temp591 
-do
-local _temp596 = nil
-        local _t = _type(_temp582)
-        if _t == "table" then
-          if _rawget(_temp582, "__call_thing") == nil then
-            _temp596 = _temp582
-          else
-                  if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp596 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp596 =  _self._temp582
-
-        elseif _self.no_undermethod ~= nil then
-          _temp596 =  _self:no_undermethod(string:new("_temp582"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp596 =  _temp582(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp596 = _temp582
-        elseif _t == "function" then
-                if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp596 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp596 =  _self._temp582
-
-        elseif _self.no_undermethod ~= nil then
-          _temp596 =  _self:no_undermethod(string:new("_temp582"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp596 =  _temp582(_self)
-      end
-
-        elseif _temp582 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp597 = nil
-      local _t = _type(_temp596)
-      if _t == "table" then
-                      if _type(_temp596.var) == "function" or (_type(_temp596.var) == "table" and _rawget(_temp596.var, "__call_thing")) then
-        _temp597 = _temp596:var()
-      elseif _temp596.var ~= nil then
-        _temp597 = _temp596.var
-
-        elseif _temp596.no_undermethod ~= nil then
-          _temp597 =  _temp596:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp596, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp596)
-      if _n.var ~= nil then
-        _temp597 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp597 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp596, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp596)
-      if _f.var ~= nil then
-        _temp597 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp597 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp596, "var"))
-      end
-
-      elseif _temp596 == nil then
-        _error(exception:null_error("_temp596", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp596))
-      end
-
-local _temp598 = nil
-        local _t = _type(_temp585)
-        if _t == "table" then
-          if _rawget(_temp585, "__call_thing") == nil then
-            _temp598 = _temp585
-          else
-                  if _temp585 == nil then
-              if _type(_self._temp585) == "function" or (_type(_self._temp585) == "table" and _rawget(_self._temp585, "__call_thing")) then
-        _temp598 =  _self:_temp585()
-      elseif _self._temp585 ~= nil then
-        _temp598 =  _self._temp585
-
-        elseif _self.no_undermethod ~= nil then
-          _temp598 =  _self:no_undermethod(string:new("_temp585"))
-        else
-          _error(exception:null_error("values", "invoke method"))
-        end
-      else 
-        _temp598 =  _temp585(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp598 = _temp585
-        elseif _t == "function" then
-                if _temp585 == nil then
-              if _type(_self._temp585) == "function" or (_type(_self._temp585) == "table" and _rawget(_self._temp585, "__call_thing")) then
-        _temp598 =  _self:_temp585()
-      elseif _self._temp585 ~= nil then
-        _temp598 =  _self._temp585
-
-        elseif _self.no_undermethod ~= nil then
-          _temp598 =  _self:no_undermethod(string:new("_temp585"))
-        else
-          _error(exception:null_error("values", "invoke method"))
-        end
-      else 
-        _temp598 =  _temp585(_self)
-      end
-
-        elseif _temp585 == nil then
-          _error(exception:null_error("values", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "values"))
-        end
-      local _t = _type(_temp598)
-      if _t == "table" then
-                      if _type(_temp598.last) == "function" or (_type(_temp598.last) == "table" and _rawget(_temp598.last, "__call_thing")) then
-        _temp598 = _temp598:last()
-      elseif _temp598.last ~= nil then
-        _temp598 = _temp598.last
-
-        elseif _temp598.no_undermethod ~= nil then
-          _temp598 =  _temp598:no_undermethod(string:new("last"))
-        else
-          _error(exception:method_error(_temp598, "last"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp598)
-      if _n.last ~= nil then
-        _temp598 = _n:last()
-      elseif _n.no_undermethod ~= nil then
-        _temp598 =  _n:no_undermethod(string:new("last"))
-      else
-        _error(exception:method_error(_temp598, "last"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp598)
-      if _f.last ~= nil then
-        _temp598 = _f:last()
-      elseif _f.no_undermethod ~= nil then
-        _temp598 =  _f:no_undermethod(string:new("last"))
-      else
-        _error(exception:method_error(_temp598, "last"))
-      end
-
-      elseif _temp598 == nil then
-        _error(exception:null_error("_temp598", "invoke last on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp598))
-      end
-
-      local _t = _type(_temp598)
-      if _t == "table" then
-                      if _type(_temp598.var) == "function" or (_type(_temp598.var) == "table" and _rawget(_temp598.var, "__call_thing")) then
-        _temp598 = _temp598:var()
-      elseif _temp598.var ~= nil then
-        _temp598 = _temp598.var
-
-        elseif _temp598.no_undermethod ~= nil then
-          _temp598 =  _temp598:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp598, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp598)
-      if _n.var ~= nil then
-        _temp598 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp598 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp598, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp598)
-      if _f.var ~= nil then
-        _temp598 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp598 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp598, "var"))
-      end
-
-      elseif _temp598 == nil then
-        _error(exception:null_error("_temp598", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp598))
-      end
-
-local _temp599
-      local _t = _type(_temp597)
-      if _t == "table" then
-                      if _type(_temp597._bang_equal) == "function" or (_type(_temp597._bang_equal) == "table" and _rawget(_temp597._bang_equal, "__call_thing")) then
-        _temp599 = _temp597:_bang_equal(_temp598)
-      elseif _temp597._bang_equal ~= nil then
-        _temp599 = _temp597._bang_equal
-
-        elseif _temp597.no_undermethod ~= nil then
-          _temp599 =  _temp597:no_undermethod(string:new("!=") , _temp598)
-        else
-          _error(exception:method_error(_temp597, "!="))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp597)
-      if _n._bang_equal ~= nil then
-        _temp599 = _n:_bang_equal(_temp598)
-      elseif _n.no_undermethod ~= nil then
-        _temp599 =  _n:no_undermethod(string:new("!=") , _temp598)
-      else
-        _error(exception:method_error(_temp597, "!="))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp597)
-      if _f._bang_equal ~= nil then
-        _temp599 = _f:_bang_equal(_temp598)
-      elseif _f.no_undermethod ~= nil then
-        _temp599 =  _f:no_undermethod(string:new("!=") , _temp598)
-      else
-        _error(exception:method_error(_temp597, "!="))
-      end
-
-      elseif _temp597 == nil then
-        _error(exception:null_error("_temp597", "invoke != on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp597))
-      end
-
-_temp591 = _temp599 
-end
-
-
-local _temp608 = function (_self)
-
-local _temp600 
-do
-local _temp601 = nil
-        local _t = _type(_temp582)
-        if _t == "table" then
-          if _rawget(_temp582, "__call_thing") == nil then
-            _temp601 = _temp582
-          else
-                  if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp601 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp601 =  _self._temp582
-
-        elseif _self.no_undermethod ~= nil then
-          _temp601 =  _self:no_undermethod(string:new("_temp582"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp601 =  _temp582(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp601 = _temp582
-        elseif _t == "function" then
-                if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp601 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp601 =  _self._temp582
-
-        elseif _self.no_undermethod ~= nil then
-          _temp601 =  _self:no_undermethod(string:new("_temp582"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp601 =  _temp582(_self)
-      end
-
-        elseif _temp582 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp602 = nil
-      local _t = _type(_temp601)
-      if _t == "table" then
-                      if _type(_temp601.out) == "function" or (_type(_temp601.out) == "table" and _rawget(_temp601.out, "__call_thing")) then
-        _temp602 = _temp601:out()
-      elseif _temp601.out ~= nil then
-        _temp602 = _temp601.out
-
-        elseif _temp601.no_undermethod ~= nil then
-          _temp602 =  _temp601:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp601, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp601)
-      if _n.out ~= nil then
-        _temp602 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp602 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp601, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp601)
-      if _f.out ~= nil then
-        _temp602 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp602 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp601, "out"))
-      end
-
-      elseif _temp601 == nil then
-        _error(exception:null_error("_temp601", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp601))
-      end
-
-local _temp603 = nil
-do
-local _temp604 = nil
-        local _t = _type(_temp582)
-        if _t == "table" then
-          if _rawget(_temp582, "__call_thing") == nil then
-            _temp604 = _temp582
-          else
-                  if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp604 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp604 =  _self._temp582
-
-        elseif _self.no_undermethod ~= nil then
-          _temp604 =  _self:no_undermethod(string:new("_temp582"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp604 =  _temp582(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp604 = _temp582
-        elseif _t == "function" then
-                if _temp582 == nil then
-              if _type(_self._temp582) == "function" or (_type(_self._temp582) == "table" and _rawget(_self._temp582, "__call_thing")) then
-        _temp604 =  _self:_temp582()
-      elseif _self._temp582 ~= nil then
-        _temp604 =  _self._temp582
-
-        elseif _self.no_undermethod ~= nil then
-          _temp604 =  _self:no_undermethod(string:new("_temp582"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp604 =  _temp582(_self)
-      end
-
-        elseif _temp582 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-      local _t = _type(_temp604)
-      if _t == "table" then
-                      if _type(_temp604.var) == "function" or (_type(_temp604.var) == "table" and _rawget(_temp604.var, "__call_thing")) then
-        _temp604 = _temp604:var()
-      elseif _temp604.var ~= nil then
-        _temp604 = _temp604.var
-
-        elseif _temp604.no_undermethod ~= nil then
-          _temp604 =  _temp604:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp604, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp604)
-      if _n.var ~= nil then
-        _temp604 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp604 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp604, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp604)
-      if _f.var ~= nil then
-        _temp604 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp604 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp604, "var"))
-      end
-
-      elseif _temp604 == nil then
-        _error(exception:null_error("_temp604", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp604))
-      end
-
-
-local _temp605 = nil
-        local _t = _type(_temp585)
-        if _t == "table" then
-          if _rawget(_temp585, "__call_thing") == nil then
-            _temp605 = _temp585
-          else
-                  if _temp585 == nil then
-              if _type(_self._temp585) == "function" or (_type(_self._temp585) == "table" and _rawget(_self._temp585, "__call_thing")) then
-        _temp605 =  _self:_temp585()
-      elseif _self._temp585 ~= nil then
-        _temp605 =  _self._temp585
-
-        elseif _self.no_undermethod ~= nil then
-          _temp605 =  _self:no_undermethod(string:new("_temp585"))
-        else
-          _error(exception:null_error("values", "invoke method"))
-        end
-      else 
-        _temp605 =  _temp585(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp605 = _temp585
-        elseif _t == "function" then
-                if _temp585 == nil then
-              if _type(_self._temp585) == "function" or (_type(_self._temp585) == "table" and _rawget(_self._temp585, "__call_thing")) then
-        _temp605 =  _self:_temp585()
-      elseif _self._temp585 ~= nil then
-        _temp605 =  _self._temp585
-
-        elseif _self.no_undermethod ~= nil then
-          _temp605 =  _self:no_undermethod(string:new("_temp585"))
-        else
-          _error(exception:null_error("values", "invoke method"))
-        end
-      else 
-        _temp605 =  _temp585(_self)
-      end
-
-        elseif _temp585 == nil then
-          _error(exception:null_error("values", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "values"))
-        end
-      local _t = _type(_temp605)
-      if _t == "table" then
-                      if _type(_temp605.last) == "function" or (_type(_temp605.last) == "table" and _rawget(_temp605.last, "__call_thing")) then
-        _temp605 = _temp605:last()
-      elseif _temp605.last ~= nil then
-        _temp605 = _temp605.last
-
-        elseif _temp605.no_undermethod ~= nil then
-          _temp605 =  _temp605:no_undermethod(string:new("last"))
-        else
-          _error(exception:method_error(_temp605, "last"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp605)
-      if _n.last ~= nil then
-        _temp605 = _n:last()
-      elseif _n.no_undermethod ~= nil then
-        _temp605 =  _n:no_undermethod(string:new("last"))
-      else
-        _error(exception:method_error(_temp605, "last"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp605)
-      if _f.last ~= nil then
-        _temp605 = _f:last()
-      elseif _f.no_undermethod ~= nil then
-        _temp605 =  _f:no_undermethod(string:new("last"))
-      else
-        _error(exception:method_error(_temp605, "last"))
-      end
-
-      elseif _temp605 == nil then
-        _error(exception:null_error("_temp605", "invoke last on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp605))
-      end
-
-      local _t = _type(_temp605)
-      if _t == "table" then
-                      if _type(_temp605.var) == "function" or (_type(_temp605.var) == "table" and _rawget(_temp605.var, "__call_thing")) then
-        _temp605 = _temp605:var()
-      elseif _temp605.var ~= nil then
-        _temp605 = _temp605.var
-
-        elseif _temp605.no_undermethod ~= nil then
-          _temp605 =  _temp605:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp605, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp605)
-      if _n.var ~= nil then
-        _temp605 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp605 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp605, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp605)
-      if _f.var ~= nil then
-        _temp605 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp605 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp605, "var"))
-      end
-
-      elseif _temp605 == nil then
-        _error(exception:null_error("_temp605", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp605))
-      end
-
-
-_temp603 = string:new("\n" .. _tostring(_temp604) .. " = " .. _tostring(_temp605) .. "\n")
-end
-local _temp606
-      local _t = _type(_temp602)
-      if _t == "table" then
-                      if _type(_temp602._less_less) == "function" or (_type(_temp602._less_less) == "table" and _rawget(_temp602._less_less, "__call_thing")) then
-        _temp606 = _temp602:_less_less(_temp603)
-      elseif _temp602._less_less ~= nil then
-        _temp606 = _temp602._less_less
-
-        elseif _temp602.no_undermethod ~= nil then
-          _temp606 =  _temp602:no_undermethod(string:new("<<") , _temp603)
-        else
-          _error(exception:method_error(_temp602, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp602)
-      if _n._less_less ~= nil then
-        _temp606 = _n:_less_less(_temp603)
-      elseif _n.no_undermethod ~= nil then
-        _temp606 =  _n:no_undermethod(string:new("<<") , _temp603)
-      else
-        _error(exception:method_error(_temp602, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp602)
-      if _f._less_less ~= nil then
-        _temp606 = _f:_less_less(_temp603)
-      elseif _f.no_undermethod ~= nil then
-        _temp606 =  _f:no_undermethod(string:new("<<") , _temp603)
-      else
-        _error(exception:method_error(_temp602, "<<"))
-      end
-
-      elseif _temp602 == nil then
-        _error(exception:null_error("_temp602", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp602))
-      end
-
-_temp600 = _temp606 
-end
-
-return _temp600
+return _temp590
 end
 
     if _type(true_question) == "function" or (_type(true_question) == "table" and _rawget(true_question, "__call_thing")) then
-      _dummy_ =  true_question(_self, _temp591,_temp608)
+      _dummy_ =  true_question(_self, _temp581,_temp598)
 
     elseif true_question then
       _error(exception:new("Tried to invoke non-method: true? (" .. object.__type(true_question) .. ")"))
     else
             if _type(_self.true_question) == "function" or (_type(_self.true_question) == "table" and _rawget(_self.true_question, "__call_thing")) then
-        _dummy_ =  _self:true_question(_temp591,_temp608)
+        _dummy_ =  _self:true_question(_temp581,_temp598)
       elseif _self.true_question ~= nil then
         _dummy_ =  _self.true_question
 
@@ -25782,19 +25532,19 @@ end
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _dummy_ =  _self:no_undermethod(string:new("true?") , _temp591,_temp608)
+        _dummy_ =  _self:no_undermethod(string:new("true?") , _temp581,_temp598)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _dummy_ =  no_undermethod(_self, string:new("true?") , _temp591,_temp608)
+        _dummy_ =  no_undermethod(_self, string:new("true?") , _temp581,_temp598)
       else
         _error(exception:name_error("true?"))
       end
     end
 
-    if _type(_temp582) == "function" or (_type(_temp582) == "table" and _rawget(_temp582, "__call_thing")) then
-      return  _temp582(_self)
+    if _type(_temp572) == "function" or (_type(_temp572) == "table" and _rawget(_temp572, "__call_thing")) then
+      return  _temp572(_self)
 
-    elseif _temp582 then
-      return  _temp582
+    elseif _temp572 then
+      return  _temp572
     else
             if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
         return  _self:res()
@@ -25815,82 +25565,82 @@ end
 
 end
 
-      local _t = _type(_temp523)
+      local _t = _type(_temp513)
       if _t == "table" then
-                      if _type(_temp523.walk) == "function" or (_type(_temp523.walk) == "table" and _rawget(_temp523.walk, "__call_thing")) then
-        _dummy_ = _temp523:walk(_temp4,_temp591)
-      elseif _temp523.walk ~= nil then
-        _dummy_ = _temp523.walk
+                      if _type(_temp513.walk) == "function" or (_type(_temp513.walk) == "table" and _rawget(_temp513.walk, "__call_thing")) then
+        _dummy_ = _temp513:walk(_temp4,_temp581)
+      elseif _temp513.walk ~= nil then
+        _dummy_ = _temp513.walk
 
-        elseif _temp523.no_undermethod ~= nil then
-          _dummy_ =  _temp523:no_undermethod(string:new("walk") , _temp4,_temp591)
+        elseif _temp513.no_undermethod ~= nil then
+          _dummy_ =  _temp513:no_undermethod(string:new("walk") , _temp4,_temp581)
         else
-          _error(exception:method_error(_temp523, "walk"))
+          _error(exception:method_error(_temp513, "walk"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp523)
+              local _n = number:new(_temp513)
       if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp591)
+        _dummy_ = _n:walk(_temp4,_temp581)
       elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp591)
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp581)
       else
-        _error(exception:method_error(_temp523, "walk"))
+        _error(exception:method_error(_temp513, "walk"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp523)
+              local _f = brat_function:new(_temp513)
       if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp591)
+        _dummy_ = _f:walk(_temp4,_temp581)
       elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp591)
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp581)
       else
-        _error(exception:method_error(_temp523, "walk"))
+        _error(exception:method_error(_temp513, "walk"))
       end
 
-      elseif _temp523 == nil then
-        _error(exception:null_error("_temp523", "invoke walk on it"))
+      elseif _temp513 == nil then
+        _error(exception:null_error("_temp513", "invoke walk on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp523))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp513))
       end
 
         local _t = _type(_temp5)
         if _t == "table" then
           if _rawget(_temp5, "__call_thing") == nil then
-            _temp591 = _temp5
+            _temp581 = _temp5
           else
                   if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp591 =  _self:_temp5()
+        _temp581 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp591 =  _self._temp5
+        _temp581 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp591 =  _self:no_undermethod(string:new("_temp5"))
+          _temp581 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp591 =  _temp5(_self)
+        _temp581 =  _temp5(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp591 = _temp5
+          _temp581 = _temp5
         elseif _t == "function" then
                 if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp591 =  _self:_temp5()
+        _temp581 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp591 =  _self._temp5
+        _temp581 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp591 =  _self:no_undermethod(string:new("_temp5"))
+          _temp581 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp591 =  _temp5(_self)
+        _temp581 =  _temp5(_self)
       end
 
         elseif _temp5 == nil then
@@ -25900,31 +25650,31 @@ end
         end
 _temp4 = string:new("binop")
 
-local _temp614 = function (_self, _temp610,_temp609)
-        if _temp610 == nil then
+local _temp604 = function (_self, _temp600,_temp599)
+        if _temp600 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
 end
-if _temp609 == nil then
+if _temp599 == nil then
  do
     if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp609 =  null(_self)
+      _temp599 =  null(_self)
 
     elseif null then
-      _temp609 =  null
+      _temp599 =  null
     else
             if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp609 =  _self:null()
+        _temp599 =  _self:null()
       elseif _self.null ~= nil then
-        _temp609 =  _self.null
+        _temp599 =  _self.null
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp609 =  _self:no_undermethod(string:new("null"))
+        _temp599 =  _self:no_undermethod(string:new("null"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp609 =  no_undermethod(_self, string:new("null"))
+        _temp599 =  no_undermethod(_self, string:new("null"))
       else
         _error(exception:name_error("null"))
       end
@@ -25933,85 +25683,85 @@ if _temp609 == nil then
 end
 end
 
-local _temp611
-local _temp612 = nil
-    if _type(_temp610) == "function" or (_type(_temp610) == "table" and _rawget(_temp610, "__call_thing")) then
-      _temp612 =  _temp610(_self)
+local _temp601
+local _temp602 = nil
+    if _type(_temp600) == "function" or (_type(_temp600) == "table" and _rawget(_temp600, "__call_thing")) then
+      _temp602 =  _temp600(_self)
 
-    elseif _temp610 then
-      _temp612 =  _temp610
+    elseif _temp600 then
+      _temp602 =  _temp600
     else
             if _type(_self.node) == "function" or (_type(_self.node) == "table" and _rawget(_self.node, "__call_thing")) then
-        _temp612 =  _self:node()
+        _temp602 =  _self:node()
       elseif _self.node ~= nil then
-        _temp612 =  _self.node
+        _temp602 =  _self.node
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp612 =  _self:no_undermethod(string:new("node"))
+        _temp602 =  _self:no_undermethod(string:new("node"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp612 =  no_undermethod(_self, string:new("node"))
+        _temp602 =  no_undermethod(_self, string:new("node"))
       else
         _error(exception:name_error("node"))
       end
     end
 
     if _type(reorder_underops) == "function" or (_type(reorder_underops) == "table" and _rawget(reorder_underops, "__call_thing")) then
-      _temp611 =  reorder_underops(_self, _temp612)
+      _temp601 =  reorder_underops(_self, _temp602)
 
     elseif reorder_underops then
       _error(exception:new("Tried to invoke non-method: reorder_ops (" .. object.__type(reorder_underops) .. ")"))
     else
             if _type(_self.reorder_underops) == "function" or (_type(_self.reorder_underops) == "table" and _rawget(_self.reorder_underops, "__call_thing")) then
-        _temp611 =  _self:reorder_underops(_temp612)
+        _temp601 =  _self:reorder_underops(_temp602)
       elseif _self.reorder_underops ~= nil then
-        _temp611 =  _self.reorder_underops
+        _temp601 =  _self.reorder_underops
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp611 =  _self:no_undermethod(string:new("reorder_ops") , _temp612)
+        _temp601 =  _self:no_undermethod(string:new("reorder_ops") , _temp602)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp611 =  no_undermethod(_self, string:new("reorder_ops") , _temp612)
+        _temp601 =  no_undermethod(_self, string:new("reorder_ops") , _temp602)
       else
         _error(exception:name_error("reorder_ops"))
       end
     end
 
-    if _type(_temp611) == "function" or (_type(_temp611) == "table" and _rawget(_temp611, "__call_thing")) then
-      _temp612 =  _temp611(_self)
+    if _type(_temp601) == "function" or (_type(_temp601) == "table" and _rawget(_temp601, "__call_thing")) then
+      _temp602 =  _temp601(_self)
 
-    elseif _temp611 then
-      _temp612 =  _temp611
+    elseif _temp601 then
+      _temp602 =  _temp601
     else
             if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
-        _temp612 =  _self:res()
+        _temp602 =  _self:res()
       elseif _self.res ~= nil then
-        _temp612 =  _self.res
+        _temp602 =  _self.res
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp612 =  _self:no_undermethod(string:new("res"))
+        _temp602 =  _self:no_undermethod(string:new("res"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp612 =  no_undermethod(_self, string:new("res"))
+        _temp602 =  no_undermethod(_self, string:new("res"))
       else
         _error(exception:name_error("res"))
       end
     end
 
     if _type(process) == "function" or (_type(process) == "table" and _rawget(process, "__call_thing")) then
-      return  process(_self, _temp612)
+      return  process(_self, _temp602)
 
     elseif process then
       _error(exception:new("Tried to invoke non-method: process (" .. object.__type(process) .. ")"))
     else
             if _type(_self.process) == "function" or (_type(_self.process) == "table" and _rawget(_self.process, "__call_thing")) then
-        return  _self:process(_temp612)
+        return  _self:process(_temp602)
       elseif _self.process ~= nil then
         return  _self.process
 
@@ -26019,9 +25769,9 @@ local _temp612 = nil
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        return  _self:no_undermethod(string:new("process") , _temp612)
+        return  _self:no_undermethod(string:new("process") , _temp602)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        return  no_undermethod(_self, string:new("process") , _temp612)
+        return  no_undermethod(_self, string:new("process") , _temp602)
       else
         _error(exception:name_error("process"))
       end
@@ -26029,82 +25779,82 @@ local _temp612 = nil
 
 end
 
-      local _t = _type(_temp591)
+      local _t = _type(_temp581)
       if _t == "table" then
-                      if _type(_temp591.walk) == "function" or (_type(_temp591.walk) == "table" and _rawget(_temp591.walk, "__call_thing")) then
-        _dummy_ = _temp591:walk(_temp4,_temp614)
-      elseif _temp591.walk ~= nil then
-        _dummy_ = _temp591.walk
+                      if _type(_temp581.walk) == "function" or (_type(_temp581.walk) == "table" and _rawget(_temp581.walk, "__call_thing")) then
+        _dummy_ = _temp581:walk(_temp4,_temp604)
+      elseif _temp581.walk ~= nil then
+        _dummy_ = _temp581.walk
 
-        elseif _temp591.no_undermethod ~= nil then
-          _dummy_ =  _temp591:no_undermethod(string:new("walk") , _temp4,_temp614)
+        elseif _temp581.no_undermethod ~= nil then
+          _dummy_ =  _temp581:no_undermethod(string:new("walk") , _temp4,_temp604)
         else
-          _error(exception:method_error(_temp591, "walk"))
+          _error(exception:method_error(_temp581, "walk"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp591)
+              local _n = number:new(_temp581)
       if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp614)
+        _dummy_ = _n:walk(_temp4,_temp604)
       elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp614)
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp604)
       else
-        _error(exception:method_error(_temp591, "walk"))
+        _error(exception:method_error(_temp581, "walk"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp591)
+              local _f = brat_function:new(_temp581)
       if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp614)
+        _dummy_ = _f:walk(_temp4,_temp604)
       elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp614)
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp604)
       else
-        _error(exception:method_error(_temp591, "walk"))
+        _error(exception:method_error(_temp581, "walk"))
       end
 
-      elseif _temp591 == nil then
-        _error(exception:null_error("_temp591", "invoke walk on it"))
+      elseif _temp581 == nil then
+        _error(exception:null_error("_temp581", "invoke walk on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp591))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp581))
       end
 
         local _t = _type(_temp5)
         if _t == "table" then
           if _rawget(_temp5, "__call_thing") == nil then
-            _temp614 = _temp5
+            _temp604 = _temp5
           else
                   if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp614 =  _self:_temp5()
+        _temp604 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp614 =  _self._temp5
+        _temp604 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp614 =  _self:no_undermethod(string:new("_temp5"))
+          _temp604 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp614 =  _temp5(_self)
+        _temp604 =  _temp5(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp614 = _temp5
+          _temp604 = _temp5
         elseif _t == "function" then
                 if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp614 =  _self:_temp5()
+        _temp604 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp614 =  _self._temp5
+        _temp604 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp614 =  _self:no_undermethod(string:new("_temp5"))
+          _temp604 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp614 =  _temp5(_self)
+        _temp604 =  _temp5(_self)
       end
 
         elseif _temp5 == nil then
@@ -26114,31 +25864,31 @@ end
         end
 _temp4 = string:new("invoke_numbers")
 
-local _temp626 = function (_self, _temp616,_temp615)
-        if _temp616 == nil then
+local _temp616 = function (_self, _temp606,_temp605)
+        if _temp606 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
 end
-if _temp615 == nil then
+if _temp605 == nil then
  do
     if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp615 =  null(_self)
+      _temp605 =  null(_self)
 
     elseif null then
-      _temp615 =  null
+      _temp605 =  null
     else
             if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp615 =  _self:null()
+        _temp605 =  _self:null()
       elseif _self.null ~= nil then
-        _temp615 =  _self.null
+        _temp605 =  _self.null
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp615 =  _self:no_undermethod(string:new("null"))
+        _temp605 =  _self:no_undermethod(string:new("null"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp615 =  no_undermethod(_self, string:new("null"))
+        _temp605 =  no_undermethod(_self, string:new("null"))
       else
         _error(exception:name_error("null"))
       end
@@ -26147,630 +25897,630 @@ if _temp615 == nil then
 end
 end
 
-local _temp617
-local _temp618 = nil
-    if _type(_temp615) == "function" or (_type(_temp615) == "table" and _rawget(_temp615, "__call_thing")) then
-      _temp618 =  _temp615(_self)
+local _temp607
+local _temp608 = nil
+    if _type(_temp605) == "function" or (_type(_temp605) == "table" and _rawget(_temp605, "__call_thing")) then
+      _temp608 =  _temp605(_self)
 
-    elseif _temp615 then
-      _temp618 =  _temp615
+    elseif _temp605 then
+      _temp608 =  _temp605
     else
             if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
-        _temp618 =  _self:var()
+        _temp608 =  _self:var()
       elseif _self.var ~= nil then
-        _temp618 =  _self.var
+        _temp608 =  _self.var
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp618 =  _self:no_undermethod(string:new("var"))
+        _temp608 =  _self:no_undermethod(string:new("var"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp618 =  no_undermethod(_self, string:new("var"))
+        _temp608 =  no_undermethod(_self, string:new("var"))
       else
         _error(exception:name_error("var"))
       end
     end
 
     if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
-      _temp617 =  set_underresult(_self, _temp618)
+      _temp607 =  set_underresult(_self, _temp608)
 
     elseif set_underresult then
       _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
     else
             if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
-        _temp617 =  _self:set_underresult(_temp618)
+        _temp607 =  _self:set_underresult(_temp608)
       elseif _self.set_underresult ~= nil then
-        _temp617 =  _self.set_underresult
+        _temp607 =  _self.set_underresult
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp617 =  _self:no_undermethod(string:new("set_result") , _temp618)
+        _temp607 =  _self:no_undermethod(string:new("set_result") , _temp608)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp617 =  no_undermethod(_self, string:new("set_result") , _temp618)
+        _temp607 =  no_undermethod(_self, string:new("set_result") , _temp608)
       else
         _error(exception:name_error("set_result"))
       end
     end
 
 do
-local _temp619 = nil
-        local _t = _type(_temp617)
+local _temp609 = nil
+        local _t = _type(_temp607)
         if _t == "table" then
-          if _rawget(_temp617, "__call_thing") == nil then
-            _temp619 = _temp617
+          if _rawget(_temp607, "__call_thing") == nil then
+            _temp609 = _temp607
           else
-                  if _temp617 == nil then
-              if _type(_self._temp617) == "function" or (_type(_self._temp617) == "table" and _rawget(_self._temp617, "__call_thing")) then
-        _temp619 =  _self:_temp617()
-      elseif _self._temp617 ~= nil then
-        _temp619 =  _self._temp617
+                  if _temp607 == nil then
+              if _type(_self._temp607) == "function" or (_type(_self._temp607) == "table" and _rawget(_self._temp607, "__call_thing")) then
+        _temp609 =  _self:_temp607()
+      elseif _self._temp607 ~= nil then
+        _temp609 =  _self._temp607
 
         elseif _self.no_undermethod ~= nil then
-          _temp619 =  _self:no_undermethod(string:new("_temp617"))
+          _temp609 =  _self:no_undermethod(string:new("_temp607"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp619 =  _temp617(_self)
+        _temp609 =  _temp607(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp619 = _temp617
+          _temp609 = _temp607
         elseif _t == "function" then
-                if _temp617 == nil then
-              if _type(_self._temp617) == "function" or (_type(_self._temp617) == "table" and _rawget(_self._temp617, "__call_thing")) then
-        _temp619 =  _self:_temp617()
-      elseif _self._temp617 ~= nil then
-        _temp619 =  _self._temp617
+                if _temp607 == nil then
+              if _type(_self._temp607) == "function" or (_type(_self._temp607) == "table" and _rawget(_self._temp607, "__call_thing")) then
+        _temp609 =  _self:_temp607()
+      elseif _self._temp607 ~= nil then
+        _temp609 =  _self._temp607
 
         elseif _self.no_undermethod ~= nil then
-          _temp619 =  _self:no_undermethod(string:new("_temp617"))
+          _temp609 =  _self:no_undermethod(string:new("_temp607"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp619 =  _temp617(_self)
+        _temp609 =  _temp607(_self)
       end
 
-        elseif _temp617 == nil then
+        elseif _temp607 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
 
-local _temp620 = nil
-      local _t = _type(_temp619)
+local _temp610 = nil
+      local _t = _type(_temp609)
       if _t == "table" then
-                      if _type(_temp619.out) == "function" or (_type(_temp619.out) == "table" and _rawget(_temp619.out, "__call_thing")) then
-        _temp620 = _temp619:out()
-      elseif _temp619.out ~= nil then
-        _temp620 = _temp619.out
+                      if _type(_temp609.out) == "function" or (_type(_temp609.out) == "table" and _rawget(_temp609.out, "__call_thing")) then
+        _temp610 = _temp609:out()
+      elseif _temp609.out ~= nil then
+        _temp610 = _temp609.out
 
-        elseif _temp619.no_undermethod ~= nil then
-          _temp620 =  _temp619:no_undermethod(string:new("out"))
+        elseif _temp609.no_undermethod ~= nil then
+          _temp610 =  _temp609:no_undermethod(string:new("out"))
         else
-          _error(exception:method_error(_temp619, "out"))
+          _error(exception:method_error(_temp609, "out"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp619)
+              local _n = number:new(_temp609)
       if _n.out ~= nil then
-        _temp620 = _n:out()
+        _temp610 = _n:out()
       elseif _n.no_undermethod ~= nil then
-        _temp620 =  _n:no_undermethod(string:new("out"))
+        _temp610 =  _n:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp619, "out"))
+        _error(exception:method_error(_temp609, "out"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp619)
+              local _f = brat_function:new(_temp609)
       if _f.out ~= nil then
-        _temp620 = _f:out()
+        _temp610 = _f:out()
       elseif _f.no_undermethod ~= nil then
-        _temp620 =  _f:no_undermethod(string:new("out"))
+        _temp610 =  _f:no_undermethod(string:new("out"))
       else
-        _error(exception:method_error(_temp619, "out"))
+        _error(exception:method_error(_temp609, "out"))
       end
 
-      elseif _temp619 == nil then
-        _error(exception:null_error("_temp619", "invoke out on it"))
+      elseif _temp609 == nil then
+        _error(exception:null_error("_temp609", "invoke out on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp619))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp609))
       end
 
-local _temp621 = nil
-local _temp622 = nil
-        local _t = _type(_temp616)
+local _temp611 = nil
+local _temp612 = nil
+        local _t = _type(_temp606)
         if _t == "table" then
-          if _rawget(_temp616, "__call_thing") == nil then
-            _temp622 = _temp616
+          if _rawget(_temp606, "__call_thing") == nil then
+            _temp612 = _temp606
           else
-                  if _temp616 == nil then
-              if _type(_self._temp616) == "function" or (_type(_self._temp616) == "table" and _rawget(_self._temp616, "__call_thing")) then
-        _temp622 =  _self:_temp616()
-      elseif _self._temp616 ~= nil then
-        _temp622 =  _self._temp616
+                  if _temp606 == nil then
+              if _type(_self._temp606) == "function" or (_type(_self._temp606) == "table" and _rawget(_self._temp606, "__call_thing")) then
+        _temp612 =  _self:_temp606()
+      elseif _self._temp606 ~= nil then
+        _temp612 =  _self._temp606
 
         elseif _self.no_undermethod ~= nil then
-          _temp622 =  _self:no_undermethod(string:new("_temp616"))
+          _temp612 =  _self:no_undermethod(string:new("_temp606"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp622 =  _temp616(_self)
+        _temp612 =  _temp606(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp622 = _temp616
+          _temp612 = _temp606
         elseif _t == "function" then
-                if _temp616 == nil then
-              if _type(_self._temp616) == "function" or (_type(_self._temp616) == "table" and _rawget(_self._temp616, "__call_thing")) then
-        _temp622 =  _self:_temp616()
-      elseif _self._temp616 ~= nil then
-        _temp622 =  _self._temp616
+                if _temp606 == nil then
+              if _type(_self._temp606) == "function" or (_type(_self._temp606) == "table" and _rawget(_self._temp606, "__call_thing")) then
+        _temp612 =  _self:_temp606()
+      elseif _self._temp606 ~= nil then
+        _temp612 =  _self._temp606
 
         elseif _self.no_undermethod ~= nil then
-          _temp622 =  _self:no_undermethod(string:new("_temp616"))
+          _temp612 =  _self:no_undermethod(string:new("_temp606"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp622 =  _temp616(_self)
+        _temp612 =  _temp606(_self)
       end
 
-        elseif _temp616 == nil then
+        elseif _temp606 == nil then
           _error(exception:null_error("node", "cannot call method on it"))
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp622)
+      local _t = _type(_temp612)
       if _t == "table" then
-                      if _type(_temp622.lhs) == "function" or (_type(_temp622.lhs) == "table" and _rawget(_temp622.lhs, "__call_thing")) then
-        _temp622 = _temp622:lhs()
-      elseif _temp622.lhs ~= nil then
-        _temp622 = _temp622.lhs
+                      if _type(_temp612.lhs) == "function" or (_type(_temp612.lhs) == "table" and _rawget(_temp612.lhs, "__call_thing")) then
+        _temp612 = _temp612:lhs()
+      elseif _temp612.lhs ~= nil then
+        _temp612 = _temp612.lhs
 
-        elseif _temp622.no_undermethod ~= nil then
-          _temp622 =  _temp622:no_undermethod(string:new("lhs"))
+        elseif _temp612.no_undermethod ~= nil then
+          _temp612 =  _temp612:no_undermethod(string:new("lhs"))
         else
-          _error(exception:method_error(_temp622, "lhs"))
+          _error(exception:method_error(_temp612, "lhs"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp622)
+              local _n = number:new(_temp612)
       if _n.lhs ~= nil then
-        _temp622 = _n:lhs()
+        _temp612 = _n:lhs()
       elseif _n.no_undermethod ~= nil then
-        _temp622 =  _n:no_undermethod(string:new("lhs"))
+        _temp612 =  _n:no_undermethod(string:new("lhs"))
       else
-        _error(exception:method_error(_temp622, "lhs"))
+        _error(exception:method_error(_temp612, "lhs"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp622)
+              local _f = brat_function:new(_temp612)
       if _f.lhs ~= nil then
-        _temp622 = _f:lhs()
+        _temp612 = _f:lhs()
       elseif _f.no_undermethod ~= nil then
-        _temp622 =  _f:no_undermethod(string:new("lhs"))
+        _temp612 =  _f:no_undermethod(string:new("lhs"))
       else
-        _error(exception:method_error(_temp622, "lhs"))
+        _error(exception:method_error(_temp612, "lhs"))
       end
 
-      elseif _temp622 == nil then
-        _error(exception:null_error("_temp622", "invoke lhs on it"))
+      elseif _temp612 == nil then
+        _error(exception:null_error("_temp612", "invoke lhs on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp622))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp612))
       end
 
-      local _t = _type(_temp622)
+      local _t = _type(_temp612)
       if _t == "table" then
-                      if _type(_temp622.value) == "function" or (_type(_temp622.value) == "table" and _rawget(_temp622.value, "__call_thing")) then
-        _temp622 = _temp622:value()
-      elseif _temp622.value ~= nil then
-        _temp622 = _temp622.value
+                      if _type(_temp612.value) == "function" or (_type(_temp612.value) == "table" and _rawget(_temp612.value, "__call_thing")) then
+        _temp612 = _temp612:value()
+      elseif _temp612.value ~= nil then
+        _temp612 = _temp612.value
 
-        elseif _temp622.no_undermethod ~= nil then
-          _temp622 =  _temp622:no_undermethod(string:new("value"))
+        elseif _temp612.no_undermethod ~= nil then
+          _temp612 =  _temp612:no_undermethod(string:new("value"))
         else
-          _error(exception:method_error(_temp622, "value"))
+          _error(exception:method_error(_temp612, "value"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp622)
+              local _n = number:new(_temp612)
       if _n.value ~= nil then
-        _temp622 = _n:value()
+        _temp612 = _n:value()
       elseif _n.no_undermethod ~= nil then
-        _temp622 =  _n:no_undermethod(string:new("value"))
+        _temp612 =  _n:no_undermethod(string:new("value"))
       else
-        _error(exception:method_error(_temp622, "value"))
+        _error(exception:method_error(_temp612, "value"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp622)
+              local _f = brat_function:new(_temp612)
       if _f.value ~= nil then
-        _temp622 = _f:value()
+        _temp612 = _f:value()
       elseif _f.no_undermethod ~= nil then
-        _temp622 =  _f:no_undermethod(string:new("value"))
+        _temp612 =  _f:no_undermethod(string:new("value"))
       else
-        _error(exception:method_error(_temp622, "value"))
+        _error(exception:method_error(_temp612, "value"))
       end
 
-      elseif _temp622 == nil then
-        _error(exception:null_error("_temp622", "invoke value on it"))
+      elseif _temp612 == nil then
+        _error(exception:null_error("_temp612", "invoke value on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp622))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp612))
       end
 
 
-local _temp623 = nil
-        local _t = _type(_temp616)
+local _temp613 = nil
+        local _t = _type(_temp606)
         if _t == "table" then
-          if _rawget(_temp616, "__call_thing") == nil then
-            _temp623 = _temp616
+          if _rawget(_temp606, "__call_thing") == nil then
+            _temp613 = _temp606
           else
-                  if _temp616 == nil then
-              if _type(_self._temp616) == "function" or (_type(_self._temp616) == "table" and _rawget(_self._temp616, "__call_thing")) then
-        _temp623 =  _self:_temp616()
-      elseif _self._temp616 ~= nil then
-        _temp623 =  _self._temp616
+                  if _temp606 == nil then
+              if _type(_self._temp606) == "function" or (_type(_self._temp606) == "table" and _rawget(_self._temp606, "__call_thing")) then
+        _temp613 =  _self:_temp606()
+      elseif _self._temp606 ~= nil then
+        _temp613 =  _self._temp606
 
         elseif _self.no_undermethod ~= nil then
-          _temp623 =  _self:no_undermethod(string:new("_temp616"))
+          _temp613 =  _self:no_undermethod(string:new("_temp606"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp623 =  _temp616(_self)
+        _temp613 =  _temp606(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp623 = _temp616
+          _temp613 = _temp606
         elseif _t == "function" then
-                if _temp616 == nil then
-              if _type(_self._temp616) == "function" or (_type(_self._temp616) == "table" and _rawget(_self._temp616, "__call_thing")) then
-        _temp623 =  _self:_temp616()
-      elseif _self._temp616 ~= nil then
-        _temp623 =  _self._temp616
+                if _temp606 == nil then
+              if _type(_self._temp606) == "function" or (_type(_self._temp606) == "table" and _rawget(_self._temp606, "__call_thing")) then
+        _temp613 =  _self:_temp606()
+      elseif _self._temp606 ~= nil then
+        _temp613 =  _self._temp606
 
         elseif _self.no_undermethod ~= nil then
-          _temp623 =  _self:no_undermethod(string:new("_temp616"))
+          _temp613 =  _self:no_undermethod(string:new("_temp606"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp623 =  _temp616(_self)
+        _temp613 =  _temp606(_self)
       end
 
-        elseif _temp616 == nil then
+        elseif _temp606 == nil then
           _error(exception:null_error("node", "cannot call method on it"))
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp623)
+      local _t = _type(_temp613)
       if _t == "table" then
-                      if _type(_temp623.op) == "function" or (_type(_temp623.op) == "table" and _rawget(_temp623.op, "__call_thing")) then
-        _temp623 = _temp623:op()
-      elseif _temp623.op ~= nil then
-        _temp623 = _temp623.op
+                      if _type(_temp613.op) == "function" or (_type(_temp613.op) == "table" and _rawget(_temp613.op, "__call_thing")) then
+        _temp613 = _temp613:op()
+      elseif _temp613.op ~= nil then
+        _temp613 = _temp613.op
 
-        elseif _temp623.no_undermethod ~= nil then
-          _temp623 =  _temp623:no_undermethod(string:new("op"))
+        elseif _temp613.no_undermethod ~= nil then
+          _temp613 =  _temp613:no_undermethod(string:new("op"))
         else
-          _error(exception:method_error(_temp623, "op"))
+          _error(exception:method_error(_temp613, "op"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp623)
+              local _n = number:new(_temp613)
       if _n.op ~= nil then
-        _temp623 = _n:op()
+        _temp613 = _n:op()
       elseif _n.no_undermethod ~= nil then
-        _temp623 =  _n:no_undermethod(string:new("op"))
+        _temp613 =  _n:no_undermethod(string:new("op"))
       else
-        _error(exception:method_error(_temp623, "op"))
+        _error(exception:method_error(_temp613, "op"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp623)
+              local _f = brat_function:new(_temp613)
       if _f.op ~= nil then
-        _temp623 = _f:op()
+        _temp613 = _f:op()
       elseif _f.no_undermethod ~= nil then
-        _temp623 =  _f:no_undermethod(string:new("op"))
+        _temp613 =  _f:no_undermethod(string:new("op"))
       else
-        _error(exception:method_error(_temp623, "op"))
+        _error(exception:method_error(_temp613, "op"))
       end
 
-      elseif _temp623 == nil then
-        _error(exception:null_error("_temp623", "invoke op on it"))
+      elseif _temp613 == nil then
+        _error(exception:null_error("_temp613", "invoke op on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp623))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp613))
       end
 
 
-local _temp624 = nil
-        local _t = _type(_temp616)
+local _temp614 = nil
+        local _t = _type(_temp606)
         if _t == "table" then
-          if _rawget(_temp616, "__call_thing") == nil then
-            _temp624 = _temp616
+          if _rawget(_temp606, "__call_thing") == nil then
+            _temp614 = _temp606
           else
-                  if _temp616 == nil then
-              if _type(_self._temp616) == "function" or (_type(_self._temp616) == "table" and _rawget(_self._temp616, "__call_thing")) then
-        _temp624 =  _self:_temp616()
-      elseif _self._temp616 ~= nil then
-        _temp624 =  _self._temp616
+                  if _temp606 == nil then
+              if _type(_self._temp606) == "function" or (_type(_self._temp606) == "table" and _rawget(_self._temp606, "__call_thing")) then
+        _temp614 =  _self:_temp606()
+      elseif _self._temp606 ~= nil then
+        _temp614 =  _self._temp606
 
         elseif _self.no_undermethod ~= nil then
-          _temp624 =  _self:no_undermethod(string:new("_temp616"))
+          _temp614 =  _self:no_undermethod(string:new("_temp606"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp624 =  _temp616(_self)
+        _temp614 =  _temp606(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp624 = _temp616
+          _temp614 = _temp606
         elseif _t == "function" then
-                if _temp616 == nil then
-              if _type(_self._temp616) == "function" or (_type(_self._temp616) == "table" and _rawget(_self._temp616, "__call_thing")) then
-        _temp624 =  _self:_temp616()
-      elseif _self._temp616 ~= nil then
-        _temp624 =  _self._temp616
+                if _temp606 == nil then
+              if _type(_self._temp606) == "function" or (_type(_self._temp606) == "table" and _rawget(_self._temp606, "__call_thing")) then
+        _temp614 =  _self:_temp606()
+      elseif _self._temp606 ~= nil then
+        _temp614 =  _self._temp606
 
         elseif _self.no_undermethod ~= nil then
-          _temp624 =  _self:no_undermethod(string:new("_temp616"))
+          _temp614 =  _self:no_undermethod(string:new("_temp606"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp624 =  _temp616(_self)
+        _temp614 =  _temp606(_self)
       end
 
-        elseif _temp616 == nil then
+        elseif _temp606 == nil then
           _error(exception:null_error("node", "cannot call method on it"))
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp624)
+      local _t = _type(_temp614)
       if _t == "table" then
-                      if _type(_temp624.rhs) == "function" or (_type(_temp624.rhs) == "table" and _rawget(_temp624.rhs, "__call_thing")) then
-        _temp624 = _temp624:rhs()
-      elseif _temp624.rhs ~= nil then
-        _temp624 = _temp624.rhs
+                      if _type(_temp614.rhs) == "function" or (_type(_temp614.rhs) == "table" and _rawget(_temp614.rhs, "__call_thing")) then
+        _temp614 = _temp614:rhs()
+      elseif _temp614.rhs ~= nil then
+        _temp614 = _temp614.rhs
 
-        elseif _temp624.no_undermethod ~= nil then
-          _temp624 =  _temp624:no_undermethod(string:new("rhs"))
+        elseif _temp614.no_undermethod ~= nil then
+          _temp614 =  _temp614:no_undermethod(string:new("rhs"))
         else
-          _error(exception:method_error(_temp624, "rhs"))
+          _error(exception:method_error(_temp614, "rhs"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp624)
+              local _n = number:new(_temp614)
       if _n.rhs ~= nil then
-        _temp624 = _n:rhs()
+        _temp614 = _n:rhs()
       elseif _n.no_undermethod ~= nil then
-        _temp624 =  _n:no_undermethod(string:new("rhs"))
+        _temp614 =  _n:no_undermethod(string:new("rhs"))
       else
-        _error(exception:method_error(_temp624, "rhs"))
+        _error(exception:method_error(_temp614, "rhs"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp624)
+              local _f = brat_function:new(_temp614)
       if _f.rhs ~= nil then
-        _temp624 = _f:rhs()
+        _temp614 = _f:rhs()
       elseif _f.no_undermethod ~= nil then
-        _temp624 =  _f:no_undermethod(string:new("rhs"))
+        _temp614 =  _f:no_undermethod(string:new("rhs"))
       else
-        _error(exception:method_error(_temp624, "rhs"))
+        _error(exception:method_error(_temp614, "rhs"))
       end
 
-      elseif _temp624 == nil then
-        _error(exception:null_error("_temp624", "invoke rhs on it"))
+      elseif _temp614 == nil then
+        _error(exception:null_error("_temp614", "invoke rhs on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp624))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp614))
       end
 
-      local _t = _type(_temp624)
+      local _t = _type(_temp614)
       if _t == "table" then
-                      if _type(_temp624.value) == "function" or (_type(_temp624.value) == "table" and _rawget(_temp624.value, "__call_thing")) then
-        _temp624 = _temp624:value()
-      elseif _temp624.value ~= nil then
-        _temp624 = _temp624.value
+                      if _type(_temp614.value) == "function" or (_type(_temp614.value) == "table" and _rawget(_temp614.value, "__call_thing")) then
+        _temp614 = _temp614:value()
+      elseif _temp614.value ~= nil then
+        _temp614 = _temp614.value
 
-        elseif _temp624.no_undermethod ~= nil then
-          _temp624 =  _temp624:no_undermethod(string:new("value"))
+        elseif _temp614.no_undermethod ~= nil then
+          _temp614 =  _temp614:no_undermethod(string:new("value"))
         else
-          _error(exception:method_error(_temp624, "value"))
+          _error(exception:method_error(_temp614, "value"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp624)
+              local _n = number:new(_temp614)
       if _n.value ~= nil then
-        _temp624 = _n:value()
+        _temp614 = _n:value()
       elseif _n.no_undermethod ~= nil then
-        _temp624 =  _n:no_undermethod(string:new("value"))
+        _temp614 =  _n:no_undermethod(string:new("value"))
       else
-        _error(exception:method_error(_temp624, "value"))
+        _error(exception:method_error(_temp614, "value"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp624)
+              local _f = brat_function:new(_temp614)
       if _f.value ~= nil then
-        _temp624 = _f:value()
+        _temp614 = _f:value()
       elseif _f.no_undermethod ~= nil then
-        _temp624 =  _f:no_undermethod(string:new("value"))
+        _temp614 =  _f:no_undermethod(string:new("value"))
       else
-        _error(exception:method_error(_temp624, "value"))
+        _error(exception:method_error(_temp614, "value"))
       end
 
-      elseif _temp624 == nil then
-        _error(exception:null_error("_temp624", "invoke value on it"))
+      elseif _temp614 == nil then
+        _error(exception:null_error("_temp614", "invoke value on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp624))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp614))
       end
 
 
-local _temp625 = nil
-        local _t = _type(_temp617)
+local _temp615 = nil
+        local _t = _type(_temp607)
         if _t == "table" then
-          if _rawget(_temp617, "__call_thing") == nil then
-            _temp625 = _temp617
+          if _rawget(_temp607, "__call_thing") == nil then
+            _temp615 = _temp607
           else
-                  if _temp617 == nil then
-              if _type(_self._temp617) == "function" or (_type(_self._temp617) == "table" and _rawget(_self._temp617, "__call_thing")) then
-        _temp625 =  _self:_temp617()
-      elseif _self._temp617 ~= nil then
-        _temp625 =  _self._temp617
+                  if _temp607 == nil then
+              if _type(_self._temp607) == "function" or (_type(_self._temp607) == "table" and _rawget(_self._temp607, "__call_thing")) then
+        _temp615 =  _self:_temp607()
+      elseif _self._temp607 ~= nil then
+        _temp615 =  _self._temp607
 
         elseif _self.no_undermethod ~= nil then
-          _temp625 =  _self:no_undermethod(string:new("_temp617"))
+          _temp615 =  _self:no_undermethod(string:new("_temp607"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp625 =  _temp617(_self)
+        _temp615 =  _temp607(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp625 = _temp617
+          _temp615 = _temp607
         elseif _t == "function" then
-                if _temp617 == nil then
-              if _type(_self._temp617) == "function" or (_type(_self._temp617) == "table" and _rawget(_self._temp617, "__call_thing")) then
-        _temp625 =  _self:_temp617()
-      elseif _self._temp617 ~= nil then
-        _temp625 =  _self._temp617
+                if _temp607 == nil then
+              if _type(_self._temp607) == "function" or (_type(_self._temp607) == "table" and _rawget(_self._temp607, "__call_thing")) then
+        _temp615 =  _self:_temp607()
+      elseif _self._temp607 ~= nil then
+        _temp615 =  _self._temp607
 
         elseif _self.no_undermethod ~= nil then
-          _temp625 =  _self:no_undermethod(string:new("_temp617"))
+          _temp615 =  _self:no_undermethod(string:new("_temp607"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp625 =  _temp617(_self)
+        _temp615 =  _temp607(_self)
       end
 
-        elseif _temp617 == nil then
+        elseif _temp607 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
-      local _t = _type(_temp625)
+      local _t = _type(_temp615)
       if _t == "table" then
-                      if _type(_temp625.var) == "function" or (_type(_temp625.var) == "table" and _rawget(_temp625.var, "__call_thing")) then
-        _temp625 = _temp625:var()
-      elseif _temp625.var ~= nil then
-        _temp625 = _temp625.var
+                      if _type(_temp615.var) == "function" or (_type(_temp615.var) == "table" and _rawget(_temp615.var, "__call_thing")) then
+        _temp615 = _temp615:var()
+      elseif _temp615.var ~= nil then
+        _temp615 = _temp615.var
 
-        elseif _temp625.no_undermethod ~= nil then
-          _temp625 =  _temp625:no_undermethod(string:new("var"))
+        elseif _temp615.no_undermethod ~= nil then
+          _temp615 =  _temp615:no_undermethod(string:new("var"))
         else
-          _error(exception:method_error(_temp625, "var"))
+          _error(exception:method_error(_temp615, "var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp625)
+              local _n = number:new(_temp615)
       if _n.var ~= nil then
-        _temp625 = _n:var()
+        _temp615 = _n:var()
       elseif _n.no_undermethod ~= nil then
-        _temp625 =  _n:no_undermethod(string:new("var"))
+        _temp615 =  _n:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp625, "var"))
+        _error(exception:method_error(_temp615, "var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp625)
+              local _f = brat_function:new(_temp615)
       if _f.var ~= nil then
-        _temp625 = _f:var()
+        _temp615 = _f:var()
       elseif _f.no_undermethod ~= nil then
-        _temp625 =  _f:no_undermethod(string:new("var"))
+        _temp615 =  _f:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp625, "var"))
+        _error(exception:method_error(_temp615, "var"))
       end
 
-      elseif _temp625 == nil then
-        _error(exception:null_error("_temp625", "invoke var on it"))
+      elseif _temp615 == nil then
+        _error(exception:null_error("_temp615", "invoke var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp625))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp615))
       end
 
 
     if _type(invoke_undernumbers) == "function" or (_type(invoke_undernumbers) == "table" and _rawget(invoke_undernumbers, "__call_thing")) then
-      _temp621 =  invoke_undernumbers(_self, _temp622,_temp623,_temp624,_temp625)
+      _temp611 =  invoke_undernumbers(_self, _temp612,_temp613,_temp614,_temp615)
 
     elseif invoke_undernumbers then
       _error(exception:new("Tried to invoke non-method: invoke_numbers (" .. object.__type(invoke_undernumbers) .. ")"))
     else
             if _type(_self.invoke_undernumbers) == "function" or (_type(_self.invoke_undernumbers) == "table" and _rawget(_self.invoke_undernumbers, "__call_thing")) then
-        _temp621 =  _self:invoke_undernumbers(_temp622,_temp623,_temp624,_temp625)
+        _temp611 =  _self:invoke_undernumbers(_temp612,_temp613,_temp614,_temp615)
       elseif _self.invoke_undernumbers ~= nil then
-        _temp621 =  _self.invoke_undernumbers
+        _temp611 =  _self.invoke_undernumbers
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp621 =  _self:no_undermethod(string:new("invoke_numbers") , _temp622,_temp623,_temp624,_temp625)
+        _temp611 =  _self:no_undermethod(string:new("invoke_numbers") , _temp612,_temp613,_temp614,_temp615)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp621 =  no_undermethod(_self, string:new("invoke_numbers") , _temp622,_temp623,_temp624,_temp625)
+        _temp611 =  no_undermethod(_self, string:new("invoke_numbers") , _temp612,_temp613,_temp614,_temp615)
       else
         _error(exception:name_error("invoke_numbers"))
       end
     end
-local _temp625
-      local _t = _type(_temp620)
+local _temp615
+      local _t = _type(_temp610)
       if _t == "table" then
-                      if _type(_temp620._less_less) == "function" or (_type(_temp620._less_less) == "table" and _rawget(_temp620._less_less, "__call_thing")) then
-        _temp625 = _temp620:_less_less(_temp621)
-      elseif _temp620._less_less ~= nil then
-        _temp625 = _temp620._less_less
+                      if _type(_temp610._less_less) == "function" or (_type(_temp610._less_less) == "table" and _rawget(_temp610._less_less, "__call_thing")) then
+        _temp615 = _temp610:_less_less(_temp611)
+      elseif _temp610._less_less ~= nil then
+        _temp615 = _temp610._less_less
 
-        elseif _temp620.no_undermethod ~= nil then
-          _temp625 =  _temp620:no_undermethod(string:new("<<") , _temp621)
+        elseif _temp610.no_undermethod ~= nil then
+          _temp615 =  _temp610:no_undermethod(string:new("<<") , _temp611)
         else
-          _error(exception:method_error(_temp620, "<<"))
+          _error(exception:method_error(_temp610, "<<"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp620)
+              local _n = number:new(_temp610)
       if _n._less_less ~= nil then
-        _temp625 = _n:_less_less(_temp621)
+        _temp615 = _n:_less_less(_temp611)
       elseif _n.no_undermethod ~= nil then
-        _temp625 =  _n:no_undermethod(string:new("<<") , _temp621)
+        _temp615 =  _n:no_undermethod(string:new("<<") , _temp611)
       else
-        _error(exception:method_error(_temp620, "<<"))
+        _error(exception:method_error(_temp610, "<<"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp620)
+              local _f = brat_function:new(_temp610)
       if _f._less_less ~= nil then
-        _temp625 = _f:_less_less(_temp621)
+        _temp615 = _f:_less_less(_temp611)
       elseif _f.no_undermethod ~= nil then
-        _temp625 =  _f:no_undermethod(string:new("<<") , _temp621)
+        _temp615 =  _f:no_undermethod(string:new("<<") , _temp611)
       else
-        _error(exception:method_error(_temp620, "<<"))
+        _error(exception:method_error(_temp610, "<<"))
       end
 
-      elseif _temp620 == nil then
-        _error(exception:null_error("_temp620", "invoke << on it"))
+      elseif _temp610 == nil then
+        _error(exception:null_error("_temp610", "invoke << on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp620))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp610))
       end
 
-_dummy_ = _temp625 
+_dummy_ = _temp615 
 end
 
-    if _type(_temp617) == "function" or (_type(_temp617) == "table" and _rawget(_temp617, "__call_thing")) then
-      return  _temp617(_self)
+    if _type(_temp607) == "function" or (_type(_temp607) == "table" and _rawget(_temp607, "__call_thing")) then
+      return  _temp607(_self)
 
-    elseif _temp617 then
-      return  _temp617
+    elseif _temp607 then
+      return  _temp607
     else
             if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
         return  _self:res()
@@ -26791,82 +26541,82 @@ end
 
 end
 
-      local _t = _type(_temp614)
+      local _t = _type(_temp604)
       if _t == "table" then
-                      if _type(_temp614.walk) == "function" or (_type(_temp614.walk) == "table" and _rawget(_temp614.walk, "__call_thing")) then
-        _dummy_ = _temp614:walk(_temp4,_temp626)
-      elseif _temp614.walk ~= nil then
-        _dummy_ = _temp614.walk
+                      if _type(_temp604.walk) == "function" or (_type(_temp604.walk) == "table" and _rawget(_temp604.walk, "__call_thing")) then
+        _dummy_ = _temp604:walk(_temp4,_temp616)
+      elseif _temp604.walk ~= nil then
+        _dummy_ = _temp604.walk
 
-        elseif _temp614.no_undermethod ~= nil then
-          _dummy_ =  _temp614:no_undermethod(string:new("walk") , _temp4,_temp626)
+        elseif _temp604.no_undermethod ~= nil then
+          _dummy_ =  _temp604:no_undermethod(string:new("walk") , _temp4,_temp616)
         else
-          _error(exception:method_error(_temp614, "walk"))
+          _error(exception:method_error(_temp604, "walk"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp614)
+              local _n = number:new(_temp604)
       if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp626)
+        _dummy_ = _n:walk(_temp4,_temp616)
       elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp626)
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp616)
       else
-        _error(exception:method_error(_temp614, "walk"))
+        _error(exception:method_error(_temp604, "walk"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp614)
+              local _f = brat_function:new(_temp604)
       if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp626)
+        _dummy_ = _f:walk(_temp4,_temp616)
       elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp626)
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp616)
       else
-        _error(exception:method_error(_temp614, "walk"))
+        _error(exception:method_error(_temp604, "walk"))
       end
 
-      elseif _temp614 == nil then
-        _error(exception:null_error("_temp614", "invoke walk on it"))
+      elseif _temp604 == nil then
+        _error(exception:null_error("_temp604", "invoke walk on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp614))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp604))
       end
 
         local _t = _type(_temp5)
         if _t == "table" then
           if _rawget(_temp5, "__call_thing") == nil then
-            _temp626 = _temp5
+            _temp616 = _temp5
           else
                   if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp626 =  _self:_temp5()
+        _temp616 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp626 =  _self._temp5
+        _temp616 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp626 =  _self:no_undermethod(string:new("_temp5"))
+          _temp616 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp626 =  _temp5(_self)
+        _temp616 =  _temp5(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp626 = _temp5
+          _temp616 = _temp5
         elseif _t == "function" then
                 if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp626 =  _self:_temp5()
+        _temp616 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp626 =  _self._temp5
+        _temp616 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp626 =  _self:no_undermethod(string:new("_temp5"))
+          _temp616 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp626 =  _temp5(_self)
+        _temp616 =  _temp5(_self)
       end
 
         elseif _temp5 == nil then
@@ -26876,31 +26626,31 @@ end
         end
 _temp4 = string:new("invoke_number")
 
-local _temp645 = function (_self, _temp628,_temp627)
-        if _temp628 == nil then
+local _temp635 = function (_self, _temp618,_temp617)
+        if _temp618 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
 end
-if _temp627 == nil then
+if _temp617 == nil then
  do
     if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp627 =  null(_self)
+      _temp617 =  null(_self)
 
     elseif null then
-      _temp627 =  null
+      _temp617 =  null
     else
             if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp627 =  _self:null()
+        _temp617 =  _self:null()
       elseif _self.null ~= nil then
-        _temp627 =  _self.null
+        _temp617 =  _self.null
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp627 =  _self:no_undermethod(string:new("null"))
+        _temp617 =  _self:no_undermethod(string:new("null"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp627 =  no_undermethod(_self, string:new("null"))
+        _temp617 =  no_undermethod(_self, string:new("null"))
       else
         _error(exception:name_error("null"))
       end
@@ -26909,956 +26659,956 @@ if _temp627 == nil then
 end
 end
 
-local _temp629
-local _temp630 = nil
-    if _type(_temp627) == "function" or (_type(_temp627) == "table" and _rawget(_temp627, "__call_thing")) then
-      _temp630 =  _temp627(_self)
+local _temp619
+local _temp620 = nil
+    if _type(_temp617) == "function" or (_type(_temp617) == "table" and _rawget(_temp617, "__call_thing")) then
+      _temp620 =  _temp617(_self)
 
-    elseif _temp627 then
-      _temp630 =  _temp627
+    elseif _temp617 then
+      _temp620 =  _temp617
     else
             if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
-        _temp630 =  _self:var()
+        _temp620 =  _self:var()
       elseif _self.var ~= nil then
-        _temp630 =  _self.var
+        _temp620 =  _self.var
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp630 =  _self:no_undermethod(string:new("var"))
+        _temp620 =  _self:no_undermethod(string:new("var"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp630 =  no_undermethod(_self, string:new("var"))
+        _temp620 =  no_undermethod(_self, string:new("var"))
       else
         _error(exception:name_error("var"))
       end
     end
 
     if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
-      _temp629 =  set_underresult(_self, _temp630)
+      _temp619 =  set_underresult(_self, _temp620)
 
     elseif set_underresult then
       _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
     else
             if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
-        _temp629 =  _self:set_underresult(_temp630)
+        _temp619 =  _self:set_underresult(_temp620)
       elseif _self.set_underresult ~= nil then
-        _temp629 =  _self.set_underresult
+        _temp619 =  _self.set_underresult
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp629 =  _self:no_undermethod(string:new("set_result") , _temp630)
+        _temp619 =  _self:no_undermethod(string:new("set_result") , _temp620)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp629 =  no_undermethod(_self, string:new("set_result") , _temp630)
+        _temp619 =  no_undermethod(_self, string:new("set_result") , _temp620)
       else
         _error(exception:name_error("set_result"))
       end
     end
 
-local _temp631
-        local _t = _type(_temp628)
+local _temp621
+        local _t = _type(_temp618)
         if _t == "table" then
-          if _rawget(_temp628, "__call_thing") == nil then
-            _temp630 = _temp628
+          if _rawget(_temp618, "__call_thing") == nil then
+            _temp620 = _temp618
           else
-                  if _temp628 == nil then
-              if _type(_self._temp628) == "function" or (_type(_self._temp628) == "table" and _rawget(_self._temp628, "__call_thing")) then
-        _temp630 =  _self:_temp628()
-      elseif _self._temp628 ~= nil then
-        _temp630 =  _self._temp628
+                  if _temp618 == nil then
+              if _type(_self._temp618) == "function" or (_type(_self._temp618) == "table" and _rawget(_self._temp618, "__call_thing")) then
+        _temp620 =  _self:_temp618()
+      elseif _self._temp618 ~= nil then
+        _temp620 =  _self._temp618
 
         elseif _self.no_undermethod ~= nil then
-          _temp630 =  _self:no_undermethod(string:new("_temp628"))
+          _temp620 =  _self:no_undermethod(string:new("_temp618"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp630 =  _temp628(_self)
+        _temp620 =  _temp618(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp630 = _temp628
+          _temp620 = _temp618
         elseif _t == "function" then
-                if _temp628 == nil then
-              if _type(_self._temp628) == "function" or (_type(_self._temp628) == "table" and _rawget(_self._temp628, "__call_thing")) then
-        _temp630 =  _self:_temp628()
-      elseif _self._temp628 ~= nil then
-        _temp630 =  _self._temp628
+                if _temp618 == nil then
+              if _type(_self._temp618) == "function" or (_type(_self._temp618) == "table" and _rawget(_self._temp618, "__call_thing")) then
+        _temp620 =  _self:_temp618()
+      elseif _self._temp618 ~= nil then
+        _temp620 =  _self._temp618
 
         elseif _self.no_undermethod ~= nil then
-          _temp630 =  _self:no_undermethod(string:new("_temp628"))
+          _temp620 =  _self:no_undermethod(string:new("_temp618"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp630 =  _temp628(_self)
+        _temp620 =  _temp618(_self)
       end
 
-        elseif _temp628 == nil then
+        elseif _temp618 == nil then
           _error(exception:null_error("node", "cannot call method on it"))
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp630)
+      local _t = _type(_temp620)
       if _t == "table" then
-                      if _type(_temp630.rhs) == "function" or (_type(_temp630.rhs) == "table" and _rawget(_temp630.rhs, "__call_thing")) then
-        _temp630 = _temp630:rhs()
-      elseif _temp630.rhs ~= nil then
-        _temp630 = _temp630.rhs
+                      if _type(_temp620.rhs) == "function" or (_type(_temp620.rhs) == "table" and _rawget(_temp620.rhs, "__call_thing")) then
+        _temp620 = _temp620:rhs()
+      elseif _temp620.rhs ~= nil then
+        _temp620 = _temp620.rhs
 
-        elseif _temp630.no_undermethod ~= nil then
-          _temp630 =  _temp630:no_undermethod(string:new("rhs"))
+        elseif _temp620.no_undermethod ~= nil then
+          _temp620 =  _temp620:no_undermethod(string:new("rhs"))
         else
-          _error(exception:method_error(_temp630, "rhs"))
+          _error(exception:method_error(_temp620, "rhs"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp630)
+              local _n = number:new(_temp620)
       if _n.rhs ~= nil then
-        _temp630 = _n:rhs()
+        _temp620 = _n:rhs()
       elseif _n.no_undermethod ~= nil then
-        _temp630 =  _n:no_undermethod(string:new("rhs"))
+        _temp620 =  _n:no_undermethod(string:new("rhs"))
       else
-        _error(exception:method_error(_temp630, "rhs"))
+        _error(exception:method_error(_temp620, "rhs"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp630)
+              local _f = brat_function:new(_temp620)
       if _f.rhs ~= nil then
-        _temp630 = _f:rhs()
+        _temp620 = _f:rhs()
       elseif _f.no_undermethod ~= nil then
-        _temp630 =  _f:no_undermethod(string:new("rhs"))
+        _temp620 =  _f:no_undermethod(string:new("rhs"))
       else
-        _error(exception:method_error(_temp630, "rhs"))
+        _error(exception:method_error(_temp620, "rhs"))
       end
 
-      elseif _temp630 == nil then
-        _error(exception:null_error("_temp630", "invoke rhs on it"))
+      elseif _temp620 == nil then
+        _error(exception:null_error("_temp620", "invoke rhs on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp630))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp620))
       end
 
 
     if _type(process) == "function" or (_type(process) == "table" and _rawget(process, "__call_thing")) then
-      _temp631 =  process(_self, _temp630)
+      _temp621 =  process(_self, _temp620)
 
     elseif process then
       _error(exception:new("Tried to invoke non-method: process (" .. object.__type(process) .. ")"))
     else
             if _type(_self.process) == "function" or (_type(_self.process) == "table" and _rawget(_self.process, "__call_thing")) then
-        _temp631 =  _self:process(_temp630)
+        _temp621 =  _self:process(_temp620)
       elseif _self.process ~= nil then
-        _temp631 =  _self.process
+        _temp621 =  _self.process
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp631 =  _self:no_undermethod(string:new("process") , _temp630)
+        _temp621 =  _self:no_undermethod(string:new("process") , _temp620)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp631 =  no_undermethod(_self, string:new("process") , _temp630)
+        _temp621 =  no_undermethod(_self, string:new("process") , _temp620)
       else
         _error(exception:name_error("process"))
       end
     end
 
 do
-local _temp632 = nil
-        local _t = _type(_temp629)
+local _temp622 = nil
+        local _t = _type(_temp619)
         if _t == "table" then
-          if _rawget(_temp629, "__call_thing") == nil then
-            _temp632 = _temp629
+          if _rawget(_temp619, "__call_thing") == nil then
+            _temp622 = _temp619
           else
-                  if _temp629 == nil then
-              if _type(_self._temp629) == "function" or (_type(_self._temp629) == "table" and _rawget(_self._temp629, "__call_thing")) then
-        _temp632 =  _self:_temp629()
-      elseif _self._temp629 ~= nil then
-        _temp632 =  _self._temp629
+                  if _temp619 == nil then
+              if _type(_self._temp619) == "function" or (_type(_self._temp619) == "table" and _rawget(_self._temp619, "__call_thing")) then
+        _temp622 =  _self:_temp619()
+      elseif _self._temp619 ~= nil then
+        _temp622 =  _self._temp619
 
         elseif _self.no_undermethod ~= nil then
-          _temp632 =  _self:no_undermethod(string:new("_temp629"))
+          _temp622 =  _self:no_undermethod(string:new("_temp619"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp632 =  _temp629(_self)
+        _temp622 =  _temp619(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp632 = _temp629
+          _temp622 = _temp619
         elseif _t == "function" then
-                if _temp629 == nil then
-              if _type(_self._temp629) == "function" or (_type(_self._temp629) == "table" and _rawget(_self._temp629, "__call_thing")) then
-        _temp632 =  _self:_temp629()
-      elseif _self._temp629 ~= nil then
-        _temp632 =  _self._temp629
+                if _temp619 == nil then
+              if _type(_self._temp619) == "function" or (_type(_self._temp619) == "table" and _rawget(_self._temp619, "__call_thing")) then
+        _temp622 =  _self:_temp619()
+      elseif _self._temp619 ~= nil then
+        _temp622 =  _self._temp619
 
         elseif _self.no_undermethod ~= nil then
-          _temp632 =  _self:no_undermethod(string:new("_temp629"))
+          _temp622 =  _self:no_undermethod(string:new("_temp619"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp632 =  _temp629(_self)
+        _temp622 =  _temp619(_self)
       end
 
-        elseif _temp629 == nil then
+        elseif _temp619 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
 
-local _temp633 = nil
+local _temp623 = nil
+      local _t = _type(_temp622)
+      if _t == "table" then
+                      if _type(_temp622.out) == "function" or (_type(_temp622.out) == "table" and _rawget(_temp622.out, "__call_thing")) then
+        _temp623 = _temp622:out()
+      elseif _temp622.out ~= nil then
+        _temp623 = _temp622.out
+
+        elseif _temp622.no_undermethod ~= nil then
+          _temp623 =  _temp622:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp622, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp622)
+      if _n.out ~= nil then
+        _temp623 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp623 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp622, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp622)
+      if _f.out ~= nil then
+        _temp623 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp623 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp622, "out"))
+      end
+
+      elseif _temp622 == nil then
+        _error(exception:null_error("_temp622", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp622))
+      end
+
+local _temp624 = nil
+        local _t = _type(_temp621)
+        if _t == "table" then
+          if _rawget(_temp621, "__call_thing") == nil then
+            _temp624 = _temp621
+          else
+                  if _temp621 == nil then
+              if _type(_self._temp621) == "function" or (_type(_self._temp621) == "table" and _rawget(_self._temp621, "__call_thing")) then
+        _temp624 =  _self:_temp621()
+      elseif _self._temp621 ~= nil then
+        _temp624 =  _self._temp621
+
+        elseif _self.no_undermethod ~= nil then
+          _temp624 =  _self:no_undermethod(string:new("_temp621"))
+        else
+          _error(exception:null_error("rhs", "invoke method"))
+        end
+      else 
+        _temp624 =  _temp621(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp624 = _temp621
+        elseif _t == "function" then
+                if _temp621 == nil then
+              if _type(_self._temp621) == "function" or (_type(_self._temp621) == "table" and _rawget(_self._temp621, "__call_thing")) then
+        _temp624 =  _self:_temp621()
+      elseif _self._temp621 ~= nil then
+        _temp624 =  _self._temp621
+
+        elseif _self.no_undermethod ~= nil then
+          _temp624 =  _self:no_undermethod(string:new("_temp621"))
+        else
+          _error(exception:null_error("rhs", "invoke method"))
+        end
+      else 
+        _temp624 =  _temp621(_self)
+      end
+
+        elseif _temp621 == nil then
+          _error(exception:null_error("rhs", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "rhs"))
+        end
+
+local _temp625 = nil
+      local _t = _type(_temp624)
+      if _t == "table" then
+                      if _type(_temp624.out) == "function" or (_type(_temp624.out) == "table" and _rawget(_temp624.out, "__call_thing")) then
+        _temp625 = _temp624:out()
+      elseif _temp624.out ~= nil then
+        _temp625 = _temp624.out
+
+        elseif _temp624.no_undermethod ~= nil then
+          _temp625 =  _temp624:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp624, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp624)
+      if _n.out ~= nil then
+        _temp625 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp625 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp624, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp624)
+      if _f.out ~= nil then
+        _temp625 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp625 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp624, "out"))
+      end
+
+      elseif _temp624 == nil then
+        _error(exception:null_error("_temp624", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp624))
+      end
+
+local _temp626 = string:new("\n")
+local _temp627
+      local _t = _type(_temp623)
+      if _t == "table" then
+                      if _type(_temp623._less_less) == "function" or (_type(_temp623._less_less) == "table" and _rawget(_temp623._less_less, "__call_thing")) then
+        _temp627 = _temp623:_less_less(_temp625)
+      elseif _temp623._less_less ~= nil then
+        _temp627 = _temp623._less_less
+
+        elseif _temp623.no_undermethod ~= nil then
+          _temp627 =  _temp623:no_undermethod(string:new("<<") , _temp625)
+        else
+          _error(exception:method_error(_temp623, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp623)
+      if _n._less_less ~= nil then
+        _temp627 = _n:_less_less(_temp625)
+      elseif _n.no_undermethod ~= nil then
+        _temp627 =  _n:no_undermethod(string:new("<<") , _temp625)
+      else
+        _error(exception:method_error(_temp623, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp623)
+      if _f._less_less ~= nil then
+        _temp627 = _f:_less_less(_temp625)
+      elseif _f.no_undermethod ~= nil then
+        _temp627 =  _f:no_undermethod(string:new("<<") , _temp625)
+      else
+        _error(exception:method_error(_temp623, "<<"))
+      end
+
+      elseif _temp623 == nil then
+        _error(exception:null_error("_temp623", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp623))
+      end
+
+local _temp625
+      local _t = _type(_temp627)
+      if _t == "table" then
+                      if _type(_temp627._less_less) == "function" or (_type(_temp627._less_less) == "table" and _rawget(_temp627._less_less, "__call_thing")) then
+        _temp625 = _temp627:_less_less(_temp626)
+      elseif _temp627._less_less ~= nil then
+        _temp625 = _temp627._less_less
+
+        elseif _temp627.no_undermethod ~= nil then
+          _temp625 =  _temp627:no_undermethod(string:new("<<") , _temp626)
+        else
+          _error(exception:method_error(_temp627, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp627)
+      if _n._less_less ~= nil then
+        _temp625 = _n:_less_less(_temp626)
+      elseif _n.no_undermethod ~= nil then
+        _temp625 =  _n:no_undermethod(string:new("<<") , _temp626)
+      else
+        _error(exception:method_error(_temp627, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp627)
+      if _f._less_less ~= nil then
+        _temp625 = _f:_less_less(_temp626)
+      elseif _f.no_undermethod ~= nil then
+        _temp625 =  _f:no_undermethod(string:new("<<") , _temp626)
+      else
+        _error(exception:method_error(_temp627, "<<"))
+      end
+
+      elseif _temp627 == nil then
+        _error(exception:null_error("_temp627", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp627))
+      end
+
+_dummy_ = _temp625 
+end
+
+do
+local _temp628 = nil
+        local _t = _type(_temp619)
+        if _t == "table" then
+          if _rawget(_temp619, "__call_thing") == nil then
+            _temp628 = _temp619
+          else
+                  if _temp619 == nil then
+              if _type(_self._temp619) == "function" or (_type(_self._temp619) == "table" and _rawget(_self._temp619, "__call_thing")) then
+        _temp628 =  _self:_temp619()
+      elseif _self._temp619 ~= nil then
+        _temp628 =  _self._temp619
+
+        elseif _self.no_undermethod ~= nil then
+          _temp628 =  _self:no_undermethod(string:new("_temp619"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp628 =  _temp619(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp628 = _temp619
+        elseif _t == "function" then
+                if _temp619 == nil then
+              if _type(_self._temp619) == "function" or (_type(_self._temp619) == "table" and _rawget(_self._temp619, "__call_thing")) then
+        _temp628 =  _self:_temp619()
+      elseif _self._temp619 ~= nil then
+        _temp628 =  _self._temp619
+
+        elseif _self.no_undermethod ~= nil then
+          _temp628 =  _self:no_undermethod(string:new("_temp619"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp628 =  _temp619(_self)
+      end
+
+        elseif _temp619 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp629 = nil
+      local _t = _type(_temp628)
+      if _t == "table" then
+                      if _type(_temp628.out) == "function" or (_type(_temp628.out) == "table" and _rawget(_temp628.out, "__call_thing")) then
+        _temp629 = _temp628:out()
+      elseif _temp628.out ~= nil then
+        _temp629 = _temp628.out
+
+        elseif _temp628.no_undermethod ~= nil then
+          _temp629 =  _temp628:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp628, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp628)
+      if _n.out ~= nil then
+        _temp629 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp629 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp628, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp628)
+      if _f.out ~= nil then
+        _temp629 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp629 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp628, "out"))
+      end
+
+      elseif _temp628 == nil then
+        _error(exception:null_error("_temp628", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp628))
+      end
+
+local _temp630 = nil
+local _temp631 = nil
+        local _t = _type(_temp618)
+        if _t == "table" then
+          if _rawget(_temp618, "__call_thing") == nil then
+            _temp631 = _temp618
+          else
+                  if _temp618 == nil then
+              if _type(_self._temp618) == "function" or (_type(_self._temp618) == "table" and _rawget(_self._temp618, "__call_thing")) then
+        _temp631 =  _self:_temp618()
+      elseif _self._temp618 ~= nil then
+        _temp631 =  _self._temp618
+
+        elseif _self.no_undermethod ~= nil then
+          _temp631 =  _self:no_undermethod(string:new("_temp618"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp631 =  _temp618(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp631 = _temp618
+        elseif _t == "function" then
+                if _temp618 == nil then
+              if _type(_self._temp618) == "function" or (_type(_self._temp618) == "table" and _rawget(_self._temp618, "__call_thing")) then
+        _temp631 =  _self:_temp618()
+      elseif _self._temp618 ~= nil then
+        _temp631 =  _self._temp618
+
+        elseif _self.no_undermethod ~= nil then
+          _temp631 =  _self:no_undermethod(string:new("_temp618"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp631 =  _temp618(_self)
+      end
+
+        elseif _temp618 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
+      local _t = _type(_temp631)
+      if _t == "table" then
+                      if _type(_temp631.lhs) == "function" or (_type(_temp631.lhs) == "table" and _rawget(_temp631.lhs, "__call_thing")) then
+        _temp631 = _temp631:lhs()
+      elseif _temp631.lhs ~= nil then
+        _temp631 = _temp631.lhs
+
+        elseif _temp631.no_undermethod ~= nil then
+          _temp631 =  _temp631:no_undermethod(string:new("lhs"))
+        else
+          _error(exception:method_error(_temp631, "lhs"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp631)
+      if _n.lhs ~= nil then
+        _temp631 = _n:lhs()
+      elseif _n.no_undermethod ~= nil then
+        _temp631 =  _n:no_undermethod(string:new("lhs"))
+      else
+        _error(exception:method_error(_temp631, "lhs"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp631)
+      if _f.lhs ~= nil then
+        _temp631 = _f:lhs()
+      elseif _f.no_undermethod ~= nil then
+        _temp631 =  _f:no_undermethod(string:new("lhs"))
+      else
+        _error(exception:method_error(_temp631, "lhs"))
+      end
+
+      elseif _temp631 == nil then
+        _error(exception:null_error("_temp631", "invoke lhs on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp631))
+      end
+
+      local _t = _type(_temp631)
+      if _t == "table" then
+                      if _type(_temp631.value) == "function" or (_type(_temp631.value) == "table" and _rawget(_temp631.value, "__call_thing")) then
+        _temp631 = _temp631:value()
+      elseif _temp631.value ~= nil then
+        _temp631 = _temp631.value
+
+        elseif _temp631.no_undermethod ~= nil then
+          _temp631 =  _temp631:no_undermethod(string:new("value"))
+        else
+          _error(exception:method_error(_temp631, "value"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp631)
+      if _n.value ~= nil then
+        _temp631 = _n:value()
+      elseif _n.no_undermethod ~= nil then
+        _temp631 =  _n:no_undermethod(string:new("value"))
+      else
+        _error(exception:method_error(_temp631, "value"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp631)
+      if _f.value ~= nil then
+        _temp631 = _f:value()
+      elseif _f.no_undermethod ~= nil then
+        _temp631 =  _f:no_undermethod(string:new("value"))
+      else
+        _error(exception:method_error(_temp631, "value"))
+      end
+
+      elseif _temp631 == nil then
+        _error(exception:null_error("_temp631", "invoke value on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp631))
+      end
+
+
+local _temp632 = nil
+        local _t = _type(_temp618)
+        if _t == "table" then
+          if _rawget(_temp618, "__call_thing") == nil then
+            _temp632 = _temp618
+          else
+                  if _temp618 == nil then
+              if _type(_self._temp618) == "function" or (_type(_self._temp618) == "table" and _rawget(_self._temp618, "__call_thing")) then
+        _temp632 =  _self:_temp618()
+      elseif _self._temp618 ~= nil then
+        _temp632 =  _self._temp618
+
+        elseif _self.no_undermethod ~= nil then
+          _temp632 =  _self:no_undermethod(string:new("_temp618"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp632 =  _temp618(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp632 = _temp618
+        elseif _t == "function" then
+                if _temp618 == nil then
+              if _type(_self._temp618) == "function" or (_type(_self._temp618) == "table" and _rawget(_self._temp618, "__call_thing")) then
+        _temp632 =  _self:_temp618()
+      elseif _self._temp618 ~= nil then
+        _temp632 =  _self._temp618
+
+        elseif _self.no_undermethod ~= nil then
+          _temp632 =  _self:no_undermethod(string:new("_temp618"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp632 =  _temp618(_self)
+      end
+
+        elseif _temp618 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
       local _t = _type(_temp632)
       if _t == "table" then
-                      if _type(_temp632.out) == "function" or (_type(_temp632.out) == "table" and _rawget(_temp632.out, "__call_thing")) then
-        _temp633 = _temp632:out()
-      elseif _temp632.out ~= nil then
-        _temp633 = _temp632.out
+                      if _type(_temp632.op) == "function" or (_type(_temp632.op) == "table" and _rawget(_temp632.op, "__call_thing")) then
+        _temp632 = _temp632:op()
+      elseif _temp632.op ~= nil then
+        _temp632 = _temp632.op
 
         elseif _temp632.no_undermethod ~= nil then
-          _temp633 =  _temp632:no_undermethod(string:new("out"))
+          _temp632 =  _temp632:no_undermethod(string:new("op"))
         else
-          _error(exception:method_error(_temp632, "out"))
+          _error(exception:method_error(_temp632, "op"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp632)
-      if _n.out ~= nil then
-        _temp633 = _n:out()
+      if _n.op ~= nil then
+        _temp632 = _n:op()
       elseif _n.no_undermethod ~= nil then
-        _temp633 =  _n:no_undermethod(string:new("out"))
+        _temp632 =  _n:no_undermethod(string:new("op"))
       else
-        _error(exception:method_error(_temp632, "out"))
+        _error(exception:method_error(_temp632, "op"))
       end
 
       elseif _t == "function" then
               local _f = brat_function:new(_temp632)
-      if _f.out ~= nil then
-        _temp633 = _f:out()
+      if _f.op ~= nil then
+        _temp632 = _f:op()
       elseif _f.no_undermethod ~= nil then
-        _temp633 =  _f:no_undermethod(string:new("out"))
+        _temp632 =  _f:no_undermethod(string:new("op"))
       else
-        _error(exception:method_error(_temp632, "out"))
+        _error(exception:method_error(_temp632, "op"))
       end
 
       elseif _temp632 == nil then
-        _error(exception:null_error("_temp632", "invoke out on it"))
+        _error(exception:null_error("_temp632", "invoke op on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(_temp632))
       end
 
-local _temp634 = nil
-        local _t = _type(_temp631)
+
+local _temp633 = nil
+        local _t = _type(_temp621)
         if _t == "table" then
-          if _rawget(_temp631, "__call_thing") == nil then
-            _temp634 = _temp631
+          if _rawget(_temp621, "__call_thing") == nil then
+            _temp633 = _temp621
           else
-                  if _temp631 == nil then
-              if _type(_self._temp631) == "function" or (_type(_self._temp631) == "table" and _rawget(_self._temp631, "__call_thing")) then
-        _temp634 =  _self:_temp631()
-      elseif _self._temp631 ~= nil then
-        _temp634 =  _self._temp631
+                  if _temp621 == nil then
+              if _type(_self._temp621) == "function" or (_type(_self._temp621) == "table" and _rawget(_self._temp621, "__call_thing")) then
+        _temp633 =  _self:_temp621()
+      elseif _self._temp621 ~= nil then
+        _temp633 =  _self._temp621
 
         elseif _self.no_undermethod ~= nil then
-          _temp634 =  _self:no_undermethod(string:new("_temp631"))
+          _temp633 =  _self:no_undermethod(string:new("_temp621"))
         else
           _error(exception:null_error("rhs", "invoke method"))
         end
       else 
-        _temp634 =  _temp631(_self)
+        _temp633 =  _temp621(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp634 = _temp631
+          _temp633 = _temp621
         elseif _t == "function" then
-                if _temp631 == nil then
-              if _type(_self._temp631) == "function" or (_type(_self._temp631) == "table" and _rawget(_self._temp631, "__call_thing")) then
-        _temp634 =  _self:_temp631()
-      elseif _self._temp631 ~= nil then
-        _temp634 =  _self._temp631
+                if _temp621 == nil then
+              if _type(_self._temp621) == "function" or (_type(_self._temp621) == "table" and _rawget(_self._temp621, "__call_thing")) then
+        _temp633 =  _self:_temp621()
+      elseif _self._temp621 ~= nil then
+        _temp633 =  _self._temp621
 
         elseif _self.no_undermethod ~= nil then
-          _temp634 =  _self:no_undermethod(string:new("_temp631"))
+          _temp633 =  _self:no_undermethod(string:new("_temp621"))
         else
           _error(exception:null_error("rhs", "invoke method"))
         end
       else 
-        _temp634 =  _temp631(_self)
+        _temp633 =  _temp621(_self)
       end
 
-        elseif _temp631 == nil then
+        elseif _temp621 == nil then
           _error(exception:null_error("rhs", "cannot call method on it"))
         else
           _error(exception:method_error("self", "rhs"))
         end
-
-local _temp635 = nil
-      local _t = _type(_temp634)
-      if _t == "table" then
-                      if _type(_temp634.out) == "function" or (_type(_temp634.out) == "table" and _rawget(_temp634.out, "__call_thing")) then
-        _temp635 = _temp634:out()
-      elseif _temp634.out ~= nil then
-        _temp635 = _temp634.out
-
-        elseif _temp634.no_undermethod ~= nil then
-          _temp635 =  _temp634:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp634, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp634)
-      if _n.out ~= nil then
-        _temp635 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp635 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp634, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp634)
-      if _f.out ~= nil then
-        _temp635 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp635 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp634, "out"))
-      end
-
-      elseif _temp634 == nil then
-        _error(exception:null_error("_temp634", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp634))
-      end
-
-local _temp636 = string:new("\n")
-local _temp637
       local _t = _type(_temp633)
       if _t == "table" then
-                      if _type(_temp633._less_less) == "function" or (_type(_temp633._less_less) == "table" and _rawget(_temp633._less_less, "__call_thing")) then
-        _temp637 = _temp633:_less_less(_temp635)
-      elseif _temp633._less_less ~= nil then
-        _temp637 = _temp633._less_less
+                      if _type(_temp633.var) == "function" or (_type(_temp633.var) == "table" and _rawget(_temp633.var, "__call_thing")) then
+        _temp633 = _temp633:var()
+      elseif _temp633.var ~= nil then
+        _temp633 = _temp633.var
 
         elseif _temp633.no_undermethod ~= nil then
-          _temp637 =  _temp633:no_undermethod(string:new("<<") , _temp635)
+          _temp633 =  _temp633:no_undermethod(string:new("var"))
         else
-          _error(exception:method_error(_temp633, "<<"))
+          _error(exception:method_error(_temp633, "var"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp633)
-      if _n._less_less ~= nil then
-        _temp637 = _n:_less_less(_temp635)
+      if _n.var ~= nil then
+        _temp633 = _n:var()
       elseif _n.no_undermethod ~= nil then
-        _temp637 =  _n:no_undermethod(string:new("<<") , _temp635)
+        _temp633 =  _n:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp633, "<<"))
+        _error(exception:method_error(_temp633, "var"))
       end
 
       elseif _t == "function" then
               local _f = brat_function:new(_temp633)
-      if _f._less_less ~= nil then
-        _temp637 = _f:_less_less(_temp635)
+      if _f.var ~= nil then
+        _temp633 = _f:var()
       elseif _f.no_undermethod ~= nil then
-        _temp637 =  _f:no_undermethod(string:new("<<") , _temp635)
+        _temp633 =  _f:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp633, "<<"))
+        _error(exception:method_error(_temp633, "var"))
       end
 
       elseif _temp633 == nil then
-        _error(exception:null_error("_temp633", "invoke << on it"))
+        _error(exception:null_error("_temp633", "invoke var on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(_temp633))
       end
 
-local _temp635
-      local _t = _type(_temp637)
-      if _t == "table" then
-                      if _type(_temp637._less_less) == "function" or (_type(_temp637._less_less) == "table" and _rawget(_temp637._less_less, "__call_thing")) then
-        _temp635 = _temp637:_less_less(_temp636)
-      elseif _temp637._less_less ~= nil then
-        _temp635 = _temp637._less_less
 
-        elseif _temp637.no_undermethod ~= nil then
-          _temp635 =  _temp637:no_undermethod(string:new("<<") , _temp636)
-        else
-          _error(exception:method_error(_temp637, "<<"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp637)
-      if _n._less_less ~= nil then
-        _temp635 = _n:_less_less(_temp636)
-      elseif _n.no_undermethod ~= nil then
-        _temp635 =  _n:no_undermethod(string:new("<<") , _temp636)
-      else
-        _error(exception:method_error(_temp637, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp637)
-      if _f._less_less ~= nil then
-        _temp635 = _f:_less_less(_temp636)
-      elseif _f.no_undermethod ~= nil then
-        _temp635 =  _f:no_undermethod(string:new("<<") , _temp636)
-      else
-        _error(exception:method_error(_temp637, "<<"))
-      end
-
-      elseif _temp637 == nil then
-        _error(exception:null_error("_temp637", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp637))
-      end
-
-_dummy_ = _temp635 
-end
-
-do
-local _temp638 = nil
-        local _t = _type(_temp629)
+local _temp634 = nil
+        local _t = _type(_temp619)
         if _t == "table" then
-          if _rawget(_temp629, "__call_thing") == nil then
-            _temp638 = _temp629
+          if _rawget(_temp619, "__call_thing") == nil then
+            _temp634 = _temp619
           else
-                  if _temp629 == nil then
-              if _type(_self._temp629) == "function" or (_type(_self._temp629) == "table" and _rawget(_self._temp629, "__call_thing")) then
-        _temp638 =  _self:_temp629()
-      elseif _self._temp629 ~= nil then
-        _temp638 =  _self._temp629
+                  if _temp619 == nil then
+              if _type(_self._temp619) == "function" or (_type(_self._temp619) == "table" and _rawget(_self._temp619, "__call_thing")) then
+        _temp634 =  _self:_temp619()
+      elseif _self._temp619 ~= nil then
+        _temp634 =  _self._temp619
 
         elseif _self.no_undermethod ~= nil then
-          _temp638 =  _self:no_undermethod(string:new("_temp629"))
+          _temp634 =  _self:no_undermethod(string:new("_temp619"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp638 =  _temp629(_self)
+        _temp634 =  _temp619(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp638 = _temp629
+          _temp634 = _temp619
         elseif _t == "function" then
-                if _temp629 == nil then
-              if _type(_self._temp629) == "function" or (_type(_self._temp629) == "table" and _rawget(_self._temp629, "__call_thing")) then
-        _temp638 =  _self:_temp629()
-      elseif _self._temp629 ~= nil then
-        _temp638 =  _self._temp629
+                if _temp619 == nil then
+              if _type(_self._temp619) == "function" or (_type(_self._temp619) == "table" and _rawget(_self._temp619, "__call_thing")) then
+        _temp634 =  _self:_temp619()
+      elseif _self._temp619 ~= nil then
+        _temp634 =  _self._temp619
 
         elseif _self.no_undermethod ~= nil then
-          _temp638 =  _self:no_undermethod(string:new("_temp629"))
+          _temp634 =  _self:no_undermethod(string:new("_temp619"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp638 =  _temp629(_self)
+        _temp634 =  _temp619(_self)
       end
 
-        elseif _temp629 == nil then
+        elseif _temp619 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
-
-local _temp639 = nil
-      local _t = _type(_temp638)
+      local _t = _type(_temp634)
       if _t == "table" then
-                      if _type(_temp638.out) == "function" or (_type(_temp638.out) == "table" and _rawget(_temp638.out, "__call_thing")) then
-        _temp639 = _temp638:out()
-      elseif _temp638.out ~= nil then
-        _temp639 = _temp638.out
+                      if _type(_temp634.var) == "function" or (_type(_temp634.var) == "table" and _rawget(_temp634.var, "__call_thing")) then
+        _temp634 = _temp634:var()
+      elseif _temp634.var ~= nil then
+        _temp634 = _temp634.var
 
-        elseif _temp638.no_undermethod ~= nil then
-          _temp639 =  _temp638:no_undermethod(string:new("out"))
+        elseif _temp634.no_undermethod ~= nil then
+          _temp634 =  _temp634:no_undermethod(string:new("var"))
         else
-          _error(exception:method_error(_temp638, "out"))
+          _error(exception:method_error(_temp634, "var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp638)
-      if _n.out ~= nil then
-        _temp639 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp639 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp638, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp638)
-      if _f.out ~= nil then
-        _temp639 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp639 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp638, "out"))
-      end
-
-      elseif _temp638 == nil then
-        _error(exception:null_error("_temp638", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp638))
-      end
-
-local _temp640 = nil
-local _temp641 = nil
-        local _t = _type(_temp628)
-        if _t == "table" then
-          if _rawget(_temp628, "__call_thing") == nil then
-            _temp641 = _temp628
-          else
-                  if _temp628 == nil then
-              if _type(_self._temp628) == "function" or (_type(_self._temp628) == "table" and _rawget(_self._temp628, "__call_thing")) then
-        _temp641 =  _self:_temp628()
-      elseif _self._temp628 ~= nil then
-        _temp641 =  _self._temp628
-
-        elseif _self.no_undermethod ~= nil then
-          _temp641 =  _self:no_undermethod(string:new("_temp628"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp641 =  _temp628(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp641 = _temp628
-        elseif _t == "function" then
-                if _temp628 == nil then
-              if _type(_self._temp628) == "function" or (_type(_self._temp628) == "table" and _rawget(_self._temp628, "__call_thing")) then
-        _temp641 =  _self:_temp628()
-      elseif _self._temp628 ~= nil then
-        _temp641 =  _self._temp628
-
-        elseif _self.no_undermethod ~= nil then
-          _temp641 =  _self:no_undermethod(string:new("_temp628"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp641 =  _temp628(_self)
-      end
-
-        elseif _temp628 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp641)
-      if _t == "table" then
-                      if _type(_temp641.lhs) == "function" or (_type(_temp641.lhs) == "table" and _rawget(_temp641.lhs, "__call_thing")) then
-        _temp641 = _temp641:lhs()
-      elseif _temp641.lhs ~= nil then
-        _temp641 = _temp641.lhs
-
-        elseif _temp641.no_undermethod ~= nil then
-          _temp641 =  _temp641:no_undermethod(string:new("lhs"))
-        else
-          _error(exception:method_error(_temp641, "lhs"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp641)
-      if _n.lhs ~= nil then
-        _temp641 = _n:lhs()
-      elseif _n.no_undermethod ~= nil then
-        _temp641 =  _n:no_undermethod(string:new("lhs"))
-      else
-        _error(exception:method_error(_temp641, "lhs"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp641)
-      if _f.lhs ~= nil then
-        _temp641 = _f:lhs()
-      elseif _f.no_undermethod ~= nil then
-        _temp641 =  _f:no_undermethod(string:new("lhs"))
-      else
-        _error(exception:method_error(_temp641, "lhs"))
-      end
-
-      elseif _temp641 == nil then
-        _error(exception:null_error("_temp641", "invoke lhs on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp641))
-      end
-
-      local _t = _type(_temp641)
-      if _t == "table" then
-                      if _type(_temp641.value) == "function" or (_type(_temp641.value) == "table" and _rawget(_temp641.value, "__call_thing")) then
-        _temp641 = _temp641:value()
-      elseif _temp641.value ~= nil then
-        _temp641 = _temp641.value
-
-        elseif _temp641.no_undermethod ~= nil then
-          _temp641 =  _temp641:no_undermethod(string:new("value"))
-        else
-          _error(exception:method_error(_temp641, "value"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp641)
-      if _n.value ~= nil then
-        _temp641 = _n:value()
-      elseif _n.no_undermethod ~= nil then
-        _temp641 =  _n:no_undermethod(string:new("value"))
-      else
-        _error(exception:method_error(_temp641, "value"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp641)
-      if _f.value ~= nil then
-        _temp641 = _f:value()
-      elseif _f.no_undermethod ~= nil then
-        _temp641 =  _f:no_undermethod(string:new("value"))
-      else
-        _error(exception:method_error(_temp641, "value"))
-      end
-
-      elseif _temp641 == nil then
-        _error(exception:null_error("_temp641", "invoke value on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp641))
-      end
-
-
-local _temp642 = nil
-        local _t = _type(_temp628)
-        if _t == "table" then
-          if _rawget(_temp628, "__call_thing") == nil then
-            _temp642 = _temp628
-          else
-                  if _temp628 == nil then
-              if _type(_self._temp628) == "function" or (_type(_self._temp628) == "table" and _rawget(_self._temp628, "__call_thing")) then
-        _temp642 =  _self:_temp628()
-      elseif _self._temp628 ~= nil then
-        _temp642 =  _self._temp628
-
-        elseif _self.no_undermethod ~= nil then
-          _temp642 =  _self:no_undermethod(string:new("_temp628"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp642 =  _temp628(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp642 = _temp628
-        elseif _t == "function" then
-                if _temp628 == nil then
-              if _type(_self._temp628) == "function" or (_type(_self._temp628) == "table" and _rawget(_self._temp628, "__call_thing")) then
-        _temp642 =  _self:_temp628()
-      elseif _self._temp628 ~= nil then
-        _temp642 =  _self._temp628
-
-        elseif _self.no_undermethod ~= nil then
-          _temp642 =  _self:no_undermethod(string:new("_temp628"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp642 =  _temp628(_self)
-      end
-
-        elseif _temp628 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp642)
-      if _t == "table" then
-                      if _type(_temp642.op) == "function" or (_type(_temp642.op) == "table" and _rawget(_temp642.op, "__call_thing")) then
-        _temp642 = _temp642:op()
-      elseif _temp642.op ~= nil then
-        _temp642 = _temp642.op
-
-        elseif _temp642.no_undermethod ~= nil then
-          _temp642 =  _temp642:no_undermethod(string:new("op"))
-        else
-          _error(exception:method_error(_temp642, "op"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp642)
-      if _n.op ~= nil then
-        _temp642 = _n:op()
-      elseif _n.no_undermethod ~= nil then
-        _temp642 =  _n:no_undermethod(string:new("op"))
-      else
-        _error(exception:method_error(_temp642, "op"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp642)
-      if _f.op ~= nil then
-        _temp642 = _f:op()
-      elseif _f.no_undermethod ~= nil then
-        _temp642 =  _f:no_undermethod(string:new("op"))
-      else
-        _error(exception:method_error(_temp642, "op"))
-      end
-
-      elseif _temp642 == nil then
-        _error(exception:null_error("_temp642", "invoke op on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp642))
-      end
-
-
-local _temp643 = nil
-        local _t = _type(_temp631)
-        if _t == "table" then
-          if _rawget(_temp631, "__call_thing") == nil then
-            _temp643 = _temp631
-          else
-                  if _temp631 == nil then
-              if _type(_self._temp631) == "function" or (_type(_self._temp631) == "table" and _rawget(_self._temp631, "__call_thing")) then
-        _temp643 =  _self:_temp631()
-      elseif _self._temp631 ~= nil then
-        _temp643 =  _self._temp631
-
-        elseif _self.no_undermethod ~= nil then
-          _temp643 =  _self:no_undermethod(string:new("_temp631"))
-        else
-          _error(exception:null_error("rhs", "invoke method"))
-        end
-      else 
-        _temp643 =  _temp631(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp643 = _temp631
-        elseif _t == "function" then
-                if _temp631 == nil then
-              if _type(_self._temp631) == "function" or (_type(_self._temp631) == "table" and _rawget(_self._temp631, "__call_thing")) then
-        _temp643 =  _self:_temp631()
-      elseif _self._temp631 ~= nil then
-        _temp643 =  _self._temp631
-
-        elseif _self.no_undermethod ~= nil then
-          _temp643 =  _self:no_undermethod(string:new("_temp631"))
-        else
-          _error(exception:null_error("rhs", "invoke method"))
-        end
-      else 
-        _temp643 =  _temp631(_self)
-      end
-
-        elseif _temp631 == nil then
-          _error(exception:null_error("rhs", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "rhs"))
-        end
-      local _t = _type(_temp643)
-      if _t == "table" then
-                      if _type(_temp643.var) == "function" or (_type(_temp643.var) == "table" and _rawget(_temp643.var, "__call_thing")) then
-        _temp643 = _temp643:var()
-      elseif _temp643.var ~= nil then
-        _temp643 = _temp643.var
-
-        elseif _temp643.no_undermethod ~= nil then
-          _temp643 =  _temp643:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp643, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp643)
+              local _n = number:new(_temp634)
       if _n.var ~= nil then
-        _temp643 = _n:var()
+        _temp634 = _n:var()
       elseif _n.no_undermethod ~= nil then
-        _temp643 =  _n:no_undermethod(string:new("var"))
+        _temp634 =  _n:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp643, "var"))
+        _error(exception:method_error(_temp634, "var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp643)
+              local _f = brat_function:new(_temp634)
       if _f.var ~= nil then
-        _temp643 = _f:var()
+        _temp634 = _f:var()
       elseif _f.no_undermethod ~= nil then
-        _temp643 =  _f:no_undermethod(string:new("var"))
+        _temp634 =  _f:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp643, "var"))
+        _error(exception:method_error(_temp634, "var"))
       end
 
-      elseif _temp643 == nil then
-        _error(exception:null_error("_temp643", "invoke var on it"))
+      elseif _temp634 == nil then
+        _error(exception:null_error("_temp634", "invoke var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp643))
-      end
-
-
-local _temp644 = nil
-        local _t = _type(_temp629)
-        if _t == "table" then
-          if _rawget(_temp629, "__call_thing") == nil then
-            _temp644 = _temp629
-          else
-                  if _temp629 == nil then
-              if _type(_self._temp629) == "function" or (_type(_self._temp629) == "table" and _rawget(_self._temp629, "__call_thing")) then
-        _temp644 =  _self:_temp629()
-      elseif _self._temp629 ~= nil then
-        _temp644 =  _self._temp629
-
-        elseif _self.no_undermethod ~= nil then
-          _temp644 =  _self:no_undermethod(string:new("_temp629"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp644 =  _temp629(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp644 = _temp629
-        elseif _t == "function" then
-                if _temp629 == nil then
-              if _type(_self._temp629) == "function" or (_type(_self._temp629) == "table" and _rawget(_self._temp629, "__call_thing")) then
-        _temp644 =  _self:_temp629()
-      elseif _self._temp629 ~= nil then
-        _temp644 =  _self._temp629
-
-        elseif _self.no_undermethod ~= nil then
-          _temp644 =  _self:no_undermethod(string:new("_temp629"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp644 =  _temp629(_self)
-      end
-
-        elseif _temp629 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-      local _t = _type(_temp644)
-      if _t == "table" then
-                      if _type(_temp644.var) == "function" or (_type(_temp644.var) == "table" and _rawget(_temp644.var, "__call_thing")) then
-        _temp644 = _temp644:var()
-      elseif _temp644.var ~= nil then
-        _temp644 = _temp644.var
-
-        elseif _temp644.no_undermethod ~= nil then
-          _temp644 =  _temp644:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp644, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp644)
-      if _n.var ~= nil then
-        _temp644 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp644 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp644, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp644)
-      if _f.var ~= nil then
-        _temp644 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp644 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp644, "var"))
-      end
-
-      elseif _temp644 == nil then
-        _error(exception:null_error("_temp644", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp644))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp634))
       end
 
 
     if _type(invoke_undernumber_underlhs) == "function" or (_type(invoke_undernumber_underlhs) == "table" and _rawget(invoke_undernumber_underlhs, "__call_thing")) then
-      _temp640 =  invoke_undernumber_underlhs(_self, _temp641,_temp642,_temp643,_temp644)
+      _temp630 =  invoke_undernumber_underlhs(_self, _temp631,_temp632,_temp633,_temp634)
 
     elseif invoke_undernumber_underlhs then
       _error(exception:new("Tried to invoke non-method: invoke_number_lhs (" .. object.__type(invoke_undernumber_underlhs) .. ")"))
     else
             if _type(_self.invoke_undernumber_underlhs) == "function" or (_type(_self.invoke_undernumber_underlhs) == "table" and _rawget(_self.invoke_undernumber_underlhs, "__call_thing")) then
-        _temp640 =  _self:invoke_undernumber_underlhs(_temp641,_temp642,_temp643,_temp644)
+        _temp630 =  _self:invoke_undernumber_underlhs(_temp631,_temp632,_temp633,_temp634)
       elseif _self.invoke_undernumber_underlhs ~= nil then
-        _temp640 =  _self.invoke_undernumber_underlhs
+        _temp630 =  _self.invoke_undernumber_underlhs
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp640 =  _self:no_undermethod(string:new("invoke_number_lhs") , _temp641,_temp642,_temp643,_temp644)
+        _temp630 =  _self:no_undermethod(string:new("invoke_number_lhs") , _temp631,_temp632,_temp633,_temp634)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp640 =  no_undermethod(_self, string:new("invoke_number_lhs") , _temp641,_temp642,_temp643,_temp644)
+        _temp630 =  no_undermethod(_self, string:new("invoke_number_lhs") , _temp631,_temp632,_temp633,_temp634)
       else
         _error(exception:name_error("invoke_number_lhs"))
       end
     end
-local _temp644
-      local _t = _type(_temp639)
+local _temp634
+      local _t = _type(_temp629)
       if _t == "table" then
-                      if _type(_temp639._less_less) == "function" or (_type(_temp639._less_less) == "table" and _rawget(_temp639._less_less, "__call_thing")) then
-        _temp644 = _temp639:_less_less(_temp640)
-      elseif _temp639._less_less ~= nil then
-        _temp644 = _temp639._less_less
+                      if _type(_temp629._less_less) == "function" or (_type(_temp629._less_less) == "table" and _rawget(_temp629._less_less, "__call_thing")) then
+        _temp634 = _temp629:_less_less(_temp630)
+      elseif _temp629._less_less ~= nil then
+        _temp634 = _temp629._less_less
 
-        elseif _temp639.no_undermethod ~= nil then
-          _temp644 =  _temp639:no_undermethod(string:new("<<") , _temp640)
+        elseif _temp629.no_undermethod ~= nil then
+          _temp634 =  _temp629:no_undermethod(string:new("<<") , _temp630)
         else
-          _error(exception:method_error(_temp639, "<<"))
+          _error(exception:method_error(_temp629, "<<"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp639)
+              local _n = number:new(_temp629)
       if _n._less_less ~= nil then
-        _temp644 = _n:_less_less(_temp640)
+        _temp634 = _n:_less_less(_temp630)
       elseif _n.no_undermethod ~= nil then
-        _temp644 =  _n:no_undermethod(string:new("<<") , _temp640)
+        _temp634 =  _n:no_undermethod(string:new("<<") , _temp630)
       else
-        _error(exception:method_error(_temp639, "<<"))
+        _error(exception:method_error(_temp629, "<<"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp639)
+              local _f = brat_function:new(_temp629)
       if _f._less_less ~= nil then
-        _temp644 = _f:_less_less(_temp640)
+        _temp634 = _f:_less_less(_temp630)
       elseif _f.no_undermethod ~= nil then
-        _temp644 =  _f:no_undermethod(string:new("<<") , _temp640)
+        _temp634 =  _f:no_undermethod(string:new("<<") , _temp630)
       else
-        _error(exception:method_error(_temp639, "<<"))
+        _error(exception:method_error(_temp629, "<<"))
       end
 
-      elseif _temp639 == nil then
-        _error(exception:null_error("_temp639", "invoke << on it"))
+      elseif _temp629 == nil then
+        _error(exception:null_error("_temp629", "invoke << on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp639))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp629))
       end
 
-_dummy_ = _temp644 
+_dummy_ = _temp634 
 end
 
-    if _type(_temp629) == "function" or (_type(_temp629) == "table" and _rawget(_temp629, "__call_thing")) then
-      return  _temp629(_self)
+    if _type(_temp619) == "function" or (_type(_temp619) == "table" and _rawget(_temp619, "__call_thing")) then
+      return  _temp619(_self)
 
-    elseif _temp629 then
-      return  _temp629
+    elseif _temp619 then
+      return  _temp619
     else
             if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
         return  _self:res()
@@ -27879,82 +27629,82 @@ end
 
 end
 
-      local _t = _type(_temp626)
+      local _t = _type(_temp616)
       if _t == "table" then
-                      if _type(_temp626.walk) == "function" or (_type(_temp626.walk) == "table" and _rawget(_temp626.walk, "__call_thing")) then
-        _dummy_ = _temp626:walk(_temp4,_temp645)
-      elseif _temp626.walk ~= nil then
-        _dummy_ = _temp626.walk
+                      if _type(_temp616.walk) == "function" or (_type(_temp616.walk) == "table" and _rawget(_temp616.walk, "__call_thing")) then
+        _dummy_ = _temp616:walk(_temp4,_temp635)
+      elseif _temp616.walk ~= nil then
+        _dummy_ = _temp616.walk
 
-        elseif _temp626.no_undermethod ~= nil then
-          _dummy_ =  _temp626:no_undermethod(string:new("walk") , _temp4,_temp645)
+        elseif _temp616.no_undermethod ~= nil then
+          _dummy_ =  _temp616:no_undermethod(string:new("walk") , _temp4,_temp635)
         else
-          _error(exception:method_error(_temp626, "walk"))
+          _error(exception:method_error(_temp616, "walk"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp626)
+              local _n = number:new(_temp616)
       if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp645)
+        _dummy_ = _n:walk(_temp4,_temp635)
       elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp645)
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp635)
       else
-        _error(exception:method_error(_temp626, "walk"))
+        _error(exception:method_error(_temp616, "walk"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp626)
+              local _f = brat_function:new(_temp616)
       if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp645)
+        _dummy_ = _f:walk(_temp4,_temp635)
       elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp645)
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp635)
       else
-        _error(exception:method_error(_temp626, "walk"))
+        _error(exception:method_error(_temp616, "walk"))
       end
 
-      elseif _temp626 == nil then
-        _error(exception:null_error("_temp626", "invoke walk on it"))
+      elseif _temp616 == nil then
+        _error(exception:null_error("_temp616", "invoke walk on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp626))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp616))
       end
 
         local _t = _type(_temp5)
         if _t == "table" then
           if _rawget(_temp5, "__call_thing") == nil then
-            _temp645 = _temp5
+            _temp635 = _temp5
           else
                   if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp645 =  _self:_temp5()
+        _temp635 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp645 =  _self._temp5
+        _temp635 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp645 =  _self:no_undermethod(string:new("_temp5"))
+          _temp635 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp645 =  _temp5(_self)
+        _temp635 =  _temp5(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp645 = _temp5
+          _temp635 = _temp5
         elseif _t == "function" then
                 if _temp5 == nil then
               if _type(_self._temp5) == "function" or (_type(_self._temp5) == "table" and _rawget(_self._temp5, "__call_thing")) then
-        _temp645 =  _self:_temp5()
+        _temp635 =  _self:_temp5()
       elseif _self._temp5 ~= nil then
-        _temp645 =  _self._temp5
+        _temp635 =  _self._temp5
 
         elseif _self.no_undermethod ~= nil then
-          _temp645 =  _self:no_undermethod(string:new("_temp5"))
+          _temp635 =  _self:no_undermethod(string:new("_temp5"))
         else
           _error(exception:null_error("c", "invoke method"))
         end
       else 
-        _temp645 =  _temp5(_self)
+        _temp635 =  _temp5(_self)
       end
 
         elseif _temp5 == nil then
@@ -27964,31 +27714,31 @@ end
         end
 _temp4 = string:new("invoke_number_rhs")
 
-local _temp664 = function (_self, _temp647,_temp646)
-        if _temp647 == nil then
+local _temp654 = function (_self, _temp637,_temp636)
+        if _temp637 == nil then
           _error(exception:argument_error("function", 'at least 1', 0))
 
 end
-if _temp646 == nil then
+if _temp636 == nil then
  do
     if _type(null) == "function" or (_type(null) == "table" and _rawget(null, "__call_thing")) then
-      _temp646 =  null(_self)
+      _temp636 =  null(_self)
 
     elseif null then
-      _temp646 =  null
+      _temp636 =  null
     else
             if _type(_self.null) == "function" or (_type(_self.null) == "table" and _rawget(_self.null, "__call_thing")) then
-        _temp646 =  _self:null()
+        _temp636 =  _self:null()
       elseif _self.null ~= nil then
-        _temp646 =  _self.null
+        _temp636 =  _self.null
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp646 =  _self:no_undermethod(string:new("null"))
+        _temp636 =  _self:no_undermethod(string:new("null"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp646 =  no_undermethod(_self, string:new("null"))
+        _temp636 =  no_undermethod(_self, string:new("null"))
       else
         _error(exception:name_error("null"))
       end
@@ -27997,956 +27747,956 @@ if _temp646 == nil then
 end
 end
 
-local _temp648
-local _temp649 = nil
-    if _type(_temp646) == "function" or (_type(_temp646) == "table" and _rawget(_temp646, "__call_thing")) then
-      _temp649 =  _temp646(_self)
+local _temp638
+local _temp639 = nil
+    if _type(_temp636) == "function" or (_type(_temp636) == "table" and _rawget(_temp636, "__call_thing")) then
+      _temp639 =  _temp636(_self)
 
-    elseif _temp646 then
-      _temp649 =  _temp646
+    elseif _temp636 then
+      _temp639 =  _temp636
     else
             if _type(_self.var) == "function" or (_type(_self.var) == "table" and _rawget(_self.var, "__call_thing")) then
-        _temp649 =  _self:var()
+        _temp639 =  _self:var()
       elseif _self.var ~= nil then
-        _temp649 =  _self.var
+        _temp639 =  _self.var
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp649 =  _self:no_undermethod(string:new("var"))
+        _temp639 =  _self:no_undermethod(string:new("var"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp649 =  no_undermethod(_self, string:new("var"))
+        _temp639 =  no_undermethod(_self, string:new("var"))
       else
         _error(exception:name_error("var"))
       end
     end
 
     if _type(set_underresult) == "function" or (_type(set_underresult) == "table" and _rawget(set_underresult, "__call_thing")) then
-      _temp648 =  set_underresult(_self, _temp649)
+      _temp638 =  set_underresult(_self, _temp639)
 
     elseif set_underresult then
       _error(exception:new("Tried to invoke non-method: set_result (" .. object.__type(set_underresult) .. ")"))
     else
             if _type(_self.set_underresult) == "function" or (_type(_self.set_underresult) == "table" and _rawget(_self.set_underresult, "__call_thing")) then
-        _temp648 =  _self:set_underresult(_temp649)
+        _temp638 =  _self:set_underresult(_temp639)
       elseif _self.set_underresult ~= nil then
-        _temp648 =  _self.set_underresult
+        _temp638 =  _self.set_underresult
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp648 =  _self:no_undermethod(string:new("set_result") , _temp649)
+        _temp638 =  _self:no_undermethod(string:new("set_result") , _temp639)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp648 =  no_undermethod(_self, string:new("set_result") , _temp649)
+        _temp638 =  no_undermethod(_self, string:new("set_result") , _temp639)
       else
         _error(exception:name_error("set_result"))
       end
     end
 
-local _temp650
-        local _t = _type(_temp647)
+local _temp640
+        local _t = _type(_temp637)
         if _t == "table" then
-          if _rawget(_temp647, "__call_thing") == nil then
-            _temp649 = _temp647
+          if _rawget(_temp637, "__call_thing") == nil then
+            _temp639 = _temp637
           else
-                  if _temp647 == nil then
-              if _type(_self._temp647) == "function" or (_type(_self._temp647) == "table" and _rawget(_self._temp647, "__call_thing")) then
-        _temp649 =  _self:_temp647()
-      elseif _self._temp647 ~= nil then
-        _temp649 =  _self._temp647
+                  if _temp637 == nil then
+              if _type(_self._temp637) == "function" or (_type(_self._temp637) == "table" and _rawget(_self._temp637, "__call_thing")) then
+        _temp639 =  _self:_temp637()
+      elseif _self._temp637 ~= nil then
+        _temp639 =  _self._temp637
 
         elseif _self.no_undermethod ~= nil then
-          _temp649 =  _self:no_undermethod(string:new("_temp647"))
+          _temp639 =  _self:no_undermethod(string:new("_temp637"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp649 =  _temp647(_self)
+        _temp639 =  _temp637(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp649 = _temp647
+          _temp639 = _temp637
         elseif _t == "function" then
-                if _temp647 == nil then
-              if _type(_self._temp647) == "function" or (_type(_self._temp647) == "table" and _rawget(_self._temp647, "__call_thing")) then
-        _temp649 =  _self:_temp647()
-      elseif _self._temp647 ~= nil then
-        _temp649 =  _self._temp647
+                if _temp637 == nil then
+              if _type(_self._temp637) == "function" or (_type(_self._temp637) == "table" and _rawget(_self._temp637, "__call_thing")) then
+        _temp639 =  _self:_temp637()
+      elseif _self._temp637 ~= nil then
+        _temp639 =  _self._temp637
 
         elseif _self.no_undermethod ~= nil then
-          _temp649 =  _self:no_undermethod(string:new("_temp647"))
+          _temp639 =  _self:no_undermethod(string:new("_temp637"))
         else
           _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp649 =  _temp647(_self)
+        _temp639 =  _temp637(_self)
       end
 
-        elseif _temp647 == nil then
+        elseif _temp637 == nil then
           _error(exception:null_error("node", "cannot call method on it"))
         else
           _error(exception:method_error("self", "node"))
         end
-      local _t = _type(_temp649)
+      local _t = _type(_temp639)
       if _t == "table" then
-                      if _type(_temp649.lhs) == "function" or (_type(_temp649.lhs) == "table" and _rawget(_temp649.lhs, "__call_thing")) then
-        _temp649 = _temp649:lhs()
-      elseif _temp649.lhs ~= nil then
-        _temp649 = _temp649.lhs
+                      if _type(_temp639.lhs) == "function" or (_type(_temp639.lhs) == "table" and _rawget(_temp639.lhs, "__call_thing")) then
+        _temp639 = _temp639:lhs()
+      elseif _temp639.lhs ~= nil then
+        _temp639 = _temp639.lhs
 
-        elseif _temp649.no_undermethod ~= nil then
-          _temp649 =  _temp649:no_undermethod(string:new("lhs"))
+        elseif _temp639.no_undermethod ~= nil then
+          _temp639 =  _temp639:no_undermethod(string:new("lhs"))
         else
-          _error(exception:method_error(_temp649, "lhs"))
+          _error(exception:method_error(_temp639, "lhs"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp649)
+              local _n = number:new(_temp639)
       if _n.lhs ~= nil then
-        _temp649 = _n:lhs()
+        _temp639 = _n:lhs()
       elseif _n.no_undermethod ~= nil then
-        _temp649 =  _n:no_undermethod(string:new("lhs"))
+        _temp639 =  _n:no_undermethod(string:new("lhs"))
       else
-        _error(exception:method_error(_temp649, "lhs"))
+        _error(exception:method_error(_temp639, "lhs"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp649)
+              local _f = brat_function:new(_temp639)
       if _f.lhs ~= nil then
-        _temp649 = _f:lhs()
+        _temp639 = _f:lhs()
       elseif _f.no_undermethod ~= nil then
-        _temp649 =  _f:no_undermethod(string:new("lhs"))
+        _temp639 =  _f:no_undermethod(string:new("lhs"))
       else
-        _error(exception:method_error(_temp649, "lhs"))
+        _error(exception:method_error(_temp639, "lhs"))
       end
 
-      elseif _temp649 == nil then
-        _error(exception:null_error("_temp649", "invoke lhs on it"))
+      elseif _temp639 == nil then
+        _error(exception:null_error("_temp639", "invoke lhs on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp649))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp639))
       end
 
 
     if _type(process) == "function" or (_type(process) == "table" and _rawget(process, "__call_thing")) then
-      _temp650 =  process(_self, _temp649)
+      _temp640 =  process(_self, _temp639)
 
     elseif process then
       _error(exception:new("Tried to invoke non-method: process (" .. object.__type(process) .. ")"))
     else
             if _type(_self.process) == "function" or (_type(_self.process) == "table" and _rawget(_self.process, "__call_thing")) then
-        _temp650 =  _self:process(_temp649)
+        _temp640 =  _self:process(_temp639)
       elseif _self.process ~= nil then
-        _temp650 =  _self.process
+        _temp640 =  _self.process
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp650 =  _self:no_undermethod(string:new("process") , _temp649)
+        _temp640 =  _self:no_undermethod(string:new("process") , _temp639)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp650 =  no_undermethod(_self, string:new("process") , _temp649)
+        _temp640 =  no_undermethod(_self, string:new("process") , _temp639)
       else
         _error(exception:name_error("process"))
       end
     end
 
 do
-local _temp651 = nil
-        local _t = _type(_temp648)
+local _temp641 = nil
+        local _t = _type(_temp638)
         if _t == "table" then
-          if _rawget(_temp648, "__call_thing") == nil then
-            _temp651 = _temp648
+          if _rawget(_temp638, "__call_thing") == nil then
+            _temp641 = _temp638
           else
-                  if _temp648 == nil then
-              if _type(_self._temp648) == "function" or (_type(_self._temp648) == "table" and _rawget(_self._temp648, "__call_thing")) then
-        _temp651 =  _self:_temp648()
-      elseif _self._temp648 ~= nil then
-        _temp651 =  _self._temp648
+                  if _temp638 == nil then
+              if _type(_self._temp638) == "function" or (_type(_self._temp638) == "table" and _rawget(_self._temp638, "__call_thing")) then
+        _temp641 =  _self:_temp638()
+      elseif _self._temp638 ~= nil then
+        _temp641 =  _self._temp638
 
         elseif _self.no_undermethod ~= nil then
-          _temp651 =  _self:no_undermethod(string:new("_temp648"))
+          _temp641 =  _self:no_undermethod(string:new("_temp638"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp651 =  _temp648(_self)
+        _temp641 =  _temp638(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp651 = _temp648
+          _temp641 = _temp638
         elseif _t == "function" then
-                if _temp648 == nil then
-              if _type(_self._temp648) == "function" or (_type(_self._temp648) == "table" and _rawget(_self._temp648, "__call_thing")) then
-        _temp651 =  _self:_temp648()
-      elseif _self._temp648 ~= nil then
-        _temp651 =  _self._temp648
+                if _temp638 == nil then
+              if _type(_self._temp638) == "function" or (_type(_self._temp638) == "table" and _rawget(_self._temp638, "__call_thing")) then
+        _temp641 =  _self:_temp638()
+      elseif _self._temp638 ~= nil then
+        _temp641 =  _self._temp638
 
         elseif _self.no_undermethod ~= nil then
-          _temp651 =  _self:no_undermethod(string:new("_temp648"))
+          _temp641 =  _self:no_undermethod(string:new("_temp638"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp651 =  _temp648(_self)
+        _temp641 =  _temp638(_self)
       end
 
-        elseif _temp648 == nil then
+        elseif _temp638 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
 
-local _temp652 = nil
+local _temp642 = nil
+      local _t = _type(_temp641)
+      if _t == "table" then
+                      if _type(_temp641.out) == "function" or (_type(_temp641.out) == "table" and _rawget(_temp641.out, "__call_thing")) then
+        _temp642 = _temp641:out()
+      elseif _temp641.out ~= nil then
+        _temp642 = _temp641.out
+
+        elseif _temp641.no_undermethod ~= nil then
+          _temp642 =  _temp641:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp641, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp641)
+      if _n.out ~= nil then
+        _temp642 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp642 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp641, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp641)
+      if _f.out ~= nil then
+        _temp642 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp642 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp641, "out"))
+      end
+
+      elseif _temp641 == nil then
+        _error(exception:null_error("_temp641", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp641))
+      end
+
+local _temp643 = nil
+        local _t = _type(_temp640)
+        if _t == "table" then
+          if _rawget(_temp640, "__call_thing") == nil then
+            _temp643 = _temp640
+          else
+                  if _temp640 == nil then
+              if _type(_self._temp640) == "function" or (_type(_self._temp640) == "table" and _rawget(_self._temp640, "__call_thing")) then
+        _temp643 =  _self:_temp640()
+      elseif _self._temp640 ~= nil then
+        _temp643 =  _self._temp640
+
+        elseif _self.no_undermethod ~= nil then
+          _temp643 =  _self:no_undermethod(string:new("_temp640"))
+        else
+          _error(exception:null_error("lhs", "invoke method"))
+        end
+      else 
+        _temp643 =  _temp640(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp643 = _temp640
+        elseif _t == "function" then
+                if _temp640 == nil then
+              if _type(_self._temp640) == "function" or (_type(_self._temp640) == "table" and _rawget(_self._temp640, "__call_thing")) then
+        _temp643 =  _self:_temp640()
+      elseif _self._temp640 ~= nil then
+        _temp643 =  _self._temp640
+
+        elseif _self.no_undermethod ~= nil then
+          _temp643 =  _self:no_undermethod(string:new("_temp640"))
+        else
+          _error(exception:null_error("lhs", "invoke method"))
+        end
+      else 
+        _temp643 =  _temp640(_self)
+      end
+
+        elseif _temp640 == nil then
+          _error(exception:null_error("lhs", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "lhs"))
+        end
+
+local _temp644 = nil
+      local _t = _type(_temp643)
+      if _t == "table" then
+                      if _type(_temp643.out) == "function" or (_type(_temp643.out) == "table" and _rawget(_temp643.out, "__call_thing")) then
+        _temp644 = _temp643:out()
+      elseif _temp643.out ~= nil then
+        _temp644 = _temp643.out
+
+        elseif _temp643.no_undermethod ~= nil then
+          _temp644 =  _temp643:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp643, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp643)
+      if _n.out ~= nil then
+        _temp644 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp644 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp643, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp643)
+      if _f.out ~= nil then
+        _temp644 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp644 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp643, "out"))
+      end
+
+      elseif _temp643 == nil then
+        _error(exception:null_error("_temp643", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp643))
+      end
+
+local _temp645 = string:new("\n")
+local _temp646
+      local _t = _type(_temp642)
+      if _t == "table" then
+                      if _type(_temp642._less_less) == "function" or (_type(_temp642._less_less) == "table" and _rawget(_temp642._less_less, "__call_thing")) then
+        _temp646 = _temp642:_less_less(_temp644)
+      elseif _temp642._less_less ~= nil then
+        _temp646 = _temp642._less_less
+
+        elseif _temp642.no_undermethod ~= nil then
+          _temp646 =  _temp642:no_undermethod(string:new("<<") , _temp644)
+        else
+          _error(exception:method_error(_temp642, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp642)
+      if _n._less_less ~= nil then
+        _temp646 = _n:_less_less(_temp644)
+      elseif _n.no_undermethod ~= nil then
+        _temp646 =  _n:no_undermethod(string:new("<<") , _temp644)
+      else
+        _error(exception:method_error(_temp642, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp642)
+      if _f._less_less ~= nil then
+        _temp646 = _f:_less_less(_temp644)
+      elseif _f.no_undermethod ~= nil then
+        _temp646 =  _f:no_undermethod(string:new("<<") , _temp644)
+      else
+        _error(exception:method_error(_temp642, "<<"))
+      end
+
+      elseif _temp642 == nil then
+        _error(exception:null_error("_temp642", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp642))
+      end
+
+local _temp644
+      local _t = _type(_temp646)
+      if _t == "table" then
+                      if _type(_temp646._less_less) == "function" or (_type(_temp646._less_less) == "table" and _rawget(_temp646._less_less, "__call_thing")) then
+        _temp644 = _temp646:_less_less(_temp645)
+      elseif _temp646._less_less ~= nil then
+        _temp644 = _temp646._less_less
+
+        elseif _temp646.no_undermethod ~= nil then
+          _temp644 =  _temp646:no_undermethod(string:new("<<") , _temp645)
+        else
+          _error(exception:method_error(_temp646, "<<"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp646)
+      if _n._less_less ~= nil then
+        _temp644 = _n:_less_less(_temp645)
+      elseif _n.no_undermethod ~= nil then
+        _temp644 =  _n:no_undermethod(string:new("<<") , _temp645)
+      else
+        _error(exception:method_error(_temp646, "<<"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp646)
+      if _f._less_less ~= nil then
+        _temp644 = _f:_less_less(_temp645)
+      elseif _f.no_undermethod ~= nil then
+        _temp644 =  _f:no_undermethod(string:new("<<") , _temp645)
+      else
+        _error(exception:method_error(_temp646, "<<"))
+      end
+
+      elseif _temp646 == nil then
+        _error(exception:null_error("_temp646", "invoke << on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp646))
+      end
+
+_dummy_ = _temp644 
+end
+
+do
+local _temp647 = nil
+        local _t = _type(_temp638)
+        if _t == "table" then
+          if _rawget(_temp638, "__call_thing") == nil then
+            _temp647 = _temp638
+          else
+                  if _temp638 == nil then
+              if _type(_self._temp638) == "function" or (_type(_self._temp638) == "table" and _rawget(_self._temp638, "__call_thing")) then
+        _temp647 =  _self:_temp638()
+      elseif _self._temp638 ~= nil then
+        _temp647 =  _self._temp638
+
+        elseif _self.no_undermethod ~= nil then
+          _temp647 =  _self:no_undermethod(string:new("_temp638"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp647 =  _temp638(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp647 = _temp638
+        elseif _t == "function" then
+                if _temp638 == nil then
+              if _type(_self._temp638) == "function" or (_type(_self._temp638) == "table" and _rawget(_self._temp638, "__call_thing")) then
+        _temp647 =  _self:_temp638()
+      elseif _self._temp638 ~= nil then
+        _temp647 =  _self._temp638
+
+        elseif _self.no_undermethod ~= nil then
+          _temp647 =  _self:no_undermethod(string:new("_temp638"))
+        else
+          _error(exception:null_error("res", "invoke method"))
+        end
+      else 
+        _temp647 =  _temp638(_self)
+      end
+
+        elseif _temp638 == nil then
+          _error(exception:null_error("res", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "res"))
+        end
+
+local _temp648 = nil
+      local _t = _type(_temp647)
+      if _t == "table" then
+                      if _type(_temp647.out) == "function" or (_type(_temp647.out) == "table" and _rawget(_temp647.out, "__call_thing")) then
+        _temp648 = _temp647:out()
+      elseif _temp647.out ~= nil then
+        _temp648 = _temp647.out
+
+        elseif _temp647.no_undermethod ~= nil then
+          _temp648 =  _temp647:no_undermethod(string:new("out"))
+        else
+          _error(exception:method_error(_temp647, "out"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp647)
+      if _n.out ~= nil then
+        _temp648 = _n:out()
+      elseif _n.no_undermethod ~= nil then
+        _temp648 =  _n:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp647, "out"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp647)
+      if _f.out ~= nil then
+        _temp648 = _f:out()
+      elseif _f.no_undermethod ~= nil then
+        _temp648 =  _f:no_undermethod(string:new("out"))
+      else
+        _error(exception:method_error(_temp647, "out"))
+      end
+
+      elseif _temp647 == nil then
+        _error(exception:null_error("_temp647", "invoke out on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp647))
+      end
+
+local _temp649 = nil
+local _temp650 = nil
+        local _t = _type(_temp640)
+        if _t == "table" then
+          if _rawget(_temp640, "__call_thing") == nil then
+            _temp650 = _temp640
+          else
+                  if _temp640 == nil then
+              if _type(_self._temp640) == "function" or (_type(_self._temp640) == "table" and _rawget(_self._temp640, "__call_thing")) then
+        _temp650 =  _self:_temp640()
+      elseif _self._temp640 ~= nil then
+        _temp650 =  _self._temp640
+
+        elseif _self.no_undermethod ~= nil then
+          _temp650 =  _self:no_undermethod(string:new("_temp640"))
+        else
+          _error(exception:null_error("lhs", "invoke method"))
+        end
+      else 
+        _temp650 =  _temp640(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp650 = _temp640
+        elseif _t == "function" then
+                if _temp640 == nil then
+              if _type(_self._temp640) == "function" or (_type(_self._temp640) == "table" and _rawget(_self._temp640, "__call_thing")) then
+        _temp650 =  _self:_temp640()
+      elseif _self._temp640 ~= nil then
+        _temp650 =  _self._temp640
+
+        elseif _self.no_undermethod ~= nil then
+          _temp650 =  _self:no_undermethod(string:new("_temp640"))
+        else
+          _error(exception:null_error("lhs", "invoke method"))
+        end
+      else 
+        _temp650 =  _temp640(_self)
+      end
+
+        elseif _temp640 == nil then
+          _error(exception:null_error("lhs", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "lhs"))
+        end
+      local _t = _type(_temp650)
+      if _t == "table" then
+                      if _type(_temp650.var) == "function" or (_type(_temp650.var) == "table" and _rawget(_temp650.var, "__call_thing")) then
+        _temp650 = _temp650:var()
+      elseif _temp650.var ~= nil then
+        _temp650 = _temp650.var
+
+        elseif _temp650.no_undermethod ~= nil then
+          _temp650 =  _temp650:no_undermethod(string:new("var"))
+        else
+          _error(exception:method_error(_temp650, "var"))
+        end
+
+      elseif _t == "number" then
+              local _n = number:new(_temp650)
+      if _n.var ~= nil then
+        _temp650 = _n:var()
+      elseif _n.no_undermethod ~= nil then
+        _temp650 =  _n:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp650, "var"))
+      end
+
+      elseif _t == "function" then
+              local _f = brat_function:new(_temp650)
+      if _f.var ~= nil then
+        _temp650 = _f:var()
+      elseif _f.no_undermethod ~= nil then
+        _temp650 =  _f:no_undermethod(string:new("var"))
+      else
+        _error(exception:method_error(_temp650, "var"))
+      end
+
+      elseif _temp650 == nil then
+        _error(exception:null_error("_temp650", "invoke var on it"))
+      else
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp650))
+      end
+
+
+local _temp651 = nil
+        local _t = _type(_temp637)
+        if _t == "table" then
+          if _rawget(_temp637, "__call_thing") == nil then
+            _temp651 = _temp637
+          else
+                  if _temp637 == nil then
+              if _type(_self._temp637) == "function" or (_type(_self._temp637) == "table" and _rawget(_self._temp637, "__call_thing")) then
+        _temp651 =  _self:_temp637()
+      elseif _self._temp637 ~= nil then
+        _temp651 =  _self._temp637
+
+        elseif _self.no_undermethod ~= nil then
+          _temp651 =  _self:no_undermethod(string:new("_temp637"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp651 =  _temp637(_self)
+      end
+
+          end
+        elseif _t == "number" then
+          _temp651 = _temp637
+        elseif _t == "function" then
+                if _temp637 == nil then
+              if _type(_self._temp637) == "function" or (_type(_self._temp637) == "table" and _rawget(_self._temp637, "__call_thing")) then
+        _temp651 =  _self:_temp637()
+      elseif _self._temp637 ~= nil then
+        _temp651 =  _self._temp637
+
+        elseif _self.no_undermethod ~= nil then
+          _temp651 =  _self:no_undermethod(string:new("_temp637"))
+        else
+          _error(exception:null_error("node", "invoke method"))
+        end
+      else 
+        _temp651 =  _temp637(_self)
+      end
+
+        elseif _temp637 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
+        else
+          _error(exception:method_error("self", "node"))
+        end
       local _t = _type(_temp651)
       if _t == "table" then
-                      if _type(_temp651.out) == "function" or (_type(_temp651.out) == "table" and _rawget(_temp651.out, "__call_thing")) then
-        _temp652 = _temp651:out()
-      elseif _temp651.out ~= nil then
-        _temp652 = _temp651.out
+                      if _type(_temp651.op) == "function" or (_type(_temp651.op) == "table" and _rawget(_temp651.op, "__call_thing")) then
+        _temp651 = _temp651:op()
+      elseif _temp651.op ~= nil then
+        _temp651 = _temp651.op
 
         elseif _temp651.no_undermethod ~= nil then
-          _temp652 =  _temp651:no_undermethod(string:new("out"))
+          _temp651 =  _temp651:no_undermethod(string:new("op"))
         else
-          _error(exception:method_error(_temp651, "out"))
+          _error(exception:method_error(_temp651, "op"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp651)
-      if _n.out ~= nil then
-        _temp652 = _n:out()
+      if _n.op ~= nil then
+        _temp651 = _n:op()
       elseif _n.no_undermethod ~= nil then
-        _temp652 =  _n:no_undermethod(string:new("out"))
+        _temp651 =  _n:no_undermethod(string:new("op"))
       else
-        _error(exception:method_error(_temp651, "out"))
+        _error(exception:method_error(_temp651, "op"))
       end
 
       elseif _t == "function" then
               local _f = brat_function:new(_temp651)
-      if _f.out ~= nil then
-        _temp652 = _f:out()
+      if _f.op ~= nil then
+        _temp651 = _f:op()
       elseif _f.no_undermethod ~= nil then
-        _temp652 =  _f:no_undermethod(string:new("out"))
+        _temp651 =  _f:no_undermethod(string:new("op"))
       else
-        _error(exception:method_error(_temp651, "out"))
+        _error(exception:method_error(_temp651, "op"))
       end
 
       elseif _temp651 == nil then
-        _error(exception:null_error("_temp651", "invoke out on it"))
+        _error(exception:null_error("_temp651", "invoke op on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(_temp651))
       end
 
-local _temp653 = nil
-        local _t = _type(_temp650)
+
+local _temp652 = nil
+        local _t = _type(_temp637)
         if _t == "table" then
-          if _rawget(_temp650, "__call_thing") == nil then
-            _temp653 = _temp650
+          if _rawget(_temp637, "__call_thing") == nil then
+            _temp652 = _temp637
           else
-                  if _temp650 == nil then
-              if _type(_self._temp650) == "function" or (_type(_self._temp650) == "table" and _rawget(_self._temp650, "__call_thing")) then
-        _temp653 =  _self:_temp650()
-      elseif _self._temp650 ~= nil then
-        _temp653 =  _self._temp650
+                  if _temp637 == nil then
+              if _type(_self._temp637) == "function" or (_type(_self._temp637) == "table" and _rawget(_self._temp637, "__call_thing")) then
+        _temp652 =  _self:_temp637()
+      elseif _self._temp637 ~= nil then
+        _temp652 =  _self._temp637
 
         elseif _self.no_undermethod ~= nil then
-          _temp653 =  _self:no_undermethod(string:new("_temp650"))
+          _temp652 =  _self:no_undermethod(string:new("_temp637"))
         else
-          _error(exception:null_error("lhs", "invoke method"))
+          _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp653 =  _temp650(_self)
+        _temp652 =  _temp637(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp653 = _temp650
+          _temp652 = _temp637
         elseif _t == "function" then
-                if _temp650 == nil then
-              if _type(_self._temp650) == "function" or (_type(_self._temp650) == "table" and _rawget(_self._temp650, "__call_thing")) then
-        _temp653 =  _self:_temp650()
-      elseif _self._temp650 ~= nil then
-        _temp653 =  _self._temp650
+                if _temp637 == nil then
+              if _type(_self._temp637) == "function" or (_type(_self._temp637) == "table" and _rawget(_self._temp637, "__call_thing")) then
+        _temp652 =  _self:_temp637()
+      elseif _self._temp637 ~= nil then
+        _temp652 =  _self._temp637
 
         elseif _self.no_undermethod ~= nil then
-          _temp653 =  _self:no_undermethod(string:new("_temp650"))
+          _temp652 =  _self:no_undermethod(string:new("_temp637"))
         else
-          _error(exception:null_error("lhs", "invoke method"))
+          _error(exception:null_error("node", "invoke method"))
         end
       else 
-        _temp653 =  _temp650(_self)
+        _temp652 =  _temp637(_self)
       end
 
-        elseif _temp650 == nil then
-          _error(exception:null_error("lhs", "cannot call method on it"))
+        elseif _temp637 == nil then
+          _error(exception:null_error("node", "cannot call method on it"))
         else
-          _error(exception:method_error("self", "lhs"))
+          _error(exception:method_error("self", "node"))
         end
-
-local _temp654 = nil
-      local _t = _type(_temp653)
-      if _t == "table" then
-                      if _type(_temp653.out) == "function" or (_type(_temp653.out) == "table" and _rawget(_temp653.out, "__call_thing")) then
-        _temp654 = _temp653:out()
-      elseif _temp653.out ~= nil then
-        _temp654 = _temp653.out
-
-        elseif _temp653.no_undermethod ~= nil then
-          _temp654 =  _temp653:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp653, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp653)
-      if _n.out ~= nil then
-        _temp654 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp654 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp653, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp653)
-      if _f.out ~= nil then
-        _temp654 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp654 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp653, "out"))
-      end
-
-      elseif _temp653 == nil then
-        _error(exception:null_error("_temp653", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp653))
-      end
-
-local _temp655 = string:new("\n")
-local _temp656
       local _t = _type(_temp652)
       if _t == "table" then
-                      if _type(_temp652._less_less) == "function" or (_type(_temp652._less_less) == "table" and _rawget(_temp652._less_less, "__call_thing")) then
-        _temp656 = _temp652:_less_less(_temp654)
-      elseif _temp652._less_less ~= nil then
-        _temp656 = _temp652._less_less
+                      if _type(_temp652.rhs) == "function" or (_type(_temp652.rhs) == "table" and _rawget(_temp652.rhs, "__call_thing")) then
+        _temp652 = _temp652:rhs()
+      elseif _temp652.rhs ~= nil then
+        _temp652 = _temp652.rhs
 
         elseif _temp652.no_undermethod ~= nil then
-          _temp656 =  _temp652:no_undermethod(string:new("<<") , _temp654)
+          _temp652 =  _temp652:no_undermethod(string:new("rhs"))
         else
-          _error(exception:method_error(_temp652, "<<"))
+          _error(exception:method_error(_temp652, "rhs"))
         end
 
       elseif _t == "number" then
               local _n = number:new(_temp652)
-      if _n._less_less ~= nil then
-        _temp656 = _n:_less_less(_temp654)
+      if _n.rhs ~= nil then
+        _temp652 = _n:rhs()
       elseif _n.no_undermethod ~= nil then
-        _temp656 =  _n:no_undermethod(string:new("<<") , _temp654)
+        _temp652 =  _n:no_undermethod(string:new("rhs"))
       else
-        _error(exception:method_error(_temp652, "<<"))
+        _error(exception:method_error(_temp652, "rhs"))
       end
 
       elseif _t == "function" then
               local _f = brat_function:new(_temp652)
-      if _f._less_less ~= nil then
-        _temp656 = _f:_less_less(_temp654)
+      if _f.rhs ~= nil then
+        _temp652 = _f:rhs()
       elseif _f.no_undermethod ~= nil then
-        _temp656 =  _f:no_undermethod(string:new("<<") , _temp654)
+        _temp652 =  _f:no_undermethod(string:new("rhs"))
       else
-        _error(exception:method_error(_temp652, "<<"))
+        _error(exception:method_error(_temp652, "rhs"))
       end
 
       elseif _temp652 == nil then
-        _error(exception:null_error("_temp652", "invoke << on it"))
+        _error(exception:null_error("_temp652", "invoke rhs on it"))
       else
         _error("Tried to invoke method on something strange: " .. _tostring(_temp652))
       end
 
-local _temp654
-      local _t = _type(_temp656)
+      local _t = _type(_temp652)
       if _t == "table" then
-                      if _type(_temp656._less_less) == "function" or (_type(_temp656._less_less) == "table" and _rawget(_temp656._less_less, "__call_thing")) then
-        _temp654 = _temp656:_less_less(_temp655)
-      elseif _temp656._less_less ~= nil then
-        _temp654 = _temp656._less_less
+                      if _type(_temp652.value) == "function" or (_type(_temp652.value) == "table" and _rawget(_temp652.value, "__call_thing")) then
+        _temp652 = _temp652:value()
+      elseif _temp652.value ~= nil then
+        _temp652 = _temp652.value
 
-        elseif _temp656.no_undermethod ~= nil then
-          _temp654 =  _temp656:no_undermethod(string:new("<<") , _temp655)
+        elseif _temp652.no_undermethod ~= nil then
+          _temp652 =  _temp652:no_undermethod(string:new("value"))
         else
-          _error(exception:method_error(_temp656, "<<"))
+          _error(exception:method_error(_temp652, "value"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp656)
-      if _n._less_less ~= nil then
-        _temp654 = _n:_less_less(_temp655)
-      elseif _n.no_undermethod ~= nil then
-        _temp654 =  _n:no_undermethod(string:new("<<") , _temp655)
-      else
-        _error(exception:method_error(_temp656, "<<"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp656)
-      if _f._less_less ~= nil then
-        _temp654 = _f:_less_less(_temp655)
-      elseif _f.no_undermethod ~= nil then
-        _temp654 =  _f:no_undermethod(string:new("<<") , _temp655)
-      else
-        _error(exception:method_error(_temp656, "<<"))
-      end
-
-      elseif _temp656 == nil then
-        _error(exception:null_error("_temp656", "invoke << on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp656))
-      end
-
-_dummy_ = _temp654 
-end
-
-do
-local _temp657 = nil
-        local _t = _type(_temp648)
-        if _t == "table" then
-          if _rawget(_temp648, "__call_thing") == nil then
-            _temp657 = _temp648
-          else
-                  if _temp648 == nil then
-              if _type(_self._temp648) == "function" or (_type(_self._temp648) == "table" and _rawget(_self._temp648, "__call_thing")) then
-        _temp657 =  _self:_temp648()
-      elseif _self._temp648 ~= nil then
-        _temp657 =  _self._temp648
-
-        elseif _self.no_undermethod ~= nil then
-          _temp657 =  _self:no_undermethod(string:new("_temp648"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp657 =  _temp648(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp657 = _temp648
-        elseif _t == "function" then
-                if _temp648 == nil then
-              if _type(_self._temp648) == "function" or (_type(_self._temp648) == "table" and _rawget(_self._temp648, "__call_thing")) then
-        _temp657 =  _self:_temp648()
-      elseif _self._temp648 ~= nil then
-        _temp657 =  _self._temp648
-
-        elseif _self.no_undermethod ~= nil then
-          _temp657 =  _self:no_undermethod(string:new("_temp648"))
-        else
-          _error(exception:null_error("res", "invoke method"))
-        end
-      else 
-        _temp657 =  _temp648(_self)
-      end
-
-        elseif _temp648 == nil then
-          _error(exception:null_error("res", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "res"))
-        end
-
-local _temp658 = nil
-      local _t = _type(_temp657)
-      if _t == "table" then
-                      if _type(_temp657.out) == "function" or (_type(_temp657.out) == "table" and _rawget(_temp657.out, "__call_thing")) then
-        _temp658 = _temp657:out()
-      elseif _temp657.out ~= nil then
-        _temp658 = _temp657.out
-
-        elseif _temp657.no_undermethod ~= nil then
-          _temp658 =  _temp657:no_undermethod(string:new("out"))
-        else
-          _error(exception:method_error(_temp657, "out"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp657)
-      if _n.out ~= nil then
-        _temp658 = _n:out()
-      elseif _n.no_undermethod ~= nil then
-        _temp658 =  _n:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp657, "out"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp657)
-      if _f.out ~= nil then
-        _temp658 = _f:out()
-      elseif _f.no_undermethod ~= nil then
-        _temp658 =  _f:no_undermethod(string:new("out"))
-      else
-        _error(exception:method_error(_temp657, "out"))
-      end
-
-      elseif _temp657 == nil then
-        _error(exception:null_error("_temp657", "invoke out on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp657))
-      end
-
-local _temp659 = nil
-local _temp660 = nil
-        local _t = _type(_temp650)
-        if _t == "table" then
-          if _rawget(_temp650, "__call_thing") == nil then
-            _temp660 = _temp650
-          else
-                  if _temp650 == nil then
-              if _type(_self._temp650) == "function" or (_type(_self._temp650) == "table" and _rawget(_self._temp650, "__call_thing")) then
-        _temp660 =  _self:_temp650()
-      elseif _self._temp650 ~= nil then
-        _temp660 =  _self._temp650
-
-        elseif _self.no_undermethod ~= nil then
-          _temp660 =  _self:no_undermethod(string:new("_temp650"))
-        else
-          _error(exception:null_error("lhs", "invoke method"))
-        end
-      else 
-        _temp660 =  _temp650(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp660 = _temp650
-        elseif _t == "function" then
-                if _temp650 == nil then
-              if _type(_self._temp650) == "function" or (_type(_self._temp650) == "table" and _rawget(_self._temp650, "__call_thing")) then
-        _temp660 =  _self:_temp650()
-      elseif _self._temp650 ~= nil then
-        _temp660 =  _self._temp650
-
-        elseif _self.no_undermethod ~= nil then
-          _temp660 =  _self:no_undermethod(string:new("_temp650"))
-        else
-          _error(exception:null_error("lhs", "invoke method"))
-        end
-      else 
-        _temp660 =  _temp650(_self)
-      end
-
-        elseif _temp650 == nil then
-          _error(exception:null_error("lhs", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "lhs"))
-        end
-      local _t = _type(_temp660)
-      if _t == "table" then
-                      if _type(_temp660.var) == "function" or (_type(_temp660.var) == "table" and _rawget(_temp660.var, "__call_thing")) then
-        _temp660 = _temp660:var()
-      elseif _temp660.var ~= nil then
-        _temp660 = _temp660.var
-
-        elseif _temp660.no_undermethod ~= nil then
-          _temp660 =  _temp660:no_undermethod(string:new("var"))
-        else
-          _error(exception:method_error(_temp660, "var"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp660)
-      if _n.var ~= nil then
-        _temp660 = _n:var()
-      elseif _n.no_undermethod ~= nil then
-        _temp660 =  _n:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp660, "var"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp660)
-      if _f.var ~= nil then
-        _temp660 = _f:var()
-      elseif _f.no_undermethod ~= nil then
-        _temp660 =  _f:no_undermethod(string:new("var"))
-      else
-        _error(exception:method_error(_temp660, "var"))
-      end
-
-      elseif _temp660 == nil then
-        _error(exception:null_error("_temp660", "invoke var on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp660))
-      end
-
-
-local _temp661 = nil
-        local _t = _type(_temp647)
-        if _t == "table" then
-          if _rawget(_temp647, "__call_thing") == nil then
-            _temp661 = _temp647
-          else
-                  if _temp647 == nil then
-              if _type(_self._temp647) == "function" or (_type(_self._temp647) == "table" and _rawget(_self._temp647, "__call_thing")) then
-        _temp661 =  _self:_temp647()
-      elseif _self._temp647 ~= nil then
-        _temp661 =  _self._temp647
-
-        elseif _self.no_undermethod ~= nil then
-          _temp661 =  _self:no_undermethod(string:new("_temp647"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp661 =  _temp647(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp661 = _temp647
-        elseif _t == "function" then
-                if _temp647 == nil then
-              if _type(_self._temp647) == "function" or (_type(_self._temp647) == "table" and _rawget(_self._temp647, "__call_thing")) then
-        _temp661 =  _self:_temp647()
-      elseif _self._temp647 ~= nil then
-        _temp661 =  _self._temp647
-
-        elseif _self.no_undermethod ~= nil then
-          _temp661 =  _self:no_undermethod(string:new("_temp647"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp661 =  _temp647(_self)
-      end
-
-        elseif _temp647 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp661)
-      if _t == "table" then
-                      if _type(_temp661.op) == "function" or (_type(_temp661.op) == "table" and _rawget(_temp661.op, "__call_thing")) then
-        _temp661 = _temp661:op()
-      elseif _temp661.op ~= nil then
-        _temp661 = _temp661.op
-
-        elseif _temp661.no_undermethod ~= nil then
-          _temp661 =  _temp661:no_undermethod(string:new("op"))
-        else
-          _error(exception:method_error(_temp661, "op"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp661)
-      if _n.op ~= nil then
-        _temp661 = _n:op()
-      elseif _n.no_undermethod ~= nil then
-        _temp661 =  _n:no_undermethod(string:new("op"))
-      else
-        _error(exception:method_error(_temp661, "op"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp661)
-      if _f.op ~= nil then
-        _temp661 = _f:op()
-      elseif _f.no_undermethod ~= nil then
-        _temp661 =  _f:no_undermethod(string:new("op"))
-      else
-        _error(exception:method_error(_temp661, "op"))
-      end
-
-      elseif _temp661 == nil then
-        _error(exception:null_error("_temp661", "invoke op on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp661))
-      end
-
-
-local _temp662 = nil
-        local _t = _type(_temp647)
-        if _t == "table" then
-          if _rawget(_temp647, "__call_thing") == nil then
-            _temp662 = _temp647
-          else
-                  if _temp647 == nil then
-              if _type(_self._temp647) == "function" or (_type(_self._temp647) == "table" and _rawget(_self._temp647, "__call_thing")) then
-        _temp662 =  _self:_temp647()
-      elseif _self._temp647 ~= nil then
-        _temp662 =  _self._temp647
-
-        elseif _self.no_undermethod ~= nil then
-          _temp662 =  _self:no_undermethod(string:new("_temp647"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp662 =  _temp647(_self)
-      end
-
-          end
-        elseif _t == "number" then
-          _temp662 = _temp647
-        elseif _t == "function" then
-                if _temp647 == nil then
-              if _type(_self._temp647) == "function" or (_type(_self._temp647) == "table" and _rawget(_self._temp647, "__call_thing")) then
-        _temp662 =  _self:_temp647()
-      elseif _self._temp647 ~= nil then
-        _temp662 =  _self._temp647
-
-        elseif _self.no_undermethod ~= nil then
-          _temp662 =  _self:no_undermethod(string:new("_temp647"))
-        else
-          _error(exception:null_error("node", "invoke method"))
-        end
-      else 
-        _temp662 =  _temp647(_self)
-      end
-
-        elseif _temp647 == nil then
-          _error(exception:null_error("node", "cannot call method on it"))
-        else
-          _error(exception:method_error("self", "node"))
-        end
-      local _t = _type(_temp662)
-      if _t == "table" then
-                      if _type(_temp662.rhs) == "function" or (_type(_temp662.rhs) == "table" and _rawget(_temp662.rhs, "__call_thing")) then
-        _temp662 = _temp662:rhs()
-      elseif _temp662.rhs ~= nil then
-        _temp662 = _temp662.rhs
-
-        elseif _temp662.no_undermethod ~= nil then
-          _temp662 =  _temp662:no_undermethod(string:new("rhs"))
-        else
-          _error(exception:method_error(_temp662, "rhs"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp662)
-      if _n.rhs ~= nil then
-        _temp662 = _n:rhs()
-      elseif _n.no_undermethod ~= nil then
-        _temp662 =  _n:no_undermethod(string:new("rhs"))
-      else
-        _error(exception:method_error(_temp662, "rhs"))
-      end
-
-      elseif _t == "function" then
-              local _f = brat_function:new(_temp662)
-      if _f.rhs ~= nil then
-        _temp662 = _f:rhs()
-      elseif _f.no_undermethod ~= nil then
-        _temp662 =  _f:no_undermethod(string:new("rhs"))
-      else
-        _error(exception:method_error(_temp662, "rhs"))
-      end
-
-      elseif _temp662 == nil then
-        _error(exception:null_error("_temp662", "invoke rhs on it"))
-      else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp662))
-      end
-
-      local _t = _type(_temp662)
-      if _t == "table" then
-                      if _type(_temp662.value) == "function" or (_type(_temp662.value) == "table" and _rawget(_temp662.value, "__call_thing")) then
-        _temp662 = _temp662:value()
-      elseif _temp662.value ~= nil then
-        _temp662 = _temp662.value
-
-        elseif _temp662.no_undermethod ~= nil then
-          _temp662 =  _temp662:no_undermethod(string:new("value"))
-        else
-          _error(exception:method_error(_temp662, "value"))
-        end
-
-      elseif _t == "number" then
-              local _n = number:new(_temp662)
+              local _n = number:new(_temp652)
       if _n.value ~= nil then
-        _temp662 = _n:value()
+        _temp652 = _n:value()
       elseif _n.no_undermethod ~= nil then
-        _temp662 =  _n:no_undermethod(string:new("value"))
+        _temp652 =  _n:no_undermethod(string:new("value"))
       else
-        _error(exception:method_error(_temp662, "value"))
+        _error(exception:method_error(_temp652, "value"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp662)
+              local _f = brat_function:new(_temp652)
       if _f.value ~= nil then
-        _temp662 = _f:value()
+        _temp652 = _f:value()
       elseif _f.no_undermethod ~= nil then
-        _temp662 =  _f:no_undermethod(string:new("value"))
+        _temp652 =  _f:no_undermethod(string:new("value"))
       else
-        _error(exception:method_error(_temp662, "value"))
+        _error(exception:method_error(_temp652, "value"))
       end
 
-      elseif _temp662 == nil then
-        _error(exception:null_error("_temp662", "invoke value on it"))
+      elseif _temp652 == nil then
+        _error(exception:null_error("_temp652", "invoke value on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp662))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp652))
       end
 
 
-local _temp663 = nil
-        local _t = _type(_temp648)
+local _temp653 = nil
+        local _t = _type(_temp638)
         if _t == "table" then
-          if _rawget(_temp648, "__call_thing") == nil then
-            _temp663 = _temp648
+          if _rawget(_temp638, "__call_thing") == nil then
+            _temp653 = _temp638
           else
-                  if _temp648 == nil then
-              if _type(_self._temp648) == "function" or (_type(_self._temp648) == "table" and _rawget(_self._temp648, "__call_thing")) then
-        _temp663 =  _self:_temp648()
-      elseif _self._temp648 ~= nil then
-        _temp663 =  _self._temp648
+                  if _temp638 == nil then
+              if _type(_self._temp638) == "function" or (_type(_self._temp638) == "table" and _rawget(_self._temp638, "__call_thing")) then
+        _temp653 =  _self:_temp638()
+      elseif _self._temp638 ~= nil then
+        _temp653 =  _self._temp638
 
         elseif _self.no_undermethod ~= nil then
-          _temp663 =  _self:no_undermethod(string:new("_temp648"))
+          _temp653 =  _self:no_undermethod(string:new("_temp638"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp663 =  _temp648(_self)
+        _temp653 =  _temp638(_self)
       end
 
           end
         elseif _t == "number" then
-          _temp663 = _temp648
+          _temp653 = _temp638
         elseif _t == "function" then
-                if _temp648 == nil then
-              if _type(_self._temp648) == "function" or (_type(_self._temp648) == "table" and _rawget(_self._temp648, "__call_thing")) then
-        _temp663 =  _self:_temp648()
-      elseif _self._temp648 ~= nil then
-        _temp663 =  _self._temp648
+                if _temp638 == nil then
+              if _type(_self._temp638) == "function" or (_type(_self._temp638) == "table" and _rawget(_self._temp638, "__call_thing")) then
+        _temp653 =  _self:_temp638()
+      elseif _self._temp638 ~= nil then
+        _temp653 =  _self._temp638
 
         elseif _self.no_undermethod ~= nil then
-          _temp663 =  _self:no_undermethod(string:new("_temp648"))
+          _temp653 =  _self:no_undermethod(string:new("_temp638"))
         else
           _error(exception:null_error("res", "invoke method"))
         end
       else 
-        _temp663 =  _temp648(_self)
+        _temp653 =  _temp638(_self)
       end
 
-        elseif _temp648 == nil then
+        elseif _temp638 == nil then
           _error(exception:null_error("res", "cannot call method on it"))
         else
           _error(exception:method_error("self", "res"))
         end
-      local _t = _type(_temp663)
+      local _t = _type(_temp653)
       if _t == "table" then
-                      if _type(_temp663.var) == "function" or (_type(_temp663.var) == "table" and _rawget(_temp663.var, "__call_thing")) then
-        _temp663 = _temp663:var()
-      elseif _temp663.var ~= nil then
-        _temp663 = _temp663.var
+                      if _type(_temp653.var) == "function" or (_type(_temp653.var) == "table" and _rawget(_temp653.var, "__call_thing")) then
+        _temp653 = _temp653:var()
+      elseif _temp653.var ~= nil then
+        _temp653 = _temp653.var
 
-        elseif _temp663.no_undermethod ~= nil then
-          _temp663 =  _temp663:no_undermethod(string:new("var"))
+        elseif _temp653.no_undermethod ~= nil then
+          _temp653 =  _temp653:no_undermethod(string:new("var"))
         else
-          _error(exception:method_error(_temp663, "var"))
+          _error(exception:method_error(_temp653, "var"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp663)
+              local _n = number:new(_temp653)
       if _n.var ~= nil then
-        _temp663 = _n:var()
+        _temp653 = _n:var()
       elseif _n.no_undermethod ~= nil then
-        _temp663 =  _n:no_undermethod(string:new("var"))
+        _temp653 =  _n:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp663, "var"))
+        _error(exception:method_error(_temp653, "var"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp663)
+              local _f = brat_function:new(_temp653)
       if _f.var ~= nil then
-        _temp663 = _f:var()
+        _temp653 = _f:var()
       elseif _f.no_undermethod ~= nil then
-        _temp663 =  _f:no_undermethod(string:new("var"))
+        _temp653 =  _f:no_undermethod(string:new("var"))
       else
-        _error(exception:method_error(_temp663, "var"))
+        _error(exception:method_error(_temp653, "var"))
       end
 
-      elseif _temp663 == nil then
-        _error(exception:null_error("_temp663", "invoke var on it"))
+      elseif _temp653 == nil then
+        _error(exception:null_error("_temp653", "invoke var on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp663))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp653))
       end
 
 
     if _type(invoke_undernumber_underrhs) == "function" or (_type(invoke_undernumber_underrhs) == "table" and _rawget(invoke_undernumber_underrhs, "__call_thing")) then
-      _temp659 =  invoke_undernumber_underrhs(_self, _temp660,_temp661,_temp662,_temp663)
+      _temp649 =  invoke_undernumber_underrhs(_self, _temp650,_temp651,_temp652,_temp653)
 
     elseif invoke_undernumber_underrhs then
       _error(exception:new("Tried to invoke non-method: invoke_number_rhs (" .. object.__type(invoke_undernumber_underrhs) .. ")"))
     else
             if _type(_self.invoke_undernumber_underrhs) == "function" or (_type(_self.invoke_undernumber_underrhs) == "table" and _rawget(_self.invoke_undernumber_underrhs, "__call_thing")) then
-        _temp659 =  _self:invoke_undernumber_underrhs(_temp660,_temp661,_temp662,_temp663)
+        _temp649 =  _self:invoke_undernumber_underrhs(_temp650,_temp651,_temp652,_temp653)
       elseif _self.invoke_undernumber_underrhs ~= nil then
-        _temp659 =  _self.invoke_undernumber_underrhs
+        _temp649 =  _self.invoke_undernumber_underrhs
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp659 =  _self:no_undermethod(string:new("invoke_number_rhs") , _temp660,_temp661,_temp662,_temp663)
+        _temp649 =  _self:no_undermethod(string:new("invoke_number_rhs") , _temp650,_temp651,_temp652,_temp653)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp659 =  no_undermethod(_self, string:new("invoke_number_rhs") , _temp660,_temp661,_temp662,_temp663)
+        _temp649 =  no_undermethod(_self, string:new("invoke_number_rhs") , _temp650,_temp651,_temp652,_temp653)
       else
         _error(exception:name_error("invoke_number_rhs"))
       end
     end
-local _temp663
-      local _t = _type(_temp658)
+local _temp653
+      local _t = _type(_temp648)
       if _t == "table" then
-                      if _type(_temp658._less_less) == "function" or (_type(_temp658._less_less) == "table" and _rawget(_temp658._less_less, "__call_thing")) then
-        _temp663 = _temp658:_less_less(_temp659)
-      elseif _temp658._less_less ~= nil then
-        _temp663 = _temp658._less_less
+                      if _type(_temp648._less_less) == "function" or (_type(_temp648._less_less) == "table" and _rawget(_temp648._less_less, "__call_thing")) then
+        _temp653 = _temp648:_less_less(_temp649)
+      elseif _temp648._less_less ~= nil then
+        _temp653 = _temp648._less_less
 
-        elseif _temp658.no_undermethod ~= nil then
-          _temp663 =  _temp658:no_undermethod(string:new("<<") , _temp659)
+        elseif _temp648.no_undermethod ~= nil then
+          _temp653 =  _temp648:no_undermethod(string:new("<<") , _temp649)
         else
-          _error(exception:method_error(_temp658, "<<"))
+          _error(exception:method_error(_temp648, "<<"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp658)
+              local _n = number:new(_temp648)
       if _n._less_less ~= nil then
-        _temp663 = _n:_less_less(_temp659)
+        _temp653 = _n:_less_less(_temp649)
       elseif _n.no_undermethod ~= nil then
-        _temp663 =  _n:no_undermethod(string:new("<<") , _temp659)
+        _temp653 =  _n:no_undermethod(string:new("<<") , _temp649)
       else
-        _error(exception:method_error(_temp658, "<<"))
+        _error(exception:method_error(_temp648, "<<"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp658)
+              local _f = brat_function:new(_temp648)
       if _f._less_less ~= nil then
-        _temp663 = _f:_less_less(_temp659)
+        _temp653 = _f:_less_less(_temp649)
       elseif _f.no_undermethod ~= nil then
-        _temp663 =  _f:no_undermethod(string:new("<<") , _temp659)
+        _temp653 =  _f:no_undermethod(string:new("<<") , _temp649)
       else
-        _error(exception:method_error(_temp658, "<<"))
+        _error(exception:method_error(_temp648, "<<"))
       end
 
-      elseif _temp658 == nil then
-        _error(exception:null_error("_temp658", "invoke << on it"))
+      elseif _temp648 == nil then
+        _error(exception:null_error("_temp648", "invoke << on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp658))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp648))
       end
 
-_dummy_ = _temp663 
+_dummy_ = _temp653 
 end
 
-    if _type(_temp648) == "function" or (_type(_temp648) == "table" and _rawget(_temp648, "__call_thing")) then
-      return  _temp648(_self)
+    if _type(_temp638) == "function" or (_type(_temp638) == "table" and _rawget(_temp638, "__call_thing")) then
+      return  _temp638(_self)
 
-    elseif _temp648 then
-      return  _temp648
+    elseif _temp638 then
+      return  _temp638
     else
             if _type(_self.res) == "function" or (_type(_self.res) == "table" and _rawget(_self.res, "__call_thing")) then
         return  _self:res()
@@ -28967,63 +28717,63 @@ end
 
 end
 
-      local _t = _type(_temp645)
+      local _t = _type(_temp635)
       if _t == "table" then
-                      if _type(_temp645.walk) == "function" or (_type(_temp645.walk) == "table" and _rawget(_temp645.walk, "__call_thing")) then
-        _dummy_ = _temp645:walk(_temp4,_temp664)
-      elseif _temp645.walk ~= nil then
-        _dummy_ = _temp645.walk
+                      if _type(_temp635.walk) == "function" or (_type(_temp635.walk) == "table" and _rawget(_temp635.walk, "__call_thing")) then
+        _dummy_ = _temp635:walk(_temp4,_temp654)
+      elseif _temp635.walk ~= nil then
+        _dummy_ = _temp635.walk
 
-        elseif _temp645.no_undermethod ~= nil then
-          _dummy_ =  _temp645:no_undermethod(string:new("walk") , _temp4,_temp664)
+        elseif _temp635.no_undermethod ~= nil then
+          _dummy_ =  _temp635:no_undermethod(string:new("walk") , _temp4,_temp654)
         else
-          _error(exception:method_error(_temp645, "walk"))
+          _error(exception:method_error(_temp635, "walk"))
         end
 
       elseif _t == "number" then
-              local _n = number:new(_temp645)
+              local _n = number:new(_temp635)
       if _n.walk ~= nil then
-        _dummy_ = _n:walk(_temp4,_temp664)
+        _dummy_ = _n:walk(_temp4,_temp654)
       elseif _n.no_undermethod ~= nil then
-        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp664)
+        _dummy_ =  _n:no_undermethod(string:new("walk") , _temp4,_temp654)
       else
-        _error(exception:method_error(_temp645, "walk"))
+        _error(exception:method_error(_temp635, "walk"))
       end
 
       elseif _t == "function" then
-              local _f = brat_function:new(_temp645)
+              local _f = brat_function:new(_temp635)
       if _f.walk ~= nil then
-        _dummy_ = _f:walk(_temp4,_temp664)
+        _dummy_ = _f:walk(_temp4,_temp654)
       elseif _f.no_undermethod ~= nil then
-        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp664)
+        _dummy_ =  _f:no_undermethod(string:new("walk") , _temp4,_temp654)
       else
-        _error(exception:method_error(_temp645, "walk"))
+        _error(exception:method_error(_temp635, "walk"))
       end
 
-      elseif _temp645 == nil then
-        _error(exception:null_error("_temp645", "invoke walk on it"))
+      elseif _temp635 == nil then
+        _error(exception:null_error("_temp635", "invoke walk on it"))
       else
-        _error("Tried to invoke method on something strange: " .. _tostring(_temp645))
+        _error("Tried to invoke method on something strange: " .. _tostring(_temp635))
       end
 
     if _type(_temp5) == "function" or (_type(_temp5) == "table" and _rawget(_temp5, "__call_thing")) then
-      _temp664 =  _temp5(_self)
+      _temp654 =  _temp5(_self)
 
     elseif _temp5 then
-      _temp664 =  _temp5
+      _temp654 =  _temp5
     else
             if _type(_self.c) == "function" or (_type(_self.c) == "table" and _rawget(_self.c, "__call_thing")) then
-        _temp664 =  _self:c()
+        _temp654 =  _self:c()
       elseif _self.c ~= nil then
-        _temp664 =  _self.c
+        _temp654 =  _self.c
 
       elseif _type(_self) == "number" then
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _temp664 =  _self:no_undermethod(string:new("c"))
+        _temp654 =  _self:no_undermethod(string:new("c"))
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp664 =  no_undermethod(_self, string:new("c"))
+        _temp654 =  no_undermethod(_self, string:new("c"))
       else
         _error(exception:name_error("c"))
       end
@@ -29032,13 +28782,13 @@ end
 _temp4 = string:new("compiler")
 
     if _type(export) == "function" or (_type(export) == "table" and _rawget(export, "__call_thing")) then
-      _dummy_ =  export(_self, _temp664,_temp4)
+      _dummy_ =  export(_self, _temp654,_temp4)
 
     elseif export then
       _error(exception:new("Tried to invoke non-method: export (" .. object.__type(export) .. ")"))
     else
             if _type(_self.export) == "function" or (_type(_self.export) == "table" and _rawget(_self.export, "__call_thing")) then
-        _dummy_ =  _self:export(_temp664,_temp4)
+        _dummy_ =  _self:export(_temp654,_temp4)
       elseif _self.export ~= nil then
         _dummy_ =  _self.export
 
@@ -29046,9 +28796,9 @@ _temp4 = string:new("compiler")
         --I don't believe this will happen
         _error("WHAT. No.")
       elseif _self.no_undermethod ~= nil then
-        _dummy_ =  _self:no_undermethod(string:new("export") , _temp664,_temp4)
+        _dummy_ =  _self:no_undermethod(string:new("export") , _temp654,_temp4)
       elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _dummy_ =  no_undermethod(_self, string:new("export") , _temp664,_temp4)
+        _dummy_ =  no_undermethod(_self, string:new("export") , _temp654,_temp4)
       else
         _error(exception:name_error("export"))
       end

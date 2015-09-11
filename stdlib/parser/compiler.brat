@@ -190,64 +190,60 @@ c.walk :function { node, var = null |
 }
 
 c.walk :liftable_function { node, var = null |
-  true? my.liftable_functions.length > 30
-    { proc_function node, var }
+  w = my
+  my.env.new_scope
+
+  args = do_args node
+
+  res = set_result "_lifted[#{my.next_liftable}]", "function(_argtable, #{args[:arg_list]})"
+  true? node.upvars
     {
-      w = my
-      my.env.new_scope
+      res.out << node.upvars.map({ u |
+      "local #{w.env[u]} = _argtable['#{w.env[u]}']"
+      }).join("\n")
+    }
 
-      args = do_args node
+  res.out << args[:out]
 
-      res = set_result "_lifted#{my.next_liftable}", "function(_argtable, #{args[:arg_list]})"
-      true? node.upvars
-        {
-          res.out << node.upvars.map({ u |
-          "local #{w.env[u]} = _argtable['#{w.env[u]}']"
-          }).join("\n")
-        }
+  body = node.body.copy
+  last = body.pop
 
-      res.out << args[:out]
+  body_res = body.map({ n | w.process(n, '_dummy').out }).join("\n")
+  res.out << body_res
 
-      body = node.body.copy
-      last = body.pop
-
-      body_res = body.map({ n | w.process(n, '_dummy').out }).join("\n")
-      res.out << body_res
-
-      true? last
-       {
-         last_res = my.process last
-         res.out << last_res.out << "\n" << "return #{last_res.var}\n"
-       }
-       {
-         true? body.empty?
-           { res.out << "return object:null()" }
-       }
-
-      my.env.pop_scope
-      res.out << "\nend\n"
-      res[:type] = :function
-      my.liftable_functions << res
-
-      lifted_call = true? node.upvars
-        {
-          "_lifted_call(#{res.var}, {})"
-        }
-        {
-          "_lifted_call(#{res.var})"
-        }
-
-      lifted = set_result var, lifted_call
-      true? node.upvars
-        {
-          e = my.env
-          lifted.out << node.upvars.map({ u |
-            "#{lifted.var}.arg_table['#{w.env[u]}'] = #{w.env[u]}"
-          }).join("\n")
-        }
-
-      lifted
+  true? last
+   {
+     last_res = my.process last
+     res.out << last_res.out << "\n" << "return #{last_res.var}\n"
    }
+   {
+     true? body.empty?
+       { res.out << "return object:null()" }
+   }
+
+  my.env.pop_scope
+  res.out << "\nend\n"
+  res[:type] = :function
+  my.liftable_functions << res
+
+  lifted_call = true? node.upvars
+    {
+      "_lifted_call(#{res.var}, {})"
+    }
+    {
+      "_lifted_call(#{res.var})"
+    }
+
+  lifted = set_result var, lifted_call
+  true? node.upvars
+    {
+      e = my.env
+      lifted.out << node.upvars.map({ u |
+        "#{lifted.var}.arg_table['#{w.env[u]}'] = #{w.env[u]}"
+      }).join("\n")
+    }
+
+  lifted
 }
 
 c.walk :arg { node, var = null |
