@@ -37,7 +37,6 @@ compile_file = function (file_name)
   lua_modified = lfs.attributes(lua_file_name, "modification")
 
   if lua_modified == nil or brat_modified > lua_modified then
-    os.remove(file_name .. ".lua")
     brat2lua:compile_underfile(base_string:new(file_name))
   end
 end

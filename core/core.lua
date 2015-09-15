@@ -1317,37 +1317,6 @@ function object:my_undertype ()
   return base_string:new(self:__type())
 end
 
---Searchs load paths for a file with name + .brat and compiles it to Lua
-function object:_compile (name)
-  local check_and_compile = function (self, path)
-    if type(path) == "table" and path._lua_string then
-      path = path._lua_string
-    end
-
-    if type(path) ~= "string" then
-      error(exception:argument_error("load_path", "string", path))
-    end
-
-    local file_name = path .. "/" .. name
-    local lua_modified = lfs.attributes(file_name .. ".lua", "modified")
-    local brat_modified = lfs.attributes(file_name .. ".brat", "modified")
-
-    if brat_modified then
-      if lua_modified == nil or brat_modified > lua_modified then
-        compile_file(file_name)
-      end
-    end
-  end
-
-  local load_paths = object:load_underpath()
-
-  if type(load_paths.each) ~= "function" then
-    error(exception:new("include expects enumerable for load_path"))
-  end
-
-  load_paths:each(check_and_compile)
-end
-
 -- Object: object
 -- Call: includes files
 --
@@ -1725,10 +1694,6 @@ function number_instance:_equal_equal (rhs)
 end
 
 function number_instance:_less_equal_greater (rhs)
-  if type(rhs) == "table" and rhs._lua_number then
-    rhs = rhs._lua_number
-  end
-
   if type(rhs) ~= "number" then
     error("Cannot compare number to " .. type(rhs))
   end
@@ -5148,6 +5113,42 @@ function object:load_underpath ()
   return load_path
 end
 
+local _compiling = array:new()
+
+--Searchs load paths for a file with name + .brat and compiles it to Lua
+function object:_compile (name)
+  local check_and_compile = function (self, path)
+    if type(path) == "table" and path._lua_string then
+      path = path._lua_string
+    end
+
+    if type(path) ~= "string" then
+      error(exception:argument_error("load_path", "string", path))
+    end
+
+    local file_name = path .. "/" .. name
+    local lua_modified = lfs.attributes(file_name .. ".lua", "modified")
+    local brat_modified = lfs.attributes(file_name .. ".brat", "modified")
+
+    if brat_modified then
+      if lua_modified == nil or brat_modified > lua_modified then
+        if not is_true(_compiling:include_question(file_name)) then
+          _compiling:_less_less(file_name)
+          compile_file(file_name)
+          _compiling:delete_underfirst(file_name)
+        end
+      end
+    end
+  end
+
+  local load_paths = object:load_underpath()
+
+  if type(load_paths.each) ~= "function" then
+    error(exception:new("include expects enumerable for load_path"))
+  end
+
+  load_paths:each(check_and_compile)
+end
 
 function object:argv ()
   if object._argv == nil then
