@@ -1676,11 +1676,11 @@ function number_instance:my ()
 end
 
 function number_instance:_or_or (rhs)
-  return self
+  return self._lua_number
 end
 
 function number_instance:_and_and (rhs)
-  return self
+  return self._lua_number
 end
 
 function number_instance:_equal_equal (rhs)
