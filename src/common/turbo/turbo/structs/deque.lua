@@ -12,7 +12,7 @@
 -- distributed under the License is distributed on an "AS IS" BASIS,
 -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 -- See the License for the specific language governing permissions and
--- limitations under the License.   
+-- limitations under the License.
 
 
 require 'turbo.3rdparty.middleclass'
@@ -21,7 +21,6 @@ local ffi = require "ffi"
 
 --- Double ended queue class.
 local deque = class('Deque')
-_G.deque_no = 0
 
 function deque:initialize()
     self.head = nil
@@ -37,7 +36,7 @@ function deque:append(item)
     else
         local new_tail = {next = nil, prev = self.tail, value = item}
         self.tail.next = new_tail
-        self.tail = new_tail        
+        self.tail = new_tail
     end
     self.sz = self.sz + 1
 end
@@ -50,7 +49,7 @@ function deque:appendleft(item)
     else
         local new_head = {next = self.head, prev = nil, value = item}
         self.head.prev = new_head
-        self.head = new_head   
+        self.head = new_head
     end
     self.sz = self.sz + 1
 end
@@ -85,7 +84,7 @@ function deque:popleft()
         self.tail = nil
     else
         new_head.prev = nil
-        self.head = new_head        
+        self.head = new_head
     end
     self.sz = self.sz - 1
     return value
@@ -102,7 +101,7 @@ function deque:strlen()
         local sz = 0
         while l do
             sz = l.value:len() + sz
-            l = l.next            
+            l = l.next
         end
     return sz
     end
@@ -117,7 +116,7 @@ function deque:concat()
         local sz = 0
         while l do
             sz = l.value:len() + sz
-            l = l.next            
+            l = l.next
         end
         local buf = ffi.new("char[?]", sz)
         l = self.head
@@ -126,7 +125,7 @@ function deque:concat()
             local len = l.value:len()
             ffi.copy(buf + i, l.value, len)
             i = i + len
-            l = l.next        
+            l = l.next
         end
         return ffi.string(buf, sz)
     end
@@ -154,9 +153,9 @@ function deque:__concat(source)
     return self
 end
 
---- To string metamethod. 
+--- To string metamethod.
 function deque:__tostring() return self:concat() end
---- Returns element at tail. 
+--- Returns element at tail.
 function deque:peeklast() return self.tail.value end
 --- Returns element at head.
 function deque:peekfirst() return self.head.value end

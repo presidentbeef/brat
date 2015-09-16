@@ -9,7 +9,7 @@ Keep in mind that running this with LuaJIT provides you with roughly the speed o
 
 LuaJIT 2 is REQUIRED, PUC-RIO Lua is unsupported.
 
-API Documentation is available at http://turbolua.org/doc/
+API Documentation is available at http://turbolua.org, or it can be built from source with ``make html`` from /doc in the source tree.
 
 It's main features and design principles are:
 
@@ -17,7 +17,7 @@ It's main features and design principles are:
 
 - Low-level operations is possible if the users wishes that.
 
-- Implemented in straight Lua and LuaJIT FFI, so the user can study and modify inner workings without too much effort.
+- Implemented in straight Lua and LuaJIT FFI on Linux, so the user can study and modify inner workings without too much effort. The Windows implementation uses some Lua modules to make compability possible.
 
 - Good documentation
 
@@ -25,19 +25,23 @@ It's main features and design principles are:
 
 - Small footprint
 
-- SSL support (requires OpenSSL or axTLS)
+- SSL support (requires OpenSSL or LuaSec module for Windows)
 
 .. image:: https://api.travis-ci.org/kernelsauce/turbo.png
    :target: http://travis-ci.org/kernelsauce/turbo
 
 Supported Architectures
 -----------------------
-x86, x64, ARM, PPC
+x86, x64, ARM, PPC, MIPSEL
+
+Supported Operating Systems
+---------------------------
+Linux distros (x86, x64), OSX (Intel-based) and Windows x64. Possibly others using LuaSocket, but not tested or supported.
 
 Installation
 ------------
 
-You can use LuaRocks to install Turbo.
+You can use LuaRocks to install Turbo on Linux.
 
 ``luarocks install turbo``
 
@@ -45,32 +49,53 @@ If installation fails make sure that you have these required pacakages:
 
 ``apt-get install luajit luarocks git build-essential libssl-dev``
 
+For Windows run the included install.bat file.
+This will install all dependencies: Visual Studio, git, mingw, gnuwin, openssl using Chocolatey. LuaJIT, the LuaRocks package manager and Turbo will be installed at C:\turbo.lua. It will also install LuaSocket and LuaFileSystem with LuaRocks. The Windows environment will be ready to use upon success.
 
-Linux distro's are the only OS supported at this point (although adding support for other Unix's is trivial).
-Make sure that the latest LuaJIT is installed. Version 2.0 is required, http://luajit.org/. Most package managers have LuaJIT 2.0 available by now.
+Try: ``luajit C:\turbo.lua\src\turbo\examples\helloworld.lua``
+
+If any of the .dll or. so's are placed at non-default location then use environment variables to point to the correct place:
+
+E.g:
+``SET TURBO_LIBTFFI=C:\turbo.lua\src\turbo\libtffi_wrap.dll`` and
+``SET TURBO_LIBSSL=C:\Program Files\OpenSSL\libeay32.dll``
+
+Applies for Linux based OS and OSX only:
 
 Turbo.lua can also be installed by the included Makefile. Simply download and run ``make install`` (requires root priv). It is installed in the default Lua 5.1 and LuaJIT 2.0 module directory.
 
 You can specify your own prefix by using ``make install PREFIX=<prefix>``, and you can specify LuaJIT version with a ``LUAJIT_VERSION=2.0.0`` style parameter.
 
 To compile without support for OpenSSL (and SSL connections) use the make option SSL=none.
-To compile with axTLS support instead of OpenSSL use the make option SSL=axTLS.
+To compile with axTLS support instead of OpenSSL use the make option SSL=axTLS. If you
+want to install the framework in a bytecode form use: ``make bcodeinstall``
 
 In essence the toolkit can run from anywere, but is must be able to load the libtffi_wrap.so at run time.
 To verify a installation you can try running the applications in the examples folder.
 
+Packaging
+---------
+The included Makefile supports packaging the current tree as a versioned tar.gz file.
+This file will include only the neccessary bits and pieces for Turbo to run. The files
+will be built as bytecode (luajit -b -g) with debug info. This reduces size drastically.
+Suitable for embedded devices with limited storage... It also reduces the startup time.
+
+Use ``make package``.
+
+this results in a turbo.x.x.x.tar.gz file and a package/ directory being created.
+
 Dependencies
 ------------
 All of the modules of Turbo.lua are made with the class implementation that Middleclass provides.
-https://github.com/kikito/middleclass. 
+https://github.com/kikito/middleclass.
 
 The HTTP parser by Ryan Dahl is used for HTTP parsing. This is built and installed as part of the package.
 
-OpenSSL or axTLS is required for SSL support. It is possible to run without this feature, and thus not need an SSL library.
+OpenSSL is required for SSL support. It is possible to run without this feature, and thus not need an SSL library.
 
 License
 -------
-Copyright 2011, 2012 and 2013 John Abrahamsen
+Copyright 2011 - 2015 John Abrahamsen
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -84,7 +109,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Many of the modules in the software package are derivatives of the 
+Many of the modules in the software package are derivatives of the
 Tornado web server. Tornado is also licensed under Apache 2.0 license.
 For more details on Tornado please see:
 

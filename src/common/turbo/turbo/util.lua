@@ -14,14 +14,22 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-local ffi = require "ffi"
-local buffer = require "turbo.structs.buffer"
+local ffi =         require "ffi"
+local buffer =      require "turbo.structs.buffer"
+local platform =    require "turbo.platform"
+local luasocket
+if not platform.__LINUX__ or _G.__TURBO_USE_LUASOCKET__ then
+    luasocket = require "socket"
+end
 require "turbo.cdef"
 local C = ffi.C
-local UCHAR_MAX = tonumber(ffi.new("uint8_t", -1))
-local g_time_str_buf = ffi.new("char[1024]")
-local g_time_t = ffi.new("time_t[1]")
-local g_timeval = ffi.new("struct timeval")
+
+local g_time_str_buf, g_time_t, g_timeval
+if platform.__LINUX__ and not _G.__TURBO_USE_LUASOCKET__ then
+    g_time_str_buf = ffi.new("char[1024]")
+    g_time_t = ffi.new("time_t[1]")
+    g_timeval = ffi.new("struct timeval")
+end
 
 local util = {}
 
@@ -140,18 +148,21 @@ end
 
 --- Current msecs since epoch. Better granularity than Lua builtin.
 -- @return Number
-function util.gettimeofday()
-    C.gettimeofday(g_timeval, nil)
-    return (tonumber((g_timeval.tv_sec * 1000)+
-                     (g_timeval.tv_usec / 1000)))
+if platform.__LINUX__ and not _G.__TURBO_USE_LUASOCKET__ then
+    function util.gettimeofday()
+        C.gettimeofday(g_timeval, nil)
+        return (tonumber((g_timeval.tv_sec * 1000)+
+                         (g_timeval.tv_usec / 1000)))
+    end
+else
+    function util.gettimeofday()
+        return math.ceil(luasocket.gettime() * 1000)
+    end
 end
-
 do
     local rt_support, rt = pcall(ffi.load, "rt")
-    if not rt_support then
+    if not rt_support or _G.__TURBO_USE_LUASOCKET__ then
         util.gettimemonotonic = util.gettimeofday
-        print(
-            "Warning: Could not load rt.so, falling back to gettimeofday.")
     else
         local ts = ffi.new("struct timespec")
         -- Current msecs since arbitrary start point, doesn't jump due to
@@ -166,30 +177,45 @@ end
 
 --- Create a time string used in HTTP cookies.
 -- "Sun, 04-Sep-2033 16:49:21 GMT"
-function util.time_format_cookie(epoch)
-    g_time_t[0] = epoch
-    local tm = C.gmtime(g_time_t)
-    local sz = C.strftime(
-        g_time_str_buf,
-        1024,
-        "%a, %d-%b-%Y %H:%M:%S GMT",
-        tm)
-    return ffi.string(g_time_str_buf, sz)
+if platform.__LINUX__ and not _G.__TURBO_USE_LUASOCKET__ then
+    function util.time_format_cookie(epoch)
+        g_time_t[0] = epoch
+        local tm = C.gmtime(g_time_t)
+        local sz = C.strftime(
+            g_time_str_buf,
+            1024,
+            "%a, %d-%b-%Y %H:%M:%S GMT",
+            tm)
+        return ffi.string(g_time_str_buf, sz)
+    end
+else
+    function util.time_format_cookie(time)
+        return os.date(
+            "%a, %d-%b-%Y %H:%M:%S GMT",
+            time)
+    end
 end
 
---- Create a time string used in HTTP header fields.
--- "Sun, 04 Sep 2033 16:49:21 GMT"
-function util.time_format_http_header(time_t)
-    g_time_t[0] = time_t
-    local tm = C.gmtime(g_time_t)
-    local sz = C.strftime(
-        g_time_str_buf,
-        1024,
-        "%a, %d %b %Y %H:%M:%S GMT",
-        tm)
-    return ffi.string(g_time_str_buf, sz)
+if platform.__LINUX__ and not _G.__TURBO_USE_LUASOCKET__ then
+    --- Create a time string used in HTTP header fields.
+    -- "Sun, 04 Sep 2033 16:49:21 GMT"
+    function util.time_format_http_header(time_t)
+        g_time_t[0] = time_t
+        local tm = C.gmtime(g_time_t)
+        local sz = C.strftime(
+            g_time_str_buf,
+            1024,
+            "%a, %d %b %Y %H:%M:%S GMT",
+            tm)
+        return ffi.string(g_time_str_buf, sz)
+    end
+else
+    function util.time_format_http_header(time)
+        return os.date(
+            "%a, %d %b %Y %H:%M:%S GMT",
+            time / 1000)
+    end
 end
-
 
 --*************** File ***************
 
@@ -312,6 +338,27 @@ function util.mem_dump(ptr, sz)
         p = p + 1
     end
     io.write("\n")
+end
+
+--- Loads dynamic library with helper functions or bails out with error.
+-- @param name Custom library name or path
+function util.load_libtffi(name)
+    local have_name = name and true or false
+    name = name or os.getenv("TURBO_LIBTFFI") or "libtffi_wrap"
+    local ok, lib = pcall(ffi.load, name)
+    if not ok then
+        -- Try the old loading method which works for some Linux distros.
+        -- But only if name is not given as argument.
+        if not have_name then
+            ok, lib = pcall(ffi.load, "/usr/local/lib/libtffi_wrap.so")
+        end
+        if not ok then
+            -- Still not OK...
+            error("Could not load " .. name .. " \
+            Please run makefile and ensure that installation is done correct.")
+        end
+    end
+    return lib
 end
 
 return util

@@ -31,17 +31,9 @@ local deque =       require "turbo.structs.deque"
 local buffer =      require "turbo.structs.buffer"
 local escape =      require "turbo.escape"
 local util =        require "turbo.util"
+local platform =    require "turbo.platform"
 local ffi =         require "ffi"
-local ltp_loaded, libturbo_parser = pcall(ffi.load, "tffi_wrap")
-if not ltp_loaded then
-    -- Check /usr/local/lib explicitly also.
-    ltp_loaded, libturbo_parser =
-        pcall(ffi.load, "/usr/local/lib/libtffi_wrap.so")
-    if not ltp_loaded then
-        error("Could not load libtffi_wrap.so. \
-            Please run makefile and ensure that installation is done correct.")
-    end
-end
+local libturbo_parser = util.load_libtffi()
 
 require "turbo.cdef"
 require "turbo.3rdparty.middleclass"
@@ -190,6 +182,9 @@ function httputil.HTTPParser:get_url()
         if not self.tpw then
             error("No URL or header has been parsed. Can not return URL.")
         end
+        if self.tpw.url_str == nil then
+            error("No URL available for request headers.")
+        end
         self.url = ffi.string(self.tpw.url_str, self.tpw.url_sz)
     end
     return self.url
@@ -224,7 +219,7 @@ function httputil.HTTPParser:get_status_code()
     return self.tpw.parser.status_code, status_codes[self.status_code]
 end
 
-function _unescape(s) return string.char(tonumber(s,16)) end
+local function _unescape(s) return string.char(tonumber(s,16)) end
 --- Internal function to parse ? and & separated key value fields.
 -- @param uri (String)
 local function _parse_arguments(uri)
@@ -290,6 +285,14 @@ end
 -- regard for case sensitivity.
 -- @return The value of the key, or nil if not existing. May return a table if
 -- multiple keys are set.
+local strncasecmp
+if platform.__LINUX__ or platform.__UNIX__ then
+    strncasecmp = ffi.C.strncasecmp
+elseif platform.__WINDOWS__ then
+    -- Windows does not have strncasecmp, but has strnicmp, which does the
+    -- thing.
+    strncasecmp = ffi.C._strnicmp
+end
 function httputil.HTTPParser:get(key, caseinsensitive)
     local value
     local c = 0
@@ -304,7 +307,7 @@ function httputil.HTTPParser:get(key, caseinsensitive)
             local field = self.tpw.hkv[i]
             local key_sz = key:len()
             if field.key_sz == key_sz then
-                if ffi.C.strncasecmp(
+                if strncasecmp(
                     field.key,
                     key,
                     field.key_sz) == 0 then
@@ -444,7 +447,6 @@ end
 --- Parse multipart form data.
 function httputil.parse_multipart_data(data, boundary)
     local arguments = {}
-    local data = escape.unescape(data)
     local p1, p2, b1, b2
 
     boundary = "--" .. boundary
@@ -470,11 +472,11 @@ function httputil.parse_multipart_data(data, boundary)
             until skipped == 0
             boundary_headers = data:sub(h1,h2)
             boundary_headers = boundary_headers:gsub("([^%c%s:]-):",
-                      function(s) return string.gsub(s,"%u", function(c) 
-                            return string.lower(c) end) .. ":" 
+                      function(s) return string.gsub(s,"%u", function(c)
+                            return string.lower(c) end) .. ":"
                       end)
-            if not boundary_headers then 
-                goto next_boundary 
+            if not boundary_headers then
+                goto next_boundary
             end
             do
                 local name, ctype
@@ -487,7 +489,7 @@ function httputil.parse_multipart_data(data, boundary)
                         repeat
                             p, key = getRFC822Atom(content_kvs,p)
                             if p == nil then break end
-                            if content_kvs:byte(p+1) ~= string.byte('=') then 
+                            if content_kvs:byte(p+1) ~= string.byte('=') then
                                 break
                             end
                             p=p+2
@@ -506,14 +508,14 @@ function httputil.parse_multipart_data(data, boundary)
                         if fname=="content-type" then
                             ctype = fvalue
                             fvalue = fvalue:lower()
-                        elseif fname=="charset" or 
+                        elseif fname=="charset" or
                                 fname=="content-transfer-encoding" then
                             fvalue = fvalue:lower()
                         end
                         argument[fname] = fvalue
                     end
                 end
-                if not name then 
+                if not name then
                     goto next_boundary
                 end
                 argument[1] = data:sub(v1, b2)
@@ -532,7 +534,7 @@ function httputil.parse_multipart_data(data, boundary)
         end
 ::next_boundary::
         b1 = find_line_start(data,p2+1)
-    until (b1+1 > #data) or 
+    until (b1+1 > #data) or
         (data:byte(p2+1) == DASH and data:byte(p2+2) == DASH)
     return arguments
 end
@@ -740,7 +742,8 @@ end
 function httputil.HTTPHeaders:stringify_as_response()
     local buf = buffer:new()
     if not self:get("Date") then
-        self:add("Date", util.time_format_http_header(ffi.C.time(nil)))
+        -- Add current time as Date header if not set already.
+        self:add("Date", util.time_format_http_header(util.gettimeofday()))
     end
     for i = 1 , #self._fields do
         if self._fields[i] then

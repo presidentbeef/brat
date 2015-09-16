@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE."			*/
 
 #include <strings.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
@@ -39,18 +39,20 @@ SOFTWARE."			*/
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
-#define ENDIAN_SWAP_U64(val) ((u_int64_t) ( \
-    (((u_int64_t) (val) & (u_int64_t) 0x00000000000000ff) << 56) | \
-    (((u_int64_t) (val) & (u_int64_t) 0x000000000000ff00) << 40) | \
-    (((u_int64_t) (val) & (u_int64_t) 0x0000000000ff0000) << 24) | \
-    (((u_int64_t) (val) & (u_int64_t) 0x00000000ff000000) <<  8) | \
-    (((u_int64_t) (val) & (u_int64_t) 0x000000ff00000000) >>  8) | \
-    (((u_int64_t) (val) & (u_int64_t) 0x0000ff0000000000) >> 24) | \
-    (((u_int64_t) (val) & (u_int64_t) 0x00ff000000000000) >> 40) | \
-    (((u_int64_t) (val) & (u_int64_t) 0xff00000000000000) >> 56)))
+#define ENDIAN_SWAP_U64(val) ((uint64_t) ( \
+    (((uint64_t) (val) & (uint64_t) 0x00000000000000ff) << 56) | \
+    (((uint64_t) (val) & (uint64_t) 0x000000000000ff00) << 40) | \
+    (((uint64_t) (val) & (uint64_t) 0x0000000000ff0000) << 24) | \
+    (((uint64_t) (val) & (uint64_t) 0x00000000ff000000) <<  8) | \
+    (((uint64_t) (val) & (uint64_t) 0x000000ff00000000) >>  8) | \
+    (((uint64_t) (val) & (uint64_t) 0x0000ff0000000000) >> 24) | \
+    (((uint64_t) (val) & (uint64_t) 0x00ff000000000000) >> 40) | \
+    (((uint64_t) (val) & (uint64_t) 0xff00000000000000) >> 56)))
 
 #ifndef TURBO_NO_SSL
 
+#pragma GCC diagnostic push 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 static int matches_common_name(const char *hostname, const X509 *server_cert)
 {
     int common_name_loc = -1;
@@ -172,6 +174,7 @@ int32_t validate_hostname(const char *hostname, const SSL *server){
     return result;
 }
 #endif
+#pragma GCC diagnostic pop
 
 bool url_field_is_set(
         const struct http_parser_url *url,
@@ -323,7 +326,7 @@ char* turbo_websocket_mask(const char* mask32, const char* in, size_t sz)
 {
     size_t i = 0;
     char* buf = malloc(sz);
-    
+
     if (!buf)
         return 0;
     for (i = 0; i < sz; i++) {
@@ -332,9 +335,9 @@ char* turbo_websocket_mask(const char* mask32, const char* in, size_t sz)
     return buf;
  }
 
-u_int64_t turbo_bswap_u64(u_int64_t swap)
+uint64_t turbo_bswap_u64(uint64_t swap)
 {
-    u_int64_t swapped;
+    uint64_t swapped;
 
     swapped = ENDIAN_SWAP_U64(swap);
     return swapped;
