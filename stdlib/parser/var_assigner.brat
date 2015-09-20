@@ -146,6 +146,11 @@ a.walk :simple_index_get { node |
   my.proc_call node
 }
 
+a.walk :simple_index_set { node |
+  my.proc_call node
+}
+
+
 a.walk :arg { node |
   my.env[node.id] = true
 }

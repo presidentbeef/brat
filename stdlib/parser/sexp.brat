@@ -89,6 +89,8 @@ make :call, :target, :method, :args
 
 make :simple_index_get, :target, :method, :args
 
+make :simple_index_set, :target, :method, :args
+
 make :get_value
 
 make :get_local_value

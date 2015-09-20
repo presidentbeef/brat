@@ -142,6 +142,39 @@ h.invoke_index_get_direct = { node, target, var |
   res
 }
 
+h.invoke_index_set_direct = { node, target, var |
+  res = set_result var
+  res_var = res.var
+  action = get_action res_var
+  target_var = target.var
+  index = node.args.first
+  value = process node.args.last
+
+  res.out << target.out
+  res.out << value.out
+  res.out << true? my.env.get_type(target_var) == :hash
+    {
+      "
+      if #{target_var}._unchanged('set') then
+        #{action} #{target_var}:set('#{escape_string index.value}', #{value.var})
+      else
+        #{invoke_method(target_var, :set, ["string:new('#{escape_string index.value}')", value.var], res_var) }
+      end
+      "
+    }
+    {
+      "
+      if #{target_var}._lua_hash and #{target.var}._unchanged('set') then
+        #{action} #{target_var}:set('#{escape_string index.value}', #{value.var})
+      else
+        #{invoke_method(target_var, :set, ["string:new('#{escape_string index.value}')", value.var], res_var) }
+      end
+      "
+    }
+
+  res
+}
+
 h.invoke_function = { target, n_, args, res_var |
   args_array = (['_self'] + args).join(", ")
   action = get_action res_var

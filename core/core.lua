@@ -3801,11 +3801,12 @@ function hash_instance:set (index, value)
   elseif type(index) == "string" then
     local key = index
     if self._key_hash[key] then
-      self._lua_hash[self._key_hash[key]] = nil
+      index = self._key_hash[key]
+    else
+      index = base_string:new(key)
+      self._key_hash[key] = index
     end
 
-    index = base_string:new(key)
-    self._key_hash[key] = index
   end
 
   self._lua_hash[index] = value
