@@ -365,7 +365,7 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "nested index get" {
-    ast "x[1][:a]" s[:call
+    ast "x[1][:a]" s[:simple_index_get
                     s[:call
                       s[:get_value :x]
                       :get
