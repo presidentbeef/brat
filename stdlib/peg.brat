@@ -324,21 +324,14 @@ peg.prototype.ref = { name |
 }
 
 
-all_labels = [:]
-
-peg.fetch_labels = { rule |
-  labels = []
-#*  true? all_labels[rule]
-    { p rule }
-    { all_labels[rule] = true }
-*#
+peg.fetch_labels = { rule, labels = [] |
   true? (rule.has_method?(:label) && { rule.label })
     { labels << rule }
 
-
   true? rule.has_method?(:elements)
-    { labels + rule.elements.map({ r | peg.fetch_labels r }).compact!.flatten }
-    { labels }
+    { rule.elements.each({ r | peg.fetch_labels r, labels }) }
+
+  labels
 }
 
 #Execute action upon match
