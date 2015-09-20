@@ -74,6 +74,12 @@ c.walk :invoke_index_get { node, var = null |
   invoke node, target, ->invoke_index_get, var
 }
 
+c.walk :simple_index_get { node, var = null |
+  target = process node.target
+  invoke_index_get_direct node, target, var
+}
+
+
 c.walk :invoke_function { node, var = null |
   target = process node.target, var
   node.method = null

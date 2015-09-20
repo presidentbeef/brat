@@ -101,6 +101,7 @@ h.invoke_method = { target, name, args, res_var |
 h.invoke_index_get = { target, n_, args, res_var |
   args_array = (['_self'] + args).join(", ")
   action = get_action res_var
+
   "
   if #{callable? target} then
     #{action} #{target}(#{args_array})
@@ -108,6 +109,37 @@ h.invoke_index_get = { target, n_, args, res_var |
     _error(exception:new(\"Tried to invoke non-method: '#{target}' (\" .. object.__type(#{target}) .. \")\"))
   end
   "
+}
+
+h.invoke_index_get_direct = { node, target, var |
+  res = set_result var
+  res_var = res.var
+  action = get_action res_var
+  target_var = target.var
+  arg = node.args.first
+
+  res.out << target.out
+  res.out << true? my.env.get_type(target_var) == :hash
+    {
+      "
+      if #{target_var}._unchanged('get') then
+        #{action} #{target_var}:get('#{escape_string arg.value}')
+      else
+        #{invoke_method(target_var, :get, ["string:new('#{escape_string arg.value}')"], res_var) }
+      end
+      "
+    }
+    {
+      "
+      if #{target_var}._lua_hash and #{target.var}._unchanged('get') then
+        #{action} #{target_var}:get('#{escape_string arg.value}')
+      else
+        #{invoke_method(target_var, :get, ["string:new('#{escape_string arg.value}')"], res_var) }
+      end
+      "
+    }
+
+  res
 }
 
 h.invoke_function = { target, n_, args, res_var |
