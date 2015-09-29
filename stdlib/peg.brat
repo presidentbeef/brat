@@ -325,11 +325,13 @@ peg.prototype.ref = { name |
 
 
 peg.fetch_labels = { rule, labels = [] |
-  true? (rule.has_method?(:label) && { rule.label })
-    { labels << rule }
+  true? rule.has_method?(:label)
+  {
+    true? rule.label
+      { labels << rule }
 
-  true? rule.has_method?(:elements)
-    { rule.elements.each({ r | peg.fetch_labels r, labels }) }
+    rule.elements.each({ r | peg.fetch_labels r, labels })
+  }
 
   labels
 }
