@@ -23,7 +23,7 @@ require 'core'
 require "parser/brat2lua"
 local brat2lua = _exports['brat2lua']
 
-compile_file = function (file_name)
+compile_file = function (file_name, force)
   brat_file_name = file_name .. ".brat"
   lua_file_name = file_name .. ".lua"
 
@@ -36,7 +36,7 @@ compile_file = function (file_name)
 
   lua_modified = lfs.attributes(lua_file_name, "modification")
 
-  if lua_modified == nil or brat_modified > lua_modified then
+  if force or lua_modified == nil or brat_modified > lua_modified then
     brat2lua:compile_underfile(base_string:new(file_name))
   end
 end
@@ -142,16 +142,24 @@ if #arg == 0 then
   abort("Exiting")
 end
 
-file_name = arg[1]:match("(.+).brat")
+last_arg = arg[#arg]
 
-if arg[#arg] == "-!" then
+if last_arg == "-!" then
   loadstring(io.read("*a"))()
-elseif arg[#arg] == "-" then
+elseif last_arg == "-" then
   run_string(io.read("*a"))
-elseif file_name == nil then
-  abort("File to execute should end in .brat")
 else
-  compile_file(file_name)
+  file_name = last_arg:match("(.+).brat")
+
+  if file_name == nil then
+    abort("File to execute should end in .brat")
+  end
+
+  if arg[1] == '-f' then
+    compile_file(file_name, true)
+  else
+    compile_file(file_name)
+  end
 
   lua_file = file_name .. ".lua"
 
