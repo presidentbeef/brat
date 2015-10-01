@@ -2447,6 +2447,40 @@ function array_instance:flatten ()
 end
 
 -- Object: array instance
+-- Call: array.flat_map _block_
+--
+-- Flattens all results of _block_ into a single array.
+function array_instance:flat_undermap (block)
+  if self._length == 0 then
+    return array:new({})
+  else
+    local i = 1
+    local len = self._length
+    local a = self._lua_array
+    local out = {}
+
+    while i <= len do
+      local res = block(self, a[i])
+      if type(res) == "table" and res._lua_array then
+        if res._length > 0 then
+          local k = 1
+          while k <= res._length do
+            table.insert(out, res._lua_array[k])
+            k = k + 1
+          end
+        end
+      else
+        table.insert(out, res)
+      end
+
+      i = i + 1
+    end
+
+    return array:new(out)
+  end
+end
+
+-- Object: array instance
 -- Call: array.pretty
 -- Returns: string
 --
