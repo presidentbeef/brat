@@ -70,6 +70,7 @@ peg.make_result = { match_pos, end_pos, matched, rule_name = null |
   result.end_pos = end_pos
   result.matched = matched
   result.label = null
+  result.labels = null
   result.rule_name = rule_name
 
   when { matched.string? } { result.text = matched }
@@ -323,15 +324,25 @@ peg.prototype.ref = { name |
   }
 }
 
+peg.fetch_labels = { rule |
+  labels = []
 
-peg.fetch_labels = { rule, labels = [] |
-  true? rule.has_method?(:label)
-  {
-    true? rule.label
-      { labels << rule }
+  true? rule.label
+    { labels << rule }
 
-    rule.elements.each({ r | peg.fetch_labels r, labels })
-  }
+  true? rule.labels
+    { labels.concat rule.labels }
+    {
+      other_rules = rule.elements.flat_map({ r |
+        true? r.has_method?(:label)
+        {
+          peg.fetch_labels(r)
+        }
+        { [] }
+      })
+      rule.labels = other_rules
+      labels.concat other_rules
+    }
 
   labels
 }
