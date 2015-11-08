@@ -14,4 +14,4 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$path/lib
 export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$path/lib
 export PATH=$path/bin/lua/bin:$PATH
 
-lua $path/bin/brat $@
+lua -Omaxmcode=1024 -Oloopunroll=30 $path/bin/brat $@
