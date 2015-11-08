@@ -37,31 +37,33 @@ peg.make_memo = { result, pos |
     }
 }
 
-peg.prototype.make_rule = { rule |
-  id = next_id
-  memo = my.memo
-  rules = my.rule_names
-  memo[id] = [:]
-
-  real = { x |
-    m = memo[id][x.pos]
+memo_rule = { x |
+  m = memo[x.pos]
     null? m
-      {
-        current = x.pos
+    {
+      current = x.pos
         res = rule x
-        memo[id][current] = peg.make_memo res, x.pos
+        memo[current] = peg.make_memo res, x.pos
         true? res && { null? res.rule_name }
-          { res.rule_name = rules[->real] }
-        res
-      }
-      {
-        true? m
-          {
-            x.pos = m.pos
-            m.result
-          }
-      }
+      res
+    }
+  {
+    true? m
+    {
+      x.pos = m.pos
+        m.result
+    }
   }
+}
+
+peg.prototype.make_rule = { rule |
+  r = object.new
+  r.memo = [:]
+  memo[next_id] = r.memo
+  r.rule = ->rule
+  r.memo_rule = ->memo_rule
+
+  { x | r.memo_rule x }
 }
 
 peg.make_result = { match_pos, end_pos, matched, rule_name = null |
@@ -110,27 +112,30 @@ peg.prototype.parse = { str, start_rule = null, fully = false |
     { result }
 }
 
+seq_matcher = { x, rules |
+  matched = false
+  matches = []
+  start = x.pos
+
+  rules.each_while { rule |
+    matched = rule x
+    matches << matched
+    matched
+  }
+
+  false? matched
+    { x.pos = start; false }
+    { peg.make_result start, x.pos, matches }
+}
+
+
 #Match a sequence of rules
 peg.prototype.seq = { rule, *rules |
-  true? rules.empty?
-    { true? function?(->rule) { rules = [->rule] } { rules = rule } }
-    { rules = [->rule] + rules }
+  rules = true? rules.empty?
+    { true? function?(->rule) { [->rule] } { rule } }
+    { [->rule] + rules }
 
-  make_rule { x |
-    matched = false
-    matches = []
-    start = x.pos
-
-    rules.each_while { rule |
-      matched = rule x
-      matches << matched
-      matched
-    }
-
-    false? matched
-      { x.pos = start; false }
-      { peg.make_result start, x.pos, matches }
-  }
+  make_rule { x | seq_matcher x, rules }
 }
 
 peg.prototype.seq_ref = { *rules |
@@ -138,22 +143,23 @@ peg.prototype.seq_ref = { *rules |
   seq rules.map { name | m.ref name }
 }
 
+any_matcher = { x, rules |
+  matched = null
+
+  rules.each_until { opt |
+    matched = opt x
+  }
+
+  matched
+}
+
 #Match any of a set of rules
 peg.prototype.any = { rule, *rules |
-  true? rules.empty?
-    { true? function?(->rule) { rules = [->rule] } { rules = rule } }
-    { rules = [->rule] + rules }
+  rules = true? rules.empty?
+            { true? function?(->rule) { [->rule] } { rule } }
+            { [->rule] + rules }
 
-  make_rule { x |
-    matched = null
-    start = x.pos
-
-    rules.each_until { opt |
-      matched = opt x
-    }
-
-    matched
-  }
+  make_rule { x | any_matcher x, rules }
 }
 
 peg.prototype.any_ref = { *rule_names |
@@ -183,119 +189,133 @@ peg.prototype.num_of = { rule, min, max |
   }
 }
 
+maybe_matcher = { x, rule |
+  start = x.pos
+
+  matched = rule x
+  true? matched
+    {
+      res = peg.make_result start, x.pos, matched
+      res.rule_name = "#{matched.rule_name || 'result'}?"
+      res
+    }
+    {
+      peg.make_result start, start, ""
+    }
+}
+
 #Match zero or one occurrences of rule
 peg.prototype.maybe = { rule |
-  make_rule { x |
-    start = x.pos
+  make_rule { x | maybe_matcher x, ->rule }
+}
 
-    matched = rule x
-    true? matched
-      {
-        res = peg.make_result start, x.pos, matched
-        res.rule_name = "#{matched.rule_name || 'result'}?"
-        res
-      }
-      {
-        peg.make_result start, start, ""
-      }
+kleene_matcher = { x, rule |
+  matches = []
+  start = x.pos
+
+  while {
+    res = rule x
+
+    true? res
+      { matches << res }
   }
+
+  res = peg.make_result start, x.pos, matches
+  false? matches.empty?
+    {
+      rule_name = matches.first.rule_name
+      res.rule_name = "#{rule_name || 'result'}*"
+    }
+  res
 }
 
 #Match zero or more occurrences of rule
 peg.prototype.kleene = { rule |
-  make_rule { x |
-    matches = []
-    start = x.pos
+  make_rule { x | kleene_matcher x, ->rule }
+}
 
-    while {
-      res = rule x
+many_matcher = { x, rule |
+  start = x.pos
+  matches = []
 
-      true? res
-        { matches << res }
-    }
+  matched = rule x
 
-    res = peg.make_result start, x.pos, matches
-    false? matches.empty?
-      {
-        rule_name = matches.first.rule_name
-        res.rule_name = "#{rule_name || 'result'}*"
-      }
-    res
+  true? matched
+    { matches << matched }
+
+  while {
+    wmatched = rule x
+    true? wmatched
+      { matches << wmatched }
   }
+
+  false? matches.empty?
+    {
+      rule_name = matches.first.rule_name
+      res = peg.make_result start, x.pos, matches
+      res.rule_name = "#{rule_name}+"
+      res
+    }
 }
 
 #Match one or more occurrences of rule
 peg.prototype.many = { rule |
-  make_rule { x |
-    start = x.pos
-    matches = []
+  make_rule { x | many_matcher x, ->rule }
+}
 
-    matched = rule x
-
-    true? matched
-      { matches << matched }
-
-    while {
-      matched = rule x
-      true? matched
-        { matches << matched }
-    }
-
-    false? matches.empty?
-      {
-        rule_name = matches.first.rule_name
-        res = peg.make_result start, x.pos, matches
-        res.rule_name = "#{rule_name}+"
-        res
-      }
-  }
+str_matcher = { x, literal |
+  start = x.pos
+  matched = x.scan_string literal
+  true? matched
+    { peg.make_result start, x.pos, matched }
 }
 
 #Match a string literally
 peg.prototype.str = { literal |
-  make_rule { x |
-    start = x.pos
-    matched = x.scan_string literal
-    true? matched
-      { peg.make_result start, x.pos, matched }
-  }
+  make_rule { x | str_matcher x, literal }
+}
+
+regex_matcher = { x, reg_literal |
+  start = x.pos
+  matched = x.scan_regex reg_literal
+  true? matched
+    { peg.make_result start, x.pos, matched }
 }
 
 #Match a regular expression
 peg.prototype.reg = { reg_literal |
-  make_rule { x |
-    start = x.pos
-    matched = x.scan_regex reg_literal
-    true? matched
-      { peg.make_result start, x.pos, matched }
-  }
+  make_rule { x | regex_matcher x, reg_literal }
+}
+
+no_matcher = { x, rule |
+  start = x.pos
+  res = rule x
+  stop = x.pos
+  x.pos = start
+
+  true? res
+    { false }
+    { peg.make_result start, stop, res }
 }
 
 #Specify that a rule should NOT match
 peg.prototype.no = { rule |
-  make_rule { x |
-    start = x.pos
-    res = rule x
-    stop = x.pos
-    x.pos = start
+  make_rule { x | no_matcher x, ->rule }
+}
 
-    true? res
-      { false }
-      { peg.make_result start, stop, res }
-  }
+and_matcher = { x, rule |
+  start = x.pos
+  matched = rule x
+  stop = x.pos
+  x.pos = start
+  true? matched
+    { peg.make_result start, stop, "" }
 }
 
 #Specific that a rule should match, but do not advance
 #position (lookahead)
 peg.prototype.and = { rule |
-  make_rule { x |
-    start = x.pos
-    matched = rule x
-    stop = x.pos
-    x.pos = start
-    true? matched
-      { peg.make_result start, stop, "" }
-  }
+  make_rule { x | and_matcher x, ->rule }
 }
 
 #Set a named rule
@@ -313,15 +333,17 @@ peg.prototype.anything = {
   reg /./m
 }
 
+ref_matcher = { x, rules, name |
+  r = rules[name]
+  null? { ->r }
+    { throw "No such rule: #{name}" }
+  r x
+}
+
 #Reference a named rule
 peg.prototype.ref = { name |
   rules = my.named_rules
-  make_rule { x |
-    r = rules[name]
-    null? { ->r }
-      { throw "No such rule: #{name}" }
-    r x
-  }
+  make_rule { x | ref_matcher x, rules, name }
 }
 
 peg.fetch_labels = { rule |
@@ -347,17 +369,19 @@ peg.fetch_labels = { rule |
   labels
 }
 
+action_matcher = { x, rule, block |
+  res = rule x
+  true? res
+    {
+      peg.add_labels res
+      res.with_this ->block
+      res
+    }
+}
+
 #Execute action upon match
 peg.prototype.action = { rule, block |
-  make_rule { x |
-    res = rule x
-    true? res
-      {
-        peg.add_labels res
-        res.with_this ->block
-        res
-      }
-  }
+  make_rule { x | action_matcher x, ->rule, ->block }
 }
 
 peg.add_labels = { res |
