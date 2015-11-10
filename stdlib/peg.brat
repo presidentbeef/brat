@@ -45,6 +45,7 @@ memo_rule = { x |
         res = rule x
         memo[current] = peg.make_memo res, x.pos
         true? res && { null? res.rule_name }
+          { res.rule_name = rules[->real] }
       res
     }
   {
@@ -61,9 +62,10 @@ peg.prototype.make_rule = { rule |
   r.memo = [:]
   memo[next_id] = r.memo
   r.rule = ->rule
+  r.rules = my.rule_names
   r.memo_rule = ->memo_rule
 
-  { x | r.memo_rule x }
+  r.real = { x | r.memo_rule x }
 }
 
 peg.make_result = { match_pos, end_pos, matched, rule_name = null |
