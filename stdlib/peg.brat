@@ -39,15 +39,20 @@ peg.make_memo = { result, pos |
 
 memo_rule = { x |
   m = memo[x.pos]
-    null? m
-    {
-      current = x.pos
-        res = rule x
-        memo[current] = peg.make_memo res, x.pos
-        true? res && { null? res.rule_name }
-          { res.rule_name = rules[->real] }
-      res
-    }
+  null? m
+  {
+    current = x.pos
+    res = rule x
+    memo[current] = peg.make_memo res, x.pos
+    true? res && { null? res.rule_name }
+      { res.rule_name = rules[->real] }
+
+    true? res
+      { p "matched #{res.rule_name} at #{current}-#{x.pos}" }
+      { p "failed #{rules[->real]} at #{current}-#{x.pos}" }
+
+    res
+  }
   {
     true? m
     {
@@ -110,7 +115,7 @@ peg.prototype.parse = { str, start_rule = null, fully = false |
     { result.matched_all? = s.pos == str.length }
 
   true? { result && { fully } }
-    { true? result.matched_all?, { result } }
+    { true? result.matched_all?, { result }, {p "Failed at #{s.pos}";false}  }
     { result }
 }
 

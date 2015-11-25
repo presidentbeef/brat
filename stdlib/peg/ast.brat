@@ -1,0 +1,89 @@
+node = object.new
+node.prototype [
+    init: { name |
+            my.node_name = name
+            export my, name
+          }
+    to_s: { "<#{my.node_name}: #{my.matched}>" }
+]
+
+each_ast = { elements, block |
+  elements.each { e |
+    when { e.has_method?(:ast)} { block e.ast }
+         { e.has_method?(:elements) } { each_ast e.elements, ->block }
+  }
+}
+
+add_ast = { node, list |
+  each_ast node.elements, { ast |
+    true? ast
+      { list << ast }
+  }
+
+  list
+}
+
+ast = { name, block |
+  n = node.new name
+  n.ast = ->block
+}
+
+ast :grammar {
+  add_ast my, s[:grammar]
+}
+
+ast :rule_def {
+  add_ast my.elements[-2], s[:rule_def, my.elements.first.text]
+}
+
+ast :rule_list {
+  add_ast my, s[:any]
+}
+
+ast :rule_seq {
+  add_ast my, s[:seq]
+}
+
+ast :str_lit {
+  add_ast my, s[:str]
+}
+
+ast :rule_ref {
+  s[:ref my.rule_name]
+}
+
+ast :regex_rule {
+  s[:regex, regex.new(my.content.text)]
+}
+
+ast :rule_label {
+  add_ast my.exp, s[:label, my.label_name]
+}
+
+ast :maybe_rule {
+  add_ast my, s[:maybe]
+}
+
+ast :many_rule {
+  add_ast my, s[:many]
+}
+
+ast :kleene_rule {
+  add_ast my, s[:kleene]
+}
+
+ast :not_rule {
+  add_ast my, s[:not]
+}
+
+ast :and_rule {
+  add_ast my, s[:and]
+}
+
+ast :set_action {
+  s[:action, my.text]
+}
+
+ast :set_squish {
+  s[:squish, my.elements.first.matched[1]]
+}

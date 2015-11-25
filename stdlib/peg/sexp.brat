@@ -1,0 +1,94 @@
+sexp = object.new
+
+# Keep track of sexp types by name
+sexp.types = [:]
+
+sexp.init = { name |
+  my.name = name
+}
+
+sexp.prototype.to_s = {
+  "s#{[my.name] + my.nodes}"
+}
+
+sexp.prototype.== = { rhs |
+  my = my
+  true? rhs.has_method?(:name) && rhs.has_method?(:nodes)
+    { my.name == rhs.name && { my.nodes == rhs.nodes } }
+}
+
+sexp.prototype.<< = { val |
+  my.nodes << val
+  my
+}
+
+sexp.prototype.concat = { val |
+  my.nodes.concat val
+  my
+}
+
+sexp.prototype.last = {
+  my.nodes.last
+}
+
+# Shared initializer for sexp types
+initializer = { nodes |
+  my.nodes = nodes
+  true? my.nodes.length == 1
+    { my.value = nodes.last }
+}
+
+# Create new sexp with methods to access the given methods.
+make = { name, *meths |
+  new_thing = sexp.new(name)
+  meths.each_with_index { name, i |
+    new_thing.prototype.add_method name, {
+      nodes[i]
+    }
+  }
+
+  new_thing.init = ->initializer
+  sexp.types[name] = new_thing
+}
+
+make :grammar
+
+make :rule_def
+
+make :any
+
+make :seq
+
+make :str
+
+make :rule_ref
+
+make :regex
+
+make :label
+
+make :maybe
+
+make :kleene
+
+make :not
+
+make :and
+
+make :action
+
+make :squish
+
+# Little shortcut to make sexps via s[...]
+s = object.new
+
+s.get = { name, *args |
+  sexp.types[name].new args
+}
+
+sexp? = { val |
+  val.has_method?(:name) && { sexp.types[val.name] }
+}
+
+export ->sexp?, :sexp?
+export s, :s
