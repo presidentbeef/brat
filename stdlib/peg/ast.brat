@@ -1,3 +1,5 @@
+include 'peg/sexp'
+
 node = object.new
 node.prototype [
     init: { name |
@@ -15,9 +17,9 @@ each_ast = { elements, block |
 }
 
 add_ast = { node, list |
-  each_ast node.elements, { ast |
-    true? ast
-      { list << ast }
+  each_ast node.elements, { n |
+    true? n
+      { list << n }
   }
 
   list
@@ -45,19 +47,19 @@ ast :rule_seq {
 }
 
 ast :str_lit {
-  add_ast my, s[:str]
+  s[:str, my.content.text]
 }
 
 ast :rule_ref {
-  s[:ref my.rule_name]
+  s[:rule_ref my.rule_name]
 }
 
 ast :regex_rule {
-  s[:regex, regex.new(my.content.text)]
+  s[:regex, my.content.text]
 }
 
 ast :rule_label {
-  add_ast my.exp, s[:label, my.label_name]
+  add_ast my.exp, s[:label, my.label_name.text]
 }
 
 ast :maybe_rule {
@@ -80,10 +82,14 @@ ast :and_rule {
   add_ast my, s[:and]
 }
 
+ast :anything_rule {
+  s[:anything]
+}
+
 ast :set_action {
   s[:action, my.text]
 }
 
 ast :set_squish {
-  s[:squish, my.elements.first.matched[1]]
+  s[:squish, my.elements.first.matches[1]]
 }

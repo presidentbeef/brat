@@ -42,13 +42,13 @@ peg_syntax = peg.new {
   set :paren_rule seq(str("(") ref(:rule_list) str(")"))
 
   #Matches a string literal
-  set :str_literal action seq(str('"') kleene(any str('\\\\') str('\"') seq(no(str '"') anything)) str('"')) { my.squish str_lit }
+  set :str_literal action seq(str('"') label(:content kleene(any str('\\\\') str('\"') seq(no(str '"') anything))) str('"')) { my.squish str_lit }
 
   #References the name of another rule
   set :rule_ref action label(:name ref(:rule_name)) { my.squish rule_ref }
 
   #Matches a regular expression
-  set :reg_literal action seq(str('/') kleene(any str('\\/') label(:content seq(no(str '/') anything))) str('/')) { my.squish regex_rule }
+  set :reg_literal action seq(str('/') label(:content kleene(any str('\\/') seq(no(str '/') anything))) str('/')) { my.squish regex_rule }
 
   #Matches a period
   set :anything action seq(str(".") maybe(ref :spaces)) { my.squish anything_rule }

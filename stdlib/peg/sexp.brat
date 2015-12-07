@@ -63,6 +63,8 @@ make :str
 
 make :rule_ref
 
+make :anything
+
 make :regex
 
 make :label
@@ -70,6 +72,8 @@ make :label
 make :maybe
 
 make :kleene
+
+make :many
 
 make :not
 
