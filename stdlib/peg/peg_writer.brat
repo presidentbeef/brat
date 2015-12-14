@@ -1,0 +1,76 @@
+include 'parser/walker'
+include 'peg/sexp'
+
+m = walker.new
+
+m.init = { ast |
+  my.ast = ast
+}
+
+m.prototype.write = {
+  my.process my.ast
+}
+
+m.prototype.walk_sexps = { nodes |
+  w = my
+  nodes.map { n |
+    true? sexp?(n)
+      { w.process n }
+      { true? n.array?
+        { n.map { i | w.process i } }
+        { n }
+      }
+  }
+}
+
+m.prototype.unhandled = { node |
+  args = walk_sexps node.nodes
+  "#{node.name}(#{args.join(',')})"
+}
+
+m.walk :grammar { node |
+  w = my
+  "peg.new {\n#{node.nodes.map({ n | w.process n }).join("\n")}\n}"
+}
+
+m.walk :str { node |
+  "str(\"#{node.last}\")"
+}
+
+m.walk :regex { node |
+  "reg(/#{node.last}/)"
+}
+
+m.walk :rule_def { node |
+  "  set(:#{node.nodes.deq}, #{walk_sexps(node.nodes).join(',')})" 
+}
+
+m.walk :rule_ref { node |
+  "ref(:#{node.last})"
+}
+
+m.walk :label { node |
+  name = node.nodes.deq
+  "label(:#{name}, #{walk_sexps(node.nodes).join(',')})"
+}
+
+m.walk :seq { node |
+  l = node.nodes.last.name
+
+  true? l == :squish || { l == :action }
+  {
+    action = process node.nodes.pop
+    true? node.nodes.length == 1
+    { "action(#{walk_sexps(node.nodes).join(',')}, #{action})" }
+    { "action(seq(#{walk_sexps(node.nodes).join(',')}), #{action})" }
+  }
+  {
+    "seq(#{walk_sexps(node.nodes).join(', ')})"
+  }
+}
+
+m.walk :squish { node |
+  "{ my.squish #{node.last} }"
+}
+
+export m, :peg_writer

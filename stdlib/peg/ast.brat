@@ -35,15 +35,26 @@ ast :grammar {
 }
 
 ast :rule_def {
-  add_ast my.elements[-2], s[:rule_def, my.elements.first.text]
+  name = my.elements.deq.text
+  add_ast my, s[:rule_def, name]
 }
 
 ast :rule_list {
-  add_ast my, s[:any]
+  list = s[:any]
+  add_ast my, list
+
+  true? list.nodes.length == 1
+  { list.nodes.first }
+  { list }
 }
 
 ast :rule_seq {
-  add_ast my, s[:seq]
+  list = s[:seq]
+  add_ast my, list
+
+  true? list.nodes.length == 1
+  { list.nodes.first }
+  { list }
 }
 
 ast :str_lit {
@@ -51,7 +62,7 @@ ast :str_lit {
 }
 
 ast :rule_ref {
-  s[:rule_ref my.rule_name]
+  s[:rule_ref my.name.text]
 }
 
 ast :regex_rule {
@@ -59,7 +70,7 @@ ast :regex_rule {
 }
 
 ast :rule_label {
-  add_ast my.exp, s[:label, my.label_name.text]
+  add_ast my, s[:label, my.label_name.text]
 }
 
 ast :maybe_rule {
@@ -75,7 +86,7 @@ ast :kleene_rule {
 }
 
 ast :not_rule {
-  add_ast my, s[:not]
+  add_ast my, s[:no]
 }
 
 ast :and_rule {

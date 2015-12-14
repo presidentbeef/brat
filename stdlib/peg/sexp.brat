@@ -31,6 +31,10 @@ sexp.prototype.last = {
   my.nodes.last
 }
 
+sexp.prototype.map! = { block |
+  my.nodes.map! ->block
+}
+
 # Shared initializer for sexp types
 initializer = { nodes |
   my.nodes = nodes
@@ -65,6 +69,8 @@ make :rule_ref
 
 make :anything
 
+make :nothing
+
 make :regex
 
 make :label
@@ -75,7 +81,7 @@ make :kleene
 
 make :many
 
-make :not
+make :no
 
 make :and
 

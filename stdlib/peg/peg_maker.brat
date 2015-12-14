@@ -1,0 +1,37 @@
+include 'parser/walker'
+include 'peg/sexp'
+
+m = walker.new
+
+m.init = { ast |
+  my.ast = ast
+}
+
+m.prototype.replace_walk = { nodes |
+  w = my
+  nodes.map! { n |
+    true? sexp?(n)
+      { w.process n }
+      { true? n.array?
+        { n.map! { i |
+                  true? sexp?(i) { w.process i } { i }}
+        }
+        { n }
+      }
+  }
+}
+
+m.prototype.unhandled = { node |
+  p "Unhandled: #{node.name}"
+  replace_walk node
+  node
+}
+
+m.walk :not { node |
+  replace_walk node
+  true? node.last.name == :anything
+    { p :hi; s[:nothing] }
+    { node }
+}
+
+export m, :peg_maker
