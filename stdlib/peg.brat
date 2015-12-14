@@ -330,10 +330,20 @@ peg.prototype.set = { name, rule |
   my.named_rules[name] = ->rule
 }
 
+anything_matcher = { x |
+  true? x.end?
+    { false }
+    {
+      cur = x.pos
+      res = x.str[x.pos]
+      x.pos = x.pos + 1
+      peg.make_result cur, x.pos, res
+    }
+}
+
 #Matches one of anything.
-#Shortcut for peg.reg /./m
 peg.prototype.anything = {
-  reg /./m
+  make_rule ->anything_matcher
 }
 
 ref_matcher = { x, rules, name |
