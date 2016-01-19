@@ -2294,21 +2294,19 @@ end
 --
 -- Destructively removes all null values for the array.
 function array_instance:compact_bang ()
-  local result = {}
   local len = self._length
   local a = self._lua_array
   local index = 1
   local i = 1
   while index <= len do
     if a[index] and a[index] ~= object.__null then
-      result[i] = a[index]
+      a[i] = a[index]
       i = i + 1
     end
     index = index + 1
   end
 
-  self._lua_array = result
-  self._length = #result
+  self._length = i - 1
 
   return self
 end
@@ -2523,11 +2521,6 @@ end
 --
 -- The second form removes any element for which the function returns true.
 function array_instance:reject_bang (block)
-  local k = 1
-  local i = 1
-  local len = self._length
-  local a = self._lua_array
-  local new_array = {}
   local f
 
   if is_callable(block) then
@@ -2546,17 +2539,20 @@ function array_instance:reject_bang (block)
     end
   end
 
+  local k = 1
+  local i = 1
+  local len = self._length
+  local a = self._lua_array
   while k <= len do
     if not is_true(f(self, a[k])) then
-      new_array[i] = a[k]
+      a[i] = a[k]
       i = i + 1
     end
 
     k = k + 1
   end
 
-  self._lua_array = new_array
-  self._length = #new_array
+  self._length = i - 1
 
   return self
 end
@@ -2609,11 +2605,6 @@ end
 --
 -- The second form removes all items for which block returned false.
 function array_instance:select_bang (block)
-  local k = 1
-  local i = 1
-  local len = self._length
-  local a = self._lua_array
-  local new_array = {}
   local f
 
   if is_callable(block) then
@@ -2632,17 +2623,20 @@ function array_instance:select_bang (block)
     end
   end
 
+  local len = self._length
+  local a = self._lua_array
+  local k = 1
+  local i = 1
   while k <= len do
     if is_true(f(self, a[k])) then
-      new_array[i] = a[k]
+      a[i] = a[k]
       i = i + 1
     end
 
     k = k + 1
   end
 
-  self._lua_array = new_array
-  self._length = #new_array
+  self._length = i - 1
 
   return self
 end
@@ -2859,10 +2853,6 @@ end
 -- Invokes the block for each element in the array and replaces that element
 -- with the result.
 function array_instance:map_bang (block)
-  local k = 1
-  local len = self._length
-  local a = self._lua_array
-
   if type(block) == "table" and block._lua_string then
     local method = to_identifier(block._lua_string)
     block = function(_self, item)
@@ -2874,6 +2864,10 @@ function array_instance:map_bang (block)
       end
     end
   end
+
+  local k = 1
+  local len = self._length
+  local a = self._lua_array
 
   while k <= len do
     if a[k] == nil then
