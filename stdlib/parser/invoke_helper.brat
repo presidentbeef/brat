@@ -386,4 +386,69 @@ h.get_method = { target, name, res_var |
   "
 }
 
+process_if_branch = { node, var = null |
+  w = my
+  my.env.new_scope
+
+  res = set_result var
+  res.out << "do\n"
+  action = get_action(res.var)
+
+  body = node.body.copy
+  last = body.pop
+
+  body_res = body.map({ n | w.process(n, '_dummy').out }).join("\n")
+  res.out << body_res
+
+  true? last
+   {
+     last_res = my.process last
+     res.out << last_res.out << "\n" << "#{action} #{last_res.var}\n"
+   }
+   {
+     true? body.empty?
+       { res.out << "#{action} object:null()" }
+   }
+
+  my.env.pop_scope
+  res.out << "\nend\n"
+  res
+}
+
+
+
+h.true_if = { node, var |
+   res = set_result var
+   condition = process node.args[0]
+   action = get_action(res.var)
+   true_branch = true? node.args[1]
+                   { process_if_branch(node.args[1]) }
+                   { set_result(null, "object.__true") }
+
+   false_branch = true? node.args[2]
+                   { process_if_branch(node.args[2]) }
+                   { set_result(null, "object.__false") }
+
+   res.out << "
+
+   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('#{node.method}') then
+     #{condition.out}
+     if object._is_callable(#{condition.var}) then
+       #{condition.var} = #{condition.var}(_self)
+     end
+
+     if object._is_true(#{condition.var}) then
+      #{true_branch.out}
+      #{action} #{true_branch.var}
+     else
+      #{false_branch.out}
+      #{action} #{false_branch.var}
+     end
+   else
+     #{invoke(node, null, ->invoke_self, var).out}
+   end
+   "
+   res
+}
+
 export h, :invoke_helper

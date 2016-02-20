@@ -721,8 +721,9 @@ function object:_3_true_question (condition, true_branch, false_branch)
 end
 
 local object_native_methods = {
-  true_question = object.true_question; 
+  true_question = object.true_question;
   false_question = object.false_question;
+  null_question = object.null_question;
 }
 
 object._unchanged = function (method)
