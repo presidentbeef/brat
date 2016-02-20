@@ -205,7 +205,9 @@ c.walk :liftable_function { node, var = null |
 
   args = do_args node
 
-  res = set_result "_lifted[#{my.next_liftable}]", "function(_argtable, #{args[:arg_list]})"
+  res = true? node.upvars,
+          { set_result "_lifted[#{my.next_liftable}]", "function(_argtable, #{args[:arg_list]})" }
+          { set_result "_lifted[#{my.next_liftable}]", "function(#{args[:arg_list]})" } # just _self and real args
   true? node.upvars
     {
       res.out << node.upvars.map({ u |
@@ -241,7 +243,7 @@ c.walk :liftable_function { node, var = null |
       "_lifted_call(#{res.var}, {})"
     }
     {
-      "_lifted_call(#{res.var})"
+      res.var
     }
 
   lifted = set_result var, lifted_call
