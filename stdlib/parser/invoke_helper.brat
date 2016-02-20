@@ -3,7 +3,7 @@ h = object.new
 eb = { s | s.sub(/[\\]/, "\\\\") }
 
 h.callable? = { name |
-  "_type(#{name}) == \"function\" or (_type(#{name}) == \"table\" and _rawget(#{name}, \"__call_thing\"))"
+  "object._is_callable(#{name})"
 }
 
 h.get_action = { res_var |
