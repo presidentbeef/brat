@@ -70,7 +70,6 @@ inlineable? = { n |
 }
 
 c.walk :invoke_self { node, var = null |
-  p node
   true? conds.include?(node.method) && { inlineable?(node.args[1]) && { inlineable?(node.args[2]) }}
     {
       true_if(node, var)

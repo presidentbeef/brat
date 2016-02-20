@@ -429,13 +429,19 @@ h.true_if = { node, var |
                    { process_if_branch(node.args[2]) }
                    { set_result(null, "object.__false") }
 
-   res.out << "
+   #TODO: yeck
+   call_cond = true? node.args[0].has_method?(:name) && {node.args[0].name == :number}
+                { '' }
+                { "if object._is_callable(#{condition.var}) then
+                    #{condition.var} = #{condition.var}(_self)
+                   end"
+                }
+ 
 
+   res.out << "
    if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('#{node.method}') then
      #{condition.out}
-     if object._is_callable(#{condition.var}) then
-       #{condition.var} = #{condition.var}(_self)
-     end
+     #{call_cond}
 
      if object._is_true(#{condition.var}) then
       #{true_branch.out}
@@ -444,7 +450,7 @@ h.true_if = { node, var |
       #{false_branch.out}
       #{action} #{false_branch.var}
      end
-   else
+   else -- slow condition
      #{invoke(node, null, ->invoke_self, var).out}
    end
    "

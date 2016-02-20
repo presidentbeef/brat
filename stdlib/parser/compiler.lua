@@ -5438,53 +5438,6 @@ if _temp125 == nil then
 end
 end
 
-local _temp127 = nil
-    if _type(_temp126) == "function" or (_type(_temp126) == "table" and _rawget(_temp126, "__call_thing")) then
-      _temp127 =  _temp126(_self)
-
-    elseif _temp126 then
-      _temp127 =  _temp126
-    else
-            if _type(_self.node) == "function" or (_type(_self.node) == "table" and _rawget(_self.node, "__call_thing")) then
-        _temp127 =  _self:node()
-      elseif _self.node ~= nil then
-        _temp127 =  _self.node
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _temp127 =  _self:no_undermethod(string:new("node"))
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _temp127 =  no_undermethod(_self, string:new("node"))
-      else
-        _error(exception:name_error("node"))
-      end
-    end
-
-    if _type(p) == "function" or (_type(p) == "table" and _rawget(p, "__call_thing")) then
-      _dummy_ =  p(_self, _temp127)
-
-    elseif p then
-      _error(exception:new("Tried to invoke non-method: p (" .. object.__type(p) .. ")"))
-    else
-            if _type(_self.p) == "function" or (_type(_self.p) == "table" and _rawget(_self.p, "__call_thing")) then
-        _dummy_ =  _self:p(_temp127)
-      elseif _self.p ~= nil then
-        _dummy_ =  _self.p
-
-      elseif _type(_self) == "number" then
-        --I don't believe this will happen
-        _error("WHAT. No.")
-      elseif _self.no_undermethod ~= nil then
-        _dummy_ =  _self:no_undermethod(string:new("p") , _temp127)
-      elseif _type(no_undermethod) == "function" or (_type(no_undermethod) == "table" and _rawget(no_undermethod, "__call_thing")) then
-        _dummy_ =  no_undermethod(_self, string:new("p") , _temp127)
-      else
-        _error(exception:name_error("p"))
-      end
-    end
-
 local _temp127 
 do
 local _temp128 = nil
