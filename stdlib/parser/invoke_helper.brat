@@ -436,8 +436,9 @@ h.true_if = { node, var |
                     #{condition.var} = #{condition.var}(_self)
                    end"
                 }
- 
 
+   regular = invoke(node, null, ->invoke_self, res.var)
+ 
    res.out << "
    if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('#{node.method}') then
      #{condition.out}
@@ -450,8 +451,9 @@ h.true_if = { node, var |
       #{false_branch.out}
       #{action} #{false_branch.var}
      end
-   else -- slow condition
-     #{invoke(node, null, ->invoke_self, var).out}
+   else
+     #{regular.out}
+     #{action} #{regular.var}
    end
    "
    res
