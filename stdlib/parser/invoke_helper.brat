@@ -386,7 +386,7 @@ h.get_method = { target, name, res_var |
   "
 }
 
-process_if_branch = { node, var = null |
+process_if_branch = { node, var |
   w = my
   my.env.new_scope
 
@@ -415,19 +415,18 @@ process_if_branch = { node, var = null |
   res
 }
 
-
-
-h.true_if = { node, var |
-   res = set_result var
+h.true_if = { node, ignored |
+   res = set_result
    condition = process node.args[0]
    action = get_action(res.var)
+   p "args are #{node.args}"
    true_branch = true? node.args[1]
-                   { process_if_branch(node.args[1]) }
-                   { set_result(null, "object.__true") }
+                   { process_if_branch(node.args[1], res.var) }
+                   { set_result(res.var, "object.__true") }
 
    false_branch = true? node.args[2]
-                   { process_if_branch(node.args[2]) }
-                   { set_result(null, "object.__false") }
+                   { process_if_branch(node.args[2], res.var) }
+                   { set_result(res.var, "object.__false") }
 
    #TODO: yeck
    call_cond = true? node.args[0].has_method?(:name) && {node.args[0].name == :number}
@@ -441,8 +440,10 @@ h.true_if = { node, var |
  
    res.out << "
    if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('#{node.method}') then
+     -- yay if my var is #{res.var}
      #{condition.out}
      #{call_cond}
+     -- end condition
 
      if object._is_true(#{condition.var}) then
       #{true_branch.out}
@@ -451,6 +452,7 @@ h.true_if = { node, var |
       #{false_branch.out}
       #{action} #{false_branch.var}
      end
+     -- end yay if
    else
      #{regular.out}
      #{action} #{regular.var}
