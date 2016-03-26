@@ -461,4 +461,96 @@ h.true_if = { node, ignored |
    res
 }
 
+h.false_if = { node, ignored |
+   res = set_result
+   condition = process node.args[0]
+   action = get_action(res.var)
+
+   false_branch = true? node.args[1]
+                   { process_if_branch(node.args[1], res.var) }
+                   { set_result(res.var, "object.__true") }
+
+   true_branch = true? node.args[2]
+                   { process_if_branch(node.args[2], res.var) }
+                   { set_result(res.var, "object.__false") }
+
+   #TODO: yeck
+   call_cond = true? node.args[0].has_method?(:name) && {node.args[0].name == :number}
+                { '' }
+                { "if object._is_callable(#{condition.var}) then
+                    #{condition.var} = #{condition.var}(_self)
+                   end"
+                }
+
+   regular = invoke(node, null, ->invoke_self, res.var)
+ 
+   res.out << "
+   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('#{node.method}') then
+     -- yay if my var is #{res.var}
+     #{condition.out}
+     #{call_cond}
+     -- end condition
+
+     if object._is_true(#{condition.var}) then
+      #{true_branch.out}
+      #{action} #{true_branch.var}
+     else
+      #{false_branch.out}
+      #{action} #{false_branch.var}
+     end
+     -- end yay if
+   else
+     #{regular.out}
+     #{action} #{regular.var}
+   end
+   "
+   res
+}
+
+h.null_if = { node, ignored |
+   res = set_result
+   condition = process node.args[0]
+   action = get_action(res.var)
+
+   true_branch = true? node.args[1]
+                   { process_if_branch(node.args[1], res.var) }
+                   { set_result(res.var, "object.__true") }
+
+   false_branch = true? node.args[2]
+                   { process_if_branch(node.args[2], res.var) }
+                   { set_result(res.var, "object.__false") }
+
+   #TODO: yeck
+   call_cond = true? node.args[0].has_method?(:name) && {node.args[0].name == :number}
+                { '' }
+                { "if object._is_callable(#{condition.var}) then
+                    #{condition.var} = #{condition.var}(_self)
+                   end"
+                }
+
+   regular = invoke(node, null, ->invoke_self, res.var)
+ 
+   res.out << "
+   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('#{node.method}') then
+     -- yay if my var is #{res.var}
+     #{condition.out}
+     #{call_cond}
+     -- end condition
+
+     if #{condition.var} == object.__null or #{condition.var} == nil then
+      #{true_branch.out}
+      #{action} #{true_branch.var}
+     else
+      #{false_branch.out}
+      #{action} #{false_branch.var}
+     end
+     -- end yay if
+   else
+     #{regular.out}
+     #{action} #{regular.var}
+   end
+   "
+   res
+}
+
 export h, :invoke_helper

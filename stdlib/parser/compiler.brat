@@ -64,15 +64,21 @@ c.walk :invoke_up { node, var = null |
   invoke node, null, ->invoke_local, var
 }
 
-conds = [:true_question]
+conds = [:true_question, :false_question, :null_question]
 inlineable? = { n |
   n.null? || { n.name == 'function' || { n.name == 'liftable_function' }}
 }
 
 c.walk :invoke_self { node, var = null |
-  true? conds.include?(node.method) && { inlineable?(node.args[1]) && { inlineable?(node.args[2]) }}
+  meth = node.method
+  true? conds.include?(meth) && { inlineable?(node.args[1]) && { inlineable?(node.args[2]) }}
     {
-      true_if(node, var)
+      true? meth == :true_question
+        { true_if(node, var) }
+        { true? meth == :false_question
+          { false_if(node, var) }
+          { null_if(node, var) }
+        }
     }
     {
       invoke node, null, ->invoke_self, var
