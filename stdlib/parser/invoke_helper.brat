@@ -419,7 +419,7 @@ h.true_if = { node, ignored |
    res = set_result
    condition = process node.args[0]
    action = get_action(res.var)
-   p "args are #{node.args}"
+
    true_branch = true? node.args[1]
                    { process_if_branch(node.args[1], res.var) }
                    { set_result(res.var, "object.__true") }
