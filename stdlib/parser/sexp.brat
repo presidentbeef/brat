@@ -12,9 +12,9 @@ sexp.prototype.to_s = {
 }
 
 sexp.prototype.== = { rhs |
-  my = my
+  m = my
   true? rhs.has_method?(:name) && rhs.has_method?(:nodes)
-    { my.name == rhs.name && { my.nodes == rhs.nodes } }
+    { m.name == rhs.name && { m.nodes == rhs.nodes } }
 }
 
 sexp.prototype.<< = { val |
