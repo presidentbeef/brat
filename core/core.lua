@@ -720,6 +720,16 @@ function object:_3_true_question (condition, true_branch, false_branch)
   end
 end
 
+local object_native_methods = {
+  true_question = object.true_question;
+  false_question = object.false_question;
+  null_question = object.null_question;
+}
+
+object._unchanged = function (method)
+  return object_native_methods[method] == object[method]
+end
+
 -- Object: object instance
 -- Call: object.false?
 -- Call: false? condition

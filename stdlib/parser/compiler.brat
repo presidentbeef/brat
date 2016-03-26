@@ -64,8 +64,25 @@ c.walk :invoke_up { node, var = null |
   invoke node, null, ->invoke_local, var
 }
 
+conds = [:true_question, :false_question, :null_question]
+inlineable? = { n |
+  n.null? || { n.name == 'function' || { n.name == 'liftable_function' }}
+}
+
 c.walk :invoke_self { node, var = null |
-  invoke node, null, ->invoke_self, var
+  meth = node.method
+  true? conds.include?(meth) && { inlineable?(node.args[1]) && { inlineable?(node.args[2]) }}
+    {
+      true? meth == :true_question
+        { true_if(node, var) }
+        { true? meth == :false_question
+          { false_if(node, var) }
+          { null_if(node, var) }
+        }
+    }
+    {
+      invoke node, null, ->invoke_self, var
+    }
 }
 
 c.walk :invoke_index_get { node, var = null |
@@ -205,7 +222,9 @@ c.walk :liftable_function { node, var = null |
 
   args = do_args node
 
-  res = set_result "_lifted[#{my.next_liftable}]", "function(_argtable, #{args[:arg_list]})"
+  res = true? node.upvars,
+          { set_result "_lifted[#{my.next_liftable}]", "function(_argtable, #{args[:arg_list]})" }
+          { set_result "_lifted[#{my.next_liftable}]", "function(#{args[:arg_list]})" } # just _self and real args
   true? node.upvars
     {
       res.out << node.upvars.map({ u |
@@ -241,7 +260,7 @@ c.walk :liftable_function { node, var = null |
       "_lifted_call(#{res.var}, {})"
     }
     {
-      "_lifted_call(#{res.var})"
+      res.var
     }
 
   lifted = set_result var, lifted_call

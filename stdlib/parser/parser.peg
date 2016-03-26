@@ -167,9 +167,9 @@ inner_arg_next = arg_next
 
 #-- Spaces
 
-spaceorbreak = space? eol? space?
+spaceorbreak = space? eol? (comment eol)* space?
 
-eol_not_semicolon = ("\n" | "\r\n")
+eol_not_semicolon = ("\n" | "\r\n")+ | comment
 
 space   = /(?: |\t)+/
 

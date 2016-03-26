@@ -193,7 +193,7 @@ ast :simple_call {
   add_ast my.alist, args
 
   var = to_id my.m_name.text
-
+ 
   true? args.empty?
   {
     true? my.alist.text.empty? # simple call with no args and no parens
@@ -386,6 +386,7 @@ ast :index_get {
    })
 
   args = add_ast(my.iargs, []).first
+
 
   true? list.args.length == 1 && { list.args.first.name == :simple_string }
     { list.name = :simple_index_get }
