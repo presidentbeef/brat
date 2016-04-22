@@ -4602,10 +4602,13 @@ end
 --
 -- A limit can be used to limit how many replacements are made.
 function string_instance:sub (pattern, replacement, limit)
+  local pattern_type
   if type(pattern) == "table" then
     if pattern._lua_string then
-      error("Not accepting strings yet")
+      pattern_type = "string"
+      pattern = pattern._lua_string
     elseif pattern._lua_regex then
+      pattern_type = "regex"
       pattern = pattern._lua_regex
     else
       error(exception:argument_error("string.sub", "regular expression", tostring(pattern)))
@@ -4643,7 +4646,14 @@ function string_instance:sub (pattern, replacement, limit)
     error(exception:argument_error("string.sub", "string", tostring(replacement)))
   end
 
-  local ns = orex.gsub(self._lua_string, pattern, replacement, limit)
+
+  local ns
+  if pattern_type == "regex" then
+    ns = orex.gsub(self._lua_string, pattern, replacement, limit)
+  else
+    ns = self._lua_string:gsub(pattern, replacement, limit)
+  end
+
   return base_string:new(ns)
 end
 
