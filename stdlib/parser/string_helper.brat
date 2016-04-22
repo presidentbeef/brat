@@ -20,7 +20,7 @@ op_escape = [ "!" : "_bang",
           "$" : "_dollar" ]
 
 escape_op = { input |
-  input.sub "[!?*+^@/\\><$_%|&=~-]", { o |
+  input.sub "[!?*+^@/\\><$_%%|&=~-]", { o |
     op_escape[o]
   }
 }
