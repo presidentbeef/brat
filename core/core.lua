@@ -128,19 +128,25 @@ local unescape_ops = { ["bang"] = "!",
 
 local esc_symbols = orex.new("!=|>=|<=|\\||[!?\\-*+^@~\\/\\\\><$_%|&=]")
 local esc_keywords = orex.new("\\b(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\\b")
+local underscore = function (word)
+  return "__" .. word
+end
 
 local escape_identifier = function (name)
   name = orex.gsub(name, esc_symbols, escape_ops)
-  name = orex.gsub(name, esc_keywords, function (word) return "__" .. word end)
+  name = orex.gsub(name, esc_keywords, underscore)
 
   return name
 end
 
 local unesc_symbols = orex.new("_(bang|star|minus|plus|or|and|at|tilde|up|forward|back|question|less|greater|equal|percent|under|dollar)")
 local unesc_keywords = orex.new("__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)")
+local ununderscore = function (word)
+  string.sub(word, 1)
+end
 
 local unescape_identifier = function (name)
-  name = orex.gsub(name, unesc_keywords, function (word) return string.sub(word, 1) end)
+  name = orex.gsub(name, unesc_keywords, ununderscore)
   name = orex.gsub(name, unesc_symbols, unescape_ops)
 
   return name
