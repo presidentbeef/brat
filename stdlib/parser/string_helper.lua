@@ -371,7 +371,7 @@ local _temp8
       _error(exception:name_error("input"))
     end
     
-local _temp10 = regex:new("([!?\\-*+^@~\\/\\\\><$_%|&=~])", "")
+local _temp10 = string:new("[!?*+^@/\\><$_%|&=~-]")
 
 
 local _temp15 = _lifted_call(_lifted[1], {})
