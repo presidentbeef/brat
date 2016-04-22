@@ -806,7 +806,7 @@ local _temp59
 local _temp61 = regex:new("\\n", "")
 
 
-local _temp62 = string:new('\n')
+local _temp62 = string:new('\\n')
 
 if _type(_temp59) == 'number' then
       _temp59 = number:new(_temp59)
