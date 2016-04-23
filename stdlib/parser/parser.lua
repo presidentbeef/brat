@@ -4514,7 +4514,7 @@ _temp24 = _lifted[4]
   end
   
 
-_temp18 = string:new('unary_operation')
+_temp18 = string:new('method_access')
 
 
   if ref then
@@ -4541,7 +4541,7 @@ _temp18 = string:new('unary_operation')
   end
   
 
-_temp9 = string:new('method_access')
+_temp9 = string:new('method_invocation')
 
 
   if ref then
@@ -4568,7 +4568,7 @@ _temp9 = string:new('method_access')
   end
   
 
-_temp23 = string:new('method_invocation')
+_temp23 = string:new('number')
 
 
   if ref then
@@ -4595,7 +4595,7 @@ _temp23 = string:new('method_invocation')
   end
   
 
-_temp22 = string:new('number')
+_temp22 = string:new('string')
 
 
   if ref then
@@ -4622,7 +4622,7 @@ _temp22 = string:new('number')
   end
   
 
-_temp25 = string:new('string')
+_temp25 = string:new('function_definition')
 
 
   if ref then
@@ -4649,7 +4649,7 @@ _temp25 = string:new('string')
   end
   
 
-local _temp32 = string:new('function_definition')
+local _temp32 = string:new('array')
 
 
   if ref then
@@ -4676,7 +4676,7 @@ local _temp32 = string:new('function_definition')
   end
   
 
-local _temp33 = string:new('array')
+local _temp33 = string:new('hash')
 
 
   if ref then
@@ -4703,7 +4703,7 @@ local _temp33 = string:new('array')
   end
   
 
-local _temp34 = string:new('hash')
+local _temp34 = string:new('unary_operation')
 
 
   if ref then
@@ -6803,7 +6803,7 @@ _temp32 = string:new('paren_exp')
   end
   
 
-_temp23 = string:new('unary_operation')
+_temp23 = string:new('method_invocation')
 
 
   if ref then
@@ -6830,7 +6830,7 @@ _temp23 = string:new('unary_operation')
   end
   
 
-_temp22 = string:new('method_invocation')
+_temp22 = string:new('string')
 
 
   if ref then
@@ -6857,7 +6857,7 @@ _temp22 = string:new('method_invocation')
   end
   
 
-_temp18 = string:new('string')
+_temp18 = string:new('unary_operation')
 
 
   if ref then
@@ -18920,7 +18920,7 @@ _temp18 = string:new('regex')
   end
   
 
-_temp32 = string:new('unary_operation')
+_temp32 = string:new('number')
 
 
   if ref then
@@ -18947,7 +18947,7 @@ _temp32 = string:new('unary_operation')
   end
   
 
-_temp19 = string:new('number')
+_temp19 = string:new('method_invocation')
 
 
   if ref then
@@ -18974,7 +18974,7 @@ _temp19 = string:new('number')
   end
   
 
-_temp25 = string:new('method_invocation')
+_temp25 = string:new('unary_operation')
 
 
   if ref then

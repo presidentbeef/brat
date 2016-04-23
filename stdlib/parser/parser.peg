@@ -10,9 +10,9 @@ empty_line = space? eol
 expression = regex | binary_operation
            | index_set | index_get | assignment
            | paren_exp !(/\.|\(|->/) <simple_exp>
-           | unary_operation
            | method_access | method_invocation | number | string
            | function_definition | array | hash
+           | unary_operation
 
 paren_exp  = "(" space? exp:expression space? ")" <simple_exp>
 
@@ -26,7 +26,7 @@ index_set = indexed_expression sindexes:("[" expression "]")+ space? "=" spaceor
 
 index_get = indexed_expression gindexes:("[" index_inner_arg_list "]")+ !"." iargs:simple_arg_list? <index_get>
 
-indexed_expression = array | hash | paren_exp | unary_operation | method_invocation | string
+indexed_expression = array | hash | paren_exp | method_invocation | string | unary_operation
 
 method_access = "->" meth:(identifier | operator) !"." <simple_meth_access>
               | target:method_invocation "->" meth:(identifier | operator) <meth_access>
@@ -99,7 +99,7 @@ binary_operation = binary_operation_chain expression <binary_op>
 
 binary_operation_chain = (binary_lhs_expression space operator ((space? eol space?) | space))+ <binary_op_chain>
 
-binary_lhs_expression = simple_method_chain | index_get | paren_exp | string | array | hash | regex | unary_operation | number | method_invocation
+binary_lhs_expression = simple_method_chain | index_get | paren_exp | string | array | hash | regex | number | method_invocation | unary_operation
 
 #-- Basic building blocks
 
