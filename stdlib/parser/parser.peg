@@ -2,10 +2,10 @@ program = line+ <program>
         | eof <program>
 
 line = comment
-     | space? exp:expression space? comment? (eof | eol | eob) <simple_exp>
+     | opt_space exp:expression opt_space comment? (eof | eol | eob) <simple_exp>
      | empty_line
 
-empty_line = space? eol
+empty_line = opt_space eol
 
 expression = regex | binary_operation
            | index_set | index_get | assignment
@@ -14,7 +14,7 @@ expression = regex | binary_operation
            | function_definition | array | hash
            | unary_operation
 
-paren_exp  = "(" space? exp:expression space? ")" <simple_exp>
+paren_exp  = "(" opt_space exp:expression opt_space ")" <simple_exp>
 
 assignment = field_access space "=" spaceorbreak (function_definition | method_access) <field_assign>
            | field_access space "=" spaceorbreak expression <field_assign>
@@ -22,7 +22,7 @@ assignment = field_access space "=" spaceorbreak (function_definition | method_a
 
 field_access = method_chain (identifier | operator) <field_access>
 
-index_set = indexed_expression sindexes:("[" expression "]")+ space? "=" spaceorbreak expression <index_set>
+index_set = indexed_expression sindexes:("[" expression "]")+ opt_space "=" spaceorbreak expression <index_set>
 
 index_get = indexed_expression gindexes:("[" index_inner_arg_list "]")+ !"." iargs:simple_arg_list? <index_get>
 
@@ -42,7 +42,7 @@ array   = "[" spaceorbreak inner:array_inner spaceorbreak "]" <barray>
 
 array_inner = first:expression rest:(((spaceorbreak "," spaceorbreak) | (space | eol | comment)+) expression)* <array_inner>
 
-hash    = "[" space? ":" space? "]" <empty_hash>
+hash    = "[" opt_space ":" opt_space "]" <empty_hash>
         | "[" spaceorbreak inner:hash_inner spaceorbreak "]" <bhash>
 
 hash_inner = first:hash_argument rest:(((spaceorbreak "," spaceorbreak) | ((space | eol | comment)+)) hash_argument)* <array_inner>
@@ -57,31 +57,31 @@ string  = ("''" | "\"\"") <empty_string>
         | "'" svalue:("\\'" | "\\\\" | !"'" .)+ "'" <simple_string>
         | ":" svalue:(identifier | operator | number)+ <simple_string>
 
-string_interpolation = "#" "{" space? first:expression? space? rest:(eol space? expression space?)* spaceorbreak "}" <interp_value>
+string_interpolation = "#" "{" opt_space first:expression? opt_space rest:(eol opt_space expression space?)* spaceorbreak "}" <interp_value>
 
-comment = space? "#*" (!"*#" (comment | .))* ("*#" | eof)
-        | space? "#" (!(eol | eof) .)*
+comment = opt_space "#*" (!"*#" (comment | .))* ("*#" | eof)
+        | opt_space "#" (!(eol | eof) .)*
 
 #-- Function definitions
 
-function_definition = "{" space? args:formal_args? space? body:line* space? "}" <bfunction>
+function_definition = "{" opt_space args:formal_args? opt_space body:line* opt_space "}" <bfunction>
 
-formal_args = space? plain_formals space? "|" !"|"
-            | space? default_args space? "|" !"|"
-            | space? variable_args space? "|" !"|"
-            | space? plain_formals space? "," space? variable_args space? "|" !"|"
-            | space? default_args space? "," space? variable_args space? "|" !"|"
-            | space? plain_formals space? "," space? default_args space? "," space? variable_args space? "|" !"|"
-            | space? plain_formals space? "," space? default_args space? "|" !"|"
+formal_args = opt_space plain_formals opt_space "|" !"|"
+            | opt_space default_args opt_space "|" !"|"
+            | opt_space variable_args opt_space "|" !"|"
+            | opt_space plain_formals opt_space "," opt_space variable_args opt_space "|" !"|"
+            | opt_space default_args opt_space "," opt_space variable_args opt_space "|" !"|"
+            | opt_space plain_formals opt_space "," opt_space default_args opt_space "," opt_space variable_args opt_space "|" !"|"
+            | opt_space plain_formals opt_space "," opt_space default_args opt_space "|" !"|"
             | "|"
 
 plain_formals = plain_arg rest:rest_formals
 
-rest_formals = (space? "," space? plain_arg !(space "="))*
+rest_formals = (space? "," opt_space plain_arg !(space "="))*
 
 plain_arg = identifier <plain_arg>
 
-default_args = default_arg (space? "," space? default_args)*
+default_args = default_arg (space? "," opt_space default_args)*
 
 default_arg = arg_var:identifier space "=" space arg_val:default_arg_rhs_expression <default_arg>
 
@@ -126,8 +126,8 @@ function_literal_invocation = func:function_definition alist:simple_arg_list <fu
 
 method_chain = (method_lhs ".")+ <method_chain>
 
-method_lhs = var:identifier !space args:arg_list ("[" space? index_args:inner_arg_list space? "]")* <simple_meth_lhs>
-           | target:array indexes:("[" space? index_args:inner_arg_list space? "]")+ <array_index_lhs>
+method_lhs = var:identifier !space args:arg_list ("[" opt_space index_args:inner_arg_list opt_space "]")* <simple_meth_lhs>
+           | target:array indexes:("[" opt_space index_args:inner_arg_list opt_space "]")+ <array_index_lhs>
            | function_definition !space simple_arg_list
            | function_definition &"."
            | "->" var:identifier <access_meth_lhs>
@@ -137,13 +137,13 @@ method_target_expression = array | hash | paren_exp | number | string | regex | 
 
 #-- Argument lists
 
-arg_list = "(" space? inner_arg_list space? ")"
-         | "(" space? ")"
+arg_list = "(" opt_space inner_arg_list opt_space ")"
+         | "(" opt_space ")"
          | space inner_arg_list
          | !"(" &(space?)
 
-simple_arg_list = "(" space? inner_arg_list space? ")"
-                | "(" space? ")"
+simple_arg_list = "(" opt_space inner_arg_list opt_space ")"
+                | "(" opt_space ")"
 
 inner_arg_list = arg_first arg_next* <inner_arg_list>
 
@@ -154,7 +154,7 @@ arg_space = (space | eol_not_semicolon)
 arg_next = arg_space* "," arg_space* arg_first
          | arg_space+ function_definition
          | arg_space+ named_argument
-         | space? expression
+         | opt_space expression
 
 named_argument = key:identifier ":" spaceorbreak value:expression <named_argument>
                | key:string ":" spaceorbreak value:expression <named_argument>
@@ -167,14 +167,16 @@ inner_arg_next = arg_next
 
 #-- Spaces
 
-spaceorbreak = space? eol? (comment eol)* space?
+spaceorbreak = opt_space eol? (comment eol)* space?
 
 eol_not_semicolon = ("\n" | "\r\n")+ | comment
+
+opt_space = /(?: |\t)*/
 
 space   = /(?: |\t)+/
 
 eol     = /(?:\n|;|\r\n)+/
 
-eob     = space? &"}" space?
+eob     = opt_space &"}" space?
 
 eof     = (eol | space)? !.
