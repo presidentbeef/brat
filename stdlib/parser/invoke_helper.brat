@@ -1,6 +1,6 @@
 h = object.new
 
-eb = { s | s.sub(/[\\]/, "\\\\") }
+eb = { s | s.sub("\\", "\\\\") }
 
 h.callable? = { name |
   "object._is_callable(#{name})"

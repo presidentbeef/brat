@@ -76,111 +76,111 @@ return _temp13
 end
 
 
-_lifted[2] = function(_self, _temp21)
+_lifted[2] = function(_self, _temp22)
 
-      if _temp21 == nil then
+      if _temp22 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
-local _temp23
-
-local _temp22 = string:new("_")
-
 local _temp24
 
-    if object._is_callable(_temp21) then
-      _temp24 =  _temp21(_self)
+local _temp23 = string:new("_")
 
-    elseif _temp21 then
-      _temp24 =  _temp21
+local _temp25
+
+    if object._is_callable(_temp22) then
+      _temp25 =  _temp22(_self)
+
+    elseif _temp22 then
+      _temp25 =  _temp22
     else
       _error(exception:name_error("m"))
     end
     
-if _type(_temp22) == 'number' then
-      _temp22 = number:new(_temp22)
-    elseif object._is_callable(_temp22) then
-      _temp22 = brat_function:new(_temp22)
+if _type(_temp23) == 'number' then
+      _temp23 = number:new(_temp23)
+    elseif object._is_callable(_temp23) then
+      _temp23 = brat_function:new(_temp23)
     end
     
-      local _m = _temp22._plus
+      local _m = _temp23._plus
       if object._is_callable(_m) then
-        _temp23 =  _m(_temp22, _temp24)
+        _temp24 =  _m(_temp23, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp22.no_undermethod then
-        _temp23 =  _temp22:no_undermethod(string:new('+'), _temp24)
+      elseif _temp23.no_undermethod then
+        _temp24 =  _temp23:no_undermethod(string:new('+'), _temp25)
       else
-        _error(exception:method_error(_temp22, '_plus'))
+        _error(exception:method_error(_temp23, '_plus'))
       end
     
-return _temp23
+return _temp24
 
 end
 
 
-_lifted[3] = function(_argtable, _self, _temp39)
-local _temp31 = _argtable['_temp31']
-      if _temp39 == nil then
+_lifted[3] = function(_argtable, _self, _temp41)
+local _temp32 = _argtable['_temp32']
+      if _temp41 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
-local _temp41
-
-local _temp40
-_temp40 =  _temp31
+local _temp43
 
 local _temp42
+_temp42 =  _temp32
 
-    if object._is_callable(_temp39) then
-      _temp42 =  _temp39(_self)
+local _temp44
 
-    elseif _temp39 then
-      _temp42 =  _temp39
+    if object._is_callable(_temp41) then
+      _temp44 =  _temp41(_self)
+
+    elseif _temp41 then
+      _temp44 =  _temp41
     else
       _error(exception:name_error("m"))
     end
     
-if _type(_temp40) == 'number' then
-      _temp40 = number:new(_temp40)
-    elseif object._is_callable(_temp40) then
-      _temp40 = brat_function:new(_temp40)
+if _type(_temp42) == 'number' then
+      _temp42 = number:new(_temp42)
+    elseif object._is_callable(_temp42) then
+      _temp42 = brat_function:new(_temp42)
     end
     
-      local _m = _temp40.get
+      local _m = _temp42.get
       if object._is_callable(_m) then
-        _temp41 =  _m(_temp40, _temp42)
+        _temp43 =  _m(_temp42, _temp44)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp40.no_undermethod then
-        _temp41 =  _temp40:no_undermethod(string:new('get'), _temp42)
+      elseif _temp42.no_undermethod then
+        _temp43 =  _temp42:no_undermethod(string:new('get'), _temp44)
       else
-        _error(exception:method_error(_temp40, 'get'))
+        _error(exception:method_error(_temp42, 'get'))
       end
     
-return _temp41
+return _temp43
 
 end
 
 
-_lifted[4] = function(_self, _temp49)
+_lifted[4] = function(_self, _temp52)
 
-      if _temp49 == nil then
+      if _temp52 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
-local _temp50
+local _temp53
 
-    if object._is_callable(_temp49) then
-      _temp50 =  _temp49(_self)
+    if object._is_callable(_temp52) then
+      _temp53 =  _temp52(_self)
 
-    elseif _temp49 then
-      _temp50 =  _temp49
+    elseif _temp52 then
+      _temp53 =  _temp52
     else
       _error(exception:name_error("m"))
     end
     
-return _temp50
+return _temp53
 
 end
 
@@ -399,48 +399,61 @@ end
 
 local _temp16
 
-_temp16 = function(_self, _temp17)
+_temp16 = regex:new("\\A(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\\Z", "i")
 
-      if _temp17 == nil then
+local _temp17
+
+_temp17 = function(_self, _temp18)
+
+      if _temp18 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
+local _temp20
+
 local _temp19
 
-local _temp18
+    if object._is_callable(_temp18) then
+      _temp19 =  _temp18(_self)
 
-    if object._is_callable(_temp17) then
-      _temp18 =  _temp17(_self)
-
-    elseif _temp17 then
-      _temp18 =  _temp17
+    elseif _temp18 then
+      _temp19 =  _temp18
     else
       _error(exception:name_error("input"))
     end
     
-local _temp20 = regex:new("\\A(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\\Z", "i")
+local _temp21
 
+    if object._is_callable(_temp16) then
+      _temp21 =  _temp16(_self)
 
-local _temp25 = _lifted[2]
-
-if _type(_temp18) == 'number' then
-      _temp18 = number:new(_temp18)
-    elseif object._is_callable(_temp18) then
-      _temp18 = brat_function:new(_temp18)
+    elseif _temp16 then
+      _temp21 =  _temp16
+    else
+      _error(exception:name_error("kw_underescape"))
     end
     
-      local _m = _temp18.sub
+
+local _temp26 = _lifted[2]
+
+if _type(_temp19) == 'number' then
+      _temp19 = number:new(_temp19)
+    elseif object._is_callable(_temp19) then
+      _temp19 = brat_function:new(_temp19)
+    end
+    
+      local _m = _temp19.sub
       if object._is_callable(_m) then
-        _temp19 =  _m(_temp18, _temp20, _temp25)
+        _temp20 =  _m(_temp19, _temp21, _temp26)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp18.no_undermethod then
-        _temp19 =  _temp18:no_undermethod(string:new('sub'), _temp20, _temp25)
+      elseif _temp19.no_undermethod then
+        _temp20 =  _temp19:no_undermethod(string:new('sub'), _temp21, _temp26)
       else
-        _error(exception:method_error(_temp18, 'sub'))
+        _error(exception:method_error(_temp19, 'sub'))
       end
     
-return _temp19
+return _temp20
 
 end
 
@@ -455,278 +468,350 @@ end
     end
     
 
-local _temp27 = function(_self, _temp26)
+local _temp28 = function(_self, _temp27)
 
-      if _temp26 == nil then
+      if _temp27 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
-local _temp28
-
 local _temp29
 
 local _temp30
 
-    if object._is_callable(_temp26) then
-      _temp30 =  _temp26(_self)
+local _temp31
 
-    elseif _temp26 then
-      _temp30 =  _temp26
+    if object._is_callable(_temp27) then
+      _temp31 =  _temp27(_self)
+
+    elseif _temp27 then
+      _temp31 =  _temp27
     else
       _error(exception:name_error("identifier"))
     end
     
-_temp29 =  _temp6(_self, _temp30)
+_temp30 =  _temp6(_self, _temp31)
 
-_temp28 =  _temp16(_self, _temp29)
+_temp29 =  _temp17(_self, _temp30)
 
-return _temp28
+return _temp29
 
 end
 
     if _type(_temp5) == 'table' then
-      _temp5['escape_underidentifier'] = _temp27
+      _temp5['escape_underidentifier'] = _temp28
     else
       _error('Cannot set method on ' .. _temp5)
     end
     
-local _temp31
+local _temp32
 
-_temp31 = {}
+_temp32 = {}
 
 do
-local _temp32;local _temp33
+local _temp33;local _temp34
 
-_temp32 = string:new("bang")
+_temp33 = string:new("bang")
 
 
-_temp33 = string:new("!")
+_temp34 = string:new("!")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("star")
+_temp33 = string:new("star")
 
 
-_temp33 = string:new("*")
+_temp34 = string:new("*")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("minus")
+_temp33 = string:new("minus")
 
 
-_temp33 = string:new("-")
+_temp34 = string:new("-")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("plus")
+_temp33 = string:new("plus")
 
 
-_temp33 = string:new("+")
+_temp34 = string:new("+")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("or")
+_temp33 = string:new("or")
 
 
-_temp33 = string:new("|")
+_temp34 = string:new("|")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("and")
+_temp33 = string:new("and")
 
 
-_temp33 = string:new("&")
+_temp34 = string:new("&")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("at")
+_temp33 = string:new("at")
 
 
-_temp33 = string:new("@")
+_temp34 = string:new("@")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("tilde")
+_temp33 = string:new("tilde")
 
 
-_temp33 = string:new("~")
+_temp34 = string:new("~")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("up")
+_temp33 = string:new("up")
 
 
-_temp33 = string:new("^")
+_temp34 = string:new("^")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("forward")
+_temp33 = string:new("forward")
 
 
-_temp33 = string:new("/")
+_temp34 = string:new("/")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("back")
+_temp33 = string:new("back")
 
 
-_temp33 = string:new("\\")
+_temp34 = string:new("\\")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("question")
+_temp33 = string:new("question")
 
 
-_temp33 = string:new("?")
+_temp34 = string:new("?")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("less")
+_temp33 = string:new("less")
 
 
-_temp33 = string:new("<")
+_temp34 = string:new("<")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("greater")
+_temp33 = string:new("greater")
 
 
-_temp33 = string:new(">")
+_temp34 = string:new(">")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("notequal")
+_temp33 = string:new("notequal")
 
 
-_temp33 = string:new("!=")
+_temp34 = string:new("!=")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("equal")
+_temp33 = string:new("equal")
 
 
-_temp33 = string:new("=")
+_temp34 = string:new("=")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("percent")
+_temp33 = string:new("percent")
 
 
-_temp33 = string:new("%")
+_temp34 = string:new("%")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("under")
+_temp33 = string:new("under")
 
 
-_temp33 = string:new("_")
+_temp34 = string:new("_")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp32 = string:new("dollar")
+_temp33 = string:new("dollar")
 
 
-_temp33 = string:new("$")
+_temp34 = string:new("$")
 
-_temp31[_temp32] = _temp33
+_temp32[_temp33] = _temp34
 
-_temp31 = hash:new(_temp31)
+_temp32 = hash:new(_temp32)
 end
 
-local _temp34
+local _temp35
 
-_temp34 = function(_self, _temp35)
-
-      if _temp35 == nil then
-        _error(exception:argument_error('function', 1, 0))
-      end
-    
-local _temp37
+_temp35 = regex:new("_(bang|star|minus|plus|or|and|at|tilde|up|forward|back|question|less|greater|equal|percent|under|dollar)", "")
 
 local _temp36
 
-    if object._is_callable(_temp35) then
-      _temp36 =  _temp35(_self)
+_temp36 = function(_self, _temp37)
 
-    elseif _temp35 then
-      _temp36 =  _temp35
-    else
-      _error(exception:name_error("input"))
-    end
-    
-local _temp38 = regex:new("_(bang|star|minus|plus|or|and|at|tilde|up|forward|back|question|less|greater|equal|percent|under|dollar)", "")
-
-
-local _temp43 = _lifted_call(_lifted[3], {})
-_temp43.arg_table['_temp31'] = _temp31
-if _type(_temp36) == 'number' then
-      _temp36 = number:new(_temp36)
-    elseif object._is_callable(_temp36) then
-      _temp36 = brat_function:new(_temp36)
-    end
-    
-      local _m = _temp36.sub
-      if object._is_callable(_m) then
-        _temp37 =  _m(_temp36, _temp38, _temp43)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp36.no_undermethod then
-        _temp37 =  _temp36:no_undermethod(string:new('sub'), _temp38, _temp43)
-      else
-        _error(exception:method_error(_temp36, 'sub'))
-      end
-    
-return _temp37
-
-end
-
-local _temp44
-
-_temp44 = function(_self, _temp45)
-
-      if _temp45 == nil then
+      if _temp37 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
-local _temp47
+local _temp39
 
-local _temp46
+local _temp38
 
-    if object._is_callable(_temp45) then
-      _temp46 =  _temp45(_self)
+    if object._is_callable(_temp37) then
+      _temp38 =  _temp37(_self)
 
-    elseif _temp45 then
-      _temp46 =  _temp45
+    elseif _temp37 then
+      _temp38 =  _temp37
     else
       _error(exception:name_error("input"))
     end
     
-local _temp48 = regex:new("__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)", "")
+local _temp40
 
+    if object._is_callable(_temp35) then
+      _temp40 =  _temp35(_self)
 
-local _temp51 = _lifted[4]
-
-if _type(_temp46) == 'number' then
-      _temp46 = number:new(_temp46)
-    elseif object._is_callable(_temp46) then
-      _temp46 = brat_function:new(_temp46)
+    elseif _temp35 then
+      _temp40 =  _temp35
+    else
+      _error(exception:name_error("op_underunescape"))
     end
     
-      local _m = _temp46.sub
+
+local _temp45 = _lifted_call(_lifted[3], {})
+_temp45.arg_table['_temp32'] = _temp32
+if _type(_temp38) == 'number' then
+      _temp38 = number:new(_temp38)
+    elseif object._is_callable(_temp38) then
+      _temp38 = brat_function:new(_temp38)
+    end
+    
+      local _m = _temp38.sub
       if object._is_callable(_m) then
-        _temp47 =  _m(_temp46, _temp48, _temp51)
+        _temp39 =  _m(_temp38, _temp40, _temp45)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp46.no_undermethod then
-        _temp47 =  _temp46:no_undermethod(string:new('sub'), _temp48, _temp51)
+      elseif _temp38.no_undermethod then
+        _temp39 =  _temp38:no_undermethod(string:new('sub'), _temp40, _temp45)
       else
-        _error(exception:method_error(_temp46, 'sub'))
+        _error(exception:method_error(_temp38, 'sub'))
       end
     
-return _temp47
+return _temp39
 
 end
 
+local _temp46
+
+_temp46 = regex:new("__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)", "")
+
+local _temp47
+
+_temp47 = function(_self, _temp48)
+
+      if _temp48 == nil then
+        _error(exception:argument_error('function', 1, 0))
+      end
+    
+local _temp50
+
+local _temp49
+
+    if object._is_callable(_temp48) then
+      _temp49 =  _temp48(_self)
+
+    elseif _temp48 then
+      _temp49 =  _temp48
+    else
+      _error(exception:name_error("input"))
+    end
+    
+local _temp51
+
+    if object._is_callable(_temp46) then
+      _temp51 =  _temp46(_self)
+
+    elseif _temp46 then
+      _temp51 =  _temp46
+    else
+      _error(exception:name_error("kw_underunescape"))
+    end
+    
+
+local _temp54 = _lifted[4]
+
+if _type(_temp49) == 'number' then
+      _temp49 = number:new(_temp49)
+    elseif object._is_callable(_temp49) then
+      _temp49 = brat_function:new(_temp49)
+    end
+    
+      local _m = _temp49.sub
+      if object._is_callable(_m) then
+        _temp50 =  _m(_temp49, _temp51, _temp54)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp49.no_undermethod then
+        _temp50 =  _temp49:no_undermethod(string:new('sub'), _temp51, _temp54)
+      else
+        _error(exception:method_error(_temp49, 'sub'))
+      end
+    
+return _temp50
+
+end
+
+
+    if object._is_callable(_temp1) then
+      _temp34 =  _temp1(_self)
+
+    elseif _temp1 then
+      _temp34 =  _temp1
+    else
+      _error(exception:name_error("h"))
+    end
+    
+
+local _temp56 = function(_self, _temp55)
+
+      if _temp55 == nil then
+        _error(exception:argument_error('function', 1, 0))
+      end
+    
+local _temp57
+
+local _temp58
+
+local _temp59
+
+    if object._is_callable(_temp55) then
+      _temp59 =  _temp55(_self)
+
+    elseif _temp55 then
+      _temp59 =  _temp55
+    else
+      _error(exception:name_error("identifier"))
+    end
+    
+_temp58 =  _temp47(_self, _temp59)
+
+_temp57 =  _temp36(_self, _temp58)
+
+return _temp57
+
+end
+
+    if _type(_temp34) == 'table' then
+      _temp34['unescape_underidentifier'] = _temp56
+    else
+      _error('Cannot set method on ' .. _temp34)
+    end
+    
 
     if object._is_callable(_temp1) then
       _temp33 =  _temp1(_self)
@@ -738,101 +823,55 @@ end
     end
     
 
-local _temp53 = function(_self, _temp52)
+local _temp61 = function(_self, _temp60)
 
-      if _temp52 == nil then
+      if _temp60 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
-local _temp54
+local _temp63
 
-local _temp55
+local _temp62
 
-local _temp56
+    if object._is_callable(_temp60) then
+      _temp62 =  _temp60(_self)
 
-    if object._is_callable(_temp52) then
-      _temp56 =  _temp52(_self)
-
-    elseif _temp52 then
-      _temp56 =  _temp52
-    else
-      _error(exception:name_error("identifier"))
-    end
-    
-_temp55 =  _temp44(_self, _temp56)
-
-_temp54 =  _temp34(_self, _temp55)
-
-return _temp54
-
-end
-
-    if _type(_temp33) == 'table' then
-      _temp33['unescape_underidentifier'] = _temp53
-    else
-      _error('Cannot set method on ' .. _temp33)
-    end
-    
-
-    if object._is_callable(_temp1) then
-      _temp32 =  _temp1(_self)
-
-    elseif _temp1 then
-      _temp32 =  _temp1
-    else
-      _error(exception:name_error("h"))
-    end
-    
-
-local _temp58 = function(_self, _temp57)
-
-      if _temp57 == nil then
-        _error(exception:argument_error('function', 1, 0))
-      end
-    
-local _temp60
-
-local _temp59
-
-    if object._is_callable(_temp57) then
-      _temp59 =  _temp57(_self)
-
-    elseif _temp57 then
-      _temp59 =  _temp57
+    elseif _temp60 then
+      _temp62 =  _temp60
     else
       _error(exception:name_error("str"))
     end
     
-local _temp61 = regex:new("\\n", "")
+local _temp64 = string:new("\n")
 
 
-local _temp62 = string:new('\\n')
+local _temp65 = string:new('\\n')
 
-if _type(_temp59) == 'number' then
-      _temp59 = number:new(_temp59)
-    elseif object._is_callable(_temp59) then
-      _temp59 = brat_function:new(_temp59)
+if _type(_temp62) == 'number' then
+      _temp62 = number:new(_temp62)
+    elseif object._is_callable(_temp62) then
+      _temp62 = brat_function:new(_temp62)
     end
     
-      local _m = _temp59.sub
+      local _m = _temp62.sub
       if object._is_callable(_m) then
-        _temp60 =  _m(_temp59, _temp61, _temp62)
+        _temp63 =  _m(_temp62, _temp64, _temp65)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp59.no_undermethod then
-        _temp60 =  _temp59:no_undermethod(string:new('sub'), _temp61, _temp62)
+      elseif _temp62.no_undermethod then
+        _temp63 =  _temp62:no_undermethod(string:new('sub'), _temp64, _temp65)
       else
-        _error(exception:method_error(_temp59, 'sub'))
+        _error(exception:method_error(_temp62, 'sub'))
       end
     
-return _temp60
+return _temp63
 
 end
 
-    if _type(_temp32) == 'table' then
-      _temp32['escape_understring'] = _temp58
+    if _type(_temp33) == 'table' then
+      _temp33['escape_understring'] = _temp61
     else
-      _error('Cannot set method on ' .. _temp32)
+      _error('Cannot set method on ' .. _temp33)
     end
     
 
@@ -846,11 +885,11 @@ end
     end
     
 
-local _temp63 = string:new('string_helper')
+local _temp66 = string:new('string_helper')
 
 
   if export then
-    _temp4 =  export(_self, _temp2, _temp63)
+    _temp4 =  export(_self, _temp2, _temp66)
 
   else
     if _type(_self) == 'number' then
@@ -861,11 +900,11 @@ local _temp63 = string:new('string_helper')
     
       local _m = _self.export
       if object._is_callable(_m) then
-        _temp4 =  _m(_self, _temp2, _temp63)
+        _temp4 =  _m(_self, _temp2, _temp66)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp4 =  _self:no_undermethod(string:new('export'), _temp2, _temp63)
+        _temp4 =  _self:no_undermethod(string:new('export'), _temp2, _temp66)
       else
         _error(exception:method_error(_self, 'export'))
       end

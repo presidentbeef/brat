@@ -25,8 +25,10 @@ escape_op = { input |
   }
 }
 
+kw_escape = /\A(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\Z/i
+
 escape_keyword = { input |
-  input.sub /\A(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\Z/i, { m | "_" + m }
+  input.sub kw_escape, { m | "_" + m }
 }
 
 h.escape_identifier = { identifier |
@@ -53,12 +55,16 @@ unescape_ops = ["bang" : "!",
       "under" : "_",
       "dollar" : "$" ]
 
+op_unescape = /_(bang|star|minus|plus|or|and|at|tilde|up|forward|back|question|less|greater|equal|percent|under|dollar)/
+
 unescape_op = { input |
-  input.sub /_(bang|star|minus|plus|or|and|at|tilde|up|forward|back|question|less|greater|equal|percent|under|dollar)/, { m | unescape_ops[m] }
+  input.sub op_unescape, { m | unescape_ops[m] }
 }
 
+kw_unescape = /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)/
+
 unescape_keyword = { input |
-  input.sub /__(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)/, { m | m }
+  input.sub kw_unescape, { m | m }
 }
 
 h.unescape_identifier = { identifier |
@@ -66,7 +72,7 @@ h.unescape_identifier = { identifier |
 }
 
 h.escape_string = { str |
-  str.sub(/\n/, '\n')
+  str.sub("\n", '\n')
 }
 
 export h, :string_helper
