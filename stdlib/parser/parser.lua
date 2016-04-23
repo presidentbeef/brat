@@ -4412,7 +4412,7 @@ _temp24 = string:new('paren_exp')
   end
   
 
-_temp22 = regex:new("\\.|\\(|->", "")
+_temp22 = regex:new("\\G\\.|\\(|->", "")
 
 
   if reg then
@@ -7823,7 +7823,7 @@ _temp22 = _lifted[15]
 _temp7 = string:new('number')
 
 
-_temp18 = regex:new("-?[0-9]+(\\.[0-9]+)?", "")
+_temp18 = regex:new("\\G-?[0-9]+(\\.[0-9]+)?", "")
 
 
   if reg then
@@ -10749,7 +10749,7 @@ _temp9 = string:new("/")
 _temp18 = string:new('opts')
 
 
-_temp24 = regex:new("[mix]*", "")
+_temp24 = regex:new("\\G[mix]*", "")
 
 
   if reg then
@@ -11013,7 +11013,7 @@ _temp23 = string:new("\"")
 _temp33 = string:new('values')
 
 
-_temp11 = regex:new("[^#\"\\\\]+", "")
+_temp11 = regex:new("\\G[^#\"\\\\]+", "")
 
 
   if reg then
@@ -19103,7 +19103,7 @@ _temp32 = string:new('method_invocation')
 _temp7 = string:new('identifier')
 
 
-_temp20 = regex:new("[a-zA-Z](?:(?!->)[a-zA-Z0-9_!?\\-*+^&@~\\/\\\\><$%])*", "")
+_temp20 = regex:new("\\G[a-zA-Z](?:(?!->)[a-zA-Z0-9_!?\\-*+^&@~\\/\\\\><$%])*", "")
 
 
   if reg then
@@ -19541,7 +19541,7 @@ _temp11 = string:new("<=")
   end
   
 
-_temp21 = regex:new("[!?\\-*+^@~\\/\\\\><$_%\\=]", "")
+_temp21 = regex:new("\\G[!?\\-*+^@~\\/\\\\><$_%\\=]", "")
 
 
   if reg then
@@ -26513,7 +26513,7 @@ _temp119 = string:new('comment')
 _temp7 = string:new('space')
 
 
-_temp19 = regex:new("(?: |\\t)+", "")
+_temp19 = regex:new("\\G(?: |\\t)+", "")
 
 
   if reg then
@@ -26567,7 +26567,7 @@ _temp19 = regex:new("(?: |\\t)+", "")
 _temp6 = string:new('eol')
 
 
-_temp19 = regex:new("(?:\\n|;|\\r\\n)+", "")
+_temp19 = regex:new("\\G(?:\\n|;|\\r\\n)+", "")
 
 
   if reg then

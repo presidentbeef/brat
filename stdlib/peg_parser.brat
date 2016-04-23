@@ -103,8 +103,8 @@ peg_syntax = peg.new {
   }
 
   #Matches a regular expression
-  set :reg_literal action seq(str('/') kleene(any str('\\/') seq(no(str '/') anything)) str('/')) {
-    my.output = "reg(#{text})"
+  set :reg_literal action seq(str('/') label(:inner kleene(any str('\\/') seq(no(str '/') anything))) str('/')) {
+    my.output = "reg(/\\G#{inner.text}/)"
   }
 
   #Matches a period
