@@ -143,13 +143,9 @@ peg.prototype.seq_ref = { *rules |
 }
 
 any_matcher = { x, rules |
-  matched = null
-
   rules.each_until { opt |
-    matched = opt x
+    opt x
   }
-
-  matched
 }
 
 #Match any of a set of rules

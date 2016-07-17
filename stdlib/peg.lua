@@ -33,9 +33,9 @@
 
     
 _lifted[1] = function(_argtable, _self)
-local _temp33 = _argtable['_temp33']
+local object = _argtable['object']
 local _temp32 = _argtable['_temp32']
-local object = _argtable['object']local _temp44
+local _temp33 = _argtable['_temp33']local _temp44
 
 local _temp45
 
@@ -1426,8 +1426,8 @@ local _temp126
     
 
 local _temp131 = _lifted_call(_lifted[11], {})
-_temp131.arg_table['_temp52'] = _temp52
 _temp131.arg_table['_temp53'] = _temp53
+_temp131.arg_table['_temp52'] = _temp52
 
   if true_question then
     _temp120 =  true_question(_self, _temp126, _temp131)
@@ -1551,8 +1551,8 @@ end
 
 
 _lifted[14] = function(_argtable, _self)
-local _temp157 = _argtable['_temp157']
 local _temp154 = _argtable['_temp154']
+local _temp157 = _argtable['_temp157']
 local _temp173
 
     if object._is_callable(_temp157) then
@@ -1627,8 +1627,8 @@ end
 
 
 _lifted[16] = function(_argtable, _self)
-local _temp157 = _argtable['_temp157']
 local _temp154 = _argtable['_temp154']
+local _temp157 = _argtable['_temp157']
 local _temp180
 
     if object._is_callable(_temp157) then
@@ -1776,8 +1776,8 @@ end
 
 
 _lifted[18] = function(_argtable, _self)
-local _temp157 = _argtable['_temp157']
 local _temp154 = _argtable['_temp154']
+local _temp157 = _argtable['_temp157']
 local _temp187
 
     if object._is_callable(_temp157) then
@@ -1977,8 +1977,8 @@ end
 
 
 _lifted[25] = function(_argtable, _self)
-local _temp157 = _argtable['_temp157']
 local _temp154 = _argtable['_temp154']
+local _temp157 = _argtable['_temp157']
 local _temp213
 
     if object._is_callable(_temp157) then
@@ -2337,8 +2337,8 @@ end
 
 
 _lifted[34] = function(_argtable, _self)
-local _temp301 = _argtable['_temp301']
 local _temp299 = _argtable['_temp299']
+local _temp301 = _argtable['_temp301']
 local _temp320
 
     if object._is_callable(_temp299) then
@@ -2392,10 +2392,10 @@ end
 
 
 _lifted[35] = function(_argtable, _self)
-local _temp303 = _argtable['_temp303']
-local _temp12 = _argtable['_temp12']
 local _temp301 = _argtable['_temp301']
+local _temp12 = _argtable['_temp12']
 local _temp299 = _argtable['_temp299']
+local _temp303 = _argtable['_temp303']
 local _temp324
 
 local _temp323
@@ -2731,8 +2731,8 @@ end
 
 
 _lifted[41] = function(_argtable, _self)
-local _temp330 = _argtable['_temp330']
 local _temp329 = _argtable['_temp329']
+local _temp330 = _argtable['_temp330']
 local _temp364
 
 local _temp362
@@ -2785,8 +2785,8 @@ end
 
 
 _lifted[42] = function(_argtable, _self, _temp367)
-local _temp298 = _argtable['_temp298']
 local _temp330 = _argtable['_temp330']
+local _temp298 = _argtable['_temp298']
       if _temp367 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
@@ -2875,7 +2875,41 @@ return _temp380
 end
 
 
-_lifted[44] = function(_argtable, _self)
+_lifted[44] = function(_argtable, _self, _temp388)
+local _temp384 = _argtable['_temp384']
+      if _temp388 == nil then
+        _error(exception:argument_error('function', 1, 0))
+      end
+    
+local _temp389
+
+local _temp390
+
+    if object._is_callable(_temp384) then
+      _temp390 =  _temp384(_self)
+
+    elseif _temp384 then
+      _temp390 =  _temp384
+    else
+      _error(exception:name_error("x"))
+    end
+    
+
+    if object._is_callable(_temp388) then
+      _temp389 =  _temp388(_self, _temp390)
+
+    elseif _temp388 then
+      _temp389 =  _temp388(_self, _temp390)
+    else
+      _error(exception:new("Tried to invoke non-method: 'opt' (" .. object.__type(_temp388) .. ")"))
+    end
+    
+return _temp389
+
+end
+
+
+_lifted[45] = function(_argtable, _self)
 local _temp393 = _argtable['_temp393']
 local _temp406
 
@@ -2898,7 +2932,7 @@ return _temp406
 end
 
 
-_lifted[45] = function(_argtable, _self)
+_lifted[46] = function(_argtable, _self)
 local _temp393 = _argtable['_temp393']
 local _temp408
 
@@ -2916,7 +2950,7 @@ return _temp408
 end
 
 
-_lifted[47] = function(_argtable, _self)
+_lifted[48] = function(_argtable, _self)
 local _temp393 = _argtable['_temp393']
 local _temp422
 
@@ -2939,7 +2973,7 @@ return _temp422
 end
 
 
-_lifted[48] = function(_argtable, _self)
+_lifted[49] = function(_argtable, _self)
 local _temp393 = _argtable['_temp393']
 local _temp424
 
@@ -2957,7 +2991,7 @@ return _temp424
 end
 
 
-_lifted[46] = function(_argtable, _self)
+_lifted[47] = function(_argtable, _self)
 local _temp393 = _argtable['_temp393']
 local _temp415
 
@@ -3084,10 +3118,10 @@ local _temp421
   end
   
 
-_temp421 = _lifted_call(_lifted[47], {})
+_temp421 = _lifted_call(_lifted[48], {})
 _temp421.arg_table['_temp393'] = _temp393
 
-local _temp425 = _lifted_call(_lifted[48], {})
+local _temp425 = _lifted_call(_lifted[49], {})
 _temp425.arg_table['_temp393'] = _temp393
 
   if true_question then
@@ -3122,7 +3156,7 @@ return _temp415
 end
 
 
-_lifted[49] = function(_argtable, _self)
+_lifted[50] = function(_argtable, _self)
 local _temp393 = _argtable['_temp393']
 local _temp394 = _argtable['_temp394']
 local _temp428
@@ -3176,9 +3210,9 @@ return _temp428
 end
 
 
-_lifted[50] = function(_argtable, _self, _temp431)
-local _temp383 = _argtable['_temp383']
+_lifted[51] = function(_argtable, _self, _temp431)
 local _temp394 = _argtable['_temp394']
+local _temp383 = _argtable['_temp383']
       if _temp431 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
@@ -3215,7 +3249,7 @@ return _temp432
 end
 
 
-_lifted[51] = function(_argtable, _self, _temp442)
+_lifted[52] = function(_argtable, _self, _temp442)
 local _temp438 = _argtable['_temp438']
       if _temp442 == nil then
         _error(exception:argument_error('function', 1, 0))
@@ -3267,7 +3301,7 @@ return _temp444
 end
 
 
-_lifted[54] = function(_argtable, _self)
+_lifted[55] = function(_argtable, _self)
 local _temp454 = _argtable['_temp454']
 local _temp457 = _argtable['_temp457']
 local _temp465
@@ -3308,10 +3342,10 @@ return _temp465
 end
 
 
-_lifted[53] = function(_argtable, _self)
+_lifted[54] = function(_argtable, _self)
+local _temp453 = _argtable['_temp453']
 local _temp454 = _argtable['_temp454']
-local _temp448 = _argtable['_temp448']
-local _temp453 = _argtable['_temp453']local _temp457
+local _temp448 = _argtable['_temp448']local _temp457
 
 local _temp458
 
@@ -3416,7 +3450,7 @@ local _temp463
     end
     
 
-local _temp467 = _lifted_call(_lifted[54], {})
+local _temp467 = _lifted_call(_lifted[55], {})
 _temp467.arg_table['_temp454'] = _temp454
 _temp467.arg_table['_temp457'] = _temp457
 
@@ -3452,11 +3486,11 @@ return _temp458
 end
 
 
-_lifted[55] = function(_argtable, _self)
-local _temp12 = _argtable['_temp12']
-local _temp455 = _argtable['_temp455']
-local _temp454 = _argtable['_temp454']
+_lifted[56] = function(_argtable, _self)
 local _temp453 = _argtable['_temp453']
+local _temp454 = _argtable['_temp454']
+local _temp455 = _argtable['_temp455']
+local _temp12 = _argtable['_temp12']
 local _temp489
 
 local _temp488
@@ -3536,11 +3570,11 @@ return _temp489
 end
 
 
-_lifted[56] = function(_argtable, _self)
-local _temp454 = _argtable['_temp454']
-local _temp455 = _argtable['_temp455']
-local _temp453 = _argtable['_temp453']
+_lifted[57] = function(_argtable, _self)
 local _temp12 = _argtable['_temp12']
+local _temp453 = _argtable['_temp453']
+local _temp455 = _argtable['_temp455']
+local _temp454 = _argtable['_temp454']
 local _temp495
 
 local _temp494
@@ -3620,10 +3654,10 @@ return _temp495
 end
 
 
-_lifted[58] = function(_argtable, _self)
-local _temp12 = _argtable['_temp12']
+_lifted[59] = function(_argtable, _self)
 local _temp455 = _argtable['_temp455']
 local _temp454 = _argtable['_temp454']
+local _temp12 = _argtable['_temp12']
 local _temp453 = _argtable['_temp453']
 local _temp511
 
@@ -3704,10 +3738,10 @@ return _temp511
 end
 
 
-_lifted[57] = function(_argtable, _self)
+_lifted[58] = function(_argtable, _self)
+local _temp453 = _argtable['_temp453']
 local _temp450 = _argtable['_temp450']
 local _temp455 = _argtable['_temp455']
-local _temp453 = _argtable['_temp453']
 local _temp454 = _argtable['_temp454']
 local _temp12 = _argtable['_temp12']
 local _temp500
@@ -3905,11 +3939,11 @@ if _type(_temp501) == 'number' then
       end
     
 
-_temp501 = _lifted_call(_lifted[58], {})
-_temp501.arg_table['_temp454'] = _temp454
-_temp501.arg_table['_temp12'] = _temp12
+_temp501 = _lifted_call(_lifted[59], {})
 _temp501.arg_table['_temp453'] = _temp453
+_temp501.arg_table['_temp454'] = _temp454
 _temp501.arg_table['_temp455'] = _temp455
+_temp501.arg_table['_temp12'] = _temp12
 
   if true_question then
     _temp500 =  true_question(_self, _temp503, _temp501)
@@ -3943,11 +3977,11 @@ return _temp500
 end
 
 
-_lifted[60] = function(_argtable, _self)
-local _temp455 = _argtable['_temp455']
+_lifted[61] = function(_argtable, _self)
 local _temp454 = _argtable['_temp454']
 local _temp12 = _argtable['_temp12']
 local _temp453 = _argtable['_temp453']
+local _temp455 = _argtable['_temp455']
 local _temp535
 
 local _temp534
@@ -4027,11 +4061,11 @@ return _temp535
 end
 
 
-_lifted[61] = function(_argtable, _self)
+_lifted[62] = function(_argtable, _self)
 local _temp12 = _argtable['_temp12']
+local _temp453 = _argtable['_temp453']
 local _temp455 = _argtable['_temp455']
 local _temp454 = _argtable['_temp454']
-local _temp453 = _argtable['_temp453']
 local _temp541
 
 local _temp540
@@ -4111,11 +4145,11 @@ return _temp541
 end
 
 
-_lifted[63] = function(_argtable, _self)
+_lifted[64] = function(_argtable, _self)
+local _temp455 = _argtable['_temp455']
+local _temp454 = _argtable['_temp454']
 local _temp12 = _argtable['_temp12']
 local _temp453 = _argtable['_temp453']
-local _temp454 = _argtable['_temp454']
-local _temp455 = _argtable['_temp455']
 local _temp557
 
 local _temp556
@@ -4195,12 +4229,12 @@ return _temp557
 end
 
 
-_lifted[62] = function(_argtable, _self)
-local _temp455 = _argtable['_temp455']
-local _temp453 = _argtable['_temp453']
+_lifted[63] = function(_argtable, _self)
 local _temp454 = _argtable['_temp454']
 local _temp12 = _argtable['_temp12']
+local _temp455 = _argtable['_temp455']
 local _temp450 = _argtable['_temp450']
+local _temp453 = _argtable['_temp453']
 local _temp546
 
    if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
@@ -4396,11 +4430,11 @@ if _type(_temp547) == 'number' then
       end
     
 
-_temp547 = _lifted_call(_lifted[63], {})
-_temp547.arg_table['_temp12'] = _temp12
-_temp547.arg_table['_temp453'] = _temp453
+_temp547 = _lifted_call(_lifted[64], {})
 _temp547.arg_table['_temp455'] = _temp455
+_temp547.arg_table['_temp453'] = _temp453
 _temp547.arg_table['_temp454'] = _temp454
+_temp547.arg_table['_temp12'] = _temp12
 
   if true_question then
     _temp546 =  true_question(_self, _temp549, _temp547)
@@ -4434,11 +4468,11 @@ return _temp546
 end
 
 
-_lifted[59] = function(_argtable, _self)
+_lifted[60] = function(_argtable, _self)
 local _temp450 = _argtable['_temp450']
-local _temp454 = _argtable['_temp454']
 local _temp455 = _argtable['_temp455']
 local _temp453 = _argtable['_temp453']
+local _temp454 = _argtable['_temp454']
 local _temp12 = _argtable['_temp12']
 local _temp517
 
@@ -4741,11 +4775,11 @@ if _type(_temp525) == 'number' then
       end
     
 
-_temp525 = _lifted_call(_lifted[60], {})
-_temp525.arg_table['_temp12'] = _temp12
-_temp525.arg_table['_temp455'] = _temp455
+_temp525 = _lifted_call(_lifted[61], {})
 _temp525.arg_table['_temp454'] = _temp454
 _temp525.arg_table['_temp453'] = _temp453
+_temp525.arg_table['_temp12'] = _temp12
+_temp525.arg_table['_temp455'] = _temp455
 
   if true_question then
     _temp524 =  true_question(_self, _temp527, _temp525)
@@ -4796,16 +4830,16 @@ local _temp539
     end
     
 
-local _temp545 = _lifted_call(_lifted[61], {})
+local _temp545 = _lifted_call(_lifted[62], {})
 _temp545.arg_table['_temp453'] = _temp453
 _temp545.arg_table['_temp12'] = _temp12
-_temp545.arg_table['_temp455'] = _temp455
 _temp545.arg_table['_temp454'] = _temp454
+_temp545.arg_table['_temp455'] = _temp455
 
-local _temp561 = _lifted_call(_lifted[62], {})
-_temp561.arg_table['_temp12'] = _temp12
-_temp561.arg_table['_temp453'] = _temp453
+local _temp561 = _lifted_call(_lifted[63], {})
 _temp561.arg_table['_temp455'] = _temp455
+_temp561.arg_table['_temp453'] = _temp453
+_temp561.arg_table['_temp12'] = _temp12
 _temp561.arg_table['_temp450'] = _temp450
 _temp561.arg_table['_temp454'] = _temp454
 
@@ -4841,11 +4875,11 @@ return _temp517
 end
 
 
-_lifted[52] = function(_argtable, _self, _temp453)
-local _temp449 = _argtable['_temp449']
+_lifted[53] = function(_argtable, _self, _temp453)
 local _temp448 = _argtable['_temp448']
-local _temp450 = _argtable['_temp450']
 local _temp12 = _argtable['_temp12']
+local _temp450 = _argtable['_temp450']
+local _temp449 = _argtable['_temp449']
       if _temp453 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
@@ -4884,7 +4918,7 @@ if _type(_temp456) == 'number' then
       end
     
 
-_temp456 = _lifted_call(_lifted[53], {})
+_temp456 = _lifted_call(_lifted[54], {})
 _temp456.arg_table['_temp448'] = _temp448
 _temp456.arg_table['_temp453'] = _temp453
 _temp456.arg_table['_temp454'] = _temp454
@@ -5272,10 +5306,10 @@ if _type(_temp479) == 'number' then
       end
     
 
-_temp479 = _lifted_call(_lifted[55], {})
+_temp479 = _lifted_call(_lifted[56], {})
 _temp479.arg_table['_temp453'] = _temp453
-_temp479.arg_table['_temp12'] = _temp12
 _temp479.arg_table['_temp454'] = _temp454
+_temp479.arg_table['_temp12'] = _temp12
 _temp479.arg_table['_temp455'] = _temp455
 
   if true_question then
@@ -5327,17 +5361,17 @@ local _temp493
     end
     
 
-local _temp499 = _lifted_call(_lifted[56], {})
-_temp499.arg_table['_temp453'] = _temp453
-_temp499.arg_table['_temp12'] = _temp12
+local _temp499 = _lifted_call(_lifted[57], {})
 _temp499.arg_table['_temp455'] = _temp455
+_temp499.arg_table['_temp12'] = _temp12
+_temp499.arg_table['_temp453'] = _temp453
 _temp499.arg_table['_temp454'] = _temp454
 
-local _temp515 = _lifted_call(_lifted[57], {})
-_temp515.arg_table['_temp455'] = _temp455
-_temp515.arg_table['_temp450'] = _temp450
-_temp515.arg_table['_temp12'] = _temp12
+local _temp515 = _lifted_call(_lifted[58], {})
 _temp515.arg_table['_temp453'] = _temp453
+_temp515.arg_table['_temp12'] = _temp12
+_temp515.arg_table['_temp450'] = _temp450
+_temp515.arg_table['_temp455'] = _temp455
 _temp515.arg_table['_temp454'] = _temp454
 
   if null_question then
@@ -5427,12 +5461,12 @@ if _type(_temp468) == 'number' then
       end
     
 
-_temp468 = _lifted_call(_lifted[59], {})
-_temp468.arg_table['_temp450'] = _temp450
-_temp468.arg_table['_temp453'] = _temp453
-_temp468.arg_table['_temp455'] = _temp455
+_temp468 = _lifted_call(_lifted[60], {})
 _temp468.arg_table['_temp12'] = _temp12
+_temp468.arg_table['_temp455'] = _temp455
 _temp468.arg_table['_temp454'] = _temp454
+_temp468.arg_table['_temp453'] = _temp453
+_temp468.arg_table['_temp450'] = _temp450
 
   if true_question then
     _temp456 =  true_question(_self, _temp470, _temp468)
@@ -5466,9 +5500,9 @@ return _temp456
 end
 
 
-_lifted[64] = function(_argtable, _self)
-local _temp12 = _argtable['_temp12']
+_lifted[65] = function(_argtable, _self)
 local _temp564 = _argtable['_temp564']
+local _temp12 = _argtable['_temp12']
 local _temp566 = _argtable['_temp566']
 local _temp568 = _argtable['_temp568']local _temp583
 
@@ -5637,7 +5671,7 @@ return _temp585
 end
 
 
-_lifted[65] = function(_argtable, _self)
+_lifted[66] = function(_argtable, _self)
 local _temp12 = _argtable['_temp12']
 local _temp566 = _argtable['_temp566']
 local _temp592
@@ -5701,7 +5735,7 @@ return _temp592
 end
 
 
-_lifted[66] = function(_argtable, _self, _temp601)
+_lifted[67] = function(_argtable, _self, _temp601)
 local _temp598 = _argtable['_temp598']
 local _temp563 = _argtable['_temp563']
       if _temp601 == nil then
@@ -5737,7 +5771,7 @@ return _temp602
 end
 
 
-_lifted[68] = function(_argtable, _self)
+_lifted[69] = function(_argtable, _self)
 local _temp609 = _argtable['_temp609']
 local _temp612 = _argtable['_temp612']
 local _temp620
@@ -5778,7 +5812,7 @@ return _temp620
 end
 
 
-_lifted[67] = function(_argtable, _self)
+_lifted[68] = function(_argtable, _self)
 local _temp609 = _argtable['_temp609']
 local _temp608 = _argtable['_temp608']
 local _temp607 = _argtable['_temp607']local _temp612
@@ -5886,7 +5920,7 @@ local _temp618
     end
     
 
-local _temp622 = _lifted_call(_lifted[68], {})
+local _temp622 = _lifted_call(_lifted[69], {})
 _temp622.arg_table['_temp612'] = _temp612
 _temp622.arg_table['_temp609'] = _temp609
 
@@ -5922,7 +5956,7 @@ return _temp613
 end
 
 
-_lifted[69] = function(_argtable, _self)
+_lifted[70] = function(_argtable, _self)
 local _temp609 = _argtable['_temp609']
 local _temp623 = _argtable['_temp623']local _temp634
 
@@ -6027,7 +6061,7 @@ return _temp635
 end
 
 
-_lifted[70] = function(_argtable, _self, _temp645)
+_lifted[71] = function(_argtable, _self, _temp645)
 local _temp606 = _argtable['_temp606']
 local _temp642 = _argtable['_temp642']
       if _temp645 == nil then
@@ -6063,9 +6097,9 @@ return _temp646
 end
 
 
-_lifted[71] = function(_argtable, _self)
-local _temp656 = _argtable['_temp656']
+_lifted[72] = function(_argtable, _self)
 local _temp655 = _argtable['_temp655']
+local _temp656 = _argtable['_temp656']
 local _temp663
 
 local _temp662
@@ -6104,7 +6138,7 @@ return _temp663
 end
 
 
-_lifted[73] = function(_argtable, _self)
+_lifted[74] = function(_argtable, _self)
 local _temp666 = _argtable['_temp666']
 local _temp655 = _argtable['_temp655']
 local _temp674
@@ -6145,7 +6179,7 @@ return _temp674
 end
 
 
-_lifted[72] = function(_argtable, _self)
+_lifted[73] = function(_argtable, _self)
 local _temp655 = _argtable['_temp655']
 local _temp652 = _argtable['_temp652']
 local _temp651 = _argtable['_temp651']local _temp666
@@ -6253,7 +6287,7 @@ local _temp672
     end
     
 
-local _temp676 = _lifted_call(_lifted[73], {})
+local _temp676 = _lifted_call(_lifted[74], {})
 _temp676.arg_table['_temp666'] = _temp666
 _temp676.arg_table['_temp655'] = _temp655
 
@@ -6289,11 +6323,11 @@ return _temp667
 end
 
 
-_lifted[74] = function(_argtable, _self)
-local _temp12 = _argtable['_temp12']
-local _temp653 = _argtable['_temp653']
+_lifted[75] = function(_argtable, _self)
 local _temp655 = _argtable['_temp655']
-local _temp651 = _argtable['_temp651']local _temp686
+local _temp651 = _argtable['_temp651']
+local _temp12 = _argtable['_temp12']
+local _temp653 = _argtable['_temp653']local _temp686
 
 local _temp688
 
@@ -6451,9 +6485,9 @@ return _temp691
 end
 
 
-_lifted[75] = function(_argtable, _self, _temp697)
-local _temp650 = _argtable['_temp650']
+_lifted[76] = function(_argtable, _self, _temp697)
 local _temp694 = _argtable['_temp694']
+local _temp650 = _argtable['_temp650']
       if _temp697 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
@@ -6487,11 +6521,11 @@ return _temp698
 end
 
 
-_lifted[76] = function(_argtable, _self)
-local _temp705 = _argtable['_temp705']
+_lifted[77] = function(_argtable, _self)
+local _temp703 = _argtable['_temp703']
 local _temp12 = _argtable['_temp12']
 local _temp707 = _argtable['_temp707']
-local _temp703 = _argtable['_temp703']
+local _temp705 = _argtable['_temp705']
 local _temp716
 
 local _temp715
@@ -6579,7 +6613,7 @@ return _temp716
 end
 
 
-_lifted[77] = function(_argtable, _self, _temp725)
+_lifted[78] = function(_argtable, _self, _temp725)
 local _temp702 = _argtable['_temp702']
 local _temp722 = _argtable['_temp722']
       if _temp725 == nil then
@@ -6618,11 +6652,11 @@ return _temp726
 end
 
 
-_lifted[78] = function(_argtable, _self)
-local _temp733 = _argtable['_temp733']
-local _temp12 = _argtable['_temp12']
+_lifted[79] = function(_argtable, _self)
 local _temp735 = _argtable['_temp735']
 local _temp731 = _argtable['_temp731']
+local _temp12 = _argtable['_temp12']
+local _temp733 = _argtable['_temp733']
 local _temp744
 
 local _temp743
@@ -6710,7 +6744,7 @@ return _temp744
 end
 
 
-_lifted[79] = function(_argtable, _self, _temp753)
+_lifted[80] = function(_argtable, _self, _temp753)
 local _temp730 = _argtable['_temp730']
 local _temp750 = _argtable['_temp750']
       if _temp753 == nil then
@@ -6749,7 +6783,7 @@ return _temp754
 end
 
 
-_lifted[80] = function(_self)
+_lifted[81] = function(_self)
 
 local _temp775
 
@@ -6774,11 +6808,11 @@ return _temp775
 end
 
 
-_lifted[81] = function(_argtable, _self)
-local _temp763 = _argtable['_temp763']
-local _temp761 = _argtable['_temp761']
-local _temp764 = _argtable['_temp764']
+_lifted[82] = function(_argtable, _self)
 local _temp12 = _argtable['_temp12']
+local _temp761 = _argtable['_temp761']
+local _temp763 = _argtable['_temp763']
+local _temp764 = _argtable['_temp764']
 local _temp778
 
 local _temp777
@@ -6849,7 +6883,7 @@ return _temp778
 end
 
 
-_lifted[82] = function(_argtable, _self, _temp787)
+_lifted[83] = function(_argtable, _self, _temp787)
 local _temp758 = _argtable['_temp758']
 local _temp784 = _argtable['_temp784']
       if _temp787 == nil then
@@ -6885,7 +6919,7 @@ return _temp788
 end
 
 
-_lifted[83] = function(_argtable, _self)
+_lifted[84] = function(_argtable, _self)
 local _temp798 = _argtable['_temp798']
 local _temp12 = _argtable['_temp12']
 local _temp795 = _argtable['_temp795']
@@ -6950,9 +6984,9 @@ return _temp809
 end
 
 
-_lifted[84] = function(_argtable, _self, _temp818)
-local _temp792 = _argtable['_temp792']
+_lifted[85] = function(_argtable, _self, _temp818)
 local _temp815 = _argtable['_temp815']
+local _temp792 = _argtable['_temp792']
       if _temp818 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
@@ -6986,7 +7020,7 @@ return _temp819
 end
 
 
-_lifted[85] = function(_argtable, _self)
+_lifted[86] = function(_argtable, _self)
 local _temp824 = _argtable['_temp824']
 local _temp833
 
@@ -7029,7 +7063,7 @@ return _temp834
 end
 
 
-_lifted[86] = function(_self)
+_lifted[87] = function(_self)
 
 local _temp854
 
@@ -7054,7 +7088,7 @@ return _temp854
 end
 
 
-_lifted[87] = function(_argtable, _self)
+_lifted[88] = function(_argtable, _self)
 local _temp838 = _argtable['_temp838']
 local _temp12 = _argtable['_temp12']local _temp855
 
@@ -7336,7 +7370,7 @@ return _temp861
 end
 
 
-_lifted[88] = function(_argtable, _self)
+_lifted[89] = function(_argtable, _self)
 local _temp874 = _argtable['_temp874']
 local _temp877
 
@@ -7351,7 +7385,7 @@ return _temp877
 end
 
 
-_lifted[89] = function(_argtable, _self)
+_lifted[90] = function(_argtable, _self)
 local _temp874 = _argtable['_temp874']
 local _temp881
 
@@ -7366,7 +7400,7 @@ return _temp881
 end
 
 
-_lifted[90] = function(_argtable, _self)
+_lifted[91] = function(_argtable, _self)
 local _temp873 = _argtable['_temp873']
 local _temp883
 
@@ -7417,10 +7451,10 @@ return _temp883
 end
 
 
-_lifted[91] = function(_argtable, _self, _temp892)
+_lifted[92] = function(_argtable, _self, _temp892)
+local _temp888 = _argtable['_temp888']
 local _temp890 = _argtable['_temp890']
 local _temp870 = _argtable['_temp870']
-local _temp888 = _argtable['_temp888']
       if _temp892 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
@@ -7469,7 +7503,7 @@ return _temp893
 end
 
 
-_lifted[92] = function(_argtable, _self)
+_lifted[93] = function(_argtable, _self)
 local _temp900 = _argtable['_temp900']
 local _temp898 = _argtable['_temp898']
 local _temp909
@@ -7510,9 +7544,9 @@ return _temp909
 end
 
 
-_lifted[94] = function(_argtable, _self)
-local _temp12 = _argtable['_temp12']
+_lifted[95] = function(_argtable, _self)
 local _temp919 = _argtable['_temp919']
+local _temp12 = _argtable['_temp12']
 local _temp930
 
 local _temp929
@@ -7559,7 +7593,7 @@ return _temp930
 end
 
 
-_lifted[95] = function(_self)
+_lifted[96] = function(_self)
 
 local _temp932 = array:new()
 
@@ -7568,7 +7602,7 @@ return _temp932
 end
 
 
-_lifted[93] = function(_argtable, _self, _temp919)
+_lifted[94] = function(_argtable, _self, _temp919)
 local _temp12 = _argtable['_temp12']
       if _temp919 == nil then
         _error(exception:argument_error('function', 1, 0))
@@ -7709,11 +7743,11 @@ if _type(_temp921) == 'number' then
       end
     
 
-_temp921 = _lifted_call(_lifted[94], {})
-_temp921.arg_table['_temp919'] = _temp919
+_temp921 = _lifted_call(_lifted[95], {})
 _temp921.arg_table['_temp12'] = _temp12
+_temp921.arg_table['_temp919'] = _temp919
 
-_temp928 = _lifted[95]
+_temp928 = _lifted[96]
 
 
   if true_question then
@@ -7748,7 +7782,7 @@ return _temp920
 end
 
 
-_lifted[96] = function(_argtable, _self)
+_lifted[97] = function(_argtable, _self)
 local _temp898 = _argtable['_temp898']
 local _temp900 = _argtable['_temp900']
 local _temp938
@@ -7808,7 +7842,7 @@ return _temp938
 end
 
 
-_lifted[99] = function(_argtable, _self)
+_lifted[100] = function(_argtable, _self)
 local _temp944 = _argtable['_temp944']
 local _temp12 = _argtable['_temp12']
 local _temp955
@@ -7857,7 +7891,7 @@ return _temp955
 end
 
 
-_lifted[100] = function(_self)
+_lifted[101] = function(_self)
 
 local _temp957 = array:new()
 
@@ -7866,7 +7900,7 @@ return _temp957
 end
 
 
-_lifted[98] = function(_argtable, _self, _temp944)
+_lifted[99] = function(_argtable, _self, _temp944)
 local _temp12 = _argtable['_temp12']
       if _temp944 == nil then
         _error(exception:argument_error('function', 1, 0))
@@ -8007,11 +8041,11 @@ if _type(_temp946) == 'number' then
       end
     
 
-_temp946 = _lifted_call(_lifted[99], {})
-_temp946.arg_table['_temp944'] = _temp944
+_temp946 = _lifted_call(_lifted[100], {})
 _temp946.arg_table['_temp12'] = _temp12
+_temp946.arg_table['_temp944'] = _temp944
 
-_temp953 = _lifted[100]
+_temp953 = _lifted[101]
 
 
   if true_question then
@@ -8046,10 +8080,10 @@ return _temp945
 end
 
 
-_lifted[97] = function(_argtable, _self)
-local _temp898 = _argtable['_temp898']
+_lifted[98] = function(_argtable, _self)
 local _temp12 = _argtable['_temp12']
-local _temp900 = _argtable['_temp900']local _temp941
+local _temp900 = _argtable['_temp900']
+local _temp898 = _argtable['_temp898']local _temp941
 
 local _temp943
 
@@ -8081,7 +8115,7 @@ if _type(_temp942) == 'number' then
         _error(exception:method_error(_temp942, 'elements'))
       end
     
-_temp942 = _lifted_call(_lifted[98], {})
+_temp942 = _lifted_call(_lifted[99], {})
 _temp942.arg_table['_temp12'] = _temp12
 if _type(_temp943) == 'number' then
       _temp943 = number:new(_temp943)
@@ -8164,7 +8198,7 @@ return _temp959
 end
 
 
-_lifted[101] = function(_argtable, _self)
+_lifted[102] = function(_argtable, _self)
 local _temp12 = _argtable['_temp12']
 local _temp966 = _argtable['_temp966']
 local _temp965 = _argtable['_temp965']
@@ -8254,10 +8288,10 @@ return _temp972
 end
 
 
-_lifted[102] = function(_argtable, _self, _temp981)
+_lifted[103] = function(_argtable, _self, _temp981)
+local _temp977 = _argtable['_temp977']
 local _temp978 = _argtable['_temp978']
 local _temp962 = _argtable['_temp962']
-local _temp977 = _argtable['_temp977']
       if _temp981 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
@@ -8300,7 +8334,7 @@ return _temp982
 end
 
 
-_lifted[104] = function(_argtable, _self)
+_lifted[105] = function(_argtable, _self)
 local _temp992 = _argtable['_temp992']
 local _temp1002
 
@@ -8318,7 +8352,7 @@ return _temp1002
 end
 
 
-_lifted[106] = function(_argtable, _self)
+_lifted[107] = function(_argtable, _self)
 local _temp992 = _argtable['_temp992']
 local _temp1008
 
@@ -8336,7 +8370,7 @@ return _temp1008
 end
 
 
-_lifted[105] = function(_argtable, _self)
+_lifted[106] = function(_argtable, _self)
 local _temp992 = _argtable['_temp992']
 local _temp987 = _argtable['_temp987']
 local _temp1005
@@ -8383,7 +8417,7 @@ if _type(_temp1006) == 'number' then
       end
     
 
-_temp1006 = _lifted_call(_lifted[106], {})
+_temp1006 = _lifted_call(_lifted[107], {})
 _temp1006.arg_table['_temp992'] = _temp992
 if _type(_temp1004) == 'number' then
       _temp1004 = number:new(_temp1004)
@@ -8407,7 +8441,7 @@ return _temp1005
 end
 
 
-_lifted[103] = function(_argtable, _self, _temp992)
+_lifted[104] = function(_argtable, _self, _temp992)
 local _temp987 = _argtable['_temp987']
       if _temp992 == nil then
         _error(exception:argument_error('function', 1, 0))
@@ -8535,7 +8569,7 @@ if _type(_temp1000) == 'number' then
       end
     
 
-_temp1000 = _lifted_call(_lifted[104], {})
+_temp1000 = _lifted_call(_lifted[105], {})
 _temp1000.arg_table['_temp992'] = _temp992
 if _type(_temp998) == 'number' then
       _temp998 = number:new(_temp998)
@@ -8619,9 +8653,9 @@ if _type(_temp994) == 'number' then
       end
     
 
-_temp994 = _lifted_call(_lifted[105], {})
-_temp994.arg_table['_temp987'] = _temp987
+_temp994 = _lifted_call(_lifted[106], {})
 _temp994.arg_table['_temp992'] = _temp992
+_temp994.arg_table['_temp987'] = _temp987
 
   if false_question then
     _temp993 =  false_question(_self, _temp997, _temp994)
@@ -8655,7 +8689,7 @@ return _temp993
 end
 
 
-_lifted[108] = function(_argtable, _self)
+_lifted[109] = function(_argtable, _self)
 local _temp1017 = _argtable['_temp1017']
 local _temp1012 = _argtable['_temp1012']
 local _temp1024
@@ -8703,9 +8737,9 @@ return _temp1026
 end
 
 
-_lifted[107] = function(_argtable, _self, _temp1016)
-local _temp1012 = _argtable['_temp1012']
+_lifted[108] = function(_argtable, _self, _temp1016)
 local _temp1013 = _argtable['_temp1013']
+local _temp1012 = _argtable['_temp1012']
       if _temp1016 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
@@ -8821,7 +8855,7 @@ local _temp1023
     end
     
 
-local _temp1027 = _lifted_call(_lifted[108], {})
+local _temp1027 = _lifted_call(_lifted[109], {})
 _temp1027.arg_table['_temp1017'] = _temp1017
 _temp1027.arg_table['_temp1012'] = _temp1012
 
@@ -9731,9 +9765,9 @@ local _temp43
     
 
 local _temp50 = _lifted_call(_lifted[1], {})
-_temp50.arg_table['_temp32'] = _temp32
-_temp50.arg_table['object'] = object
 _temp50.arg_table['_temp33'] = _temp33
+_temp50.arg_table['object'] = object
+_temp50.arg_table['_temp32'] = _temp32
 
   if true_question then
     _temp35 =  true_question(_self, _temp43, _temp50)
@@ -10425,8 +10459,8 @@ _temp119.arg_table['_temp12'] = _temp12
 _temp119.arg_table['_temp52'] = _temp52
 
 local _temp132 = _lifted_call(_lifted[10], {})
-_temp132.arg_table['_temp53'] = _temp53
 _temp132.arg_table['_temp52'] = _temp52
+_temp132.arg_table['_temp53'] = _temp53
 
   if null_question then
     _temp54 =  null_question(_self, _temp55, _temp119, _temp132)
@@ -11031,8 +11065,8 @@ local _temp172 = _lifted_call(_lifted[13], {})
 _temp172.arg_table['_temp154'] = _temp154
 
 local _temp175 = _lifted_call(_lifted[14], {})
-_temp175.arg_table['_temp157'] = _temp157
 _temp175.arg_table['_temp154'] = _temp154
+_temp175.arg_table['_temp157'] = _temp157
 
 local _temp179 = _lifted_call(_lifted[15], {})
 _temp179.arg_table['_temp154'] = _temp154
@@ -11052,8 +11086,8 @@ local _temp196 = _lifted_call(_lifted[20], {})
 _temp196.arg_table['_temp154'] = _temp154
 
 local _temp200 = _lifted_call(_lifted[21], {})
-_temp200.arg_table['_temp157'] = _temp157
 _temp200.arg_table['_temp154'] = _temp154
+_temp200.arg_table['_temp157'] = _temp157
 
 local _temp202 = _lifted[22]
 
@@ -11234,8 +11268,8 @@ if _type(_temp202) == 'number' then
     
 
 _temp202 = _lifted_call(_lifted[24], {})
-_temp202.arg_table['_temp154'] = _temp154
 _temp202.arg_table['_temp157'] = _temp157
+_temp202.arg_table['_temp154'] = _temp154
 
 _temp192 = _lifted_call(_lifted[25], {})
 _temp192.arg_table['_temp157'] = _temp157
@@ -13137,10 +13171,10 @@ _temp310.arg_table['_temp299'] = _temp299
 _temp310.arg_table['_temp301'] = _temp301
 
 _temp319 = _lifted_call(_lifted[35], {})
-_temp319.arg_table['_temp303'] = _temp303
-_temp319.arg_table['_temp301'] = _temp301
 _temp319.arg_table['_temp299'] = _temp299
+_temp319.arg_table['_temp303'] = _temp303
 _temp319.arg_table['_temp12'] = _temp12
+_temp319.arg_table['_temp301'] = _temp301
 
   if false_question then
     _temp302 =  false_question(_self, _temp308, _temp310, _temp319)
@@ -13541,8 +13575,8 @@ _temp366.arg_table['_temp329'] = _temp329
 _temp330 = _temp332
 
 _temp333 = _lifted_call(_lifted[42], {})
-_temp333.arg_table['_temp330'] = _temp330
 _temp333.arg_table['_temp298'] = _temp298
+_temp333.arg_table['_temp330'] = _temp330
 
   if make_underrule then
     _temp366 =  make_underrule(_self, _temp333)
@@ -13706,96 +13740,38 @@ _temp383 = function(_self, _temp384, _temp385)
       if _temp385 == nil then
         _error(exception:argument_error('function', 2, 1))
       end
-    local _temp386
-
-   local _m
-   if null then
-     _m = null
-   else
-     _m = _self["null"]
-   end
-   if object._is_callable(_m) then
-     _temp386 = _m(_self)
-   elseif _m then
-     _temp386 = _m
-   elseif _self.no_undermethod then
-     _temp386 = _self:no_undermethod(string:new('null'))
-   else
-     _error(exception:name_error("null"))
-   end
-  
-
+    
 local _temp387
 
+local _temp386
+
     if object._is_callable(_temp385) then
-      _temp387 =  _temp385(_self)
+      _temp386 =  _temp385(_self)
 
     elseif _temp385 then
-      _temp387 =  _temp385
+      _temp386 =  _temp385
     else
       _error(exception:name_error("rules"))
     end
     
-local _temp389 = function(_self, _temp388)
-
-      if _temp388 == nil then
-        _error(exception:argument_error('function', 1, 0))
-      end
-    
-local _temp390
-
-local _temp391
-
-    if object._is_callable(_temp384) then
-      _temp391 =  _temp384(_self)
-
-    elseif _temp384 then
-      _temp391 =  _temp384
-    else
-      _error(exception:name_error("x"))
+local _temp391 = _lifted_call(_lifted[44], {})
+_temp391.arg_table['_temp384'] = _temp384
+if _type(_temp386) == 'number' then
+      _temp386 = number:new(_temp386)
+    elseif object._is_callable(_temp386) then
+      _temp386 = brat_function:new(_temp386)
     end
     
-
-    if object._is_callable(_temp388) then
-      _temp390 =  _temp388(_self, _temp391)
-
-    elseif _temp388 then
-      _temp390 =  _temp388(_self, _temp391)
-    else
-      _error(exception:new("Tried to invoke non-method: 'opt' (" .. object.__type(_temp388) .. ")"))
-    end
-    
-_temp386 = _temp390
-
-return _temp386
-
-end
-
-if _type(_temp387) == 'number' then
-      _temp387 = number:new(_temp387)
-    elseif object._is_callable(_temp387) then
-      _temp387 = brat_function:new(_temp387)
-    end
-    
-      local _m = _temp387.each_underuntil
+      local _m = _temp386.each_underuntil
       if object._is_callable(_m) then
-        _dummy =  _m(_temp387, _temp389)
+        _temp387 =  _m(_temp386, _temp391)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp387.no_undermethod then
-        _dummy =  _temp387:no_undermethod(string:new('each_until'), _temp389)
+      elseif _temp386.no_undermethod then
+        _temp387 =  _temp386:no_undermethod(string:new('each_until'), _temp391)
       else
-        _error(exception:method_error(_temp387, 'each_underuntil'))
+        _error(exception:method_error(_temp386, 'each_underuntil'))
       end
-    
-    if object._is_callable(_temp386) then
-      _temp387 =  _temp386(_self)
-
-    elseif _temp386 then
-      _temp387 =  _temp386
-    else
-      _error(exception:name_error("matched"))
-    end
     
 return _temp387
 
@@ -14006,10 +13982,10 @@ local _temp405
   end
   
 
-_temp405 = _lifted_call(_lifted[44], {})
+_temp405 = _lifted_call(_lifted[45], {})
 _temp405.arg_table['_temp393'] = _temp393
 
-local _temp409 = _lifted_call(_lifted[45], {})
+local _temp409 = _lifted_call(_lifted[46], {})
 _temp409.arg_table['_temp393'] = _temp393
 
   if true_question then
@@ -14132,12 +14108,12 @@ if _type(_temp397) == 'number' then
       end
     
 
-_temp397 = _lifted_call(_lifted[46], {})
+_temp397 = _lifted_call(_lifted[47], {})
 _temp397.arg_table['_temp393'] = _temp393
 
-local _temp430 = _lifted_call(_lifted[49], {})
-_temp430.arg_table['_temp394'] = _temp394
+local _temp430 = _lifted_call(_lifted[50], {})
 _temp430.arg_table['_temp393'] = _temp393
+_temp430.arg_table['_temp394'] = _temp394
 
   if true_question then
     _temp396 =  true_question(_self, _temp414, _temp397, _temp430)
@@ -14168,7 +14144,7 @@ _temp430.arg_table['_temp393'] = _temp393
    
 _temp394 = _temp396
 
-_temp397 = _lifted_call(_lifted[50], {})
+_temp397 = _lifted_call(_lifted[51], {})
 _temp397.arg_table['_temp383'] = _temp383
 _temp397.arg_table['_temp394'] = _temp394
 
@@ -14270,7 +14246,7 @@ local _temp440
       _error(exception:name_error("rule_undernames"))
     end
     
-local _temp446 = _lifted_call(_lifted[51], {})
+local _temp446 = _lifted_call(_lifted[52], {})
 _temp446.arg_table['_temp438'] = _temp438
 if _type(_temp440) == 'number' then
       _temp440 = number:new(_temp440)
@@ -14369,11 +14345,11 @@ local _temp451 = function(_self, _temp448, _temp449, _temp450)
     
 local _temp452
 
-local _temp562 = _lifted_call(_lifted[52], {})
-_temp562.arg_table['_temp450'] = _temp450
+local _temp562 = _lifted_call(_lifted[53], {})
 _temp562.arg_table['_temp449'] = _temp449
-_temp562.arg_table['_temp12'] = _temp12
 _temp562.arg_table['_temp448'] = _temp448
+_temp562.arg_table['_temp450'] = _temp450
+_temp562.arg_table['_temp12'] = _temp12
 
   if make_underrule then
     _temp452 =  make_underrule(_self, _temp562)
@@ -14739,13 +14715,13 @@ local _temp582
     end
     
 
-local _temp590 = _lifted_call(_lifted[64], {})
-_temp590.arg_table['_temp12'] = _temp12
+local _temp590 = _lifted_call(_lifted[65], {})
 _temp590.arg_table['_temp568'] = _temp568
-_temp590.arg_table['_temp566'] = _temp566
+_temp590.arg_table['_temp12'] = _temp12
 _temp590.arg_table['_temp564'] = _temp564
+_temp590.arg_table['_temp566'] = _temp566
 
-local _temp596 = _lifted_call(_lifted[65], {})
+local _temp596 = _lifted_call(_lifted[66], {})
 _temp596.arg_table['_temp566'] = _temp566
 _temp596.arg_table['_temp12'] = _temp12
 
@@ -14818,7 +14794,7 @@ local _temp599 = function(_self, _temp598)
     
 local _temp600
 
-local _temp605 = _lifted_call(_lifted[66], {})
+local _temp605 = _lifted_call(_lifted[67], {})
 _temp605.arg_table['_temp598'] = _temp598
 _temp605.arg_table['_temp563'] = _temp563
 
@@ -14901,9 +14877,9 @@ if _type(_temp611) == 'number' then
       end
     
 
-_temp611 = _lifted_call(_lifted[67], {})
-_temp611.arg_table['_temp607'] = _temp607
+_temp611 = _lifted_call(_lifted[68], {})
 _temp611.arg_table['_temp608'] = _temp608
+_temp611.arg_table['_temp607'] = _temp607
 _temp611.arg_table['_temp609'] = _temp609
 
   if _while then
@@ -15162,7 +15138,7 @@ if _type(_temp625) == 'number' then
       end
     
 
-_temp625 = _lifted_call(_lifted[69], {})
+_temp625 = _lifted_call(_lifted[70], {})
 _temp625.arg_table['_temp609'] = _temp609
 _temp625.arg_table['_temp623'] = _temp623
 
@@ -15244,9 +15220,9 @@ local _temp643 = function(_self, _temp642)
     
 local _temp644
 
-local _temp649 = _lifted_call(_lifted[70], {})
-_temp649.arg_table['_temp642'] = _temp642
+local _temp649 = _lifted_call(_lifted[71], {})
 _temp649.arg_table['_temp606'] = _temp606
+_temp649.arg_table['_temp642'] = _temp642
 
   if make_underrule then
     _temp644 =  make_underrule(_self, _temp649)
@@ -15430,9 +15406,9 @@ local _temp661
     end
     
 
-local _temp665 = _lifted_call(_lifted[71], {})
-_temp665.arg_table['_temp655'] = _temp655
+local _temp665 = _lifted_call(_lifted[72], {})
 _temp665.arg_table['_temp656'] = _temp656
+_temp665.arg_table['_temp655'] = _temp655
 
   if true_question then
     _temp654 =  true_question(_self, _temp661, _temp665)
@@ -15462,10 +15438,10 @@ _temp665.arg_table['_temp656'] = _temp656
    end
    
 
-_temp665 = _lifted_call(_lifted[72], {})
+_temp665 = _lifted_call(_lifted[73], {})
+_temp665.arg_table['_temp655'] = _temp655
 _temp665.arg_table['_temp652'] = _temp652
 _temp665.arg_table['_temp651'] = _temp651
-_temp665.arg_table['_temp655'] = _temp655
 
   if _while then
     _dummy =  _while(_self, _temp665)
@@ -15709,11 +15685,11 @@ if _type(_temp661) == 'number' then
       end
     
 
-_temp661 = _lifted_call(_lifted[74], {})
+_temp661 = _lifted_call(_lifted[75], {})
 _temp661.arg_table['_temp12'] = _temp12
 _temp661.arg_table['_temp653'] = _temp653
-_temp661.arg_table['_temp651'] = _temp651
 _temp661.arg_table['_temp655'] = _temp655
+_temp661.arg_table['_temp651'] = _temp651
 
   if false_question then
     _temp665 =  false_question(_self, _temp685, _temp661)
@@ -15784,7 +15760,7 @@ local _temp695 = function(_self, _temp694)
     
 local _temp696
 
-local _temp701 = _lifted_call(_lifted[75], {})
+local _temp701 = _lifted_call(_lifted[76], {})
 _temp701.arg_table['_temp694'] = _temp694
 _temp701.arg_table['_temp650'] = _temp650
 
@@ -16030,11 +16006,11 @@ local _temp714
     end
     
 
-local _temp720 = _lifted_call(_lifted[76], {})
+local _temp720 = _lifted_call(_lifted[77], {})
 _temp720.arg_table['_temp705'] = _temp705
+_temp720.arg_table['_temp703'] = _temp703
 _temp720.arg_table['_temp12'] = _temp12
 _temp720.arg_table['_temp707'] = _temp707
-_temp720.arg_table['_temp703'] = _temp703
 
   if true_question then
     _temp706 =  true_question(_self, _temp714, _temp720)
@@ -16105,7 +16081,7 @@ local _temp723 = function(_self, _temp722)
     
 local _temp724
 
-local _temp729 = _lifted_call(_lifted[77], {})
+local _temp729 = _lifted_call(_lifted[78], {})
 _temp729.arg_table['_temp702'] = _temp702
 _temp729.arg_table['_temp722'] = _temp722
 
@@ -16351,9 +16327,9 @@ local _temp742
     end
     
 
-local _temp748 = _lifted_call(_lifted[78], {})
-_temp748.arg_table['_temp735'] = _temp735
+local _temp748 = _lifted_call(_lifted[79], {})
 _temp748.arg_table['_temp733'] = _temp733
+_temp748.arg_table['_temp735'] = _temp735
 _temp748.arg_table['_temp731'] = _temp731
 _temp748.arg_table['_temp12'] = _temp12
 
@@ -16426,7 +16402,7 @@ local _temp751 = function(_self, _temp750)
     
 local _temp752
 
-local _temp757 = _lifted_call(_lifted[79], {})
+local _temp757 = _lifted_call(_lifted[80], {})
 _temp757.arg_table['_temp730'] = _temp730
 _temp757.arg_table['_temp750'] = _temp750
 
@@ -16718,14 +16694,14 @@ local _temp774
     end
     
 
-local _temp776 = _lifted[80]
+local _temp776 = _lifted[81]
 
 
-local _temp782 = _lifted_call(_lifted[81], {})
-_temp782.arg_table['_temp761'] = _temp761
-_temp782.arg_table['_temp764'] = _temp764
+local _temp782 = _lifted_call(_lifted[82], {})
 _temp782.arg_table['_temp763'] = _temp763
+_temp782.arg_table['_temp764'] = _temp764
 _temp782.arg_table['_temp12'] = _temp12
+_temp782.arg_table['_temp761'] = _temp761
 
   if true_question then
     _temp766 =  true_question(_self, _temp774, _temp776, _temp782)
@@ -16796,9 +16772,9 @@ local _temp785 = function(_self, _temp784)
     
 local _temp786
 
-local _temp791 = _lifted_call(_lifted[82], {})
-_temp791.arg_table['_temp784'] = _temp784
+local _temp791 = _lifted_call(_lifted[83], {})
 _temp791.arg_table['_temp758'] = _temp758
+_temp791.arg_table['_temp784'] = _temp784
 
   if make_underrule then
     _temp786 =  make_underrule(_self, _temp791)
@@ -17058,7 +17034,7 @@ local _temp807
     end
     
 
-local _temp813 = _lifted_call(_lifted[83], {})
+local _temp813 = _lifted_call(_lifted[84], {})
 _temp813.arg_table['_temp12'] = _temp12
 _temp813.arg_table['_temp795'] = _temp795
 _temp813.arg_table['_temp798'] = _temp798
@@ -17132,7 +17108,7 @@ local _temp816 = function(_self, _temp815)
     
 local _temp817
 
-local _temp822 = _lifted_call(_lifted[84], {})
+local _temp822 = _lifted_call(_lifted[85], {})
 _temp822.arg_table['_temp792'] = _temp792
 _temp822.arg_table['_temp815'] = _temp815
 
@@ -17346,7 +17322,7 @@ if _type(_temp828) == 'number' then
       end
     
 
-_temp828 = _lifted_call(_lifted[85], {})
+_temp828 = _lifted_call(_lifted[86], {})
 _temp828.arg_table['_temp824'] = _temp824
 
   if null_question then
@@ -17913,12 +17889,12 @@ if _type(_temp840) == 'number' then
       end
     
 
-_temp840 = _lifted[86]
+_temp840 = _lifted[87]
 
 
-local _temp865 = _lifted_call(_lifted[87], {})
-_temp865.arg_table['_temp12'] = _temp12
+local _temp865 = _lifted_call(_lifted[88], {})
 _temp865.arg_table['_temp838'] = _temp838
+_temp865.arg_table['_temp12'] = _temp12
 
   if true_question then
     _temp839 =  true_question(_self, _temp853, _temp840, _temp865)
@@ -18087,7 +18063,7 @@ if _type(_temp875) == 'number' then
    if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp875
      
-_temp876 = _lifted_call(_lifted[88], {})
+_temp876 = _lifted_call(_lifted[89], {})
 _temp876.arg_table['_temp874'] = _temp874
      if object._is_callable(_temp876) then
                     _temp876 = _temp876(_self)
@@ -18156,10 +18132,10 @@ _temp875 = object.__false
    else
      -- fallback null?
      
-local _temp882 = _lifted_call(_lifted[89], {})
+local _temp882 = _lifted_call(_lifted[90], {})
 _temp882.arg_table['_temp874'] = _temp874
 
-local _temp886 = _lifted_call(_lifted[90], {})
+local _temp886 = _lifted_call(_lifted[91], {})
 _temp886.arg_table['_temp873'] = _temp873
 
   if null_question then
@@ -18284,10 +18260,10 @@ if _type(_temp891) == 'number' then
         _error(exception:method_error(_temp891, 'named_underrules'))
       end
     
-local _temp897 = _lifted_call(_lifted[91], {})
+local _temp897 = _lifted_call(_lifted[92], {})
+_temp897.arg_table['_temp888'] = _temp888
 _temp897.arg_table['_temp890'] = _temp890
 _temp897.arg_table['_temp870'] = _temp870
-_temp897.arg_table['_temp888'] = _temp888
 
   if make_underrule then
     _temp891 =  make_underrule(_self, _temp897)
@@ -18463,9 +18439,9 @@ if _type(_temp902) == 'number' then
       end
     
 
-_temp902 = _lifted_call(_lifted[92], {})
-_temp902.arg_table['_temp900'] = _temp900
+_temp902 = _lifted_call(_lifted[93], {})
 _temp902.arg_table['_temp898'] = _temp898
+_temp902.arg_table['_temp900'] = _temp900
 
   if true_question then
     _temp901 =  true_question(_self, _temp907, _temp902)
@@ -18625,7 +18601,7 @@ if _type(_temp917) == 'number' then
         _error(exception:method_error(_temp917, 'elements'))
       end
     
-_temp917 = _lifted_call(_lifted[93], {})
+_temp917 = _lifted_call(_lifted[94], {})
 _temp917.arg_table['_temp12'] = _temp12
 if _type(_temp918) == 'number' then
       _temp918 = number:new(_temp918)
@@ -18742,14 +18718,14 @@ if _type(_temp907) == 'number' then
       end
     
 
-_temp907 = _lifted_call(_lifted[96], {})
-_temp907.arg_table['_temp900'] = _temp900
+_temp907 = _lifted_call(_lifted[97], {})
 _temp907.arg_table['_temp898'] = _temp898
+_temp907.arg_table['_temp900'] = _temp900
 
-local _temp961 = _lifted_call(_lifted[97], {})
+local _temp961 = _lifted_call(_lifted[98], {})
 _temp961.arg_table['_temp900'] = _temp900
-_temp961.arg_table['_temp898'] = _temp898
 _temp961.arg_table['_temp12'] = _temp12
+_temp961.arg_table['_temp898'] = _temp898
 
   if true_question then
     _temp902 =  true_question(_self, _temp936, _temp907, _temp961)
@@ -18957,7 +18933,7 @@ local _temp971
     end
     
 
-local _temp974 = _lifted_call(_lifted[101], {})
+local _temp974 = _lifted_call(_lifted[102], {})
 _temp974.arg_table['_temp965'] = _temp965
 _temp974.arg_table['_temp12'] = _temp12
 _temp974.arg_table['_temp966'] = _temp966
@@ -19037,10 +19013,10 @@ local _temp979 = function(_self, _temp977, _temp978)
     
 local _temp980
 
-local _temp986 = _lifted_call(_lifted[102], {})
-_temp986.arg_table['_temp962'] = _temp962
-_temp986.arg_table['_temp977'] = _temp977
+local _temp986 = _lifted_call(_lifted[103], {})
 _temp986.arg_table['_temp978'] = _temp978
+_temp986.arg_table['_temp977'] = _temp977
+_temp986.arg_table['_temp962'] = _temp962
 
   if make_underrule then
     _temp980 =  make_underrule(_self, _temp986)
@@ -19141,7 +19117,7 @@ if _type(_temp990) == 'number' then
       _error(exception:name_error("labeled_underrules"))
     end
     
-local _temp1009 = _lifted_call(_lifted[103], {})
+local _temp1009 = _lifted_call(_lifted[104], {})
 _temp1009.arg_table['_temp987'] = _temp987
 if _type(_temp990) == 'number' then
       _temp990 = number:new(_temp990)
@@ -19214,9 +19190,9 @@ local _temp1014 = function(_self, _temp1012, _temp1013)
     
 local _temp1015
 
-local _temp1028 = _lifted_call(_lifted[107], {})
-_temp1028.arg_table['_temp1013'] = _temp1013
+local _temp1028 = _lifted_call(_lifted[108], {})
 _temp1028.arg_table['_temp1012'] = _temp1012
+_temp1028.arg_table['_temp1013'] = _temp1013
 
   if make_underrule then
     _temp1015 =  make_underrule(_self, _temp1028)
