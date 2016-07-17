@@ -2781,6 +2781,51 @@ function array_instance:map (block)
   return array:new(new_array)
 end
 
+function array_instance:map_underwhile (block)
+  if type(block) == "table" and block._lua_string then
+    local method = to_identifier(block._lua_string)
+    block = function(_self, item)
+      if type(item) == "number" then
+        local n = number:new(item)
+        return n[method](n)
+      else
+        local m = item[method]
+        if m == nil then
+          error("In array.map: " .. tostring(item) .. " has no method called '" .. method .. "'")
+        elseif is_callable(m) then
+          return item[method](item)
+        else
+          return m
+        end
+      end
+    end
+  end
+
+  local k = 1
+  local len = self._length
+  local a = self._lua_array
+  local new_array = {}
+
+  while k <= len do
+    local res
+    if a[k] == nil then
+      res = block(self, object.__null)
+    else
+      res = block(self, a[k])
+    end
+
+    if is_true(res) then
+      new_array[k] = res
+    else
+      break
+    end
+
+    k = k + 1
+  end
+
+  return array:new(new_array)
+end
+
 -- Object: array instance
 -- Call: array.reduce block
 -- Call: array.reduce initial, block
