@@ -346,8 +346,8 @@ end
 
 
 _lifted[6] = function(_argtable, _self)
-local _temp63 = _argtable['_temp63']
 local _temp62 = _argtable['_temp62']
+local _temp63 = _argtable['_temp63']
 local _temp131
 
     if object._is_callable(_temp63) then
@@ -467,7 +467,7 @@ _lifted[10] = function(_argtable, _self)
 local _temp145 = _argtable['_temp145']
 local _temp163
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp163
      
 local _temp165
@@ -563,6 +563,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
    local _m
    if my then
@@ -656,6 +657,7 @@ _temp169 = _lifted[12]
   end
   
      _temp163 =  _temp163
+     -- end fallback if
    end
    
 return _temp163
@@ -893,8 +895,8 @@ end
 
 
 _lifted[18] = function(_argtable, _self)
-local _temp182 = _argtable['_temp182']
 local _temp180 = _argtable['_temp180']
+local _temp182 = _argtable['_temp182']
 local _temp233
 
     if object._is_callable(_temp180) then
@@ -1005,12 +1007,12 @@ end
 
 
 _lifted[16] = function(_argtable, _self)
+local _temp184 = _argtable['_temp184']
 local _temp180 = _argtable['_temp180']
 local _temp182 = _argtable['_temp182']
-local _temp184 = _argtable['_temp184']
 local _temp216
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp216
      
 local _temp218
@@ -1211,6 +1213,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp184) then
       _temp217 =  _temp184(_self)
@@ -1245,8 +1248,8 @@ _temp217 = _lifted_call(_lifted[17], {})
 _temp217.arg_table['_temp180'] = _temp180
 
 _temp229 = _lifted_call(_lifted[18], {})
-_temp229.arg_table['_temp180'] = _temp180
 _temp229.arg_table['_temp182'] = _temp182
+_temp229.arg_table['_temp180'] = _temp180
 
   if true_question then
     _temp216 =  true_question(_self, _temp219, _temp217, _temp229)
@@ -1272,6 +1275,7 @@ _temp229.arg_table['_temp182'] = _temp182
   end
   
      _temp216 =  _temp216
+     -- end fallback if
    end
    
 return _temp216
@@ -1429,7 +1433,7 @@ _lifted[20] = function(_self, _temp253)
     
 local _temp254
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp254
      
 local _temp256
@@ -1522,6 +1526,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
     if object._is_callable(_temp253) then
       _temp256 =  _temp253(_self)
@@ -1596,6 +1601,7 @@ _temp259.arg_table['_temp253'] = _temp253
   end
   
      _temp254 =  _temp254
+     -- end fallback false?
    end
    
 return _temp254
@@ -1638,7 +1644,7 @@ _lifted[24] = function(_self, _temp270)
     
 local _temp271
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp271
      
 local _temp273
@@ -1712,6 +1718,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
 local _temp276
 
@@ -1769,6 +1776,7 @@ _temp272.arg_table['_temp270'] = _temp270
   end
   
      _temp271 =  _temp271
+     -- end fallback false?
    end
    
 return _temp271
@@ -1926,7 +1934,7 @@ _lifted[28] = function(_self, _temp286)
     
 local _temp287
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp287
      
 local _temp289
@@ -2019,6 +2027,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
     if object._is_callable(_temp286) then
       _temp289 =  _temp286(_self)
@@ -2093,6 +2102,7 @@ _temp292.arg_table['_temp286'] = _temp286
   end
   
      _temp287 =  _temp287
+     -- end fallback false?
    end
    
 return _temp287
@@ -2174,7 +2184,7 @@ _lifted[33] = function(_self, _temp303)
     
 local _temp304
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp304
      
 local _temp306
@@ -2248,6 +2258,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
 local _temp309
 
@@ -2305,6 +2316,7 @@ _temp305.arg_table['_temp303'] = _temp303
   end
   
      _temp304 =  _temp304
+     -- end fallback false?
    end
    
 return _temp304
@@ -2501,7 +2513,7 @@ _lifted[37] = function(_self, _temp323)
     
 local _temp324
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp324
      
 local _temp326
@@ -2594,6 +2606,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
     if object._is_callable(_temp323) then
       _temp326 =  _temp323(_self)
@@ -2668,6 +2681,7 @@ _temp329.arg_table['_temp323'] = _temp323
   end
   
      _temp324 =  _temp324
+     -- end fallback false?
    end
    
 return _temp324
@@ -2710,7 +2724,7 @@ _lifted[41] = function(_self, _temp340)
     
 local _temp341
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp341
      
 local _temp343
@@ -2784,6 +2798,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
 local _temp346
 
@@ -2841,6 +2856,7 @@ _temp342.arg_table['_temp340'] = _temp340
   end
   
      _temp341 =  _temp341
+     -- end fallback false?
    end
    
 return _temp341
@@ -2998,7 +3014,7 @@ _lifted[45] = function(_self, _temp356)
     
 local _temp357
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp357
      
 local _temp359
@@ -3091,6 +3107,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
     if object._is_callable(_temp356) then
       _temp359 =  _temp356(_self)
@@ -3165,6 +3182,7 @@ _temp362.arg_table['_temp356'] = _temp356
   end
   
      _temp357 =  _temp357
+     -- end fallback false?
    end
    
 return _temp357
@@ -3246,7 +3264,7 @@ _lifted[50] = function(_self, _temp373)
     
 local _temp374
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp374
      
 local _temp376
@@ -3320,6 +3338,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
 local _temp379
 
@@ -3377,6 +3396,7 @@ _temp375.arg_table['_temp373'] = _temp373
   end
   
      _temp374 =  _temp374
+     -- end fallback false?
    end
    
 return _temp374
@@ -3427,7 +3447,7 @@ _lifted[35] = function(_argtable, _self)
 local _temp240 = _argtable['_temp240']
 local _temp314
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp314
      
 local _temp316
@@ -3550,6 +3570,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp240) then
       _temp315 =  _temp240(_self)
@@ -3610,6 +3631,7 @@ _temp353.arg_table['_temp240'] = _temp240
   end
   
      _temp314 =  _temp314
+     -- end fallback if
    end
    
 return _temp314
@@ -3957,7 +3979,7 @@ local _temp397 = _argtable['_temp397']
 local _temp419 = _argtable['_temp419']
 local _temp446
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp446
      
 local _temp448
@@ -4093,6 +4115,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp419) then
       _temp447 =  _temp419(_self)
@@ -4153,6 +4176,7 @@ _temp456.arg_table['_temp397'] = _temp397
   end
   
      _temp446 =  _temp446
+     -- end fallback if
    end
    
 return _temp446
@@ -4370,11 +4394,11 @@ end
 
 
 _lifted[64] = function(_argtable, _self)
-local _temp464 = _argtable['_temp464']
 local _temp397 = _argtable['_temp397']
+local _temp464 = _argtable['_temp464']
 local _temp491
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp491
      
 local _temp493
@@ -4510,6 +4534,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp464) then
       _temp492 =  _temp464(_self)
@@ -4570,6 +4595,7 @@ _temp501.arg_table['_temp397'] = _temp397
   end
   
      _temp491 =  _temp491
+     -- end fallback if
    end
    
 return _temp491
@@ -4616,7 +4642,7 @@ local _temp465
     
   end
   
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp465
      
 local _temp467
@@ -4689,7 +4715,7 @@ end
 
 local _temp471
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp471
      
 local _temp473
@@ -4825,6 +4851,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp464) then
       _temp472 =  _temp464(_self)
@@ -4885,6 +4912,7 @@ _temp481.arg_table['_temp397'] = _temp397
   end
   
      _temp471 =  _temp471
+     -- end fallback if
    end
    
 _temp465 =  _temp471
@@ -4895,6 +4923,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp464) then
       _temp466 =  _temp464(_self)
@@ -4929,8 +4958,8 @@ _temp466 = _lifted_call(_lifted[63], {})
 _temp466.arg_table['_temp397'] = _temp397
 
 _temp488 = _lifted_call(_lifted[64], {})
-_temp488.arg_table['_temp397'] = _temp397
 _temp488.arg_table['_temp464'] = _temp464
+_temp488.arg_table['_temp397'] = _temp397
 
   if true_question then
     _temp465 =  true_question(_self, _temp468, _temp466, _temp488)
@@ -4956,6 +4985,7 @@ _temp488.arg_table['_temp464'] = _temp464
   end
   
      _temp465 =  _temp465
+     -- end fallback if
    end
    
 return _temp465
@@ -5123,7 +5153,7 @@ local _temp511 = _argtable['_temp511']
 local _temp509 = _argtable['_temp509']
 local _temp534
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp534
      
 local _temp536
@@ -5236,6 +5266,7 @@ _temp534 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp511) then
       _temp535 =  _temp511(_self)
@@ -5293,6 +5324,7 @@ _temp535.arg_table['_temp509'] = _temp509
   end
   
      _temp534 =  _temp534
+     -- end fallback if
    end
    
 return _temp534
@@ -5510,11 +5542,11 @@ end
 
 
 _lifted[74] = function(_argtable, _self)
-local _temp579 = _argtable['_temp579']
 local _temp574 = _argtable['_temp574']
+local _temp579 = _argtable['_temp579']
 local _temp606
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp606
      
 local _temp608
@@ -5650,6 +5682,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp579) then
       _temp607 =  _temp579(_self)
@@ -5710,6 +5743,7 @@ _temp616.arg_table['_temp574'] = _temp574
   end
   
      _temp606 =  _temp606
+     -- end fallback if
    end
    
 return _temp606
@@ -5931,7 +5965,7 @@ local _temp574 = _argtable['_temp574']
 local _temp627 = _argtable['_temp627']
 local _temp654
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp654
      
 local _temp656
@@ -6067,6 +6101,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp627) then
       _temp655 =  _temp627(_self)
@@ -6127,6 +6162,7 @@ _temp664.arg_table['_temp574'] = _temp574
   end
   
      _temp654 =  _temp654
+     -- end fallback if
    end
    
 return _temp654
@@ -6191,7 +6227,7 @@ if _type(_temp628) == 'number' then
     
   end
   
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp629
      
 local _temp630
@@ -6262,7 +6298,7 @@ end
 
 local _temp634
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp634
      
 local _temp636
@@ -6398,6 +6434,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp627) then
       _temp635 =  _temp627(_self)
@@ -6458,6 +6495,7 @@ _temp644.arg_table['_temp574'] = _temp574
   end
   
      _temp634 =  _temp634
+     -- end fallback if
    end
    
 _temp629 =  _temp634
@@ -6468,6 +6506,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp627) then
       _temp628 =  _temp627(_self)
@@ -6502,8 +6541,8 @@ _temp628 = _lifted_call(_lifted[80], {})
 _temp628.arg_table['_temp574'] = _temp574
 
 _temp651 = _lifted_call(_lifted[81], {})
-_temp651.arg_table['_temp627'] = _temp627
 _temp651.arg_table['_temp574'] = _temp574
+_temp651.arg_table['_temp627'] = _temp627
 
   if true_question then
     _temp629 =  true_question(_self, _temp631, _temp628, _temp651)
@@ -6529,6 +6568,7 @@ _temp651.arg_table['_temp574'] = _temp574
   end
   
      _temp629 =  _temp629
+     -- end fallback if
    end
    
 return _temp629
@@ -7267,7 +7307,7 @@ if _type(_temp33) == 'number' then
 
 local _temp39 = -1
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp33
      
 local _temp41
@@ -7473,6 +7513,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp31) then
       _temp34 =  _temp31(_self)
@@ -7690,6 +7731,7 @@ end
   end
   
      _temp33 =  _temp33
+     -- end fallback if
    end
    
 local _temp40 = _temp33
@@ -7804,7 +7846,7 @@ local _temp64 = function(_self, _temp63)
     
 local _temp65
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp65
      
 local _temp67
@@ -7915,7 +7957,7 @@ _temp39 = _temp69
 
 local _temp71
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp71
      
 local _temp73
@@ -8057,7 +8099,7 @@ end
 
 local _temp75
 
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('null_question') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp75
      
 local _temp77
@@ -8176,6 +8218,7 @@ _temp75 = object.__false
      end
      -- end yay if
    else
+     -- fallback null?
      
 local _temp81
 
@@ -8207,8 +8250,8 @@ if _type(_temp76) == 'number' then
     
 
 _temp76 = _lifted_call(_lifted[3], {})
-_temp76.arg_table['_temp62'] = _temp62
 _temp76.arg_table['_temp63'] = _temp63
+_temp76.arg_table['_temp62'] = _temp62
 
   if null_question then
     _temp75 =  null_question(_self, _temp81, _temp76)
@@ -8234,6 +8277,7 @@ _temp76.arg_table['_temp63'] = _temp63
   end
   
      _temp75 =  _temp75
+     -- end fallback null?
    end
    
     if object._is_callable(_temp63) then
@@ -8298,6 +8342,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
     if object._is_callable(_temp62) then
       _temp73 =  _temp62(_self)
@@ -8401,7 +8446,7 @@ local _temp88 = function(_self)
 
 local _temp89
 
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('null_question') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp89
      
 local _temp91
@@ -8520,6 +8565,7 @@ _temp89 = object.__false
      end
      -- end yay if
    else
+     -- fallback null?
      
 local _temp95
 
@@ -8578,6 +8624,7 @@ _temp90.arg_table['_temp62'] = _temp62
   end
   
      _temp89 =  _temp89
+     -- end fallback null?
    end
    
     if object._is_callable(_temp63) then
@@ -8690,6 +8737,7 @@ end
   end
   
      _temp71 =  _temp71
+     -- end fallback false?
    end
    
 _temp65 =  _temp71
@@ -8700,6 +8748,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
     if object._is_callable(_temp63) then
       _temp66 =  _temp63(_self)
@@ -8803,7 +8852,7 @@ _temp39 = _temp104
 
 local _temp106
 
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp106
      
 local _temp108
@@ -8945,7 +8994,7 @@ end
 
 local _temp110
 
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('null_question') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp110
      
 local _temp112
@@ -9064,6 +9113,7 @@ _temp110 = object.__false
      end
      -- end yay if
    else
+     -- fallback null?
      
 local _temp116
 
@@ -9095,8 +9145,8 @@ if _type(_temp111) == 'number' then
     
 
 _temp111 = _lifted_call(_lifted[5], {})
-_temp111.arg_table['_temp62'] = _temp62
 _temp111.arg_table['_temp63'] = _temp63
+_temp111.arg_table['_temp62'] = _temp62
 
   if null_question then
     _temp110 =  null_question(_self, _temp116, _temp111)
@@ -9122,6 +9172,7 @@ _temp111.arg_table['_temp63'] = _temp63
   end
   
      _temp110 =  _temp110
+     -- end fallback null?
    end
    
     if object._is_callable(_temp63) then
@@ -9186,6 +9237,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
     if object._is_callable(_temp62) then
       _temp108 =  _temp62(_self)
@@ -9289,7 +9341,7 @@ local _temp123 = function(_self)
 
 local _temp124
 
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('null_question') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp124
      
 local _temp126
@@ -9408,6 +9460,7 @@ _temp124 = object.__false
      end
      -- end yay if
    else
+     -- fallback null?
      
 local _temp130
 
@@ -9466,6 +9519,7 @@ _temp125.arg_table['_temp63'] = _temp63
   end
   
      _temp124 =  _temp124
+     -- end fallback null?
    end
    
     if object._is_callable(_temp63) then
@@ -9578,6 +9632,7 @@ end
   end
   
      _temp106 =  _temp106
+     -- end fallback false?
    end
    
 return _temp106
@@ -9609,6 +9664,7 @@ end
   end
   
      _temp65 =  _temp65
+     -- end fallback false?
    end
    
     if object._is_callable(_temp61) then
@@ -9642,7 +9698,7 @@ if _type(_temp34) == 'number' then
       end
     
 
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('null_question') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp34
      
     if object._is_callable(_temp38) then
@@ -9757,6 +9813,7 @@ _temp34 = object.__false
      end
      -- end yay if
    else
+     -- fallback null?
      
     if object._is_callable(_temp38) then
       _temp64 =  _temp38(_self)
@@ -9881,6 +9938,7 @@ end
   end
   
      _temp34 =  _temp34
+     -- end fallback null?
    end
    
     if object._is_callable(_temp38) then
@@ -9983,7 +10041,7 @@ local _temp146 = function(_self, _temp145)
     
 local _temp147
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp147
      
 local _temp149
@@ -10071,7 +10129,7 @@ end
 
 local _temp152
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp152
      
 local _temp154
@@ -10167,6 +10225,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
    local _m
    if my then
@@ -10260,6 +10319,7 @@ _temp158 = _lifted[8]
   end
   
      _temp152 =  _temp152
+     -- end fallback if
    end
    
 _temp147 =  _temp152
@@ -10270,6 +10330,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
    local _m
    if my then
@@ -10363,6 +10424,7 @@ _temp161.arg_table['_temp145'] = _temp145
   end
   
      _temp147 =  _temp147
+     -- end fallback if
    end
    
 return _temp147
@@ -10546,7 +10608,7 @@ local _temp184
   end
   
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp183
      
 local _temp186
@@ -10619,7 +10681,7 @@ end
 
 local _temp190
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp190
      
 local _temp192
@@ -10820,6 +10882,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp184) then
       _temp191 =  _temp184(_self)
@@ -10854,8 +10917,8 @@ _temp191 = _lifted_call(_lifted[13], {})
 _temp191.arg_table['_temp180'] = _temp180
 
 _temp203 = _lifted_call(_lifted[14], {})
-_temp203.arg_table['_temp182'] = _temp182
 _temp203.arg_table['_temp180'] = _temp180
+_temp203.arg_table['_temp182'] = _temp182
 
   if true_question then
     _temp190 =  true_question(_self, _temp193, _temp191, _temp203)
@@ -10881,6 +10944,7 @@ _temp203.arg_table['_temp180'] = _temp180
   end
   
      _temp190 =  _temp190
+     -- end fallback if
    end
    
 _temp183 =  _temp190
@@ -10891,6 +10955,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp184) then
       _temp185 =  _temp184(_self)
@@ -10926,8 +10991,8 @@ _temp185.arg_table['_temp180'] = _temp180
 
 _temp213 = _lifted_call(_lifted[16], {})
 _temp213.arg_table['_temp184'] = _temp184
-_temp213.arg_table['_temp182'] = _temp182
 _temp213.arg_table['_temp180'] = _temp180
+_temp213.arg_table['_temp182'] = _temp182
 
   if true_question then
     _temp183 =  true_question(_self, _temp187, _temp185, _temp213)
@@ -10953,6 +11018,7 @@ _temp213.arg_table['_temp180'] = _temp180
   end
   
      _temp183 =  _temp183
+     -- end fallback if
    end
    
     if object._is_callable(_temp180) then
@@ -11111,7 +11177,7 @@ if _type(_temp242) == 'number' then
         _error(exception:method_error(_temp242, 'pop'))
       end
     
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('false_question') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is _temp242
      
 local _temp243
@@ -11181,7 +11247,7 @@ _temp242 = object.__false
 
 local _temp244
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp244
      
 local _temp246
@@ -11304,6 +11370,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp240) then
       _temp245 =  _temp240(_self)
@@ -11364,6 +11431,7 @@ _temp283.arg_table['_temp240'] = _temp240
   end
   
      _temp244 =  _temp244
+     -- end fallback if
    end
    
 _temp242 =  _temp244
@@ -11374,6 +11442,7 @@ end
      end
      -- end yay if
    else
+     -- fallback false?
      
 local _temp313
 
@@ -11455,6 +11524,7 @@ _temp313.arg_table['_temp240'] = _temp240
   end
   
      _temp242 =  _temp242
+     -- end fallback false?
    end
    
 return _temp242
@@ -12135,7 +12205,7 @@ if _type(_temp400) == 'number' then
       end
     
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp400
      
 local _temp401
@@ -12226,6 +12296,7 @@ _temp400 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp405
 
@@ -12266,10 +12337,11 @@ _temp409.arg_table['_temp397'] = _temp397
   end
   
      _temp400 =  _temp400
+     -- end fallback if
    end
    
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp409
      
 local _temp410
@@ -12377,6 +12449,7 @@ _temp409 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp414
 
@@ -12434,6 +12507,7 @@ _temp405.arg_table['_temp397'] = _temp397
   end
   
      _temp409 =  _temp409
+     -- end fallback if
    end
    
 local _temp418
@@ -12464,7 +12538,7 @@ if _type(_temp405) == 'number' then
         _error(exception:method_error(_temp405, 'method'))
       end
     
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('null_question') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp405
      
     if object._is_callable(_temp399) then
@@ -12520,7 +12594,7 @@ local _temp420
     
   end
   
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp420
      
 local _temp422
@@ -12593,7 +12667,7 @@ end
 
 local _temp426
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp426
      
 local _temp428
@@ -12729,6 +12803,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp419) then
       _temp427 =  _temp419(_self)
@@ -12789,6 +12864,7 @@ _temp436.arg_table['_temp397'] = _temp397
   end
   
      _temp426 =  _temp426
+     -- end fallback if
    end
    
 _temp420 =  _temp426
@@ -12799,6 +12875,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp419) then
       _temp421 =  _temp419(_self)
@@ -12860,6 +12937,7 @@ _temp443.arg_table['_temp419'] = _temp419
   end
   
      _temp420 =  _temp420
+     -- end fallback if
    end
    
 _temp405 =  _temp420
@@ -12875,6 +12953,7 @@ _temp405 = object.__false
      end
      -- end yay if
    else
+     -- fallback null?
      
 local _temp463
 
@@ -12916,6 +12995,7 @@ _temp508.arg_table['_temp418'] = _temp418
   end
   
      _temp405 =  _temp405
+     -- end fallback null?
    end
    
 return _temp405
@@ -13013,7 +13093,7 @@ if _type(_temp512) == 'number' then
     
   end
   
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp513
      
 local _temp514
@@ -13084,7 +13164,7 @@ end
 
 local _temp518
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp518
      
 local _temp520
@@ -13197,6 +13277,7 @@ _temp518 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp511) then
       _temp519 =  _temp511(_self)
@@ -13254,6 +13335,7 @@ _temp519.arg_table['_temp509'] = _temp509
   end
   
      _temp518 =  _temp518
+     -- end fallback if
    end
    
 _temp513 =  _temp518
@@ -13264,6 +13346,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp511) then
       _temp512 =  _temp511(_self)
@@ -13325,6 +13408,7 @@ _temp531.arg_table['_temp509'] = _temp509
   end
   
      _temp513 =  _temp513
+     -- end fallback if
    end
    
 return _temp513
@@ -14016,7 +14100,7 @@ local _temp575 = function(_self, _temp574)
     
 local _temp576
 
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('null_question') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp576
      
 local _temp578
@@ -14112,7 +14196,7 @@ if _type(_temp580) == 'number' then
     
   end
   
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp581
      
 local _temp582
@@ -14183,7 +14267,7 @@ end
 
 local _temp586
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp586
      
 local _temp588
@@ -14319,6 +14403,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp579) then
       _temp587 =  _temp579(_self)
@@ -14379,6 +14464,7 @@ _temp596.arg_table['_temp574'] = _temp574
   end
   
      _temp586 =  _temp586
+     -- end fallback if
    end
    
 _temp581 =  _temp586
@@ -14389,6 +14475,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp579) then
       _temp580 =  _temp579(_self)
@@ -14450,6 +14537,7 @@ _temp603.arg_table['_temp579'] = _temp579
   end
   
      _temp581 =  _temp581
+     -- end fallback if
    end
    
 _temp576 =  _temp581
@@ -14524,6 +14612,7 @@ end
      end
      -- end yay if
    else
+     -- fallback null?
      
 local _temp626
 
@@ -14584,6 +14673,7 @@ _temp674.arg_table['_temp574'] = _temp574
   end
   
      _temp576 =  _temp576
+     -- end fallback null?
    end
    
 return _temp576

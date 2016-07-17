@@ -491,7 +491,7 @@ if _type(_temp11) == 'number' then
       end
     
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp11
      
     if object._is_callable(_temp15) then
@@ -574,6 +574,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp23
 
@@ -672,6 +673,7 @@ end
   end
   
      _temp11 =  _temp11
+     -- end fallback if
    end
    
 local _temp30
@@ -793,7 +795,8 @@ local _temp53
 
 do
 local _temp54 = {}
-_temp54[1] = "\n      if "
+_temp54[1] = "\
+      if "
 
 local _temp55
 
@@ -823,7 +826,8 @@ if _type(_temp55) == 'number' then
         _error(exception:method_error(_temp55, 'var'))
       end
     _temp54[2] = _tostring(_temp54[2])
-_temp54[3] = " == nil then\n        _error(exception:argument_error('function', "
+_temp54[3] = " == nil then\
+        _error(exception:argument_error('function', "
 
 local _temp56
 
@@ -894,7 +898,9 @@ _temp54[5] = ", "
       _error(exception:name_error("i"))
     end
     _temp54[6] = _tostring(_temp54[6])
-_temp54[7] = "))\n      end\n    "
+_temp54[7] = "))\
+      end\
+    "
 _temp53 = string:new(_table.concat(_temp54))
 end
 

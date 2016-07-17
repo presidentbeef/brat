@@ -1789,7 +1789,7 @@ local _temp89 = function(_self, _temp88)
     
 local _temp90
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp90
      
 local _temp92
@@ -1944,6 +1944,7 @@ _temp90 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp88) then
       _temp92 =  _temp88(_self)
@@ -2018,6 +2019,7 @@ _temp96.arg_table['_temp88'] = _temp88
   end
   
      _temp90 =  _temp90
+     -- end fallback if
    end
    
 return _temp90

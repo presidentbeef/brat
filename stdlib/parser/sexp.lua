@@ -33,8 +33,8 @@
 
     
 _lifted[1] = function(_argtable, _self)
-local _temp20 = _argtable['_temp20']
 local _temp22 = _argtable['_temp22']
+local _temp20 = _argtable['_temp20']
 local _temp34
 
 local _temp33
@@ -283,8 +283,8 @@ if _type(_temp39) == 'number' then
       end
     
 _temp41 = _lifted_call(_lifted[3], {})
-_temp41.arg_table['_temp20'] = _temp20
 _temp41.arg_table['_temp22'] = _temp22
+_temp41.arg_table['_temp20'] = _temp20
 if _type(_temp38) == 'number' then
       _temp38 = number:new(_temp38)
     elseif object._is_callable(_temp38) then
@@ -907,7 +907,7 @@ local _temp21 = function(_self, _temp20)
   
 local _temp23
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp23
      
 local _temp25
@@ -1075,8 +1075,8 @@ if _type(_temp30) == 'number' then
       end
     
 _temp32 = _lifted_call(_lifted[1], {})
-_temp32.arg_table['_temp22'] = _temp22
 _temp32.arg_table['_temp20'] = _temp20
+_temp32.arg_table['_temp22'] = _temp22
 if _type(_temp29) == 'number' then
       _temp29 = number:new(_temp29)
     elseif object._is_callable(_temp29) then
@@ -1107,6 +1107,7 @@ _temp23 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp20) then
       _temp25 =  _temp20(_self)
@@ -1210,6 +1211,7 @@ _temp27.arg_table['_temp20'] = _temp20
   end
   
      _temp23 =  _temp23
+     -- end fallback if
    end
    
 return _temp23
@@ -1616,7 +1618,7 @@ local _temp64
     
 local _temp65
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp65
      
 local _temp66
@@ -1800,6 +1802,7 @@ _temp65 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp73
 
@@ -1932,6 +1935,7 @@ _temp73.arg_table['_temp62'] = _temp62
   end
   
      _temp65 =  _temp65
+     -- end fallback if
    end
    
 return _temp65
@@ -2684,8 +2688,8 @@ if _type(_temp146) == 'number' then
       end
     
 _temp148 = _lifted_call(_lifted[7], {})
-_temp148.arg_table['_temp145'] = _temp145
 _temp148.arg_table['_temp1'] = _temp1
+_temp148.arg_table['_temp145'] = _temp145
 if _type(_temp147) == 'number' then
       _temp147 = number:new(_temp147)
     elseif object._is_callable(_temp147) then

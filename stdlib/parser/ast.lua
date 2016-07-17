@@ -161,9 +161,9 @@ end
 
 
 _lifted[5] = function(_argtable, _self)
+local _temp28 = _argtable['_temp28']
 local _temp25 = _argtable['_temp25']
 local _temp23 = _argtable['_temp23']
-local _temp28 = _argtable['_temp28']
 local _temp42
 
 local _temp44
@@ -219,8 +219,8 @@ end
 
 
 _lifted[1] = function(_argtable, _self, _temp28)
-local _temp25 = _argtable['_temp25']
 local _temp23 = _argtable['_temp23']
+local _temp25 = _argtable['_temp25']
       if _temp28 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
@@ -231,15 +231,15 @@ local _temp33 = _lifted_call(_lifted[2], {})
 _temp33.arg_table['_temp28'] = _temp28
 
 local _temp37 = _lifted_call(_lifted[3], {})
-_temp37.arg_table['_temp28'] = _temp28
 _temp37.arg_table['_temp25'] = _temp25
+_temp37.arg_table['_temp28'] = _temp28
 
 local _temp41 = _lifted_call(_lifted[4], {})
 _temp41.arg_table['_temp28'] = _temp28
 
 local _temp45 = _lifted_call(_lifted[5], {})
-_temp45.arg_table['_temp28'] = _temp28
 _temp45.arg_table['_temp23'] = _temp23
+_temp45.arg_table['_temp28'] = _temp28
 _temp45.arg_table['_temp25'] = _temp25
 
   if when then
@@ -271,8 +271,8 @@ end
 
 
 _lifted[7] = function(_argtable, _self)
-local _temp49 = _argtable['_temp49']
 local _temp52 = _argtable['_temp52']
+local _temp49 = _argtable['_temp49']
 local _temp60
 
 local _temp59
@@ -327,7 +327,7 @@ local _temp49 = _argtable['_temp49']
     
 local _temp53
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp53
      
 local _temp54
@@ -403,6 +403,7 @@ _temp53 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp58
 
@@ -444,6 +445,7 @@ _temp62.arg_table['_temp52'] = _temp52
   end
   
      _temp53 =  _temp53
+     -- end fallback if
    end
    
 return _temp53
@@ -638,8 +640,8 @@ end
 
 
 _lifted[12] = function(_argtable, _self)
-local _temp137 = _argtable['_temp137']
 local _temp140 = _argtable['_temp140']
+local _temp137 = _argtable['_temp137']
 local _temp175
 
 local _temp174
@@ -732,8 +734,8 @@ end
 
 
 _lifted[13] = function(_argtable, _self)
-local _temp137 = _argtable['_temp137']
 local _temp140 = _argtable['_temp140']
+local _temp137 = _argtable['_temp137']
 local _temp179
 
 local _temp178
@@ -888,8 +890,8 @@ end
 
 
 _lifted[15] = function(_argtable, _self)
-local _temp137 = _argtable['_temp137']
 local _temp140 = _argtable['_temp140']
+local _temp137 = _argtable['_temp137']
 local _temp190
 
 local _temp189
@@ -1078,8 +1080,8 @@ end
 
 
 _lifted[19] = function(_argtable, _self)
-local _temp140 = _argtable['_temp140']
 local _temp137 = _argtable['_temp137']
+local _temp140 = _argtable['_temp140']
 local _temp216
 
 local _temp215
@@ -1276,7 +1278,7 @@ local _temp137 = _argtable['_temp137']
 local _temp140 = _argtable['_temp140']
 local _temp193
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp193
      
 local _temp194
@@ -1548,6 +1550,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp211
 _temp195 =  _temp137
@@ -1614,12 +1617,12 @@ if _type(_temp194) == 'number' then
     
 
 _temp194 = _lifted_call(_lifted[19], {})
-_temp194.arg_table['_temp137'] = _temp137
 _temp194.arg_table['_temp140'] = _temp140
+_temp194.arg_table['_temp137'] = _temp137
 
 _temp195 = _lifted_call(_lifted[20], {})
-_temp195.arg_table['_temp137'] = _temp137
 _temp195.arg_table['_temp140'] = _temp140
+_temp195.arg_table['_temp137'] = _temp137
 
   if true_question then
     _temp193 =  true_question(_self, _temp211, _temp194, _temp195)
@@ -1645,6 +1648,7 @@ _temp195.arg_table['_temp140'] = _temp140
   end
   
      _temp193 =  _temp193
+     -- end fallback if
    end
    
 return _temp193
@@ -1660,7 +1664,7 @@ local _temp137 = _argtable['_temp137']
     
 local _temp141
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp141
      
 local _temp143
@@ -1784,7 +1788,7 @@ end
 
 local _temp152
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp152
      
 local _temp153
@@ -2056,6 +2060,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp170
 _temp154 =  _temp137
@@ -2153,6 +2158,7 @@ _temp154.arg_table['_temp140'] = _temp140
   end
   
      _temp152 =  _temp152
+     -- end fallback if
    end
    
 _temp141 =  _temp152
@@ -2163,6 +2169,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp140) then
       _temp143 =  _temp140(_self)
@@ -2213,8 +2220,8 @@ if _type(_temp144) == 'number' then
     
 
 _temp144 = _lifted_call(_lifted[15], {})
-_temp144.arg_table['_temp140'] = _temp140
 _temp144.arg_table['_temp137'] = _temp137
+_temp144.arg_table['_temp140'] = _temp140
 
 _temp185 = _lifted_call(_lifted[16], {})
 _temp185.arg_table['_temp140'] = _temp140
@@ -2244,6 +2251,7 @@ _temp185.arg_table['_temp137'] = _temp137
   end
   
      _temp141 =  _temp141
+     -- end fallback if
    end
    
 return _temp141
@@ -2640,7 +2648,7 @@ _lifted[26] = function(_argtable, _self)
 local _temp137 = _argtable['_temp137']
 local _temp258
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp258
      
 local _temp259
@@ -2839,6 +2847,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp268
 
@@ -2942,6 +2951,7 @@ _temp274.arg_table['_temp137'] = _temp137
   end
   
      _temp258 =  _temp258
+     -- end fallback if
    end
    
 return _temp258
@@ -3145,7 +3155,7 @@ local _temp330 = _argtable['_temp330']
     
 local _temp333
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp333
      
 local _temp335
@@ -3350,6 +3360,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp332) then
       _temp335 =  _temp332(_self)
@@ -3398,8 +3409,8 @@ if _type(_temp336) == 'number' then
     
 
 _temp336 = _lifted_call(_lifted[31], {})
-_temp336.arg_table['_temp331'] = _temp331
 _temp336.arg_table['_temp332'] = _temp332
+_temp336.arg_table['_temp331'] = _temp331
 
 _temp345 = _lifted_call(_lifted[32], {})
 _temp345.arg_table['_temp330'] = _temp330
@@ -3429,6 +3440,7 @@ _temp345.arg_table['_temp332'] = _temp332
   end
   
      _temp333 =  _temp333
+     -- end fallback if
    end
    
 return _temp333
@@ -3447,8 +3459,8 @@ end
 
 
 _lifted[34] = function(_argtable, _self)
-local _temp331 = _argtable['_temp331']
 local _temp330 = _argtable['_temp330']
+local _temp331 = _argtable['_temp331']
 local _temp363
 
 local _temp362
@@ -3983,7 +3995,7 @@ _lifted[39] = function(_argtable, _self)
 local _temp410 = _argtable['_temp410']
 local _temp443
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp443
      
 local _temp445
@@ -4202,6 +4214,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp455
 
@@ -4303,6 +4316,7 @@ _temp465.arg_table['_temp410'] = _temp410
   end
   
      _temp443 =  _temp443
+     -- end fallback if
    end
    
 return _temp443
@@ -4859,33 +4873,33 @@ return _temp588
 end
 
 
-_lifted[49] = function(_argtable, _self, _temp613, _temp614)
+_lifted[49] = function(_argtable, _self, _temp619, _temp620)
 local _temp47 = _argtable['_temp47']
-      if _temp613 == nil then
+      if _temp619 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
-      if _temp614 == nil then
+      if _temp620 == nil then
         _error(exception:argument_error('function', 2, 1))
       end
     
-local _temp615
+local _temp621
 
-local _temp616
+local _temp622
 
-    if object._is_callable(_temp614) then
-      _temp616 =  _temp614(_self)
+    if object._is_callable(_temp620) then
+      _temp622 =  _temp620(_self)
 
-    elseif _temp614 then
-      _temp616 =  _temp614
+    elseif _temp620 then
+      _temp622 =  _temp620
     else
       _error(exception:name_error("i"))
     end
     
 
-local _temp618
+local _temp624
 
-local _temp617
+local _temp623
 
    local _m
    if s then
@@ -4894,224 +4908,68 @@ local _temp617
      _m = _self["s"]
    end
    if object._is_callable(_m) then
-     _temp617 = _m(_self)
+     _temp623 = _m(_self)
    elseif _m then
-     _temp617 = _m
+     _temp623 = _m
    elseif _self.no_undermethod then
-     _temp617 = _self:no_undermethod(string:new('s'))
+     _temp623 = _self:no_undermethod(string:new('s'))
    else
      _error(exception:name_error("s"))
    end
   
-local _temp619 = string:new('call')
+local _temp625 = string:new('call')
 
 
-local _temp620
+local _temp626
 
-    if object._is_callable(_temp613) then
-      _temp620 =  _temp613(_self)
+    if object._is_callable(_temp619) then
+      _temp626 =  _temp619(_self)
 
-    elseif _temp613 then
-      _temp620 =  _temp613
+    elseif _temp619 then
+      _temp626 =  _temp619
     else
       _error(exception:name_error("m"))
     end
     
 
-local _temp621 = string:new('get')
+local _temp627 = string:new('get')
 
-if _type(_temp617) == 'number' then
-      _temp617 = number:new(_temp617)
-    elseif object._is_callable(_temp617) then
-      _temp617 = brat_function:new(_temp617)
+if _type(_temp623) == 'number' then
+      _temp623 = number:new(_temp623)
+    elseif object._is_callable(_temp623) then
+      _temp623 = brat_function:new(_temp623)
     end
     
-      local _m = _temp617.get
+      local _m = _temp623.get
       if object._is_callable(_m) then
-        _temp618 =  _m(_temp617, _temp619, _temp620, _temp621)
+        _temp624 =  _m(_temp623, _temp625, _temp626, _temp627)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
-      elseif _temp617.no_undermethod then
-        _temp618 =  _temp617:no_undermethod(string:new('get'), _temp619, _temp620, _temp621)
+      elseif _temp623.no_undermethod then
+        _temp624 =  _temp623:no_undermethod(string:new('get'), _temp625, _temp626, _temp627)
       else
-        _error(exception:method_error(_temp617, 'get'))
+        _error(exception:method_error(_temp623, 'get'))
       end
     
-_temp615 =  _temp47(_self, _temp616, _temp618)
+_temp621 =  _temp47(_self, _temp622, _temp624)
 
-return _temp615
+return _temp621
 
 end
 
 
 _lifted[50] = function(_argtable, _self)
-local _temp666 = _argtable['_temp666']
-local _temp635 = _argtable['_temp635']
-local _temp679
-
-local _temp678
-
-    if object._is_callable(_temp635) then
-      _temp678 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp678 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp678) == 'number' then
-      _temp678 = number:new(_temp678)
-    elseif object._is_callable(_temp678) then
-      _temp678 = brat_function:new(_temp678)
-    end
-    
-      local _m = _temp678.nodes
-      if object._is_callable(_m) then
-        _temp679 =  _m(_temp678)
-      elseif _m ~= nil then
-        _temp679 =  _m
-      elseif _temp678.no_undermethod then
-        _temp679 =  _temp678:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp678, 'nodes'))
-      end
-    
-
-local _temp680
-
-    if object._is_callable(_temp666) then
-      _temp678 =  _temp666(_self)
-
-    elseif _temp666 then
-      _temp678 =  _temp666
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp678) == 'number' then
-      _temp678 = number:new(_temp678)
-    elseif object._is_callable(_temp678) then
-      _temp678 = brat_function:new(_temp678)
-    end
-    
-      local _m = _temp678.method
-      if object._is_callable(_m) then
-        _temp680 =  _m(_temp678)
-      elseif _m ~= nil then
-        _temp680 =  _m
-      elseif _temp678.no_undermethod then
-        _temp680 =  _temp678:no_undermethod(string:new('method'))
-      else
-        _error(exception:method_error(_temp678, 'method'))
-      end
-    
-if _type(_temp679) == 'number' then
-      _temp679 = number:new(_temp679)
-    elseif object._is_callable(_temp679) then
-      _temp679 = brat_function:new(_temp679)
-    end
-    
-      local _m = _temp679.set
-      if object._is_callable(_m) then
-        _dummy =  _m(_temp679, 1, _temp680)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp679.no_undermethod then
-        _dummy =  _temp679:no_undermethod(string:new('set'), 1, _temp680)
-      else
-        _error(exception:method_error(_temp679, 'set'))
-      end
-    
-    if object._is_callable(_temp635) then
-      _temp679 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp679 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp679) == 'number' then
-      _temp679 = number:new(_temp679)
-    elseif object._is_callable(_temp679) then
-      _temp679 = brat_function:new(_temp679)
-    end
-    
-      local _m = _temp679.nodes
-      if object._is_callable(_m) then
-        _temp680 =  _m(_temp679)
-      elseif _m ~= nil then
-        _temp680 =  _m
-      elseif _temp679.no_undermethod then
-        _temp680 =  _temp679:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp679, 'nodes'))
-      end
-    
-
-local _temp681
-
-    if object._is_callable(_temp666) then
-      _temp678 =  _temp666(_self)
-
-    elseif _temp666 then
-      _temp678 =  _temp666
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp678) == 'number' then
-      _temp678 = number:new(_temp678)
-    elseif object._is_callable(_temp678) then
-      _temp678 = brat_function:new(_temp678)
-    end
-    
-      local _m = _temp678.args
-      if object._is_callable(_m) then
-        _temp681 =  _m(_temp678)
-      elseif _m ~= nil then
-        _temp681 =  _m
-      elseif _temp678.no_undermethod then
-        _temp681 =  _temp678:no_undermethod(string:new('args'))
-      else
-        _error(exception:method_error(_temp678, 'args'))
-      end
-    
-if _type(_temp680) == 'number' then
-      _temp680 = number:new(_temp680)
-    elseif object._is_callable(_temp680) then
-      _temp680 = brat_function:new(_temp680)
-    end
-    
-      local _m = _temp680.set
-      if object._is_callable(_m) then
-        _temp679 =  _m(_temp680, 2, _temp681)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp680.no_undermethod then
-        _temp679 =  _temp680:no_undermethod(string:new('set'), 2, _temp681)
-      else
-        _error(exception:method_error(_temp680, 'set'))
-      end
-    
-return _temp679
-
-end
-
-
-_lifted[51] = function(_argtable, _self)
-local _temp666 = _argtable['_temp666']
-local _temp635 = _argtable['_temp635']
+local _temp670 = _argtable['_temp670']
+local _temp641 = _argtable['_temp641']
 local _temp683
 
 local _temp682
 
-    if object._is_callable(_temp635) then
-      _temp682 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp682 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp682 =  _temp635
+    elseif _temp641 then
+      _temp682 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -5134,34 +4992,32 @@ if _type(_temp682) == 'number' then
       end
     
 
-local _temp685
-
 local _temp684
 
-    if object._is_callable(_temp666) then
-      _temp684 =  _temp666(_self)
+    if object._is_callable(_temp670) then
+      _temp682 =  _temp670(_self)
 
-    elseif _temp666 then
-      _temp684 =  _temp666
+    elseif _temp670 then
+      _temp682 =  _temp670
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp684) == 'number' then
-      _temp684 = number:new(_temp684)
-    elseif object._is_callable(_temp684) then
-      _temp684 = brat_function:new(_temp684)
+if _type(_temp682) == 'number' then
+      _temp682 = number:new(_temp682)
+    elseif object._is_callable(_temp682) then
+      _temp682 = brat_function:new(_temp682)
     end
     
-      local _m = _temp684.value
+      local _m = _temp682.method
       if object._is_callable(_m) then
-        _temp685 =  _m(_temp684)
+        _temp684 =  _m(_temp682)
       elseif _m ~= nil then
-        _temp685 =  _m
-      elseif _temp684.no_undermethod then
-        _temp685 =  _temp684:no_undermethod(string:new('value'))
+        _temp684 =  _m
+      elseif _temp682.no_undermethod then
+        _temp684 =  _temp682:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp684, 'value'))
+        _error(exception:method_error(_temp682, 'method'))
       end
     
 if _type(_temp683) == 'number' then
@@ -5172,188 +5028,190 @@ if _type(_temp683) == 'number' then
     
       local _m = _temp683.set
       if object._is_callable(_m) then
-        _temp682 =  _m(_temp683, 1, _temp685)
+        _dummy =  _m(_temp683, 1, _temp684)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _temp683.no_undermethod then
-        _temp682 =  _temp683:no_undermethod(string:new('set'), 1, _temp685)
+        _dummy =  _temp683:no_undermethod(string:new('set'), 1, _temp684)
       else
         _error(exception:method_error(_temp683, 'set'))
       end
     
-return _temp682
+    if object._is_callable(_temp641) then
+      _temp683 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp683 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp683) == 'number' then
+      _temp683 = number:new(_temp683)
+    elseif object._is_callable(_temp683) then
+      _temp683 = brat_function:new(_temp683)
+    end
+    
+      local _m = _temp683.nodes
+      if object._is_callable(_m) then
+        _temp684 =  _m(_temp683)
+      elseif _m ~= nil then
+        _temp684 =  _m
+      elseif _temp683.no_undermethod then
+        _temp684 =  _temp683:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp683, 'nodes'))
+      end
+    
+
+local _temp685
+
+    if object._is_callable(_temp670) then
+      _temp682 =  _temp670(_self)
+
+    elseif _temp670 then
+      _temp682 =  _temp670
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp682) == 'number' then
+      _temp682 = number:new(_temp682)
+    elseif object._is_callable(_temp682) then
+      _temp682 = brat_function:new(_temp682)
+    end
+    
+      local _m = _temp682.args
+      if object._is_callable(_m) then
+        _temp685 =  _m(_temp682)
+      elseif _m ~= nil then
+        _temp685 =  _m
+      elseif _temp682.no_undermethod then
+        _temp685 =  _temp682:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp682, 'args'))
+      end
+    
+if _type(_temp684) == 'number' then
+      _temp684 = number:new(_temp684)
+    elseif object._is_callable(_temp684) then
+      _temp684 = brat_function:new(_temp684)
+    end
+    
+      local _m = _temp684.set
+      if object._is_callable(_m) then
+        _temp683 =  _m(_temp684, 2, _temp685)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp684.no_undermethod then
+        _temp683 =  _temp684:no_undermethod(string:new('set'), 2, _temp685)
+      else
+        _error(exception:method_error(_temp684, 'set'))
+      end
+    
+return _temp683
+
+end
+
+
+_lifted[51] = function(_argtable, _self)
+local _temp641 = _argtable['_temp641']
+local _temp670 = _argtable['_temp670']
+local _temp687
+
+local _temp686
+
+    if object._is_callable(_temp641) then
+      _temp686 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp686 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp686) == 'number' then
+      _temp686 = number:new(_temp686)
+    elseif object._is_callable(_temp686) then
+      _temp686 = brat_function:new(_temp686)
+    end
+    
+      local _m = _temp686.nodes
+      if object._is_callable(_m) then
+        _temp687 =  _m(_temp686)
+      elseif _m ~= nil then
+        _temp687 =  _m
+      elseif _temp686.no_undermethod then
+        _temp687 =  _temp686:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp686, 'nodes'))
+      end
+    
+
+local _temp689
+
+local _temp688
+
+    if object._is_callable(_temp670) then
+      _temp688 =  _temp670(_self)
+
+    elseif _temp670 then
+      _temp688 =  _temp670
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp688) == 'number' then
+      _temp688 = number:new(_temp688)
+    elseif object._is_callable(_temp688) then
+      _temp688 = brat_function:new(_temp688)
+    end
+    
+      local _m = _temp688.value
+      if object._is_callable(_m) then
+        _temp689 =  _m(_temp688)
+      elseif _m ~= nil then
+        _temp689 =  _m
+      elseif _temp688.no_undermethod then
+        _temp689 =  _temp688:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp688, 'value'))
+      end
+    
+if _type(_temp687) == 'number' then
+      _temp687 = number:new(_temp687)
+    elseif object._is_callable(_temp687) then
+      _temp687 = brat_function:new(_temp687)
+    end
+    
+      local _m = _temp687.set
+      if object._is_callable(_m) then
+        _temp686 =  _m(_temp687, 1, _temp689)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp687.no_undermethod then
+        _temp686 =  _temp687:no_undermethod(string:new('set'), 1, _temp689)
+      else
+        _error(exception:method_error(_temp687, 'set'))
+      end
+    
+return _temp686
 
 end
 
 
 _lifted[52] = function(_argtable, _self)
-local _temp635 = _argtable['_temp635']
-local _temp700 = _argtable['_temp700']
-local _temp713
-
-local _temp712
-
-    if object._is_callable(_temp635) then
-      _temp712 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp712 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp712) == 'number' then
-      _temp712 = number:new(_temp712)
-    elseif object._is_callable(_temp712) then
-      _temp712 = brat_function:new(_temp712)
-    end
-    
-      local _m = _temp712.nodes
-      if object._is_callable(_m) then
-        _temp713 =  _m(_temp712)
-      elseif _m ~= nil then
-        _temp713 =  _m
-      elseif _temp712.no_undermethod then
-        _temp713 =  _temp712:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp712, 'nodes'))
-      end
-    
-
-local _temp714
-
-    if object._is_callable(_temp700) then
-      _temp712 =  _temp700(_self)
-
-    elseif _temp700 then
-      _temp712 =  _temp700
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp712) == 'number' then
-      _temp712 = number:new(_temp712)
-    elseif object._is_callable(_temp712) then
-      _temp712 = brat_function:new(_temp712)
-    end
-    
-      local _m = _temp712.method
-      if object._is_callable(_m) then
-        _temp714 =  _m(_temp712)
-      elseif _m ~= nil then
-        _temp714 =  _m
-      elseif _temp712.no_undermethod then
-        _temp714 =  _temp712:no_undermethod(string:new('method'))
-      else
-        _error(exception:method_error(_temp712, 'method'))
-      end
-    
-if _type(_temp713) == 'number' then
-      _temp713 = number:new(_temp713)
-    elseif object._is_callable(_temp713) then
-      _temp713 = brat_function:new(_temp713)
-    end
-    
-      local _m = _temp713.set
-      if object._is_callable(_m) then
-        _dummy =  _m(_temp713, 1, _temp714)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp713.no_undermethod then
-        _dummy =  _temp713:no_undermethod(string:new('set'), 1, _temp714)
-      else
-        _error(exception:method_error(_temp713, 'set'))
-      end
-    
-    if object._is_callable(_temp635) then
-      _temp713 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp713 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp713) == 'number' then
-      _temp713 = number:new(_temp713)
-    elseif object._is_callable(_temp713) then
-      _temp713 = brat_function:new(_temp713)
-    end
-    
-      local _m = _temp713.nodes
-      if object._is_callable(_m) then
-        _temp714 =  _m(_temp713)
-      elseif _m ~= nil then
-        _temp714 =  _m
-      elseif _temp713.no_undermethod then
-        _temp714 =  _temp713:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp713, 'nodes'))
-      end
-    
-
-local _temp715
-
-    if object._is_callable(_temp700) then
-      _temp712 =  _temp700(_self)
-
-    elseif _temp700 then
-      _temp712 =  _temp700
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp712) == 'number' then
-      _temp712 = number:new(_temp712)
-    elseif object._is_callable(_temp712) then
-      _temp712 = brat_function:new(_temp712)
-    end
-    
-      local _m = _temp712.args
-      if object._is_callable(_m) then
-        _temp715 =  _m(_temp712)
-      elseif _m ~= nil then
-        _temp715 =  _m
-      elseif _temp712.no_undermethod then
-        _temp715 =  _temp712:no_undermethod(string:new('args'))
-      else
-        _error(exception:method_error(_temp712, 'args'))
-      end
-    
-if _type(_temp714) == 'number' then
-      _temp714 = number:new(_temp714)
-    elseif object._is_callable(_temp714) then
-      _temp714 = brat_function:new(_temp714)
-    end
-    
-      local _m = _temp714.set
-      if object._is_callable(_m) then
-        _temp713 =  _m(_temp714, 2, _temp715)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp714.no_undermethod then
-        _temp713 =  _temp714:no_undermethod(string:new('set'), 2, _temp715)
-      else
-        _error(exception:method_error(_temp714, 'set'))
-      end
-    
-return _temp713
-
-end
-
-
-_lifted[53] = function(_argtable, _self)
-local _temp700 = _argtable['_temp700']
-local _temp635 = _argtable['_temp635']
+local _temp641 = _argtable['_temp641']
+local _temp704 = _argtable['_temp704']
 local _temp717
 
 local _temp716
 
-    if object._is_callable(_temp635) then
-      _temp716 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp716 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp716 =  _temp635
+    elseif _temp641 then
+      _temp716 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -5376,34 +5234,32 @@ if _type(_temp716) == 'number' then
       end
     
 
-local _temp719
-
 local _temp718
 
-    if object._is_callable(_temp700) then
-      _temp718 =  _temp700(_self)
+    if object._is_callable(_temp704) then
+      _temp716 =  _temp704(_self)
 
-    elseif _temp700 then
-      _temp718 =  _temp700
+    elseif _temp704 then
+      _temp716 =  _temp704
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp718) == 'number' then
-      _temp718 = number:new(_temp718)
-    elseif object._is_callable(_temp718) then
-      _temp718 = brat_function:new(_temp718)
+if _type(_temp716) == 'number' then
+      _temp716 = number:new(_temp716)
+    elseif object._is_callable(_temp716) then
+      _temp716 = brat_function:new(_temp716)
     end
     
-      local _m = _temp718.value
+      local _m = _temp716.method
       if object._is_callable(_m) then
-        _temp719 =  _m(_temp718)
+        _temp718 =  _m(_temp716)
       elseif _m ~= nil then
-        _temp719 =  _m
-      elseif _temp718.no_undermethod then
-        _temp719 =  _temp718:no_undermethod(string:new('value'))
+        _temp718 =  _m
+      elseif _temp716.no_undermethod then
+        _temp718 =  _temp716:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp718, 'value'))
+        _error(exception:method_error(_temp716, 'method'))
       end
     
 if _type(_temp717) == 'number' then
@@ -5414,1040 +5270,1279 @@ if _type(_temp717) == 'number' then
     
       local _m = _temp717.set
       if object._is_callable(_m) then
-        _temp716 =  _m(_temp717, 1, _temp719)
+        _dummy =  _m(_temp717, 1, _temp718)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _temp717.no_undermethod then
-        _temp716 =  _temp717:no_undermethod(string:new('set'), 1, _temp719)
+        _dummy =  _temp717:no_undermethod(string:new('set'), 1, _temp718)
       else
         _error(exception:method_error(_temp717, 'set'))
       end
     
-return _temp716
+    if object._is_callable(_temp641) then
+      _temp717 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp717 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp717) == 'number' then
+      _temp717 = number:new(_temp717)
+    elseif object._is_callable(_temp717) then
+      _temp717 = brat_function:new(_temp717)
+    end
+    
+      local _m = _temp717.nodes
+      if object._is_callable(_m) then
+        _temp718 =  _m(_temp717)
+      elseif _m ~= nil then
+        _temp718 =  _m
+      elseif _temp717.no_undermethod then
+        _temp718 =  _temp717:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp717, 'nodes'))
+      end
+    
+
+local _temp719
+
+    if object._is_callable(_temp704) then
+      _temp716 =  _temp704(_self)
+
+    elseif _temp704 then
+      _temp716 =  _temp704
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp716) == 'number' then
+      _temp716 = number:new(_temp716)
+    elseif object._is_callable(_temp716) then
+      _temp716 = brat_function:new(_temp716)
+    end
+    
+      local _m = _temp716.args
+      if object._is_callable(_m) then
+        _temp719 =  _m(_temp716)
+      elseif _m ~= nil then
+        _temp719 =  _m
+      elseif _temp716.no_undermethod then
+        _temp719 =  _temp716:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp716, 'args'))
+      end
+    
+if _type(_temp718) == 'number' then
+      _temp718 = number:new(_temp718)
+    elseif object._is_callable(_temp718) then
+      _temp718 = brat_function:new(_temp718)
+    end
+    
+      local _m = _temp718.set
+      if object._is_callable(_m) then
+        _temp717 =  _m(_temp718, 2, _temp719)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp718.no_undermethod then
+        _temp717 =  _temp718:no_undermethod(string:new('set'), 2, _temp719)
+      else
+        _error(exception:method_error(_temp718, 'set'))
+      end
+    
+return _temp717
+
+end
+
+
+_lifted[53] = function(_argtable, _self)
+local _temp641 = _argtable['_temp641']
+local _temp704 = _argtable['_temp704']
+local _temp721
+
+local _temp720
+
+    if object._is_callable(_temp641) then
+      _temp720 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp720 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp720) == 'number' then
+      _temp720 = number:new(_temp720)
+    elseif object._is_callable(_temp720) then
+      _temp720 = brat_function:new(_temp720)
+    end
+    
+      local _m = _temp720.nodes
+      if object._is_callable(_m) then
+        _temp721 =  _m(_temp720)
+      elseif _m ~= nil then
+        _temp721 =  _m
+      elseif _temp720.no_undermethod then
+        _temp721 =  _temp720:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp720, 'nodes'))
+      end
+    
+
+local _temp723
+
+local _temp722
+
+    if object._is_callable(_temp704) then
+      _temp722 =  _temp704(_self)
+
+    elseif _temp704 then
+      _temp722 =  _temp704
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp722) == 'number' then
+      _temp722 = number:new(_temp722)
+    elseif object._is_callable(_temp722) then
+      _temp722 = brat_function:new(_temp722)
+    end
+    
+      local _m = _temp722.value
+      if object._is_callable(_m) then
+        _temp723 =  _m(_temp722)
+      elseif _m ~= nil then
+        _temp723 =  _m
+      elseif _temp722.no_undermethod then
+        _temp723 =  _temp722:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp722, 'value'))
+      end
+    
+if _type(_temp721) == 'number' then
+      _temp721 = number:new(_temp721)
+    elseif object._is_callable(_temp721) then
+      _temp721 = brat_function:new(_temp721)
+    end
+    
+      local _m = _temp721.set
+      if object._is_callable(_m) then
+        _temp720 =  _m(_temp721, 1, _temp723)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp721.no_undermethod then
+        _temp720 =  _temp721:no_undermethod(string:new('set'), 1, _temp723)
+      else
+        _error(exception:method_error(_temp721, 'set'))
+      end
+    
+return _temp720
 
 end
 
 
 _lifted[54] = function(_argtable, _self)
-local _temp635 = _argtable['_temp635']
-local _temp755 = _argtable['_temp755']
-local _temp768
+local _temp748 = _argtable['_temp748']
+local _temp641 = _argtable['_temp641']
+local _temp761
 
-local _temp767
+local _temp760
 
-    if object._is_callable(_temp635) then
-      _temp767 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp760 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp767 =  _temp635
+    elseif _temp641 then
+      _temp760 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp767) == 'number' then
-      _temp767 = number:new(_temp767)
-    elseif object._is_callable(_temp767) then
-      _temp767 = brat_function:new(_temp767)
+if _type(_temp760) == 'number' then
+      _temp760 = number:new(_temp760)
+    elseif object._is_callable(_temp760) then
+      _temp760 = brat_function:new(_temp760)
     end
     
-      local _m = _temp767.nodes
+      local _m = _temp760.nodes
       if object._is_callable(_m) then
-        _temp768 =  _m(_temp767)
+        _temp761 =  _m(_temp760)
       elseif _m ~= nil then
-        _temp768 =  _m
-      elseif _temp767.no_undermethod then
-        _temp768 =  _temp767:no_undermethod(string:new('nodes'))
+        _temp761 =  _m
+      elseif _temp760.no_undermethod then
+        _temp761 =  _temp760:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp767, 'nodes'))
+        _error(exception:method_error(_temp760, 'nodes'))
       end
     
 
-local _temp769
+local _temp762
 
-    if object._is_callable(_temp755) then
-      _temp767 =  _temp755(_self)
+    if object._is_callable(_temp748) then
+      _temp760 =  _temp748(_self)
 
-    elseif _temp755 then
-      _temp767 =  _temp755
+    elseif _temp748 then
+      _temp760 =  _temp748
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp767) == 'number' then
-      _temp767 = number:new(_temp767)
-    elseif object._is_callable(_temp767) then
-      _temp767 = brat_function:new(_temp767)
+if _type(_temp760) == 'number' then
+      _temp760 = number:new(_temp760)
+    elseif object._is_callable(_temp760) then
+      _temp760 = brat_function:new(_temp760)
     end
     
-      local _m = _temp767.method
+      local _m = _temp760.method
       if object._is_callable(_m) then
-        _temp769 =  _m(_temp767)
+        _temp762 =  _m(_temp760)
       elseif _m ~= nil then
-        _temp769 =  _m
-      elseif _temp767.no_undermethod then
-        _temp769 =  _temp767:no_undermethod(string:new('method'))
+        _temp762 =  _m
+      elseif _temp760.no_undermethod then
+        _temp762 =  _temp760:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp767, 'method'))
+        _error(exception:method_error(_temp760, 'method'))
       end
     
-if _type(_temp768) == 'number' then
-      _temp768 = number:new(_temp768)
-    elseif object._is_callable(_temp768) then
-      _temp768 = brat_function:new(_temp768)
+if _type(_temp761) == 'number' then
+      _temp761 = number:new(_temp761)
+    elseif object._is_callable(_temp761) then
+      _temp761 = brat_function:new(_temp761)
     end
     
-      local _m = _temp768.set
+      local _m = _temp761.set
       if object._is_callable(_m) then
-        _dummy =  _m(_temp768, 1, _temp769)
+        _dummy =  _m(_temp761, 1, _temp762)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp768.no_undermethod then
-        _dummy =  _temp768:no_undermethod(string:new('set'), 1, _temp769)
+      elseif _temp761.no_undermethod then
+        _dummy =  _temp761:no_undermethod(string:new('set'), 1, _temp762)
       else
-        _error(exception:method_error(_temp768, 'set'))
+        _error(exception:method_error(_temp761, 'set'))
       end
     
-    if object._is_callable(_temp635) then
-      _temp768 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp761 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp768 =  _temp635
+    elseif _temp641 then
+      _temp761 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp768) == 'number' then
-      _temp768 = number:new(_temp768)
-    elseif object._is_callable(_temp768) then
-      _temp768 = brat_function:new(_temp768)
+if _type(_temp761) == 'number' then
+      _temp761 = number:new(_temp761)
+    elseif object._is_callable(_temp761) then
+      _temp761 = brat_function:new(_temp761)
     end
     
-      local _m = _temp768.nodes
+      local _m = _temp761.nodes
       if object._is_callable(_m) then
-        _temp769 =  _m(_temp768)
+        _temp762 =  _m(_temp761)
       elseif _m ~= nil then
-        _temp769 =  _m
-      elseif _temp768.no_undermethod then
-        _temp769 =  _temp768:no_undermethod(string:new('nodes'))
+        _temp762 =  _m
+      elseif _temp761.no_undermethod then
+        _temp762 =  _temp761:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp768, 'nodes'))
+        _error(exception:method_error(_temp761, 'nodes'))
       end
     
 
-local _temp770
+local _temp763
 
-    if object._is_callable(_temp755) then
-      _temp767 =  _temp755(_self)
+    if object._is_callable(_temp748) then
+      _temp760 =  _temp748(_self)
 
-    elseif _temp755 then
-      _temp767 =  _temp755
+    elseif _temp748 then
+      _temp760 =  _temp748
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp767) == 'number' then
-      _temp767 = number:new(_temp767)
-    elseif object._is_callable(_temp767) then
-      _temp767 = brat_function:new(_temp767)
+if _type(_temp760) == 'number' then
+      _temp760 = number:new(_temp760)
+    elseif object._is_callable(_temp760) then
+      _temp760 = brat_function:new(_temp760)
     end
     
-      local _m = _temp767.args
+      local _m = _temp760.args
       if object._is_callable(_m) then
-        _temp770 =  _m(_temp767)
+        _temp763 =  _m(_temp760)
       elseif _m ~= nil then
-        _temp770 =  _m
-      elseif _temp767.no_undermethod then
-        _temp770 =  _temp767:no_undermethod(string:new('args'))
+        _temp763 =  _m
+      elseif _temp760.no_undermethod then
+        _temp763 =  _temp760:no_undermethod(string:new('args'))
       else
-        _error(exception:method_error(_temp767, 'args'))
+        _error(exception:method_error(_temp760, 'args'))
       end
     
-if _type(_temp769) == 'number' then
-      _temp769 = number:new(_temp769)
-    elseif object._is_callable(_temp769) then
-      _temp769 = brat_function:new(_temp769)
+if _type(_temp762) == 'number' then
+      _temp762 = number:new(_temp762)
+    elseif object._is_callable(_temp762) then
+      _temp762 = brat_function:new(_temp762)
     end
     
-      local _m = _temp769.set
+      local _m = _temp762.set
       if object._is_callable(_m) then
-        _temp768 =  _m(_temp769, 2, _temp770)
+        _temp761 =  _m(_temp762, 2, _temp763)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp769.no_undermethod then
-        _temp768 =  _temp769:no_undermethod(string:new('set'), 2, _temp770)
+      elseif _temp762.no_undermethod then
+        _temp761 =  _temp762:no_undermethod(string:new('set'), 2, _temp763)
       else
-        _error(exception:method_error(_temp769, 'set'))
+        _error(exception:method_error(_temp762, 'set'))
       end
     
-return _temp768
+return _temp761
 
 end
 
 
 _lifted[55] = function(_argtable, _self)
-local _temp635 = _argtable['_temp635']
-local _temp755 = _argtable['_temp755']
-local _temp772
+local _temp641 = _argtable['_temp641']
+local _temp748 = _argtable['_temp748']
+local _temp765
 
-local _temp771
+local _temp764
 
-    if object._is_callable(_temp635) then
-      _temp771 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp764 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp771 =  _temp635
+    elseif _temp641 then
+      _temp764 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp771) == 'number' then
-      _temp771 = number:new(_temp771)
-    elseif object._is_callable(_temp771) then
-      _temp771 = brat_function:new(_temp771)
+if _type(_temp764) == 'number' then
+      _temp764 = number:new(_temp764)
+    elseif object._is_callable(_temp764) then
+      _temp764 = brat_function:new(_temp764)
     end
     
-      local _m = _temp771.nodes
+      local _m = _temp764.nodes
       if object._is_callable(_m) then
-        _temp772 =  _m(_temp771)
+        _temp765 =  _m(_temp764)
       elseif _m ~= nil then
-        _temp772 =  _m
-      elseif _temp771.no_undermethod then
-        _temp772 =  _temp771:no_undermethod(string:new('nodes'))
+        _temp765 =  _m
+      elseif _temp764.no_undermethod then
+        _temp765 =  _temp764:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp771, 'nodes'))
+        _error(exception:method_error(_temp764, 'nodes'))
       end
     
 
-local _temp774
+local _temp767
 
-local _temp773
+local _temp766
 
-    if object._is_callable(_temp755) then
-      _temp773 =  _temp755(_self)
+    if object._is_callable(_temp748) then
+      _temp766 =  _temp748(_self)
 
-    elseif _temp755 then
-      _temp773 =  _temp755
+    elseif _temp748 then
+      _temp766 =  _temp748
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp773) == 'number' then
-      _temp773 = number:new(_temp773)
-    elseif object._is_callable(_temp773) then
-      _temp773 = brat_function:new(_temp773)
+if _type(_temp766) == 'number' then
+      _temp766 = number:new(_temp766)
+    elseif object._is_callable(_temp766) then
+      _temp766 = brat_function:new(_temp766)
     end
     
-      local _m = _temp773.value
+      local _m = _temp766.value
       if object._is_callable(_m) then
-        _temp774 =  _m(_temp773)
+        _temp767 =  _m(_temp766)
       elseif _m ~= nil then
-        _temp774 =  _m
-      elseif _temp773.no_undermethod then
-        _temp774 =  _temp773:no_undermethod(string:new('value'))
+        _temp767 =  _m
+      elseif _temp766.no_undermethod then
+        _temp767 =  _temp766:no_undermethod(string:new('value'))
       else
-        _error(exception:method_error(_temp773, 'value'))
+        _error(exception:method_error(_temp766, 'value'))
       end
     
-if _type(_temp772) == 'number' then
-      _temp772 = number:new(_temp772)
-    elseif object._is_callable(_temp772) then
-      _temp772 = brat_function:new(_temp772)
+if _type(_temp765) == 'number' then
+      _temp765 = number:new(_temp765)
+    elseif object._is_callable(_temp765) then
+      _temp765 = brat_function:new(_temp765)
     end
     
-      local _m = _temp772.set
+      local _m = _temp765.set
       if object._is_callable(_m) then
-        _temp771 =  _m(_temp772, 1, _temp774)
+        _temp764 =  _m(_temp765, 1, _temp767)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp772.no_undermethod then
-        _temp771 =  _temp772:no_undermethod(string:new('set'), 1, _temp774)
+      elseif _temp765.no_undermethod then
+        _temp764 =  _temp765:no_undermethod(string:new('set'), 1, _temp767)
       else
-        _error(exception:method_error(_temp772, 'set'))
+        _error(exception:method_error(_temp765, 'set'))
       end
     
-return _temp771
+return _temp764
 
 end
 
 
 _lifted[56] = function(_argtable, _self)
-local _temp789 = _argtable['_temp789']
-local _temp635 = _argtable['_temp635']
-local _temp802
+local _temp641 = _argtable['_temp641']
+local _temp782 = _argtable['_temp782']
+local _temp795
 
-local _temp801
+local _temp794
 
-    if object._is_callable(_temp635) then
-      _temp801 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp794 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp801 =  _temp635
+    elseif _temp641 then
+      _temp794 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp801) == 'number' then
-      _temp801 = number:new(_temp801)
-    elseif object._is_callable(_temp801) then
-      _temp801 = brat_function:new(_temp801)
+if _type(_temp794) == 'number' then
+      _temp794 = number:new(_temp794)
+    elseif object._is_callable(_temp794) then
+      _temp794 = brat_function:new(_temp794)
     end
     
-      local _m = _temp801.nodes
+      local _m = _temp794.nodes
       if object._is_callable(_m) then
-        _temp802 =  _m(_temp801)
+        _temp795 =  _m(_temp794)
       elseif _m ~= nil then
-        _temp802 =  _m
-      elseif _temp801.no_undermethod then
-        _temp802 =  _temp801:no_undermethod(string:new('nodes'))
+        _temp795 =  _m
+      elseif _temp794.no_undermethod then
+        _temp795 =  _temp794:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp801, 'nodes'))
+        _error(exception:method_error(_temp794, 'nodes'))
       end
     
 
-local _temp803
+local _temp796
 
-    if object._is_callable(_temp789) then
-      _temp801 =  _temp789(_self)
+    if object._is_callable(_temp782) then
+      _temp794 =  _temp782(_self)
 
-    elseif _temp789 then
-      _temp801 =  _temp789
+    elseif _temp782 then
+      _temp794 =  _temp782
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp801) == 'number' then
-      _temp801 = number:new(_temp801)
-    elseif object._is_callable(_temp801) then
-      _temp801 = brat_function:new(_temp801)
+if _type(_temp794) == 'number' then
+      _temp794 = number:new(_temp794)
+    elseif object._is_callable(_temp794) then
+      _temp794 = brat_function:new(_temp794)
     end
     
-      local _m = _temp801.method
+      local _m = _temp794.method
       if object._is_callable(_m) then
-        _temp803 =  _m(_temp801)
+        _temp796 =  _m(_temp794)
       elseif _m ~= nil then
-        _temp803 =  _m
-      elseif _temp801.no_undermethod then
-        _temp803 =  _temp801:no_undermethod(string:new('method'))
+        _temp796 =  _m
+      elseif _temp794.no_undermethod then
+        _temp796 =  _temp794:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp801, 'method'))
+        _error(exception:method_error(_temp794, 'method'))
       end
     
-if _type(_temp802) == 'number' then
-      _temp802 = number:new(_temp802)
-    elseif object._is_callable(_temp802) then
-      _temp802 = brat_function:new(_temp802)
+if _type(_temp795) == 'number' then
+      _temp795 = number:new(_temp795)
+    elseif object._is_callable(_temp795) then
+      _temp795 = brat_function:new(_temp795)
     end
     
-      local _m = _temp802.set
+      local _m = _temp795.set
       if object._is_callable(_m) then
-        _dummy =  _m(_temp802, 1, _temp803)
+        _dummy =  _m(_temp795, 1, _temp796)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp802.no_undermethod then
-        _dummy =  _temp802:no_undermethod(string:new('set'), 1, _temp803)
+      elseif _temp795.no_undermethod then
+        _dummy =  _temp795:no_undermethod(string:new('set'), 1, _temp796)
       else
-        _error(exception:method_error(_temp802, 'set'))
+        _error(exception:method_error(_temp795, 'set'))
       end
     
-    if object._is_callable(_temp635) then
-      _temp802 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp795 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp802 =  _temp635
+    elseif _temp641 then
+      _temp795 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp802) == 'number' then
-      _temp802 = number:new(_temp802)
-    elseif object._is_callable(_temp802) then
-      _temp802 = brat_function:new(_temp802)
+if _type(_temp795) == 'number' then
+      _temp795 = number:new(_temp795)
+    elseif object._is_callable(_temp795) then
+      _temp795 = brat_function:new(_temp795)
     end
     
-      local _m = _temp802.nodes
+      local _m = _temp795.nodes
       if object._is_callable(_m) then
-        _temp803 =  _m(_temp802)
+        _temp796 =  _m(_temp795)
       elseif _m ~= nil then
-        _temp803 =  _m
-      elseif _temp802.no_undermethod then
-        _temp803 =  _temp802:no_undermethod(string:new('nodes'))
+        _temp796 =  _m
+      elseif _temp795.no_undermethod then
+        _temp796 =  _temp795:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp802, 'nodes'))
+        _error(exception:method_error(_temp795, 'nodes'))
       end
     
 
-local _temp804
+local _temp797
 
-    if object._is_callable(_temp789) then
-      _temp801 =  _temp789(_self)
+    if object._is_callable(_temp782) then
+      _temp794 =  _temp782(_self)
 
-    elseif _temp789 then
-      _temp801 =  _temp789
+    elseif _temp782 then
+      _temp794 =  _temp782
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp801) == 'number' then
-      _temp801 = number:new(_temp801)
-    elseif object._is_callable(_temp801) then
-      _temp801 = brat_function:new(_temp801)
+if _type(_temp794) == 'number' then
+      _temp794 = number:new(_temp794)
+    elseif object._is_callable(_temp794) then
+      _temp794 = brat_function:new(_temp794)
     end
     
-      local _m = _temp801.args
+      local _m = _temp794.args
       if object._is_callable(_m) then
-        _temp804 =  _m(_temp801)
+        _temp797 =  _m(_temp794)
       elseif _m ~= nil then
-        _temp804 =  _m
-      elseif _temp801.no_undermethod then
-        _temp804 =  _temp801:no_undermethod(string:new('args'))
+        _temp797 =  _m
+      elseif _temp794.no_undermethod then
+        _temp797 =  _temp794:no_undermethod(string:new('args'))
       else
-        _error(exception:method_error(_temp801, 'args'))
+        _error(exception:method_error(_temp794, 'args'))
       end
     
-if _type(_temp803) == 'number' then
-      _temp803 = number:new(_temp803)
-    elseif object._is_callable(_temp803) then
-      _temp803 = brat_function:new(_temp803)
+if _type(_temp796) == 'number' then
+      _temp796 = number:new(_temp796)
+    elseif object._is_callable(_temp796) then
+      _temp796 = brat_function:new(_temp796)
     end
     
-      local _m = _temp803.set
+      local _m = _temp796.set
       if object._is_callable(_m) then
-        _temp802 =  _m(_temp803, 2, _temp804)
+        _temp795 =  _m(_temp796, 2, _temp797)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp803.no_undermethod then
-        _temp802 =  _temp803:no_undermethod(string:new('set'), 2, _temp804)
+      elseif _temp796.no_undermethod then
+        _temp795 =  _temp796:no_undermethod(string:new('set'), 2, _temp797)
       else
-        _error(exception:method_error(_temp803, 'set'))
+        _error(exception:method_error(_temp796, 'set'))
       end
     
-return _temp802
+return _temp795
 
 end
 
 
 _lifted[57] = function(_argtable, _self)
-local _temp635 = _argtable['_temp635']
-local _temp789 = _argtable['_temp789']
-local _temp806
+local _temp641 = _argtable['_temp641']
+local _temp782 = _argtable['_temp782']
+local _temp799
 
-local _temp805
+local _temp798
 
-    if object._is_callable(_temp635) then
-      _temp805 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp798 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp805 =  _temp635
+    elseif _temp641 then
+      _temp798 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp805) == 'number' then
-      _temp805 = number:new(_temp805)
-    elseif object._is_callable(_temp805) then
-      _temp805 = brat_function:new(_temp805)
+if _type(_temp798) == 'number' then
+      _temp798 = number:new(_temp798)
+    elseif object._is_callable(_temp798) then
+      _temp798 = brat_function:new(_temp798)
     end
     
-      local _m = _temp805.nodes
+      local _m = _temp798.nodes
       if object._is_callable(_m) then
-        _temp806 =  _m(_temp805)
+        _temp799 =  _m(_temp798)
       elseif _m ~= nil then
-        _temp806 =  _m
-      elseif _temp805.no_undermethod then
-        _temp806 =  _temp805:no_undermethod(string:new('nodes'))
+        _temp799 =  _m
+      elseif _temp798.no_undermethod then
+        _temp799 =  _temp798:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp805, 'nodes'))
+        _error(exception:method_error(_temp798, 'nodes'))
       end
     
 
-local _temp808
+local _temp801
 
-local _temp807
+local _temp800
 
-    if object._is_callable(_temp789) then
-      _temp807 =  _temp789(_self)
+    if object._is_callable(_temp782) then
+      _temp800 =  _temp782(_self)
 
-    elseif _temp789 then
-      _temp807 =  _temp789
+    elseif _temp782 then
+      _temp800 =  _temp782
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp807) == 'number' then
-      _temp807 = number:new(_temp807)
-    elseif object._is_callable(_temp807) then
-      _temp807 = brat_function:new(_temp807)
+if _type(_temp800) == 'number' then
+      _temp800 = number:new(_temp800)
+    elseif object._is_callable(_temp800) then
+      _temp800 = brat_function:new(_temp800)
     end
     
-      local _m = _temp807.value
+      local _m = _temp800.value
       if object._is_callable(_m) then
-        _temp808 =  _m(_temp807)
+        _temp801 =  _m(_temp800)
       elseif _m ~= nil then
-        _temp808 =  _m
-      elseif _temp807.no_undermethod then
-        _temp808 =  _temp807:no_undermethod(string:new('value'))
+        _temp801 =  _m
+      elseif _temp800.no_undermethod then
+        _temp801 =  _temp800:no_undermethod(string:new('value'))
       else
-        _error(exception:method_error(_temp807, 'value'))
+        _error(exception:method_error(_temp800, 'value'))
       end
     
-if _type(_temp806) == 'number' then
-      _temp806 = number:new(_temp806)
-    elseif object._is_callable(_temp806) then
-      _temp806 = brat_function:new(_temp806)
+if _type(_temp799) == 'number' then
+      _temp799 = number:new(_temp799)
+    elseif object._is_callable(_temp799) then
+      _temp799 = brat_function:new(_temp799)
     end
     
-      local _m = _temp806.set
+      local _m = _temp799.set
       if object._is_callable(_m) then
-        _temp805 =  _m(_temp806, 1, _temp808)
+        _temp798 =  _m(_temp799, 1, _temp801)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp806.no_undermethod then
-        _temp805 =  _temp806:no_undermethod(string:new('set'), 1, _temp808)
+      elseif _temp799.no_undermethod then
+        _temp798 =  _temp799:no_undermethod(string:new('set'), 1, _temp801)
       else
-        _error(exception:method_error(_temp806, 'set'))
+        _error(exception:method_error(_temp799, 'set'))
       end
     
-return _temp805
+return _temp798
 
 end
 
 
-_lifted[58] = function(_argtable, _self, _temp859)
-local _temp5 = _argtable['_temp5']
-local _temp856 = _argtable['_temp856']
-      if _temp859 == nil then
-        _error(exception:argument_error('function', 1, 0))
-      end
-    
-local _temp861
+_lifted[58] = function(_argtable, _self)
+local _temp641 = _argtable['_temp641']
+local _temp835 = _argtable['_temp835']
+local _temp848
 
-local _temp860
-_temp860 =  _temp856
+local _temp847
 
-local _temp863
+    if object._is_callable(_temp641) then
+      _temp847 =  _temp641(_self)
 
-local _temp862
-
-    if object._is_callable(_temp859) then
-      _temp862 =  _temp859(_self)
-
-    elseif _temp859 then
-      _temp862 =  _temp859
+    elseif _temp641 then
+      _temp847 =  _temp641
     else
-      _error(exception:name_error("e"))
+      _error(exception:name_error("call"))
     end
     
-if _type(_temp862) == 'number' then
-      _temp862 = number:new(_temp862)
-    elseif object._is_callable(_temp862) then
-      _temp862 = brat_function:new(_temp862)
+if _type(_temp847) == 'number' then
+      _temp847 = number:new(_temp847)
+    elseif object._is_callable(_temp847) then
+      _temp847 = brat_function:new(_temp847)
     end
     
-      local _m = _temp862.elements
+      local _m = _temp847.nodes
       if object._is_callable(_m) then
-        _temp863 =  _m(_temp862)
+        _temp848 =  _m(_temp847)
       elseif _m ~= nil then
-        _temp863 =  _m
-      elseif _temp862.no_undermethod then
-        _temp863 =  _temp862:no_undermethod(string:new('elements'))
+        _temp848 =  _m
+      elseif _temp847.no_undermethod then
+        _temp848 =  _temp847:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp862, 'elements'))
+        _error(exception:method_error(_temp847, 'nodes'))
       end
     
-if _type(_temp863) == 'number' then
-      _temp863 = number:new(_temp863)
-    elseif object._is_callable(_temp863) then
-      _temp863 = brat_function:new(_temp863)
-    end
-    
-      local _m = _temp863.first
-      if object._is_callable(_m) then
-        _temp862 =  _m(_temp863)
-      elseif _m ~= nil then
-        _temp862 =  _m
-      elseif _temp863.no_undermethod then
-        _temp862 =  _temp863:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp863, 'first'))
-      end
-    
-if _type(_temp862) == 'number' then
-      _temp862 = number:new(_temp862)
-    elseif object._is_callable(_temp862) then
-      _temp862 = brat_function:new(_temp862)
-    end
-    
-      local _m = _temp862.ast
-      if object._is_callable(_m) then
-        _temp863 =  _m(_temp862)
-      elseif _m ~= nil then
-        _temp863 =  _m
-      elseif _temp862.no_undermethod then
-        _temp863 =  _temp862:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp862, 'ast'))
-      end
-    
-if _type(_temp860) == 'number' then
-      _temp860 = number:new(_temp860)
-    elseif object._is_callable(_temp860) then
-      _temp860 = brat_function:new(_temp860)
-    end
-    
-      local _m = _temp860._less_less
-      if object._is_callable(_m) then
-        _temp861 =  _m(_temp860, _temp863)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp860.no_undermethod then
-        _temp861 =  _temp860:no_undermethod(string:new('<<'), _temp863)
-      else
-        _error(exception:method_error(_temp860, '_less_less'))
-      end
-    _temp860 =  _temp856
 
-local _temp865
+local _temp849
 
-local _temp864
+    if object._is_callable(_temp835) then
+      _temp847 =  _temp835(_self)
 
-    if object._is_callable(_temp859) then
-      _temp864 =  _temp859(_self)
-
-    elseif _temp859 then
-      _temp864 =  _temp859
+    elseif _temp835 then
+      _temp847 =  _temp835
     else
-      _error(exception:name_error("e"))
+      _error(exception:name_error("target"))
     end
     
-if _type(_temp864) == 'number' then
-      _temp864 = number:new(_temp864)
-    elseif object._is_callable(_temp864) then
-      _temp864 = brat_function:new(_temp864)
+if _type(_temp847) == 'number' then
+      _temp847 = number:new(_temp847)
+    elseif object._is_callable(_temp847) then
+      _temp847 = brat_function:new(_temp847)
     end
     
-      local _m = _temp864.elements
+      local _m = _temp847.method
       if object._is_callable(_m) then
-        _temp865 =  _m(_temp864)
+        _temp849 =  _m(_temp847)
       elseif _m ~= nil then
-        _temp865 =  _m
-      elseif _temp864.no_undermethod then
-        _temp865 =  _temp864:no_undermethod(string:new('elements'))
+        _temp849 =  _m
+      elseif _temp847.no_undermethod then
+        _temp849 =  _temp847:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp864, 'elements'))
+        _error(exception:method_error(_temp847, 'method'))
       end
     
-if _type(_temp865) == 'number' then
-      _temp865 = number:new(_temp865)
-    elseif object._is_callable(_temp865) then
-      _temp865 = brat_function:new(_temp865)
+if _type(_temp848) == 'number' then
+      _temp848 = number:new(_temp848)
+    elseif object._is_callable(_temp848) then
+      _temp848 = brat_function:new(_temp848)
     end
     
-      local _m = _temp865.get
+      local _m = _temp848.set
       if object._is_callable(_m) then
-        _temp864 =  _m(_temp865, 2)
+        _dummy =  _m(_temp848, 1, _temp849)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp865.no_undermethod then
-        _temp864 =  _temp865:no_undermethod(string:new('get'), 2)
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp848.no_undermethod then
+        _dummy =  _temp848:no_undermethod(string:new('set'), 1, _temp849)
       else
-        _error(exception:method_error(_temp865, 'get'))
+        _error(exception:method_error(_temp848, 'set'))
       end
     
-if _type(_temp864) == 'number' then
-      _temp864 = number:new(_temp864)
-    elseif object._is_callable(_temp864) then
-      _temp864 = brat_function:new(_temp864)
-    end
-    
-      local _m = _temp864.text
-      if object._is_callable(_m) then
-        _temp865 =  _m(_temp864)
-      elseif _m ~= nil then
-        _temp865 =  _m
-      elseif _temp864.no_undermethod then
-        _temp865 =  _temp864:no_undermethod(string:new('text'))
-      else
-        _error(exception:method_error(_temp864, 'text'))
-      end
-    
-_temp862 =  _temp5(_self, _temp865)
+    if object._is_callable(_temp641) then
+      _temp848 =  _temp641(_self)
 
-if _type(_temp860) == 'number' then
-      _temp860 = number:new(_temp860)
-    elseif object._is_callable(_temp860) then
-      _temp860 = brat_function:new(_temp860)
+    elseif _temp641 then
+      _temp848 =  _temp641
+    else
+      _error(exception:name_error("call"))
     end
     
-      local _m = _temp860._less_less
+if _type(_temp848) == 'number' then
+      _temp848 = number:new(_temp848)
+    elseif object._is_callable(_temp848) then
+      _temp848 = brat_function:new(_temp848)
+    end
+    
+      local _m = _temp848.nodes
       if object._is_callable(_m) then
-        _temp863 =  _m(_temp860, _temp862)
+        _temp849 =  _m(_temp848)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp860.no_undermethod then
-        _temp863 =  _temp860:no_undermethod(string:new('<<'), _temp862)
+        _temp849 =  _m
+      elseif _temp848.no_undermethod then
+        _temp849 =  _temp848:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp860, '_less_less'))
+        _error(exception:method_error(_temp848, 'nodes'))
       end
     
-return _temp863
+
+local _temp850
+
+    if object._is_callable(_temp835) then
+      _temp847 =  _temp835(_self)
+
+    elseif _temp835 then
+      _temp847 =  _temp835
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp847) == 'number' then
+      _temp847 = number:new(_temp847)
+    elseif object._is_callable(_temp847) then
+      _temp847 = brat_function:new(_temp847)
+    end
+    
+      local _m = _temp847.args
+      if object._is_callable(_m) then
+        _temp850 =  _m(_temp847)
+      elseif _m ~= nil then
+        _temp850 =  _m
+      elseif _temp847.no_undermethod then
+        _temp850 =  _temp847:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp847, 'args'))
+      end
+    
+if _type(_temp849) == 'number' then
+      _temp849 = number:new(_temp849)
+    elseif object._is_callable(_temp849) then
+      _temp849 = brat_function:new(_temp849)
+    end
+    
+      local _m = _temp849.set
+      if object._is_callable(_m) then
+        _temp848 =  _m(_temp849, 2, _temp850)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp849.no_undermethod then
+        _temp848 =  _temp849:no_undermethod(string:new('set'), 2, _temp850)
+      else
+        _error(exception:method_error(_temp849, 'set'))
+      end
+    
+return _temp848
 
 end
 
 
-_lifted[59] = function(_self, _temp902, _temp903)
+_lifted[59] = function(_argtable, _self)
+local _temp641 = _argtable['_temp641']
+local _temp835 = _argtable['_temp835']
+local _temp852
 
-      if _temp902 == nil then
-        _error(exception:argument_error('function', 1, 0))
-      end
-    
-      if _temp903 == nil then
-        _error(exception:argument_error('function', 2, 1))
-      end
-    
-local _temp905
+local _temp851
 
-local _temp904
+    if object._is_callable(_temp641) then
+      _temp851 =  _temp641(_self)
 
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp904 = _m(_self)
-   elseif _m then
-     _temp904 = _m
-   elseif _self.no_undermethod then
-     _temp904 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-local _temp906 = string:new('call')
-
-
-local _temp907
-
-    if object._is_callable(_temp902) then
-      _temp907 =  _temp902(_self)
-
-    elseif _temp902 then
-      _temp907 =  _temp902
+    elseif _temp641 then
+      _temp851 =  _temp641
     else
-      _error(exception:name_error("memo"))
+      _error(exception:name_error("call"))
     end
     
-
-local _temp908 = string:new('get')
-
-
-local _temp909
-
-    if object._is_callable(_temp903) then
-      _temp909 =  _temp903(_self)
-
-    elseif _temp903 then
-      _temp909 =  _temp903
-    else
-      _error(exception:name_error("index"))
+if _type(_temp851) == 'number' then
+      _temp851 = number:new(_temp851)
+    elseif object._is_callable(_temp851) then
+      _temp851 = brat_function:new(_temp851)
     end
     
-if _type(_temp904) == 'number' then
-      _temp904 = number:new(_temp904)
-    elseif object._is_callable(_temp904) then
-      _temp904 = brat_function:new(_temp904)
-    end
-    
-      local _m = _temp904.get
+      local _m = _temp851.nodes
       if object._is_callable(_m) then
-        _temp905 =  _m(_temp904, _temp906, _temp907, _temp908, _temp909)
+        _temp852 =  _m(_temp851)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 3))
-      elseif _temp904.no_undermethod then
-        _temp905 =  _temp904:no_undermethod(string:new('get'), _temp906, _temp907, _temp908, _temp909)
+        _temp852 =  _m
+      elseif _temp851.no_undermethod then
+        _temp852 =  _temp851:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp904, 'get'))
+        _error(exception:method_error(_temp851, 'nodes'))
       end
     
-return _temp905
+
+local _temp854
+
+local _temp853
+
+    if object._is_callable(_temp835) then
+      _temp853 =  _temp835(_self)
+
+    elseif _temp835 then
+      _temp853 =  _temp835
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp853) == 'number' then
+      _temp853 = number:new(_temp853)
+    elseif object._is_callable(_temp853) then
+      _temp853 = brat_function:new(_temp853)
+    end
+    
+      local _m = _temp853.value
+      if object._is_callable(_m) then
+        _temp854 =  _m(_temp853)
+      elseif _m ~= nil then
+        _temp854 =  _m
+      elseif _temp853.no_undermethod then
+        _temp854 =  _temp853:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp853, 'value'))
+      end
+    
+if _type(_temp852) == 'number' then
+      _temp852 = number:new(_temp852)
+    elseif object._is_callable(_temp852) then
+      _temp852 = brat_function:new(_temp852)
+    end
+    
+      local _m = _temp852.set
+      if object._is_callable(_m) then
+        _temp851 =  _m(_temp852, 1, _temp854)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp852.no_undermethod then
+        _temp851 =  _temp852:no_undermethod(string:new('set'), 1, _temp854)
+      else
+        _error(exception:method_error(_temp852, 'set'))
+      end
+    
+return _temp851
 
 end
 
 
 _lifted[60] = function(_argtable, _self)
-local _temp896 = _argtable['_temp896']
-local _temp914
+local _temp641 = _argtable['_temp641']
+local _temp869 = _argtable['_temp869']
+local _temp882
 
-local _temp913
+local _temp881
 
-    if object._is_callable(_temp896) then
-      _temp913 =  _temp896(_self)
+    if object._is_callable(_temp641) then
+      _temp881 =  _temp641(_self)
 
-    elseif _temp896 then
-      _temp913 =  _temp896
+    elseif _temp641 then
+      _temp881 =  _temp641
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("call"))
     end
     
-if _type(_temp913) == 'number' then
-      _temp913 = number:new(_temp913)
-    elseif object._is_callable(_temp913) then
-      _temp913 = brat_function:new(_temp913)
+if _type(_temp881) == 'number' then
+      _temp881 = number:new(_temp881)
+    elseif object._is_callable(_temp881) then
+      _temp881 = brat_function:new(_temp881)
     end
     
-      local _m = _temp913.args
+      local _m = _temp881.nodes
       if object._is_callable(_m) then
-        _temp914 =  _m(_temp913)
+        _temp882 =  _m(_temp881)
       elseif _m ~= nil then
-        _temp914 =  _m
-      elseif _temp913.no_undermethod then
-        _temp914 =  _temp913:no_undermethod(string:new('args'))
+        _temp882 =  _m
+      elseif _temp881.no_undermethod then
+        _temp882 =  _temp881:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp913, 'args'))
+        _error(exception:method_error(_temp881, 'nodes'))
       end
     
-if _type(_temp914) == 'number' then
-      _temp914 = number:new(_temp914)
-    elseif object._is_callable(_temp914) then
-      _temp914 = brat_function:new(_temp914)
-    end
-    
-      local _m = _temp914.first
-      if object._is_callable(_m) then
-        _temp913 =  _m(_temp914)
-      elseif _m ~= nil then
-        _temp913 =  _m
-      elseif _temp914.no_undermethod then
-        _temp913 =  _temp914:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp914, 'first'))
-      end
-    
-if _type(_temp913) == 'number' then
-      _temp913 = number:new(_temp913)
-    elseif object._is_callable(_temp913) then
-      _temp913 = brat_function:new(_temp913)
-    end
-    
-      local _m = _temp913.name
-      if object._is_callable(_m) then
-        _temp914 =  _m(_temp913)
-      elseif _m ~= nil then
-        _temp914 =  _m
-      elseif _temp913.no_undermethod then
-        _temp914 =  _temp913:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp913, 'name'))
-      end
-    
-local _temp915 = string:new('simple_string')
 
-if _type(_temp914) == 'number' then
-      _temp914 = number:new(_temp914)
-    elseif object._is_callable(_temp914) then
-      _temp914 = brat_function:new(_temp914)
+local _temp883
+
+    if object._is_callable(_temp869) then
+      _temp881 =  _temp869(_self)
+
+    elseif _temp869 then
+      _temp881 =  _temp869
+    else
+      _error(exception:name_error("target"))
     end
     
-      local _m = _temp914._equal_equal
+if _type(_temp881) == 'number' then
+      _temp881 = number:new(_temp881)
+    elseif object._is_callable(_temp881) then
+      _temp881 = brat_function:new(_temp881)
+    end
+    
+      local _m = _temp881.method
       if object._is_callable(_m) then
-        _temp913 =  _m(_temp914, _temp915)
+        _temp883 =  _m(_temp881)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp914.no_undermethod then
-        _temp913 =  _temp914:no_undermethod(string:new('=='), _temp915)
+        _temp883 =  _m
+      elseif _temp881.no_undermethod then
+        _temp883 =  _temp881:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp914, '_equal_equal'))
+        _error(exception:method_error(_temp881, 'method'))
       end
     
-return _temp913
+if _type(_temp882) == 'number' then
+      _temp882 = number:new(_temp882)
+    elseif object._is_callable(_temp882) then
+      _temp882 = brat_function:new(_temp882)
+    end
+    
+      local _m = _temp882.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp882, 1, _temp883)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp882.no_undermethod then
+        _dummy =  _temp882:no_undermethod(string:new('set'), 1, _temp883)
+      else
+        _error(exception:method_error(_temp882, 'set'))
+      end
+    
+    if object._is_callable(_temp641) then
+      _temp882 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp882 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp882) == 'number' then
+      _temp882 = number:new(_temp882)
+    elseif object._is_callable(_temp882) then
+      _temp882 = brat_function:new(_temp882)
+    end
+    
+      local _m = _temp882.nodes
+      if object._is_callable(_m) then
+        _temp883 =  _m(_temp882)
+      elseif _m ~= nil then
+        _temp883 =  _m
+      elseif _temp882.no_undermethod then
+        _temp883 =  _temp882:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp882, 'nodes'))
+      end
+    
+
+local _temp884
+
+    if object._is_callable(_temp869) then
+      _temp881 =  _temp869(_self)
+
+    elseif _temp869 then
+      _temp881 =  _temp869
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp881) == 'number' then
+      _temp881 = number:new(_temp881)
+    elseif object._is_callable(_temp881) then
+      _temp881 = brat_function:new(_temp881)
+    end
+    
+      local _m = _temp881.args
+      if object._is_callable(_m) then
+        _temp884 =  _m(_temp881)
+      elseif _m ~= nil then
+        _temp884 =  _m
+      elseif _temp881.no_undermethod then
+        _temp884 =  _temp881:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp881, 'args'))
+      end
+    
+if _type(_temp883) == 'number' then
+      _temp883 = number:new(_temp883)
+    elseif object._is_callable(_temp883) then
+      _temp883 = brat_function:new(_temp883)
+    end
+    
+      local _m = _temp883.set
+      if object._is_callable(_m) then
+        _temp882 =  _m(_temp883, 2, _temp884)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp883.no_undermethod then
+        _temp882 =  _temp883:no_undermethod(string:new('set'), 2, _temp884)
+      else
+        _error(exception:method_error(_temp883, 'set'))
+      end
+    
+return _temp882
 
 end
 
 
 _lifted[61] = function(_argtable, _self)
-local _temp896 = _argtable['_temp896']
-local _temp921
+local _temp641 = _argtable['_temp641']
+local _temp869 = _argtable['_temp869']
+local _temp886
 
-local _temp920
+local _temp885
 
-    if object._is_callable(_temp896) then
-      _temp920 =  _temp896(_self)
+    if object._is_callable(_temp641) then
+      _temp885 =  _temp641(_self)
 
-    elseif _temp896 then
-      _temp920 =  _temp896
+    elseif _temp641 then
+      _temp885 =  _temp641
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("call"))
     end
     
-if _type(_temp920) == 'number' then
-      _temp920 = number:new(_temp920)
-    elseif object._is_callable(_temp920) then
-      _temp920 = brat_function:new(_temp920)
+if _type(_temp885) == 'number' then
+      _temp885 = number:new(_temp885)
+    elseif object._is_callable(_temp885) then
+      _temp885 = brat_function:new(_temp885)
     end
     
-      local _m = _temp920.args
+      local _m = _temp885.nodes
       if object._is_callable(_m) then
-        _temp921 =  _m(_temp920)
+        _temp886 =  _m(_temp885)
       elseif _m ~= nil then
-        _temp921 =  _m
-      elseif _temp920.no_undermethod then
-        _temp921 =  _temp920:no_undermethod(string:new('args'))
+        _temp886 =  _m
+      elseif _temp885.no_undermethod then
+        _temp886 =  _temp885:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp920, 'args'))
+        _error(exception:method_error(_temp885, 'nodes'))
       end
     
-if _type(_temp921) == 'number' then
-      _temp921 = number:new(_temp921)
-    elseif object._is_callable(_temp921) then
-      _temp921 = brat_function:new(_temp921)
-    end
-    
-      local _m = _temp921.first
-      if object._is_callable(_m) then
-        _temp920 =  _m(_temp921)
-      elseif _m ~= nil then
-        _temp920 =  _m
-      elseif _temp921.no_undermethod then
-        _temp920 =  _temp921:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp921, 'first'))
-      end
-    
-if _type(_temp920) == 'number' then
-      _temp920 = number:new(_temp920)
-    elseif object._is_callable(_temp920) then
-      _temp920 = brat_function:new(_temp920)
-    end
-    
-      local _m = _temp920.name
-      if object._is_callable(_m) then
-        _temp921 =  _m(_temp920)
-      elseif _m ~= nil then
-        _temp921 =  _m
-      elseif _temp920.no_undermethod then
-        _temp921 =  _temp920:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp920, 'name'))
-      end
-    
-local _temp922 = string:new('simple_string')
 
-if _type(_temp921) == 'number' then
-      _temp921 = number:new(_temp921)
-    elseif object._is_callable(_temp921) then
-      _temp921 = brat_function:new(_temp921)
+local _temp888
+
+local _temp887
+
+    if object._is_callable(_temp869) then
+      _temp887 =  _temp869(_self)
+
+    elseif _temp869 then
+      _temp887 =  _temp869
+    else
+      _error(exception:name_error("target"))
     end
     
-      local _m = _temp921._equal_equal
+if _type(_temp887) == 'number' then
+      _temp887 = number:new(_temp887)
+    elseif object._is_callable(_temp887) then
+      _temp887 = brat_function:new(_temp887)
+    end
+    
+      local _m = _temp887.value
       if object._is_callable(_m) then
-        _temp920 =  _m(_temp921, _temp922)
+        _temp888 =  _m(_temp887)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp921.no_undermethod then
-        _temp920 =  _temp921:no_undermethod(string:new('=='), _temp922)
+        _temp888 =  _m
+      elseif _temp887.no_undermethod then
+        _temp888 =  _temp887:no_undermethod(string:new('value'))
       else
-        _error(exception:method_error(_temp921, '_equal_equal'))
+        _error(exception:method_error(_temp887, 'value'))
       end
     
-return _temp920
+if _type(_temp886) == 'number' then
+      _temp886 = number:new(_temp886)
+    elseif object._is_callable(_temp886) then
+      _temp886 = brat_function:new(_temp886)
+    end
+    
+      local _m = _temp886.set
+      if object._is_callable(_m) then
+        _temp885 =  _m(_temp886, 1, _temp888)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp886.no_undermethod then
+        _temp885 =  _temp886:no_undermethod(string:new('set'), 1, _temp888)
+      else
+        _error(exception:method_error(_temp886, 'set'))
+      end
+    
+return _temp885
 
 end
 
 
 _lifted[62] = function(_argtable, _self)
-local _temp896 = _argtable['_temp896']
-local _temp924
-
-    if object._is_callable(_temp896) then
-      _temp924 =  _temp896(_self)
-
-    elseif _temp896 then
-      _temp924 =  _temp896
-    else
-      _error(exception:name_error("list"))
-    end
-    
-
-local _temp925 = string:new('simple_index_get')
-
-    if _type(_temp924) == 'table' then
-      _temp924['name'] = _temp925
-    else
-      _error('Cannot set method on ' .. _temp924)
-    end
-    
-return _temp925
-
-end
-
-
-_lifted[63] = function(_argtable, _self)
-local _temp896 = _argtable['_temp896']
+local _temp641 = _argtable['_temp641']
+local _temp913 = _argtable['_temp913']
 local _temp926
 
-    if object._is_callable(_temp896) then
-      _temp926 =  _temp896(_self)
+local _temp925
 
-    elseif _temp896 then
-      _temp926 =  _temp896
+    if object._is_callable(_temp641) then
+      _temp925 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp925 =  _temp641
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("call"))
     end
     
-return _temp926
-
-end
-
-
-_lifted[64] = function(_argtable, _self)
-local _temp896 = _argtable['_temp896']
-local _temp911 = _argtable['_temp911']
-local _temp928
+if _type(_temp925) == 'number' then
+      _temp925 = number:new(_temp925)
+    elseif object._is_callable(_temp925) then
+      _temp925 = brat_function:new(_temp925)
+    end
+    
+      local _m = _temp925.nodes
+      if object._is_callable(_m) then
+        _temp926 =  _m(_temp925)
+      elseif _m ~= nil then
+        _temp926 =  _m
+      elseif _temp925.no_undermethod then
+        _temp926 =  _temp925:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp925, 'nodes'))
+      end
+    
 
 local _temp927
 
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp927 = _m(_self)
-   elseif _m then
-     _temp927 = _m
-   elseif _self.no_undermethod then
-     _temp927 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-local _temp929 = string:new('invoke_index_get')
+    if object._is_callable(_temp913) then
+      _temp925 =  _temp913(_self)
 
-
-local _temp930
-
-    if object._is_callable(_temp896) then
-      _temp930 =  _temp896(_self)
-
-    elseif _temp896 then
-      _temp930 =  _temp896
+    elseif _temp913 then
+      _temp925 =  _temp913
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("target"))
     end
     
-
-local _temp931
-
-    if object._is_callable(_temp911) then
-      _temp931 =  _temp911(_self)
-
-    elseif _temp911 then
-      _temp931 =  _temp911
-    else
-      _error(exception:name_error("args"))
+if _type(_temp925) == 'number' then
+      _temp925 = number:new(_temp925)
+    elseif object._is_callable(_temp925) then
+      _temp925 = brat_function:new(_temp925)
     end
+    
+      local _m = _temp925.method
+      if object._is_callable(_m) then
+        _temp927 =  _m(_temp925)
+      elseif _m ~= nil then
+        _temp927 =  _m
+      elseif _temp925.no_undermethod then
+        _temp927 =  _temp925:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp925, 'method'))
+      end
+    
+if _type(_temp926) == 'number' then
+      _temp926 = number:new(_temp926)
+    elseif object._is_callable(_temp926) then
+      _temp926 = brat_function:new(_temp926)
+    end
+    
+      local _m = _temp926.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp926, 1, _temp927)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp926.no_undermethod then
+        _dummy =  _temp926:no_undermethod(string:new('set'), 1, _temp927)
+      else
+        _error(exception:method_error(_temp926, 'set'))
+      end
+    
+    if object._is_callable(_temp641) then
+      _temp926 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp926 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp926) == 'number' then
+      _temp926 = number:new(_temp926)
+    elseif object._is_callable(_temp926) then
+      _temp926 = brat_function:new(_temp926)
+    end
+    
+      local _m = _temp926.nodes
+      if object._is_callable(_m) then
+        _temp927 =  _m(_temp926)
+      elseif _m ~= nil then
+        _temp927 =  _m
+      elseif _temp926.no_undermethod then
+        _temp927 =  _temp926:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp926, 'nodes'))
+      end
+    
+
+local _temp928
+
+    if object._is_callable(_temp913) then
+      _temp925 =  _temp913(_self)
+
+    elseif _temp913 then
+      _temp925 =  _temp913
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp925) == 'number' then
+      _temp925 = number:new(_temp925)
+    elseif object._is_callable(_temp925) then
+      _temp925 = brat_function:new(_temp925)
+    end
+    
+      local _m = _temp925.args
+      if object._is_callable(_m) then
+        _temp928 =  _m(_temp925)
+      elseif _m ~= nil then
+        _temp928 =  _m
+      elseif _temp925.no_undermethod then
+        _temp928 =  _temp925:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp925, 'args'))
+      end
     
 if _type(_temp927) == 'number' then
       _temp927 = number:new(_temp927)
@@ -6455,151 +6550,545 @@ if _type(_temp927) == 'number' then
       _temp927 = brat_function:new(_temp927)
     end
     
-      local _m = _temp927.get
+      local _m = _temp927.set
       if object._is_callable(_m) then
-        _temp928 =  _m(_temp927, _temp929, _temp930, _temp931)
+        _temp926 =  _m(_temp927, 2, _temp928)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
+          _error(exception:argument_error('function', 0, 1))
       elseif _temp927.no_undermethod then
-        _temp928 =  _temp927:no_undermethod(string:new('get'), _temp929, _temp930, _temp931)
+        _temp926 =  _temp927:no_undermethod(string:new('set'), 2, _temp928)
       else
-        _error(exception:method_error(_temp927, 'get'))
+        _error(exception:method_error(_temp927, 'set'))
       end
     
-return _temp928
+return _temp926
 
 end
 
 
-_lifted[65] = function(_self, _temp947, _temp948)
+_lifted[63] = function(_argtable, _self)
+local _temp913 = _argtable['_temp913']
+local _temp641 = _argtable['_temp641']
+local _temp930
 
-      if _temp947 == nil then
-        _error(exception:argument_error('function', 1, 0))
+local _temp929
+
+    if object._is_callable(_temp641) then
+      _temp929 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp929 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp929) == 'number' then
+      _temp929 = number:new(_temp929)
+    elseif object._is_callable(_temp929) then
+      _temp929 = brat_function:new(_temp929)
+    end
+    
+      local _m = _temp929.nodes
+      if object._is_callable(_m) then
+        _temp930 =  _m(_temp929)
+      elseif _m ~= nil then
+        _temp930 =  _m
+      elseif _temp929.no_undermethod then
+        _temp930 =  _temp929:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp929, 'nodes'))
       end
     
-      if _temp948 == nil then
-        _error(exception:argument_error('function', 2, 1))
+
+local _temp932
+
+local _temp931
+
+    if object._is_callable(_temp913) then
+      _temp931 =  _temp913(_self)
+
+    elseif _temp913 then
+      _temp931 =  _temp913
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp931) == 'number' then
+      _temp931 = number:new(_temp931)
+    elseif object._is_callable(_temp931) then
+      _temp931 = brat_function:new(_temp931)
+    end
+    
+      local _m = _temp931.value
+      if object._is_callable(_m) then
+        _temp932 =  _m(_temp931)
+      elseif _m ~= nil then
+        _temp932 =  _m
+      elseif _temp931.no_undermethod then
+        _temp932 =  _temp931:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp931, 'value'))
       end
     
-local _temp950
+if _type(_temp930) == 'number' then
+      _temp930 = number:new(_temp930)
+    elseif object._is_callable(_temp930) then
+      _temp930 = brat_function:new(_temp930)
+    end
+    
+      local _m = _temp930.set
+      if object._is_callable(_m) then
+        _temp929 =  _m(_temp930, 1, _temp932)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp930.no_undermethod then
+        _temp929 =  _temp930:no_undermethod(string:new('set'), 1, _temp932)
+      else
+        _error(exception:method_error(_temp930, 'set'))
+      end
+    
+return _temp929
 
-local _temp949
-
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp949 = _m(_self)
-   elseif _m then
-     _temp949 = _m
-   elseif _self.no_undermethod then
-     _temp949 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-local _temp951 = string:new('call')
+end
 
 
-local _temp952
+_lifted[64] = function(_argtable, _self)
+local _temp947 = _argtable['_temp947']
+local _temp641 = _argtable['_temp641']
+local _temp960
+
+local _temp959
+
+    if object._is_callable(_temp641) then
+      _temp959 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp959 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp959) == 'number' then
+      _temp959 = number:new(_temp959)
+    elseif object._is_callable(_temp959) then
+      _temp959 = brat_function:new(_temp959)
+    end
+    
+      local _m = _temp959.nodes
+      if object._is_callable(_m) then
+        _temp960 =  _m(_temp959)
+      elseif _m ~= nil then
+        _temp960 =  _m
+      elseif _temp959.no_undermethod then
+        _temp960 =  _temp959:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp959, 'nodes'))
+      end
+    
+
+local _temp961
 
     if object._is_callable(_temp947) then
-      _temp952 =  _temp947(_self)
+      _temp959 =  _temp947(_self)
 
     elseif _temp947 then
-      _temp952 =  _temp947
+      _temp959 =  _temp947
     else
-      _error(exception:name_error("memo"))
+      _error(exception:name_error("target"))
     end
     
-
-local _temp953 = string:new('get')
-
-
-local _temp954
-
-do
-local _temp955
-_temp954 = {}
-
-    if object._is_callable(_temp948) then
-      _temp955 =  _temp948(_self)
-
-    elseif _temp948 then
-      _temp955 =  _temp948
-    else
-      _error(exception:name_error("index"))
+if _type(_temp959) == 'number' then
+      _temp959 = number:new(_temp959)
+    elseif object._is_callable(_temp959) then
+      _temp959 = brat_function:new(_temp959)
     end
     
-_temp954[1] = _temp955
-_temp954 = array:new(_temp954)
-end
-
-if _type(_temp949) == 'number' then
-      _temp949 = number:new(_temp949)
-    elseif object._is_callable(_temp949) then
-      _temp949 = brat_function:new(_temp949)
-    end
-    
-      local _m = _temp949.get
+      local _m = _temp959.method
       if object._is_callable(_m) then
-        _temp950 =  _m(_temp949, _temp951, _temp952, _temp953, _temp954)
+        _temp961 =  _m(_temp959)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 3))
-      elseif _temp949.no_undermethod then
-        _temp950 =  _temp949:no_undermethod(string:new('get'), _temp951, _temp952, _temp953, _temp954)
+        _temp961 =  _m
+      elseif _temp959.no_undermethod then
+        _temp961 =  _temp959:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp949, 'get'))
+        _error(exception:method_error(_temp959, 'method'))
       end
     
-return _temp950
+if _type(_temp960) == 'number' then
+      _temp960 = number:new(_temp960)
+    elseif object._is_callable(_temp960) then
+      _temp960 = brat_function:new(_temp960)
+    end
+    
+      local _m = _temp960.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp960, 1, _temp961)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp960.no_undermethod then
+        _dummy =  _temp960:no_undermethod(string:new('set'), 1, _temp961)
+      else
+        _error(exception:method_error(_temp960, 'set'))
+      end
+    
+    if object._is_callable(_temp641) then
+      _temp960 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp960 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp960) == 'number' then
+      _temp960 = number:new(_temp960)
+    elseif object._is_callable(_temp960) then
+      _temp960 = brat_function:new(_temp960)
+    end
+    
+      local _m = _temp960.nodes
+      if object._is_callable(_m) then
+        _temp961 =  _m(_temp960)
+      elseif _m ~= nil then
+        _temp961 =  _m
+      elseif _temp960.no_undermethod then
+        _temp961 =  _temp960:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp960, 'nodes'))
+      end
+    
+
+local _temp962
+
+    if object._is_callable(_temp947) then
+      _temp959 =  _temp947(_self)
+
+    elseif _temp947 then
+      _temp959 =  _temp947
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp959) == 'number' then
+      _temp959 = number:new(_temp959)
+    elseif object._is_callable(_temp959) then
+      _temp959 = brat_function:new(_temp959)
+    end
+    
+      local _m = _temp959.args
+      if object._is_callable(_m) then
+        _temp962 =  _m(_temp959)
+      elseif _m ~= nil then
+        _temp962 =  _m
+      elseif _temp959.no_undermethod then
+        _temp962 =  _temp959:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp959, 'args'))
+      end
+    
+if _type(_temp961) == 'number' then
+      _temp961 = number:new(_temp961)
+    elseif object._is_callable(_temp961) then
+      _temp961 = brat_function:new(_temp961)
+    end
+    
+      local _m = _temp961.set
+      if object._is_callable(_m) then
+        _temp960 =  _m(_temp961, 2, _temp962)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp961.no_undermethod then
+        _temp960 =  _temp961:no_undermethod(string:new('set'), 2, _temp962)
+      else
+        _error(exception:method_error(_temp961, 'set'))
+      end
+    
+return _temp960
 
 end
 
 
-_lifted[66] = function(_argtable, _self)
-local _temp934 = _argtable['_temp934']
-local _temp971
+_lifted[65] = function(_argtable, _self)
+local _temp947 = _argtable['_temp947']
+local _temp641 = _argtable['_temp641']
+local _temp964
 
-    if object._is_callable(_temp934) then
-      _temp971 =  _temp934(_self)
+local _temp963
 
-    elseif _temp934 then
-      _temp971 =  _temp934
+    if object._is_callable(_temp641) then
+      _temp963 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp963 =  _temp641
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("call"))
     end
     
-
-local _temp972 = string:new('simple_index_set')
-
-    if _type(_temp971) == 'table' then
-      _temp971['name'] = _temp972
-    else
-      _error('Cannot set method on ' .. _temp971)
+if _type(_temp963) == 'number' then
+      _temp963 = number:new(_temp963)
+    elseif object._is_callable(_temp963) then
+      _temp963 = brat_function:new(_temp963)
     end
     
-return _temp972
+      local _m = _temp963.nodes
+      if object._is_callable(_m) then
+        _temp964 =  _m(_temp963)
+      elseif _m ~= nil then
+        _temp964 =  _m
+      elseif _temp963.no_undermethod then
+        _temp964 =  _temp963:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp963, 'nodes'))
+      end
+    
+
+local _temp966
+
+local _temp965
+
+    if object._is_callable(_temp947) then
+      _temp965 =  _temp947(_self)
+
+    elseif _temp947 then
+      _temp965 =  _temp947
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp965) == 'number' then
+      _temp965 = number:new(_temp965)
+    elseif object._is_callable(_temp965) then
+      _temp965 = brat_function:new(_temp965)
+    end
+    
+      local _m = _temp965.value
+      if object._is_callable(_m) then
+        _temp966 =  _m(_temp965)
+      elseif _m ~= nil then
+        _temp966 =  _m
+      elseif _temp965.no_undermethod then
+        _temp966 =  _temp965:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp965, 'value'))
+      end
+    
+if _type(_temp964) == 'number' then
+      _temp964 = number:new(_temp964)
+    elseif object._is_callable(_temp964) then
+      _temp964 = brat_function:new(_temp964)
+    end
+    
+      local _m = _temp964.set
+      if object._is_callable(_m) then
+        _temp963 =  _m(_temp964, 1, _temp966)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp964.no_undermethod then
+        _temp963 =  _temp964:no_undermethod(string:new('set'), 1, _temp966)
+      else
+        _error(exception:method_error(_temp964, 'set'))
+      end
+    
+return _temp963
 
 end
 
 
-_lifted[67] = function(_self, _temp984, _temp985)
-
-      if _temp984 == nil then
+_lifted[66] = function(_argtable, _self, _temp1017)
+local _temp1014 = _argtable['_temp1014']
+local _temp5 = _argtable['_temp5']
+      if _temp1017 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
-      if _temp985 == nil then
+local _temp1019
+
+local _temp1018
+_temp1018 =  _temp1014
+
+local _temp1021
+
+local _temp1020
+
+    if object._is_callable(_temp1017) then
+      _temp1020 =  _temp1017(_self)
+
+    elseif _temp1017 then
+      _temp1020 =  _temp1017
+    else
+      _error(exception:name_error("e"))
+    end
+    
+if _type(_temp1020) == 'number' then
+      _temp1020 = number:new(_temp1020)
+    elseif object._is_callable(_temp1020) then
+      _temp1020 = brat_function:new(_temp1020)
+    end
+    
+      local _m = _temp1020.elements
+      if object._is_callable(_m) then
+        _temp1021 =  _m(_temp1020)
+      elseif _m ~= nil then
+        _temp1021 =  _m
+      elseif _temp1020.no_undermethod then
+        _temp1021 =  _temp1020:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1020, 'elements'))
+      end
+    
+if _type(_temp1021) == 'number' then
+      _temp1021 = number:new(_temp1021)
+    elseif object._is_callable(_temp1021) then
+      _temp1021 = brat_function:new(_temp1021)
+    end
+    
+      local _m = _temp1021.first
+      if object._is_callable(_m) then
+        _temp1020 =  _m(_temp1021)
+      elseif _m ~= nil then
+        _temp1020 =  _m
+      elseif _temp1021.no_undermethod then
+        _temp1020 =  _temp1021:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1021, 'first'))
+      end
+    
+if _type(_temp1020) == 'number' then
+      _temp1020 = number:new(_temp1020)
+    elseif object._is_callable(_temp1020) then
+      _temp1020 = brat_function:new(_temp1020)
+    end
+    
+      local _m = _temp1020.ast
+      if object._is_callable(_m) then
+        _temp1021 =  _m(_temp1020)
+      elseif _m ~= nil then
+        _temp1021 =  _m
+      elseif _temp1020.no_undermethod then
+        _temp1021 =  _temp1020:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp1020, 'ast'))
+      end
+    
+if _type(_temp1018) == 'number' then
+      _temp1018 = number:new(_temp1018)
+    elseif object._is_callable(_temp1018) then
+      _temp1018 = brat_function:new(_temp1018)
+    end
+    
+      local _m = _temp1018._less_less
+      if object._is_callable(_m) then
+        _temp1019 =  _m(_temp1018, _temp1021)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1018.no_undermethod then
+        _temp1019 =  _temp1018:no_undermethod(string:new('<<'), _temp1021)
+      else
+        _error(exception:method_error(_temp1018, '_less_less'))
+      end
+    _temp1018 =  _temp1014
+
+local _temp1023
+
+local _temp1022
+
+    if object._is_callable(_temp1017) then
+      _temp1022 =  _temp1017(_self)
+
+    elseif _temp1017 then
+      _temp1022 =  _temp1017
+    else
+      _error(exception:name_error("e"))
+    end
+    
+if _type(_temp1022) == 'number' then
+      _temp1022 = number:new(_temp1022)
+    elseif object._is_callable(_temp1022) then
+      _temp1022 = brat_function:new(_temp1022)
+    end
+    
+      local _m = _temp1022.elements
+      if object._is_callable(_m) then
+        _temp1023 =  _m(_temp1022)
+      elseif _m ~= nil then
+        _temp1023 =  _m
+      elseif _temp1022.no_undermethod then
+        _temp1023 =  _temp1022:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1022, 'elements'))
+      end
+    
+if _type(_temp1023) == 'number' then
+      _temp1023 = number:new(_temp1023)
+    elseif object._is_callable(_temp1023) then
+      _temp1023 = brat_function:new(_temp1023)
+    end
+    
+      local _m = _temp1023.get
+      if object._is_callable(_m) then
+        _temp1022 =  _m(_temp1023, 2)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1023.no_undermethod then
+        _temp1022 =  _temp1023:no_undermethod(string:new('get'), 2)
+      else
+        _error(exception:method_error(_temp1023, 'get'))
+      end
+    
+if _type(_temp1022) == 'number' then
+      _temp1022 = number:new(_temp1022)
+    elseif object._is_callable(_temp1022) then
+      _temp1022 = brat_function:new(_temp1022)
+    end
+    
+      local _m = _temp1022.text
+      if object._is_callable(_m) then
+        _temp1023 =  _m(_temp1022)
+      elseif _m ~= nil then
+        _temp1023 =  _m
+      elseif _temp1022.no_undermethod then
+        _temp1023 =  _temp1022:no_undermethod(string:new('text'))
+      else
+        _error(exception:method_error(_temp1022, 'text'))
+      end
+    
+_temp1020 =  _temp5(_self, _temp1023)
+
+if _type(_temp1018) == 'number' then
+      _temp1018 = number:new(_temp1018)
+    elseif object._is_callable(_temp1018) then
+      _temp1018 = brat_function:new(_temp1018)
+    end
+    
+      local _m = _temp1018._less_less
+      if object._is_callable(_m) then
+        _temp1021 =  _m(_temp1018, _temp1020)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1018.no_undermethod then
+        _temp1021 =  _temp1018:no_undermethod(string:new('<<'), _temp1020)
+      else
+        _error(exception:method_error(_temp1018, '_less_less'))
+      end
+    
+return _temp1021
+
+end
+
+
+_lifted[67] = function(_self, _temp1060, _temp1061)
+
+      if _temp1060 == nil then
+        _error(exception:argument_error('function', 1, 0))
+      end
+    
+      if _temp1061 == nil then
         _error(exception:argument_error('function', 2, 1))
       end
     
-local _temp987
+local _temp1063
 
-local _temp986
+local _temp1062
 
    local _m
    if s then
@@ -6608,97 +7097,590 @@ local _temp986
      _m = _self["s"]
    end
    if object._is_callable(_m) then
-     _temp986 = _m(_self)
+     _temp1062 = _m(_self)
    elseif _m then
-     _temp986 = _m
+     _temp1062 = _m
    elseif _self.no_undermethod then
-     _temp986 = _self:no_undermethod(string:new('s'))
+     _temp1062 = _self:no_undermethod(string:new('s'))
    else
      _error(exception:name_error("s"))
    end
   
-local _temp988 = string:new('call')
+local _temp1064 = string:new('call')
 
 
-local _temp989
+local _temp1065
 
-    if object._is_callable(_temp984) then
-      _temp989 =  _temp984(_self)
+    if object._is_callable(_temp1060) then
+      _temp1065 =  _temp1060(_self)
 
-    elseif _temp984 then
-      _temp989 =  _temp984
+    elseif _temp1060 then
+      _temp1065 =  _temp1060
     else
       _error(exception:name_error("memo"))
     end
     
 
-local _temp990 = string:new('get')
+local _temp1066 = string:new('get')
 
 
-local _temp991
+local _temp1067
 
-do
-local _temp992
-_temp991 = {}
+    if object._is_callable(_temp1061) then
+      _temp1067 =  _temp1061(_self)
 
-    if object._is_callable(_temp985) then
-      _temp992 =  _temp985(_self)
-
-    elseif _temp985 then
-      _temp992 =  _temp985
+    elseif _temp1061 then
+      _temp1067 =  _temp1061
     else
       _error(exception:name_error("index"))
     end
     
-_temp991[1] = _temp992
-_temp991 = array:new(_temp991)
-end
-
-if _type(_temp986) == 'number' then
-      _temp986 = number:new(_temp986)
-    elseif object._is_callable(_temp986) then
-      _temp986 = brat_function:new(_temp986)
+if _type(_temp1062) == 'number' then
+      _temp1062 = number:new(_temp1062)
+    elseif object._is_callable(_temp1062) then
+      _temp1062 = brat_function:new(_temp1062)
     end
     
-      local _m = _temp986.get
+      local _m = _temp1062.get
       if object._is_callable(_m) then
-        _temp987 =  _m(_temp986, _temp988, _temp989, _temp990, _temp991)
+        _temp1063 =  _m(_temp1062, _temp1064, _temp1065, _temp1066, _temp1067)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
-      elseif _temp986.no_undermethod then
-        _temp987 =  _temp986:no_undermethod(string:new('get'), _temp988, _temp989, _temp990, _temp991)
+      elseif _temp1062.no_undermethod then
+        _temp1063 =  _temp1062:no_undermethod(string:new('get'), _temp1064, _temp1065, _temp1066, _temp1067)
       else
-        _error(exception:method_error(_temp986, 'get'))
+        _error(exception:method_error(_temp1062, 'get'))
       end
     
-return _temp987
+return _temp1063
 
 end
 
 
 _lifted[68] = function(_argtable, _self)
-local _temp934 = _argtable['_temp934']
-local _temp1009
+local _temp1054 = _argtable['_temp1054']
+local _temp1072
 
-    if object._is_callable(_temp934) then
-      _temp1009 =  _temp934(_self)
+local _temp1071
 
-    elseif _temp934 then
-      _temp1009 =  _temp934
+    if object._is_callable(_temp1054) then
+      _temp1071 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1071 =  _temp1054
+    else
+      _error(exception:name_error("list"))
+    end
+    
+if _type(_temp1071) == 'number' then
+      _temp1071 = number:new(_temp1071)
+    elseif object._is_callable(_temp1071) then
+      _temp1071 = brat_function:new(_temp1071)
+    end
+    
+      local _m = _temp1071.args
+      if object._is_callable(_m) then
+        _temp1072 =  _m(_temp1071)
+      elseif _m ~= nil then
+        _temp1072 =  _m
+      elseif _temp1071.no_undermethod then
+        _temp1072 =  _temp1071:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp1071, 'args'))
+      end
+    
+if _type(_temp1072) == 'number' then
+      _temp1072 = number:new(_temp1072)
+    elseif object._is_callable(_temp1072) then
+      _temp1072 = brat_function:new(_temp1072)
+    end
+    
+      local _m = _temp1072.first
+      if object._is_callable(_m) then
+        _temp1071 =  _m(_temp1072)
+      elseif _m ~= nil then
+        _temp1071 =  _m
+      elseif _temp1072.no_undermethod then
+        _temp1071 =  _temp1072:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1072, 'first'))
+      end
+    
+if _type(_temp1071) == 'number' then
+      _temp1071 = number:new(_temp1071)
+    elseif object._is_callable(_temp1071) then
+      _temp1071 = brat_function:new(_temp1071)
+    end
+    
+      local _m = _temp1071.name
+      if object._is_callable(_m) then
+        _temp1072 =  _m(_temp1071)
+      elseif _m ~= nil then
+        _temp1072 =  _m
+      elseif _temp1071.no_undermethod then
+        _temp1072 =  _temp1071:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp1071, 'name'))
+      end
+    
+local _temp1073 = string:new('simple_string')
+
+if _type(_temp1072) == 'number' then
+      _temp1072 = number:new(_temp1072)
+    elseif object._is_callable(_temp1072) then
+      _temp1072 = brat_function:new(_temp1072)
+    end
+    
+      local _m = _temp1072._equal_equal
+      if object._is_callable(_m) then
+        _temp1071 =  _m(_temp1072, _temp1073)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1072.no_undermethod then
+        _temp1071 =  _temp1072:no_undermethod(string:new('=='), _temp1073)
+      else
+        _error(exception:method_error(_temp1072, '_equal_equal'))
+      end
+    
+return _temp1071
+
+end
+
+
+_lifted[69] = function(_argtable, _self)
+local _temp1054 = _argtable['_temp1054']
+local _temp1079
+
+local _temp1078
+
+    if object._is_callable(_temp1054) then
+      _temp1078 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1078 =  _temp1054
+    else
+      _error(exception:name_error("list"))
+    end
+    
+if _type(_temp1078) == 'number' then
+      _temp1078 = number:new(_temp1078)
+    elseif object._is_callable(_temp1078) then
+      _temp1078 = brat_function:new(_temp1078)
+    end
+    
+      local _m = _temp1078.args
+      if object._is_callable(_m) then
+        _temp1079 =  _m(_temp1078)
+      elseif _m ~= nil then
+        _temp1079 =  _m
+      elseif _temp1078.no_undermethod then
+        _temp1079 =  _temp1078:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp1078, 'args'))
+      end
+    
+if _type(_temp1079) == 'number' then
+      _temp1079 = number:new(_temp1079)
+    elseif object._is_callable(_temp1079) then
+      _temp1079 = brat_function:new(_temp1079)
+    end
+    
+      local _m = _temp1079.first
+      if object._is_callable(_m) then
+        _temp1078 =  _m(_temp1079)
+      elseif _m ~= nil then
+        _temp1078 =  _m
+      elseif _temp1079.no_undermethod then
+        _temp1078 =  _temp1079:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1079, 'first'))
+      end
+    
+if _type(_temp1078) == 'number' then
+      _temp1078 = number:new(_temp1078)
+    elseif object._is_callable(_temp1078) then
+      _temp1078 = brat_function:new(_temp1078)
+    end
+    
+      local _m = _temp1078.name
+      if object._is_callable(_m) then
+        _temp1079 =  _m(_temp1078)
+      elseif _m ~= nil then
+        _temp1079 =  _m
+      elseif _temp1078.no_undermethod then
+        _temp1079 =  _temp1078:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp1078, 'name'))
+      end
+    
+local _temp1080 = string:new('simple_string')
+
+if _type(_temp1079) == 'number' then
+      _temp1079 = number:new(_temp1079)
+    elseif object._is_callable(_temp1079) then
+      _temp1079 = brat_function:new(_temp1079)
+    end
+    
+      local _m = _temp1079._equal_equal
+      if object._is_callable(_m) then
+        _temp1078 =  _m(_temp1079, _temp1080)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1079.no_undermethod then
+        _temp1078 =  _temp1079:no_undermethod(string:new('=='), _temp1080)
+      else
+        _error(exception:method_error(_temp1079, '_equal_equal'))
+      end
+    
+return _temp1078
+
+end
+
+
+_lifted[70] = function(_argtable, _self)
+local _temp1054 = _argtable['_temp1054']
+local _temp1082
+
+    if object._is_callable(_temp1054) then
+      _temp1082 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1082 =  _temp1054
     else
       _error(exception:name_error("list"))
     end
     
 
-local _temp1010 = string:new('simple_index_set')
+local _temp1083 = string:new('simple_index_get')
 
-    if _type(_temp1009) == 'table' then
-      _temp1009['name'] = _temp1010
+    if _type(_temp1082) == 'table' then
+      _temp1082['name'] = _temp1083
     else
-      _error('Cannot set method on ' .. _temp1009)
+      _error('Cannot set method on ' .. _temp1082)
     end
     
-return _temp1010
+return _temp1083
+
+end
+
+
+_lifted[71] = function(_argtable, _self)
+local _temp1054 = _argtable['_temp1054']
+local _temp1090
+
+    if object._is_callable(_temp1054) then
+      _temp1090 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1090 =  _temp1054
+    else
+      _error(exception:name_error("list"))
+    end
+    
+return _temp1090
+
+end
+
+
+_lifted[72] = function(_argtable, _self)
+local _temp1069 = _argtable['_temp1069']
+local _temp1054 = _argtable['_temp1054']
+local _temp1093
+
+local _temp1092
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1092 = _m(_self)
+   elseif _m then
+     _temp1092 = _m
+   elseif _self.no_undermethod then
+     _temp1092 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp1094 = string:new('invoke_index_get')
+
+
+local _temp1095
+
+    if object._is_callable(_temp1054) then
+      _temp1095 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1095 =  _temp1054
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1096
+
+    if object._is_callable(_temp1069) then
+      _temp1096 =  _temp1069(_self)
+
+    elseif _temp1069 then
+      _temp1096 =  _temp1069
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp1092) == 'number' then
+      _temp1092 = number:new(_temp1092)
+    elseif object._is_callable(_temp1092) then
+      _temp1092 = brat_function:new(_temp1092)
+    end
+    
+      local _m = _temp1092.get
+      if object._is_callable(_m) then
+        _temp1093 =  _m(_temp1092, _temp1094, _temp1095, _temp1096)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _temp1092.no_undermethod then
+        _temp1093 =  _temp1092:no_undermethod(string:new('get'), _temp1094, _temp1095, _temp1096)
+      else
+        _error(exception:method_error(_temp1092, 'get'))
+      end
+    
+return _temp1093
+
+end
+
+
+_lifted[73] = function(_self, _temp1112, _temp1113)
+
+      if _temp1112 == nil then
+        _error(exception:argument_error('function', 1, 0))
+      end
+    
+      if _temp1113 == nil then
+        _error(exception:argument_error('function', 2, 1))
+      end
+    
+local _temp1115
+
+local _temp1114
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1114 = _m(_self)
+   elseif _m then
+     _temp1114 = _m
+   elseif _self.no_undermethod then
+     _temp1114 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp1116 = string:new('call')
+
+
+local _temp1117
+
+    if object._is_callable(_temp1112) then
+      _temp1117 =  _temp1112(_self)
+
+    elseif _temp1112 then
+      _temp1117 =  _temp1112
+    else
+      _error(exception:name_error("memo"))
+    end
+    
+
+local _temp1118 = string:new('get')
+
+
+local _temp1119
+
+do
+local _temp1120
+_temp1119 = {}
+
+    if object._is_callable(_temp1113) then
+      _temp1120 =  _temp1113(_self)
+
+    elseif _temp1113 then
+      _temp1120 =  _temp1113
+    else
+      _error(exception:name_error("index"))
+    end
+    
+_temp1119[1] = _temp1120
+_temp1119 = array:new(_temp1119)
+end
+
+if _type(_temp1114) == 'number' then
+      _temp1114 = number:new(_temp1114)
+    elseif object._is_callable(_temp1114) then
+      _temp1114 = brat_function:new(_temp1114)
+    end
+    
+      local _m = _temp1114.get
+      if object._is_callable(_m) then
+        _temp1115 =  _m(_temp1114, _temp1116, _temp1117, _temp1118, _temp1119)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 3))
+      elseif _temp1114.no_undermethod then
+        _temp1115 =  _temp1114:no_undermethod(string:new('get'), _temp1116, _temp1117, _temp1118, _temp1119)
+      else
+        _error(exception:method_error(_temp1114, 'get'))
+      end
+    
+return _temp1115
+
+end
+
+
+_lifted[74] = function(_argtable, _self)
+local _temp1099 = _argtable['_temp1099']
+local _temp1136
+
+    if object._is_callable(_temp1099) then
+      _temp1136 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1136 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1137 = string:new('simple_index_set')
+
+    if _type(_temp1136) == 'table' then
+      _temp1136['name'] = _temp1137
+    else
+      _error('Cannot set method on ' .. _temp1136)
+    end
+    
+return _temp1137
+
+end
+
+
+_lifted[75] = function(_self, _temp1149, _temp1150)
+
+      if _temp1149 == nil then
+        _error(exception:argument_error('function', 1, 0))
+      end
+    
+      if _temp1150 == nil then
+        _error(exception:argument_error('function', 2, 1))
+      end
+    
+local _temp1152
+
+local _temp1151
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1151 = _m(_self)
+   elseif _m then
+     _temp1151 = _m
+   elseif _self.no_undermethod then
+     _temp1151 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp1153 = string:new('call')
+
+
+local _temp1154
+
+    if object._is_callable(_temp1149) then
+      _temp1154 =  _temp1149(_self)
+
+    elseif _temp1149 then
+      _temp1154 =  _temp1149
+    else
+      _error(exception:name_error("memo"))
+    end
+    
+
+local _temp1155 = string:new('get')
+
+
+local _temp1156
+
+do
+local _temp1157
+_temp1156 = {}
+
+    if object._is_callable(_temp1150) then
+      _temp1157 =  _temp1150(_self)
+
+    elseif _temp1150 then
+      _temp1157 =  _temp1150
+    else
+      _error(exception:name_error("index"))
+    end
+    
+_temp1156[1] = _temp1157
+_temp1156 = array:new(_temp1156)
+end
+
+if _type(_temp1151) == 'number' then
+      _temp1151 = number:new(_temp1151)
+    elseif object._is_callable(_temp1151) then
+      _temp1151 = brat_function:new(_temp1151)
+    end
+    
+      local _m = _temp1151.get
+      if object._is_callable(_m) then
+        _temp1152 =  _m(_temp1151, _temp1153, _temp1154, _temp1155, _temp1156)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 3))
+      elseif _temp1151.no_undermethod then
+        _temp1152 =  _temp1151:no_undermethod(string:new('get'), _temp1153, _temp1154, _temp1155, _temp1156)
+      else
+        _error(exception:method_error(_temp1151, 'get'))
+      end
+    
+return _temp1152
+
+end
+
+
+_lifted[76] = function(_argtable, _self)
+local _temp1099 = _argtable['_temp1099']
+local _temp1174
+
+    if object._is_callable(_temp1099) then
+      _temp1174 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1174 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1175 = string:new('simple_index_set')
+
+    if _type(_temp1174) == 'table' then
+      _temp1174['name'] = _temp1175
+    else
+      _error('Cannot set method on ' .. _temp1174)
+    end
+    
+return _temp1175
 
 end
 
@@ -8575,7 +9557,7 @@ if _type(_temp139) == 'number' then
         _error(exception:method_error(_temp139, 'each'))
       end
     
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp139
      
 local _temp227
@@ -8708,7 +9690,7 @@ end
 
 local _temp234
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp234
      
 local _temp235
@@ -8907,6 +9889,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp244
 
@@ -9010,6 +9993,7 @@ _temp250.arg_table['_temp137'] = _temp137
   end
   
      _temp234 =  _temp234
+     -- end fallback if
    end
    
 _temp139 =  _temp234
@@ -9020,6 +10004,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp251
 _temp231 =  _temp137
@@ -9140,6 +10125,7 @@ _temp255.arg_table['_temp137'] = _temp137
   end
   
      _temp139 =  _temp139
+     -- end fallback if
    end
    
 return _temp139
@@ -9198,7 +10184,7 @@ local _temp277
 
 local _temp278
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp278
      
 local _temp279
@@ -9274,6 +10260,7 @@ _temp278 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp283
 
@@ -9322,6 +10309,7 @@ _temp287.arg_table['_temp47'] = _temp47
   end
   
      _temp278 =  _temp278
+     -- end fallback if
    end
    
    local _m
@@ -10146,8 +11134,8 @@ local _temp331
 _temp328 =  _temp327
 
 local _temp354 = _lifted_call(_lifted[30], {})
-_temp354.arg_table['_temp330'] = _temp330
 _temp354.arg_table['_temp331'] = _temp331
+_temp354.arg_table['_temp330'] = _temp330
 if _type(_temp328) == 'number' then
       _temp328 = number:new(_temp328)
     elseif object._is_callable(_temp328) then
@@ -10165,7 +11153,7 @@ if _type(_temp328) == 'number' then
         _error(exception:method_error(_temp328, 'each'))
       end
     
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp328
      
 local _temp355
@@ -10273,6 +11261,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp360
 
@@ -10324,8 +11313,8 @@ _temp360 = _lifted_call(_lifted[33], {})
 _temp360.arg_table['_temp330'] = _temp330
 
 local _temp365 = _lifted_call(_lifted[34], {})
-_temp365.arg_table['_temp331'] = _temp331
 _temp365.arg_table['_temp330'] = _temp330
+_temp365.arg_table['_temp331'] = _temp331
 
   if true_question then
     _temp328 =  true_question(_self, _temp355, _temp360, _temp365)
@@ -10351,6 +11340,7 @@ _temp365.arg_table['_temp330'] = _temp330
   end
   
      _temp328 =  _temp328
+     -- end fallback if
    end
    
 return _temp328
@@ -10409,7 +11399,7 @@ local _temp368
 
 local _temp369
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp369
      
 local _temp371
@@ -10717,6 +11707,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
    local _m
    if my then
@@ -10818,6 +11809,7 @@ _temp384.arg_table['_temp367'] = _temp367
   end
   
      _temp369 =  _temp369
+     -- end fallback if
    end
    
     if object._is_callable(_temp367) then
@@ -11206,7 +12198,7 @@ if _type(_temp409) == 'number' then
     
 _temp410 =  _temp5(_self, _temp408)
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp408
      
 local _temp411
@@ -11239,7 +12231,7 @@ if _type(_temp409) == 'number' then
 
 local _temp412
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp412
      
 local _temp414
@@ -11458,6 +12450,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp424
 
@@ -11559,6 +12552,7 @@ _temp434.arg_table['_temp410'] = _temp410
   end
   
      _temp412 =  _temp412
+     -- end fallback if
    end
    
 _temp408 =  _temp412
@@ -11670,6 +12664,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp442
 _temp409 =  _temp407
@@ -11696,8 +12691,8 @@ _temp409 = _lifted_call(_lifted[39], {})
 _temp409.arg_table['_temp410'] = _temp410
 
 local _temp473 = _lifted_call(_lifted[42], {})
-_temp473.arg_table['_temp410'] = _temp410
 _temp473.arg_table['_temp407'] = _temp407
+_temp473.arg_table['_temp410'] = _temp410
 
   if true_question then
     _temp408 =  true_question(_self, _temp442, _temp409, _temp473)
@@ -11723,6 +12718,7 @@ _temp473.arg_table['_temp407'] = _temp407
   end
   
      _temp408 =  _temp408
+     -- end fallback if
    end
    
 return _temp408
@@ -11836,7 +12832,7 @@ if _type(_temp477) == 'number' then
     
 _temp478 =  _temp5(_self, _temp476)
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp476
      
 local _temp479
@@ -12046,6 +13042,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp492
 _temp477 =  _temp475
@@ -12099,6 +13096,7 @@ _temp505.arg_table['_temp478'] = _temp478
   end
   
      _temp476 =  _temp476
+     -- end fallback if
    end
    
 return _temp476
@@ -12607,7 +13605,7 @@ _temp525 =  _temp523
 _dummy =  _temp47(_self, _temp526, _temp525)
 
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp525
      
 local _temp527
@@ -12711,6 +13709,7 @@ _temp525 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
    local _m
    if my then
@@ -12822,6 +13821,7 @@ end
   end
   
      _temp525 =  _temp525
+     -- end fallback if
    end
    
 local _temp537
@@ -12896,7 +13896,7 @@ if _type(_temp533) == 'number' then
 _temp537 =  _temp5(_self, _temp528)
 
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp528
      _temp533 =  _temp523
 
@@ -12927,7 +13927,7 @@ if _type(_temp533) == 'number' then
 
 local _temp539
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp539
      
 local _temp541
@@ -13146,6 +14146,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp551
 
@@ -13247,6 +14248,7 @@ _temp561.arg_table['_temp537'] = _temp537
   end
   
      _temp539 =  _temp539
+     -- end fallback if
    end
    
 _temp528 =  _temp539
@@ -13358,6 +14360,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      _temp533 =  _temp523
 
 if _type(_temp533) == 'number' then
@@ -13382,7 +14385,7 @@ local _temp569 = function(_self)
 
 local _temp570
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp570
      
 local _temp572
@@ -13601,6 +14604,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp582
 
@@ -13702,6 +14706,7 @@ _temp592.arg_table['_temp537'] = _temp537
   end
   
      _temp570 =  _temp570
+     -- end fallback if
    end
    
 return _temp570
@@ -13833,34 +14838,48 @@ end
   end
   
      _temp528 =  _temp528
+     -- end fallback if
    end
    
 local _temp538 = _temp528
-_temp593 =  _temp524
 
-if _type(_temp593) == 'number' then
-      _temp593 = number:new(_temp593)
-    elseif object._is_callable(_temp593) then
-      _temp593 = brat_function:new(_temp593)
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
+     -- yay if my var is _temp593
+     _temp569 =  _temp524
+
+if _type(_temp569) == 'number' then
+      _temp569 = number:new(_temp569)
+    elseif object._is_callable(_temp569) then
+      _temp569 = brat_function:new(_temp569)
     end
     
-      local _m = _temp593.empty_question
+      local _m = _temp569.empty_question
       if object._is_callable(_m) then
-        _temp569 =  _m(_temp593)
+        _temp532 =  _m(_temp569)
       elseif _m ~= nil then
-        _temp569 =  _m
-      elseif _temp593.no_undermethod then
-        _temp569 =  _temp593:no_undermethod(string:new('empty?'))
+        _temp532 =  _m
+      elseif _temp569.no_undermethod then
+        _temp532 =  _temp569:no_undermethod(string:new('empty?'))
       else
-        _error(exception:method_error(_temp593, 'empty_question'))
+        _error(exception:method_error(_temp569, 'empty_question'))
       end
     
+     if object._is_callable(_temp532) then
+                    _temp532 = _temp532(_self)
+                   end
+     -- end condition
 
-local _temp601 = function(_self)
+     if object._is_true(_temp532) then
+      
+_temp593 = object.__false
 
-local _temp603
+      _temp593 =  _temp593
+     else
+      do
 
 local _temp602
+
+local _temp601
 
    local _m
    if s then
@@ -13869,54 +14888,145 @@ local _temp602
      _m = _self["s"]
    end
    if object._is_callable(_m) then
-     _temp602 = _m(_self)
+     _temp601 = _m(_self)
    elseif _m then
-     _temp602 = _m
+     _temp601 = _m
    elseif _self.no_undermethod then
-     _temp602 = _self:no_undermethod(string:new('s'))
+     _temp601 = _self:no_undermethod(string:new('s'))
    else
      _error(exception:name_error("s"))
    end
   
-local _temp604 = string:new('call')
+local _temp603 = string:new('call')
 
 
-local _temp605
+local _temp604
 
     if object._is_callable(_temp538) then
-      _temp605 =  _temp538(_self)
+      _temp604 =  _temp538(_self)
 
     elseif _temp538 then
-      _temp605 =  _temp538
+      _temp604 =  _temp538
     else
       _error(exception:name_error("lhs_undercall"))
     end
     
 
-local _temp606 = string:new("get")
+local _temp605 = string:new("get")
 
 
-local _temp607
-_temp607 =  _temp524
+local _temp606
+_temp606 =  _temp524
 
-if _type(_temp602) == 'number' then
-      _temp602 = number:new(_temp602)
-    elseif object._is_callable(_temp602) then
-      _temp602 = brat_function:new(_temp602)
+if _type(_temp601) == 'number' then
+      _temp601 = number:new(_temp601)
+    elseif object._is_callable(_temp601) then
+      _temp601 = brat_function:new(_temp601)
     end
     
-      local _m = _temp602.get
+      local _m = _temp601.get
       if object._is_callable(_m) then
-        _temp603 =  _m(_temp602, _temp604, _temp605, _temp606, _temp607)
+        _temp602 =  _m(_temp601, _temp603, _temp604, _temp605, _temp606)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
-      elseif _temp602.no_undermethod then
-        _temp603 =  _temp602:no_undermethod(string:new('get'), _temp604, _temp605, _temp606, _temp607)
+      elseif _temp601.no_undermethod then
+        _temp602 =  _temp601:no_undermethod(string:new('get'), _temp603, _temp604, _temp605, _temp606)
       else
-        _error(exception:method_error(_temp602, 'get'))
+        _error(exception:method_error(_temp601, 'get'))
       end
     
-_temp538 = _temp603
+_temp538 = _temp602
+
+_temp593 =  _temp538
+
+end
+
+      _temp593 =  _temp593
+     end
+     -- end yay if
+   else
+     -- fallback false?
+     _temp569 =  _temp524
+
+if _type(_temp569) == 'number' then
+      _temp569 = number:new(_temp569)
+    elseif object._is_callable(_temp569) then
+      _temp569 = brat_function:new(_temp569)
+    end
+    
+      local _m = _temp569.empty_question
+      if object._is_callable(_m) then
+        _temp533 =  _m(_temp569)
+      elseif _m ~= nil then
+        _temp533 =  _m
+      elseif _temp569.no_undermethod then
+        _temp533 =  _temp569:no_undermethod(string:new('empty?'))
+      else
+        _error(exception:method_error(_temp569, 'empty_question'))
+      end
+    
+
+local _temp607 = function(_self)
+
+local _temp609
+
+local _temp608
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp608 = _m(_self)
+   elseif _m then
+     _temp608 = _m
+   elseif _self.no_undermethod then
+     _temp608 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp610 = string:new('call')
+
+
+local _temp611
+
+    if object._is_callable(_temp538) then
+      _temp611 =  _temp538(_self)
+
+    elseif _temp538 then
+      _temp611 =  _temp538
+    else
+      _error(exception:name_error("lhs_undercall"))
+    end
+    
+
+local _temp612 = string:new("get")
+
+
+local _temp613
+_temp613 =  _temp524
+
+if _type(_temp608) == 'number' then
+      _temp608 = number:new(_temp608)
+    elseif object._is_callable(_temp608) then
+      _temp608 = brat_function:new(_temp608)
+    end
+    
+      local _m = _temp608.get
+      if object._is_callable(_m) then
+        _temp609 =  _m(_temp608, _temp610, _temp611, _temp612, _temp613)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 3))
+      elseif _temp608.no_undermethod then
+        _temp609 =  _temp608:no_undermethod(string:new('get'), _temp610, _temp611, _temp612, _temp613)
+      else
+        _error(exception:method_error(_temp608, 'get'))
+      end
+    
+_temp538 = _temp609
 
 return _temp538
 
@@ -13924,7 +15034,7 @@ end
 
 
   if false_question then
-    _dummy =  false_question(_self, _temp569, _temp601)
+    _temp593 =  false_question(_self, _temp533, _temp607)
 
   else
     if _type(_self) == 'number' then
@@ -13935,27 +15045,31 @@ end
     
       local _m = _self.false_question
       if object._is_callable(_m) then
-        _dummy =  _m(_self, _temp569, _temp601)
+        _temp593 =  _m(_self, _temp533, _temp607)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _dummy =  _self:no_undermethod(string:new('false?'), _temp569, _temp601)
+        _temp593 =  _self:no_undermethod(string:new('false?'), _temp533, _temp607)
       else
         _error(exception:method_error(_self, 'false_question'))
       end
     
   end
   
+     _temp593 =  _temp593
+     -- end fallback false?
+   end
+   
     if object._is_callable(_temp538) then
-      _temp601 =  _temp538(_self)
+      _temp607 =  _temp538(_self)
 
     elseif _temp538 then
-      _temp601 =  _temp538
+      _temp607 =  _temp538
     else
       _error(exception:name_error("lhs_undercall"))
     end
     
-return _temp601
+return _temp607
 
 end
 
@@ -13965,65 +15079,11 @@ _temp513 =  _temp63(_self, _temp11, _temp522)
 _temp11 = string:new('array_index_lhs')
 
 
-local _temp608 = function(_self)
+local _temp614 = function(_self)
 
-local _temp610
+local _temp616
 
-local _temp609
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp609 = _m(_self)
-   elseif _m then
-     _temp609 = _m
-   elseif _self.no_undermethod then
-     _temp609 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp609) == 'number' then
-      _temp609 = number:new(_temp609)
-    elseif object._is_callable(_temp609) then
-      _temp609 = brat_function:new(_temp609)
-    end
-    
-      local _m = _temp609.indexes
-      if object._is_callable(_m) then
-        _temp610 =  _m(_temp609)
-      elseif _m ~= nil then
-        _temp610 =  _m
-      elseif _temp609.no_undermethod then
-        _temp610 =  _temp609:no_undermethod(string:new('indexes'))
-      else
-        _error(exception:method_error(_temp609, 'indexes'))
-      end
-    
-if _type(_temp610) == 'number' then
-      _temp610 = number:new(_temp610)
-    elseif object._is_callable(_temp610) then
-      _temp610 = brat_function:new(_temp610)
-    end
-    
-      local _m = _temp610.elements
-      if object._is_callable(_m) then
-        _temp609 =  _m(_temp610)
-      elseif _m ~= nil then
-        _temp609 =  _m
-      elseif _temp610.no_undermethod then
-        _temp609 =  _temp610:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp610, 'elements'))
-      end
-    
-local _temp612
-
-local _temp611
+local _temp615
 
    local _m
    if my then
@@ -14032,84 +15092,138 @@ local _temp611
      _m = _self["my"]
    end
    if object._is_callable(_m) then
-     _temp611 = _m(_self)
+     _temp615 = _m(_self)
    elseif _m then
-     _temp611 = _m
+     _temp615 = _m
    elseif _self.no_undermethod then
-     _temp611 = _self:no_undermethod(string:new('my'))
+     _temp615 = _self:no_undermethod(string:new('my'))
    else
      _error(exception:name_error("my"))
    end
   
-if _type(_temp611) == 'number' then
-      _temp611 = number:new(_temp611)
-    elseif object._is_callable(_temp611) then
-      _temp611 = brat_function:new(_temp611)
+if _type(_temp615) == 'number' then
+      _temp615 = number:new(_temp615)
+    elseif object._is_callable(_temp615) then
+      _temp615 = brat_function:new(_temp615)
     end
     
-      local _m = _temp611.target
+      local _m = _temp615.indexes
       if object._is_callable(_m) then
-        _temp612 =  _m(_temp611)
+        _temp616 =  _m(_temp615)
       elseif _m ~= nil then
-        _temp612 =  _m
-      elseif _temp611.no_undermethod then
-        _temp612 =  _temp611:no_undermethod(string:new('target'))
+        _temp616 =  _m
+      elseif _temp615.no_undermethod then
+        _temp616 =  _temp615:no_undermethod(string:new('indexes'))
       else
-        _error(exception:method_error(_temp611, 'target'))
+        _error(exception:method_error(_temp615, 'indexes'))
       end
     
-if _type(_temp612) == 'number' then
-      _temp612 = number:new(_temp612)
-    elseif object._is_callable(_temp612) then
-      _temp612 = brat_function:new(_temp612)
+if _type(_temp616) == 'number' then
+      _temp616 = number:new(_temp616)
+    elseif object._is_callable(_temp616) then
+      _temp616 = brat_function:new(_temp616)
     end
     
-      local _m = _temp612.ast
+      local _m = _temp616.elements
       if object._is_callable(_m) then
-        _temp611 =  _m(_temp612)
+        _temp615 =  _m(_temp616)
       elseif _m ~= nil then
-        _temp611 =  _m
-      elseif _temp612.no_undermethod then
-        _temp611 =  _temp612:no_undermethod(string:new('ast'))
+        _temp615 =  _m
+      elseif _temp616.no_undermethod then
+        _temp615 =  _temp616:no_undermethod(string:new('elements'))
       else
-        _error(exception:method_error(_temp612, 'ast'))
+        _error(exception:method_error(_temp616, 'elements'))
+      end
+    
+local _temp618
+
+local _temp617
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp617 = _m(_self)
+   elseif _m then
+     _temp617 = _m
+   elseif _self.no_undermethod then
+     _temp617 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp617) == 'number' then
+      _temp617 = number:new(_temp617)
+    elseif object._is_callable(_temp617) then
+      _temp617 = brat_function:new(_temp617)
+    end
+    
+      local _m = _temp617.target
+      if object._is_callable(_m) then
+        _temp618 =  _m(_temp617)
+      elseif _m ~= nil then
+        _temp618 =  _m
+      elseif _temp617.no_undermethod then
+        _temp618 =  _temp617:no_undermethod(string:new('target'))
+      else
+        _error(exception:method_error(_temp617, 'target'))
+      end
+    
+if _type(_temp618) == 'number' then
+      _temp618 = number:new(_temp618)
+    elseif object._is_callable(_temp618) then
+      _temp618 = brat_function:new(_temp618)
+    end
+    
+      local _m = _temp618.ast
+      if object._is_callable(_m) then
+        _temp617 =  _m(_temp618)
+      elseif _m ~= nil then
+        _temp617 =  _m
+      elseif _temp618.no_undermethod then
+        _temp617 =  _temp618:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp618, 'ast'))
       end
     
 
-_temp612 = _lifted_call(_lifted[49], {})
-_temp612.arg_table['_temp47'] = _temp47
-if _type(_temp609) == 'number' then
-      _temp609 = number:new(_temp609)
-    elseif object._is_callable(_temp609) then
-      _temp609 = brat_function:new(_temp609)
+_temp618 = _lifted_call(_lifted[49], {})
+_temp618.arg_table['_temp47'] = _temp47
+if _type(_temp615) == 'number' then
+      _temp615 = number:new(_temp615)
+    elseif object._is_callable(_temp615) then
+      _temp615 = brat_function:new(_temp615)
     end
     
-      local _m = _temp609.reduce
+      local _m = _temp615.reduce
       if object._is_callable(_m) then
-        _temp610 =  _m(_temp609, _temp611, _temp612)
+        _temp616 =  _m(_temp615, _temp617, _temp618)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp609.no_undermethod then
-        _temp610 =  _temp609:no_undermethod(string:new('reduce'), _temp611, _temp612)
+      elseif _temp615.no_undermethod then
+        _temp616 =  _temp615:no_undermethod(string:new('reduce'), _temp617, _temp618)
       else
-        _error(exception:method_error(_temp609, 'reduce'))
+        _error(exception:method_error(_temp615, 'reduce'))
       end
     
-return _temp610
+return _temp616
 
 end
 
-_temp522 =  _temp63(_self, _temp11, _temp608)
+_temp522 =  _temp63(_self, _temp11, _temp614)
 
 
 _temp11 = string:new('access_meth_lhs')
 
 
-local _temp622 = function(_self)
+local _temp628 = function(_self)
 
-local _temp624
+local _temp630
 
-local _temp623
+local _temp629
 
    local _m
    if s then
@@ -14118,19 +15232,19 @@ local _temp623
      _m = _self["s"]
    end
    if object._is_callable(_m) then
-     _temp623 = _m(_self)
+     _temp629 = _m(_self)
    elseif _m then
-     _temp623 = _m
+     _temp629 = _m
    elseif _self.no_undermethod then
-     _temp623 = _self:no_undermethod(string:new('s'))
+     _temp629 = _self:no_undermethod(string:new('s'))
    else
      _error(exception:name_error("s"))
    end
   
-local _temp625 = string:new('meth_access')
+local _temp631 = string:new('meth_access')
 
 
-local _temp626
+local _temp632
 
    local _m
    if null then
@@ -14139,21 +15253,21 @@ local _temp626
      _m = _self["null"]
    end
    if object._is_callable(_m) then
-     _temp626 = _m(_self)
+     _temp632 = _m(_self)
    elseif _m then
-     _temp626 = _m
+     _temp632 = _m
    elseif _self.no_undermethod then
-     _temp626 = _self:no_undermethod(string:new('null'))
+     _temp632 = _self:no_undermethod(string:new('null'))
    else
      _error(exception:name_error("null"))
    end
   
 
-local _temp627
+local _temp633
 
-local _temp629
+local _temp635
 
-local _temp628
+local _temp634
 
    local _m
    if my then
@@ -14162,85 +15276,85 @@ local _temp628
      _m = _self["my"]
    end
    if object._is_callable(_m) then
-     _temp628 = _m(_self)
+     _temp634 = _m(_self)
    elseif _m then
-     _temp628 = _m
+     _temp634 = _m
    elseif _self.no_undermethod then
-     _temp628 = _self:no_undermethod(string:new('my'))
+     _temp634 = _self:no_undermethod(string:new('my'))
    else
      _error(exception:name_error("my"))
    end
   
-if _type(_temp628) == 'number' then
-      _temp628 = number:new(_temp628)
-    elseif object._is_callable(_temp628) then
-      _temp628 = brat_function:new(_temp628)
+if _type(_temp634) == 'number' then
+      _temp634 = number:new(_temp634)
+    elseif object._is_callable(_temp634) then
+      _temp634 = brat_function:new(_temp634)
     end
     
-      local _m = _temp628.var
+      local _m = _temp634.var
       if object._is_callable(_m) then
-        _temp629 =  _m(_temp628)
+        _temp635 =  _m(_temp634)
       elseif _m ~= nil then
-        _temp629 =  _m
-      elseif _temp628.no_undermethod then
-        _temp629 =  _temp628:no_undermethod(string:new('var'))
+        _temp635 =  _m
+      elseif _temp634.no_undermethod then
+        _temp635 =  _temp634:no_undermethod(string:new('var'))
       else
-        _error(exception:method_error(_temp628, 'var'))
+        _error(exception:method_error(_temp634, 'var'))
       end
     
+if _type(_temp635) == 'number' then
+      _temp635 = number:new(_temp635)
+    elseif object._is_callable(_temp635) then
+      _temp635 = brat_function:new(_temp635)
+    end
+    
+      local _m = _temp635.text
+      if object._is_callable(_m) then
+        _temp634 =  _m(_temp635)
+      elseif _m ~= nil then
+        _temp634 =  _m
+      elseif _temp635.no_undermethod then
+        _temp634 =  _temp635:no_undermethod(string:new('text'))
+      else
+        _error(exception:method_error(_temp635, 'text'))
+      end
+    
+_temp633 =  _temp5(_self, _temp634)
+
 if _type(_temp629) == 'number' then
       _temp629 = number:new(_temp629)
     elseif object._is_callable(_temp629) then
       _temp629 = brat_function:new(_temp629)
     end
     
-      local _m = _temp629.text
+      local _m = _temp629.get
       if object._is_callable(_m) then
-        _temp628 =  _m(_temp629)
-      elseif _m ~= nil then
-        _temp628 =  _m
-      elseif _temp629.no_undermethod then
-        _temp628 =  _temp629:no_undermethod(string:new('text'))
-      else
-        _error(exception:method_error(_temp629, 'text'))
-      end
-    
-_temp627 =  _temp5(_self, _temp628)
-
-if _type(_temp623) == 'number' then
-      _temp623 = number:new(_temp623)
-    elseif object._is_callable(_temp623) then
-      _temp623 = brat_function:new(_temp623)
-    end
-    
-      local _m = _temp623.get
-      if object._is_callable(_m) then
-        _temp624 =  _m(_temp623, _temp625, _temp626, _temp627)
+        _temp630 =  _m(_temp629, _temp631, _temp632, _temp633)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
-      elseif _temp623.no_undermethod then
-        _temp624 =  _temp623:no_undermethod(string:new('get'), _temp625, _temp626, _temp627)
+      elseif _temp629.no_undermethod then
+        _temp630 =  _temp629:no_undermethod(string:new('get'), _temp631, _temp632, _temp633)
       else
-        _error(exception:method_error(_temp623, 'get'))
+        _error(exception:method_error(_temp629, 'get'))
       end
     
-return _temp624
+return _temp630
 
 end
 
-_temp608 =  _temp63(_self, _temp11, _temp622)
+_temp614 =  _temp63(_self, _temp11, _temp628)
 
 
 _temp11 = string:new('method_chain')
 
 
-local _temp630 = function(_self)
-local _temp631
+local _temp636 = function(_self)
+local _temp637
 
-_temp631 = array:new()
+_temp637 = array:new()
 
 
-local _temp632
+local _temp638
 
    local _m
    if my then
@@ -14249,96 +15363,96 @@ local _temp632
      _m = _self["my"]
    end
    if object._is_callable(_m) then
-     _temp632 = _m(_self)
+     _temp638 = _m(_self)
    elseif _m then
-     _temp632 = _m
+     _temp638 = _m
    elseif _self.no_undermethod then
-     _temp632 = _self:no_undermethod(string:new('my'))
+     _temp638 = _self:no_undermethod(string:new('my'))
    else
      _error(exception:name_error("my"))
    end
   
 
-local _temp633
-_temp633 =  _temp631
+local _temp639
+_temp639 =  _temp637
 
-_dummy =  _temp47(_self, _temp632, _temp633)
-_temp633 =  _temp631
+_dummy =  _temp47(_self, _temp638, _temp639)
+_temp639 =  _temp637
 
-local _temp636 = function(_self, _temp634, _temp635)
+local _temp642 = function(_self, _temp640, _temp641)
 
-      if _temp634 == nil then
+      if _temp640 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
     
-      if _temp635 == nil then
+      if _temp641 == nil then
         _error(exception:argument_error('function', 2, 1))
       end
     
-local _temp637
+local _temp643
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp637
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp643
      
-local _temp639
+local _temp645
 
-local _temp638
+local _temp644
 
-    if object._is_callable(_temp635) then
-      _temp638 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp644 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp638 =  _temp635
+    elseif _temp641 then
+      _temp644 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp638) == 'number' then
-      _temp638 = number:new(_temp638)
-    elseif object._is_callable(_temp638) then
-      _temp638 = brat_function:new(_temp638)
+if _type(_temp644) == 'number' then
+      _temp644 = number:new(_temp644)
+    elseif object._is_callable(_temp644) then
+      _temp644 = brat_function:new(_temp644)
     end
     
-      local _m = _temp638.name
+      local _m = _temp644.name
       if object._is_callable(_m) then
-        _temp639 =  _m(_temp638)
+        _temp645 =  _m(_temp644)
       elseif _m ~= nil then
-        _temp639 =  _m
-      elseif _temp638.no_undermethod then
-        _temp639 =  _temp638:no_undermethod(string:new('name'))
+        _temp645 =  _m
+      elseif _temp644.no_undermethod then
+        _temp645 =  _temp644:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp638, 'name'))
+        _error(exception:method_error(_temp644, 'name'))
       end
     
-local _temp640 = string:new('get_value')
+local _temp646 = string:new('get_value')
 
-if _type(_temp639) == 'number' then
-      _temp639 = number:new(_temp639)
-    elseif object._is_callable(_temp639) then
-      _temp639 = brat_function:new(_temp639)
+if _type(_temp645) == 'number' then
+      _temp645 = number:new(_temp645)
+    elseif object._is_callable(_temp645) then
+      _temp645 = brat_function:new(_temp645)
     end
     
-      local _m = _temp639._equal_equal
+      local _m = _temp645._equal_equal
       if object._is_callable(_m) then
-        _temp638 =  _m(_temp639, _temp640)
+        _temp644 =  _m(_temp645, _temp646)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp639.no_undermethod then
-        _temp638 =  _temp639:no_undermethod(string:new('=='), _temp640)
+      elseif _temp645.no_undermethod then
+        _temp644 =  _temp645:no_undermethod(string:new('=='), _temp646)
       else
-        _error(exception:method_error(_temp639, '_equal_equal'))
+        _error(exception:method_error(_temp645, '_equal_equal'))
       end
     
-     if object._is_callable(_temp638) then
-                    _temp638 = _temp638(_self)
+     if object._is_callable(_temp644) then
+                    _temp644 = _temp644(_self)
                    end
      -- end condition
 
-     if object._is_true(_temp638) then
+     if object._is_true(_temp644) then
       do
-local _temp641
+local _temp647
 
-local _temp642
+local _temp648
 
    local _m
    if s then
@@ -14347,251 +15461,121 @@ local _temp642
      _m = _self["s"]
    end
    if object._is_callable(_m) then
-     _temp642 = _m(_self)
+     _temp648 = _m(_self)
    elseif _m then
-     _temp642 = _m
+     _temp648 = _m
    elseif _self.no_undermethod then
-     _temp642 = _self:no_undermethod(string:new('s'))
+     _temp648 = _self:no_undermethod(string:new('s'))
    else
      _error(exception:name_error("s"))
    end
   
-      if _temp642._lua_hash and _temp642._unchanged('get') then
-        _temp641 =  _temp642:get('call')
+      if _temp648._lua_hash and _temp648._unchanged('get') then
+        _temp647 =  _temp648:get('call')
       else
-        if _type(_temp642) == 'number' then
-      _temp642 = number:new(_temp642)
-    elseif object._is_callable(_temp642) then
-      _temp642 = brat_function:new(_temp642)
-    end
-    
-      local _m = _temp642.get
-      if object._is_callable(_m) then
-        _temp641 =  _m(_temp642, string:new('call'))
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp642.no_undermethod then
-        _temp641 =  _temp642:no_undermethod(string:new('get'), string:new('call'))
-      else
-        _error(exception:method_error(_temp642, 'get'))
-      end
-    
-      end
-      
-
-local _temp643
-
-    if object._is_callable(_temp641) then
-      _temp643 =  _temp641(_self)
-
-    elseif _temp641 then
-      _temp643 =  _temp641
-    else
-      _error(exception:name_error("c"))
-    end
-    
-
-local _temp645
-
-local _temp644
-
-    if object._is_callable(_temp635) then
-      _temp644 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp644 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp644) == 'number' then
-      _temp644 = number:new(_temp644)
-    elseif object._is_callable(_temp644) then
-      _temp644 = brat_function:new(_temp644)
-    end
-    
-      local _m = _temp644.nodes
-      if object._is_callable(_m) then
-        _temp645 =  _m(_temp644)
-      elseif _m ~= nil then
-        _temp645 =  _m
-      elseif _temp644.no_undermethod then
-        _temp645 =  _temp644:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp644, 'nodes'))
-      end
-    
-    if _type(_temp643) == 'table' then
-      _temp643['nodes'] = _temp645
-    else
-      _error('Cannot set method on ' .. _temp643)
-    end
-    
-
-local _temp646
-
-    if object._is_callable(_temp641) then
-      _temp644 =  _temp641(_self)
-
-    elseif _temp641 then
-      _temp644 =  _temp641
-    else
-      _error(exception:name_error("c"))
-    end
-    
-if _type(_temp644) == 'number' then
-      _temp644 = number:new(_temp644)
-    elseif object._is_callable(_temp644) then
-      _temp644 = brat_function:new(_temp644)
-    end
-    
-      local _m = _temp644.nodes
-      if object._is_callable(_m) then
-        _temp646 =  _m(_temp644)
-      elseif _m ~= nil then
-        _temp646 =  _m
-      elseif _temp644.no_undermethod then
-        _temp646 =  _temp644:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp644, 'nodes'))
-      end
-    
-
-    if object._is_callable(_temp634) then
-      _temp644 =  _temp634(_self)
-
-    elseif _temp634 then
-      _temp644 =  _temp634
-    else
-      _error(exception:name_error("memo"))
-    end
-    
-if _type(_temp646) == 'number' then
-      _temp646 = number:new(_temp646)
-    elseif object._is_callable(_temp646) then
-      _temp646 = brat_function:new(_temp646)
-    end
-    
-      local _m = _temp646.insert
-      if object._is_callable(_m) then
-        _dummy =  _m(_temp646, 0, _temp644)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp646.no_undermethod then
-        _dummy =  _temp646:no_undermethod(string:new('insert'), 0, _temp644)
-      else
-        _error(exception:method_error(_temp646, 'insert'))
-      end
-    
-    if object._is_callable(_temp641) then
-      _temp646 =  _temp641(_self)
-
-    elseif _temp641 then
-      _temp646 =  _temp641
-    else
-      _error(exception:name_error("c"))
-    end
-    
-_temp635 = _temp646
-
-_temp637 =  _temp635
-
-end
-
-      _temp637 =  _temp637
-     else
-      do
-
-local _temp647
-
-local _temp649
-
-local _temp648
-
-    if object._is_callable(_temp635) then
-      _temp648 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp648 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp648) == 'number' then
+        if _type(_temp648) == 'number' then
       _temp648 = number:new(_temp648)
     elseif object._is_callable(_temp648) then
       _temp648 = brat_function:new(_temp648)
     end
     
-      local _m = _temp648.nodes
+      local _m = _temp648.get
       if object._is_callable(_m) then
-        _temp649 =  _m(_temp648)
+        _temp647 =  _m(_temp648, string:new('call'))
       elseif _m ~= nil then
-        _temp649 =  _m
+          _error(exception:argument_error('function', 0, 0))
       elseif _temp648.no_undermethod then
-        _temp649 =  _temp648:no_undermethod(string:new('nodes'))
+        _temp647 =  _temp648:no_undermethod(string:new('get'), string:new('call'))
       else
-        _error(exception:method_error(_temp648, 'nodes'))
+        _error(exception:method_error(_temp648, 'get'))
       end
     
-if _type(_temp649) == 'number' then
-      _temp649 = number:new(_temp649)
-    elseif object._is_callable(_temp649) then
-      _temp649 = brat_function:new(_temp649)
+      end
+      
+
+local _temp649
+
+    if object._is_callable(_temp647) then
+      _temp649 =  _temp647(_self)
+
+    elseif _temp647 then
+      _temp649 =  _temp647
+    else
+      _error(exception:name_error("c"))
     end
     
-      local _m = _temp649.first
-      if object._is_callable(_m) then
-        _temp648 =  _m(_temp649)
-      elseif _m ~= nil then
-        _temp648 =  _m
-      elseif _temp649.no_undermethod then
-        _temp648 =  _temp649:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp649, 'first'))
-      end
-    
-
-local _temp650 = function(_self)
-
-local _temp652
 
 local _temp651
 
-    if object._is_callable(_temp635) then
-      _temp651 =  _temp635(_self)
+local _temp650
 
-    elseif _temp635 then
-      _temp651 =  _temp635
+    if object._is_callable(_temp641) then
+      _temp650 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp650 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp651) == 'number' then
-      _temp651 = number:new(_temp651)
-    elseif object._is_callable(_temp651) then
-      _temp651 = brat_function:new(_temp651)
+if _type(_temp650) == 'number' then
+      _temp650 = number:new(_temp650)
+    elseif object._is_callable(_temp650) then
+      _temp650 = brat_function:new(_temp650)
     end
     
-      local _m = _temp651.nodes
+      local _m = _temp650.nodes
       if object._is_callable(_m) then
-        _temp652 =  _m(_temp651)
+        _temp651 =  _m(_temp650)
+      elseif _m ~= nil then
+        _temp651 =  _m
+      elseif _temp650.no_undermethod then
+        _temp651 =  _temp650:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp650, 'nodes'))
+      end
+    
+    if _type(_temp649) == 'table' then
+      _temp649['nodes'] = _temp651
+    else
+      _error('Cannot set method on ' .. _temp649)
+    end
+    
+
+local _temp652
+
+    if object._is_callable(_temp647) then
+      _temp650 =  _temp647(_self)
+
+    elseif _temp647 then
+      _temp650 =  _temp647
+    else
+      _error(exception:name_error("c"))
+    end
+    
+if _type(_temp650) == 'number' then
+      _temp650 = number:new(_temp650)
+    elseif object._is_callable(_temp650) then
+      _temp650 = brat_function:new(_temp650)
+    end
+    
+      local _m = _temp650.nodes
+      if object._is_callable(_m) then
+        _temp652 =  _m(_temp650)
       elseif _m ~= nil then
         _temp652 =  _m
-      elseif _temp651.no_undermethod then
-        _temp652 =  _temp651:no_undermethod(string:new('nodes'))
+      elseif _temp650.no_undermethod then
+        _temp652 =  _temp650:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp651, 'nodes'))
+        _error(exception:method_error(_temp650, 'nodes'))
       end
     
 
-local _temp653
+    if object._is_callable(_temp640) then
+      _temp650 =  _temp640(_self)
 
-    if object._is_callable(_temp634) then
-      _temp653 =  _temp634(_self)
-
-    elseif _temp634 then
-      _temp653 =  _temp634
+    elseif _temp640 then
+      _temp650 =  _temp640
     else
       _error(exception:name_error("memo"))
     end
@@ -14602,38 +15586,105 @@ if _type(_temp652) == 'number' then
       _temp652 = brat_function:new(_temp652)
     end
     
-      local _m = _temp652.set
+      local _m = _temp652.insert
       if object._is_callable(_m) then
-        _temp651 =  _m(_temp652, 0, _temp653)
+        _dummy =  _m(_temp652, 0, _temp650)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _temp652.no_undermethod then
-        _temp651 =  _temp652:no_undermethod(string:new('set'), 0, _temp653)
+        _dummy =  _temp652:no_undermethod(string:new('insert'), 0, _temp650)
       else
-        _error(exception:method_error(_temp652, 'set'))
+        _error(exception:method_error(_temp652, 'insert'))
       end
     
-return _temp651
+    if object._is_callable(_temp647) then
+      _temp652 =  _temp647(_self)
+
+    elseif _temp647 then
+      _temp652 =  _temp647
+    else
+      _error(exception:name_error("c"))
+    end
+    
+_temp641 = _temp652
+
+_temp643 =  _temp641
 
 end
 
+      _temp643 =  _temp643
+     else
+      do
 
-local _temp654 = function(_self)
+local _temp653
 
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
+     -- yay if my var is _temp653
+     
 local _temp655
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp655
-     
+local _temp654
+
+    if object._is_callable(_temp641) then
+      _temp654 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp654 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp654) == 'number' then
+      _temp654 = number:new(_temp654)
+    elseif object._is_callable(_temp654) then
+      _temp654 = brat_function:new(_temp654)
+    end
+    
+      local _m = _temp654.nodes
+      if object._is_callable(_m) then
+        _temp655 =  _m(_temp654)
+      elseif _m ~= nil then
+        _temp655 =  _m
+      elseif _temp654.no_undermethod then
+        _temp655 =  _temp654:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp654, 'nodes'))
+      end
+    
+if _type(_temp655) == 'number' then
+      _temp655 = number:new(_temp655)
+    elseif object._is_callable(_temp655) then
+      _temp655 = brat_function:new(_temp655)
+    end
+    
+      local _m = _temp655.first
+      if object._is_callable(_m) then
+        _temp654 =  _m(_temp655)
+      elseif _m ~= nil then
+        _temp654 =  _m
+      elseif _temp655.no_undermethod then
+        _temp654 =  _temp655:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp655, 'first'))
+      end
+    
+     if object._is_callable(_temp654) then
+                    _temp654 = _temp654(_self)
+                   end
+     -- end condition
+
+     if _temp654 == object.__null or _temp654 == nil then
+      do
+
 local _temp657
 
 local _temp656
 
-    if object._is_callable(_temp635) then
-      _temp656 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp656 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp656 =  _temp635
+    elseif _temp641 then
+      _temp656 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -14644,47 +15695,68 @@ if _type(_temp656) == 'number' then
       _temp656 = brat_function:new(_temp656)
     end
     
-      local _m = _temp656.name
+      local _m = _temp656.nodes
       if object._is_callable(_m) then
         _temp657 =  _m(_temp656)
       elseif _m ~= nil then
         _temp657 =  _m
       elseif _temp656.no_undermethod then
-        _temp657 =  _temp656:no_undermethod(string:new('name'))
+        _temp657 =  _temp656:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp656, 'name'))
+        _error(exception:method_error(_temp656, 'nodes'))
       end
     
-local _temp658 = string:new('call')
 
+local _temp658
+
+    if object._is_callable(_temp640) then
+      _temp658 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp658 =  _temp640
+    else
+      _error(exception:name_error("memo"))
+    end
+    
 if _type(_temp657) == 'number' then
       _temp657 = number:new(_temp657)
     elseif object._is_callable(_temp657) then
       _temp657 = brat_function:new(_temp657)
     end
     
-      local _m = _temp657._equal_equal
+      local _m = _temp657.set
       if object._is_callable(_m) then
-        _temp656 =  _m(_temp657, _temp658)
+        _temp656 =  _m(_temp657, 0, _temp658)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
+          _error(exception:argument_error('function', 0, 1))
       elseif _temp657.no_undermethod then
-        _temp656 =  _temp657:no_undermethod(string:new('=='), _temp658)
+        _temp656 =  _temp657:no_undermethod(string:new('set'), 0, _temp658)
       else
-        _error(exception:method_error(_temp657, '_equal_equal'))
+        _error(exception:method_error(_temp657, 'set'))
       end
     
-local _temp659 = function(_self)
+_temp653 =  _temp656
 
+end
+
+      _temp653 =  _temp653
+     else
+      do
+
+local _temp659
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp659
+     
 local _temp661
 
 local _temp660
 
-    if object._is_callable(_temp635) then
-      _temp660 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp660 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp660 =  _temp635
+    elseif _temp641 then
+      _temp660 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -14695,18 +15767,18 @@ if _type(_temp660) == 'number' then
       _temp660 = brat_function:new(_temp660)
     end
     
-      local _m = _temp660.method
+      local _m = _temp660.name
       if object._is_callable(_m) then
         _temp661 =  _m(_temp660)
       elseif _m ~= nil then
         _temp661 =  _m
       elseif _temp660.no_undermethod then
-        _temp661 =  _temp660:no_undermethod(string:new('method'))
+        _temp661 =  _temp660:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp660, 'method'))
+        _error(exception:method_error(_temp660, 'name'))
       end
     
-local _temp662 = string:new('get')
+local _temp662 = string:new('call')
 
 if _type(_temp661) == 'number' then
       _temp661 = number:new(_temp661)
@@ -14725,45 +15797,17 @@ if _type(_temp661) == 'number' then
         _error(exception:method_error(_temp661, '_equal_equal'))
       end
     
-return _temp660
-
-end
-
-if _type(_temp656) == 'number' then
-      _temp656 = number:new(_temp656)
-    elseif object._is_callable(_temp656) then
-      _temp656 = brat_function:new(_temp656)
-    end
-    
-      local _m = _temp656._and_and
-      if object._is_callable(_m) then
-        _temp657 =  _m(_temp656, _temp659)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp656.no_undermethod then
-        _temp657 =  _temp656:no_undermethod(string:new('&&'), _temp659)
-      else
-        _error(exception:method_error(_temp656, '_and_and'))
-      end
-    
-     if object._is_callable(_temp657) then
-                    _temp657 = _temp657(_self)
-                   end
-     -- end condition
-
-     if object._is_true(_temp657) then
-      do
-local _temp663
+local _temp663 = function(_self)
 
 local _temp665
 
 local _temp664
 
-    if object._is_callable(_temp635) then
-      _temp664 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp664 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp664 =  _temp635
+    elseif _temp641 then
+      _temp664 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -14774,130 +15818,120 @@ if _type(_temp664) == 'number' then
       _temp664 = brat_function:new(_temp664)
     end
     
-      local _m = _temp664.nodes
+      local _m = _temp664.method
       if object._is_callable(_m) then
         _temp665 =  _m(_temp664)
       elseif _m ~= nil then
         _temp665 =  _m
       elseif _temp664.no_undermethod then
-        _temp665 =  _temp664:no_undermethod(string:new('nodes'))
+        _temp665 =  _temp664:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp664, 'nodes'))
+        _error(exception:method_error(_temp664, 'method'))
       end
     
+local _temp666 = string:new('get')
+
 if _type(_temp665) == 'number' then
       _temp665 = number:new(_temp665)
     elseif object._is_callable(_temp665) then
       _temp665 = brat_function:new(_temp665)
     end
     
-      local _m = _temp665.pop
+      local _m = _temp665._equal_equal
       if object._is_callable(_m) then
-        _temp663 =  _m(_temp665)
+        _temp664 =  _m(_temp665, _temp666)
       elseif _m ~= nil then
-        _temp663 =  _m
+          _error(exception:argument_error('function', 0, 0))
       elseif _temp665.no_undermethod then
-        _temp663 =  _temp665:no_undermethod(string:new('pop'))
+        _temp664 =  _temp665:no_undermethod(string:new('=='), _temp666)
       else
-        _error(exception:method_error(_temp665, 'pop'))
+        _error(exception:method_error(_temp665, '_equal_equal'))
       end
     
-local _temp666
+return _temp664
 
-    if object._is_callable(_temp635) then
-      _temp665 =  _temp635(_self)
+end
 
-    elseif _temp635 then
-      _temp665 =  _temp635
+if _type(_temp660) == 'number' then
+      _temp660 = number:new(_temp660)
+    elseif object._is_callable(_temp660) then
+      _temp660 = brat_function:new(_temp660)
+    end
+    
+      local _m = _temp660._and_and
+      if object._is_callable(_m) then
+        _temp661 =  _m(_temp660, _temp663)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp660.no_undermethod then
+        _temp661 =  _temp660:no_undermethod(string:new('&&'), _temp663)
+      else
+        _error(exception:method_error(_temp660, '_and_and'))
+      end
+    
+     if object._is_callable(_temp661) then
+                    _temp661 = _temp661(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp661) then
+      do
+local _temp667
+
+local _temp669
+
+local _temp668
+
+    if object._is_callable(_temp641) then
+      _temp668 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp668 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp665) == 'number' then
-      _temp665 = number:new(_temp665)
-    elseif object._is_callable(_temp665) then
-      _temp665 = brat_function:new(_temp665)
+if _type(_temp668) == 'number' then
+      _temp668 = number:new(_temp668)
+    elseif object._is_callable(_temp668) then
+      _temp668 = brat_function:new(_temp668)
     end
     
-      local _m = _temp665.target
+      local _m = _temp668.nodes
       if object._is_callable(_m) then
-        _temp666 =  _m(_temp665)
+        _temp669 =  _m(_temp668)
       elseif _m ~= nil then
-        _temp666 =  _m
-      elseif _temp665.no_undermethod then
-        _temp666 =  _temp665:no_undermethod(string:new('target'))
+        _temp669 =  _m
+      elseif _temp668.no_undermethod then
+        _temp669 =  _temp668:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp665, 'target'))
+        _error(exception:method_error(_temp668, 'nodes'))
       end
     
-
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp665
-     
-local _temp667
-
-    if object._is_callable(_temp666) then
-      _temp664 =  _temp666(_self)
-
-    elseif _temp666 then
-      _temp664 =  _temp666
-    else
-      _error(exception:name_error("target"))
+if _type(_temp669) == 'number' then
+      _temp669 = number:new(_temp669)
+    elseif object._is_callable(_temp669) then
+      _temp669 = brat_function:new(_temp669)
     end
     
-if _type(_temp664) == 'number' then
-      _temp664 = number:new(_temp664)
-    elseif object._is_callable(_temp664) then
-      _temp664 = brat_function:new(_temp664)
-    end
-    
-      local _m = _temp664.name
+      local _m = _temp669.pop
       if object._is_callable(_m) then
-        _temp667 =  _m(_temp664)
+        _temp667 =  _m(_temp669)
       elseif _m ~= nil then
         _temp667 =  _m
-      elseif _temp664.no_undermethod then
-        _temp667 =  _temp664:no_undermethod(string:new('name'))
+      elseif _temp669.no_undermethod then
+        _temp667 =  _temp669:no_undermethod(string:new('pop'))
       else
-        _error(exception:method_error(_temp664, 'name'))
+        _error(exception:method_error(_temp669, 'pop'))
       end
     
-local _temp668 = string:new('call')
-
-if _type(_temp667) == 'number' then
-      _temp667 = number:new(_temp667)
-    elseif object._is_callable(_temp667) then
-      _temp667 = brat_function:new(_temp667)
-    end
-    
-      local _m = _temp667._equal_equal
-      if object._is_callable(_m) then
-        _temp664 =  _m(_temp667, _temp668)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp667.no_undermethod then
-        _temp664 =  _temp667:no_undermethod(string:new('=='), _temp668)
-      else
-        _error(exception:method_error(_temp667, '_equal_equal'))
-      end
-    
-     if object._is_callable(_temp664) then
-                    _temp664 = _temp664(_self)
-                   end
-     -- end condition
-
-     if object._is_true(_temp664) then
-      do
-
 local _temp670
 
-local _temp669
+    if object._is_callable(_temp641) then
+      _temp669 =  _temp641(_self)
 
-    if object._is_callable(_temp635) then
-      _temp669 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp669 =  _temp635
+    elseif _temp641 then
+      _temp669 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -14908,152 +15942,85 @@ if _type(_temp669) == 'number' then
       _temp669 = brat_function:new(_temp669)
     end
     
-      local _m = _temp669.nodes
+      local _m = _temp669.target
       if object._is_callable(_m) then
         _temp670 =  _m(_temp669)
       elseif _m ~= nil then
         _temp670 =  _m
       elseif _temp669.no_undermethod then
-        _temp670 =  _temp669:no_undermethod(string:new('nodes'))
+        _temp670 =  _temp669:no_undermethod(string:new('target'))
       else
-        _error(exception:method_error(_temp669, 'nodes'))
+        _error(exception:method_error(_temp669, 'target'))
       end
     
 
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp669
+     
 local _temp671
 
-    if object._is_callable(_temp666) then
-      _temp669 =  _temp666(_self)
+    if object._is_callable(_temp670) then
+      _temp668 =  _temp670(_self)
 
-    elseif _temp666 then
-      _temp669 =  _temp666
+    elseif _temp670 then
+      _temp668 =  _temp670
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp669) == 'number' then
-      _temp669 = number:new(_temp669)
-    elseif object._is_callable(_temp669) then
-      _temp669 = brat_function:new(_temp669)
+if _type(_temp668) == 'number' then
+      _temp668 = number:new(_temp668)
+    elseif object._is_callable(_temp668) then
+      _temp668 = brat_function:new(_temp668)
     end
     
-      local _m = _temp669.method
+      local _m = _temp668.name
       if object._is_callable(_m) then
-        _temp671 =  _m(_temp669)
+        _temp671 =  _m(_temp668)
       elseif _m ~= nil then
         _temp671 =  _m
-      elseif _temp669.no_undermethod then
-        _temp671 =  _temp669:no_undermethod(string:new('method'))
+      elseif _temp668.no_undermethod then
+        _temp671 =  _temp668:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp669, 'method'))
+        _error(exception:method_error(_temp668, 'name'))
       end
     
-if _type(_temp670) == 'number' then
-      _temp670 = number:new(_temp670)
-    elseif object._is_callable(_temp670) then
-      _temp670 = brat_function:new(_temp670)
-    end
-    
-      local _m = _temp670.set
-      if object._is_callable(_m) then
-        _dummy =  _m(_temp670, 1, _temp671)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp670.no_undermethod then
-        _dummy =  _temp670:no_undermethod(string:new('set'), 1, _temp671)
-      else
-        _error(exception:method_error(_temp670, 'set'))
-      end
-    
-    if object._is_callable(_temp635) then
-      _temp670 =  _temp635(_self)
+local _temp672 = string:new('call')
 
-    elseif _temp635 then
-      _temp670 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp670) == 'number' then
-      _temp670 = number:new(_temp670)
-    elseif object._is_callable(_temp670) then
-      _temp670 = brat_function:new(_temp670)
-    end
-    
-      local _m = _temp670.nodes
-      if object._is_callable(_m) then
-        _temp671 =  _m(_temp670)
-      elseif _m ~= nil then
-        _temp671 =  _m
-      elseif _temp670.no_undermethod then
-        _temp671 =  _temp670:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp670, 'nodes'))
-      end
-    
-
-local _temp672
-
-    if object._is_callable(_temp666) then
-      _temp669 =  _temp666(_self)
-
-    elseif _temp666 then
-      _temp669 =  _temp666
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp669) == 'number' then
-      _temp669 = number:new(_temp669)
-    elseif object._is_callable(_temp669) then
-      _temp669 = brat_function:new(_temp669)
-    end
-    
-      local _m = _temp669.args
-      if object._is_callable(_m) then
-        _temp672 =  _m(_temp669)
-      elseif _m ~= nil then
-        _temp672 =  _m
-      elseif _temp669.no_undermethod then
-        _temp672 =  _temp669:no_undermethod(string:new('args'))
-      else
-        _error(exception:method_error(_temp669, 'args'))
-      end
-    
 if _type(_temp671) == 'number' then
       _temp671 = number:new(_temp671)
     elseif object._is_callable(_temp671) then
       _temp671 = brat_function:new(_temp671)
     end
     
-      local _m = _temp671.set
+      local _m = _temp671._equal_equal
       if object._is_callable(_m) then
-        _temp670 =  _m(_temp671, 2, _temp672)
+        _temp668 =  _m(_temp671, _temp672)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
+          _error(exception:argument_error('function', 0, 0))
       elseif _temp671.no_undermethod then
-        _temp670 =  _temp671:no_undermethod(string:new('set'), 2, _temp672)
+        _temp668 =  _temp671:no_undermethod(string:new('=='), _temp672)
       else
-        _error(exception:method_error(_temp671, 'set'))
+        _error(exception:method_error(_temp671, '_equal_equal'))
       end
     
-_temp665 =  _temp670
+     if object._is_callable(_temp668) then
+                    _temp668 = _temp668(_self)
+                   end
+     -- end condition
 
-end
-
-      _temp665 =  _temp665
-     else
+     if object._is_true(_temp668) then
       do
 
 local _temp674
 
 local _temp673
 
-    if object._is_callable(_temp635) then
-      _temp673 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp673 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp673 =  _temp635
+    elseif _temp641 then
+      _temp673 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -15076,34 +16043,32 @@ if _type(_temp673) == 'number' then
       end
     
 
-local _temp676
-
 local _temp675
 
-    if object._is_callable(_temp666) then
-      _temp675 =  _temp666(_self)
+    if object._is_callable(_temp670) then
+      _temp673 =  _temp670(_self)
 
-    elseif _temp666 then
-      _temp675 =  _temp666
+    elseif _temp670 then
+      _temp673 =  _temp670
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp675) == 'number' then
-      _temp675 = number:new(_temp675)
-    elseif object._is_callable(_temp675) then
-      _temp675 = brat_function:new(_temp675)
+if _type(_temp673) == 'number' then
+      _temp673 = number:new(_temp673)
+    elseif object._is_callable(_temp673) then
+      _temp673 = brat_function:new(_temp673)
     end
     
-      local _m = _temp675.value
+      local _m = _temp673.method
       if object._is_callable(_m) then
-        _temp676 =  _m(_temp675)
+        _temp675 =  _m(_temp673)
       elseif _m ~= nil then
-        _temp676 =  _m
-      elseif _temp675.no_undermethod then
-        _temp676 =  _temp675:no_undermethod(string:new('value'))
+        _temp675 =  _m
+      elseif _temp673.no_undermethod then
+        _temp675 =  _temp673:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp675, 'value'))
+        _error(exception:method_error(_temp673, 'method'))
       end
     
 if _type(_temp674) == 'number' then
@@ -15114,110 +16079,104 @@ if _type(_temp674) == 'number' then
     
       local _m = _temp674.set
       if object._is_callable(_m) then
-        _temp673 =  _m(_temp674, 1, _temp676)
+        _dummy =  _m(_temp674, 1, _temp675)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _temp674.no_undermethod then
-        _temp673 =  _temp674:no_undermethod(string:new('set'), 1, _temp676)
+        _dummy =  _temp674:no_undermethod(string:new('set'), 1, _temp675)
       else
         _error(exception:method_error(_temp674, 'set'))
       end
     
-_temp665 =  _temp673
+    if object._is_callable(_temp641) then
+      _temp674 =  _temp641(_self)
 
-end
+    elseif _temp641 then
+      _temp674 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp674) == 'number' then
+      _temp674 = number:new(_temp674)
+    elseif object._is_callable(_temp674) then
+      _temp674 = brat_function:new(_temp674)
+    end
+    
+      local _m = _temp674.nodes
+      if object._is_callable(_m) then
+        _temp675 =  _m(_temp674)
+      elseif _m ~= nil then
+        _temp675 =  _m
+      elseif _temp674.no_undermethod then
+        _temp675 =  _temp674:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp674, 'nodes'))
+      end
+    
 
-      _temp665 =  _temp665
-     end
-     -- end yay if
-   else
-     
-    if object._is_callable(_temp666) then
-      _temp667 =  _temp666(_self)
+local _temp676
 
-    elseif _temp666 then
-      _temp667 =  _temp666
+    if object._is_callable(_temp670) then
+      _temp673 =  _temp670(_self)
+
+    elseif _temp670 then
+      _temp673 =  _temp670
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp667) == 'number' then
-      _temp667 = number:new(_temp667)
-    elseif object._is_callable(_temp667) then
-      _temp667 = brat_function:new(_temp667)
+if _type(_temp673) == 'number' then
+      _temp673 = number:new(_temp673)
+    elseif object._is_callable(_temp673) then
+      _temp673 = brat_function:new(_temp673)
     end
     
-      local _m = _temp667.name
+      local _m = _temp673.args
       if object._is_callable(_m) then
-        _temp668 =  _m(_temp667)
+        _temp676 =  _m(_temp673)
       elseif _m ~= nil then
-        _temp668 =  _m
-      elseif _temp667.no_undermethod then
-        _temp668 =  _temp667:no_undermethod(string:new('name'))
+        _temp676 =  _m
+      elseif _temp673.no_undermethod then
+        _temp676 =  _temp673:no_undermethod(string:new('args'))
       else
-        _error(exception:method_error(_temp667, 'name'))
+        _error(exception:method_error(_temp673, 'args'))
       end
     
-local _temp677 = string:new('call')
-
-if _type(_temp668) == 'number' then
-      _temp668 = number:new(_temp668)
-    elseif object._is_callable(_temp668) then
-      _temp668 = brat_function:new(_temp668)
+if _type(_temp675) == 'number' then
+      _temp675 = number:new(_temp675)
+    elseif object._is_callable(_temp675) then
+      _temp675 = brat_function:new(_temp675)
     end
     
-      local _m = _temp668._equal_equal
+      local _m = _temp675.set
       if object._is_callable(_m) then
-        _temp667 =  _m(_temp668, _temp677)
+        _temp674 =  _m(_temp675, 2, _temp676)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp668.no_undermethod then
-        _temp667 =  _temp668:no_undermethod(string:new('=='), _temp677)
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp675.no_undermethod then
+        _temp674 =  _temp675:no_undermethod(string:new('set'), 2, _temp676)
       else
-        _error(exception:method_error(_temp668, '_equal_equal'))
+        _error(exception:method_error(_temp675, 'set'))
       end
     
+_temp669 =  _temp674
 
-_temp668 = _lifted_call(_lifted[50], {})
-_temp668.arg_table['_temp666'] = _temp666
-_temp668.arg_table['_temp635'] = _temp635
+end
 
-_temp677 = _lifted_call(_lifted[51], {})
-_temp677.arg_table['_temp666'] = _temp666
-_temp677.arg_table['_temp635'] = _temp635
+      _temp669 =  _temp669
+     else
+      do
 
-  if true_question then
-    _temp665 =  true_question(_self, _temp667, _temp668, _temp677)
+local _temp678
 
-  else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
-    
-      local _m = _self.true_question
-      if object._is_callable(_m) then
-        _temp665 =  _m(_self, _temp667, _temp668, _temp677)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
-      elseif _self.no_undermethod then
-        _temp665 =  _self:no_undermethod(string:new('true?'), _temp667, _temp668, _temp677)
-      else
-        _error(exception:method_error(_self, 'true_question'))
-      end
-    
-  end
-  
-     _temp665 =  _temp665
-   end
-   
+local _temp677
 
-    if object._is_callable(_temp635) then
-      _temp677 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp677 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp677 =  _temp635
+    elseif _temp641 then
+      _temp677 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -15230,40 +16189,206 @@ if _type(_temp677) == 'number' then
     
       local _m = _temp677.nodes
       if object._is_callable(_m) then
-        _temp668 =  _m(_temp677)
+        _temp678 =  _m(_temp677)
       elseif _m ~= nil then
-        _temp668 =  _m
+        _temp678 =  _m
       elseif _temp677.no_undermethod then
-        _temp668 =  _temp677:no_undermethod(string:new('nodes'))
+        _temp678 =  _temp677:no_undermethod(string:new('nodes'))
       else
         _error(exception:method_error(_temp677, 'nodes'))
       end
     
 
-    if object._is_callable(_temp634) then
-      _temp677 =  _temp634(_self)
+local _temp680
 
-    elseif _temp634 then
-      _temp677 =  _temp634
+local _temp679
+
+    if object._is_callable(_temp670) then
+      _temp679 =  _temp670(_self)
+
+    elseif _temp670 then
+      _temp679 =  _temp670
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp679) == 'number' then
+      _temp679 = number:new(_temp679)
+    elseif object._is_callable(_temp679) then
+      _temp679 = brat_function:new(_temp679)
+    end
+    
+      local _m = _temp679.value
+      if object._is_callable(_m) then
+        _temp680 =  _m(_temp679)
+      elseif _m ~= nil then
+        _temp680 =  _m
+      elseif _temp679.no_undermethod then
+        _temp680 =  _temp679:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp679, 'value'))
+      end
+    
+if _type(_temp678) == 'number' then
+      _temp678 = number:new(_temp678)
+    elseif object._is_callable(_temp678) then
+      _temp678 = brat_function:new(_temp678)
+    end
+    
+      local _m = _temp678.set
+      if object._is_callable(_m) then
+        _temp677 =  _m(_temp678, 1, _temp680)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp678.no_undermethod then
+        _temp677 =  _temp678:no_undermethod(string:new('set'), 1, _temp680)
+      else
+        _error(exception:method_error(_temp678, 'set'))
+      end
+    
+_temp669 =  _temp677
+
+end
+
+      _temp669 =  _temp669
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp670) then
+      _temp671 =  _temp670(_self)
+
+    elseif _temp670 then
+      _temp671 =  _temp670
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp671) == 'number' then
+      _temp671 = number:new(_temp671)
+    elseif object._is_callable(_temp671) then
+      _temp671 = brat_function:new(_temp671)
+    end
+    
+      local _m = _temp671.name
+      if object._is_callable(_m) then
+        _temp672 =  _m(_temp671)
+      elseif _m ~= nil then
+        _temp672 =  _m
+      elseif _temp671.no_undermethod then
+        _temp672 =  _temp671:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp671, 'name'))
+      end
+    
+local _temp681 = string:new('call')
+
+if _type(_temp672) == 'number' then
+      _temp672 = number:new(_temp672)
+    elseif object._is_callable(_temp672) then
+      _temp672 = brat_function:new(_temp672)
+    end
+    
+      local _m = _temp672._equal_equal
+      if object._is_callable(_m) then
+        _temp671 =  _m(_temp672, _temp681)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp672.no_undermethod then
+        _temp671 =  _temp672:no_undermethod(string:new('=='), _temp681)
+      else
+        _error(exception:method_error(_temp672, '_equal_equal'))
+      end
+    
+
+_temp672 = _lifted_call(_lifted[50], {})
+_temp672.arg_table['_temp641'] = _temp641
+_temp672.arg_table['_temp670'] = _temp670
+
+_temp681 = _lifted_call(_lifted[51], {})
+_temp681.arg_table['_temp670'] = _temp670
+_temp681.arg_table['_temp641'] = _temp641
+
+  if true_question then
+    _temp669 =  true_question(_self, _temp671, _temp672, _temp681)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp669 =  _m(_self, _temp671, _temp672, _temp681)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp669 =  _self:no_undermethod(string:new('true?'), _temp671, _temp672, _temp681)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp669 =  _temp669
+     -- end fallback if
+   end
+   
+
+    if object._is_callable(_temp641) then
+      _temp681 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp681 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp681) == 'number' then
+      _temp681 = number:new(_temp681)
+    elseif object._is_callable(_temp681) then
+      _temp681 = brat_function:new(_temp681)
+    end
+    
+      local _m = _temp681.nodes
+      if object._is_callable(_m) then
+        _temp672 =  _m(_temp681)
+      elseif _m ~= nil then
+        _temp672 =  _m
+      elseif _temp681.no_undermethod then
+        _temp672 =  _temp681:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp681, 'nodes'))
+      end
+    
+
+    if object._is_callable(_temp640) then
+      _temp681 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp681 =  _temp640
     else
       _error(exception:name_error("memo"))
     end
     
-if _type(_temp668) == 'number' then
-      _temp668 = number:new(_temp668)
-    elseif object._is_callable(_temp668) then
-      _temp668 = brat_function:new(_temp668)
+if _type(_temp672) == 'number' then
+      _temp672 = number:new(_temp672)
+    elseif object._is_callable(_temp672) then
+      _temp672 = brat_function:new(_temp672)
     end
     
-      local _m = _temp668.set
+      local _m = _temp672.set
       if object._is_callable(_m) then
-        _dummy =  _m(_temp668, 0, _temp677)
+        _dummy =  _m(_temp672, 0, _temp681)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp668.no_undermethod then
-        _dummy =  _temp668:no_undermethod(string:new('set'), 0, _temp677)
+      elseif _temp672.no_undermethod then
+        _dummy =  _temp672:no_undermethod(string:new('set'), 0, _temp681)
       else
-        _error(exception:method_error(_temp668, 'set'))
+        _error(exception:method_error(_temp672, 'set'))
       end
     
    local _m
@@ -15273,94 +16398,94 @@ if _type(_temp668) == 'number' then
      _m = _self["s"]
    end
    if object._is_callable(_m) then
-     _temp668 = _m(_self)
+     _temp672 = _m(_self)
    elseif _m then
-     _temp668 = _m
+     _temp672 = _m
    elseif _self.no_undermethod then
-     _temp668 = _self:no_undermethod(string:new('s'))
+     _temp672 = _self:no_undermethod(string:new('s'))
    else
      _error(exception:name_error("s"))
    end
   
-_temp667 = string:new('call')
+_temp671 = string:new('call')
 
 
-local _temp686
+local _temp690
 
-    if object._is_callable(_temp635) then
-      _temp686 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp690 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp686 =  _temp635
+    elseif _temp641 then
+      _temp690 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
 
-local _temp687 = string:new('get')
+local _temp691 = string:new('get')
 
 
-local _temp688
+local _temp692
 
-    if object._is_callable(_temp663) then
-      _temp688 =  _temp663(_self)
+    if object._is_callable(_temp667) then
+      _temp692 =  _temp667(_self)
 
-    elseif _temp663 then
-      _temp688 =  _temp663
+    elseif _temp667 then
+      _temp692 =  _temp667
     else
       _error(exception:name_error("args"))
     end
     
-if _type(_temp668) == 'number' then
-      _temp668 = number:new(_temp668)
-    elseif object._is_callable(_temp668) then
-      _temp668 = brat_function:new(_temp668)
+if _type(_temp672) == 'number' then
+      _temp672 = number:new(_temp672)
+    elseif object._is_callable(_temp672) then
+      _temp672 = brat_function:new(_temp672)
     end
     
-      local _m = _temp668.get
+      local _m = _temp672.get
       if object._is_callable(_m) then
-        _temp677 =  _m(_temp668, _temp667, _temp686, _temp687, _temp688)
+        _temp681 =  _m(_temp672, _temp671, _temp690, _temp691, _temp692)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
-      elseif _temp668.no_undermethod then
-        _temp677 =  _temp668:no_undermethod(string:new('get'), _temp667, _temp686, _temp687, _temp688)
+      elseif _temp672.no_undermethod then
+        _temp681 =  _temp672:no_undermethod(string:new('get'), _temp671, _temp690, _temp691, _temp692)
       else
-        _error(exception:method_error(_temp668, 'get'))
+        _error(exception:method_error(_temp672, 'get'))
       end
     
-_temp635 = _temp677
+_temp641 = _temp681
 
-_temp655 =  _temp635
+_temp659 =  _temp641
 
 end
 
-      _temp655 =  _temp655
+      _temp659 =  _temp659
      else
       do
 
-local _temp689
+local _temp693
 
-local _temp690
+local _temp694
 
 do
-local _temp691 = {}
-_temp691[1] = "wut "
+local _temp695 = {}
+_temp695[1] = "wut "
 
-    if object._is_callable(_temp635) then
-      _temp691[2] =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp695[2] =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp691[2] =  _temp635
+    elseif _temp641 then
+      _temp695[2] =  _temp641
     else
       _error(exception:name_error("call"))
     end
-    _temp691[2] = _tostring(_temp691[2])
-_temp690 = string:new(_table.concat(_temp691))
+    _temp695[2] = _tostring(_temp695[2])
+_temp694 = string:new(_table.concat(_temp695))
 end
 
 
   if p then
-    _temp689 =  p(_self, _temp690)
+    _temp693 =  p(_self, _temp694)
 
   else
     if _type(_self) == 'number' then
@@ -15371,290 +16496,202 @@ end
     
       local _m = _self.p
       if object._is_callable(_m) then
-        _temp689 =  _m(_self, _temp690)
+        _temp693 =  _m(_self, _temp694)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp689 =  _self:no_undermethod(string:new('p'), _temp690)
+        _temp693 =  _self:no_undermethod(string:new('p'), _temp694)
       else
         _error(exception:method_error(_self, 'p'))
       end
     
   end
   
-_temp655 =  _temp689
+_temp659 =  _temp693
 
 end
 
-      _temp655 =  _temp655
+      _temp659 =  _temp659
      end
      -- end yay if
    else
+     -- fallback if
      
-    if object._is_callable(_temp635) then
-      _temp656 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp660 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp656 =  _temp635
+    elseif _temp641 then
+      _temp660 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp656) == 'number' then
-      _temp656 = number:new(_temp656)
-    elseif object._is_callable(_temp656) then
-      _temp656 = brat_function:new(_temp656)
+if _type(_temp660) == 'number' then
+      _temp660 = number:new(_temp660)
+    elseif object._is_callable(_temp660) then
+      _temp660 = brat_function:new(_temp660)
     end
     
-      local _m = _temp656.name
+      local _m = _temp660.name
       if object._is_callable(_m) then
-        _temp659 =  _m(_temp656)
+        _temp663 =  _m(_temp660)
       elseif _m ~= nil then
-        _temp659 =  _m
-      elseif _temp656.no_undermethod then
-        _temp659 =  _temp656:no_undermethod(string:new('name'))
+        _temp663 =  _m
+      elseif _temp660.no_undermethod then
+        _temp663 =  _temp660:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp656, 'name'))
+        _error(exception:method_error(_temp660, 'name'))
       end
     
-_temp658 = string:new('call')
+_temp662 = string:new('call')
 
-if _type(_temp659) == 'number' then
-      _temp659 = number:new(_temp659)
-    elseif object._is_callable(_temp659) then
-      _temp659 = brat_function:new(_temp659)
+if _type(_temp663) == 'number' then
+      _temp663 = number:new(_temp663)
+    elseif object._is_callable(_temp663) then
+      _temp663 = brat_function:new(_temp663)
     end
     
-      local _m = _temp659._equal_equal
+      local _m = _temp663._equal_equal
       if object._is_callable(_m) then
-        _temp656 =  _m(_temp659, _temp658)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp659.no_undermethod then
-        _temp656 =  _temp659:no_undermethod(string:new('=='), _temp658)
-      else
-        _error(exception:method_error(_temp659, '_equal_equal'))
-      end
-    
-local _temp692 = function(_self)
-
-local _temp694
-
-local _temp693
-
-    if object._is_callable(_temp635) then
-      _temp693 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp693 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp693) == 'number' then
-      _temp693 = number:new(_temp693)
-    elseif object._is_callable(_temp693) then
-      _temp693 = brat_function:new(_temp693)
-    end
-    
-      local _m = _temp693.method
-      if object._is_callable(_m) then
-        _temp694 =  _m(_temp693)
-      elseif _m ~= nil then
-        _temp694 =  _m
-      elseif _temp693.no_undermethod then
-        _temp694 =  _temp693:no_undermethod(string:new('method'))
-      else
-        _error(exception:method_error(_temp693, 'method'))
-      end
-    
-local _temp695 = string:new('get')
-
-if _type(_temp694) == 'number' then
-      _temp694 = number:new(_temp694)
-    elseif object._is_callable(_temp694) then
-      _temp694 = brat_function:new(_temp694)
-    end
-    
-      local _m = _temp694._equal_equal
-      if object._is_callable(_m) then
-        _temp693 =  _m(_temp694, _temp695)
+        _temp660 =  _m(_temp663, _temp662)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp694.no_undermethod then
-        _temp693 =  _temp694:no_undermethod(string:new('=='), _temp695)
+      elseif _temp663.no_undermethod then
+        _temp660 =  _temp663:no_undermethod(string:new('=='), _temp662)
       else
-        _error(exception:method_error(_temp694, '_equal_equal'))
+        _error(exception:method_error(_temp663, '_equal_equal'))
       end
     
-return _temp693
-
-end
-
-if _type(_temp656) == 'number' then
-      _temp656 = number:new(_temp656)
-    elseif object._is_callable(_temp656) then
-      _temp656 = brat_function:new(_temp656)
-    end
-    
-      local _m = _temp656._and_and
-      if object._is_callable(_m) then
-        _temp659 =  _m(_temp656, _temp692)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp656.no_undermethod then
-        _temp659 =  _temp656:no_undermethod(string:new('&&'), _temp692)
-      else
-        _error(exception:method_error(_temp656, '_and_and'))
-      end
-    
-
 local _temp696 = function(_self)
-local _temp697
-
-local _temp699
 
 local _temp698
 
-    if object._is_callable(_temp635) then
-      _temp698 =  _temp635(_self)
+local _temp697
 
-    elseif _temp635 then
-      _temp698 =  _temp635
+    if object._is_callable(_temp641) then
+      _temp697 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp697 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
+if _type(_temp697) == 'number' then
+      _temp697 = number:new(_temp697)
+    elseif object._is_callable(_temp697) then
+      _temp697 = brat_function:new(_temp697)
+    end
+    
+      local _m = _temp697.method
+      if object._is_callable(_m) then
+        _temp698 =  _m(_temp697)
+      elseif _m ~= nil then
+        _temp698 =  _m
+      elseif _temp697.no_undermethod then
+        _temp698 =  _temp697:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp697, 'method'))
+      end
+    
+local _temp699 = string:new('get')
+
 if _type(_temp698) == 'number' then
       _temp698 = number:new(_temp698)
     elseif object._is_callable(_temp698) then
       _temp698 = brat_function:new(_temp698)
     end
     
-      local _m = _temp698.nodes
+      local _m = _temp698._equal_equal
       if object._is_callable(_m) then
-        _temp699 =  _m(_temp698)
-      elseif _m ~= nil then
-        _temp699 =  _m
-      elseif _temp698.no_undermethod then
-        _temp699 =  _temp698:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp698, 'nodes'))
-      end
-    
-if _type(_temp699) == 'number' then
-      _temp699 = number:new(_temp699)
-    elseif object._is_callable(_temp699) then
-      _temp699 = brat_function:new(_temp699)
-    end
-    
-      local _m = _temp699.pop
-      if object._is_callable(_m) then
-        _temp697 =  _m(_temp699)
-      elseif _m ~= nil then
-        _temp697 =  _m
-      elseif _temp699.no_undermethod then
-        _temp697 =  _temp699:no_undermethod(string:new('pop'))
-      else
-        _error(exception:method_error(_temp699, 'pop'))
-      end
-    
-local _temp700
-
-    if object._is_callable(_temp635) then
-      _temp699 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp699 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp699) == 'number' then
-      _temp699 = number:new(_temp699)
-    elseif object._is_callable(_temp699) then
-      _temp699 = brat_function:new(_temp699)
-    end
-    
-      local _m = _temp699.target
-      if object._is_callable(_m) then
-        _temp700 =  _m(_temp699)
-      elseif _m ~= nil then
-        _temp700 =  _m
-      elseif _temp699.no_undermethod then
-        _temp700 =  _temp699:no_undermethod(string:new('target'))
-      else
-        _error(exception:method_error(_temp699, 'target'))
-      end
-    
-
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp699
-     
-local _temp701
-
-    if object._is_callable(_temp700) then
-      _temp698 =  _temp700(_self)
-
-    elseif _temp700 then
-      _temp698 =  _temp700
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp698) == 'number' then
-      _temp698 = number:new(_temp698)
-    elseif object._is_callable(_temp698) then
-      _temp698 = brat_function:new(_temp698)
-    end
-    
-      local _m = _temp698.name
-      if object._is_callable(_m) then
-        _temp701 =  _m(_temp698)
-      elseif _m ~= nil then
-        _temp701 =  _m
-      elseif _temp698.no_undermethod then
-        _temp701 =  _temp698:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp698, 'name'))
-      end
-    
-local _temp702 = string:new('call')
-
-if _type(_temp701) == 'number' then
-      _temp701 = number:new(_temp701)
-    elseif object._is_callable(_temp701) then
-      _temp701 = brat_function:new(_temp701)
-    end
-    
-      local _m = _temp701._equal_equal
-      if object._is_callable(_m) then
-        _temp698 =  _m(_temp701, _temp702)
+        _temp697 =  _m(_temp698, _temp699)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp701.no_undermethod then
-        _temp698 =  _temp701:no_undermethod(string:new('=='), _temp702)
+      elseif _temp698.no_undermethod then
+        _temp697 =  _temp698:no_undermethod(string:new('=='), _temp699)
       else
-        _error(exception:method_error(_temp701, '_equal_equal'))
+        _error(exception:method_error(_temp698, '_equal_equal'))
       end
     
-     if object._is_callable(_temp698) then
-                    _temp698 = _temp698(_self)
-                   end
-     -- end condition
+return _temp697
 
-     if object._is_true(_temp698) then
-      do
+end
 
-local _temp704
+if _type(_temp660) == 'number' then
+      _temp660 = number:new(_temp660)
+    elseif object._is_callable(_temp660) then
+      _temp660 = brat_function:new(_temp660)
+    end
+    
+      local _m = _temp660._and_and
+      if object._is_callable(_m) then
+        _temp663 =  _m(_temp660, _temp696)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp660.no_undermethod then
+        _temp663 =  _temp660:no_undermethod(string:new('&&'), _temp696)
+      else
+        _error(exception:method_error(_temp660, '_and_and'))
+      end
+    
+
+local _temp700 = function(_self)
+local _temp701
 
 local _temp703
 
-    if object._is_callable(_temp635) then
-      _temp703 =  _temp635(_self)
+local _temp702
 
-    elseif _temp635 then
-      _temp703 =  _temp635
+    if object._is_callable(_temp641) then
+      _temp702 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp702 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp702) == 'number' then
+      _temp702 = number:new(_temp702)
+    elseif object._is_callable(_temp702) then
+      _temp702 = brat_function:new(_temp702)
+    end
+    
+      local _m = _temp702.nodes
+      if object._is_callable(_m) then
+        _temp703 =  _m(_temp702)
+      elseif _m ~= nil then
+        _temp703 =  _m
+      elseif _temp702.no_undermethod then
+        _temp703 =  _temp702:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp702, 'nodes'))
+      end
+    
+if _type(_temp703) == 'number' then
+      _temp703 = number:new(_temp703)
+    elseif object._is_callable(_temp703) then
+      _temp703 = brat_function:new(_temp703)
+    end
+    
+      local _m = _temp703.pop
+      if object._is_callable(_m) then
+        _temp701 =  _m(_temp703)
+      elseif _m ~= nil then
+        _temp701 =  _m
+      elseif _temp703.no_undermethod then
+        _temp701 =  _temp703:no_undermethod(string:new('pop'))
+      else
+        _error(exception:method_error(_temp703, 'pop'))
+      end
+    
+local _temp704
+
+    if object._is_callable(_temp641) then
+      _temp703 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp703 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -15665,152 +16702,85 @@ if _type(_temp703) == 'number' then
       _temp703 = brat_function:new(_temp703)
     end
     
-      local _m = _temp703.nodes
+      local _m = _temp703.target
       if object._is_callable(_m) then
         _temp704 =  _m(_temp703)
       elseif _m ~= nil then
         _temp704 =  _m
       elseif _temp703.no_undermethod then
-        _temp704 =  _temp703:no_undermethod(string:new('nodes'))
+        _temp704 =  _temp703:no_undermethod(string:new('target'))
       else
-        _error(exception:method_error(_temp703, 'nodes'))
+        _error(exception:method_error(_temp703, 'target'))
       end
     
 
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp703
+     
 local _temp705
 
-    if object._is_callable(_temp700) then
-      _temp703 =  _temp700(_self)
+    if object._is_callable(_temp704) then
+      _temp702 =  _temp704(_self)
 
-    elseif _temp700 then
-      _temp703 =  _temp700
+    elseif _temp704 then
+      _temp702 =  _temp704
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp703) == 'number' then
-      _temp703 = number:new(_temp703)
-    elseif object._is_callable(_temp703) then
-      _temp703 = brat_function:new(_temp703)
+if _type(_temp702) == 'number' then
+      _temp702 = number:new(_temp702)
+    elseif object._is_callable(_temp702) then
+      _temp702 = brat_function:new(_temp702)
     end
     
-      local _m = _temp703.method
+      local _m = _temp702.name
       if object._is_callable(_m) then
-        _temp705 =  _m(_temp703)
+        _temp705 =  _m(_temp702)
       elseif _m ~= nil then
         _temp705 =  _m
-      elseif _temp703.no_undermethod then
-        _temp705 =  _temp703:no_undermethod(string:new('method'))
+      elseif _temp702.no_undermethod then
+        _temp705 =  _temp702:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp703, 'method'))
+        _error(exception:method_error(_temp702, 'name'))
       end
     
-if _type(_temp704) == 'number' then
-      _temp704 = number:new(_temp704)
-    elseif object._is_callable(_temp704) then
-      _temp704 = brat_function:new(_temp704)
-    end
-    
-      local _m = _temp704.set
-      if object._is_callable(_m) then
-        _dummy =  _m(_temp704, 1, _temp705)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp704.no_undermethod then
-        _dummy =  _temp704:no_undermethod(string:new('set'), 1, _temp705)
-      else
-        _error(exception:method_error(_temp704, 'set'))
-      end
-    
-    if object._is_callable(_temp635) then
-      _temp704 =  _temp635(_self)
+local _temp706 = string:new('call')
 
-    elseif _temp635 then
-      _temp704 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp704) == 'number' then
-      _temp704 = number:new(_temp704)
-    elseif object._is_callable(_temp704) then
-      _temp704 = brat_function:new(_temp704)
-    end
-    
-      local _m = _temp704.nodes
-      if object._is_callable(_m) then
-        _temp705 =  _m(_temp704)
-      elseif _m ~= nil then
-        _temp705 =  _m
-      elseif _temp704.no_undermethod then
-        _temp705 =  _temp704:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp704, 'nodes'))
-      end
-    
-
-local _temp706
-
-    if object._is_callable(_temp700) then
-      _temp703 =  _temp700(_self)
-
-    elseif _temp700 then
-      _temp703 =  _temp700
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp703) == 'number' then
-      _temp703 = number:new(_temp703)
-    elseif object._is_callable(_temp703) then
-      _temp703 = brat_function:new(_temp703)
-    end
-    
-      local _m = _temp703.args
-      if object._is_callable(_m) then
-        _temp706 =  _m(_temp703)
-      elseif _m ~= nil then
-        _temp706 =  _m
-      elseif _temp703.no_undermethod then
-        _temp706 =  _temp703:no_undermethod(string:new('args'))
-      else
-        _error(exception:method_error(_temp703, 'args'))
-      end
-    
 if _type(_temp705) == 'number' then
       _temp705 = number:new(_temp705)
     elseif object._is_callable(_temp705) then
       _temp705 = brat_function:new(_temp705)
     end
     
-      local _m = _temp705.set
+      local _m = _temp705._equal_equal
       if object._is_callable(_m) then
-        _temp704 =  _m(_temp705, 2, _temp706)
+        _temp702 =  _m(_temp705, _temp706)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
+          _error(exception:argument_error('function', 0, 0))
       elseif _temp705.no_undermethod then
-        _temp704 =  _temp705:no_undermethod(string:new('set'), 2, _temp706)
+        _temp702 =  _temp705:no_undermethod(string:new('=='), _temp706)
       else
-        _error(exception:method_error(_temp705, 'set'))
+        _error(exception:method_error(_temp705, '_equal_equal'))
       end
     
-_temp699 =  _temp704
+     if object._is_callable(_temp702) then
+                    _temp702 = _temp702(_self)
+                   end
+     -- end condition
 
-end
-
-      _temp699 =  _temp699
-     else
+     if object._is_true(_temp702) then
       do
 
 local _temp708
 
 local _temp707
 
-    if object._is_callable(_temp635) then
-      _temp707 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp707 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp707 =  _temp635
+    elseif _temp641 then
+      _temp707 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -15833,34 +16803,32 @@ if _type(_temp707) == 'number' then
       end
     
 
-local _temp710
-
 local _temp709
 
-    if object._is_callable(_temp700) then
-      _temp709 =  _temp700(_self)
+    if object._is_callable(_temp704) then
+      _temp707 =  _temp704(_self)
 
-    elseif _temp700 then
-      _temp709 =  _temp700
+    elseif _temp704 then
+      _temp707 =  _temp704
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp709) == 'number' then
-      _temp709 = number:new(_temp709)
-    elseif object._is_callable(_temp709) then
-      _temp709 = brat_function:new(_temp709)
+if _type(_temp707) == 'number' then
+      _temp707 = number:new(_temp707)
+    elseif object._is_callable(_temp707) then
+      _temp707 = brat_function:new(_temp707)
     end
     
-      local _m = _temp709.value
+      local _m = _temp707.method
       if object._is_callable(_m) then
-        _temp710 =  _m(_temp709)
+        _temp709 =  _m(_temp707)
       elseif _m ~= nil then
-        _temp710 =  _m
-      elseif _temp709.no_undermethod then
-        _temp710 =  _temp709:no_undermethod(string:new('value'))
+        _temp709 =  _m
+      elseif _temp707.no_undermethod then
+        _temp709 =  _temp707:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp709, 'value'))
+        _error(exception:method_error(_temp707, 'method'))
       end
     
 if _type(_temp708) == 'number' then
@@ -15871,110 +16839,104 @@ if _type(_temp708) == 'number' then
     
       local _m = _temp708.set
       if object._is_callable(_m) then
-        _temp707 =  _m(_temp708, 1, _temp710)
+        _dummy =  _m(_temp708, 1, _temp709)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _temp708.no_undermethod then
-        _temp707 =  _temp708:no_undermethod(string:new('set'), 1, _temp710)
+        _dummy =  _temp708:no_undermethod(string:new('set'), 1, _temp709)
       else
         _error(exception:method_error(_temp708, 'set'))
       end
     
-_temp699 =  _temp707
+    if object._is_callable(_temp641) then
+      _temp708 =  _temp641(_self)
 
-end
+    elseif _temp641 then
+      _temp708 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp708) == 'number' then
+      _temp708 = number:new(_temp708)
+    elseif object._is_callable(_temp708) then
+      _temp708 = brat_function:new(_temp708)
+    end
+    
+      local _m = _temp708.nodes
+      if object._is_callable(_m) then
+        _temp709 =  _m(_temp708)
+      elseif _m ~= nil then
+        _temp709 =  _m
+      elseif _temp708.no_undermethod then
+        _temp709 =  _temp708:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp708, 'nodes'))
+      end
+    
 
-      _temp699 =  _temp699
-     end
-     -- end yay if
-   else
-     
-    if object._is_callable(_temp700) then
-      _temp701 =  _temp700(_self)
+local _temp710
 
-    elseif _temp700 then
-      _temp701 =  _temp700
+    if object._is_callable(_temp704) then
+      _temp707 =  _temp704(_self)
+
+    elseif _temp704 then
+      _temp707 =  _temp704
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp701) == 'number' then
-      _temp701 = number:new(_temp701)
-    elseif object._is_callable(_temp701) then
-      _temp701 = brat_function:new(_temp701)
+if _type(_temp707) == 'number' then
+      _temp707 = number:new(_temp707)
+    elseif object._is_callable(_temp707) then
+      _temp707 = brat_function:new(_temp707)
     end
     
-      local _m = _temp701.name
+      local _m = _temp707.args
       if object._is_callable(_m) then
-        _temp702 =  _m(_temp701)
+        _temp710 =  _m(_temp707)
       elseif _m ~= nil then
-        _temp702 =  _m
-      elseif _temp701.no_undermethod then
-        _temp702 =  _temp701:no_undermethod(string:new('name'))
+        _temp710 =  _m
+      elseif _temp707.no_undermethod then
+        _temp710 =  _temp707:no_undermethod(string:new('args'))
       else
-        _error(exception:method_error(_temp701, 'name'))
+        _error(exception:method_error(_temp707, 'args'))
       end
     
-local _temp711 = string:new('call')
-
-if _type(_temp702) == 'number' then
-      _temp702 = number:new(_temp702)
-    elseif object._is_callable(_temp702) then
-      _temp702 = brat_function:new(_temp702)
+if _type(_temp709) == 'number' then
+      _temp709 = number:new(_temp709)
+    elseif object._is_callable(_temp709) then
+      _temp709 = brat_function:new(_temp709)
     end
     
-      local _m = _temp702._equal_equal
+      local _m = _temp709.set
       if object._is_callable(_m) then
-        _temp701 =  _m(_temp702, _temp711)
+        _temp708 =  _m(_temp709, 2, _temp710)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp702.no_undermethod then
-        _temp701 =  _temp702:no_undermethod(string:new('=='), _temp711)
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp709.no_undermethod then
+        _temp708 =  _temp709:no_undermethod(string:new('set'), 2, _temp710)
       else
-        _error(exception:method_error(_temp702, '_equal_equal'))
+        _error(exception:method_error(_temp709, 'set'))
       end
     
+_temp703 =  _temp708
 
-_temp702 = _lifted_call(_lifted[52], {})
-_temp702.arg_table['_temp700'] = _temp700
-_temp702.arg_table['_temp635'] = _temp635
+end
 
-_temp711 = _lifted_call(_lifted[53], {})
-_temp711.arg_table['_temp700'] = _temp700
-_temp711.arg_table['_temp635'] = _temp635
+      _temp703 =  _temp703
+     else
+      do
 
-  if true_question then
-    _temp699 =  true_question(_self, _temp701, _temp702, _temp711)
+local _temp712
 
-  else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
-    
-      local _m = _self.true_question
-      if object._is_callable(_m) then
-        _temp699 =  _m(_self, _temp701, _temp702, _temp711)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
-      elseif _self.no_undermethod then
-        _temp699 =  _self:no_undermethod(string:new('true?'), _temp701, _temp702, _temp711)
-      else
-        _error(exception:method_error(_self, 'true_question'))
-      end
-    
-  end
-  
-     _temp699 =  _temp699
-   end
-   
+local _temp711
 
-    if object._is_callable(_temp635) then
-      _temp711 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp711 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp711 =  _temp635
+    elseif _temp641 then
+      _temp711 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -15987,164 +16949,129 @@ if _type(_temp711) == 'number' then
     
       local _m = _temp711.nodes
       if object._is_callable(_m) then
-        _temp702 =  _m(_temp711)
+        _temp712 =  _m(_temp711)
       elseif _m ~= nil then
-        _temp702 =  _m
+        _temp712 =  _m
       elseif _temp711.no_undermethod then
-        _temp702 =  _temp711:no_undermethod(string:new('nodes'))
+        _temp712 =  _temp711:no_undermethod(string:new('nodes'))
       else
         _error(exception:method_error(_temp711, 'nodes'))
       end
     
 
-    if object._is_callable(_temp634) then
-      _temp711 =  _temp634(_self)
+local _temp714
 
-    elseif _temp634 then
-      _temp711 =  _temp634
+local _temp713
+
+    if object._is_callable(_temp704) then
+      _temp713 =  _temp704(_self)
+
+    elseif _temp704 then
+      _temp713 =  _temp704
     else
-      _error(exception:name_error("memo"))
+      _error(exception:name_error("target"))
     end
     
-if _type(_temp702) == 'number' then
-      _temp702 = number:new(_temp702)
-    elseif object._is_callable(_temp702) then
-      _temp702 = brat_function:new(_temp702)
+if _type(_temp713) == 'number' then
+      _temp713 = number:new(_temp713)
+    elseif object._is_callable(_temp713) then
+      _temp713 = brat_function:new(_temp713)
     end
     
-      local _m = _temp702.set
+      local _m = _temp713.value
       if object._is_callable(_m) then
-        _dummy =  _m(_temp702, 0, _temp711)
+        _temp714 =  _m(_temp713)
+      elseif _m ~= nil then
+        _temp714 =  _m
+      elseif _temp713.no_undermethod then
+        _temp714 =  _temp713:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp713, 'value'))
+      end
+    
+if _type(_temp712) == 'number' then
+      _temp712 = number:new(_temp712)
+    elseif object._is_callable(_temp712) then
+      _temp712 = brat_function:new(_temp712)
+    end
+    
+      local _m = _temp712.set
+      if object._is_callable(_m) then
+        _temp711 =  _m(_temp712, 1, _temp714)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp702.no_undermethod then
-        _dummy =  _temp702:no_undermethod(string:new('set'), 0, _temp711)
+      elseif _temp712.no_undermethod then
+        _temp711 =  _temp712:no_undermethod(string:new('set'), 1, _temp714)
       else
-        _error(exception:method_error(_temp702, 'set'))
+        _error(exception:method_error(_temp712, 'set'))
       end
     
-   local _m
-   if s then
-     _m = s
+_temp703 =  _temp711
+
+end
+
+      _temp703 =  _temp703
+     end
+     -- end yay if
    else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp702 = _m(_self)
-   elseif _m then
-     _temp702 = _m
-   elseif _self.no_undermethod then
-     _temp702 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-_temp701 = string:new('call')
+     -- fallback if
+     
+    if object._is_callable(_temp704) then
+      _temp705 =  _temp704(_self)
 
-
-local _temp720
-
-    if object._is_callable(_temp635) then
-      _temp720 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp720 =  _temp635
+    elseif _temp704 then
+      _temp705 =  _temp704
     else
-      _error(exception:name_error("call"))
+      _error(exception:name_error("target"))
     end
     
-
-local _temp721 = string:new('get')
-
-
-local _temp722
-
-    if object._is_callable(_temp697) then
-      _temp722 =  _temp697(_self)
-
-    elseif _temp697 then
-      _temp722 =  _temp697
-    else
-      _error(exception:name_error("args"))
+if _type(_temp705) == 'number' then
+      _temp705 = number:new(_temp705)
+    elseif object._is_callable(_temp705) then
+      _temp705 = brat_function:new(_temp705)
     end
     
-if _type(_temp702) == 'number' then
-      _temp702 = number:new(_temp702)
-    elseif object._is_callable(_temp702) then
-      _temp702 = brat_function:new(_temp702)
-    end
-    
-      local _m = _temp702.get
+      local _m = _temp705.name
       if object._is_callable(_m) then
-        _temp711 =  _m(_temp702, _temp701, _temp720, _temp721, _temp722)
+        _temp706 =  _m(_temp705)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 3))
-      elseif _temp702.no_undermethod then
-        _temp711 =  _temp702:no_undermethod(string:new('get'), _temp701, _temp720, _temp721, _temp722)
+        _temp706 =  _m
+      elseif _temp705.no_undermethod then
+        _temp706 =  _temp705:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp702, 'get'))
+        _error(exception:method_error(_temp705, 'name'))
       end
     
-_temp635 = _temp711
+local _temp715 = string:new('call')
 
-return _temp635
-
-end
-
-
-local _temp723 = function(_self)
-
-local _temp724
-
-local _temp725
-
-do
-local _temp726 = {}
-_temp726[1] = "wut "
-
-    if object._is_callable(_temp635) then
-      _temp726[2] =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp726[2] =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    _temp726[2] = _tostring(_temp726[2])
-_temp725 = string:new(_table.concat(_temp726))
-end
-
-
-  if p then
-    _temp724 =  p(_self, _temp725)
-
-  else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
+if _type(_temp706) == 'number' then
+      _temp706 = number:new(_temp706)
+    elseif object._is_callable(_temp706) then
+      _temp706 = brat_function:new(_temp706)
     end
     
-      local _m = _self.p
+      local _m = _temp706._equal_equal
       if object._is_callable(_m) then
-        _temp724 =  _m(_self, _temp725)
+        _temp705 =  _m(_temp706, _temp715)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _self.no_undermethod then
-        _temp724 =  _self:no_undermethod(string:new('p'), _temp725)
+      elseif _temp706.no_undermethod then
+        _temp705 =  _temp706:no_undermethod(string:new('=='), _temp715)
       else
-        _error(exception:method_error(_self, 'p'))
+        _error(exception:method_error(_temp706, '_equal_equal'))
       end
     
-  end
-  
-return _temp724
 
-end
+_temp706 = _lifted_call(_lifted[52], {})
+_temp706.arg_table['_temp704'] = _temp704
+_temp706.arg_table['_temp641'] = _temp641
 
+_temp715 = _lifted_call(_lifted[53], {})
+_temp715.arg_table['_temp704'] = _temp704
+_temp715.arg_table['_temp641'] = _temp641
 
   if true_question then
-    _temp655 =  true_question(_self, _temp659, _temp696, _temp723)
+    _temp703 =  true_question(_self, _temp705, _temp706, _temp715)
 
   else
     if _type(_self) == 'number' then
@@ -16155,27 +17082,169 @@ end
     
       local _m = _self.true_question
       if object._is_callable(_m) then
-        _temp655 =  _m(_self, _temp659, _temp696, _temp723)
+        _temp703 =  _m(_self, _temp705, _temp706, _temp715)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp655 =  _self:no_undermethod(string:new('true?'), _temp659, _temp696, _temp723)
+        _temp703 =  _self:no_undermethod(string:new('true?'), _temp705, _temp706, _temp715)
       else
         _error(exception:method_error(_self, 'true_question'))
       end
     
   end
   
-     _temp655 =  _temp655
+     _temp703 =  _temp703
+     -- end fallback if
    end
    
-return _temp655
+
+    if object._is_callable(_temp641) then
+      _temp715 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp715 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp715) == 'number' then
+      _temp715 = number:new(_temp715)
+    elseif object._is_callable(_temp715) then
+      _temp715 = brat_function:new(_temp715)
+    end
+    
+      local _m = _temp715.nodes
+      if object._is_callable(_m) then
+        _temp706 =  _m(_temp715)
+      elseif _m ~= nil then
+        _temp706 =  _m
+      elseif _temp715.no_undermethod then
+        _temp706 =  _temp715:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp715, 'nodes'))
+      end
+    
+
+    if object._is_callable(_temp640) then
+      _temp715 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp715 =  _temp640
+    else
+      _error(exception:name_error("memo"))
+    end
+    
+if _type(_temp706) == 'number' then
+      _temp706 = number:new(_temp706)
+    elseif object._is_callable(_temp706) then
+      _temp706 = brat_function:new(_temp706)
+    end
+    
+      local _m = _temp706.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp706, 0, _temp715)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp706.no_undermethod then
+        _dummy =  _temp706:no_undermethod(string:new('set'), 0, _temp715)
+      else
+        _error(exception:method_error(_temp706, 'set'))
+      end
+    
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp706 = _m(_self)
+   elseif _m then
+     _temp706 = _m
+   elseif _self.no_undermethod then
+     _temp706 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+_temp705 = string:new('call')
+
+
+local _temp724
+
+    if object._is_callable(_temp641) then
+      _temp724 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp724 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+
+local _temp725 = string:new('get')
+
+
+local _temp726
+
+    if object._is_callable(_temp701) then
+      _temp726 =  _temp701(_self)
+
+    elseif _temp701 then
+      _temp726 =  _temp701
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp706) == 'number' then
+      _temp706 = number:new(_temp706)
+    elseif object._is_callable(_temp706) then
+      _temp706 = brat_function:new(_temp706)
+    end
+    
+      local _m = _temp706.get
+      if object._is_callable(_m) then
+        _temp715 =  _m(_temp706, _temp705, _temp724, _temp725, _temp726)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 3))
+      elseif _temp706.no_undermethod then
+        _temp715 =  _temp706:no_undermethod(string:new('get'), _temp705, _temp724, _temp725, _temp726)
+      else
+        _error(exception:method_error(_temp706, 'get'))
+      end
+    
+_temp641 = _temp715
+
+return _temp641
 
 end
 
 
-  if null_question then
-    _temp647 =  null_question(_self, _temp648, _temp650, _temp654)
+local _temp727 = function(_self)
+
+local _temp728
+
+local _temp729
+
+do
+local _temp730 = {}
+_temp730[1] = "wut "
+
+    if object._is_callable(_temp641) then
+      _temp730[2] =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp730[2] =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    _temp730[2] = _tostring(_temp730[2])
+_temp729 = string:new(_table.concat(_temp730))
+end
+
+
+  if p then
+    _temp728 =  p(_self, _temp729)
 
   else
     if _type(_self) == 'number' then
@@ -16184,201 +17253,147 @@ end
       _self = brat_function:new(_self)
     end
     
-      local _m = _self.null_question
+      local _m = _self.p
       if object._is_callable(_m) then
-        _temp647 =  _m(_self, _temp648, _temp650, _temp654)
+        _temp728 =  _m(_self, _temp729)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
+          _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp647 =  _self:no_undermethod(string:new('null?'), _temp648, _temp650, _temp654)
+        _temp728 =  _self:no_undermethod(string:new('p'), _temp729)
       else
-        _error(exception:method_error(_self, 'null_question'))
+        _error(exception:method_error(_self, 'p'))
       end
     
   end
   
-_temp637 =  _temp647
+return _temp728
 
 end
 
-      _temp637 =  _temp637
+
+  if true_question then
+    _temp659 =  true_question(_self, _temp663, _temp700, _temp727)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp659 =  _m(_self, _temp663, _temp700, _temp727)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp659 =  _self:no_undermethod(string:new('true?'), _temp663, _temp700, _temp727)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp659 =  _temp659
+     -- end fallback if
+   end
+   
+_temp653 =  _temp659
+
+end
+
+      _temp653 =  _temp653
      end
      -- end yay if
    else
+     -- fallback null?
      
-    if object._is_callable(_temp635) then
-      _temp639 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp639 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp639) == 'number' then
-      _temp639 = number:new(_temp639)
-    elseif object._is_callable(_temp639) then
-      _temp639 = brat_function:new(_temp639)
-    end
-    
-      local _m = _temp639.name
-      if object._is_callable(_m) then
-        _temp640 =  _m(_temp639)
-      elseif _m ~= nil then
-        _temp640 =  _m
-      elseif _temp639.no_undermethod then
-        _temp640 =  _temp639:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp639, 'name'))
-      end
-    
-local _temp727 = string:new('get_value')
-
-if _type(_temp640) == 'number' then
-      _temp640 = number:new(_temp640)
-    elseif object._is_callable(_temp640) then
-      _temp640 = brat_function:new(_temp640)
-    end
-    
-      local _m = _temp640._equal_equal
-      if object._is_callable(_m) then
-        _temp639 =  _m(_temp640, _temp727)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp640.no_undermethod then
-        _temp639 =  _temp640:no_undermethod(string:new('=='), _temp727)
-      else
-        _error(exception:method_error(_temp640, '_equal_equal'))
-      end
-    
-
-local _temp728 = function(_self)
-local _temp729
-
-local _temp730
-
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp730 = _m(_self)
-   elseif _m then
-     _temp730 = _m
-   elseif _self.no_undermethod then
-     _temp730 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-      if _temp730._lua_hash and _temp730._unchanged('get') then
-        _temp729 =  _temp730:get('call')
-      else
-        if _type(_temp730) == 'number' then
-      _temp730 = number:new(_temp730)
-    elseif object._is_callable(_temp730) then
-      _temp730 = brat_function:new(_temp730)
-    end
-    
-      local _m = _temp730.get
-      if object._is_callable(_m) then
-        _temp729 =  _m(_temp730, string:new('call'))
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp730.no_undermethod then
-        _temp729 =  _temp730:no_undermethod(string:new('get'), string:new('call'))
-      else
-        _error(exception:method_error(_temp730, 'get'))
-      end
-    
-      end
-      
-
 local _temp731
 
-    if object._is_callable(_temp729) then
-      _temp731 =  _temp729(_self)
+    if object._is_callable(_temp641) then
+      _temp655 =  _temp641(_self)
 
-    elseif _temp729 then
-      _temp731 =  _temp729
-    else
-      _error(exception:name_error("c"))
-    end
-    
-
-local _temp733
-
-local _temp732
-
-    if object._is_callable(_temp635) then
-      _temp732 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp732 =  _temp635
+    elseif _temp641 then
+      _temp655 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp732) == 'number' then
-      _temp732 = number:new(_temp732)
-    elseif object._is_callable(_temp732) then
-      _temp732 = brat_function:new(_temp732)
+if _type(_temp655) == 'number' then
+      _temp655 = number:new(_temp655)
+    elseif object._is_callable(_temp655) then
+      _temp655 = brat_function:new(_temp655)
     end
     
-      local _m = _temp732.nodes
+      local _m = _temp655.nodes
       if object._is_callable(_m) then
-        _temp733 =  _m(_temp732)
+        _temp731 =  _m(_temp655)
       elseif _m ~= nil then
-        _temp733 =  _m
-      elseif _temp732.no_undermethod then
-        _temp733 =  _temp732:no_undermethod(string:new('nodes'))
+        _temp731 =  _m
+      elseif _temp655.no_undermethod then
+        _temp731 =  _temp655:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp732, 'nodes'))
+        _error(exception:method_error(_temp655, 'nodes'))
       end
     
-    if _type(_temp731) == 'table' then
-      _temp731['nodes'] = _temp733
-    else
-      _error('Cannot set method on ' .. _temp731)
+if _type(_temp731) == 'number' then
+      _temp731 = number:new(_temp731)
+    elseif object._is_callable(_temp731) then
+      _temp731 = brat_function:new(_temp731)
     end
     
+      local _m = _temp731.first
+      if object._is_callable(_m) then
+        _temp655 =  _m(_temp731)
+      elseif _m ~= nil then
+        _temp655 =  _m
+      elseif _temp731.no_undermethod then
+        _temp655 =  _temp731:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp731, 'first'))
+      end
+    
+
+local _temp732 = function(_self)
 
 local _temp734
 
-    if object._is_callable(_temp729) then
-      _temp732 =  _temp729(_self)
+local _temp733
 
-    elseif _temp729 then
-      _temp732 =  _temp729
+    if object._is_callable(_temp641) then
+      _temp733 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp733 =  _temp641
     else
-      _error(exception:name_error("c"))
+      _error(exception:name_error("call"))
     end
     
-if _type(_temp732) == 'number' then
-      _temp732 = number:new(_temp732)
-    elseif object._is_callable(_temp732) then
-      _temp732 = brat_function:new(_temp732)
+if _type(_temp733) == 'number' then
+      _temp733 = number:new(_temp733)
+    elseif object._is_callable(_temp733) then
+      _temp733 = brat_function:new(_temp733)
     end
     
-      local _m = _temp732.nodes
+      local _m = _temp733.nodes
       if object._is_callable(_m) then
-        _temp734 =  _m(_temp732)
+        _temp734 =  _m(_temp733)
       elseif _m ~= nil then
         _temp734 =  _m
-      elseif _temp732.no_undermethod then
-        _temp734 =  _temp732:no_undermethod(string:new('nodes'))
+      elseif _temp733.no_undermethod then
+        _temp734 =  _temp733:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp732, 'nodes'))
+        _error(exception:method_error(_temp733, 'nodes'))
       end
     
 
-    if object._is_callable(_temp634) then
-      _temp732 =  _temp634(_self)
+local _temp735
 
-    elseif _temp634 then
-      _temp732 =  _temp634
+    if object._is_callable(_temp640) then
+      _temp735 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp735 =  _temp640
     else
       _error(exception:name_error("memo"))
     end
@@ -16389,66 +17404,41 @@ if _type(_temp734) == 'number' then
       _temp734 = brat_function:new(_temp734)
     end
     
-      local _m = _temp734.insert
+      local _m = _temp734.set
       if object._is_callable(_m) then
-        _dummy =  _m(_temp734, 0, _temp732)
+        _temp733 =  _m(_temp734, 0, _temp735)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _temp734.no_undermethod then
-        _dummy =  _temp734:no_undermethod(string:new('insert'), 0, _temp732)
+        _temp733 =  _temp734:no_undermethod(string:new('set'), 0, _temp735)
       else
-        _error(exception:method_error(_temp734, 'insert'))
+        _error(exception:method_error(_temp734, 'set'))
       end
     
-    if object._is_callable(_temp729) then
-      _temp734 =  _temp729(_self)
-
-    elseif _temp729 then
-      _temp734 =  _temp729
-    else
-      _error(exception:name_error("c"))
-    end
-    
-_temp635 = _temp734
-
-return _temp635
+return _temp733
 
 end
 
 
-local _temp735 = function(_self)
-
-local _temp736
-
-local _temp738
+local _temp736 = function(_self)
 
 local _temp737
 
-    if object._is_callable(_temp635) then
-      _temp737 =  _temp635(_self)
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp737
+     
+local _temp739
 
-    elseif _temp635 then
-      _temp737 =  _temp635
+local _temp738
+
+    if object._is_callable(_temp641) then
+      _temp738 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp738 =  _temp641
     else
       _error(exception:name_error("call"))
     end
-    
-if _type(_temp737) == 'number' then
-      _temp737 = number:new(_temp737)
-    elseif object._is_callable(_temp737) then
-      _temp737 = brat_function:new(_temp737)
-    end
-    
-      local _m = _temp737.nodes
-      if object._is_callable(_m) then
-        _temp738 =  _m(_temp737)
-      elseif _m ~= nil then
-        _temp738 =  _m
-      elseif _temp737.no_undermethod then
-        _temp738 =  _temp737:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp737, 'nodes'))
-      end
     
 if _type(_temp738) == 'number' then
       _temp738 = number:new(_temp738)
@@ -16456,210 +17446,241 @@ if _type(_temp738) == 'number' then
       _temp738 = brat_function:new(_temp738)
     end
     
-      local _m = _temp738.first
+      local _m = _temp738.name
       if object._is_callable(_m) then
-        _temp737 =  _m(_temp738)
+        _temp739 =  _m(_temp738)
       elseif _m ~= nil then
-        _temp737 =  _m
+        _temp739 =  _m
       elseif _temp738.no_undermethod then
-        _temp737 =  _temp738:no_undermethod(string:new('first'))
+        _temp739 =  _temp738:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp738, 'first'))
+        _error(exception:method_error(_temp738, 'name'))
       end
     
+local _temp740 = string:new('call')
 
-local _temp739 = function(_self)
-
-local _temp741
-
-local _temp740
-
-    if object._is_callable(_temp635) then
-      _temp740 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp740 =  _temp635
-    else
-      _error(exception:name_error("call"))
+if _type(_temp739) == 'number' then
+      _temp739 = number:new(_temp739)
+    elseif object._is_callable(_temp739) then
+      _temp739 = brat_function:new(_temp739)
     end
     
-if _type(_temp740) == 'number' then
-      _temp740 = number:new(_temp740)
-    elseif object._is_callable(_temp740) then
-      _temp740 = brat_function:new(_temp740)
-    end
-    
-      local _m = _temp740.nodes
+      local _m = _temp739._equal_equal
       if object._is_callable(_m) then
-        _temp741 =  _m(_temp740)
+        _temp738 =  _m(_temp739, _temp740)
       elseif _m ~= nil then
-        _temp741 =  _m
-      elseif _temp740.no_undermethod then
-        _temp741 =  _temp740:no_undermethod(string:new('nodes'))
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp739.no_undermethod then
+        _temp738 =  _temp739:no_undermethod(string:new('=='), _temp740)
       else
-        _error(exception:method_error(_temp740, 'nodes'))
+        _error(exception:method_error(_temp739, '_equal_equal'))
       end
     
+local _temp741 = function(_self)
+
+local _temp743
 
 local _temp742
 
-    if object._is_callable(_temp634) then
-      _temp742 =  _temp634(_self)
+    if object._is_callable(_temp641) then
+      _temp742 =  _temp641(_self)
 
-    elseif _temp634 then
-      _temp742 =  _temp634
-    else
-      _error(exception:name_error("memo"))
-    end
-    
-if _type(_temp741) == 'number' then
-      _temp741 = number:new(_temp741)
-    elseif object._is_callable(_temp741) then
-      _temp741 = brat_function:new(_temp741)
-    end
-    
-      local _m = _temp741.set
-      if object._is_callable(_m) then
-        _temp740 =  _m(_temp741, 0, _temp742)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp741.no_undermethod then
-        _temp740 =  _temp741:no_undermethod(string:new('set'), 0, _temp742)
-      else
-        _error(exception:method_error(_temp741, 'set'))
-      end
-    
-return _temp740
-
-end
-
-
-local _temp743 = function(_self)
-
-local _temp744
-
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp744
-     
-local _temp746
-
-local _temp745
-
-    if object._is_callable(_temp635) then
-      _temp745 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp745 =  _temp635
+    elseif _temp641 then
+      _temp742 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp745) == 'number' then
-      _temp745 = number:new(_temp745)
-    elseif object._is_callable(_temp745) then
-      _temp745 = brat_function:new(_temp745)
+if _type(_temp742) == 'number' then
+      _temp742 = number:new(_temp742)
+    elseif object._is_callable(_temp742) then
+      _temp742 = brat_function:new(_temp742)
     end
     
-      local _m = _temp745.name
+      local _m = _temp742.method
       if object._is_callable(_m) then
-        _temp746 =  _m(_temp745)
+        _temp743 =  _m(_temp742)
       elseif _m ~= nil then
-        _temp746 =  _m
-      elseif _temp745.no_undermethod then
-        _temp746 =  _temp745:no_undermethod(string:new('name'))
+        _temp743 =  _m
+      elseif _temp742.no_undermethod then
+        _temp743 =  _temp742:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp745, 'name'))
+        _error(exception:method_error(_temp742, 'method'))
       end
     
-local _temp747 = string:new('call')
+local _temp744 = string:new('get')
 
+if _type(_temp743) == 'number' then
+      _temp743 = number:new(_temp743)
+    elseif object._is_callable(_temp743) then
+      _temp743 = brat_function:new(_temp743)
+    end
+    
+      local _m = _temp743._equal_equal
+      if object._is_callable(_m) then
+        _temp742 =  _m(_temp743, _temp744)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp743.no_undermethod then
+        _temp742 =  _temp743:no_undermethod(string:new('=='), _temp744)
+      else
+        _error(exception:method_error(_temp743, '_equal_equal'))
+      end
+    
+return _temp742
+
+end
+
+if _type(_temp738) == 'number' then
+      _temp738 = number:new(_temp738)
+    elseif object._is_callable(_temp738) then
+      _temp738 = brat_function:new(_temp738)
+    end
+    
+      local _m = _temp738._and_and
+      if object._is_callable(_m) then
+        _temp739 =  _m(_temp738, _temp741)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp738.no_undermethod then
+        _temp739 =  _temp738:no_undermethod(string:new('&&'), _temp741)
+      else
+        _error(exception:method_error(_temp738, '_and_and'))
+      end
+    
+     if object._is_callable(_temp739) then
+                    _temp739 = _temp739(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp739) then
+      do
+local _temp745
+
+local _temp747
+
+local _temp746
+
+    if object._is_callable(_temp641) then
+      _temp746 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp746 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
 if _type(_temp746) == 'number' then
       _temp746 = number:new(_temp746)
     elseif object._is_callable(_temp746) then
       _temp746 = brat_function:new(_temp746)
     end
     
-      local _m = _temp746._equal_equal
+      local _m = _temp746.nodes
       if object._is_callable(_m) then
-        _temp745 =  _m(_temp746, _temp747)
+        _temp747 =  _m(_temp746)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
+        _temp747 =  _m
       elseif _temp746.no_undermethod then
-        _temp745 =  _temp746:no_undermethod(string:new('=='), _temp747)
+        _temp747 =  _temp746:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp746, '_equal_equal'))
+        _error(exception:method_error(_temp746, 'nodes'))
       end
     
-local _temp748 = function(_self)
+if _type(_temp747) == 'number' then
+      _temp747 = number:new(_temp747)
+    elseif object._is_callable(_temp747) then
+      _temp747 = brat_function:new(_temp747)
+    end
+    
+      local _m = _temp747.pop
+      if object._is_callable(_m) then
+        _temp745 =  _m(_temp747)
+      elseif _m ~= nil then
+        _temp745 =  _m
+      elseif _temp747.no_undermethod then
+        _temp745 =  _temp747:no_undermethod(string:new('pop'))
+      else
+        _error(exception:method_error(_temp747, 'pop'))
+      end
+    
+local _temp748
 
-local _temp750
+    if object._is_callable(_temp641) then
+      _temp747 =  _temp641(_self)
 
-local _temp749
-
-    if object._is_callable(_temp635) then
-      _temp749 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp749 =  _temp635
+    elseif _temp641 then
+      _temp747 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
+if _type(_temp747) == 'number' then
+      _temp747 = number:new(_temp747)
+    elseif object._is_callable(_temp747) then
+      _temp747 = brat_function:new(_temp747)
+    end
+    
+      local _m = _temp747.target
+      if object._is_callable(_m) then
+        _temp748 =  _m(_temp747)
+      elseif _m ~= nil then
+        _temp748 =  _m
+      elseif _temp747.no_undermethod then
+        _temp748 =  _temp747:no_undermethod(string:new('target'))
+      else
+        _error(exception:method_error(_temp747, 'target'))
+      end
+    
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp747
+     
+local _temp749
+
+    if object._is_callable(_temp748) then
+      _temp746 =  _temp748(_self)
+
+    elseif _temp748 then
+      _temp746 =  _temp748
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp746) == 'number' then
+      _temp746 = number:new(_temp746)
+    elseif object._is_callable(_temp746) then
+      _temp746 = brat_function:new(_temp746)
+    end
+    
+      local _m = _temp746.name
+      if object._is_callable(_m) then
+        _temp749 =  _m(_temp746)
+      elseif _m ~= nil then
+        _temp749 =  _m
+      elseif _temp746.no_undermethod then
+        _temp749 =  _temp746:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp746, 'name'))
+      end
+    
+local _temp750 = string:new('call')
+
 if _type(_temp749) == 'number' then
       _temp749 = number:new(_temp749)
     elseif object._is_callable(_temp749) then
       _temp749 = brat_function:new(_temp749)
     end
     
-      local _m = _temp749.method
+      local _m = _temp749._equal_equal
       if object._is_callable(_m) then
-        _temp750 =  _m(_temp749)
+        _temp746 =  _m(_temp749, _temp750)
       elseif _m ~= nil then
-        _temp750 =  _m
+          _error(exception:argument_error('function', 0, 0))
       elseif _temp749.no_undermethod then
-        _temp750 =  _temp749:no_undermethod(string:new('method'))
+        _temp746 =  _temp749:no_undermethod(string:new('=='), _temp750)
       else
-        _error(exception:method_error(_temp749, 'method'))
-      end
-    
-local _temp751 = string:new('get')
-
-if _type(_temp750) == 'number' then
-      _temp750 = number:new(_temp750)
-    elseif object._is_callable(_temp750) then
-      _temp750 = brat_function:new(_temp750)
-    end
-    
-      local _m = _temp750._equal_equal
-      if object._is_callable(_m) then
-        _temp749 =  _m(_temp750, _temp751)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp750.no_undermethod then
-        _temp749 =  _temp750:no_undermethod(string:new('=='), _temp751)
-      else
-        _error(exception:method_error(_temp750, '_equal_equal'))
-      end
-    
-return _temp749
-
-end
-
-if _type(_temp745) == 'number' then
-      _temp745 = number:new(_temp745)
-    elseif object._is_callable(_temp745) then
-      _temp745 = brat_function:new(_temp745)
-    end
-    
-      local _m = _temp745._and_and
-      if object._is_callable(_m) then
-        _temp746 =  _m(_temp745, _temp748)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp745.no_undermethod then
-        _temp746 =  _temp745:no_undermethod(string:new('&&'), _temp748)
-      else
-        _error(exception:method_error(_temp745, '_and_and'))
+        _error(exception:method_error(_temp749, '_equal_equal'))
       end
     
      if object._is_callable(_temp746) then
@@ -16669,223 +17690,338 @@ if _type(_temp745) == 'number' then
 
      if object._is_true(_temp746) then
       do
+
 local _temp752
 
-local _temp754
+local _temp751
+
+    if object._is_callable(_temp641) then
+      _temp751 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp751 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp751) == 'number' then
+      _temp751 = number:new(_temp751)
+    elseif object._is_callable(_temp751) then
+      _temp751 = brat_function:new(_temp751)
+    end
+    
+      local _m = _temp751.nodes
+      if object._is_callable(_m) then
+        _temp752 =  _m(_temp751)
+      elseif _m ~= nil then
+        _temp752 =  _m
+      elseif _temp751.no_undermethod then
+        _temp752 =  _temp751:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp751, 'nodes'))
+      end
+    
 
 local _temp753
 
-    if object._is_callable(_temp635) then
-      _temp753 =  _temp635(_self)
+    if object._is_callable(_temp748) then
+      _temp751 =  _temp748(_self)
 
-    elseif _temp635 then
-      _temp753 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp753) == 'number' then
-      _temp753 = number:new(_temp753)
-    elseif object._is_callable(_temp753) then
-      _temp753 = brat_function:new(_temp753)
-    end
-    
-      local _m = _temp753.nodes
-      if object._is_callable(_m) then
-        _temp754 =  _m(_temp753)
-      elseif _m ~= nil then
-        _temp754 =  _m
-      elseif _temp753.no_undermethod then
-        _temp754 =  _temp753:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp753, 'nodes'))
-      end
-    
-if _type(_temp754) == 'number' then
-      _temp754 = number:new(_temp754)
-    elseif object._is_callable(_temp754) then
-      _temp754 = brat_function:new(_temp754)
-    end
-    
-      local _m = _temp754.pop
-      if object._is_callable(_m) then
-        _temp752 =  _m(_temp754)
-      elseif _m ~= nil then
-        _temp752 =  _m
-      elseif _temp754.no_undermethod then
-        _temp752 =  _temp754:no_undermethod(string:new('pop'))
-      else
-        _error(exception:method_error(_temp754, 'pop'))
-      end
-    
-local _temp755
-
-    if object._is_callable(_temp635) then
-      _temp754 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp754 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp754) == 'number' then
-      _temp754 = number:new(_temp754)
-    elseif object._is_callable(_temp754) then
-      _temp754 = brat_function:new(_temp754)
-    end
-    
-      local _m = _temp754.target
-      if object._is_callable(_m) then
-        _temp755 =  _m(_temp754)
-      elseif _m ~= nil then
-        _temp755 =  _m
-      elseif _temp754.no_undermethod then
-        _temp755 =  _temp754:no_undermethod(string:new('target'))
-      else
-        _error(exception:method_error(_temp754, 'target'))
-      end
-    
-
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp754
-     
-local _temp756
-
-    if object._is_callable(_temp755) then
-      _temp753 =  _temp755(_self)
-
-    elseif _temp755 then
-      _temp753 =  _temp755
+    elseif _temp748 then
+      _temp751 =  _temp748
     else
       _error(exception:name_error("target"))
     end
     
+if _type(_temp751) == 'number' then
+      _temp751 = number:new(_temp751)
+    elseif object._is_callable(_temp751) then
+      _temp751 = brat_function:new(_temp751)
+    end
+    
+      local _m = _temp751.method
+      if object._is_callable(_m) then
+        _temp753 =  _m(_temp751)
+      elseif _m ~= nil then
+        _temp753 =  _m
+      elseif _temp751.no_undermethod then
+        _temp753 =  _temp751:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp751, 'method'))
+      end
+    
+if _type(_temp752) == 'number' then
+      _temp752 = number:new(_temp752)
+    elseif object._is_callable(_temp752) then
+      _temp752 = brat_function:new(_temp752)
+    end
+    
+      local _m = _temp752.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp752, 1, _temp753)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp752.no_undermethod then
+        _dummy =  _temp752:no_undermethod(string:new('set'), 1, _temp753)
+      else
+        _error(exception:method_error(_temp752, 'set'))
+      end
+    
+    if object._is_callable(_temp641) then
+      _temp752 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp752 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp752) == 'number' then
+      _temp752 = number:new(_temp752)
+    elseif object._is_callable(_temp752) then
+      _temp752 = brat_function:new(_temp752)
+    end
+    
+      local _m = _temp752.nodes
+      if object._is_callable(_m) then
+        _temp753 =  _m(_temp752)
+      elseif _m ~= nil then
+        _temp753 =  _m
+      elseif _temp752.no_undermethod then
+        _temp753 =  _temp752:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp752, 'nodes'))
+      end
+    
+
+local _temp754
+
+    if object._is_callable(_temp748) then
+      _temp751 =  _temp748(_self)
+
+    elseif _temp748 then
+      _temp751 =  _temp748
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp751) == 'number' then
+      _temp751 = number:new(_temp751)
+    elseif object._is_callable(_temp751) then
+      _temp751 = brat_function:new(_temp751)
+    end
+    
+      local _m = _temp751.args
+      if object._is_callable(_m) then
+        _temp754 =  _m(_temp751)
+      elseif _m ~= nil then
+        _temp754 =  _m
+      elseif _temp751.no_undermethod then
+        _temp754 =  _temp751:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp751, 'args'))
+      end
+    
 if _type(_temp753) == 'number' then
       _temp753 = number:new(_temp753)
     elseif object._is_callable(_temp753) then
       _temp753 = brat_function:new(_temp753)
     end
     
-      local _m = _temp753.name
+      local _m = _temp753.set
       if object._is_callable(_m) then
-        _temp756 =  _m(_temp753)
+        _temp752 =  _m(_temp753, 2, _temp754)
       elseif _m ~= nil then
-        _temp756 =  _m
+          _error(exception:argument_error('function', 0, 1))
       elseif _temp753.no_undermethod then
-        _temp756 =  _temp753:no_undermethod(string:new('name'))
+        _temp752 =  _temp753:no_undermethod(string:new('set'), 2, _temp754)
       else
-        _error(exception:method_error(_temp753, 'name'))
+        _error(exception:method_error(_temp753, 'set'))
       end
     
-local _temp757 = string:new('call')
+_temp747 =  _temp752
 
+end
+
+      _temp747 =  _temp747
+     else
+      do
+
+local _temp756
+
+local _temp755
+
+    if object._is_callable(_temp641) then
+      _temp755 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp755 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp755) == 'number' then
+      _temp755 = number:new(_temp755)
+    elseif object._is_callable(_temp755) then
+      _temp755 = brat_function:new(_temp755)
+    end
+    
+      local _m = _temp755.nodes
+      if object._is_callable(_m) then
+        _temp756 =  _m(_temp755)
+      elseif _m ~= nil then
+        _temp756 =  _m
+      elseif _temp755.no_undermethod then
+        _temp756 =  _temp755:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp755, 'nodes'))
+      end
+    
+
+local _temp758
+
+local _temp757
+
+    if object._is_callable(_temp748) then
+      _temp757 =  _temp748(_self)
+
+    elseif _temp748 then
+      _temp757 =  _temp748
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp757) == 'number' then
+      _temp757 = number:new(_temp757)
+    elseif object._is_callable(_temp757) then
+      _temp757 = brat_function:new(_temp757)
+    end
+    
+      local _m = _temp757.value
+      if object._is_callable(_m) then
+        _temp758 =  _m(_temp757)
+      elseif _m ~= nil then
+        _temp758 =  _m
+      elseif _temp757.no_undermethod then
+        _temp758 =  _temp757:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp757, 'value'))
+      end
+    
 if _type(_temp756) == 'number' then
       _temp756 = number:new(_temp756)
     elseif object._is_callable(_temp756) then
       _temp756 = brat_function:new(_temp756)
     end
     
-      local _m = _temp756._equal_equal
+      local _m = _temp756.set
       if object._is_callable(_m) then
-        _temp753 =  _m(_temp756, _temp757)
+        _temp755 =  _m(_temp756, 1, _temp758)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
+          _error(exception:argument_error('function', 0, 1))
       elseif _temp756.no_undermethod then
-        _temp753 =  _temp756:no_undermethod(string:new('=='), _temp757)
+        _temp755 =  _temp756:no_undermethod(string:new('set'), 1, _temp758)
       else
-        _error(exception:method_error(_temp756, '_equal_equal'))
+        _error(exception:method_error(_temp756, 'set'))
       end
     
-     if object._is_callable(_temp753) then
-                    _temp753 = _temp753(_self)
-                   end
-     -- end condition
+_temp747 =  _temp755
 
-     if object._is_true(_temp753) then
-      do
+end
 
-local _temp759
+      _temp747 =  _temp747
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp748) then
+      _temp749 =  _temp748(_self)
 
-local _temp758
-
-    if object._is_callable(_temp635) then
-      _temp758 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp758 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp758) == 'number' then
-      _temp758 = number:new(_temp758)
-    elseif object._is_callable(_temp758) then
-      _temp758 = brat_function:new(_temp758)
-    end
-    
-      local _m = _temp758.nodes
-      if object._is_callable(_m) then
-        _temp759 =  _m(_temp758)
-      elseif _m ~= nil then
-        _temp759 =  _m
-      elseif _temp758.no_undermethod then
-        _temp759 =  _temp758:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp758, 'nodes'))
-      end
-    
-
-local _temp760
-
-    if object._is_callable(_temp755) then
-      _temp758 =  _temp755(_self)
-
-    elseif _temp755 then
-      _temp758 =  _temp755
+    elseif _temp748 then
+      _temp749 =  _temp748
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp758) == 'number' then
-      _temp758 = number:new(_temp758)
-    elseif object._is_callable(_temp758) then
-      _temp758 = brat_function:new(_temp758)
+if _type(_temp749) == 'number' then
+      _temp749 = number:new(_temp749)
+    elseif object._is_callable(_temp749) then
+      _temp749 = brat_function:new(_temp749)
     end
     
-      local _m = _temp758.method
+      local _m = _temp749.name
       if object._is_callable(_m) then
-        _temp760 =  _m(_temp758)
+        _temp750 =  _m(_temp749)
       elseif _m ~= nil then
-        _temp760 =  _m
-      elseif _temp758.no_undermethod then
-        _temp760 =  _temp758:no_undermethod(string:new('method'))
+        _temp750 =  _m
+      elseif _temp749.no_undermethod then
+        _temp750 =  _temp749:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp758, 'method'))
+        _error(exception:method_error(_temp749, 'name'))
       end
     
-if _type(_temp759) == 'number' then
-      _temp759 = number:new(_temp759)
-    elseif object._is_callable(_temp759) then
-      _temp759 = brat_function:new(_temp759)
-    end
-    
-      local _m = _temp759.set
-      if object._is_callable(_m) then
-        _dummy =  _m(_temp759, 1, _temp760)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp759.no_undermethod then
-        _dummy =  _temp759:no_undermethod(string:new('set'), 1, _temp760)
-      else
-        _error(exception:method_error(_temp759, 'set'))
-      end
-    
-    if object._is_callable(_temp635) then
-      _temp759 =  _temp635(_self)
+local _temp759 = string:new('call')
 
-    elseif _temp635 then
-      _temp759 =  _temp635
+if _type(_temp750) == 'number' then
+      _temp750 = number:new(_temp750)
+    elseif object._is_callable(_temp750) then
+      _temp750 = brat_function:new(_temp750)
+    end
+    
+      local _m = _temp750._equal_equal
+      if object._is_callable(_m) then
+        _temp749 =  _m(_temp750, _temp759)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp750.no_undermethod then
+        _temp749 =  _temp750:no_undermethod(string:new('=='), _temp759)
+      else
+        _error(exception:method_error(_temp750, '_equal_equal'))
+      end
+    
+
+_temp750 = _lifted_call(_lifted[54], {})
+_temp750.arg_table['_temp748'] = _temp748
+_temp750.arg_table['_temp641'] = _temp641
+
+_temp759 = _lifted_call(_lifted[55], {})
+_temp759.arg_table['_temp748'] = _temp748
+_temp759.arg_table['_temp641'] = _temp641
+
+  if true_question then
+    _temp747 =  true_question(_self, _temp749, _temp750, _temp759)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp747 =  _m(_self, _temp749, _temp750, _temp759)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp747 =  _self:no_undermethod(string:new('true?'), _temp749, _temp750, _temp759)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp747 =  _temp747
+     -- end fallback if
+   end
+   
+
+    if object._is_callable(_temp641) then
+      _temp759 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp759 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -16898,288 +18034,40 @@ if _type(_temp759) == 'number' then
     
       local _m = _temp759.nodes
       if object._is_callable(_m) then
-        _temp760 =  _m(_temp759)
+        _temp750 =  _m(_temp759)
       elseif _m ~= nil then
-        _temp760 =  _m
+        _temp750 =  _m
       elseif _temp759.no_undermethod then
-        _temp760 =  _temp759:no_undermethod(string:new('nodes'))
+        _temp750 =  _temp759:no_undermethod(string:new('nodes'))
       else
         _error(exception:method_error(_temp759, 'nodes'))
       end
     
 
-local _temp761
+    if object._is_callable(_temp640) then
+      _temp759 =  _temp640(_self)
 
-    if object._is_callable(_temp755) then
-      _temp758 =  _temp755(_self)
-
-    elseif _temp755 then
-      _temp758 =  _temp755
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp758) == 'number' then
-      _temp758 = number:new(_temp758)
-    elseif object._is_callable(_temp758) then
-      _temp758 = brat_function:new(_temp758)
-    end
-    
-      local _m = _temp758.args
-      if object._is_callable(_m) then
-        _temp761 =  _m(_temp758)
-      elseif _m ~= nil then
-        _temp761 =  _m
-      elseif _temp758.no_undermethod then
-        _temp761 =  _temp758:no_undermethod(string:new('args'))
-      else
-        _error(exception:method_error(_temp758, 'args'))
-      end
-    
-if _type(_temp760) == 'number' then
-      _temp760 = number:new(_temp760)
-    elseif object._is_callable(_temp760) then
-      _temp760 = brat_function:new(_temp760)
-    end
-    
-      local _m = _temp760.set
-      if object._is_callable(_m) then
-        _temp759 =  _m(_temp760, 2, _temp761)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp760.no_undermethod then
-        _temp759 =  _temp760:no_undermethod(string:new('set'), 2, _temp761)
-      else
-        _error(exception:method_error(_temp760, 'set'))
-      end
-    
-_temp754 =  _temp759
-
-end
-
-      _temp754 =  _temp754
-     else
-      do
-
-local _temp763
-
-local _temp762
-
-    if object._is_callable(_temp635) then
-      _temp762 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp762 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp762) == 'number' then
-      _temp762 = number:new(_temp762)
-    elseif object._is_callable(_temp762) then
-      _temp762 = brat_function:new(_temp762)
-    end
-    
-      local _m = _temp762.nodes
-      if object._is_callable(_m) then
-        _temp763 =  _m(_temp762)
-      elseif _m ~= nil then
-        _temp763 =  _m
-      elseif _temp762.no_undermethod then
-        _temp763 =  _temp762:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp762, 'nodes'))
-      end
-    
-
-local _temp765
-
-local _temp764
-
-    if object._is_callable(_temp755) then
-      _temp764 =  _temp755(_self)
-
-    elseif _temp755 then
-      _temp764 =  _temp755
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp764) == 'number' then
-      _temp764 = number:new(_temp764)
-    elseif object._is_callable(_temp764) then
-      _temp764 = brat_function:new(_temp764)
-    end
-    
-      local _m = _temp764.value
-      if object._is_callable(_m) then
-        _temp765 =  _m(_temp764)
-      elseif _m ~= nil then
-        _temp765 =  _m
-      elseif _temp764.no_undermethod then
-        _temp765 =  _temp764:no_undermethod(string:new('value'))
-      else
-        _error(exception:method_error(_temp764, 'value'))
-      end
-    
-if _type(_temp763) == 'number' then
-      _temp763 = number:new(_temp763)
-    elseif object._is_callable(_temp763) then
-      _temp763 = brat_function:new(_temp763)
-    end
-    
-      local _m = _temp763.set
-      if object._is_callable(_m) then
-        _temp762 =  _m(_temp763, 1, _temp765)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp763.no_undermethod then
-        _temp762 =  _temp763:no_undermethod(string:new('set'), 1, _temp765)
-      else
-        _error(exception:method_error(_temp763, 'set'))
-      end
-    
-_temp754 =  _temp762
-
-end
-
-      _temp754 =  _temp754
-     end
-     -- end yay if
-   else
-     
-    if object._is_callable(_temp755) then
-      _temp756 =  _temp755(_self)
-
-    elseif _temp755 then
-      _temp756 =  _temp755
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp756) == 'number' then
-      _temp756 = number:new(_temp756)
-    elseif object._is_callable(_temp756) then
-      _temp756 = brat_function:new(_temp756)
-    end
-    
-      local _m = _temp756.name
-      if object._is_callable(_m) then
-        _temp757 =  _m(_temp756)
-      elseif _m ~= nil then
-        _temp757 =  _m
-      elseif _temp756.no_undermethod then
-        _temp757 =  _temp756:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp756, 'name'))
-      end
-    
-local _temp766 = string:new('call')
-
-if _type(_temp757) == 'number' then
-      _temp757 = number:new(_temp757)
-    elseif object._is_callable(_temp757) then
-      _temp757 = brat_function:new(_temp757)
-    end
-    
-      local _m = _temp757._equal_equal
-      if object._is_callable(_m) then
-        _temp756 =  _m(_temp757, _temp766)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp757.no_undermethod then
-        _temp756 =  _temp757:no_undermethod(string:new('=='), _temp766)
-      else
-        _error(exception:method_error(_temp757, '_equal_equal'))
-      end
-    
-
-_temp757 = _lifted_call(_lifted[54], {})
-_temp757.arg_table['_temp635'] = _temp635
-_temp757.arg_table['_temp755'] = _temp755
-
-_temp766 = _lifted_call(_lifted[55], {})
-_temp766.arg_table['_temp635'] = _temp635
-_temp766.arg_table['_temp755'] = _temp755
-
-  if true_question then
-    _temp754 =  true_question(_self, _temp756, _temp757, _temp766)
-
-  else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
-    
-      local _m = _self.true_question
-      if object._is_callable(_m) then
-        _temp754 =  _m(_self, _temp756, _temp757, _temp766)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
-      elseif _self.no_undermethod then
-        _temp754 =  _self:no_undermethod(string:new('true?'), _temp756, _temp757, _temp766)
-      else
-        _error(exception:method_error(_self, 'true_question'))
-      end
-    
-  end
-  
-     _temp754 =  _temp754
-   end
-   
-
-    if object._is_callable(_temp635) then
-      _temp766 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp766 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp766) == 'number' then
-      _temp766 = number:new(_temp766)
-    elseif object._is_callable(_temp766) then
-      _temp766 = brat_function:new(_temp766)
-    end
-    
-      local _m = _temp766.nodes
-      if object._is_callable(_m) then
-        _temp757 =  _m(_temp766)
-      elseif _m ~= nil then
-        _temp757 =  _m
-      elseif _temp766.no_undermethod then
-        _temp757 =  _temp766:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp766, 'nodes'))
-      end
-    
-
-    if object._is_callable(_temp634) then
-      _temp766 =  _temp634(_self)
-
-    elseif _temp634 then
-      _temp766 =  _temp634
+    elseif _temp640 then
+      _temp759 =  _temp640
     else
       _error(exception:name_error("memo"))
     end
     
-if _type(_temp757) == 'number' then
-      _temp757 = number:new(_temp757)
-    elseif object._is_callable(_temp757) then
-      _temp757 = brat_function:new(_temp757)
+if _type(_temp750) == 'number' then
+      _temp750 = number:new(_temp750)
+    elseif object._is_callable(_temp750) then
+      _temp750 = brat_function:new(_temp750)
     end
     
-      local _m = _temp757.set
+      local _m = _temp750.set
       if object._is_callable(_m) then
-        _dummy =  _m(_temp757, 0, _temp766)
+        _dummy =  _m(_temp750, 0, _temp759)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp757.no_undermethod then
-        _dummy =  _temp757:no_undermethod(string:new('set'), 0, _temp766)
+      elseif _temp750.no_undermethod then
+        _dummy =  _temp750:no_undermethod(string:new('set'), 0, _temp759)
       else
-        _error(exception:method_error(_temp757, 'set'))
+        _error(exception:method_error(_temp750, 'set'))
       end
     
    local _m
@@ -17189,94 +18077,94 @@ if _type(_temp757) == 'number' then
      _m = _self["s"]
    end
    if object._is_callable(_m) then
-     _temp757 = _m(_self)
+     _temp750 = _m(_self)
    elseif _m then
-     _temp757 = _m
+     _temp750 = _m
    elseif _self.no_undermethod then
-     _temp757 = _self:no_undermethod(string:new('s'))
+     _temp750 = _self:no_undermethod(string:new('s'))
    else
      _error(exception:name_error("s"))
    end
   
-_temp756 = string:new('call')
+_temp749 = string:new('call')
 
 
-local _temp775
+local _temp768
 
-    if object._is_callable(_temp635) then
-      _temp775 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp768 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp775 =  _temp635
+    elseif _temp641 then
+      _temp768 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
 
-local _temp776 = string:new('get')
+local _temp769 = string:new('get')
 
 
-local _temp777
+local _temp770
 
-    if object._is_callable(_temp752) then
-      _temp777 =  _temp752(_self)
+    if object._is_callable(_temp745) then
+      _temp770 =  _temp745(_self)
 
-    elseif _temp752 then
-      _temp777 =  _temp752
+    elseif _temp745 then
+      _temp770 =  _temp745
     else
       _error(exception:name_error("args"))
     end
     
-if _type(_temp757) == 'number' then
-      _temp757 = number:new(_temp757)
-    elseif object._is_callable(_temp757) then
-      _temp757 = brat_function:new(_temp757)
+if _type(_temp750) == 'number' then
+      _temp750 = number:new(_temp750)
+    elseif object._is_callable(_temp750) then
+      _temp750 = brat_function:new(_temp750)
     end
     
-      local _m = _temp757.get
+      local _m = _temp750.get
       if object._is_callable(_m) then
-        _temp766 =  _m(_temp757, _temp756, _temp775, _temp776, _temp777)
+        _temp759 =  _m(_temp750, _temp749, _temp768, _temp769, _temp770)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
-      elseif _temp757.no_undermethod then
-        _temp766 =  _temp757:no_undermethod(string:new('get'), _temp756, _temp775, _temp776, _temp777)
+      elseif _temp750.no_undermethod then
+        _temp759 =  _temp750:no_undermethod(string:new('get'), _temp749, _temp768, _temp769, _temp770)
       else
-        _error(exception:method_error(_temp757, 'get'))
+        _error(exception:method_error(_temp750, 'get'))
       end
     
-_temp635 = _temp766
+_temp641 = _temp759
 
-_temp744 =  _temp635
+_temp737 =  _temp641
 
 end
 
-      _temp744 =  _temp744
+      _temp737 =  _temp737
      else
       do
 
-local _temp778
+local _temp771
 
-local _temp779
+local _temp772
 
 do
-local _temp780 = {}
-_temp780[1] = "wut "
+local _temp773 = {}
+_temp773[1] = "wut "
 
-    if object._is_callable(_temp635) then
-      _temp780[2] =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp773[2] =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp780[2] =  _temp635
+    elseif _temp641 then
+      _temp773[2] =  _temp641
     else
       _error(exception:name_error("call"))
     end
-    _temp780[2] = _tostring(_temp780[2])
-_temp779 = string:new(_table.concat(_temp780))
+    _temp773[2] = _tostring(_temp773[2])
+_temp772 = string:new(_table.concat(_temp773))
 end
 
 
   if p then
-    _temp778 =  p(_self, _temp779)
+    _temp771 =  p(_self, _temp772)
 
   else
     if _type(_self) == 'number' then
@@ -17287,104 +18175,256 @@ end
     
       local _m = _self.p
       if object._is_callable(_m) then
-        _temp778 =  _m(_self, _temp779)
+        _temp771 =  _m(_self, _temp772)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp778 =  _self:no_undermethod(string:new('p'), _temp779)
+        _temp771 =  _self:no_undermethod(string:new('p'), _temp772)
       else
         _error(exception:method_error(_self, 'p'))
       end
     
   end
   
-_temp744 =  _temp778
+_temp737 =  _temp771
 
 end
 
-      _temp744 =  _temp744
+      _temp737 =  _temp737
      end
      -- end yay if
    else
+     -- fallback if
      
-    if object._is_callable(_temp635) then
-      _temp745 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp738 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp745 =  _temp635
+    elseif _temp641 then
+      _temp738 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp745) == 'number' then
-      _temp745 = number:new(_temp745)
-    elseif object._is_callable(_temp745) then
-      _temp745 = brat_function:new(_temp745)
+if _type(_temp738) == 'number' then
+      _temp738 = number:new(_temp738)
+    elseif object._is_callable(_temp738) then
+      _temp738 = brat_function:new(_temp738)
     end
     
-      local _m = _temp745.name
+      local _m = _temp738.name
       if object._is_callable(_m) then
-        _temp748 =  _m(_temp745)
+        _temp741 =  _m(_temp738)
       elseif _m ~= nil then
-        _temp748 =  _m
-      elseif _temp745.no_undermethod then
-        _temp748 =  _temp745:no_undermethod(string:new('name'))
+        _temp741 =  _m
+      elseif _temp738.no_undermethod then
+        _temp741 =  _temp738:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp745, 'name'))
+        _error(exception:method_error(_temp738, 'name'))
       end
     
-_temp747 = string:new('call')
+_temp740 = string:new('call')
 
-if _type(_temp748) == 'number' then
-      _temp748 = number:new(_temp748)
-    elseif object._is_callable(_temp748) then
-      _temp748 = brat_function:new(_temp748)
+if _type(_temp741) == 'number' then
+      _temp741 = number:new(_temp741)
+    elseif object._is_callable(_temp741) then
+      _temp741 = brat_function:new(_temp741)
     end
     
-      local _m = _temp748._equal_equal
+      local _m = _temp741._equal_equal
       if object._is_callable(_m) then
-        _temp745 =  _m(_temp748, _temp747)
+        _temp738 =  _m(_temp741, _temp740)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp748.no_undermethod then
-        _temp745 =  _temp748:no_undermethod(string:new('=='), _temp747)
+      elseif _temp741.no_undermethod then
+        _temp738 =  _temp741:no_undermethod(string:new('=='), _temp740)
       else
-        _error(exception:method_error(_temp748, '_equal_equal'))
+        _error(exception:method_error(_temp741, '_equal_equal'))
       end
     
-local _temp781 = function(_self)
+local _temp774 = function(_self)
 
-local _temp783
+local _temp776
 
-local _temp782
+local _temp775
 
-    if object._is_callable(_temp635) then
-      _temp782 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp775 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp782 =  _temp635
+    elseif _temp641 then
+      _temp775 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-if _type(_temp782) == 'number' then
-      _temp782 = number:new(_temp782)
-    elseif object._is_callable(_temp782) then
-      _temp782 = brat_function:new(_temp782)
+if _type(_temp775) == 'number' then
+      _temp775 = number:new(_temp775)
+    elseif object._is_callable(_temp775) then
+      _temp775 = brat_function:new(_temp775)
     end
     
-      local _m = _temp782.method
+      local _m = _temp775.method
       if object._is_callable(_m) then
-        _temp783 =  _m(_temp782)
+        _temp776 =  _m(_temp775)
       elseif _m ~= nil then
-        _temp783 =  _m
-      elseif _temp782.no_undermethod then
-        _temp783 =  _temp782:no_undermethod(string:new('method'))
+        _temp776 =  _m
+      elseif _temp775.no_undermethod then
+        _temp776 =  _temp775:no_undermethod(string:new('method'))
       else
-        _error(exception:method_error(_temp782, 'method'))
+        _error(exception:method_error(_temp775, 'method'))
       end
     
-local _temp784 = string:new('get')
+local _temp777 = string:new('get')
+
+if _type(_temp776) == 'number' then
+      _temp776 = number:new(_temp776)
+    elseif object._is_callable(_temp776) then
+      _temp776 = brat_function:new(_temp776)
+    end
+    
+      local _m = _temp776._equal_equal
+      if object._is_callable(_m) then
+        _temp775 =  _m(_temp776, _temp777)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp776.no_undermethod then
+        _temp775 =  _temp776:no_undermethod(string:new('=='), _temp777)
+      else
+        _error(exception:method_error(_temp776, '_equal_equal'))
+      end
+    
+return _temp775
+
+end
+
+if _type(_temp738) == 'number' then
+      _temp738 = number:new(_temp738)
+    elseif object._is_callable(_temp738) then
+      _temp738 = brat_function:new(_temp738)
+    end
+    
+      local _m = _temp738._and_and
+      if object._is_callable(_m) then
+        _temp741 =  _m(_temp738, _temp774)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp738.no_undermethod then
+        _temp741 =  _temp738:no_undermethod(string:new('&&'), _temp774)
+      else
+        _error(exception:method_error(_temp738, '_and_and'))
+      end
+    
+
+local _temp778 = function(_self)
+local _temp779
+
+local _temp781
+
+local _temp780
+
+    if object._is_callable(_temp641) then
+      _temp780 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp780 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp780) == 'number' then
+      _temp780 = number:new(_temp780)
+    elseif object._is_callable(_temp780) then
+      _temp780 = brat_function:new(_temp780)
+    end
+    
+      local _m = _temp780.nodes
+      if object._is_callable(_m) then
+        _temp781 =  _m(_temp780)
+      elseif _m ~= nil then
+        _temp781 =  _m
+      elseif _temp780.no_undermethod then
+        _temp781 =  _temp780:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp780, 'nodes'))
+      end
+    
+if _type(_temp781) == 'number' then
+      _temp781 = number:new(_temp781)
+    elseif object._is_callable(_temp781) then
+      _temp781 = brat_function:new(_temp781)
+    end
+    
+      local _m = _temp781.pop
+      if object._is_callable(_m) then
+        _temp779 =  _m(_temp781)
+      elseif _m ~= nil then
+        _temp779 =  _m
+      elseif _temp781.no_undermethod then
+        _temp779 =  _temp781:no_undermethod(string:new('pop'))
+      else
+        _error(exception:method_error(_temp781, 'pop'))
+      end
+    
+local _temp782
+
+    if object._is_callable(_temp641) then
+      _temp781 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp781 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp781) == 'number' then
+      _temp781 = number:new(_temp781)
+    elseif object._is_callable(_temp781) then
+      _temp781 = brat_function:new(_temp781)
+    end
+    
+      local _m = _temp781.target
+      if object._is_callable(_m) then
+        _temp782 =  _m(_temp781)
+      elseif _m ~= nil then
+        _temp782 =  _m
+      elseif _temp781.no_undermethod then
+        _temp782 =  _temp781:no_undermethod(string:new('target'))
+      else
+        _error(exception:method_error(_temp781, 'target'))
+      end
+    
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp781
+     
+local _temp783
+
+    if object._is_callable(_temp782) then
+      _temp780 =  _temp782(_self)
+
+    elseif _temp782 then
+      _temp780 =  _temp782
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp780) == 'number' then
+      _temp780 = number:new(_temp780)
+    elseif object._is_callable(_temp780) then
+      _temp780 = brat_function:new(_temp780)
+    end
+    
+      local _m = _temp780.name
+      if object._is_callable(_m) then
+        _temp783 =  _m(_temp780)
+      elseif _m ~= nil then
+        _temp783 =  _m
+      elseif _temp780.no_undermethod then
+        _temp783 =  _temp780:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp780, 'name'))
+      end
+    
+local _temp784 = string:new('call')
 
 if _type(_temp783) == 'number' then
       _temp783 = number:new(_temp783)
@@ -17394,255 +18434,354 @@ if _type(_temp783) == 'number' then
     
       local _m = _temp783._equal_equal
       if object._is_callable(_m) then
-        _temp782 =  _m(_temp783, _temp784)
+        _temp780 =  _m(_temp783, _temp784)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _temp783.no_undermethod then
-        _temp782 =  _temp783:no_undermethod(string:new('=='), _temp784)
+        _temp780 =  _temp783:no_undermethod(string:new('=='), _temp784)
       else
         _error(exception:method_error(_temp783, '_equal_equal'))
       end
     
-return _temp782
+     if object._is_callable(_temp780) then
+                    _temp780 = _temp780(_self)
+                   end
+     -- end condition
 
-end
+     if object._is_true(_temp780) then
+      do
 
-if _type(_temp745) == 'number' then
-      _temp745 = number:new(_temp745)
-    elseif object._is_callable(_temp745) then
-      _temp745 = brat_function:new(_temp745)
-    end
-    
-      local _m = _temp745._and_and
-      if object._is_callable(_m) then
-        _temp748 =  _m(_temp745, _temp781)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp745.no_undermethod then
-        _temp748 =  _temp745:no_undermethod(string:new('&&'), _temp781)
-      else
-        _error(exception:method_error(_temp745, '_and_and'))
-      end
-    
-
-local _temp785 = function(_self)
 local _temp786
 
-local _temp788
+local _temp785
+
+    if object._is_callable(_temp641) then
+      _temp785 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp785 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp785) == 'number' then
+      _temp785 = number:new(_temp785)
+    elseif object._is_callable(_temp785) then
+      _temp785 = brat_function:new(_temp785)
+    end
+    
+      local _m = _temp785.nodes
+      if object._is_callable(_m) then
+        _temp786 =  _m(_temp785)
+      elseif _m ~= nil then
+        _temp786 =  _m
+      elseif _temp785.no_undermethod then
+        _temp786 =  _temp785:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp785, 'nodes'))
+      end
+    
 
 local _temp787
 
-    if object._is_callable(_temp635) then
-      _temp787 =  _temp635(_self)
+    if object._is_callable(_temp782) then
+      _temp785 =  _temp782(_self)
 
-    elseif _temp635 then
-      _temp787 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp787) == 'number' then
-      _temp787 = number:new(_temp787)
-    elseif object._is_callable(_temp787) then
-      _temp787 = brat_function:new(_temp787)
-    end
-    
-      local _m = _temp787.nodes
-      if object._is_callable(_m) then
-        _temp788 =  _m(_temp787)
-      elseif _m ~= nil then
-        _temp788 =  _m
-      elseif _temp787.no_undermethod then
-        _temp788 =  _temp787:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp787, 'nodes'))
-      end
-    
-if _type(_temp788) == 'number' then
-      _temp788 = number:new(_temp788)
-    elseif object._is_callable(_temp788) then
-      _temp788 = brat_function:new(_temp788)
-    end
-    
-      local _m = _temp788.pop
-      if object._is_callable(_m) then
-        _temp786 =  _m(_temp788)
-      elseif _m ~= nil then
-        _temp786 =  _m
-      elseif _temp788.no_undermethod then
-        _temp786 =  _temp788:no_undermethod(string:new('pop'))
-      else
-        _error(exception:method_error(_temp788, 'pop'))
-      end
-    
-local _temp789
-
-    if object._is_callable(_temp635) then
-      _temp788 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp788 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp788) == 'number' then
-      _temp788 = number:new(_temp788)
-    elseif object._is_callable(_temp788) then
-      _temp788 = brat_function:new(_temp788)
-    end
-    
-      local _m = _temp788.target
-      if object._is_callable(_m) then
-        _temp789 =  _m(_temp788)
-      elseif _m ~= nil then
-        _temp789 =  _m
-      elseif _temp788.no_undermethod then
-        _temp789 =  _temp788:no_undermethod(string:new('target'))
-      else
-        _error(exception:method_error(_temp788, 'target'))
-      end
-    
-
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp788
-     
-local _temp790
-
-    if object._is_callable(_temp789) then
-      _temp787 =  _temp789(_self)
-
-    elseif _temp789 then
-      _temp787 =  _temp789
+    elseif _temp782 then
+      _temp785 =  _temp782
     else
       _error(exception:name_error("target"))
     end
     
+if _type(_temp785) == 'number' then
+      _temp785 = number:new(_temp785)
+    elseif object._is_callable(_temp785) then
+      _temp785 = brat_function:new(_temp785)
+    end
+    
+      local _m = _temp785.method
+      if object._is_callable(_m) then
+        _temp787 =  _m(_temp785)
+      elseif _m ~= nil then
+        _temp787 =  _m
+      elseif _temp785.no_undermethod then
+        _temp787 =  _temp785:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp785, 'method'))
+      end
+    
+if _type(_temp786) == 'number' then
+      _temp786 = number:new(_temp786)
+    elseif object._is_callable(_temp786) then
+      _temp786 = brat_function:new(_temp786)
+    end
+    
+      local _m = _temp786.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp786, 1, _temp787)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp786.no_undermethod then
+        _dummy =  _temp786:no_undermethod(string:new('set'), 1, _temp787)
+      else
+        _error(exception:method_error(_temp786, 'set'))
+      end
+    
+    if object._is_callable(_temp641) then
+      _temp786 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp786 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp786) == 'number' then
+      _temp786 = number:new(_temp786)
+    elseif object._is_callable(_temp786) then
+      _temp786 = brat_function:new(_temp786)
+    end
+    
+      local _m = _temp786.nodes
+      if object._is_callable(_m) then
+        _temp787 =  _m(_temp786)
+      elseif _m ~= nil then
+        _temp787 =  _m
+      elseif _temp786.no_undermethod then
+        _temp787 =  _temp786:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp786, 'nodes'))
+      end
+    
+
+local _temp788
+
+    if object._is_callable(_temp782) then
+      _temp785 =  _temp782(_self)
+
+    elseif _temp782 then
+      _temp785 =  _temp782
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp785) == 'number' then
+      _temp785 = number:new(_temp785)
+    elseif object._is_callable(_temp785) then
+      _temp785 = brat_function:new(_temp785)
+    end
+    
+      local _m = _temp785.args
+      if object._is_callable(_m) then
+        _temp788 =  _m(_temp785)
+      elseif _m ~= nil then
+        _temp788 =  _m
+      elseif _temp785.no_undermethod then
+        _temp788 =  _temp785:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp785, 'args'))
+      end
+    
 if _type(_temp787) == 'number' then
       _temp787 = number:new(_temp787)
     elseif object._is_callable(_temp787) then
       _temp787 = brat_function:new(_temp787)
     end
     
-      local _m = _temp787.name
+      local _m = _temp787.set
       if object._is_callable(_m) then
-        _temp790 =  _m(_temp787)
+        _temp786 =  _m(_temp787, 2, _temp788)
       elseif _m ~= nil then
-        _temp790 =  _m
+          _error(exception:argument_error('function', 0, 1))
       elseif _temp787.no_undermethod then
-        _temp790 =  _temp787:no_undermethod(string:new('name'))
+        _temp786 =  _temp787:no_undermethod(string:new('set'), 2, _temp788)
       else
-        _error(exception:method_error(_temp787, 'name'))
+        _error(exception:method_error(_temp787, 'set'))
       end
     
-local _temp791 = string:new('call')
+_temp781 =  _temp786
 
+end
+
+      _temp781 =  _temp781
+     else
+      do
+
+local _temp790
+
+local _temp789
+
+    if object._is_callable(_temp641) then
+      _temp789 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp789 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp789) == 'number' then
+      _temp789 = number:new(_temp789)
+    elseif object._is_callable(_temp789) then
+      _temp789 = brat_function:new(_temp789)
+    end
+    
+      local _m = _temp789.nodes
+      if object._is_callable(_m) then
+        _temp790 =  _m(_temp789)
+      elseif _m ~= nil then
+        _temp790 =  _m
+      elseif _temp789.no_undermethod then
+        _temp790 =  _temp789:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp789, 'nodes'))
+      end
+    
+
+local _temp792
+
+local _temp791
+
+    if object._is_callable(_temp782) then
+      _temp791 =  _temp782(_self)
+
+    elseif _temp782 then
+      _temp791 =  _temp782
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp791) == 'number' then
+      _temp791 = number:new(_temp791)
+    elseif object._is_callable(_temp791) then
+      _temp791 = brat_function:new(_temp791)
+    end
+    
+      local _m = _temp791.value
+      if object._is_callable(_m) then
+        _temp792 =  _m(_temp791)
+      elseif _m ~= nil then
+        _temp792 =  _m
+      elseif _temp791.no_undermethod then
+        _temp792 =  _temp791:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp791, 'value'))
+      end
+    
 if _type(_temp790) == 'number' then
       _temp790 = number:new(_temp790)
     elseif object._is_callable(_temp790) then
       _temp790 = brat_function:new(_temp790)
     end
     
-      local _m = _temp790._equal_equal
+      local _m = _temp790.set
       if object._is_callable(_m) then
-        _temp787 =  _m(_temp790, _temp791)
+        _temp789 =  _m(_temp790, 1, _temp792)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
+          _error(exception:argument_error('function', 0, 1))
       elseif _temp790.no_undermethod then
-        _temp787 =  _temp790:no_undermethod(string:new('=='), _temp791)
+        _temp789 =  _temp790:no_undermethod(string:new('set'), 1, _temp792)
       else
-        _error(exception:method_error(_temp790, '_equal_equal'))
+        _error(exception:method_error(_temp790, 'set'))
       end
     
-     if object._is_callable(_temp787) then
-                    _temp787 = _temp787(_self)
-                   end
-     -- end condition
+_temp781 =  _temp789
 
-     if object._is_true(_temp787) then
-      do
+end
 
-local _temp793
+      _temp781 =  _temp781
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp782) then
+      _temp783 =  _temp782(_self)
 
-local _temp792
-
-    if object._is_callable(_temp635) then
-      _temp792 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp792 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp792) == 'number' then
-      _temp792 = number:new(_temp792)
-    elseif object._is_callable(_temp792) then
-      _temp792 = brat_function:new(_temp792)
-    end
-    
-      local _m = _temp792.nodes
-      if object._is_callable(_m) then
-        _temp793 =  _m(_temp792)
-      elseif _m ~= nil then
-        _temp793 =  _m
-      elseif _temp792.no_undermethod then
-        _temp793 =  _temp792:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp792, 'nodes'))
-      end
-    
-
-local _temp794
-
-    if object._is_callable(_temp789) then
-      _temp792 =  _temp789(_self)
-
-    elseif _temp789 then
-      _temp792 =  _temp789
+    elseif _temp782 then
+      _temp783 =  _temp782
     else
       _error(exception:name_error("target"))
     end
     
-if _type(_temp792) == 'number' then
-      _temp792 = number:new(_temp792)
-    elseif object._is_callable(_temp792) then
-      _temp792 = brat_function:new(_temp792)
+if _type(_temp783) == 'number' then
+      _temp783 = number:new(_temp783)
+    elseif object._is_callable(_temp783) then
+      _temp783 = brat_function:new(_temp783)
     end
     
-      local _m = _temp792.method
+      local _m = _temp783.name
       if object._is_callable(_m) then
-        _temp794 =  _m(_temp792)
+        _temp784 =  _m(_temp783)
       elseif _m ~= nil then
-        _temp794 =  _m
-      elseif _temp792.no_undermethod then
-        _temp794 =  _temp792:no_undermethod(string:new('method'))
+        _temp784 =  _m
+      elseif _temp783.no_undermethod then
+        _temp784 =  _temp783:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp792, 'method'))
+        _error(exception:method_error(_temp783, 'name'))
       end
     
-if _type(_temp793) == 'number' then
-      _temp793 = number:new(_temp793)
-    elseif object._is_callable(_temp793) then
-      _temp793 = brat_function:new(_temp793)
-    end
-    
-      local _m = _temp793.set
-      if object._is_callable(_m) then
-        _dummy =  _m(_temp793, 1, _temp794)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp793.no_undermethod then
-        _dummy =  _temp793:no_undermethod(string:new('set'), 1, _temp794)
-      else
-        _error(exception:method_error(_temp793, 'set'))
-      end
-    
-    if object._is_callable(_temp635) then
-      _temp793 =  _temp635(_self)
+local _temp793 = string:new('call')
 
-    elseif _temp635 then
-      _temp793 =  _temp635
+if _type(_temp784) == 'number' then
+      _temp784 = number:new(_temp784)
+    elseif object._is_callable(_temp784) then
+      _temp784 = brat_function:new(_temp784)
+    end
+    
+      local _m = _temp784._equal_equal
+      if object._is_callable(_m) then
+        _temp783 =  _m(_temp784, _temp793)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp784.no_undermethod then
+        _temp783 =  _temp784:no_undermethod(string:new('=='), _temp793)
+      else
+        _error(exception:method_error(_temp784, '_equal_equal'))
+      end
+    
+
+_temp784 = _lifted_call(_lifted[56], {})
+_temp784.arg_table['_temp641'] = _temp641
+_temp784.arg_table['_temp782'] = _temp782
+
+_temp793 = _lifted_call(_lifted[57], {})
+_temp793.arg_table['_temp641'] = _temp641
+_temp793.arg_table['_temp782'] = _temp782
+
+  if true_question then
+    _temp781 =  true_question(_self, _temp783, _temp784, _temp793)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp781 =  _m(_self, _temp783, _temp784, _temp793)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp781 =  _self:no_undermethod(string:new('true?'), _temp783, _temp784, _temp793)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp781 =  _temp781
+     -- end fallback if
+   end
+   
+
+    if object._is_callable(_temp641) then
+      _temp793 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp793 =  _temp641
     else
       _error(exception:name_error("call"))
     end
@@ -17655,288 +18794,40 @@ if _type(_temp793) == 'number' then
     
       local _m = _temp793.nodes
       if object._is_callable(_m) then
-        _temp794 =  _m(_temp793)
+        _temp784 =  _m(_temp793)
       elseif _m ~= nil then
-        _temp794 =  _m
+        _temp784 =  _m
       elseif _temp793.no_undermethod then
-        _temp794 =  _temp793:no_undermethod(string:new('nodes'))
+        _temp784 =  _temp793:no_undermethod(string:new('nodes'))
       else
         _error(exception:method_error(_temp793, 'nodes'))
       end
     
 
-local _temp795
+    if object._is_callable(_temp640) then
+      _temp793 =  _temp640(_self)
 
-    if object._is_callable(_temp789) then
-      _temp792 =  _temp789(_self)
-
-    elseif _temp789 then
-      _temp792 =  _temp789
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp792) == 'number' then
-      _temp792 = number:new(_temp792)
-    elseif object._is_callable(_temp792) then
-      _temp792 = brat_function:new(_temp792)
-    end
-    
-      local _m = _temp792.args
-      if object._is_callable(_m) then
-        _temp795 =  _m(_temp792)
-      elseif _m ~= nil then
-        _temp795 =  _m
-      elseif _temp792.no_undermethod then
-        _temp795 =  _temp792:no_undermethod(string:new('args'))
-      else
-        _error(exception:method_error(_temp792, 'args'))
-      end
-    
-if _type(_temp794) == 'number' then
-      _temp794 = number:new(_temp794)
-    elseif object._is_callable(_temp794) then
-      _temp794 = brat_function:new(_temp794)
-    end
-    
-      local _m = _temp794.set
-      if object._is_callable(_m) then
-        _temp793 =  _m(_temp794, 2, _temp795)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp794.no_undermethod then
-        _temp793 =  _temp794:no_undermethod(string:new('set'), 2, _temp795)
-      else
-        _error(exception:method_error(_temp794, 'set'))
-      end
-    
-_temp788 =  _temp793
-
-end
-
-      _temp788 =  _temp788
-     else
-      do
-
-local _temp797
-
-local _temp796
-
-    if object._is_callable(_temp635) then
-      _temp796 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp796 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp796) == 'number' then
-      _temp796 = number:new(_temp796)
-    elseif object._is_callable(_temp796) then
-      _temp796 = brat_function:new(_temp796)
-    end
-    
-      local _m = _temp796.nodes
-      if object._is_callable(_m) then
-        _temp797 =  _m(_temp796)
-      elseif _m ~= nil then
-        _temp797 =  _m
-      elseif _temp796.no_undermethod then
-        _temp797 =  _temp796:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp796, 'nodes'))
-      end
-    
-
-local _temp799
-
-local _temp798
-
-    if object._is_callable(_temp789) then
-      _temp798 =  _temp789(_self)
-
-    elseif _temp789 then
-      _temp798 =  _temp789
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp798) == 'number' then
-      _temp798 = number:new(_temp798)
-    elseif object._is_callable(_temp798) then
-      _temp798 = brat_function:new(_temp798)
-    end
-    
-      local _m = _temp798.value
-      if object._is_callable(_m) then
-        _temp799 =  _m(_temp798)
-      elseif _m ~= nil then
-        _temp799 =  _m
-      elseif _temp798.no_undermethod then
-        _temp799 =  _temp798:no_undermethod(string:new('value'))
-      else
-        _error(exception:method_error(_temp798, 'value'))
-      end
-    
-if _type(_temp797) == 'number' then
-      _temp797 = number:new(_temp797)
-    elseif object._is_callable(_temp797) then
-      _temp797 = brat_function:new(_temp797)
-    end
-    
-      local _m = _temp797.set
-      if object._is_callable(_m) then
-        _temp796 =  _m(_temp797, 1, _temp799)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp797.no_undermethod then
-        _temp796 =  _temp797:no_undermethod(string:new('set'), 1, _temp799)
-      else
-        _error(exception:method_error(_temp797, 'set'))
-      end
-    
-_temp788 =  _temp796
-
-end
-
-      _temp788 =  _temp788
-     end
-     -- end yay if
-   else
-     
-    if object._is_callable(_temp789) then
-      _temp790 =  _temp789(_self)
-
-    elseif _temp789 then
-      _temp790 =  _temp789
-    else
-      _error(exception:name_error("target"))
-    end
-    
-if _type(_temp790) == 'number' then
-      _temp790 = number:new(_temp790)
-    elseif object._is_callable(_temp790) then
-      _temp790 = brat_function:new(_temp790)
-    end
-    
-      local _m = _temp790.name
-      if object._is_callable(_m) then
-        _temp791 =  _m(_temp790)
-      elseif _m ~= nil then
-        _temp791 =  _m
-      elseif _temp790.no_undermethod then
-        _temp791 =  _temp790:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp790, 'name'))
-      end
-    
-local _temp800 = string:new('call')
-
-if _type(_temp791) == 'number' then
-      _temp791 = number:new(_temp791)
-    elseif object._is_callable(_temp791) then
-      _temp791 = brat_function:new(_temp791)
-    end
-    
-      local _m = _temp791._equal_equal
-      if object._is_callable(_m) then
-        _temp790 =  _m(_temp791, _temp800)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp791.no_undermethod then
-        _temp790 =  _temp791:no_undermethod(string:new('=='), _temp800)
-      else
-        _error(exception:method_error(_temp791, '_equal_equal'))
-      end
-    
-
-_temp791 = _lifted_call(_lifted[56], {})
-_temp791.arg_table['_temp635'] = _temp635
-_temp791.arg_table['_temp789'] = _temp789
-
-_temp800 = _lifted_call(_lifted[57], {})
-_temp800.arg_table['_temp635'] = _temp635
-_temp800.arg_table['_temp789'] = _temp789
-
-  if true_question then
-    _temp788 =  true_question(_self, _temp790, _temp791, _temp800)
-
-  else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
-    
-      local _m = _self.true_question
-      if object._is_callable(_m) then
-        _temp788 =  _m(_self, _temp790, _temp791, _temp800)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
-      elseif _self.no_undermethod then
-        _temp788 =  _self:no_undermethod(string:new('true?'), _temp790, _temp791, _temp800)
-      else
-        _error(exception:method_error(_self, 'true_question'))
-      end
-    
-  end
-  
-     _temp788 =  _temp788
-   end
-   
-
-    if object._is_callable(_temp635) then
-      _temp800 =  _temp635(_self)
-
-    elseif _temp635 then
-      _temp800 =  _temp635
-    else
-      _error(exception:name_error("call"))
-    end
-    
-if _type(_temp800) == 'number' then
-      _temp800 = number:new(_temp800)
-    elseif object._is_callable(_temp800) then
-      _temp800 = brat_function:new(_temp800)
-    end
-    
-      local _m = _temp800.nodes
-      if object._is_callable(_m) then
-        _temp791 =  _m(_temp800)
-      elseif _m ~= nil then
-        _temp791 =  _m
-      elseif _temp800.no_undermethod then
-        _temp791 =  _temp800:no_undermethod(string:new('nodes'))
-      else
-        _error(exception:method_error(_temp800, 'nodes'))
-      end
-    
-
-    if object._is_callable(_temp634) then
-      _temp800 =  _temp634(_self)
-
-    elseif _temp634 then
-      _temp800 =  _temp634
+    elseif _temp640 then
+      _temp793 =  _temp640
     else
       _error(exception:name_error("memo"))
     end
     
-if _type(_temp791) == 'number' then
-      _temp791 = number:new(_temp791)
-    elseif object._is_callable(_temp791) then
-      _temp791 = brat_function:new(_temp791)
+if _type(_temp784) == 'number' then
+      _temp784 = number:new(_temp784)
+    elseif object._is_callable(_temp784) then
+      _temp784 = brat_function:new(_temp784)
     end
     
-      local _m = _temp791.set
+      local _m = _temp784.set
       if object._is_callable(_m) then
-        _dummy =  _m(_temp791, 0, _temp800)
+        _dummy =  _m(_temp784, 0, _temp793)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp791.no_undermethod then
-        _dummy =  _temp791:no_undermethod(string:new('set'), 0, _temp800)
+      elseif _temp784.no_undermethod then
+        _dummy =  _temp784:no_undermethod(string:new('set'), 0, _temp793)
       else
-        _error(exception:method_error(_temp791, 'set'))
+        _error(exception:method_error(_temp784, 'set'))
       end
     
    local _m
@@ -17946,93 +18837,93 @@ if _type(_temp791) == 'number' then
      _m = _self["s"]
    end
    if object._is_callable(_m) then
-     _temp791 = _m(_self)
+     _temp784 = _m(_self)
    elseif _m then
-     _temp791 = _m
+     _temp784 = _m
    elseif _self.no_undermethod then
-     _temp791 = _self:no_undermethod(string:new('s'))
+     _temp784 = _self:no_undermethod(string:new('s'))
    else
      _error(exception:name_error("s"))
    end
   
-_temp790 = string:new('call')
+_temp783 = string:new('call')
 
 
-local _temp809
+local _temp802
 
-    if object._is_callable(_temp635) then
-      _temp809 =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp802 =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp809 =  _temp635
+    elseif _temp641 then
+      _temp802 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
 
-local _temp810 = string:new('get')
+local _temp803 = string:new('get')
 
 
-local _temp811
+local _temp804
 
-    if object._is_callable(_temp786) then
-      _temp811 =  _temp786(_self)
+    if object._is_callable(_temp779) then
+      _temp804 =  _temp779(_self)
 
-    elseif _temp786 then
-      _temp811 =  _temp786
+    elseif _temp779 then
+      _temp804 =  _temp779
     else
       _error(exception:name_error("args"))
     end
     
-if _type(_temp791) == 'number' then
-      _temp791 = number:new(_temp791)
-    elseif object._is_callable(_temp791) then
-      _temp791 = brat_function:new(_temp791)
+if _type(_temp784) == 'number' then
+      _temp784 = number:new(_temp784)
+    elseif object._is_callable(_temp784) then
+      _temp784 = brat_function:new(_temp784)
     end
     
-      local _m = _temp791.get
+      local _m = _temp784.get
       if object._is_callable(_m) then
-        _temp800 =  _m(_temp791, _temp790, _temp809, _temp810, _temp811)
+        _temp793 =  _m(_temp784, _temp783, _temp802, _temp803, _temp804)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
-      elseif _temp791.no_undermethod then
-        _temp800 =  _temp791:no_undermethod(string:new('get'), _temp790, _temp809, _temp810, _temp811)
+      elseif _temp784.no_undermethod then
+        _temp793 =  _temp784:no_undermethod(string:new('get'), _temp783, _temp802, _temp803, _temp804)
       else
-        _error(exception:method_error(_temp791, 'get'))
+        _error(exception:method_error(_temp784, 'get'))
       end
     
-_temp635 = _temp800
+_temp641 = _temp793
 
-return _temp635
+return _temp641
 
 end
 
 
-local _temp812 = function(_self)
+local _temp805 = function(_self)
 
-local _temp813
+local _temp806
 
-local _temp814
+local _temp807
 
 do
-local _temp815 = {}
-_temp815[1] = "wut "
+local _temp808 = {}
+_temp808[1] = "wut "
 
-    if object._is_callable(_temp635) then
-      _temp815[2] =  _temp635(_self)
+    if object._is_callable(_temp641) then
+      _temp808[2] =  _temp641(_self)
 
-    elseif _temp635 then
-      _temp815[2] =  _temp635
+    elseif _temp641 then
+      _temp808[2] =  _temp641
     else
       _error(exception:name_error("call"))
     end
-    _temp815[2] = _tostring(_temp815[2])
-_temp814 = string:new(_table.concat(_temp815))
+    _temp808[2] = _tostring(_temp808[2])
+_temp807 = string:new(_table.concat(_temp808))
 end
 
 
   if p then
-    _temp813 =  p(_self, _temp814)
+    _temp806 =  p(_self, _temp807)
 
   else
     if _type(_self) == 'number' then
@@ -18043,24 +18934,24 @@ end
     
       local _m = _self.p
       if object._is_callable(_m) then
-        _temp813 =  _m(_self, _temp814)
+        _temp806 =  _m(_self, _temp807)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp813 =  _self:no_undermethod(string:new('p'), _temp814)
+        _temp806 =  _self:no_undermethod(string:new('p'), _temp807)
       else
         _error(exception:method_error(_self, 'p'))
       end
     
   end
   
-return _temp813
+return _temp806
 
 end
 
 
   if true_question then
-    _temp744 =  true_question(_self, _temp748, _temp785, _temp812)
+    _temp737 =  true_question(_self, _temp741, _temp778, _temp805)
 
   else
     if _type(_self) == 'number' then
@@ -18071,27 +18962,28 @@ end
     
       local _m = _self.true_question
       if object._is_callable(_m) then
-        _temp744 =  _m(_self, _temp748, _temp785, _temp812)
+        _temp737 =  _m(_self, _temp741, _temp778, _temp805)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp744 =  _self:no_undermethod(string:new('true?'), _temp748, _temp785, _temp812)
+        _temp737 =  _self:no_undermethod(string:new('true?'), _temp741, _temp778, _temp805)
       else
         _error(exception:method_error(_self, 'true_question'))
       end
     
   end
   
-     _temp744 =  _temp744
+     _temp737 =  _temp737
+     -- end fallback if
    end
    
-return _temp744
+return _temp737
 
 end
 
 
   if null_question then
-    _temp736 =  null_question(_self, _temp737, _temp739, _temp743)
+    _temp653 =  null_question(_self, _temp655, _temp732, _temp736)
 
   else
     if _type(_self) == 'number' then
@@ -18102,24 +18994,939 @@ end
     
       local _m = _self.null_question
       if object._is_callable(_m) then
-        _temp736 =  _m(_self, _temp737, _temp739, _temp743)
+        _temp653 =  _m(_self, _temp655, _temp732, _temp736)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp736 =  _self:no_undermethod(string:new('null?'), _temp737, _temp739, _temp743)
+        _temp653 =  _self:no_undermethod(string:new('null?'), _temp655, _temp732, _temp736)
       else
         _error(exception:method_error(_self, 'null_question'))
       end
     
   end
   
-return _temp736
+     _temp653 =  _temp653
+     -- end fallback null?
+   end
+   
+_temp643 =  _temp653
+
+end
+
+      _temp643 =  _temp643
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp641) then
+      _temp645 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp645 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp645) == 'number' then
+      _temp645 = number:new(_temp645)
+    elseif object._is_callable(_temp645) then
+      _temp645 = brat_function:new(_temp645)
+    end
+    
+      local _m = _temp645.name
+      if object._is_callable(_m) then
+        _temp646 =  _m(_temp645)
+      elseif _m ~= nil then
+        _temp646 =  _m
+      elseif _temp645.no_undermethod then
+        _temp646 =  _temp645:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp645, 'name'))
+      end
+    
+local _temp809 = string:new('get_value')
+
+if _type(_temp646) == 'number' then
+      _temp646 = number:new(_temp646)
+    elseif object._is_callable(_temp646) then
+      _temp646 = brat_function:new(_temp646)
+    end
+    
+      local _m = _temp646._equal_equal
+      if object._is_callable(_m) then
+        _temp645 =  _m(_temp646, _temp809)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp646.no_undermethod then
+        _temp645 =  _temp646:no_undermethod(string:new('=='), _temp809)
+      else
+        _error(exception:method_error(_temp646, '_equal_equal'))
+      end
+    
+
+local _temp810 = function(_self)
+local _temp811
+
+local _temp812
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp812 = _m(_self)
+   elseif _m then
+     _temp812 = _m
+   elseif _self.no_undermethod then
+     _temp812 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+      if _temp812._lua_hash and _temp812._unchanged('get') then
+        _temp811 =  _temp812:get('call')
+      else
+        if _type(_temp812) == 'number' then
+      _temp812 = number:new(_temp812)
+    elseif object._is_callable(_temp812) then
+      _temp812 = brat_function:new(_temp812)
+    end
+    
+      local _m = _temp812.get
+      if object._is_callable(_m) then
+        _temp811 =  _m(_temp812, string:new('call'))
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp812.no_undermethod then
+        _temp811 =  _temp812:no_undermethod(string:new('get'), string:new('call'))
+      else
+        _error(exception:method_error(_temp812, 'get'))
+      end
+    
+      end
+      
+
+local _temp813
+
+    if object._is_callable(_temp811) then
+      _temp813 =  _temp811(_self)
+
+    elseif _temp811 then
+      _temp813 =  _temp811
+    else
+      _error(exception:name_error("c"))
+    end
+    
+
+local _temp815
+
+local _temp814
+
+    if object._is_callable(_temp641) then
+      _temp814 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp814 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp814) == 'number' then
+      _temp814 = number:new(_temp814)
+    elseif object._is_callable(_temp814) then
+      _temp814 = brat_function:new(_temp814)
+    end
+    
+      local _m = _temp814.nodes
+      if object._is_callable(_m) then
+        _temp815 =  _m(_temp814)
+      elseif _m ~= nil then
+        _temp815 =  _m
+      elseif _temp814.no_undermethod then
+        _temp815 =  _temp814:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp814, 'nodes'))
+      end
+    
+    if _type(_temp813) == 'table' then
+      _temp813['nodes'] = _temp815
+    else
+      _error('Cannot set method on ' .. _temp813)
+    end
+    
+
+local _temp816
+
+    if object._is_callable(_temp811) then
+      _temp814 =  _temp811(_self)
+
+    elseif _temp811 then
+      _temp814 =  _temp811
+    else
+      _error(exception:name_error("c"))
+    end
+    
+if _type(_temp814) == 'number' then
+      _temp814 = number:new(_temp814)
+    elseif object._is_callable(_temp814) then
+      _temp814 = brat_function:new(_temp814)
+    end
+    
+      local _m = _temp814.nodes
+      if object._is_callable(_m) then
+        _temp816 =  _m(_temp814)
+      elseif _m ~= nil then
+        _temp816 =  _m
+      elseif _temp814.no_undermethod then
+        _temp816 =  _temp814:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp814, 'nodes'))
+      end
+    
+
+    if object._is_callable(_temp640) then
+      _temp814 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp814 =  _temp640
+    else
+      _error(exception:name_error("memo"))
+    end
+    
+if _type(_temp816) == 'number' then
+      _temp816 = number:new(_temp816)
+    elseif object._is_callable(_temp816) then
+      _temp816 = brat_function:new(_temp816)
+    end
+    
+      local _m = _temp816.insert
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp816, 0, _temp814)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp816.no_undermethod then
+        _dummy =  _temp816:no_undermethod(string:new('insert'), 0, _temp814)
+      else
+        _error(exception:method_error(_temp816, 'insert'))
+      end
+    
+    if object._is_callable(_temp811) then
+      _temp816 =  _temp811(_self)
+
+    elseif _temp811 then
+      _temp816 =  _temp811
+    else
+      _error(exception:name_error("c"))
+    end
+    
+_temp641 = _temp816
+
+return _temp641
 
 end
 
 
+local _temp817 = function(_self)
+
+local _temp818
+
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
+     -- yay if my var is _temp818
+     
+local _temp820
+
+local _temp819
+
+    if object._is_callable(_temp641) then
+      _temp819 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp819 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp819) == 'number' then
+      _temp819 = number:new(_temp819)
+    elseif object._is_callable(_temp819) then
+      _temp819 = brat_function:new(_temp819)
+    end
+    
+      local _m = _temp819.nodes
+      if object._is_callable(_m) then
+        _temp820 =  _m(_temp819)
+      elseif _m ~= nil then
+        _temp820 =  _m
+      elseif _temp819.no_undermethod then
+        _temp820 =  _temp819:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp819, 'nodes'))
+      end
+    
+if _type(_temp820) == 'number' then
+      _temp820 = number:new(_temp820)
+    elseif object._is_callable(_temp820) then
+      _temp820 = brat_function:new(_temp820)
+    end
+    
+      local _m = _temp820.first
+      if object._is_callable(_m) then
+        _temp819 =  _m(_temp820)
+      elseif _m ~= nil then
+        _temp819 =  _m
+      elseif _temp820.no_undermethod then
+        _temp819 =  _temp820:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp820, 'first'))
+      end
+    
+     if object._is_callable(_temp819) then
+                    _temp819 = _temp819(_self)
+                   end
+     -- end condition
+
+     if _temp819 == object.__null or _temp819 == nil then
+      do
+
+local _temp822
+
+local _temp821
+
+    if object._is_callable(_temp641) then
+      _temp821 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp821 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp821) == 'number' then
+      _temp821 = number:new(_temp821)
+    elseif object._is_callable(_temp821) then
+      _temp821 = brat_function:new(_temp821)
+    end
+    
+      local _m = _temp821.nodes
+      if object._is_callable(_m) then
+        _temp822 =  _m(_temp821)
+      elseif _m ~= nil then
+        _temp822 =  _m
+      elseif _temp821.no_undermethod then
+        _temp822 =  _temp821:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp821, 'nodes'))
+      end
+    
+
+local _temp823
+
+    if object._is_callable(_temp640) then
+      _temp823 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp823 =  _temp640
+    else
+      _error(exception:name_error("memo"))
+    end
+    
+if _type(_temp822) == 'number' then
+      _temp822 = number:new(_temp822)
+    elseif object._is_callable(_temp822) then
+      _temp822 = brat_function:new(_temp822)
+    end
+    
+      local _m = _temp822.set
+      if object._is_callable(_m) then
+        _temp821 =  _m(_temp822, 0, _temp823)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp822.no_undermethod then
+        _temp821 =  _temp822:no_undermethod(string:new('set'), 0, _temp823)
+      else
+        _error(exception:method_error(_temp822, 'set'))
+      end
+    
+_temp818 =  _temp821
+
+end
+
+      _temp818 =  _temp818
+     else
+      do
+
+local _temp824
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp824
+     
+local _temp826
+
+local _temp825
+
+    if object._is_callable(_temp641) then
+      _temp825 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp825 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp825) == 'number' then
+      _temp825 = number:new(_temp825)
+    elseif object._is_callable(_temp825) then
+      _temp825 = brat_function:new(_temp825)
+    end
+    
+      local _m = _temp825.name
+      if object._is_callable(_m) then
+        _temp826 =  _m(_temp825)
+      elseif _m ~= nil then
+        _temp826 =  _m
+      elseif _temp825.no_undermethod then
+        _temp826 =  _temp825:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp825, 'name'))
+      end
+    
+local _temp827 = string:new('call')
+
+if _type(_temp826) == 'number' then
+      _temp826 = number:new(_temp826)
+    elseif object._is_callable(_temp826) then
+      _temp826 = brat_function:new(_temp826)
+    end
+    
+      local _m = _temp826._equal_equal
+      if object._is_callable(_m) then
+        _temp825 =  _m(_temp826, _temp827)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp826.no_undermethod then
+        _temp825 =  _temp826:no_undermethod(string:new('=='), _temp827)
+      else
+        _error(exception:method_error(_temp826, '_equal_equal'))
+      end
+    
+local _temp828 = function(_self)
+
+local _temp830
+
+local _temp829
+
+    if object._is_callable(_temp641) then
+      _temp829 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp829 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp829) == 'number' then
+      _temp829 = number:new(_temp829)
+    elseif object._is_callable(_temp829) then
+      _temp829 = brat_function:new(_temp829)
+    end
+    
+      local _m = _temp829.method
+      if object._is_callable(_m) then
+        _temp830 =  _m(_temp829)
+      elseif _m ~= nil then
+        _temp830 =  _m
+      elseif _temp829.no_undermethod then
+        _temp830 =  _temp829:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp829, 'method'))
+      end
+    
+local _temp831 = string:new('get')
+
+if _type(_temp830) == 'number' then
+      _temp830 = number:new(_temp830)
+    elseif object._is_callable(_temp830) then
+      _temp830 = brat_function:new(_temp830)
+    end
+    
+      local _m = _temp830._equal_equal
+      if object._is_callable(_m) then
+        _temp829 =  _m(_temp830, _temp831)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp830.no_undermethod then
+        _temp829 =  _temp830:no_undermethod(string:new('=='), _temp831)
+      else
+        _error(exception:method_error(_temp830, '_equal_equal'))
+      end
+    
+return _temp829
+
+end
+
+if _type(_temp825) == 'number' then
+      _temp825 = number:new(_temp825)
+    elseif object._is_callable(_temp825) then
+      _temp825 = brat_function:new(_temp825)
+    end
+    
+      local _m = _temp825._and_and
+      if object._is_callable(_m) then
+        _temp826 =  _m(_temp825, _temp828)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp825.no_undermethod then
+        _temp826 =  _temp825:no_undermethod(string:new('&&'), _temp828)
+      else
+        _error(exception:method_error(_temp825, '_and_and'))
+      end
+    
+     if object._is_callable(_temp826) then
+                    _temp826 = _temp826(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp826) then
+      do
+local _temp832
+
+local _temp834
+
+local _temp833
+
+    if object._is_callable(_temp641) then
+      _temp833 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp833 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp833) == 'number' then
+      _temp833 = number:new(_temp833)
+    elseif object._is_callable(_temp833) then
+      _temp833 = brat_function:new(_temp833)
+    end
+    
+      local _m = _temp833.nodes
+      if object._is_callable(_m) then
+        _temp834 =  _m(_temp833)
+      elseif _m ~= nil then
+        _temp834 =  _m
+      elseif _temp833.no_undermethod then
+        _temp834 =  _temp833:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp833, 'nodes'))
+      end
+    
+if _type(_temp834) == 'number' then
+      _temp834 = number:new(_temp834)
+    elseif object._is_callable(_temp834) then
+      _temp834 = brat_function:new(_temp834)
+    end
+    
+      local _m = _temp834.pop
+      if object._is_callable(_m) then
+        _temp832 =  _m(_temp834)
+      elseif _m ~= nil then
+        _temp832 =  _m
+      elseif _temp834.no_undermethod then
+        _temp832 =  _temp834:no_undermethod(string:new('pop'))
+      else
+        _error(exception:method_error(_temp834, 'pop'))
+      end
+    
+local _temp835
+
+    if object._is_callable(_temp641) then
+      _temp834 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp834 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp834) == 'number' then
+      _temp834 = number:new(_temp834)
+    elseif object._is_callable(_temp834) then
+      _temp834 = brat_function:new(_temp834)
+    end
+    
+      local _m = _temp834.target
+      if object._is_callable(_m) then
+        _temp835 =  _m(_temp834)
+      elseif _m ~= nil then
+        _temp835 =  _m
+      elseif _temp834.no_undermethod then
+        _temp835 =  _temp834:no_undermethod(string:new('target'))
+      else
+        _error(exception:method_error(_temp834, 'target'))
+      end
+    
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp834
+     
+local _temp836
+
+    if object._is_callable(_temp835) then
+      _temp833 =  _temp835(_self)
+
+    elseif _temp835 then
+      _temp833 =  _temp835
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp833) == 'number' then
+      _temp833 = number:new(_temp833)
+    elseif object._is_callable(_temp833) then
+      _temp833 = brat_function:new(_temp833)
+    end
+    
+      local _m = _temp833.name
+      if object._is_callable(_m) then
+        _temp836 =  _m(_temp833)
+      elseif _m ~= nil then
+        _temp836 =  _m
+      elseif _temp833.no_undermethod then
+        _temp836 =  _temp833:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp833, 'name'))
+      end
+    
+local _temp837 = string:new('call')
+
+if _type(_temp836) == 'number' then
+      _temp836 = number:new(_temp836)
+    elseif object._is_callable(_temp836) then
+      _temp836 = brat_function:new(_temp836)
+    end
+    
+      local _m = _temp836._equal_equal
+      if object._is_callable(_m) then
+        _temp833 =  _m(_temp836, _temp837)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp836.no_undermethod then
+        _temp833 =  _temp836:no_undermethod(string:new('=='), _temp837)
+      else
+        _error(exception:method_error(_temp836, '_equal_equal'))
+      end
+    
+     if object._is_callable(_temp833) then
+                    _temp833 = _temp833(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp833) then
+      do
+
+local _temp839
+
+local _temp838
+
+    if object._is_callable(_temp641) then
+      _temp838 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp838 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp838) == 'number' then
+      _temp838 = number:new(_temp838)
+    elseif object._is_callable(_temp838) then
+      _temp838 = brat_function:new(_temp838)
+    end
+    
+      local _m = _temp838.nodes
+      if object._is_callable(_m) then
+        _temp839 =  _m(_temp838)
+      elseif _m ~= nil then
+        _temp839 =  _m
+      elseif _temp838.no_undermethod then
+        _temp839 =  _temp838:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp838, 'nodes'))
+      end
+    
+
+local _temp840
+
+    if object._is_callable(_temp835) then
+      _temp838 =  _temp835(_self)
+
+    elseif _temp835 then
+      _temp838 =  _temp835
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp838) == 'number' then
+      _temp838 = number:new(_temp838)
+    elseif object._is_callable(_temp838) then
+      _temp838 = brat_function:new(_temp838)
+    end
+    
+      local _m = _temp838.method
+      if object._is_callable(_m) then
+        _temp840 =  _m(_temp838)
+      elseif _m ~= nil then
+        _temp840 =  _m
+      elseif _temp838.no_undermethod then
+        _temp840 =  _temp838:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp838, 'method'))
+      end
+    
+if _type(_temp839) == 'number' then
+      _temp839 = number:new(_temp839)
+    elseif object._is_callable(_temp839) then
+      _temp839 = brat_function:new(_temp839)
+    end
+    
+      local _m = _temp839.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp839, 1, _temp840)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp839.no_undermethod then
+        _dummy =  _temp839:no_undermethod(string:new('set'), 1, _temp840)
+      else
+        _error(exception:method_error(_temp839, 'set'))
+      end
+    
+    if object._is_callable(_temp641) then
+      _temp839 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp839 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp839) == 'number' then
+      _temp839 = number:new(_temp839)
+    elseif object._is_callable(_temp839) then
+      _temp839 = brat_function:new(_temp839)
+    end
+    
+      local _m = _temp839.nodes
+      if object._is_callable(_m) then
+        _temp840 =  _m(_temp839)
+      elseif _m ~= nil then
+        _temp840 =  _m
+      elseif _temp839.no_undermethod then
+        _temp840 =  _temp839:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp839, 'nodes'))
+      end
+    
+
+local _temp841
+
+    if object._is_callable(_temp835) then
+      _temp838 =  _temp835(_self)
+
+    elseif _temp835 then
+      _temp838 =  _temp835
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp838) == 'number' then
+      _temp838 = number:new(_temp838)
+    elseif object._is_callable(_temp838) then
+      _temp838 = brat_function:new(_temp838)
+    end
+    
+      local _m = _temp838.args
+      if object._is_callable(_m) then
+        _temp841 =  _m(_temp838)
+      elseif _m ~= nil then
+        _temp841 =  _m
+      elseif _temp838.no_undermethod then
+        _temp841 =  _temp838:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp838, 'args'))
+      end
+    
+if _type(_temp840) == 'number' then
+      _temp840 = number:new(_temp840)
+    elseif object._is_callable(_temp840) then
+      _temp840 = brat_function:new(_temp840)
+    end
+    
+      local _m = _temp840.set
+      if object._is_callable(_m) then
+        _temp839 =  _m(_temp840, 2, _temp841)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp840.no_undermethod then
+        _temp839 =  _temp840:no_undermethod(string:new('set'), 2, _temp841)
+      else
+        _error(exception:method_error(_temp840, 'set'))
+      end
+    
+_temp834 =  _temp839
+
+end
+
+      _temp834 =  _temp834
+     else
+      do
+
+local _temp843
+
+local _temp842
+
+    if object._is_callable(_temp641) then
+      _temp842 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp842 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp842) == 'number' then
+      _temp842 = number:new(_temp842)
+    elseif object._is_callable(_temp842) then
+      _temp842 = brat_function:new(_temp842)
+    end
+    
+      local _m = _temp842.nodes
+      if object._is_callable(_m) then
+        _temp843 =  _m(_temp842)
+      elseif _m ~= nil then
+        _temp843 =  _m
+      elseif _temp842.no_undermethod then
+        _temp843 =  _temp842:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp842, 'nodes'))
+      end
+    
+
+local _temp845
+
+local _temp844
+
+    if object._is_callable(_temp835) then
+      _temp844 =  _temp835(_self)
+
+    elseif _temp835 then
+      _temp844 =  _temp835
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp844) == 'number' then
+      _temp844 = number:new(_temp844)
+    elseif object._is_callable(_temp844) then
+      _temp844 = brat_function:new(_temp844)
+    end
+    
+      local _m = _temp844.value
+      if object._is_callable(_m) then
+        _temp845 =  _m(_temp844)
+      elseif _m ~= nil then
+        _temp845 =  _m
+      elseif _temp844.no_undermethod then
+        _temp845 =  _temp844:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp844, 'value'))
+      end
+    
+if _type(_temp843) == 'number' then
+      _temp843 = number:new(_temp843)
+    elseif object._is_callable(_temp843) then
+      _temp843 = brat_function:new(_temp843)
+    end
+    
+      local _m = _temp843.set
+      if object._is_callable(_m) then
+        _temp842 =  _m(_temp843, 1, _temp845)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp843.no_undermethod then
+        _temp842 =  _temp843:no_undermethod(string:new('set'), 1, _temp845)
+      else
+        _error(exception:method_error(_temp843, 'set'))
+      end
+    
+_temp834 =  _temp842
+
+end
+
+      _temp834 =  _temp834
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp835) then
+      _temp836 =  _temp835(_self)
+
+    elseif _temp835 then
+      _temp836 =  _temp835
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp836) == 'number' then
+      _temp836 = number:new(_temp836)
+    elseif object._is_callable(_temp836) then
+      _temp836 = brat_function:new(_temp836)
+    end
+    
+      local _m = _temp836.name
+      if object._is_callable(_m) then
+        _temp837 =  _m(_temp836)
+      elseif _m ~= nil then
+        _temp837 =  _m
+      elseif _temp836.no_undermethod then
+        _temp837 =  _temp836:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp836, 'name'))
+      end
+    
+local _temp846 = string:new('call')
+
+if _type(_temp837) == 'number' then
+      _temp837 = number:new(_temp837)
+    elseif object._is_callable(_temp837) then
+      _temp837 = brat_function:new(_temp837)
+    end
+    
+      local _m = _temp837._equal_equal
+      if object._is_callable(_m) then
+        _temp836 =  _m(_temp837, _temp846)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp837.no_undermethod then
+        _temp836 =  _temp837:no_undermethod(string:new('=='), _temp846)
+      else
+        _error(exception:method_error(_temp837, '_equal_equal'))
+      end
+    
+
+_temp837 = _lifted_call(_lifted[58], {})
+_temp837.arg_table['_temp835'] = _temp835
+_temp837.arg_table['_temp641'] = _temp641
+
+_temp846 = _lifted_call(_lifted[59], {})
+_temp846.arg_table['_temp641'] = _temp641
+_temp846.arg_table['_temp835'] = _temp835
+
   if true_question then
-    _temp637 =  true_question(_self, _temp639, _temp728, _temp735)
+    _temp834 =  true_question(_self, _temp836, _temp837, _temp846)
 
   else
     if _type(_self) == 'number' then
@@ -18130,417 +19937,75 @@ end
     
       local _m = _self.true_question
       if object._is_callable(_m) then
-        _temp637 =  _m(_self, _temp639, _temp728, _temp735)
+        _temp834 =  _m(_self, _temp836, _temp837, _temp846)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp637 =  _self:no_undermethod(string:new('true?'), _temp639, _temp728, _temp735)
+        _temp834 =  _self:no_undermethod(string:new('true?'), _temp836, _temp837, _temp846)
       else
         _error(exception:method_error(_self, 'true_question'))
       end
     
   end
   
-     _temp637 =  _temp637
+     _temp834 =  _temp834
+     -- end fallback if
    end
    
-    if object._is_callable(_temp635) then
-      _temp735 =  _temp635(_self)
 
-    elseif _temp635 then
-      _temp735 =  _temp635
+    if object._is_callable(_temp641) then
+      _temp846 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp846 =  _temp641
     else
       _error(exception:name_error("call"))
     end
     
-return _temp735
-
-end
-
-if _type(_temp633) == 'number' then
-      _temp633 = number:new(_temp633)
-    elseif object._is_callable(_temp633) then
-      _temp633 = brat_function:new(_temp633)
+if _type(_temp846) == 'number' then
+      _temp846 = number:new(_temp846)
+    elseif object._is_callable(_temp846) then
+      _temp846 = brat_function:new(_temp846)
     end
     
-      local _m = _temp633.reduce
+      local _m = _temp846.nodes
       if object._is_callable(_m) then
-        _temp632 =  _m(_temp633, _temp636)
+        _temp837 =  _m(_temp846)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp633.no_undermethod then
-        _temp632 =  _temp633:no_undermethod(string:new('reduce'), _temp636)
+        _temp837 =  _m
+      elseif _temp846.no_undermethod then
+        _temp837 =  _temp846:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp633, 'reduce'))
+        _error(exception:method_error(_temp846, 'nodes'))
       end
     
-return _temp632
 
-end
+    if object._is_callable(_temp640) then
+      _temp846 =  _temp640(_self)
 
-_temp622 =  _temp63(_self, _temp11, _temp630)
-
-
-_temp11 = string:new('paren_call')
-
-
-local _temp816 = function(_self)
-local _temp817
-
-local _temp818
-
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp818 = _m(_self)
-   elseif _m then
-     _temp818 = _m
-   elseif _self.no_undermethod then
-     _temp818 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-      if _temp818._lua_hash and _temp818._unchanged('get') then
-        _temp817 =  _temp818:get('invoke')
-      else
-        if _type(_temp818) == 'number' then
-      _temp818 = number:new(_temp818)
-    elseif object._is_callable(_temp818) then
-      _temp818 = brat_function:new(_temp818)
-    end
-    
-      local _m = _temp818.get
-      if object._is_callable(_m) then
-        _temp817 =  _m(_temp818, string:new('invoke'))
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp818.no_undermethod then
-        _temp817 =  _temp818:no_undermethod(string:new('get'), string:new('invoke'))
-      else
-        _error(exception:method_error(_temp818, 'get'))
-      end
-    
-      end
-      
-local _temp819
-
-local _temp820
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp820 = _m(_self)
-   elseif _m then
-     _temp820 = _m
-   elseif _self.no_undermethod then
-     _temp820 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-
-local _temp821
-
-    if object._is_callable(_temp817) then
-      _temp821 =  _temp817(_self)
-
-    elseif _temp817 then
-      _temp821 =  _temp817
+    elseif _temp640 then
+      _temp846 =  _temp640
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("memo"))
     end
     
-_temp819 =  _temp47(_self, _temp820, _temp821)
-
-return _temp819
-
-end
-
-_temp630 =  _temp63(_self, _temp11, _temp816)
-
-
-_temp11 = string:new('func_lit_call')
-
-
-local _temp822 = function(_self)
-local _temp823
-
-local _temp824
-
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp824 = _m(_self)
-   elseif _m then
-     _temp824 = _m
-   elseif _self.no_undermethod then
-     _temp824 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-      if _temp824._lua_hash and _temp824._unchanged('get') then
-        _temp823 =  _temp824:get('invoke_function')
-      else
-        if _type(_temp824) == 'number' then
-      _temp824 = number:new(_temp824)
-    elseif object._is_callable(_temp824) then
-      _temp824 = brat_function:new(_temp824)
+if _type(_temp837) == 'number' then
+      _temp837 = number:new(_temp837)
+    elseif object._is_callable(_temp837) then
+      _temp837 = brat_function:new(_temp837)
     end
     
-      local _m = _temp824.get
+      local _m = _temp837.set
       if object._is_callable(_m) then
-        _temp823 =  _m(_temp824, string:new('invoke_function'))
+        _dummy =  _m(_temp837, 0, _temp846)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp824.no_undermethod then
-        _temp823 =  _temp824:no_undermethod(string:new('get'), string:new('invoke_function'))
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp837.no_undermethod then
+        _dummy =  _temp837:no_undermethod(string:new('set'), 0, _temp846)
       else
-        _error(exception:method_error(_temp824, 'get'))
+        _error(exception:method_error(_temp837, 'set'))
       end
     
-      end
-      
-local _temp825
-
-local _temp826
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp826 = _m(_self)
-   elseif _m then
-     _temp826 = _m
-   elseif _self.no_undermethod then
-     _temp826 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-
-local _temp827
-
-    if object._is_callable(_temp823) then
-      _temp827 =  _temp823(_self)
-
-    elseif _temp823 then
-      _temp827 =  _temp823
-    else
-      _error(exception:name_error("list"))
-    end
-    
-_temp825 =  _temp47(_self, _temp826, _temp827)
-
-return _temp825
-
-end
-
-_temp816 =  _temp63(_self, _temp11, _temp822)
-
-
-_temp11 = string:new('var_assign')
-
-
-local _temp828 = function(_self)
-
-local _temp830
-
-local _temp829
-
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp829 = _m(_self)
-   elseif _m then
-     _temp829 = _m
-   elseif _self.no_undermethod then
-     _temp829 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-local _temp831 = string:new('var_assign')
-
-
-local _temp832
-
-local _temp834
-
-local _temp833
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp833 = _m(_self)
-   elseif _m then
-     _temp833 = _m
-   elseif _self.no_undermethod then
-     _temp833 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp833) == 'number' then
-      _temp833 = number:new(_temp833)
-    elseif object._is_callable(_temp833) then
-      _temp833 = brat_function:new(_temp833)
-    end
-    
-      local _m = _temp833.var
-      if object._is_callable(_m) then
-        _temp834 =  _m(_temp833)
-      elseif _m ~= nil then
-        _temp834 =  _m
-      elseif _temp833.no_undermethod then
-        _temp834 =  _temp833:no_undermethod(string:new('var'))
-      else
-        _error(exception:method_error(_temp833, 'var'))
-      end
-    
-if _type(_temp834) == 'number' then
-      _temp834 = number:new(_temp834)
-    elseif object._is_callable(_temp834) then
-      _temp834 = brat_function:new(_temp834)
-    end
-    
-      local _m = _temp834.text
-      if object._is_callable(_m) then
-        _temp833 =  _m(_temp834)
-      elseif _m ~= nil then
-        _temp833 =  _m
-      elseif _temp834.no_undermethod then
-        _temp833 =  _temp834:no_undermethod(string:new('text'))
-      else
-        _error(exception:method_error(_temp834, 'text'))
-      end
-    
-_temp832 =  _temp5(_self, _temp833)
-
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp833 = _m(_self)
-   elseif _m then
-     _temp833 = _m
-   elseif _self.no_undermethod then
-     _temp833 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp833) == 'number' then
-      _temp833 = number:new(_temp833)
-    elseif object._is_callable(_temp833) then
-      _temp833 = brat_function:new(_temp833)
-    end
-    
-      local _m = _temp833.elements
-      if object._is_callable(_m) then
-        _temp834 =  _m(_temp833)
-      elseif _m ~= nil then
-        _temp834 =  _m
-      elseif _temp833.no_undermethod then
-        _temp834 =  _temp833:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp833, 'elements'))
-      end
-    
-if _type(_temp834) == 'number' then
-      _temp834 = number:new(_temp834)
-    elseif object._is_callable(_temp834) then
-      _temp834 = brat_function:new(_temp834)
-    end
-    
-      local _m = _temp834.last
-      if object._is_callable(_m) then
-        _temp833 =  _m(_temp834)
-      elseif _m ~= nil then
-        _temp833 =  _m
-      elseif _temp834.no_undermethod then
-        _temp833 =  _temp834:no_undermethod(string:new('last'))
-      else
-        _error(exception:method_error(_temp834, 'last'))
-      end
-    
-if _type(_temp833) == 'number' then
-      _temp833 = number:new(_temp833)
-    elseif object._is_callable(_temp833) then
-      _temp833 = brat_function:new(_temp833)
-    end
-    
-      local _m = _temp833.ast
-      if object._is_callable(_m) then
-        _temp834 =  _m(_temp833)
-      elseif _m ~= nil then
-        _temp834 =  _m
-      elseif _temp833.no_undermethod then
-        _temp834 =  _temp833:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp833, 'ast'))
-      end
-    
-if _type(_temp829) == 'number' then
-      _temp829 = number:new(_temp829)
-    elseif object._is_callable(_temp829) then
-      _temp829 = brat_function:new(_temp829)
-    end
-    
-      local _m = _temp829.get
-      if object._is_callable(_m) then
-        _temp830 =  _m(_temp829, _temp831, _temp832, _temp834)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
-      elseif _temp829.no_undermethod then
-        _temp830 =  _temp829:no_undermethod(string:new('get'), _temp831, _temp832, _temp834)
-      else
-        _error(exception:method_error(_temp829, 'get'))
-      end
-    
-return _temp830
-
-end
-
-_temp822 =  _temp63(_self, _temp11, _temp828)
-
-
-_temp11 = string:new('field_assign')
-
-
-local _temp835 = function(_self)
-local _temp836
-
-local _temp837
-
    local _m
    if s then
      _m = s
@@ -18557,10 +20022,36 @@ local _temp837
      _error(exception:name_error("s"))
    end
   
-      if _temp837._lua_hash and _temp837._unchanged('get') then
-        _temp836 =  _temp837:get('field_assign')
-      else
-        if _type(_temp837) == 'number' then
+_temp836 = string:new('call')
+
+
+local _temp855
+
+    if object._is_callable(_temp641) then
+      _temp855 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp855 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+
+local _temp856 = string:new('get')
+
+
+local _temp857
+
+    if object._is_callable(_temp832) then
+      _temp857 =  _temp832(_self)
+
+    elseif _temp832 then
+      _temp857 =  _temp832
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp837) == 'number' then
       _temp837 = number:new(_temp837)
     elseif object._is_callable(_temp837) then
       _temp837 = brat_function:new(_temp837)
@@ -18568,634 +20059,391 @@ local _temp837
     
       local _m = _temp837.get
       if object._is_callable(_m) then
-        _temp836 =  _m(_temp837, string:new('field_assign'))
+        _temp846 =  _m(_temp837, _temp836, _temp855, _temp856, _temp857)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
+          _error(exception:argument_error('function', 0, 3))
       elseif _temp837.no_undermethod then
-        _temp836 =  _temp837:no_undermethod(string:new('get'), string:new('field_assign'))
+        _temp846 =  _temp837:no_undermethod(string:new('get'), _temp836, _temp855, _temp856, _temp857)
       else
         _error(exception:method_error(_temp837, 'get'))
       end
     
-      end
-      
-local _temp838
+_temp641 = _temp846
 
-local _temp839
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp839 = _m(_self)
-   elseif _m then
-     _temp839 = _m
-   elseif _self.no_undermethod then
-     _temp839 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-
-local _temp840
-
-    if object._is_callable(_temp836) then
-      _temp840 =  _temp836(_self)
-
-    elseif _temp836 then
-      _temp840 =  _temp836
-    else
-      _error(exception:name_error("list"))
-    end
-    
-_temp838 =  _temp47(_self, _temp839, _temp840)
-
-return _temp838
+_temp824 =  _temp641
 
 end
 
-_temp828 =  _temp63(_self, _temp11, _temp835)
-
-
-_temp11 = string:new('field_access')
-
-
-local _temp841 = function(_self)
-local _temp842
-
-local _temp843
-
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp843 = _m(_self)
-   elseif _m then
-     _temp843 = _m
-   elseif _self.no_undermethod then
-     _temp843 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-      if _temp843._lua_hash and _temp843._unchanged('get') then
-        _temp842 =  _temp843:get('field_access')
-      else
-        if _type(_temp843) == 'number' then
-      _temp843 = number:new(_temp843)
-    elseif object._is_callable(_temp843) then
-      _temp843 = brat_function:new(_temp843)
-    end
-    
-      local _m = _temp843.get
-      if object._is_callable(_m) then
-        _temp842 =  _m(_temp843, string:new('field_access'))
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp843.no_undermethod then
-        _temp842 =  _temp843:no_undermethod(string:new('get'), string:new('field_access'))
-      else
-        _error(exception:method_error(_temp843, 'get'))
-      end
-    
-      end
-      
-
-local _temp844
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp844 = _m(_self)
-   elseif _m then
-     _temp844 = _m
-   elseif _self.no_undermethod then
-     _temp844 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-
-local _temp845
-
-    if object._is_callable(_temp842) then
-      _temp845 =  _temp842(_self)
-
-    elseif _temp842 then
-      _temp845 =  _temp842
-    else
-      _error(exception:name_error("list"))
-    end
-    
-_dummy =  _temp47(_self, _temp844, _temp845)
-
-    if object._is_callable(_temp842) then
-      _temp845 =  _temp842(_self)
-
-    elseif _temp842 then
-      _temp845 =  _temp842
-    else
-      _error(exception:name_error("list"))
-    end
-    
-local _temp846
-
-local _temp848
-
-local _temp847
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp847 = _m(_self)
-   elseif _m then
-     _temp847 = _m
-   elseif _self.no_undermethod then
-     _temp847 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp847) == 'number' then
-      _temp847 = number:new(_temp847)
-    elseif object._is_callable(_temp847) then
-      _temp847 = brat_function:new(_temp847)
-    end
-    
-      local _m = _temp847.elements
-      if object._is_callable(_m) then
-        _temp848 =  _m(_temp847)
-      elseif _m ~= nil then
-        _temp848 =  _m
-      elseif _temp847.no_undermethod then
-        _temp848 =  _temp847:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp847, 'elements'))
-      end
-    
-if _type(_temp848) == 'number' then
-      _temp848 = number:new(_temp848)
-    elseif object._is_callable(_temp848) then
-      _temp848 = brat_function:new(_temp848)
-    end
-    
-      local _m = _temp848.last
-      if object._is_callable(_m) then
-        _temp847 =  _m(_temp848)
-      elseif _m ~= nil then
-        _temp847 =  _m
-      elseif _temp848.no_undermethod then
-        _temp847 =  _temp848:no_undermethod(string:new('last'))
-      else
-        _error(exception:method_error(_temp848, 'last'))
-      end
-    
-if _type(_temp847) == 'number' then
-      _temp847 = number:new(_temp847)
-    elseif object._is_callable(_temp847) then
-      _temp847 = brat_function:new(_temp847)
-    end
-    
-      local _m = _temp847.text
-      if object._is_callable(_m) then
-        _temp848 =  _m(_temp847)
-      elseif _m ~= nil then
-        _temp848 =  _m
-      elseif _temp847.no_undermethod then
-        _temp848 =  _temp847:no_undermethod(string:new('text'))
-      else
-        _error(exception:method_error(_temp847, 'text'))
-      end
-    
-_temp846 =  _temp5(_self, _temp848)
-
-if _type(_temp845) == 'number' then
-      _temp845 = number:new(_temp845)
-    elseif object._is_callable(_temp845) then
-      _temp845 = brat_function:new(_temp845)
-    end
-    
-      local _m = _temp845._less_less
-      if object._is_callable(_m) then
-        _temp844 =  _m(_temp845, _temp846)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp845.no_undermethod then
-        _temp844 =  _temp845:no_undermethod(string:new('<<'), _temp846)
-      else
-        _error(exception:method_error(_temp845, '_less_less'))
-      end
-    
-return _temp844
-
-end
-
-_temp835 =  _temp63(_self, _temp11, _temp841)
-
-
-_temp11 = string:new('binary_op')
-
-
-local _temp849 = function(_self)
-local _temp850
-
-local _temp852
-
-local _temp851
-
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp851 = _m(_self)
-   elseif _m then
-     _temp851 = _m
-   elseif _self.no_undermethod then
-     _temp851 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-local _temp853 = string:new('binop')
-
-if _type(_temp851) == 'number' then
-      _temp851 = number:new(_temp851)
-    elseif object._is_callable(_temp851) then
-      _temp851 = brat_function:new(_temp851)
-    end
-    
-      local _m = _temp851.get
-      if object._is_callable(_m) then
-        _temp852 =  _m(_temp851, _temp853)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp851.no_undermethod then
-        _temp852 =  _temp851:no_undermethod(string:new('get'), _temp853)
-      else
-        _error(exception:method_error(_temp851, 'get'))
-      end
-    
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp851 = _m(_self)
-   elseif _m then
-     _temp851 = _m
-   elseif _self.no_undermethod then
-     _temp851 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp851) == 'number' then
-      _temp851 = number:new(_temp851)
-    elseif object._is_callable(_temp851) then
-      _temp851 = brat_function:new(_temp851)
-    end
-    
-      local _m = _temp851.elements
-      if object._is_callable(_m) then
-        _temp853 =  _m(_temp851)
-      elseif _m ~= nil then
-        _temp853 =  _m
-      elseif _temp851.no_undermethod then
-        _temp853 =  _temp851:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp851, 'elements'))
-      end
-    
-if _type(_temp853) == 'number' then
-      _temp853 = number:new(_temp853)
-    elseif object._is_callable(_temp853) then
-      _temp853 = brat_function:new(_temp853)
-    end
-    
-      local _m = _temp853.first
-      if object._is_callable(_m) then
-        _temp851 =  _m(_temp853)
-      elseif _m ~= nil then
-        _temp851 =  _m
-      elseif _temp853.no_undermethod then
-        _temp851 =  _temp853:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp853, 'first'))
-      end
-    
-if _type(_temp851) == 'number' then
-      _temp851 = number:new(_temp851)
-    elseif object._is_callable(_temp851) then
-      _temp851 = brat_function:new(_temp851)
-    end
-    
-      local _m = _temp851.ast
-      if object._is_callable(_m) then
-        _temp853 =  _m(_temp851)
-      elseif _m ~= nil then
-        _temp853 =  _m
-      elseif _temp851.no_undermethod then
-        _temp853 =  _temp851:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp851, 'ast'))
-      end
-    
-if _type(_temp852) == 'number' then
-      _temp852 = number:new(_temp852)
-    elseif object._is_callable(_temp852) then
-      _temp852 = brat_function:new(_temp852)
-    end
-    
-      local _m = _temp852.concat
-      if object._is_callable(_m) then
-        _temp850 =  _m(_temp852, _temp853)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp852.no_undermethod then
-        _temp850 =  _temp852:no_undermethod(string:new('concat'), _temp853)
-      else
-        _error(exception:method_error(_temp852, 'concat'))
-      end
-    
-    if object._is_callable(_temp850) then
-      _temp852 =  _temp850(_self)
-
-    elseif _temp850 then
-      _temp852 =  _temp850
-    else
-      _error(exception:name_error("list"))
-    end
-    
-local _temp854
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp851 = _m(_self)
-   elseif _m then
-     _temp851 = _m
-   elseif _self.no_undermethod then
-     _temp851 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp851) == 'number' then
-      _temp851 = number:new(_temp851)
-    elseif object._is_callable(_temp851) then
-      _temp851 = brat_function:new(_temp851)
-    end
-    
-      local _m = _temp851.elements
-      if object._is_callable(_m) then
-        _temp854 =  _m(_temp851)
-      elseif _m ~= nil then
-        _temp854 =  _m
-      elseif _temp851.no_undermethod then
-        _temp854 =  _temp851:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp851, 'elements'))
-      end
-    
-if _type(_temp854) == 'number' then
-      _temp854 = number:new(_temp854)
-    elseif object._is_callable(_temp854) then
-      _temp854 = brat_function:new(_temp854)
-    end
-    
-      local _m = _temp854.last
-      if object._is_callable(_m) then
-        _temp851 =  _m(_temp854)
-      elseif _m ~= nil then
-        _temp851 =  _m
-      elseif _temp854.no_undermethod then
-        _temp851 =  _temp854:no_undermethod(string:new('last'))
-      else
-        _error(exception:method_error(_temp854, 'last'))
-      end
-    
-if _type(_temp851) == 'number' then
-      _temp851 = number:new(_temp851)
-    elseif object._is_callable(_temp851) then
-      _temp851 = brat_function:new(_temp851)
-    end
-    
-      local _m = _temp851.ast
-      if object._is_callable(_m) then
-        _temp854 =  _m(_temp851)
-      elseif _m ~= nil then
-        _temp854 =  _m
-      elseif _temp851.no_undermethod then
-        _temp854 =  _temp851:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp851, 'ast'))
-      end
-    
-if _type(_temp852) == 'number' then
-      _temp852 = number:new(_temp852)
-    elseif object._is_callable(_temp852) then
-      _temp852 = brat_function:new(_temp852)
-    end
-    
-      local _m = _temp852._less_less
-      if object._is_callable(_m) then
-        _temp853 =  _m(_temp852, _temp854)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp852.no_undermethod then
-        _temp853 =  _temp852:no_undermethod(string:new('<<'), _temp854)
-      else
-        _error(exception:method_error(_temp852, '_less_less'))
-      end
-    
-return _temp853
-
-end
-
-_temp841 =  _temp63(_self, _temp11, _temp849)
-
-
-_temp11 = string:new('binary_op_chain')
-
-
-local _temp855 = function(_self)
-local _temp856
-
-_temp856 = array:new()
-
+      _temp824 =  _temp824
+     else
+      do
 
 local _temp858
 
-local _temp857
+local _temp859
 
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp857 = _m(_self)
-   elseif _m then
-     _temp857 = _m
-   elseif _self.no_undermethod then
-     _temp857 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp857) == 'number' then
-      _temp857 = number:new(_temp857)
-    elseif object._is_callable(_temp857) then
-      _temp857 = brat_function:new(_temp857)
+do
+local _temp860 = {}
+_temp860[1] = "wut "
+
+    if object._is_callable(_temp641) then
+      _temp860[2] =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp860[2] =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    _temp860[2] = _tostring(_temp860[2])
+_temp859 = string:new(_table.concat(_temp860))
+end
+
+
+  if p then
+    _temp858 =  p(_self, _temp859)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
     end
     
-      local _m = _temp857.elements
+      local _m = _self.p
       if object._is_callable(_m) then
-        _temp858 =  _m(_temp857)
-      elseif _m ~= nil then
-        _temp858 =  _m
-      elseif _temp857.no_undermethod then
-        _temp858 =  _temp857:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp857, 'elements'))
-      end
-    
-_temp857 = _lifted_call(_lifted[58], {})
-_temp857.arg_table['_temp5'] = _temp5
-_temp857.arg_table['_temp856'] = _temp856
-if _type(_temp858) == 'number' then
-      _temp858 = number:new(_temp858)
-    elseif object._is_callable(_temp858) then
-      _temp858 = brat_function:new(_temp858)
-    end
-    
-      local _m = _temp858.each
-      if object._is_callable(_m) then
-        _dummy =  _m(_temp858, _temp857)
+        _temp858 =  _m(_self, _temp859)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp858.no_undermethod then
-        _dummy =  _temp858:no_undermethod(string:new('each'), _temp857)
+      elseif _self.no_undermethod then
+        _temp858 =  _self:no_undermethod(string:new('p'), _temp859)
       else
-        _error(exception:method_error(_temp858, 'each'))
+        _error(exception:method_error(_self, 'p'))
       end
-    _temp858 =  _temp856
-
-return _temp858
+    
+  end
+  
+_temp824 =  _temp858
 
 end
 
-_temp849 =  _temp63(_self, _temp11, _temp855)
+      _temp824 =  _temp824
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp641) then
+      _temp825 =  _temp641(_self)
 
+    elseif _temp641 then
+      _temp825 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp825) == 'number' then
+      _temp825 = number:new(_temp825)
+    elseif object._is_callable(_temp825) then
+      _temp825 = brat_function:new(_temp825)
+    end
+    
+      local _m = _temp825.name
+      if object._is_callable(_m) then
+        _temp828 =  _m(_temp825)
+      elseif _m ~= nil then
+        _temp828 =  _m
+      elseif _temp825.no_undermethod then
+        _temp828 =  _temp825:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp825, 'name'))
+      end
+    
+_temp827 = string:new('call')
 
-_temp11 = string:new('simple_meth_access')
+if _type(_temp828) == 'number' then
+      _temp828 = number:new(_temp828)
+    elseif object._is_callable(_temp828) then
+      _temp828 = brat_function:new(_temp828)
+    end
+    
+      local _m = _temp828._equal_equal
+      if object._is_callable(_m) then
+        _temp825 =  _m(_temp828, _temp827)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp828.no_undermethod then
+        _temp825 =  _temp828:no_undermethod(string:new('=='), _temp827)
+      else
+        _error(exception:method_error(_temp828, '_equal_equal'))
+      end
+    
+local _temp861 = function(_self)
 
+local _temp863
 
-local _temp866 = function(_self)
+local _temp862
+
+    if object._is_callable(_temp641) then
+      _temp862 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp862 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp862) == 'number' then
+      _temp862 = number:new(_temp862)
+    elseif object._is_callable(_temp862) then
+      _temp862 = brat_function:new(_temp862)
+    end
+    
+      local _m = _temp862.method
+      if object._is_callable(_m) then
+        _temp863 =  _m(_temp862)
+      elseif _m ~= nil then
+        _temp863 =  _m
+      elseif _temp862.no_undermethod then
+        _temp863 =  _temp862:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp862, 'method'))
+      end
+    
+local _temp864 = string:new('get')
+
+if _type(_temp863) == 'number' then
+      _temp863 = number:new(_temp863)
+    elseif object._is_callable(_temp863) then
+      _temp863 = brat_function:new(_temp863)
+    end
+    
+      local _m = _temp863._equal_equal
+      if object._is_callable(_m) then
+        _temp862 =  _m(_temp863, _temp864)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp863.no_undermethod then
+        _temp862 =  _temp863:no_undermethod(string:new('=='), _temp864)
+      else
+        _error(exception:method_error(_temp863, '_equal_equal'))
+      end
+    
+return _temp862
+
+end
+
+if _type(_temp825) == 'number' then
+      _temp825 = number:new(_temp825)
+    elseif object._is_callable(_temp825) then
+      _temp825 = brat_function:new(_temp825)
+    end
+    
+      local _m = _temp825._and_and
+      if object._is_callable(_m) then
+        _temp828 =  _m(_temp825, _temp861)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp825.no_undermethod then
+        _temp828 =  _temp825:no_undermethod(string:new('&&'), _temp861)
+      else
+        _error(exception:method_error(_temp825, '_and_and'))
+      end
+    
+
+local _temp865 = function(_self)
+local _temp866
 
 local _temp868
 
 local _temp867
 
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp867 = _m(_self)
-   elseif _m then
-     _temp867 = _m
-   elseif _self.no_undermethod then
-     _temp867 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-local _temp869 = string:new('meth_access')
+    if object._is_callable(_temp641) then
+      _temp867 =  _temp641(_self)
 
+    elseif _temp641 then
+      _temp867 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp867) == 'number' then
+      _temp867 = number:new(_temp867)
+    elseif object._is_callable(_temp867) then
+      _temp867 = brat_function:new(_temp867)
+    end
+    
+      local _m = _temp867.nodes
+      if object._is_callable(_m) then
+        _temp868 =  _m(_temp867)
+      elseif _m ~= nil then
+        _temp868 =  _m
+      elseif _temp867.no_undermethod then
+        _temp868 =  _temp867:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp867, 'nodes'))
+      end
+    
+if _type(_temp868) == 'number' then
+      _temp868 = number:new(_temp868)
+    elseif object._is_callable(_temp868) then
+      _temp868 = brat_function:new(_temp868)
+    end
+    
+      local _m = _temp868.pop
+      if object._is_callable(_m) then
+        _temp866 =  _m(_temp868)
+      elseif _m ~= nil then
+        _temp866 =  _m
+      elseif _temp868.no_undermethod then
+        _temp866 =  _temp868:no_undermethod(string:new('pop'))
+      else
+        _error(exception:method_error(_temp868, 'pop'))
+      end
+    
+local _temp869
 
+    if object._is_callable(_temp641) then
+      _temp868 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp868 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp868) == 'number' then
+      _temp868 = number:new(_temp868)
+    elseif object._is_callable(_temp868) then
+      _temp868 = brat_function:new(_temp868)
+    end
+    
+      local _m = _temp868.target
+      if object._is_callable(_m) then
+        _temp869 =  _m(_temp868)
+      elseif _m ~= nil then
+        _temp869 =  _m
+      elseif _temp868.no_undermethod then
+        _temp869 =  _temp868:no_undermethod(string:new('target'))
+      else
+        _error(exception:method_error(_temp868, 'target'))
+      end
+    
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp868
+     
 local _temp870
 
-   local _m
-   if null then
-     _m = null
-   else
-     _m = _self["null"]
-   end
-   if object._is_callable(_m) then
-     _temp870 = _m(_self)
-   elseif _m then
-     _temp870 = _m
-   elseif _self.no_undermethod then
-     _temp870 = _self:no_undermethod(string:new('null'))
-   else
-     _error(exception:name_error("null"))
-   end
-  
+    if object._is_callable(_temp869) then
+      _temp867 =  _temp869(_self)
 
-local _temp871
+    elseif _temp869 then
+      _temp867 =  _temp869
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp867) == 'number' then
+      _temp867 = number:new(_temp867)
+    elseif object._is_callable(_temp867) then
+      _temp867 = brat_function:new(_temp867)
+    end
+    
+      local _m = _temp867.name
+      if object._is_callable(_m) then
+        _temp870 =  _m(_temp867)
+      elseif _m ~= nil then
+        _temp870 =  _m
+      elseif _temp867.no_undermethod then
+        _temp870 =  _temp867:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp867, 'name'))
+      end
+    
+local _temp871 = string:new('call')
+
+if _type(_temp870) == 'number' then
+      _temp870 = number:new(_temp870)
+    elseif object._is_callable(_temp870) then
+      _temp870 = brat_function:new(_temp870)
+    end
+    
+      local _m = _temp870._equal_equal
+      if object._is_callable(_m) then
+        _temp867 =  _m(_temp870, _temp871)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp870.no_undermethod then
+        _temp867 =  _temp870:no_undermethod(string:new('=='), _temp871)
+      else
+        _error(exception:method_error(_temp870, '_equal_equal'))
+      end
+    
+     if object._is_callable(_temp867) then
+                    _temp867 = _temp867(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp867) then
+      do
 
 local _temp873
 
 local _temp872
 
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp872 = _m(_self)
-   elseif _m then
-     _temp872 = _m
-   elseif _self.no_undermethod then
-     _temp872 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
+    if object._is_callable(_temp641) then
+      _temp872 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp872 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
 if _type(_temp872) == 'number' then
       _temp872 = number:new(_temp872)
     elseif object._is_callable(_temp872) then
       _temp872 = brat_function:new(_temp872)
     end
     
-      local _m = _temp872.meth
+      local _m = _temp872.nodes
       if object._is_callable(_m) then
         _temp873 =  _m(_temp872)
       elseif _m ~= nil then
         _temp873 =  _m
       elseif _temp872.no_undermethod then
-        _temp873 =  _temp872:no_undermethod(string:new('meth'))
+        _temp873 =  _temp872:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp872, 'meth'))
+        _error(exception:method_error(_temp872, 'nodes'))
+      end
+    
+
+local _temp874
+
+    if object._is_callable(_temp869) then
+      _temp872 =  _temp869(_self)
+
+    elseif _temp869 then
+      _temp872 =  _temp869
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp872) == 'number' then
+      _temp872 = number:new(_temp872)
+    elseif object._is_callable(_temp872) then
+      _temp872 = brat_function:new(_temp872)
+    end
+    
+      local _m = _temp872.method
+      if object._is_callable(_m) then
+        _temp874 =  _m(_temp872)
+      elseif _m ~= nil then
+        _temp874 =  _m
+      elseif _temp872.no_undermethod then
+        _temp874 =  _temp872:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp872, 'method'))
       end
     
 if _type(_temp873) == 'number' then
@@ -19204,148 +20452,320 @@ if _type(_temp873) == 'number' then
       _temp873 = brat_function:new(_temp873)
     end
     
-      local _m = _temp873.text
+      local _m = _temp873.set
       if object._is_callable(_m) then
-        _temp872 =  _m(_temp873)
+        _dummy =  _m(_temp873, 1, _temp874)
       elseif _m ~= nil then
-        _temp872 =  _m
+          _error(exception:argument_error('function', 0, 1))
       elseif _temp873.no_undermethod then
-        _temp872 =  _temp873:no_undermethod(string:new('text'))
+        _dummy =  _temp873:no_undermethod(string:new('set'), 1, _temp874)
       else
-        _error(exception:method_error(_temp873, 'text'))
+        _error(exception:method_error(_temp873, 'set'))
       end
     
-_temp871 =  _temp5(_self, _temp872)
+    if object._is_callable(_temp641) then
+      _temp873 =  _temp641(_self)
 
-if _type(_temp867) == 'number' then
-      _temp867 = number:new(_temp867)
-    elseif object._is_callable(_temp867) then
-      _temp867 = brat_function:new(_temp867)
+    elseif _temp641 then
+      _temp873 =  _temp641
+    else
+      _error(exception:name_error("call"))
     end
     
-      local _m = _temp867.get
+if _type(_temp873) == 'number' then
+      _temp873 = number:new(_temp873)
+    elseif object._is_callable(_temp873) then
+      _temp873 = brat_function:new(_temp873)
+    end
+    
+      local _m = _temp873.nodes
       if object._is_callable(_m) then
-        _temp868 =  _m(_temp867, _temp869, _temp870, _temp871)
+        _temp874 =  _m(_temp873)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
-      elseif _temp867.no_undermethod then
-        _temp868 =  _temp867:no_undermethod(string:new('get'), _temp869, _temp870, _temp871)
+        _temp874 =  _m
+      elseif _temp873.no_undermethod then
+        _temp874 =  _temp873:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp867, 'get'))
+        _error(exception:method_error(_temp873, 'nodes'))
       end
     
-return _temp868
+
+local _temp875
+
+    if object._is_callable(_temp869) then
+      _temp872 =  _temp869(_self)
+
+    elseif _temp869 then
+      _temp872 =  _temp869
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp872) == 'number' then
+      _temp872 = number:new(_temp872)
+    elseif object._is_callable(_temp872) then
+      _temp872 = brat_function:new(_temp872)
+    end
+    
+      local _m = _temp872.args
+      if object._is_callable(_m) then
+        _temp875 =  _m(_temp872)
+      elseif _m ~= nil then
+        _temp875 =  _m
+      elseif _temp872.no_undermethod then
+        _temp875 =  _temp872:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp872, 'args'))
+      end
+    
+if _type(_temp874) == 'number' then
+      _temp874 = number:new(_temp874)
+    elseif object._is_callable(_temp874) then
+      _temp874 = brat_function:new(_temp874)
+    end
+    
+      local _m = _temp874.set
+      if object._is_callable(_m) then
+        _temp873 =  _m(_temp874, 2, _temp875)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp874.no_undermethod then
+        _temp873 =  _temp874:no_undermethod(string:new('set'), 2, _temp875)
+      else
+        _error(exception:method_error(_temp874, 'set'))
+      end
+    
+_temp868 =  _temp873
 
 end
 
-_temp855 =  _temp63(_self, _temp11, _temp866)
+      _temp868 =  _temp868
+     else
+      do
 
-
-_temp11 = string:new('simple_paren_meth_access')
-
-
-local _temp874 = function(_self)
-local _temp875
+local _temp877
 
 local _temp876
 
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp876 = _m(_self)
-   elseif _m then
-     _temp876 = _m
-   elseif _self.no_undermethod then
-     _temp876 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-local _temp877 = string:new('meth_access')
+    if object._is_callable(_temp641) then
+      _temp876 =  _temp641(_self)
 
-
-local _temp878
-
-   local _m
-   if null then
-     _m = null
-   else
-     _m = _self["null"]
-   end
-   if object._is_callable(_m) then
-     _temp878 = _m(_self)
-   elseif _m then
-     _temp878 = _m
-   elseif _self.no_undermethod then
-     _temp878 = _self:no_undermethod(string:new('null'))
-   else
-     _error(exception:name_error("null"))
-   end
-  
+    elseif _temp641 then
+      _temp876 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
 if _type(_temp876) == 'number' then
       _temp876 = number:new(_temp876)
     elseif object._is_callable(_temp876) then
       _temp876 = brat_function:new(_temp876)
     end
     
-      local _m = _temp876.get
+      local _m = _temp876.nodes
       if object._is_callable(_m) then
-        _temp875 =  _m(_temp876, _temp877, _temp878)
+        _temp877 =  _m(_temp876)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
+        _temp877 =  _m
       elseif _temp876.no_undermethod then
-        _temp875 =  _temp876:no_undermethod(string:new('get'), _temp877, _temp878)
+        _temp877 =  _temp876:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp876, 'get'))
+        _error(exception:method_error(_temp876, 'nodes'))
       end
     
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp878 = _m(_self)
-   elseif _m then
-     _temp878 = _m
-   elseif _self.no_undermethod then
-     _temp878 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
 
-    if object._is_callable(_temp875) then
-      _temp877 =  _temp875(_self)
+local _temp879
 
-    elseif _temp875 then
-      _temp877 =  _temp875
+local _temp878
+
+    if object._is_callable(_temp869) then
+      _temp878 =  _temp869(_self)
+
+    elseif _temp869 then
+      _temp878 =  _temp869
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("target"))
     end
     
-_temp876 =  _temp47(_self, _temp878, _temp877)
-
-return _temp876
+if _type(_temp878) == 'number' then
+      _temp878 = number:new(_temp878)
+    elseif object._is_callable(_temp878) then
+      _temp878 = brat_function:new(_temp878)
+    end
+    
+      local _m = _temp878.value
+      if object._is_callable(_m) then
+        _temp879 =  _m(_temp878)
+      elseif _m ~= nil then
+        _temp879 =  _m
+      elseif _temp878.no_undermethod then
+        _temp879 =  _temp878:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp878, 'value'))
+      end
+    
+if _type(_temp877) == 'number' then
+      _temp877 = number:new(_temp877)
+    elseif object._is_callable(_temp877) then
+      _temp877 = brat_function:new(_temp877)
+    end
+    
+      local _m = _temp877.set
+      if object._is_callable(_m) then
+        _temp876 =  _m(_temp877, 1, _temp879)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp877.no_undermethod then
+        _temp876 =  _temp877:no_undermethod(string:new('set'), 1, _temp879)
+      else
+        _error(exception:method_error(_temp877, 'set'))
+      end
+    
+_temp868 =  _temp876
 
 end
 
-_temp866 =  _temp63(_self, _temp11, _temp874)
+      _temp868 =  _temp868
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp869) then
+      _temp870 =  _temp869(_self)
 
+    elseif _temp869 then
+      _temp870 =  _temp869
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp870) == 'number' then
+      _temp870 = number:new(_temp870)
+    elseif object._is_callable(_temp870) then
+      _temp870 = brat_function:new(_temp870)
+    end
+    
+      local _m = _temp870.name
+      if object._is_callable(_m) then
+        _temp871 =  _m(_temp870)
+      elseif _m ~= nil then
+        _temp871 =  _m
+      elseif _temp870.no_undermethod then
+        _temp871 =  _temp870:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp870, 'name'))
+      end
+    
+local _temp880 = string:new('call')
 
-_temp11 = string:new('paren_meth_access')
+if _type(_temp871) == 'number' then
+      _temp871 = number:new(_temp871)
+    elseif object._is_callable(_temp871) then
+      _temp871 = brat_function:new(_temp871)
+    end
+    
+      local _m = _temp871._equal_equal
+      if object._is_callable(_m) then
+        _temp870 =  _m(_temp871, _temp880)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp871.no_undermethod then
+        _temp870 =  _temp871:no_undermethod(string:new('=='), _temp880)
+      else
+        _error(exception:method_error(_temp871, '_equal_equal'))
+      end
+    
 
+_temp871 = _lifted_call(_lifted[60], {})
+_temp871.arg_table['_temp869'] = _temp869
+_temp871.arg_table['_temp641'] = _temp641
 
-local _temp879 = function(_self)
-local _temp880
+_temp880 = _lifted_call(_lifted[61], {})
+_temp880.arg_table['_temp869'] = _temp869
+_temp880.arg_table['_temp641'] = _temp641
 
-local _temp881
+  if true_question then
+    _temp868 =  true_question(_self, _temp870, _temp871, _temp880)
 
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp868 =  _m(_self, _temp870, _temp871, _temp880)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp868 =  _self:no_undermethod(string:new('true?'), _temp870, _temp871, _temp880)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp868 =  _temp868
+     -- end fallback if
+   end
+   
+
+    if object._is_callable(_temp641) then
+      _temp880 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp880 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp880) == 'number' then
+      _temp880 = number:new(_temp880)
+    elseif object._is_callable(_temp880) then
+      _temp880 = brat_function:new(_temp880)
+    end
+    
+      local _m = _temp880.nodes
+      if object._is_callable(_m) then
+        _temp871 =  _m(_temp880)
+      elseif _m ~= nil then
+        _temp871 =  _m
+      elseif _temp880.no_undermethod then
+        _temp871 =  _temp880:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp880, 'nodes'))
+      end
+    
+
+    if object._is_callable(_temp640) then
+      _temp880 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp880 =  _temp640
+    else
+      _error(exception:name_error("memo"))
+    end
+    
+if _type(_temp871) == 'number' then
+      _temp871 = number:new(_temp871)
+    elseif object._is_callable(_temp871) then
+      _temp871 = brat_function:new(_temp871)
+    end
+    
+      local _m = _temp871.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp871, 0, _temp880)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp871.no_undermethod then
+        _dummy =  _temp871:no_undermethod(string:new('set'), 0, _temp880)
+      else
+        _error(exception:method_error(_temp871, 'set'))
+      end
+    
    local _m
    if s then
      _m = s
@@ -19353,411 +20773,245 @@ local _temp881
      _m = _self["s"]
    end
    if object._is_callable(_m) then
-     _temp881 = _m(_self)
+     _temp871 = _m(_self)
    elseif _m then
-     _temp881 = _m
+     _temp871 = _m
    elseif _self.no_undermethod then
-     _temp881 = _self:no_undermethod(string:new('s'))
+     _temp871 = _self:no_undermethod(string:new('s'))
    else
      _error(exception:name_error("s"))
    end
   
-      if _temp881._lua_hash and _temp881._unchanged('get') then
-        _temp880 =  _temp881:get('meth_access')
-      else
-        if _type(_temp881) == 'number' then
-      _temp881 = number:new(_temp881)
-    elseif object._is_callable(_temp881) then
-      _temp881 = brat_function:new(_temp881)
-    end
-    
-      local _m = _temp881.get
-      if object._is_callable(_m) then
-        _temp880 =  _m(_temp881, string:new('meth_access'))
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp881.no_undermethod then
-        _temp880 =  _temp881:no_undermethod(string:new('get'), string:new('meth_access'))
-      else
-        _error(exception:method_error(_temp881, 'get'))
-      end
-    
-      end
-      
+_temp870 = string:new('call')
 
-local _temp882
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp882 = _m(_self)
-   elseif _m then
-     _temp882 = _m
-   elseif _self.no_undermethod then
-     _temp882 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-
-local _temp883
-
-    if object._is_callable(_temp880) then
-      _temp883 =  _temp880(_self)
-
-    elseif _temp880 then
-      _temp883 =  _temp880
-    else
-      _error(exception:name_error("list"))
-    end
-    
-_dummy =  _temp47(_self, _temp882, _temp883)
-
-    if object._is_callable(_temp880) then
-      _temp883 =  _temp880(_self)
-
-    elseif _temp880 then
-      _temp883 =  _temp880
-    else
-      _error(exception:name_error("list"))
-    end
-    
-local _temp884
-
-local _temp886
-
-local _temp885
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp885 = _m(_self)
-   elseif _m then
-     _temp885 = _m
-   elseif _self.no_undermethod then
-     _temp885 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp885) == 'number' then
-      _temp885 = number:new(_temp885)
-    elseif object._is_callable(_temp885) then
-      _temp885 = brat_function:new(_temp885)
-    end
-    
-      local _m = _temp885.meth
-      if object._is_callable(_m) then
-        _temp886 =  _m(_temp885)
-      elseif _m ~= nil then
-        _temp886 =  _m
-      elseif _temp885.no_undermethod then
-        _temp886 =  _temp885:no_undermethod(string:new('meth'))
-      else
-        _error(exception:method_error(_temp885, 'meth'))
-      end
-    
-if _type(_temp886) == 'number' then
-      _temp886 = number:new(_temp886)
-    elseif object._is_callable(_temp886) then
-      _temp886 = brat_function:new(_temp886)
-    end
-    
-      local _m = _temp886.text
-      if object._is_callable(_m) then
-        _temp885 =  _m(_temp886)
-      elseif _m ~= nil then
-        _temp885 =  _m
-      elseif _temp886.no_undermethod then
-        _temp885 =  _temp886:no_undermethod(string:new('text'))
-      else
-        _error(exception:method_error(_temp886, 'text'))
-      end
-    
-_temp884 =  _temp5(_self, _temp885)
-
-if _type(_temp883) == 'number' then
-      _temp883 = number:new(_temp883)
-    elseif object._is_callable(_temp883) then
-      _temp883 = brat_function:new(_temp883)
-    end
-    
-      local _m = _temp883._less_less
-      if object._is_callable(_m) then
-        _temp882 =  _m(_temp883, _temp884)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp883.no_undermethod then
-        _temp882 =  _temp883:no_undermethod(string:new('<<'), _temp884)
-      else
-        _error(exception:method_error(_temp883, '_less_less'))
-      end
-    
-return _temp882
-
-end
-
-_temp874 =  _temp63(_self, _temp11, _temp879)
-
-
-_temp11 = string:new('meth_access')
-
-
-local _temp887 = function(_self)
-local _temp888
 
 local _temp889
 
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp889 = _m(_self)
-   elseif _m then
-     _temp889 = _m
-   elseif _self.no_undermethod then
-     _temp889 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-      if _temp889._lua_hash and _temp889._unchanged('get') then
-        _temp888 =  _temp889:get('meth_access')
-      else
-        if _type(_temp889) == 'number' then
-      _temp889 = number:new(_temp889)
-    elseif object._is_callable(_temp889) then
-      _temp889 = brat_function:new(_temp889)
+    if object._is_callable(_temp641) then
+      _temp889 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp889 =  _temp641
+    else
+      _error(exception:name_error("call"))
     end
     
-      local _m = _temp889.get
-      if object._is_callable(_m) then
-        _temp888 =  _m(_temp889, string:new('meth_access'))
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp889.no_undermethod then
-        _temp888 =  _temp889:no_undermethod(string:new('get'), string:new('meth_access'))
-      else
-        _error(exception:method_error(_temp889, 'get'))
-      end
-    
-      end
-      
 
-local _temp890
+local _temp890 = string:new('get')
 
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp890 = _m(_self)
-   elseif _m then
-     _temp890 = _m
-   elseif _self.no_undermethod then
-     _temp890 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
 
 local _temp891
 
-    if object._is_callable(_temp888) then
-      _temp891 =  _temp888(_self)
+    if object._is_callable(_temp866) then
+      _temp891 =  _temp866(_self)
 
-    elseif _temp888 then
-      _temp891 =  _temp888
+    elseif _temp866 then
+      _temp891 =  _temp866
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("args"))
     end
     
-_dummy =  _temp47(_self, _temp890, _temp891)
-
-    if object._is_callable(_temp888) then
-      _temp891 =  _temp888(_self)
-
-    elseif _temp888 then
-      _temp891 =  _temp888
-    else
-      _error(exception:name_error("list"))
+if _type(_temp871) == 'number' then
+      _temp871 = number:new(_temp871)
+    elseif object._is_callable(_temp871) then
+      _temp871 = brat_function:new(_temp871)
     end
     
-local _temp892
-
-local _temp894
-
-local _temp893
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp893 = _m(_self)
-   elseif _m then
-     _temp893 = _m
-   elseif _self.no_undermethod then
-     _temp893 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp893) == 'number' then
-      _temp893 = number:new(_temp893)
-    elseif object._is_callable(_temp893) then
-      _temp893 = brat_function:new(_temp893)
-    end
-    
-      local _m = _temp893.meth
+      local _m = _temp871.get
       if object._is_callable(_m) then
-        _temp894 =  _m(_temp893)
+        _temp880 =  _m(_temp871, _temp870, _temp889, _temp890, _temp891)
       elseif _m ~= nil then
-        _temp894 =  _m
-      elseif _temp893.no_undermethod then
-        _temp894 =  _temp893:no_undermethod(string:new('meth'))
+          _error(exception:argument_error('function', 0, 3))
+      elseif _temp871.no_undermethod then
+        _temp880 =  _temp871:no_undermethod(string:new('get'), _temp870, _temp889, _temp890, _temp891)
       else
-        _error(exception:method_error(_temp893, 'meth'))
+        _error(exception:method_error(_temp871, 'get'))
       end
     
-if _type(_temp894) == 'number' then
-      _temp894 = number:new(_temp894)
-    elseif object._is_callable(_temp894) then
-      _temp894 = brat_function:new(_temp894)
-    end
-    
-      local _m = _temp894.text
-      if object._is_callable(_m) then
-        _temp893 =  _m(_temp894)
-      elseif _m ~= nil then
-        _temp893 =  _m
-      elseif _temp894.no_undermethod then
-        _temp893 =  _temp894:no_undermethod(string:new('text'))
-      else
-        _error(exception:method_error(_temp894, 'text'))
-      end
-    
-_temp892 =  _temp5(_self, _temp893)
+_temp641 = _temp880
 
-if _type(_temp891) == 'number' then
-      _temp891 = number:new(_temp891)
-    elseif object._is_callable(_temp891) then
-      _temp891 = brat_function:new(_temp891)
-    end
-    
-      local _m = _temp891._less_less
-      if object._is_callable(_m) then
-        _temp890 =  _m(_temp891, _temp892)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp891.no_undermethod then
-        _temp890 =  _temp891:no_undermethod(string:new('<<'), _temp892)
-      else
-        _error(exception:method_error(_temp891, '_less_less'))
-      end
-    
-return _temp890
+return _temp641
 
 end
 
-_temp879 =  _temp63(_self, _temp11, _temp887)
+
+local _temp892 = function(_self)
+
+local _temp893
+
+local _temp894
+
+do
+local _temp895 = {}
+_temp895[1] = "wut "
+
+    if object._is_callable(_temp641) then
+      _temp895[2] =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp895[2] =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    _temp895[2] = _tostring(_temp895[2])
+_temp894 = string:new(_table.concat(_temp895))
+end
 
 
-_temp11 = string:new('index_get')
+  if p then
+    _temp893 =  p(_self, _temp894)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.p
+      if object._is_callable(_m) then
+        _temp893 =  _m(_self, _temp894)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _self.no_undermethod then
+        _temp893 =  _self:no_undermethod(string:new('p'), _temp894)
+      else
+        _error(exception:method_error(_self, 'p'))
+      end
+    
+  end
+  
+return _temp893
+
+end
 
 
-local _temp895 = function(_self)
+  if true_question then
+    _temp824 =  true_question(_self, _temp828, _temp865, _temp892)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp824 =  _m(_self, _temp828, _temp865, _temp892)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp824 =  _self:no_undermethod(string:new('true?'), _temp828, _temp865, _temp892)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp824 =  _temp824
+     -- end fallback if
+   end
+   
+_temp818 =  _temp824
+
+end
+
+      _temp818 =  _temp818
+     end
+     -- end yay if
+   else
+     -- fallback null?
+     
 local _temp896
 
-local _temp897
+    if object._is_callable(_temp641) then
+      _temp820 =  _temp641(_self)
 
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp897 = _m(_self)
-   elseif _m then
-     _temp897 = _m
-   elseif _self.no_undermethod then
-     _temp897 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-local _temp898 = string:new('call')
+    elseif _temp641 then
+      _temp820 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp820) == 'number' then
+      _temp820 = number:new(_temp820)
+    elseif object._is_callable(_temp820) then
+      _temp820 = brat_function:new(_temp820)
+    end
+    
+      local _m = _temp820.nodes
+      if object._is_callable(_m) then
+        _temp896 =  _m(_temp820)
+      elseif _m ~= nil then
+        _temp896 =  _m
+      elseif _temp820.no_undermethod then
+        _temp896 =  _temp820:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp820, 'nodes'))
+      end
+    
+if _type(_temp896) == 'number' then
+      _temp896 = number:new(_temp896)
+    elseif object._is_callable(_temp896) then
+      _temp896 = brat_function:new(_temp896)
+    end
+    
+      local _m = _temp896.first
+      if object._is_callable(_m) then
+        _temp820 =  _m(_temp896)
+      elseif _m ~= nil then
+        _temp820 =  _m
+      elseif _temp896.no_undermethod then
+        _temp820 =  _temp896:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp896, 'first'))
+      end
+    
 
-
-local _temp900
+local _temp897 = function(_self)
 
 local _temp899
 
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp899 = _m(_self)
-   elseif _m then
-     _temp899 = _m
-   elseif _self.no_undermethod then
-     _temp899 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp899) == 'number' then
-      _temp899 = number:new(_temp899)
-    elseif object._is_callable(_temp899) then
-      _temp899 = brat_function:new(_temp899)
+local _temp898
+
+    if object._is_callable(_temp641) then
+      _temp898 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp898 =  _temp641
+    else
+      _error(exception:name_error("call"))
     end
     
-      local _m = _temp899.elements
-      if object._is_callable(_m) then
-        _temp900 =  _m(_temp899)
-      elseif _m ~= nil then
-        _temp900 =  _m
-      elseif _temp899.no_undermethod then
-        _temp900 =  _temp899:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp899, 'elements'))
-      end
-    
-if _type(_temp900) == 'number' then
-      _temp900 = number:new(_temp900)
-    elseif object._is_callable(_temp900) then
-      _temp900 = brat_function:new(_temp900)
+if _type(_temp898) == 'number' then
+      _temp898 = number:new(_temp898)
+    elseif object._is_callable(_temp898) then
+      _temp898 = brat_function:new(_temp898)
     end
     
-      local _m = _temp900.first
+      local _m = _temp898.nodes
       if object._is_callable(_m) then
-        _temp899 =  _m(_temp900)
+        _temp899 =  _m(_temp898)
       elseif _m ~= nil then
         _temp899 =  _m
-      elseif _temp900.no_undermethod then
-        _temp899 =  _temp900:no_undermethod(string:new('first'))
+      elseif _temp898.no_undermethod then
+        _temp899 =  _temp898:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp900, 'first'))
+        _error(exception:method_error(_temp898, 'nodes'))
       end
+    
+
+local _temp900
+
+    if object._is_callable(_temp640) then
+      _temp900 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp900 =  _temp640
+    else
+      _error(exception:name_error("memo"))
+    end
     
 if _type(_temp899) == 'number' then
       _temp899 = number:new(_temp899)
@@ -19765,258 +21019,187 @@ if _type(_temp899) == 'number' then
       _temp899 = brat_function:new(_temp899)
     end
     
-      local _m = _temp899.ast
+      local _m = _temp899.set
       if object._is_callable(_m) then
-        _temp900 =  _m(_temp899)
-      elseif _m ~= nil then
-        _temp900 =  _m
-      elseif _temp899.no_undermethod then
-        _temp900 =  _temp899:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp899, 'ast'))
-      end
-    
-
-_temp899 = string:new('get')
-
-if _type(_temp897) == 'number' then
-      _temp897 = number:new(_temp897)
-    elseif object._is_callable(_temp897) then
-      _temp897 = brat_function:new(_temp897)
-    end
-    
-      local _m = _temp897.get
-      if object._is_callable(_m) then
-        _temp896 =  _m(_temp897, _temp898, _temp900, _temp899)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
-      elseif _temp897.no_undermethod then
-        _temp896 =  _temp897:no_undermethod(string:new('get'), _temp898, _temp900, _temp899)
-      else
-        _error(exception:method_error(_temp897, 'get'))
-      end
-    
-local _temp901
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp897 = _m(_self)
-   elseif _m then
-     _temp897 = _m
-   elseif _self.no_undermethod then
-     _temp897 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp897) == 'number' then
-      _temp897 = number:new(_temp897)
-    elseif object._is_callable(_temp897) then
-      _temp897 = brat_function:new(_temp897)
-    end
-    
-      local _m = _temp897.gindexes
-      if object._is_callable(_m) then
-        _temp899 =  _m(_temp897)
-      elseif _m ~= nil then
-        _temp899 =  _m
-      elseif _temp897.no_undermethod then
-        _temp899 =  _temp897:no_undermethod(string:new('gindexes'))
-      else
-        _error(exception:method_error(_temp897, 'gindexes'))
-      end
-    
-
-_temp897 = array:new()
-
-_temp901 =  _temp47(_self, _temp899, _temp897)
-
-
-    if object._is_callable(_temp896) then
-      _temp897 =  _temp896(_self)
-
-    elseif _temp896 then
-      _temp897 =  _temp896
-    else
-      _error(exception:name_error("list"))
-    end
-    
-    if object._is_callable(_temp901) then
-      _temp900 =  _temp901(_self)
-
-    elseif _temp901 then
-      _temp900 =  _temp901
-    else
-      _error(exception:name_error("index_underargs"))
-    end
-    
-if _type(_temp900) == 'number' then
-      _temp900 = number:new(_temp900)
-    elseif object._is_callable(_temp900) then
-      _temp900 = brat_function:new(_temp900)
-    end
-    
-      local _m = _temp900.deq
-      if object._is_callable(_m) then
-        _temp898 =  _m(_temp900)
-      elseif _m ~= nil then
-        _temp898 =  _m
-      elseif _temp900.no_undermethod then
-        _temp898 =  _temp900:no_undermethod(string:new('deq'))
-      else
-        _error(exception:method_error(_temp900, 'deq'))
-      end
-    
-if _type(_temp897) == 'number' then
-      _temp897 = number:new(_temp897)
-    elseif object._is_callable(_temp897) then
-      _temp897 = brat_function:new(_temp897)
-    end
-    
-      local _m = _temp897._less_less
-      if object._is_callable(_m) then
-        _temp899 =  _m(_temp897, _temp898)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp897.no_undermethod then
-        _temp899 =  _temp897:no_undermethod(string:new('<<'), _temp898)
-      else
-        _error(exception:method_error(_temp897, '_less_less'))
-      end
-    
-
-    if object._is_callable(_temp901) then
-      _temp897 =  _temp901(_self)
-
-    elseif _temp901 then
-      _temp897 =  _temp901
-    else
-      _error(exception:name_error("index_underargs"))
-    end
-    
-    if object._is_callable(_temp896) then
-      _temp900 =  _temp896(_self)
-
-    elseif _temp896 then
-      _temp900 =  _temp896
-    else
-      _error(exception:name_error("list"))
-    end
-    
-
-local _temp910 = _lifted[59]
-
-if _type(_temp897) == 'number' then
-      _temp897 = number:new(_temp897)
-    elseif object._is_callable(_temp897) then
-      _temp897 = brat_function:new(_temp897)
-    end
-    
-      local _m = _temp897.reduce
-      if object._is_callable(_m) then
-        _temp898 =  _m(_temp897, _temp900, _temp910)
+        _temp898 =  _m(_temp899, 0, _temp900)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
-      elseif _temp897.no_undermethod then
-        _temp898 =  _temp897:no_undermethod(string:new('reduce'), _temp900, _temp910)
+      elseif _temp899.no_undermethod then
+        _temp898 =  _temp899:no_undermethod(string:new('set'), 0, _temp900)
       else
-        _error(exception:method_error(_temp897, 'reduce'))
+        _error(exception:method_error(_temp899, 'set'))
       end
     
-_temp896 = _temp898
+return _temp898
+
+end
+
+
+local _temp901 = function(_self)
+
+local _temp902
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp902
+     
+local _temp904
+
+local _temp903
+
+    if object._is_callable(_temp641) then
+      _temp903 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp903 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp903) == 'number' then
+      _temp903 = number:new(_temp903)
+    elseif object._is_callable(_temp903) then
+      _temp903 = brat_function:new(_temp903)
+    end
+    
+      local _m = _temp903.name
+      if object._is_callable(_m) then
+        _temp904 =  _m(_temp903)
+      elseif _m ~= nil then
+        _temp904 =  _m
+      elseif _temp903.no_undermethod then
+        _temp904 =  _temp903:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp903, 'name'))
+      end
+    
+local _temp905 = string:new('call')
+
+if _type(_temp904) == 'number' then
+      _temp904 = number:new(_temp904)
+    elseif object._is_callable(_temp904) then
+      _temp904 = brat_function:new(_temp904)
+    end
+    
+      local _m = _temp904._equal_equal
+      if object._is_callable(_m) then
+        _temp903 =  _m(_temp904, _temp905)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp904.no_undermethod then
+        _temp903 =  _temp904:no_undermethod(string:new('=='), _temp905)
+      else
+        _error(exception:method_error(_temp904, '_equal_equal'))
+      end
+    
+local _temp906 = function(_self)
+
+local _temp908
+
+local _temp907
+
+    if object._is_callable(_temp641) then
+      _temp907 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp907 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp907) == 'number' then
+      _temp907 = number:new(_temp907)
+    elseif object._is_callable(_temp907) then
+      _temp907 = brat_function:new(_temp907)
+    end
+    
+      local _m = _temp907.method
+      if object._is_callable(_m) then
+        _temp908 =  _m(_temp907)
+      elseif _m ~= nil then
+        _temp908 =  _m
+      elseif _temp907.no_undermethod then
+        _temp908 =  _temp907:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp907, 'method'))
+      end
+    
+local _temp909 = string:new('get')
+
+if _type(_temp908) == 'number' then
+      _temp908 = number:new(_temp908)
+    elseif object._is_callable(_temp908) then
+      _temp908 = brat_function:new(_temp908)
+    end
+    
+      local _m = _temp908._equal_equal
+      if object._is_callable(_m) then
+        _temp907 =  _m(_temp908, _temp909)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp908.no_undermethod then
+        _temp907 =  _temp908:no_undermethod(string:new('=='), _temp909)
+      else
+        _error(exception:method_error(_temp908, '_equal_equal'))
+      end
+    
+return _temp907
+
+end
+
+if _type(_temp903) == 'number' then
+      _temp903 = number:new(_temp903)
+    elseif object._is_callable(_temp903) then
+      _temp903 = brat_function:new(_temp903)
+    end
+    
+      local _m = _temp903._and_and
+      if object._is_callable(_m) then
+        _temp904 =  _m(_temp903, _temp906)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp903.no_undermethod then
+        _temp904 =  _temp903:no_undermethod(string:new('&&'), _temp906)
+      else
+        _error(exception:method_error(_temp903, '_and_and'))
+      end
+    
+     if object._is_callable(_temp904) then
+                    _temp904 = _temp904(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp904) then
+      do
+local _temp910
+
+local _temp912
 
 local _temp911
 
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp910 = _m(_self)
-   elseif _m then
-     _temp910 = _m
-   elseif _self.no_undermethod then
-     _temp910 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp910) == 'number' then
-      _temp910 = number:new(_temp910)
-    elseif object._is_callable(_temp910) then
-      _temp910 = brat_function:new(_temp910)
-    end
-    
-      local _m = _temp910.iargs
-      if object._is_callable(_m) then
-        _temp900 =  _m(_temp910)
-      elseif _m ~= nil then
-        _temp900 =  _m
-      elseif _temp910.no_undermethod then
-        _temp900 =  _temp910:no_undermethod(string:new('iargs'))
-      else
-        _error(exception:method_error(_temp910, 'iargs'))
-      end
-    
+    if object._is_callable(_temp641) then
+      _temp911 =  _temp641(_self)
 
-_temp910 = array:new()
-
-_temp897 =  _temp47(_self, _temp900, _temp910)
-
-if _type(_temp897) == 'number' then
-      _temp897 = number:new(_temp897)
-    elseif object._is_callable(_temp897) then
-      _temp897 = brat_function:new(_temp897)
-    end
-    
-      local _m = _temp897.first
-      if object._is_callable(_m) then
-        _temp911 =  _m(_temp897)
-      elseif _m ~= nil then
-        _temp911 =  _m
-      elseif _temp897.no_undermethod then
-        _temp911 =  _temp897:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp897, 'first'))
-      end
-    
-
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp897
-     
-local _temp912
-
-    if object._is_callable(_temp896) then
-      _temp900 =  _temp896(_self)
-
-    elseif _temp896 then
-      _temp900 =  _temp896
+    elseif _temp641 then
+      _temp911 =  _temp641
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("call"))
     end
     
-if _type(_temp900) == 'number' then
-      _temp900 = number:new(_temp900)
-    elseif object._is_callable(_temp900) then
-      _temp900 = brat_function:new(_temp900)
+if _type(_temp911) == 'number' then
+      _temp911 = number:new(_temp911)
+    elseif object._is_callable(_temp911) then
+      _temp911 = brat_function:new(_temp911)
     end
     
-      local _m = _temp900.args
+      local _m = _temp911.nodes
       if object._is_callable(_m) then
-        _temp912 =  _m(_temp900)
+        _temp912 =  _m(_temp911)
       elseif _m ~= nil then
         _temp912 =  _m
-      elseif _temp900.no_undermethod then
-        _temp912 =  _temp900:no_undermethod(string:new('args'))
+      elseif _temp911.no_undermethod then
+        _temp912 =  _temp911:no_undermethod(string:new('nodes'))
       else
-        _error(exception:method_error(_temp900, 'args'))
+        _error(exception:method_error(_temp911, 'nodes'))
       end
     
 if _type(_temp912) == 'number' then
@@ -20025,136 +21208,216 @@ if _type(_temp912) == 'number' then
       _temp912 = brat_function:new(_temp912)
     end
     
-      local _m = _temp912.length
+      local _m = _temp912.pop
       if object._is_callable(_m) then
-        _temp900 =  _m(_temp912)
+        _temp910 =  _m(_temp912)
       elseif _m ~= nil then
-        _temp900 =  _m
+        _temp910 =  _m
       elseif _temp912.no_undermethod then
-        _temp900 =  _temp912:no_undermethod(string:new('length'))
+        _temp910 =  _temp912:no_undermethod(string:new('pop'))
       else
-        _error(exception:method_error(_temp912, 'length'))
+        _error(exception:method_error(_temp912, 'pop'))
+      end
+    
+local _temp913
+
+    if object._is_callable(_temp641) then
+      _temp912 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp912 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp912) == 'number' then
+      _temp912 = number:new(_temp912)
+    elseif object._is_callable(_temp912) then
+      _temp912 = brat_function:new(_temp912)
+    end
+    
+      local _m = _temp912.target
+      if object._is_callable(_m) then
+        _temp913 =  _m(_temp912)
+      elseif _m ~= nil then
+        _temp913 =  _m
+      elseif _temp912.no_undermethod then
+        _temp913 =  _temp912:no_undermethod(string:new('target'))
+      else
+        _error(exception:method_error(_temp912, 'target'))
       end
     
 
-  if _type(_temp900) == 'number' then
-    
-      if number._unchanged('_equal_equal') then
-        if _temp900 == 1 then
-          _temp910 =  object.__true
-        else
-          _temp910 =  object.__false
-        end
-      else
-        if _type(_temp900) == 'number' then
-      _temp900 = number:new(_temp900)
-    elseif object._is_callable(_temp900) then
-      _temp900 = brat_function:new(_temp900)
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp912
+     
+local _temp914
+
+    if object._is_callable(_temp913) then
+      _temp911 =  _temp913(_self)
+
+    elseif _temp913 then
+      _temp911 =  _temp913
+    else
+      _error(exception:name_error("target"))
     end
     
-      local _m = _temp900._equal_equal
-      if object._is_callable(_m) then
-        _temp910 =  _m(_temp900, 1)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp900.no_undermethod then
-        _temp910 =  _temp900:no_undermethod(string:new('=='), 1)
-      else
-        _error(exception:method_error(_temp900, '_equal_equal'))
-      end
-    
-      end
-      
-  else
-    if _type(_temp900) == 'number' then
-      _temp900 = number:new(_temp900)
-    elseif object._is_callable(_temp900) then
-      _temp900 = brat_function:new(_temp900)
+if _type(_temp911) == 'number' then
+      _temp911 = number:new(_temp911)
+    elseif object._is_callable(_temp911) then
+      _temp911 = brat_function:new(_temp911)
     end
     
-      local _m = _temp900._equal_equal
+      local _m = _temp911.name
       if object._is_callable(_m) then
-        _temp910 =  _m(_temp900, 1)
+        _temp914 =  _m(_temp911)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp900.no_undermethod then
-        _temp910 =  _temp900:no_undermethod(string:new('=='), 1)
+        _temp914 =  _m
+      elseif _temp911.no_undermethod then
+        _temp914 =  _temp911:no_undermethod(string:new('name'))
       else
-        _error(exception:method_error(_temp900, '_equal_equal'))
+        _error(exception:method_error(_temp911, 'name'))
       end
     
-  end
-  
-local _temp916 = _lifted_call(_lifted[60], {})
-_temp916.arg_table['_temp896'] = _temp896
-if _type(_temp910) == 'number' then
-      _temp910 = number:new(_temp910)
-    elseif object._is_callable(_temp910) then
-      _temp910 = brat_function:new(_temp910)
+local _temp915 = string:new('call')
+
+if _type(_temp914) == 'number' then
+      _temp914 = number:new(_temp914)
+    elseif object._is_callable(_temp914) then
+      _temp914 = brat_function:new(_temp914)
     end
     
-      local _m = _temp910._and_and
+      local _m = _temp914._equal_equal
       if object._is_callable(_m) then
-        _temp912 =  _m(_temp910, _temp916)
+        _temp911 =  _m(_temp914, _temp915)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp910.no_undermethod then
-        _temp912 =  _temp910:no_undermethod(string:new('&&'), _temp916)
+      elseif _temp914.no_undermethod then
+        _temp911 =  _temp914:no_undermethod(string:new('=='), _temp915)
       else
-        _error(exception:method_error(_temp910, '_and_and'))
+        _error(exception:method_error(_temp914, '_equal_equal'))
       end
     
-     if object._is_callable(_temp912) then
-                    _temp912 = _temp912(_self)
+     if object._is_callable(_temp911) then
+                    _temp911 = _temp911(_self)
                    end
      -- end condition
 
-     if object._is_true(_temp912) then
+     if object._is_true(_temp911) then
       do
 
 local _temp917
 
-    if object._is_callable(_temp896) then
-      _temp917 =  _temp896(_self)
+local _temp916
 
-    elseif _temp896 then
-      _temp917 =  _temp896
+    if object._is_callable(_temp641) then
+      _temp916 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp916 =  _temp641
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("call"))
     end
     
-
-local _temp918 = string:new('simple_index_get')
-
-    if _type(_temp917) == 'table' then
-      _temp917['name'] = _temp918
-    else
-      _error('Cannot set method on ' .. _temp917)
+if _type(_temp916) == 'number' then
+      _temp916 = number:new(_temp916)
+    elseif object._is_callable(_temp916) then
+      _temp916 = brat_function:new(_temp916)
     end
     
-_temp897 =  _temp918
+      local _m = _temp916.nodes
+      if object._is_callable(_m) then
+        _temp917 =  _m(_temp916)
+      elseif _m ~= nil then
+        _temp917 =  _m
+      elseif _temp916.no_undermethod then
+        _temp917 =  _temp916:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp916, 'nodes'))
+      end
+    
 
-end
+local _temp918
 
-      _temp897 =  _temp897
-     else
-      
-_temp897 = object.__false
+    if object._is_callable(_temp913) then
+      _temp916 =  _temp913(_self)
 
-      _temp897 =  _temp897
-     end
-     -- end yay if
-   else
-     
+    elseif _temp913 then
+      _temp916 =  _temp913
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp916) == 'number' then
+      _temp916 = number:new(_temp916)
+    elseif object._is_callable(_temp916) then
+      _temp916 = brat_function:new(_temp916)
+    end
+    
+      local _m = _temp916.method
+      if object._is_callable(_m) then
+        _temp918 =  _m(_temp916)
+      elseif _m ~= nil then
+        _temp918 =  _m
+      elseif _temp916.no_undermethod then
+        _temp918 =  _temp916:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp916, 'method'))
+      end
+    
+if _type(_temp917) == 'number' then
+      _temp917 = number:new(_temp917)
+    elseif object._is_callable(_temp917) then
+      _temp917 = brat_function:new(_temp917)
+    end
+    
+      local _m = _temp917.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp917, 1, _temp918)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp917.no_undermethod then
+        _dummy =  _temp917:no_undermethod(string:new('set'), 1, _temp918)
+      else
+        _error(exception:method_error(_temp917, 'set'))
+      end
+    
+    if object._is_callable(_temp641) then
+      _temp917 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp917 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp917) == 'number' then
+      _temp917 = number:new(_temp917)
+    elseif object._is_callable(_temp917) then
+      _temp917 = brat_function:new(_temp917)
+    end
+    
+      local _m = _temp917.nodes
+      if object._is_callable(_m) then
+        _temp918 =  _m(_temp917)
+      elseif _m ~= nil then
+        _temp918 =  _m
+      elseif _temp917.no_undermethod then
+        _temp918 =  _temp917:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp917, 'nodes'))
+      end
+    
+
 local _temp919
 
-    if object._is_callable(_temp896) then
-      _temp916 =  _temp896(_self)
+    if object._is_callable(_temp913) then
+      _temp916 =  _temp913(_self)
 
-    elseif _temp896 then
-      _temp916 =  _temp896
+    elseif _temp913 then
+      _temp916 =  _temp913
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("target"))
     end
     
 if _type(_temp916) == 'number' then
@@ -20174,97 +21437,175 @@ if _type(_temp916) == 'number' then
         _error(exception:method_error(_temp916, 'args'))
       end
     
-if _type(_temp919) == 'number' then
-      _temp919 = number:new(_temp919)
-    elseif object._is_callable(_temp919) then
-      _temp919 = brat_function:new(_temp919)
+if _type(_temp918) == 'number' then
+      _temp918 = number:new(_temp918)
+    elseif object._is_callable(_temp918) then
+      _temp918 = brat_function:new(_temp918)
     end
     
-      local _m = _temp919.length
+      local _m = _temp918.set
       if object._is_callable(_m) then
-        _temp916 =  _m(_temp919)
+        _temp917 =  _m(_temp918, 2, _temp919)
       elseif _m ~= nil then
-        _temp916 =  _m
-      elseif _temp919.no_undermethod then
-        _temp916 =  _temp919:no_undermethod(string:new('length'))
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp918.no_undermethod then
+        _temp917 =  _temp918:no_undermethod(string:new('set'), 2, _temp919)
       else
-        _error(exception:method_error(_temp919, 'length'))
+        _error(exception:method_error(_temp918, 'set'))
+      end
+    
+_temp912 =  _temp917
+
+end
+
+      _temp912 =  _temp912
+     else
+      do
+
+local _temp921
+
+local _temp920
+
+    if object._is_callable(_temp641) then
+      _temp920 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp920 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp920) == 'number' then
+      _temp920 = number:new(_temp920)
+    elseif object._is_callable(_temp920) then
+      _temp920 = brat_function:new(_temp920)
+    end
+    
+      local _m = _temp920.nodes
+      if object._is_callable(_m) then
+        _temp921 =  _m(_temp920)
+      elseif _m ~= nil then
+        _temp921 =  _m
+      elseif _temp920.no_undermethod then
+        _temp921 =  _temp920:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp920, 'nodes'))
       end
     
 
-  if _type(_temp916) == 'number' then
-    
-      if number._unchanged('_equal_equal') then
-        if _temp916 == 1 then
-          _temp910 =  object.__true
-        else
-          _temp910 =  object.__false
-        end
-      else
-        if _type(_temp916) == 'number' then
-      _temp916 = number:new(_temp916)
-    elseif object._is_callable(_temp916) then
-      _temp916 = brat_function:new(_temp916)
+local _temp923
+
+local _temp922
+
+    if object._is_callable(_temp913) then
+      _temp922 =  _temp913(_self)
+
+    elseif _temp913 then
+      _temp922 =  _temp913
+    else
+      _error(exception:name_error("target"))
     end
     
-      local _m = _temp916._equal_equal
-      if object._is_callable(_m) then
-        _temp910 =  _m(_temp916, 1)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp916.no_undermethod then
-        _temp910 =  _temp916:no_undermethod(string:new('=='), 1)
-      else
-        _error(exception:method_error(_temp916, '_equal_equal'))
-      end
-    
-      end
-      
-  else
-    if _type(_temp916) == 'number' then
-      _temp916 = number:new(_temp916)
-    elseif object._is_callable(_temp916) then
-      _temp916 = brat_function:new(_temp916)
+if _type(_temp922) == 'number' then
+      _temp922 = number:new(_temp922)
+    elseif object._is_callable(_temp922) then
+      _temp922 = brat_function:new(_temp922)
     end
     
-      local _m = _temp916._equal_equal
+      local _m = _temp922.value
       if object._is_callable(_m) then
-        _temp910 =  _m(_temp916, 1)
+        _temp923 =  _m(_temp922)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp916.no_undermethod then
-        _temp910 =  _temp916:no_undermethod(string:new('=='), 1)
+        _temp923 =  _m
+      elseif _temp922.no_undermethod then
+        _temp923 =  _temp922:no_undermethod(string:new('value'))
       else
-        _error(exception:method_error(_temp916, '_equal_equal'))
+        _error(exception:method_error(_temp922, 'value'))
       end
     
-  end
-  
-local _temp923 = _lifted_call(_lifted[61], {})
-_temp923.arg_table['_temp896'] = _temp896
-if _type(_temp910) == 'number' then
-      _temp910 = number:new(_temp910)
-    elseif object._is_callable(_temp910) then
-      _temp910 = brat_function:new(_temp910)
+if _type(_temp921) == 'number' then
+      _temp921 = number:new(_temp921)
+    elseif object._is_callable(_temp921) then
+      _temp921 = brat_function:new(_temp921)
     end
     
-      local _m = _temp910._and_and
+      local _m = _temp921.set
       if object._is_callable(_m) then
-        _temp919 =  _m(_temp910, _temp923)
+        _temp920 =  _m(_temp921, 1, _temp923)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp921.no_undermethod then
+        _temp920 =  _temp921:no_undermethod(string:new('set'), 1, _temp923)
+      else
+        _error(exception:method_error(_temp921, 'set'))
+      end
+    
+_temp912 =  _temp920
+
+end
+
+      _temp912 =  _temp912
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp913) then
+      _temp914 =  _temp913(_self)
+
+    elseif _temp913 then
+      _temp914 =  _temp913
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp914) == 'number' then
+      _temp914 = number:new(_temp914)
+    elseif object._is_callable(_temp914) then
+      _temp914 = brat_function:new(_temp914)
+    end
+    
+      local _m = _temp914.name
+      if object._is_callable(_m) then
+        _temp915 =  _m(_temp914)
+      elseif _m ~= nil then
+        _temp915 =  _m
+      elseif _temp914.no_undermethod then
+        _temp915 =  _temp914:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp914, 'name'))
+      end
+    
+local _temp924 = string:new('call')
+
+if _type(_temp915) == 'number' then
+      _temp915 = number:new(_temp915)
+    elseif object._is_callable(_temp915) then
+      _temp915 = brat_function:new(_temp915)
+    end
+    
+      local _m = _temp915._equal_equal
+      if object._is_callable(_m) then
+        _temp914 =  _m(_temp915, _temp924)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp910.no_undermethod then
-        _temp919 =  _temp910:no_undermethod(string:new('&&'), _temp923)
+      elseif _temp915.no_undermethod then
+        _temp914 =  _temp915:no_undermethod(string:new('=='), _temp924)
       else
-        _error(exception:method_error(_temp910, '_and_and'))
+        _error(exception:method_error(_temp915, '_equal_equal'))
       end
     
 
-_temp910 = _lifted_call(_lifted[62], {})
-_temp910.arg_table['_temp896'] = _temp896
+_temp915 = _lifted_call(_lifted[62], {})
+_temp915.arg_table['_temp641'] = _temp641
+_temp915.arg_table['_temp913'] = _temp913
+
+_temp924 = _lifted_call(_lifted[63], {})
+_temp924.arg_table['_temp913'] = _temp913
+_temp924.arg_table['_temp641'] = _temp641
 
   if true_question then
-    _temp897 =  true_question(_self, _temp919, _temp910)
+    _temp912 =  true_question(_self, _temp914, _temp915, _temp924)
 
   else
     if _type(_self) == 'number' then
@@ -20275,39 +21616,989 @@ _temp910.arg_table['_temp896'] = _temp896
     
       local _m = _self.true_question
       if object._is_callable(_m) then
-        _temp897 =  _m(_self, _temp919, _temp910)
+        _temp912 =  _m(_self, _temp914, _temp915, _temp924)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
+          _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp897 =  _self:no_undermethod(string:new('true?'), _temp919, _temp910)
+        _temp912 =  _self:no_undermethod(string:new('true?'), _temp914, _temp915, _temp924)
       else
         _error(exception:method_error(_self, 'true_question'))
       end
     
   end
   
-     _temp897 =  _temp897
+     _temp912 =  _temp912
+     -- end fallback if
    end
    
-    if object._is_callable(_temp911) then
-      _temp919 =  _temp911(_self)
 
-    elseif _temp911 then
-      _temp919 =  _temp911
+    if object._is_callable(_temp641) then
+      _temp924 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp924 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp924) == 'number' then
+      _temp924 = number:new(_temp924)
+    elseif object._is_callable(_temp924) then
+      _temp924 = brat_function:new(_temp924)
+    end
+    
+      local _m = _temp924.nodes
+      if object._is_callable(_m) then
+        _temp915 =  _m(_temp924)
+      elseif _m ~= nil then
+        _temp915 =  _m
+      elseif _temp924.no_undermethod then
+        _temp915 =  _temp924:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp924, 'nodes'))
+      end
+    
+
+    if object._is_callable(_temp640) then
+      _temp924 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp924 =  _temp640
+    else
+      _error(exception:name_error("memo"))
+    end
+    
+if _type(_temp915) == 'number' then
+      _temp915 = number:new(_temp915)
+    elseif object._is_callable(_temp915) then
+      _temp915 = brat_function:new(_temp915)
+    end
+    
+      local _m = _temp915.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp915, 0, _temp924)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp915.no_undermethod then
+        _dummy =  _temp915:no_undermethod(string:new('set'), 0, _temp924)
+      else
+        _error(exception:method_error(_temp915, 'set'))
+      end
+    
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp915 = _m(_self)
+   elseif _m then
+     _temp915 = _m
+   elseif _self.no_undermethod then
+     _temp915 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+_temp914 = string:new('call')
+
+
+local _temp933
+
+    if object._is_callable(_temp641) then
+      _temp933 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp933 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+
+local _temp934 = string:new('get')
+
+
+local _temp935
+
+    if object._is_callable(_temp910) then
+      _temp935 =  _temp910(_self)
+
+    elseif _temp910 then
+      _temp935 =  _temp910
     else
       _error(exception:name_error("args"))
     end
     
+if _type(_temp915) == 'number' then
+      _temp915 = number:new(_temp915)
+    elseif object._is_callable(_temp915) then
+      _temp915 = brat_function:new(_temp915)
+    end
+    
+      local _m = _temp915.get
+      if object._is_callable(_m) then
+        _temp924 =  _m(_temp915, _temp914, _temp933, _temp934, _temp935)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 3))
+      elseif _temp915.no_undermethod then
+        _temp924 =  _temp915:no_undermethod(string:new('get'), _temp914, _temp933, _temp934, _temp935)
+      else
+        _error(exception:method_error(_temp915, 'get'))
+      end
+    
+_temp641 = _temp924
 
-_temp923 = _lifted_call(_lifted[63], {})
-_temp923.arg_table['_temp896'] = _temp896
+_temp902 =  _temp641
 
-local _temp932 = _lifted_call(_lifted[64], {})
-_temp932.arg_table['_temp911'] = _temp911
-_temp932.arg_table['_temp896'] = _temp896
+end
+
+      _temp902 =  _temp902
+     else
+      do
+
+local _temp936
+
+local _temp937
+
+do
+local _temp938 = {}
+_temp938[1] = "wut "
+
+    if object._is_callable(_temp641) then
+      _temp938[2] =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp938[2] =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    _temp938[2] = _tostring(_temp938[2])
+_temp937 = string:new(_table.concat(_temp938))
+end
+
+
+  if p then
+    _temp936 =  p(_self, _temp937)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.p
+      if object._is_callable(_m) then
+        _temp936 =  _m(_self, _temp937)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _self.no_undermethod then
+        _temp936 =  _self:no_undermethod(string:new('p'), _temp937)
+      else
+        _error(exception:method_error(_self, 'p'))
+      end
+    
+  end
+  
+_temp902 =  _temp936
+
+end
+
+      _temp902 =  _temp902
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp641) then
+      _temp903 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp903 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp903) == 'number' then
+      _temp903 = number:new(_temp903)
+    elseif object._is_callable(_temp903) then
+      _temp903 = brat_function:new(_temp903)
+    end
+    
+      local _m = _temp903.name
+      if object._is_callable(_m) then
+        _temp906 =  _m(_temp903)
+      elseif _m ~= nil then
+        _temp906 =  _m
+      elseif _temp903.no_undermethod then
+        _temp906 =  _temp903:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp903, 'name'))
+      end
+    
+_temp905 = string:new('call')
+
+if _type(_temp906) == 'number' then
+      _temp906 = number:new(_temp906)
+    elseif object._is_callable(_temp906) then
+      _temp906 = brat_function:new(_temp906)
+    end
+    
+      local _m = _temp906._equal_equal
+      if object._is_callable(_m) then
+        _temp903 =  _m(_temp906, _temp905)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp906.no_undermethod then
+        _temp903 =  _temp906:no_undermethod(string:new('=='), _temp905)
+      else
+        _error(exception:method_error(_temp906, '_equal_equal'))
+      end
+    
+local _temp939 = function(_self)
+
+local _temp941
+
+local _temp940
+
+    if object._is_callable(_temp641) then
+      _temp940 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp940 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp940) == 'number' then
+      _temp940 = number:new(_temp940)
+    elseif object._is_callable(_temp940) then
+      _temp940 = brat_function:new(_temp940)
+    end
+    
+      local _m = _temp940.method
+      if object._is_callable(_m) then
+        _temp941 =  _m(_temp940)
+      elseif _m ~= nil then
+        _temp941 =  _m
+      elseif _temp940.no_undermethod then
+        _temp941 =  _temp940:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp940, 'method'))
+      end
+    
+local _temp942 = string:new('get')
+
+if _type(_temp941) == 'number' then
+      _temp941 = number:new(_temp941)
+    elseif object._is_callable(_temp941) then
+      _temp941 = brat_function:new(_temp941)
+    end
+    
+      local _m = _temp941._equal_equal
+      if object._is_callable(_m) then
+        _temp940 =  _m(_temp941, _temp942)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp941.no_undermethod then
+        _temp940 =  _temp941:no_undermethod(string:new('=='), _temp942)
+      else
+        _error(exception:method_error(_temp941, '_equal_equal'))
+      end
+    
+return _temp940
+
+end
+
+if _type(_temp903) == 'number' then
+      _temp903 = number:new(_temp903)
+    elseif object._is_callable(_temp903) then
+      _temp903 = brat_function:new(_temp903)
+    end
+    
+      local _m = _temp903._and_and
+      if object._is_callable(_m) then
+        _temp906 =  _m(_temp903, _temp939)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp903.no_undermethod then
+        _temp906 =  _temp903:no_undermethod(string:new('&&'), _temp939)
+      else
+        _error(exception:method_error(_temp903, '_and_and'))
+      end
+    
+
+local _temp943 = function(_self)
+local _temp944
+
+local _temp946
+
+local _temp945
+
+    if object._is_callable(_temp641) then
+      _temp945 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp945 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp945) == 'number' then
+      _temp945 = number:new(_temp945)
+    elseif object._is_callable(_temp945) then
+      _temp945 = brat_function:new(_temp945)
+    end
+    
+      local _m = _temp945.nodes
+      if object._is_callable(_m) then
+        _temp946 =  _m(_temp945)
+      elseif _m ~= nil then
+        _temp946 =  _m
+      elseif _temp945.no_undermethod then
+        _temp946 =  _temp945:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp945, 'nodes'))
+      end
+    
+if _type(_temp946) == 'number' then
+      _temp946 = number:new(_temp946)
+    elseif object._is_callable(_temp946) then
+      _temp946 = brat_function:new(_temp946)
+    end
+    
+      local _m = _temp946.pop
+      if object._is_callable(_m) then
+        _temp944 =  _m(_temp946)
+      elseif _m ~= nil then
+        _temp944 =  _m
+      elseif _temp946.no_undermethod then
+        _temp944 =  _temp946:no_undermethod(string:new('pop'))
+      else
+        _error(exception:method_error(_temp946, 'pop'))
+      end
+    
+local _temp947
+
+    if object._is_callable(_temp641) then
+      _temp946 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp946 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp946) == 'number' then
+      _temp946 = number:new(_temp946)
+    elseif object._is_callable(_temp946) then
+      _temp946 = brat_function:new(_temp946)
+    end
+    
+      local _m = _temp946.target
+      if object._is_callable(_m) then
+        _temp947 =  _m(_temp946)
+      elseif _m ~= nil then
+        _temp947 =  _m
+      elseif _temp946.no_undermethod then
+        _temp947 =  _temp946:no_undermethod(string:new('target'))
+      else
+        _error(exception:method_error(_temp946, 'target'))
+      end
+    
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp946
+     
+local _temp948
+
+    if object._is_callable(_temp947) then
+      _temp945 =  _temp947(_self)
+
+    elseif _temp947 then
+      _temp945 =  _temp947
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp945) == 'number' then
+      _temp945 = number:new(_temp945)
+    elseif object._is_callable(_temp945) then
+      _temp945 = brat_function:new(_temp945)
+    end
+    
+      local _m = _temp945.name
+      if object._is_callable(_m) then
+        _temp948 =  _m(_temp945)
+      elseif _m ~= nil then
+        _temp948 =  _m
+      elseif _temp945.no_undermethod then
+        _temp948 =  _temp945:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp945, 'name'))
+      end
+    
+local _temp949 = string:new('call')
+
+if _type(_temp948) == 'number' then
+      _temp948 = number:new(_temp948)
+    elseif object._is_callable(_temp948) then
+      _temp948 = brat_function:new(_temp948)
+    end
+    
+      local _m = _temp948._equal_equal
+      if object._is_callable(_m) then
+        _temp945 =  _m(_temp948, _temp949)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp948.no_undermethod then
+        _temp945 =  _temp948:no_undermethod(string:new('=='), _temp949)
+      else
+        _error(exception:method_error(_temp948, '_equal_equal'))
+      end
+    
+     if object._is_callable(_temp945) then
+                    _temp945 = _temp945(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp945) then
+      do
+
+local _temp951
+
+local _temp950
+
+    if object._is_callable(_temp641) then
+      _temp950 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp950 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp950) == 'number' then
+      _temp950 = number:new(_temp950)
+    elseif object._is_callable(_temp950) then
+      _temp950 = brat_function:new(_temp950)
+    end
+    
+      local _m = _temp950.nodes
+      if object._is_callable(_m) then
+        _temp951 =  _m(_temp950)
+      elseif _m ~= nil then
+        _temp951 =  _m
+      elseif _temp950.no_undermethod then
+        _temp951 =  _temp950:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp950, 'nodes'))
+      end
+    
+
+local _temp952
+
+    if object._is_callable(_temp947) then
+      _temp950 =  _temp947(_self)
+
+    elseif _temp947 then
+      _temp950 =  _temp947
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp950) == 'number' then
+      _temp950 = number:new(_temp950)
+    elseif object._is_callable(_temp950) then
+      _temp950 = brat_function:new(_temp950)
+    end
+    
+      local _m = _temp950.method
+      if object._is_callable(_m) then
+        _temp952 =  _m(_temp950)
+      elseif _m ~= nil then
+        _temp952 =  _m
+      elseif _temp950.no_undermethod then
+        _temp952 =  _temp950:no_undermethod(string:new('method'))
+      else
+        _error(exception:method_error(_temp950, 'method'))
+      end
+    
+if _type(_temp951) == 'number' then
+      _temp951 = number:new(_temp951)
+    elseif object._is_callable(_temp951) then
+      _temp951 = brat_function:new(_temp951)
+    end
+    
+      local _m = _temp951.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp951, 1, _temp952)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp951.no_undermethod then
+        _dummy =  _temp951:no_undermethod(string:new('set'), 1, _temp952)
+      else
+        _error(exception:method_error(_temp951, 'set'))
+      end
+    
+    if object._is_callable(_temp641) then
+      _temp951 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp951 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp951) == 'number' then
+      _temp951 = number:new(_temp951)
+    elseif object._is_callable(_temp951) then
+      _temp951 = brat_function:new(_temp951)
+    end
+    
+      local _m = _temp951.nodes
+      if object._is_callable(_m) then
+        _temp952 =  _m(_temp951)
+      elseif _m ~= nil then
+        _temp952 =  _m
+      elseif _temp951.no_undermethod then
+        _temp952 =  _temp951:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp951, 'nodes'))
+      end
+    
+
+local _temp953
+
+    if object._is_callable(_temp947) then
+      _temp950 =  _temp947(_self)
+
+    elseif _temp947 then
+      _temp950 =  _temp947
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp950) == 'number' then
+      _temp950 = number:new(_temp950)
+    elseif object._is_callable(_temp950) then
+      _temp950 = brat_function:new(_temp950)
+    end
+    
+      local _m = _temp950.args
+      if object._is_callable(_m) then
+        _temp953 =  _m(_temp950)
+      elseif _m ~= nil then
+        _temp953 =  _m
+      elseif _temp950.no_undermethod then
+        _temp953 =  _temp950:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp950, 'args'))
+      end
+    
+if _type(_temp952) == 'number' then
+      _temp952 = number:new(_temp952)
+    elseif object._is_callable(_temp952) then
+      _temp952 = brat_function:new(_temp952)
+    end
+    
+      local _m = _temp952.set
+      if object._is_callable(_m) then
+        _temp951 =  _m(_temp952, 2, _temp953)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp952.no_undermethod then
+        _temp951 =  _temp952:no_undermethod(string:new('set'), 2, _temp953)
+      else
+        _error(exception:method_error(_temp952, 'set'))
+      end
+    
+_temp946 =  _temp951
+
+end
+
+      _temp946 =  _temp946
+     else
+      do
+
+local _temp955
+
+local _temp954
+
+    if object._is_callable(_temp641) then
+      _temp954 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp954 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp954) == 'number' then
+      _temp954 = number:new(_temp954)
+    elseif object._is_callable(_temp954) then
+      _temp954 = brat_function:new(_temp954)
+    end
+    
+      local _m = _temp954.nodes
+      if object._is_callable(_m) then
+        _temp955 =  _m(_temp954)
+      elseif _m ~= nil then
+        _temp955 =  _m
+      elseif _temp954.no_undermethod then
+        _temp955 =  _temp954:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp954, 'nodes'))
+      end
+    
+
+local _temp957
+
+local _temp956
+
+    if object._is_callable(_temp947) then
+      _temp956 =  _temp947(_self)
+
+    elseif _temp947 then
+      _temp956 =  _temp947
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp956) == 'number' then
+      _temp956 = number:new(_temp956)
+    elseif object._is_callable(_temp956) then
+      _temp956 = brat_function:new(_temp956)
+    end
+    
+      local _m = _temp956.value
+      if object._is_callable(_m) then
+        _temp957 =  _m(_temp956)
+      elseif _m ~= nil then
+        _temp957 =  _m
+      elseif _temp956.no_undermethod then
+        _temp957 =  _temp956:no_undermethod(string:new('value'))
+      else
+        _error(exception:method_error(_temp956, 'value'))
+      end
+    
+if _type(_temp955) == 'number' then
+      _temp955 = number:new(_temp955)
+    elseif object._is_callable(_temp955) then
+      _temp955 = brat_function:new(_temp955)
+    end
+    
+      local _m = _temp955.set
+      if object._is_callable(_m) then
+        _temp954 =  _m(_temp955, 1, _temp957)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp955.no_undermethod then
+        _temp954 =  _temp955:no_undermethod(string:new('set'), 1, _temp957)
+      else
+        _error(exception:method_error(_temp955, 'set'))
+      end
+    
+_temp946 =  _temp954
+
+end
+
+      _temp946 =  _temp946
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp947) then
+      _temp948 =  _temp947(_self)
+
+    elseif _temp947 then
+      _temp948 =  _temp947
+    else
+      _error(exception:name_error("target"))
+    end
+    
+if _type(_temp948) == 'number' then
+      _temp948 = number:new(_temp948)
+    elseif object._is_callable(_temp948) then
+      _temp948 = brat_function:new(_temp948)
+    end
+    
+      local _m = _temp948.name
+      if object._is_callable(_m) then
+        _temp949 =  _m(_temp948)
+      elseif _m ~= nil then
+        _temp949 =  _m
+      elseif _temp948.no_undermethod then
+        _temp949 =  _temp948:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp948, 'name'))
+      end
+    
+local _temp958 = string:new('call')
+
+if _type(_temp949) == 'number' then
+      _temp949 = number:new(_temp949)
+    elseif object._is_callable(_temp949) then
+      _temp949 = brat_function:new(_temp949)
+    end
+    
+      local _m = _temp949._equal_equal
+      if object._is_callable(_m) then
+        _temp948 =  _m(_temp949, _temp958)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp949.no_undermethod then
+        _temp948 =  _temp949:no_undermethod(string:new('=='), _temp958)
+      else
+        _error(exception:method_error(_temp949, '_equal_equal'))
+      end
+    
+
+_temp949 = _lifted_call(_lifted[64], {})
+_temp949.arg_table['_temp947'] = _temp947
+_temp949.arg_table['_temp641'] = _temp641
+
+_temp958 = _lifted_call(_lifted[65], {})
+_temp958.arg_table['_temp641'] = _temp641
+_temp958.arg_table['_temp947'] = _temp947
+
+  if true_question then
+    _temp946 =  true_question(_self, _temp948, _temp949, _temp958)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp946 =  _m(_self, _temp948, _temp949, _temp958)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp946 =  _self:no_undermethod(string:new('true?'), _temp948, _temp949, _temp958)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp946 =  _temp946
+     -- end fallback if
+   end
+   
+
+    if object._is_callable(_temp641) then
+      _temp958 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp958 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+if _type(_temp958) == 'number' then
+      _temp958 = number:new(_temp958)
+    elseif object._is_callable(_temp958) then
+      _temp958 = brat_function:new(_temp958)
+    end
+    
+      local _m = _temp958.nodes
+      if object._is_callable(_m) then
+        _temp949 =  _m(_temp958)
+      elseif _m ~= nil then
+        _temp949 =  _m
+      elseif _temp958.no_undermethod then
+        _temp949 =  _temp958:no_undermethod(string:new('nodes'))
+      else
+        _error(exception:method_error(_temp958, 'nodes'))
+      end
+    
+
+    if object._is_callable(_temp640) then
+      _temp958 =  _temp640(_self)
+
+    elseif _temp640 then
+      _temp958 =  _temp640
+    else
+      _error(exception:name_error("memo"))
+    end
+    
+if _type(_temp949) == 'number' then
+      _temp949 = number:new(_temp949)
+    elseif object._is_callable(_temp949) then
+      _temp949 = brat_function:new(_temp949)
+    end
+    
+      local _m = _temp949.set
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp949, 0, _temp958)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp949.no_undermethod then
+        _dummy =  _temp949:no_undermethod(string:new('set'), 0, _temp958)
+      else
+        _error(exception:method_error(_temp949, 'set'))
+      end
+    
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp949 = _m(_self)
+   elseif _m then
+     _temp949 = _m
+   elseif _self.no_undermethod then
+     _temp949 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+_temp948 = string:new('call')
+
+
+local _temp967
+
+    if object._is_callable(_temp641) then
+      _temp967 =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp967 =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    
+
+local _temp968 = string:new('get')
+
+
+local _temp969
+
+    if object._is_callable(_temp944) then
+      _temp969 =  _temp944(_self)
+
+    elseif _temp944 then
+      _temp969 =  _temp944
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp949) == 'number' then
+      _temp949 = number:new(_temp949)
+    elseif object._is_callable(_temp949) then
+      _temp949 = brat_function:new(_temp949)
+    end
+    
+      local _m = _temp949.get
+      if object._is_callable(_m) then
+        _temp958 =  _m(_temp949, _temp948, _temp967, _temp968, _temp969)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 3))
+      elseif _temp949.no_undermethod then
+        _temp958 =  _temp949:no_undermethod(string:new('get'), _temp948, _temp967, _temp968, _temp969)
+      else
+        _error(exception:method_error(_temp949, 'get'))
+      end
+    
+_temp641 = _temp958
+
+return _temp641
+
+end
+
+
+local _temp970 = function(_self)
+
+local _temp971
+
+local _temp972
+
+do
+local _temp973 = {}
+_temp973[1] = "wut "
+
+    if object._is_callable(_temp641) then
+      _temp973[2] =  _temp641(_self)
+
+    elseif _temp641 then
+      _temp973[2] =  _temp641
+    else
+      _error(exception:name_error("call"))
+    end
+    _temp973[2] = _tostring(_temp973[2])
+_temp972 = string:new(_table.concat(_temp973))
+end
+
+
+  if p then
+    _temp971 =  p(_self, _temp972)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.p
+      if object._is_callable(_m) then
+        _temp971 =  _m(_self, _temp972)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _self.no_undermethod then
+        _temp971 =  _self:no_undermethod(string:new('p'), _temp972)
+      else
+        _error(exception:method_error(_self, 'p'))
+      end
+    
+  end
+  
+return _temp971
+
+end
+
+
+  if true_question then
+    _temp902 =  true_question(_self, _temp906, _temp943, _temp970)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp902 =  _m(_self, _temp906, _temp943, _temp970)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp902 =  _self:no_undermethod(string:new('true?'), _temp906, _temp943, _temp970)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp902 =  _temp902
+     -- end fallback if
+   end
+   
+return _temp902
+
+end
+
 
   if null_question then
-    _temp910 =  null_question(_self, _temp919, _temp923, _temp932)
+    _temp818 =  null_question(_self, _temp820, _temp897, _temp901)
 
   else
     if _type(_self) == 'number' then
@@ -20318,947 +22609,28 @@ _temp932.arg_table['_temp896'] = _temp896
     
       local _m = _self.null_question
       if object._is_callable(_m) then
-        _temp910 =  _m(_self, _temp919, _temp923, _temp932)
+        _temp818 =  _m(_self, _temp820, _temp897, _temp901)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp910 =  _self:no_undermethod(string:new('null?'), _temp919, _temp923, _temp932)
+        _temp818 =  _self:no_undermethod(string:new('null?'), _temp820, _temp897, _temp901)
       else
         _error(exception:method_error(_self, 'null_question'))
       end
     
   end
   
-return _temp910
+     _temp818 =  _temp818
+     -- end fallback null?
+   end
+   
+return _temp818
 
 end
 
-_temp887 =  _temp63(_self, _temp11, _temp895)
-
-
-_temp11 = string:new('index_set')
-
-
-local _temp933 = function(_self)
-local _temp934
-
-local _temp935
-
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp935 = _m(_self)
-   elseif _m then
-     _temp935 = _m
-   elseif _self.no_undermethod then
-     _temp935 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-local _temp936 = string:new('call')
-
-
-local _temp938
-
-local _temp937
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp937 = _m(_self)
-   elseif _m then
-     _temp937 = _m
-   elseif _self.no_undermethod then
-     _temp937 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp937) == 'number' then
-      _temp937 = number:new(_temp937)
-    elseif object._is_callable(_temp937) then
-      _temp937 = brat_function:new(_temp937)
-    end
-    
-      local _m = _temp937.elements
-      if object._is_callable(_m) then
-        _temp938 =  _m(_temp937)
-      elseif _m ~= nil then
-        _temp938 =  _m
-      elseif _temp937.no_undermethod then
-        _temp938 =  _temp937:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp937, 'elements'))
-      end
-    
-if _type(_temp938) == 'number' then
-      _temp938 = number:new(_temp938)
-    elseif object._is_callable(_temp938) then
-      _temp938 = brat_function:new(_temp938)
-    end
-    
-      local _m = _temp938.first
-      if object._is_callable(_m) then
-        _temp937 =  _m(_temp938)
-      elseif _m ~= nil then
-        _temp937 =  _m
-      elseif _temp938.no_undermethod then
-        _temp937 =  _temp938:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp938, 'first'))
-      end
-    
-if _type(_temp937) == 'number' then
-      _temp937 = number:new(_temp937)
-    elseif object._is_callable(_temp937) then
-      _temp937 = brat_function:new(_temp937)
-    end
-    
-      local _m = _temp937.ast
-      if object._is_callable(_m) then
-        _temp938 =  _m(_temp937)
-      elseif _m ~= nil then
-        _temp938 =  _m
-      elseif _temp937.no_undermethod then
-        _temp938 =  _temp937:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp937, 'ast'))
-      end
-    
-if _type(_temp935) == 'number' then
-      _temp935 = number:new(_temp935)
-    elseif object._is_callable(_temp935) then
-      _temp935 = brat_function:new(_temp935)
-    end
-    
-      local _m = _temp935.get
-      if object._is_callable(_m) then
-        _temp934 =  _m(_temp935, _temp936, _temp938)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp935.no_undermethod then
-        _temp934 =  _temp935:no_undermethod(string:new('get'), _temp936, _temp938)
-      else
-        _error(exception:method_error(_temp935, 'get'))
-      end
-    
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp935
-     
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp936 = _m(_self)
-   elseif _m then
-     _temp936 = _m
-   elseif _self.no_undermethod then
-     _temp936 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp936) == 'number' then
-      _temp936 = number:new(_temp936)
-    elseif object._is_callable(_temp936) then
-      _temp936 = brat_function:new(_temp936)
-    end
-    
-      local _m = _temp936.sindexes
-      if object._is_callable(_m) then
-        _temp937 =  _m(_temp936)
-      elseif _m ~= nil then
-        _temp937 =  _m
-      elseif _temp936.no_undermethod then
-        _temp937 =  _temp936:no_undermethod(string:new('sindexes'))
-      else
-        _error(exception:method_error(_temp936, 'sindexes'))
-      end
-    
-if _type(_temp937) == 'number' then
-      _temp937 = number:new(_temp937)
-    elseif object._is_callable(_temp937) then
-      _temp937 = brat_function:new(_temp937)
-    end
-    
-      local _m = _temp937.elements
-      if object._is_callable(_m) then
-        _temp936 =  _m(_temp937)
-      elseif _m ~= nil then
-        _temp936 =  _m
-      elseif _temp937.no_undermethod then
-        _temp936 =  _temp937:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp937, 'elements'))
-      end
-    
-if _type(_temp936) == 'number' then
-      _temp936 = number:new(_temp936)
-    elseif object._is_callable(_temp936) then
-      _temp936 = brat_function:new(_temp936)
-    end
-    
-      local _m = _temp936.length
-      if object._is_callable(_m) then
-        _temp937 =  _m(_temp936)
-      elseif _m ~= nil then
-        _temp937 =  _m
-      elseif _temp936.no_undermethod then
-        _temp937 =  _temp936:no_undermethod(string:new('length'))
-      else
-        _error(exception:method_error(_temp936, 'length'))
-      end
-    
-
-  if _type(_temp937) == 'number' then
-    
-      if number._unchanged('_greater') then
-        if _temp937 > 1 then
-          _temp938 =  object.__true
-        else
-          _temp938 =  object.__false
-        end
-      else
-        if _type(_temp937) == 'number' then
-      _temp937 = number:new(_temp937)
-    elseif object._is_callable(_temp937) then
-      _temp937 = brat_function:new(_temp937)
-    end
-    
-      local _m = _temp937._greater
-      if object._is_callable(_m) then
-        _temp938 =  _m(_temp937, 1)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp937.no_undermethod then
-        _temp938 =  _temp937:no_undermethod(string:new('>'), 1)
-      else
-        _error(exception:method_error(_temp937, '_greater'))
-      end
-    
-      end
-      
-  else
-    if _type(_temp937) == 'number' then
-      _temp937 = number:new(_temp937)
-    elseif object._is_callable(_temp937) then
-      _temp937 = brat_function:new(_temp937)
-    end
-    
-      local _m = _temp937._greater
-      if object._is_callable(_m) then
-        _temp938 =  _m(_temp937, 1)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp937.no_undermethod then
-        _temp938 =  _temp937:no_undermethod(string:new('>'), 1)
-      else
-        _error(exception:method_error(_temp937, '_greater'))
-      end
-    
-  end
-  
-     if object._is_callable(_temp938) then
-                    _temp938 = _temp938(_self)
-                   end
-     -- end condition
-
-     if object._is_true(_temp938) then
-      do
-
-local _temp940
-
-local _temp939
-
-    if object._is_callable(_temp934) then
-      _temp939 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp939 =  _temp934
-    else
-      _error(exception:name_error("list"))
-    end
-    
-local _temp941 = string:new('get')
-
-if _type(_temp939) == 'number' then
-      _temp939 = number:new(_temp939)
-    elseif object._is_callable(_temp939) then
-      _temp939 = brat_function:new(_temp939)
-    end
-    
-      local _m = _temp939._less_less
-      if object._is_callable(_m) then
-        _temp940 =  _m(_temp939, _temp941)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp939.no_undermethod then
-        _temp940 =  _temp939:no_undermethod(string:new('<<'), _temp941)
-      else
-        _error(exception:method_error(_temp939, '_less_less'))
-      end
-    
-local _temp942
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp939 = _m(_self)
-   elseif _m then
-     _temp939 = _m
-   elseif _self.no_undermethod then
-     _temp939 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp939) == 'number' then
-      _temp939 = number:new(_temp939)
-    elseif object._is_callable(_temp939) then
-      _temp939 = brat_function:new(_temp939)
-    end
-    
-      local _m = _temp939.sindexes
-      if object._is_callable(_m) then
-        _temp941 =  _m(_temp939)
-      elseif _m ~= nil then
-        _temp941 =  _m
-      elseif _temp939.no_undermethod then
-        _temp941 =  _temp939:no_undermethod(string:new('sindexes'))
-      else
-        _error(exception:method_error(_temp939, 'sindexes'))
-      end
-    
-
-_temp939 = array:new()
-
-_temp942 =  _temp47(_self, _temp941, _temp939)
-
-
-    if object._is_callable(_temp934) then
-      _temp939 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp939 =  _temp934
-    else
-      _error(exception:name_error("list"))
-    end
-    
-local _temp943
-
-do
-local _temp944
-_temp943 = {}
-
-local _temp945
-
-    if object._is_callable(_temp942) then
-      _temp945 =  _temp942(_self)
-
-    elseif _temp942 then
-      _temp945 =  _temp942
-    else
-      _error(exception:name_error("index_underargs"))
-    end
-    
-if _type(_temp945) == 'number' then
-      _temp945 = number:new(_temp945)
-    elseif object._is_callable(_temp945) then
-      _temp945 = brat_function:new(_temp945)
-    end
-    
-      local _m = _temp945.deq
-      if object._is_callable(_m) then
-        _temp944 =  _m(_temp945)
-      elseif _m ~= nil then
-        _temp944 =  _m
-      elseif _temp945.no_undermethod then
-        _temp944 =  _temp945:no_undermethod(string:new('deq'))
-      else
-        _error(exception:method_error(_temp945, 'deq'))
-      end
-    
-_temp943[1] = _temp944
-_temp943 = array:new(_temp943)
-end
-
-if _type(_temp939) == 'number' then
-      _temp939 = number:new(_temp939)
-    elseif object._is_callable(_temp939) then
-      _temp939 = brat_function:new(_temp939)
-    end
-    
-      local _m = _temp939._less_less
-      if object._is_callable(_m) then
-        _temp941 =  _m(_temp939, _temp943)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp939.no_undermethod then
-        _temp941 =  _temp939:no_undermethod(string:new('<<'), _temp943)
-      else
-        _error(exception:method_error(_temp939, '_less_less'))
-      end
-    
-local _temp946
-
-    if object._is_callable(_temp942) then
-      _temp939 =  _temp942(_self)
-
-    elseif _temp942 then
-      _temp939 =  _temp942
-    else
-      _error(exception:name_error("index_underargs"))
-    end
-    
-if _type(_temp939) == 'number' then
-      _temp939 = number:new(_temp939)
-    elseif object._is_callable(_temp939) then
-      _temp939 = brat_function:new(_temp939)
-    end
-    
-      local _m = _temp939.pop
-      if object._is_callable(_m) then
-        _temp946 =  _m(_temp939)
-      elseif _m ~= nil then
-        _temp946 =  _m
-      elseif _temp939.no_undermethod then
-        _temp946 =  _temp939:no_undermethod(string:new('pop'))
-      else
-        _error(exception:method_error(_temp939, 'pop'))
-      end
-    
-
-    if object._is_callable(_temp942) then
-      _temp939 =  _temp942(_self)
-
-    elseif _temp942 then
-      _temp939 =  _temp942
-    else
-      _error(exception:name_error("index_underargs"))
-    end
-    
-    if object._is_callable(_temp934) then
-      _temp945 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp945 =  _temp934
-    else
-      _error(exception:name_error("list"))
-    end
-    
-
-local _temp956 = _lifted[65]
-
-if _type(_temp939) == 'number' then
-      _temp939 = number:new(_temp939)
-    elseif object._is_callable(_temp939) then
-      _temp939 = brat_function:new(_temp939)
-    end
-    
-      local _m = _temp939.reduce
-      if object._is_callable(_m) then
-        _temp943 =  _m(_temp939, _temp945, _temp956)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp939.no_undermethod then
-        _temp943 =  _temp939:no_undermethod(string:new('reduce'), _temp945, _temp956)
-      else
-        _error(exception:method_error(_temp939, 'reduce'))
-      end
-    
-_temp934 = _temp943
-
-local _temp957
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp939 = _m(_self)
-   elseif _m then
-     _temp939 = _m
-   elseif _self.no_undermethod then
-     _temp939 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp939) == 'number' then
-      _temp939 = number:new(_temp939)
-    elseif object._is_callable(_temp939) then
-      _temp939 = brat_function:new(_temp939)
-    end
-    
-      local _m = _temp939.elements
-      if object._is_callable(_m) then
-        _temp956 =  _m(_temp939)
-      elseif _m ~= nil then
-        _temp956 =  _m
-      elseif _temp939.no_undermethod then
-        _temp956 =  _temp939:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp939, 'elements'))
-      end
-    
-if _type(_temp956) == 'number' then
-      _temp956 = number:new(_temp956)
-    elseif object._is_callable(_temp956) then
-      _temp956 = brat_function:new(_temp956)
-    end
-    
-      local _m = _temp956.last
-      if object._is_callable(_m) then
-        _temp939 =  _m(_temp956)
-      elseif _m ~= nil then
-        _temp939 =  _m
-      elseif _temp956.no_undermethod then
-        _temp939 =  _temp956:no_undermethod(string:new('last'))
-      else
-        _error(exception:method_error(_temp956, 'last'))
-      end
-    
-if _type(_temp939) == 'number' then
-      _temp939 = number:new(_temp939)
-    elseif object._is_callable(_temp939) then
-      _temp939 = brat_function:new(_temp939)
-    end
-    
-      local _m = _temp939.ast
-      if object._is_callable(_m) then
-        _temp957 =  _m(_temp939)
-      elseif _m ~= nil then
-        _temp957 =  _m
-      elseif _temp939.no_undermethod then
-        _temp957 =  _temp939:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp939, 'ast'))
-      end
-    
-   local _m
-   if s then
-     _m = s
-   else
-     _m = _self["s"]
-   end
-   if object._is_callable(_m) then
-     _temp939 = _m(_self)
-   elseif _m then
-     _temp939 = _m
-   elseif _self.no_undermethod then
-     _temp939 = _self:no_undermethod(string:new('s'))
-   else
-     _error(exception:name_error("s"))
-   end
-  
-_temp945 = string:new('call')
-
-
-local _temp958
-
-    if object._is_callable(_temp934) then
-      _temp958 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp958 =  _temp934
-    else
-      _error(exception:name_error("list"))
-    end
-    
-
-local _temp959 = string:new('set')
-
-
-local _temp960
-
-do
-local _temp961
-_temp960 = {}
-
-    if object._is_callable(_temp946) then
-      _temp961 =  _temp946(_self)
-
-    elseif _temp946 then
-      _temp961 =  _temp946
-    else
-      _error(exception:name_error("final_underarg"))
-    end
-    
-_temp960[1] = _temp961
-
-    if object._is_callable(_temp957) then
-      _temp961 =  _temp957(_self)
-
-    elseif _temp957 then
-      _temp961 =  _temp957
-    else
-      _error(exception:name_error("value"))
-    end
-    
-_temp960[2] = _temp961
-_temp960 = array:new(_temp960)
-end
-
-if _type(_temp939) == 'number' then
-      _temp939 = number:new(_temp939)
-    elseif object._is_callable(_temp939) then
-      _temp939 = brat_function:new(_temp939)
-    end
-    
-      local _m = _temp939.get
-      if object._is_callable(_m) then
-        _temp956 =  _m(_temp939, _temp945, _temp958, _temp959, _temp960)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 3))
-      elseif _temp939.no_undermethod then
-        _temp956 =  _temp939:no_undermethod(string:new('get'), _temp945, _temp958, _temp959, _temp960)
-      else
-        _error(exception:method_error(_temp939, 'get'))
-      end
-    
-_temp935 =  _temp956
-
-end
-
-      _temp935 =  _temp935
-     else
-      do
-local _temp962
-
-local _temp964
-
-local _temp963
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp963 = _m(_self)
-   elseif _m then
-     _temp963 = _m
-   elseif _self.no_undermethod then
-     _temp963 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp963) == 'number' then
-      _temp963 = number:new(_temp963)
-    elseif object._is_callable(_temp963) then
-      _temp963 = brat_function:new(_temp963)
-    end
-    
-      local _m = _temp963.sindexes
-      if object._is_callable(_m) then
-        _temp964 =  _m(_temp963)
-      elseif _m ~= nil then
-        _temp964 =  _m
-      elseif _temp963.no_undermethod then
-        _temp964 =  _temp963:no_undermethod(string:new('sindexes'))
-      else
-        _error(exception:method_error(_temp963, 'sindexes'))
-      end
-    
-
-_temp963 = array:new()
-
-_temp962 =  _temp47(_self, _temp964, _temp963)
-
-
-    if object._is_callable(_temp962) then
-      _temp963 =  _temp962(_self)
-
-    elseif _temp962 then
-      _temp963 =  _temp962
-    else
-      _error(exception:name_error("args"))
-    end
-    
-local _temp966
-
-local _temp965
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp965 = _m(_self)
-   elseif _m then
-     _temp965 = _m
-   elseif _self.no_undermethod then
-     _temp965 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp965) == 'number' then
-      _temp965 = number:new(_temp965)
-    elseif object._is_callable(_temp965) then
-      _temp965 = brat_function:new(_temp965)
-    end
-    
-      local _m = _temp965.elements
-      if object._is_callable(_m) then
-        _temp966 =  _m(_temp965)
-      elseif _m ~= nil then
-        _temp966 =  _m
-      elseif _temp965.no_undermethod then
-        _temp966 =  _temp965:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp965, 'elements'))
-      end
-    
-if _type(_temp966) == 'number' then
-      _temp966 = number:new(_temp966)
-    elseif object._is_callable(_temp966) then
-      _temp966 = brat_function:new(_temp966)
-    end
-    
-      local _m = _temp966.last
-      if object._is_callable(_m) then
-        _temp965 =  _m(_temp966)
-      elseif _m ~= nil then
-        _temp965 =  _m
-      elseif _temp966.no_undermethod then
-        _temp965 =  _temp966:no_undermethod(string:new('last'))
-      else
-        _error(exception:method_error(_temp966, 'last'))
-      end
-    
-if _type(_temp965) == 'number' then
-      _temp965 = number:new(_temp965)
-    elseif object._is_callable(_temp965) then
-      _temp965 = brat_function:new(_temp965)
-    end
-    
-      local _m = _temp965.ast
-      if object._is_callable(_m) then
-        _temp966 =  _m(_temp965)
-      elseif _m ~= nil then
-        _temp966 =  _m
-      elseif _temp965.no_undermethod then
-        _temp966 =  _temp965:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp965, 'ast'))
-      end
-    
-if _type(_temp963) == 'number' then
-      _temp963 = number:new(_temp963)
-    elseif object._is_callable(_temp963) then
-      _temp963 = brat_function:new(_temp963)
-    end
-    
-      local _m = _temp963._less_less
-      if object._is_callable(_m) then
-        _temp964 =  _m(_temp963, _temp966)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp963.no_undermethod then
-        _temp964 =  _temp963:no_undermethod(string:new('<<'), _temp966)
-      else
-        _error(exception:method_error(_temp963, '_less_less'))
-      end
-    
-
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp963
-     
-    if object._is_callable(_temp962) then
-      _temp966 =  _temp962(_self)
-
-    elseif _temp962 then
-      _temp966 =  _temp962
-    else
-      _error(exception:name_error("args"))
-    end
-    
-if _type(_temp966) == 'number' then
-      _temp966 = number:new(_temp966)
-    elseif object._is_callable(_temp966) then
-      _temp966 = brat_function:new(_temp966)
-    end
-    
-      local _m = _temp966.first
-      if object._is_callable(_m) then
-        _temp965 =  _m(_temp966)
-      elseif _m ~= nil then
-        _temp965 =  _m
-      elseif _temp966.no_undermethod then
-        _temp965 =  _temp966:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp966, 'first'))
-      end
-    
-if _type(_temp965) == 'number' then
-      _temp965 = number:new(_temp965)
-    elseif object._is_callable(_temp965) then
-      _temp965 = brat_function:new(_temp965)
-    end
-    
-      local _m = _temp965.name
-      if object._is_callable(_m) then
-        _temp966 =  _m(_temp965)
-      elseif _m ~= nil then
-        _temp966 =  _m
-      elseif _temp965.no_undermethod then
-        _temp966 =  _temp965:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp965, 'name'))
-      end
-    
-local _temp967 = string:new('simple_string')
-
-if _type(_temp966) == 'number' then
-      _temp966 = number:new(_temp966)
-    elseif object._is_callable(_temp966) then
-      _temp966 = brat_function:new(_temp966)
-    end
-    
-      local _m = _temp966._equal_equal
-      if object._is_callable(_m) then
-        _temp965 =  _m(_temp966, _temp967)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp966.no_undermethod then
-        _temp965 =  _temp966:no_undermethod(string:new('=='), _temp967)
-      else
-        _error(exception:method_error(_temp966, '_equal_equal'))
-      end
-    
-     if object._is_callable(_temp965) then
-                    _temp965 = _temp965(_self)
-                   end
-     -- end condition
-
-     if object._is_true(_temp965) then
-      do
-
-local _temp968
-
-    if object._is_callable(_temp934) then
-      _temp968 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp968 =  _temp934
-    else
-      _error(exception:name_error("list"))
-    end
-    
-
-local _temp969 = string:new('simple_index_set')
-
-    if _type(_temp968) == 'table' then
-      _temp968['name'] = _temp969
-    else
-      _error('Cannot set method on ' .. _temp968)
-    end
-    
-_temp963 =  _temp969
-
-end
-
-      _temp963 =  _temp963
-     else
-      
-_temp963 = object.__false
-
-      _temp963 =  _temp963
-     end
-     -- end yay if
-   else
-     
-    if object._is_callable(_temp962) then
-      _temp966 =  _temp962(_self)
-
-    elseif _temp962 then
-      _temp966 =  _temp962
-    else
-      _error(exception:name_error("args"))
-    end
-    
-if _type(_temp966) == 'number' then
-      _temp966 = number:new(_temp966)
-    elseif object._is_callable(_temp966) then
-      _temp966 = brat_function:new(_temp966)
-    end
-    
-      local _m = _temp966.first
-      if object._is_callable(_m) then
-        _temp967 =  _m(_temp966)
-      elseif _m ~= nil then
-        _temp967 =  _m
-      elseif _temp966.no_undermethod then
-        _temp967 =  _temp966:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp966, 'first'))
-      end
-    
-if _type(_temp967) == 'number' then
-      _temp967 = number:new(_temp967)
-    elseif object._is_callable(_temp967) then
-      _temp967 = brat_function:new(_temp967)
-    end
-    
-      local _m = _temp967.name
-      if object._is_callable(_m) then
-        _temp966 =  _m(_temp967)
-      elseif _m ~= nil then
-        _temp966 =  _m
-      elseif _temp967.no_undermethod then
-        _temp966 =  _temp967:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp967, 'name'))
-      end
-    
-local _temp970 = string:new('simple_string')
-
-if _type(_temp966) == 'number' then
-      _temp966 = number:new(_temp966)
-    elseif object._is_callable(_temp966) then
-      _temp966 = brat_function:new(_temp966)
-    end
-    
-      local _m = _temp966._equal_equal
-      if object._is_callable(_m) then
-        _temp967 =  _m(_temp966, _temp970)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp966.no_undermethod then
-        _temp967 =  _temp966:no_undermethod(string:new('=='), _temp970)
-      else
-        _error(exception:method_error(_temp966, '_equal_equal'))
-      end
-    
-
-_temp966 = _lifted_call(_lifted[66], {})
-_temp966.arg_table['_temp934'] = _temp934
 
   if true_question then
-    _temp963 =  true_question(_self, _temp967, _temp966)
+    _temp643 =  true_question(_self, _temp645, _temp810, _temp817)
 
   else
     if _type(_self) == 'number' then
@@ -21269,481 +22641,66 @@ _temp966.arg_table['_temp934'] = _temp934
     
       local _m = _self.true_question
       if object._is_callable(_m) then
-        _temp963 =  _m(_self, _temp967, _temp966)
+        _temp643 =  _m(_self, _temp645, _temp810, _temp817)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
+          _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp963 =  _self:no_undermethod(string:new('true?'), _temp967, _temp966)
+        _temp643 =  _self:no_undermethod(string:new('true?'), _temp645, _temp810, _temp817)
       else
         _error(exception:method_error(_self, 'true_question'))
       end
     
   end
   
-     _temp963 =  _temp963
+     _temp643 =  _temp643
+     -- end fallback if
    end
    
-    if object._is_callable(_temp934) then
-      _temp966 =  _temp934(_self)
+    if object._is_callable(_temp641) then
+      _temp817 =  _temp641(_self)
 
-    elseif _temp934 then
-      _temp966 =  _temp934
+    elseif _temp641 then
+      _temp817 =  _temp641
     else
-      _error(exception:name_error("list"))
+      _error(exception:name_error("call"))
     end
     
-_temp970 = string:new('set')
-
-if _type(_temp966) == 'number' then
-      _temp966 = number:new(_temp966)
-    elseif object._is_callable(_temp966) then
-      _temp966 = brat_function:new(_temp966)
-    end
-    
-      local _m = _temp966._less_less
-      if object._is_callable(_m) then
-        _temp967 =  _m(_temp966, _temp970)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp966.no_undermethod then
-        _temp967 =  _temp966:no_undermethod(string:new('<<'), _temp970)
-      else
-        _error(exception:method_error(_temp966, '_less_less'))
-      end
-    
-    if object._is_callable(_temp962) then
-      _temp970 =  _temp962(_self)
-
-    elseif _temp962 then
-      _temp970 =  _temp962
-    else
-      _error(exception:name_error("args"))
-    end
-    
-if _type(_temp967) == 'number' then
-      _temp967 = number:new(_temp967)
-    elseif object._is_callable(_temp967) then
-      _temp967 = brat_function:new(_temp967)
-    end
-    
-      local _m = _temp967._less_less
-      if object._is_callable(_m) then
-        _temp966 =  _m(_temp967, _temp970)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp967.no_undermethod then
-        _temp966 =  _temp967:no_undermethod(string:new('<<'), _temp970)
-      else
-        _error(exception:method_error(_temp967, '_less_less'))
-      end
-    
-_temp935 =  _temp966
+return _temp817
 
 end
 
-      _temp935 =  _temp935
-     end
-     -- end yay if
-   else
-     
-local _temp974
-
-local _temp973
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp973 = _m(_self)
-   elseif _m then
-     _temp973 = _m
-   elseif _self.no_undermethod then
-     _temp973 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp973) == 'number' then
-      _temp973 = number:new(_temp973)
-    elseif object._is_callable(_temp973) then
-      _temp973 = brat_function:new(_temp973)
+if _type(_temp639) == 'number' then
+      _temp639 = number:new(_temp639)
+    elseif object._is_callable(_temp639) then
+      _temp639 = brat_function:new(_temp639)
     end
     
-      local _m = _temp973.sindexes
+      local _m = _temp639.reduce
       if object._is_callable(_m) then
-        _temp974 =  _m(_temp973)
-      elseif _m ~= nil then
-        _temp974 =  _m
-      elseif _temp973.no_undermethod then
-        _temp974 =  _temp973:no_undermethod(string:new('sindexes'))
-      else
-        _error(exception:method_error(_temp973, 'sindexes'))
-      end
-    
-if _type(_temp974) == 'number' then
-      _temp974 = number:new(_temp974)
-    elseif object._is_callable(_temp974) then
-      _temp974 = brat_function:new(_temp974)
-    end
-    
-      local _m = _temp974.elements
-      if object._is_callable(_m) then
-        _temp973 =  _m(_temp974)
-      elseif _m ~= nil then
-        _temp973 =  _m
-      elseif _temp974.no_undermethod then
-        _temp973 =  _temp974:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp974, 'elements'))
-      end
-    
-if _type(_temp973) == 'number' then
-      _temp973 = number:new(_temp973)
-    elseif object._is_callable(_temp973) then
-      _temp973 = brat_function:new(_temp973)
-    end
-    
-      local _m = _temp973.length
-      if object._is_callable(_m) then
-        _temp974 =  _m(_temp973)
-      elseif _m ~= nil then
-        _temp974 =  _m
-      elseif _temp973.no_undermethod then
-        _temp974 =  _temp973:no_undermethod(string:new('length'))
-      else
-        _error(exception:method_error(_temp973, 'length'))
-      end
-    
-
-  if _type(_temp974) == 'number' then
-    
-      if number._unchanged('_greater') then
-        if _temp974 > 1 then
-          _temp936 =  object.__true
-        else
-          _temp936 =  object.__false
-        end
-      else
-        if _type(_temp974) == 'number' then
-      _temp974 = number:new(_temp974)
-    elseif object._is_callable(_temp974) then
-      _temp974 = brat_function:new(_temp974)
-    end
-    
-      local _m = _temp974._greater
-      if object._is_callable(_m) then
-        _temp936 =  _m(_temp974, 1)
+        _temp638 =  _m(_temp639, _temp642)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
-      elseif _temp974.no_undermethod then
-        _temp936 =  _temp974:no_undermethod(string:new('>'), 1)
+      elseif _temp639.no_undermethod then
+        _temp638 =  _temp639:no_undermethod(string:new('reduce'), _temp642)
       else
-        _error(exception:method_error(_temp974, '_greater'))
+        _error(exception:method_error(_temp639, 'reduce'))
       end
     
-      end
-      
-  else
-    if _type(_temp974) == 'number' then
-      _temp974 = number:new(_temp974)
-    elseif object._is_callable(_temp974) then
-      _temp974 = brat_function:new(_temp974)
-    end
-    
-      local _m = _temp974._greater
-      if object._is_callable(_m) then
-        _temp936 =  _m(_temp974, 1)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp974.no_undermethod then
-        _temp936 =  _temp974:no_undermethod(string:new('>'), 1)
-      else
-        _error(exception:method_error(_temp974, '_greater'))
-      end
-    
-  end
-  
+return _temp638
 
-local _temp975 = function(_self)
+end
 
-local _temp977
+_temp628 =  _temp63(_self, _temp11, _temp636)
+
+
+_temp11 = string:new('paren_call')
+
+
+local _temp974 = function(_self)
+local _temp975
 
 local _temp976
 
-    if object._is_callable(_temp934) then
-      _temp976 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp976 =  _temp934
-    else
-      _error(exception:name_error("list"))
-    end
-    
-local _temp978 = string:new('get')
-
-if _type(_temp976) == 'number' then
-      _temp976 = number:new(_temp976)
-    elseif object._is_callable(_temp976) then
-      _temp976 = brat_function:new(_temp976)
-    end
-    
-      local _m = _temp976._less_less
-      if object._is_callable(_m) then
-        _temp977 =  _m(_temp976, _temp978)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp976.no_undermethod then
-        _temp977 =  _temp976:no_undermethod(string:new('<<'), _temp978)
-      else
-        _error(exception:method_error(_temp976, '_less_less'))
-      end
-    
-local _temp979
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp976 = _m(_self)
-   elseif _m then
-     _temp976 = _m
-   elseif _self.no_undermethod then
-     _temp976 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp976) == 'number' then
-      _temp976 = number:new(_temp976)
-    elseif object._is_callable(_temp976) then
-      _temp976 = brat_function:new(_temp976)
-    end
-    
-      local _m = _temp976.sindexes
-      if object._is_callable(_m) then
-        _temp978 =  _m(_temp976)
-      elseif _m ~= nil then
-        _temp978 =  _m
-      elseif _temp976.no_undermethod then
-        _temp978 =  _temp976:no_undermethod(string:new('sindexes'))
-      else
-        _error(exception:method_error(_temp976, 'sindexes'))
-      end
-    
-
-_temp976 = array:new()
-
-_temp979 =  _temp47(_self, _temp978, _temp976)
-
-
-    if object._is_callable(_temp934) then
-      _temp976 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp976 =  _temp934
-    else
-      _error(exception:name_error("list"))
-    end
-    
-local _temp980
-
-do
-local _temp981
-_temp980 = {}
-
-local _temp982
-
-    if object._is_callable(_temp979) then
-      _temp982 =  _temp979(_self)
-
-    elseif _temp979 then
-      _temp982 =  _temp979
-    else
-      _error(exception:name_error("index_underargs"))
-    end
-    
-if _type(_temp982) == 'number' then
-      _temp982 = number:new(_temp982)
-    elseif object._is_callable(_temp982) then
-      _temp982 = brat_function:new(_temp982)
-    end
-    
-      local _m = _temp982.deq
-      if object._is_callable(_m) then
-        _temp981 =  _m(_temp982)
-      elseif _m ~= nil then
-        _temp981 =  _m
-      elseif _temp982.no_undermethod then
-        _temp981 =  _temp982:no_undermethod(string:new('deq'))
-      else
-        _error(exception:method_error(_temp982, 'deq'))
-      end
-    
-_temp980[1] = _temp981
-_temp980 = array:new(_temp980)
-end
-
-if _type(_temp976) == 'number' then
-      _temp976 = number:new(_temp976)
-    elseif object._is_callable(_temp976) then
-      _temp976 = brat_function:new(_temp976)
-    end
-    
-      local _m = _temp976._less_less
-      if object._is_callable(_m) then
-        _temp978 =  _m(_temp976, _temp980)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp976.no_undermethod then
-        _temp978 =  _temp976:no_undermethod(string:new('<<'), _temp980)
-      else
-        _error(exception:method_error(_temp976, '_less_less'))
-      end
-    
-local _temp983
-
-    if object._is_callable(_temp979) then
-      _temp976 =  _temp979(_self)
-
-    elseif _temp979 then
-      _temp976 =  _temp979
-    else
-      _error(exception:name_error("index_underargs"))
-    end
-    
-if _type(_temp976) == 'number' then
-      _temp976 = number:new(_temp976)
-    elseif object._is_callable(_temp976) then
-      _temp976 = brat_function:new(_temp976)
-    end
-    
-      local _m = _temp976.pop
-      if object._is_callable(_m) then
-        _temp983 =  _m(_temp976)
-      elseif _m ~= nil then
-        _temp983 =  _m
-      elseif _temp976.no_undermethod then
-        _temp983 =  _temp976:no_undermethod(string:new('pop'))
-      else
-        _error(exception:method_error(_temp976, 'pop'))
-      end
-    
-
-    if object._is_callable(_temp979) then
-      _temp976 =  _temp979(_self)
-
-    elseif _temp979 then
-      _temp976 =  _temp979
-    else
-      _error(exception:name_error("index_underargs"))
-    end
-    
-    if object._is_callable(_temp934) then
-      _temp982 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp982 =  _temp934
-    else
-      _error(exception:name_error("list"))
-    end
-    
-
-local _temp993 = _lifted[67]
-
-if _type(_temp976) == 'number' then
-      _temp976 = number:new(_temp976)
-    elseif object._is_callable(_temp976) then
-      _temp976 = brat_function:new(_temp976)
-    end
-    
-      local _m = _temp976.reduce
-      if object._is_callable(_m) then
-        _temp980 =  _m(_temp976, _temp982, _temp993)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _temp976.no_undermethod then
-        _temp980 =  _temp976:no_undermethod(string:new('reduce'), _temp982, _temp993)
-      else
-        _error(exception:method_error(_temp976, 'reduce'))
-      end
-    
-_temp934 = _temp980
-
-local _temp994
-
-   local _m
-   if my then
-     _m = my
-   else
-     _m = _self["my"]
-   end
-   if object._is_callable(_m) then
-     _temp976 = _m(_self)
-   elseif _m then
-     _temp976 = _m
-   elseif _self.no_undermethod then
-     _temp976 = _self:no_undermethod(string:new('my'))
-   else
-     _error(exception:name_error("my"))
-   end
-  
-if _type(_temp976) == 'number' then
-      _temp976 = number:new(_temp976)
-    elseif object._is_callable(_temp976) then
-      _temp976 = brat_function:new(_temp976)
-    end
-    
-      local _m = _temp976.elements
-      if object._is_callable(_m) then
-        _temp993 =  _m(_temp976)
-      elseif _m ~= nil then
-        _temp993 =  _m
-      elseif _temp976.no_undermethod then
-        _temp993 =  _temp976:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp976, 'elements'))
-      end
-    
-if _type(_temp993) == 'number' then
-      _temp993 = number:new(_temp993)
-    elseif object._is_callable(_temp993) then
-      _temp993 = brat_function:new(_temp993)
-    end
-    
-      local _m = _temp993.last
-      if object._is_callable(_m) then
-        _temp976 =  _m(_temp993)
-      elseif _m ~= nil then
-        _temp976 =  _m
-      elseif _temp993.no_undermethod then
-        _temp976 =  _temp993:no_undermethod(string:new('last'))
-      else
-        _error(exception:method_error(_temp993, 'last'))
-      end
-    
-if _type(_temp976) == 'number' then
-      _temp976 = number:new(_temp976)
-    elseif object._is_callable(_temp976) then
-      _temp976 = brat_function:new(_temp976)
-    end
-    
-      local _m = _temp976.ast
-      if object._is_callable(_m) then
-        _temp994 =  _m(_temp976)
-      elseif _m ~= nil then
-        _temp994 =  _m
-      elseif _temp976.no_undermethod then
-        _temp994 =  _temp976:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp976, 'ast'))
-      end
-    
    local _m
    if s then
      _m = s
@@ -21760,55 +22717,10 @@ if _type(_temp976) == 'number' then
      _error(exception:name_error("s"))
    end
   
-_temp982 = string:new('call')
-
-
-local _temp995
-
-    if object._is_callable(_temp934) then
-      _temp995 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp995 =  _temp934
-    else
-      _error(exception:name_error("list"))
-    end
-    
-
-local _temp996 = string:new('set')
-
-
-local _temp997
-
-do
-local _temp998
-_temp997 = {}
-
-    if object._is_callable(_temp983) then
-      _temp998 =  _temp983(_self)
-
-    elseif _temp983 then
-      _temp998 =  _temp983
-    else
-      _error(exception:name_error("final_underarg"))
-    end
-    
-_temp997[1] = _temp998
-
-    if object._is_callable(_temp994) then
-      _temp998 =  _temp994(_self)
-
-    elseif _temp994 then
-      _temp998 =  _temp994
-    else
-      _error(exception:name_error("value"))
-    end
-    
-_temp997[2] = _temp998
-_temp997 = array:new(_temp997)
-end
-
-if _type(_temp976) == 'number' then
+      if _temp976._lua_hash and _temp976._unchanged('get') then
+        _temp975 =  _temp976:get('invoke')
+      else
+        if _type(_temp976) == 'number' then
       _temp976 = number:new(_temp976)
     elseif object._is_callable(_temp976) then
       _temp976 = brat_function:new(_temp976)
@@ -21816,78 +22728,458 @@ if _type(_temp976) == 'number' then
     
       local _m = _temp976.get
       if object._is_callable(_m) then
-        _temp993 =  _m(_temp976, _temp982, _temp995, _temp996, _temp997)
+        _temp975 =  _m(_temp976, string:new('invoke'))
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 3))
+          _error(exception:argument_error('function', 0, 0))
       elseif _temp976.no_undermethod then
-        _temp993 =  _temp976:no_undermethod(string:new('get'), _temp982, _temp995, _temp996, _temp997)
+        _temp975 =  _temp976:no_undermethod(string:new('get'), string:new('invoke'))
       else
         _error(exception:method_error(_temp976, 'get'))
       end
     
-return _temp993
+      end
+      
+local _temp977
 
-end
-
-
-local _temp999 = function(_self)
-local _temp1000
-
-local _temp1002
-
-local _temp1001
+local _temp978
 
    local _m
    if my then
      _m = my
    else
      _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp978 = _m(_self)
+   elseif _m then
+     _temp978 = _m
+   elseif _self.no_undermethod then
+     _temp978 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+
+local _temp979
+
+    if object._is_callable(_temp975) then
+      _temp979 =  _temp975(_self)
+
+    elseif _temp975 then
+      _temp979 =  _temp975
+    else
+      _error(exception:name_error("list"))
+    end
+    
+_temp977 =  _temp47(_self, _temp978, _temp979)
+
+return _temp977
+
+end
+
+_temp636 =  _temp63(_self, _temp11, _temp974)
+
+
+_temp11 = string:new('func_lit_call')
+
+
+local _temp980 = function(_self)
+local _temp981
+
+local _temp982
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp982 = _m(_self)
+   elseif _m then
+     _temp982 = _m
+   elseif _self.no_undermethod then
+     _temp982 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+      if _temp982._lua_hash and _temp982._unchanged('get') then
+        _temp981 =  _temp982:get('invoke_function')
+      else
+        if _type(_temp982) == 'number' then
+      _temp982 = number:new(_temp982)
+    elseif object._is_callable(_temp982) then
+      _temp982 = brat_function:new(_temp982)
+    end
+    
+      local _m = _temp982.get
+      if object._is_callable(_m) then
+        _temp981 =  _m(_temp982, string:new('invoke_function'))
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp982.no_undermethod then
+        _temp981 =  _temp982:no_undermethod(string:new('get'), string:new('invoke_function'))
+      else
+        _error(exception:method_error(_temp982, 'get'))
+      end
+    
+      end
+      
+local _temp983
+
+local _temp984
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp984 = _m(_self)
+   elseif _m then
+     _temp984 = _m
+   elseif _self.no_undermethod then
+     _temp984 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+
+local _temp985
+
+    if object._is_callable(_temp981) then
+      _temp985 =  _temp981(_self)
+
+    elseif _temp981 then
+      _temp985 =  _temp981
+    else
+      _error(exception:name_error("list"))
+    end
+    
+_temp983 =  _temp47(_self, _temp984, _temp985)
+
+return _temp983
+
+end
+
+_temp974 =  _temp63(_self, _temp11, _temp980)
+
+
+_temp11 = string:new('var_assign')
+
+
+local _temp986 = function(_self)
+
+local _temp988
+
+local _temp987
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp987 = _m(_self)
+   elseif _m then
+     _temp987 = _m
+   elseif _self.no_undermethod then
+     _temp987 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp989 = string:new('var_assign')
+
+
+local _temp990
+
+local _temp992
+
+local _temp991
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp991 = _m(_self)
+   elseif _m then
+     _temp991 = _m
+   elseif _self.no_undermethod then
+     _temp991 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp991) == 'number' then
+      _temp991 = number:new(_temp991)
+    elseif object._is_callable(_temp991) then
+      _temp991 = brat_function:new(_temp991)
+    end
+    
+      local _m = _temp991.var
+      if object._is_callable(_m) then
+        _temp992 =  _m(_temp991)
+      elseif _m ~= nil then
+        _temp992 =  _m
+      elseif _temp991.no_undermethod then
+        _temp992 =  _temp991:no_undermethod(string:new('var'))
+      else
+        _error(exception:method_error(_temp991, 'var'))
+      end
+    
+if _type(_temp992) == 'number' then
+      _temp992 = number:new(_temp992)
+    elseif object._is_callable(_temp992) then
+      _temp992 = brat_function:new(_temp992)
+    end
+    
+      local _m = _temp992.text
+      if object._is_callable(_m) then
+        _temp991 =  _m(_temp992)
+      elseif _m ~= nil then
+        _temp991 =  _m
+      elseif _temp992.no_undermethod then
+        _temp991 =  _temp992:no_undermethod(string:new('text'))
+      else
+        _error(exception:method_error(_temp992, 'text'))
+      end
+    
+_temp990 =  _temp5(_self, _temp991)
+
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp991 = _m(_self)
+   elseif _m then
+     _temp991 = _m
+   elseif _self.no_undermethod then
+     _temp991 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp991) == 'number' then
+      _temp991 = number:new(_temp991)
+    elseif object._is_callable(_temp991) then
+      _temp991 = brat_function:new(_temp991)
+    end
+    
+      local _m = _temp991.elements
+      if object._is_callable(_m) then
+        _temp992 =  _m(_temp991)
+      elseif _m ~= nil then
+        _temp992 =  _m
+      elseif _temp991.no_undermethod then
+        _temp992 =  _temp991:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp991, 'elements'))
+      end
+    
+if _type(_temp992) == 'number' then
+      _temp992 = number:new(_temp992)
+    elseif object._is_callable(_temp992) then
+      _temp992 = brat_function:new(_temp992)
+    end
+    
+      local _m = _temp992.last
+      if object._is_callable(_m) then
+        _temp991 =  _m(_temp992)
+      elseif _m ~= nil then
+        _temp991 =  _m
+      elseif _temp992.no_undermethod then
+        _temp991 =  _temp992:no_undermethod(string:new('last'))
+      else
+        _error(exception:method_error(_temp992, 'last'))
+      end
+    
+if _type(_temp991) == 'number' then
+      _temp991 = number:new(_temp991)
+    elseif object._is_callable(_temp991) then
+      _temp991 = brat_function:new(_temp991)
+    end
+    
+      local _m = _temp991.ast
+      if object._is_callable(_m) then
+        _temp992 =  _m(_temp991)
+      elseif _m ~= nil then
+        _temp992 =  _m
+      elseif _temp991.no_undermethod then
+        _temp992 =  _temp991:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp991, 'ast'))
+      end
+    
+if _type(_temp987) == 'number' then
+      _temp987 = number:new(_temp987)
+    elseif object._is_callable(_temp987) then
+      _temp987 = brat_function:new(_temp987)
+    end
+    
+      local _m = _temp987.get
+      if object._is_callable(_m) then
+        _temp988 =  _m(_temp987, _temp989, _temp990, _temp992)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _temp987.no_undermethod then
+        _temp988 =  _temp987:no_undermethod(string:new('get'), _temp989, _temp990, _temp992)
+      else
+        _error(exception:method_error(_temp987, 'get'))
+      end
+    
+return _temp988
+
+end
+
+_temp980 =  _temp63(_self, _temp11, _temp986)
+
+
+_temp11 = string:new('field_assign')
+
+
+local _temp993 = function(_self)
+local _temp994
+
+local _temp995
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp995 = _m(_self)
+   elseif _m then
+     _temp995 = _m
+   elseif _self.no_undermethod then
+     _temp995 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+      if _temp995._lua_hash and _temp995._unchanged('get') then
+        _temp994 =  _temp995:get('field_assign')
+      else
+        if _type(_temp995) == 'number' then
+      _temp995 = number:new(_temp995)
+    elseif object._is_callable(_temp995) then
+      _temp995 = brat_function:new(_temp995)
+    end
+    
+      local _m = _temp995.get
+      if object._is_callable(_m) then
+        _temp994 =  _m(_temp995, string:new('field_assign'))
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp995.no_undermethod then
+        _temp994 =  _temp995:no_undermethod(string:new('get'), string:new('field_assign'))
+      else
+        _error(exception:method_error(_temp995, 'get'))
+      end
+    
+      end
+      
+local _temp996
+
+local _temp997
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp997 = _m(_self)
+   elseif _m then
+     _temp997 = _m
+   elseif _self.no_undermethod then
+     _temp997 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+
+local _temp998
+
+    if object._is_callable(_temp994) then
+      _temp998 =  _temp994(_self)
+
+    elseif _temp994 then
+      _temp998 =  _temp994
+    else
+      _error(exception:name_error("list"))
+    end
+    
+_temp996 =  _temp47(_self, _temp997, _temp998)
+
+return _temp996
+
+end
+
+_temp986 =  _temp63(_self, _temp11, _temp993)
+
+
+_temp11 = string:new('field_access')
+
+
+local _temp999 = function(_self)
+local _temp1000
+
+local _temp1001
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
    end
    if object._is_callable(_m) then
      _temp1001 = _m(_self)
    elseif _m then
      _temp1001 = _m
    elseif _self.no_undermethod then
-     _temp1001 = _self:no_undermethod(string:new('my'))
+     _temp1001 = _self:no_undermethod(string:new('s'))
    else
-     _error(exception:name_error("my"))
+     _error(exception:name_error("s"))
    end
   
-if _type(_temp1001) == 'number' then
+      if _temp1001._lua_hash and _temp1001._unchanged('get') then
+        _temp1000 =  _temp1001:get('field_access')
+      else
+        if _type(_temp1001) == 'number' then
       _temp1001 = number:new(_temp1001)
     elseif object._is_callable(_temp1001) then
       _temp1001 = brat_function:new(_temp1001)
     end
     
-      local _m = _temp1001.sindexes
+      local _m = _temp1001.get
       if object._is_callable(_m) then
-        _temp1002 =  _m(_temp1001)
+        _temp1000 =  _m(_temp1001, string:new('field_access'))
       elseif _m ~= nil then
-        _temp1002 =  _m
+          _error(exception:argument_error('function', 0, 0))
       elseif _temp1001.no_undermethod then
-        _temp1002 =  _temp1001:no_undermethod(string:new('sindexes'))
+        _temp1000 =  _temp1001:no_undermethod(string:new('get'), string:new('field_access'))
       else
-        _error(exception:method_error(_temp1001, 'sindexes'))
+        _error(exception:method_error(_temp1001, 'get'))
       end
     
+      end
+      
 
-_temp1001 = array:new()
-
-_temp1000 =  _temp47(_self, _temp1002, _temp1001)
-
-
-    if object._is_callable(_temp1000) then
-      _temp1001 =  _temp1000(_self)
-
-    elseif _temp1000 then
-      _temp1001 =  _temp1000
-    else
-      _error(exception:name_error("args"))
-    end
-    
-local _temp1004
-
-local _temp1003
+local _temp1002
 
    local _m
    if my then
@@ -21896,344 +23188,1596 @@ local _temp1003
      _m = _self["my"]
    end
    if object._is_callable(_m) then
-     _temp1003 = _m(_self)
+     _temp1002 = _m(_self)
    elseif _m then
-     _temp1003 = _m
+     _temp1002 = _m
    elseif _self.no_undermethod then
-     _temp1003 = _self:no_undermethod(string:new('my'))
+     _temp1002 = _self:no_undermethod(string:new('my'))
    else
      _error(exception:name_error("my"))
    end
   
-if _type(_temp1003) == 'number' then
-      _temp1003 = number:new(_temp1003)
-    elseif object._is_callable(_temp1003) then
-      _temp1003 = brat_function:new(_temp1003)
-    end
-    
-      local _m = _temp1003.elements
-      if object._is_callable(_m) then
-        _temp1004 =  _m(_temp1003)
-      elseif _m ~= nil then
-        _temp1004 =  _m
-      elseif _temp1003.no_undermethod then
-        _temp1004 =  _temp1003:no_undermethod(string:new('elements'))
-      else
-        _error(exception:method_error(_temp1003, 'elements'))
-      end
-    
-if _type(_temp1004) == 'number' then
-      _temp1004 = number:new(_temp1004)
-    elseif object._is_callable(_temp1004) then
-      _temp1004 = brat_function:new(_temp1004)
-    end
-    
-      local _m = _temp1004.last
-      if object._is_callable(_m) then
-        _temp1003 =  _m(_temp1004)
-      elseif _m ~= nil then
-        _temp1003 =  _m
-      elseif _temp1004.no_undermethod then
-        _temp1003 =  _temp1004:no_undermethod(string:new('last'))
-      else
-        _error(exception:method_error(_temp1004, 'last'))
-      end
-    
-if _type(_temp1003) == 'number' then
-      _temp1003 = number:new(_temp1003)
-    elseif object._is_callable(_temp1003) then
-      _temp1003 = brat_function:new(_temp1003)
-    end
-    
-      local _m = _temp1003.ast
-      if object._is_callable(_m) then
-        _temp1004 =  _m(_temp1003)
-      elseif _m ~= nil then
-        _temp1004 =  _m
-      elseif _temp1003.no_undermethod then
-        _temp1004 =  _temp1003:no_undermethod(string:new('ast'))
-      else
-        _error(exception:method_error(_temp1003, 'ast'))
-      end
-    
-if _type(_temp1001) == 'number' then
-      _temp1001 = number:new(_temp1001)
-    elseif object._is_callable(_temp1001) then
-      _temp1001 = brat_function:new(_temp1001)
-    end
-    
-      local _m = _temp1001._less_less
-      if object._is_callable(_m) then
-        _temp1002 =  _m(_temp1001, _temp1004)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp1001.no_undermethod then
-        _temp1002 =  _temp1001:no_undermethod(string:new('<<'), _temp1004)
-      else
-        _error(exception:method_error(_temp1001, '_less_less'))
-      end
-    
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
-     -- yay if my var is _temp1001
-     
+local _temp1003
+
     if object._is_callable(_temp1000) then
-      _temp1004 =  _temp1000(_self)
+      _temp1003 =  _temp1000(_self)
 
     elseif _temp1000 then
-      _temp1004 =  _temp1000
+      _temp1003 =  _temp1000
     else
-      _error(exception:name_error("args"))
+      _error(exception:name_error("list"))
     end
     
-if _type(_temp1004) == 'number' then
-      _temp1004 = number:new(_temp1004)
-    elseif object._is_callable(_temp1004) then
-      _temp1004 = brat_function:new(_temp1004)
-    end
-    
-      local _m = _temp1004.first
-      if object._is_callable(_m) then
-        _temp1003 =  _m(_temp1004)
-      elseif _m ~= nil then
-        _temp1003 =  _m
-      elseif _temp1004.no_undermethod then
-        _temp1003 =  _temp1004:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp1004, 'first'))
-      end
-    
-if _type(_temp1003) == 'number' then
-      _temp1003 = number:new(_temp1003)
-    elseif object._is_callable(_temp1003) then
-      _temp1003 = brat_function:new(_temp1003)
-    end
-    
-      local _m = _temp1003.name
-      if object._is_callable(_m) then
-        _temp1004 =  _m(_temp1003)
-      elseif _m ~= nil then
-        _temp1004 =  _m
-      elseif _temp1003.no_undermethod then
-        _temp1004 =  _temp1003:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp1003, 'name'))
-      end
-    
-local _temp1005 = string:new('simple_string')
+_dummy =  _temp47(_self, _temp1002, _temp1003)
 
-if _type(_temp1004) == 'number' then
-      _temp1004 = number:new(_temp1004)
-    elseif object._is_callable(_temp1004) then
-      _temp1004 = brat_function:new(_temp1004)
+    if object._is_callable(_temp1000) then
+      _temp1003 =  _temp1000(_self)
+
+    elseif _temp1000 then
+      _temp1003 =  _temp1000
+    else
+      _error(exception:name_error("list"))
     end
     
-      local _m = _temp1004._equal_equal
-      if object._is_callable(_m) then
-        _temp1003 =  _m(_temp1004, _temp1005)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp1004.no_undermethod then
-        _temp1003 =  _temp1004:no_undermethod(string:new('=='), _temp1005)
-      else
-        _error(exception:method_error(_temp1004, '_equal_equal'))
-      end
-    
-     if object._is_callable(_temp1003) then
-                    _temp1003 = _temp1003(_self)
-                   end
-     -- end condition
-
-     if object._is_true(_temp1003) then
-      do
+local _temp1004
 
 local _temp1006
 
-    if object._is_callable(_temp934) then
-      _temp1006 =  _temp934(_self)
+local _temp1005
 
-    elseif _temp934 then
-      _temp1006 =  _temp934
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1005 = _m(_self)
+   elseif _m then
+     _temp1005 = _m
+   elseif _self.no_undermethod then
+     _temp1005 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1005) == 'number' then
+      _temp1005 = number:new(_temp1005)
+    elseif object._is_callable(_temp1005) then
+      _temp1005 = brat_function:new(_temp1005)
+    end
+    
+      local _m = _temp1005.elements
+      if object._is_callable(_m) then
+        _temp1006 =  _m(_temp1005)
+      elseif _m ~= nil then
+        _temp1006 =  _m
+      elseif _temp1005.no_undermethod then
+        _temp1006 =  _temp1005:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1005, 'elements'))
+      end
+    
+if _type(_temp1006) == 'number' then
+      _temp1006 = number:new(_temp1006)
+    elseif object._is_callable(_temp1006) then
+      _temp1006 = brat_function:new(_temp1006)
+    end
+    
+      local _m = _temp1006.last
+      if object._is_callable(_m) then
+        _temp1005 =  _m(_temp1006)
+      elseif _m ~= nil then
+        _temp1005 =  _m
+      elseif _temp1006.no_undermethod then
+        _temp1005 =  _temp1006:no_undermethod(string:new('last'))
+      else
+        _error(exception:method_error(_temp1006, 'last'))
+      end
+    
+if _type(_temp1005) == 'number' then
+      _temp1005 = number:new(_temp1005)
+    elseif object._is_callable(_temp1005) then
+      _temp1005 = brat_function:new(_temp1005)
+    end
+    
+      local _m = _temp1005.text
+      if object._is_callable(_m) then
+        _temp1006 =  _m(_temp1005)
+      elseif _m ~= nil then
+        _temp1006 =  _m
+      elseif _temp1005.no_undermethod then
+        _temp1006 =  _temp1005:no_undermethod(string:new('text'))
+      else
+        _error(exception:method_error(_temp1005, 'text'))
+      end
+    
+_temp1004 =  _temp5(_self, _temp1006)
+
+if _type(_temp1003) == 'number' then
+      _temp1003 = number:new(_temp1003)
+    elseif object._is_callable(_temp1003) then
+      _temp1003 = brat_function:new(_temp1003)
+    end
+    
+      local _m = _temp1003._less_less
+      if object._is_callable(_m) then
+        _temp1002 =  _m(_temp1003, _temp1004)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1003.no_undermethod then
+        _temp1002 =  _temp1003:no_undermethod(string:new('<<'), _temp1004)
+      else
+        _error(exception:method_error(_temp1003, '_less_less'))
+      end
+    
+return _temp1002
+
+end
+
+_temp993 =  _temp63(_self, _temp11, _temp999)
+
+
+_temp11 = string:new('binary_op')
+
+
+local _temp1007 = function(_self)
+local _temp1008
+
+local _temp1010
+
+local _temp1009
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1009 = _m(_self)
+   elseif _m then
+     _temp1009 = _m
+   elseif _self.no_undermethod then
+     _temp1009 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp1011 = string:new('binop')
+
+if _type(_temp1009) == 'number' then
+      _temp1009 = number:new(_temp1009)
+    elseif object._is_callable(_temp1009) then
+      _temp1009 = brat_function:new(_temp1009)
+    end
+    
+      local _m = _temp1009.get
+      if object._is_callable(_m) then
+        _temp1010 =  _m(_temp1009, _temp1011)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1009.no_undermethod then
+        _temp1010 =  _temp1009:no_undermethod(string:new('get'), _temp1011)
+      else
+        _error(exception:method_error(_temp1009, 'get'))
+      end
+    
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1009 = _m(_self)
+   elseif _m then
+     _temp1009 = _m
+   elseif _self.no_undermethod then
+     _temp1009 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1009) == 'number' then
+      _temp1009 = number:new(_temp1009)
+    elseif object._is_callable(_temp1009) then
+      _temp1009 = brat_function:new(_temp1009)
+    end
+    
+      local _m = _temp1009.elements
+      if object._is_callable(_m) then
+        _temp1011 =  _m(_temp1009)
+      elseif _m ~= nil then
+        _temp1011 =  _m
+      elseif _temp1009.no_undermethod then
+        _temp1011 =  _temp1009:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1009, 'elements'))
+      end
+    
+if _type(_temp1011) == 'number' then
+      _temp1011 = number:new(_temp1011)
+    elseif object._is_callable(_temp1011) then
+      _temp1011 = brat_function:new(_temp1011)
+    end
+    
+      local _m = _temp1011.first
+      if object._is_callable(_m) then
+        _temp1009 =  _m(_temp1011)
+      elseif _m ~= nil then
+        _temp1009 =  _m
+      elseif _temp1011.no_undermethod then
+        _temp1009 =  _temp1011:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1011, 'first'))
+      end
+    
+if _type(_temp1009) == 'number' then
+      _temp1009 = number:new(_temp1009)
+    elseif object._is_callable(_temp1009) then
+      _temp1009 = brat_function:new(_temp1009)
+    end
+    
+      local _m = _temp1009.ast
+      if object._is_callable(_m) then
+        _temp1011 =  _m(_temp1009)
+      elseif _m ~= nil then
+        _temp1011 =  _m
+      elseif _temp1009.no_undermethod then
+        _temp1011 =  _temp1009:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp1009, 'ast'))
+      end
+    
+if _type(_temp1010) == 'number' then
+      _temp1010 = number:new(_temp1010)
+    elseif object._is_callable(_temp1010) then
+      _temp1010 = brat_function:new(_temp1010)
+    end
+    
+      local _m = _temp1010.concat
+      if object._is_callable(_m) then
+        _temp1008 =  _m(_temp1010, _temp1011)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1010.no_undermethod then
+        _temp1008 =  _temp1010:no_undermethod(string:new('concat'), _temp1011)
+      else
+        _error(exception:method_error(_temp1010, 'concat'))
+      end
+    
+    if object._is_callable(_temp1008) then
+      _temp1010 =  _temp1008(_self)
+
+    elseif _temp1008 then
+      _temp1010 =  _temp1008
+    else
+      _error(exception:name_error("list"))
+    end
+    
+local _temp1012
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1009 = _m(_self)
+   elseif _m then
+     _temp1009 = _m
+   elseif _self.no_undermethod then
+     _temp1009 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1009) == 'number' then
+      _temp1009 = number:new(_temp1009)
+    elseif object._is_callable(_temp1009) then
+      _temp1009 = brat_function:new(_temp1009)
+    end
+    
+      local _m = _temp1009.elements
+      if object._is_callable(_m) then
+        _temp1012 =  _m(_temp1009)
+      elseif _m ~= nil then
+        _temp1012 =  _m
+      elseif _temp1009.no_undermethod then
+        _temp1012 =  _temp1009:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1009, 'elements'))
+      end
+    
+if _type(_temp1012) == 'number' then
+      _temp1012 = number:new(_temp1012)
+    elseif object._is_callable(_temp1012) then
+      _temp1012 = brat_function:new(_temp1012)
+    end
+    
+      local _m = _temp1012.last
+      if object._is_callable(_m) then
+        _temp1009 =  _m(_temp1012)
+      elseif _m ~= nil then
+        _temp1009 =  _m
+      elseif _temp1012.no_undermethod then
+        _temp1009 =  _temp1012:no_undermethod(string:new('last'))
+      else
+        _error(exception:method_error(_temp1012, 'last'))
+      end
+    
+if _type(_temp1009) == 'number' then
+      _temp1009 = number:new(_temp1009)
+    elseif object._is_callable(_temp1009) then
+      _temp1009 = brat_function:new(_temp1009)
+    end
+    
+      local _m = _temp1009.ast
+      if object._is_callable(_m) then
+        _temp1012 =  _m(_temp1009)
+      elseif _m ~= nil then
+        _temp1012 =  _m
+      elseif _temp1009.no_undermethod then
+        _temp1012 =  _temp1009:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp1009, 'ast'))
+      end
+    
+if _type(_temp1010) == 'number' then
+      _temp1010 = number:new(_temp1010)
+    elseif object._is_callable(_temp1010) then
+      _temp1010 = brat_function:new(_temp1010)
+    end
+    
+      local _m = _temp1010._less_less
+      if object._is_callable(_m) then
+        _temp1011 =  _m(_temp1010, _temp1012)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1010.no_undermethod then
+        _temp1011 =  _temp1010:no_undermethod(string:new('<<'), _temp1012)
+      else
+        _error(exception:method_error(_temp1010, '_less_less'))
+      end
+    
+return _temp1011
+
+end
+
+_temp999 =  _temp63(_self, _temp11, _temp1007)
+
+
+_temp11 = string:new('binary_op_chain')
+
+
+local _temp1013 = function(_self)
+local _temp1014
+
+_temp1014 = array:new()
+
+
+local _temp1016
+
+local _temp1015
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1015 = _m(_self)
+   elseif _m then
+     _temp1015 = _m
+   elseif _self.no_undermethod then
+     _temp1015 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1015) == 'number' then
+      _temp1015 = number:new(_temp1015)
+    elseif object._is_callable(_temp1015) then
+      _temp1015 = brat_function:new(_temp1015)
+    end
+    
+      local _m = _temp1015.elements
+      if object._is_callable(_m) then
+        _temp1016 =  _m(_temp1015)
+      elseif _m ~= nil then
+        _temp1016 =  _m
+      elseif _temp1015.no_undermethod then
+        _temp1016 =  _temp1015:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1015, 'elements'))
+      end
+    
+_temp1015 = _lifted_call(_lifted[66], {})
+_temp1015.arg_table['_temp5'] = _temp5
+_temp1015.arg_table['_temp1014'] = _temp1014
+if _type(_temp1016) == 'number' then
+      _temp1016 = number:new(_temp1016)
+    elseif object._is_callable(_temp1016) then
+      _temp1016 = brat_function:new(_temp1016)
+    end
+    
+      local _m = _temp1016.each
+      if object._is_callable(_m) then
+        _dummy =  _m(_temp1016, _temp1015)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1016.no_undermethod then
+        _dummy =  _temp1016:no_undermethod(string:new('each'), _temp1015)
+      else
+        _error(exception:method_error(_temp1016, 'each'))
+      end
+    _temp1016 =  _temp1014
+
+return _temp1016
+
+end
+
+_temp1007 =  _temp63(_self, _temp11, _temp1013)
+
+
+_temp11 = string:new('simple_meth_access')
+
+
+local _temp1024 = function(_self)
+
+local _temp1026
+
+local _temp1025
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1025 = _m(_self)
+   elseif _m then
+     _temp1025 = _m
+   elseif _self.no_undermethod then
+     _temp1025 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp1027 = string:new('meth_access')
+
+
+local _temp1028
+
+   local _m
+   if null then
+     _m = null
+   else
+     _m = _self["null"]
+   end
+   if object._is_callable(_m) then
+     _temp1028 = _m(_self)
+   elseif _m then
+     _temp1028 = _m
+   elseif _self.no_undermethod then
+     _temp1028 = _self:no_undermethod(string:new('null'))
+   else
+     _error(exception:name_error("null"))
+   end
+  
+
+local _temp1029
+
+local _temp1031
+
+local _temp1030
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1030 = _m(_self)
+   elseif _m then
+     _temp1030 = _m
+   elseif _self.no_undermethod then
+     _temp1030 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1030) == 'number' then
+      _temp1030 = number:new(_temp1030)
+    elseif object._is_callable(_temp1030) then
+      _temp1030 = brat_function:new(_temp1030)
+    end
+    
+      local _m = _temp1030.meth
+      if object._is_callable(_m) then
+        _temp1031 =  _m(_temp1030)
+      elseif _m ~= nil then
+        _temp1031 =  _m
+      elseif _temp1030.no_undermethod then
+        _temp1031 =  _temp1030:no_undermethod(string:new('meth'))
+      else
+        _error(exception:method_error(_temp1030, 'meth'))
+      end
+    
+if _type(_temp1031) == 'number' then
+      _temp1031 = number:new(_temp1031)
+    elseif object._is_callable(_temp1031) then
+      _temp1031 = brat_function:new(_temp1031)
+    end
+    
+      local _m = _temp1031.text
+      if object._is_callable(_m) then
+        _temp1030 =  _m(_temp1031)
+      elseif _m ~= nil then
+        _temp1030 =  _m
+      elseif _temp1031.no_undermethod then
+        _temp1030 =  _temp1031:no_undermethod(string:new('text'))
+      else
+        _error(exception:method_error(_temp1031, 'text'))
+      end
+    
+_temp1029 =  _temp5(_self, _temp1030)
+
+if _type(_temp1025) == 'number' then
+      _temp1025 = number:new(_temp1025)
+    elseif object._is_callable(_temp1025) then
+      _temp1025 = brat_function:new(_temp1025)
+    end
+    
+      local _m = _temp1025.get
+      if object._is_callable(_m) then
+        _temp1026 =  _m(_temp1025, _temp1027, _temp1028, _temp1029)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _temp1025.no_undermethod then
+        _temp1026 =  _temp1025:no_undermethod(string:new('get'), _temp1027, _temp1028, _temp1029)
+      else
+        _error(exception:method_error(_temp1025, 'get'))
+      end
+    
+return _temp1026
+
+end
+
+_temp1013 =  _temp63(_self, _temp11, _temp1024)
+
+
+_temp11 = string:new('simple_paren_meth_access')
+
+
+local _temp1032 = function(_self)
+local _temp1033
+
+local _temp1034
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1034 = _m(_self)
+   elseif _m then
+     _temp1034 = _m
+   elseif _self.no_undermethod then
+     _temp1034 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp1035 = string:new('meth_access')
+
+
+local _temp1036
+
+   local _m
+   if null then
+     _m = null
+   else
+     _m = _self["null"]
+   end
+   if object._is_callable(_m) then
+     _temp1036 = _m(_self)
+   elseif _m then
+     _temp1036 = _m
+   elseif _self.no_undermethod then
+     _temp1036 = _self:no_undermethod(string:new('null'))
+   else
+     _error(exception:name_error("null"))
+   end
+  
+if _type(_temp1034) == 'number' then
+      _temp1034 = number:new(_temp1034)
+    elseif object._is_callable(_temp1034) then
+      _temp1034 = brat_function:new(_temp1034)
+    end
+    
+      local _m = _temp1034.get
+      if object._is_callable(_m) then
+        _temp1033 =  _m(_temp1034, _temp1035, _temp1036)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp1034.no_undermethod then
+        _temp1033 =  _temp1034:no_undermethod(string:new('get'), _temp1035, _temp1036)
+      else
+        _error(exception:method_error(_temp1034, 'get'))
+      end
+    
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1036 = _m(_self)
+   elseif _m then
+     _temp1036 = _m
+   elseif _self.no_undermethod then
+     _temp1036 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+
+    if object._is_callable(_temp1033) then
+      _temp1035 =  _temp1033(_self)
+
+    elseif _temp1033 then
+      _temp1035 =  _temp1033
+    else
+      _error(exception:name_error("list"))
+    end
+    
+_temp1034 =  _temp47(_self, _temp1036, _temp1035)
+
+return _temp1034
+
+end
+
+_temp1024 =  _temp63(_self, _temp11, _temp1032)
+
+
+_temp11 = string:new('paren_meth_access')
+
+
+local _temp1037 = function(_self)
+local _temp1038
+
+local _temp1039
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1039 = _m(_self)
+   elseif _m then
+     _temp1039 = _m
+   elseif _self.no_undermethod then
+     _temp1039 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+      if _temp1039._lua_hash and _temp1039._unchanged('get') then
+        _temp1038 =  _temp1039:get('meth_access')
+      else
+        if _type(_temp1039) == 'number' then
+      _temp1039 = number:new(_temp1039)
+    elseif object._is_callable(_temp1039) then
+      _temp1039 = brat_function:new(_temp1039)
+    end
+    
+      local _m = _temp1039.get
+      if object._is_callable(_m) then
+        _temp1038 =  _m(_temp1039, string:new('meth_access'))
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1039.no_undermethod then
+        _temp1038 =  _temp1039:no_undermethod(string:new('get'), string:new('meth_access'))
+      else
+        _error(exception:method_error(_temp1039, 'get'))
+      end
+    
+      end
+      
+
+local _temp1040
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1040 = _m(_self)
+   elseif _m then
+     _temp1040 = _m
+   elseif _self.no_undermethod then
+     _temp1040 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+
+local _temp1041
+
+    if object._is_callable(_temp1038) then
+      _temp1041 =  _temp1038(_self)
+
+    elseif _temp1038 then
+      _temp1041 =  _temp1038
+    else
+      _error(exception:name_error("list"))
+    end
+    
+_dummy =  _temp47(_self, _temp1040, _temp1041)
+
+    if object._is_callable(_temp1038) then
+      _temp1041 =  _temp1038(_self)
+
+    elseif _temp1038 then
+      _temp1041 =  _temp1038
+    else
+      _error(exception:name_error("list"))
+    end
+    
+local _temp1042
+
+local _temp1044
+
+local _temp1043
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1043 = _m(_self)
+   elseif _m then
+     _temp1043 = _m
+   elseif _self.no_undermethod then
+     _temp1043 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1043) == 'number' then
+      _temp1043 = number:new(_temp1043)
+    elseif object._is_callable(_temp1043) then
+      _temp1043 = brat_function:new(_temp1043)
+    end
+    
+      local _m = _temp1043.meth
+      if object._is_callable(_m) then
+        _temp1044 =  _m(_temp1043)
+      elseif _m ~= nil then
+        _temp1044 =  _m
+      elseif _temp1043.no_undermethod then
+        _temp1044 =  _temp1043:no_undermethod(string:new('meth'))
+      else
+        _error(exception:method_error(_temp1043, 'meth'))
+      end
+    
+if _type(_temp1044) == 'number' then
+      _temp1044 = number:new(_temp1044)
+    elseif object._is_callable(_temp1044) then
+      _temp1044 = brat_function:new(_temp1044)
+    end
+    
+      local _m = _temp1044.text
+      if object._is_callable(_m) then
+        _temp1043 =  _m(_temp1044)
+      elseif _m ~= nil then
+        _temp1043 =  _m
+      elseif _temp1044.no_undermethod then
+        _temp1043 =  _temp1044:no_undermethod(string:new('text'))
+      else
+        _error(exception:method_error(_temp1044, 'text'))
+      end
+    
+_temp1042 =  _temp5(_self, _temp1043)
+
+if _type(_temp1041) == 'number' then
+      _temp1041 = number:new(_temp1041)
+    elseif object._is_callable(_temp1041) then
+      _temp1041 = brat_function:new(_temp1041)
+    end
+    
+      local _m = _temp1041._less_less
+      if object._is_callable(_m) then
+        _temp1040 =  _m(_temp1041, _temp1042)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1041.no_undermethod then
+        _temp1040 =  _temp1041:no_undermethod(string:new('<<'), _temp1042)
+      else
+        _error(exception:method_error(_temp1041, '_less_less'))
+      end
+    
+return _temp1040
+
+end
+
+_temp1032 =  _temp63(_self, _temp11, _temp1037)
+
+
+_temp11 = string:new('meth_access')
+
+
+local _temp1045 = function(_self)
+local _temp1046
+
+local _temp1047
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1047 = _m(_self)
+   elseif _m then
+     _temp1047 = _m
+   elseif _self.no_undermethod then
+     _temp1047 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+      if _temp1047._lua_hash and _temp1047._unchanged('get') then
+        _temp1046 =  _temp1047:get('meth_access')
+      else
+        if _type(_temp1047) == 'number' then
+      _temp1047 = number:new(_temp1047)
+    elseif object._is_callable(_temp1047) then
+      _temp1047 = brat_function:new(_temp1047)
+    end
+    
+      local _m = _temp1047.get
+      if object._is_callable(_m) then
+        _temp1046 =  _m(_temp1047, string:new('meth_access'))
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1047.no_undermethod then
+        _temp1046 =  _temp1047:no_undermethod(string:new('get'), string:new('meth_access'))
+      else
+        _error(exception:method_error(_temp1047, 'get'))
+      end
+    
+      end
+      
+
+local _temp1048
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1048 = _m(_self)
+   elseif _m then
+     _temp1048 = _m
+   elseif _self.no_undermethod then
+     _temp1048 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+
+local _temp1049
+
+    if object._is_callable(_temp1046) then
+      _temp1049 =  _temp1046(_self)
+
+    elseif _temp1046 then
+      _temp1049 =  _temp1046
+    else
+      _error(exception:name_error("list"))
+    end
+    
+_dummy =  _temp47(_self, _temp1048, _temp1049)
+
+    if object._is_callable(_temp1046) then
+      _temp1049 =  _temp1046(_self)
+
+    elseif _temp1046 then
+      _temp1049 =  _temp1046
+    else
+      _error(exception:name_error("list"))
+    end
+    
+local _temp1050
+
+local _temp1052
+
+local _temp1051
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1051 = _m(_self)
+   elseif _m then
+     _temp1051 = _m
+   elseif _self.no_undermethod then
+     _temp1051 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1051) == 'number' then
+      _temp1051 = number:new(_temp1051)
+    elseif object._is_callable(_temp1051) then
+      _temp1051 = brat_function:new(_temp1051)
+    end
+    
+      local _m = _temp1051.meth
+      if object._is_callable(_m) then
+        _temp1052 =  _m(_temp1051)
+      elseif _m ~= nil then
+        _temp1052 =  _m
+      elseif _temp1051.no_undermethod then
+        _temp1052 =  _temp1051:no_undermethod(string:new('meth'))
+      else
+        _error(exception:method_error(_temp1051, 'meth'))
+      end
+    
+if _type(_temp1052) == 'number' then
+      _temp1052 = number:new(_temp1052)
+    elseif object._is_callable(_temp1052) then
+      _temp1052 = brat_function:new(_temp1052)
+    end
+    
+      local _m = _temp1052.text
+      if object._is_callable(_m) then
+        _temp1051 =  _m(_temp1052)
+      elseif _m ~= nil then
+        _temp1051 =  _m
+      elseif _temp1052.no_undermethod then
+        _temp1051 =  _temp1052:no_undermethod(string:new('text'))
+      else
+        _error(exception:method_error(_temp1052, 'text'))
+      end
+    
+_temp1050 =  _temp5(_self, _temp1051)
+
+if _type(_temp1049) == 'number' then
+      _temp1049 = number:new(_temp1049)
+    elseif object._is_callable(_temp1049) then
+      _temp1049 = brat_function:new(_temp1049)
+    end
+    
+      local _m = _temp1049._less_less
+      if object._is_callable(_m) then
+        _temp1048 =  _m(_temp1049, _temp1050)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1049.no_undermethod then
+        _temp1048 =  _temp1049:no_undermethod(string:new('<<'), _temp1050)
+      else
+        _error(exception:method_error(_temp1049, '_less_less'))
+      end
+    
+return _temp1048
+
+end
+
+_temp1037 =  _temp63(_self, _temp11, _temp1045)
+
+
+_temp11 = string:new('index_get')
+
+
+local _temp1053 = function(_self)
+local _temp1054
+
+local _temp1055
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1055 = _m(_self)
+   elseif _m then
+     _temp1055 = _m
+   elseif _self.no_undermethod then
+     _temp1055 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp1056 = string:new('call')
+
+
+local _temp1058
+
+local _temp1057
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1057 = _m(_self)
+   elseif _m then
+     _temp1057 = _m
+   elseif _self.no_undermethod then
+     _temp1057 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1057) == 'number' then
+      _temp1057 = number:new(_temp1057)
+    elseif object._is_callable(_temp1057) then
+      _temp1057 = brat_function:new(_temp1057)
+    end
+    
+      local _m = _temp1057.elements
+      if object._is_callable(_m) then
+        _temp1058 =  _m(_temp1057)
+      elseif _m ~= nil then
+        _temp1058 =  _m
+      elseif _temp1057.no_undermethod then
+        _temp1058 =  _temp1057:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1057, 'elements'))
+      end
+    
+if _type(_temp1058) == 'number' then
+      _temp1058 = number:new(_temp1058)
+    elseif object._is_callable(_temp1058) then
+      _temp1058 = brat_function:new(_temp1058)
+    end
+    
+      local _m = _temp1058.first
+      if object._is_callable(_m) then
+        _temp1057 =  _m(_temp1058)
+      elseif _m ~= nil then
+        _temp1057 =  _m
+      elseif _temp1058.no_undermethod then
+        _temp1057 =  _temp1058:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1058, 'first'))
+      end
+    
+if _type(_temp1057) == 'number' then
+      _temp1057 = number:new(_temp1057)
+    elseif object._is_callable(_temp1057) then
+      _temp1057 = brat_function:new(_temp1057)
+    end
+    
+      local _m = _temp1057.ast
+      if object._is_callable(_m) then
+        _temp1058 =  _m(_temp1057)
+      elseif _m ~= nil then
+        _temp1058 =  _m
+      elseif _temp1057.no_undermethod then
+        _temp1058 =  _temp1057:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp1057, 'ast'))
+      end
+    
+
+_temp1057 = string:new('get')
+
+if _type(_temp1055) == 'number' then
+      _temp1055 = number:new(_temp1055)
+    elseif object._is_callable(_temp1055) then
+      _temp1055 = brat_function:new(_temp1055)
+    end
+    
+      local _m = _temp1055.get
+      if object._is_callable(_m) then
+        _temp1054 =  _m(_temp1055, _temp1056, _temp1058, _temp1057)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _temp1055.no_undermethod then
+        _temp1054 =  _temp1055:no_undermethod(string:new('get'), _temp1056, _temp1058, _temp1057)
+      else
+        _error(exception:method_error(_temp1055, 'get'))
+      end
+    
+local _temp1059
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1055 = _m(_self)
+   elseif _m then
+     _temp1055 = _m
+   elseif _self.no_undermethod then
+     _temp1055 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1055) == 'number' then
+      _temp1055 = number:new(_temp1055)
+    elseif object._is_callable(_temp1055) then
+      _temp1055 = brat_function:new(_temp1055)
+    end
+    
+      local _m = _temp1055.gindexes
+      if object._is_callable(_m) then
+        _temp1057 =  _m(_temp1055)
+      elseif _m ~= nil then
+        _temp1057 =  _m
+      elseif _temp1055.no_undermethod then
+        _temp1057 =  _temp1055:no_undermethod(string:new('gindexes'))
+      else
+        _error(exception:method_error(_temp1055, 'gindexes'))
+      end
+    
+
+_temp1055 = array:new()
+
+_temp1059 =  _temp47(_self, _temp1057, _temp1055)
+
+
+    if object._is_callable(_temp1054) then
+      _temp1055 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1055 =  _temp1054
+    else
+      _error(exception:name_error("list"))
+    end
+    
+    if object._is_callable(_temp1059) then
+      _temp1058 =  _temp1059(_self)
+
+    elseif _temp1059 then
+      _temp1058 =  _temp1059
+    else
+      _error(exception:name_error("index_underargs"))
+    end
+    
+if _type(_temp1058) == 'number' then
+      _temp1058 = number:new(_temp1058)
+    elseif object._is_callable(_temp1058) then
+      _temp1058 = brat_function:new(_temp1058)
+    end
+    
+      local _m = _temp1058.deq
+      if object._is_callable(_m) then
+        _temp1056 =  _m(_temp1058)
+      elseif _m ~= nil then
+        _temp1056 =  _m
+      elseif _temp1058.no_undermethod then
+        _temp1056 =  _temp1058:no_undermethod(string:new('deq'))
+      else
+        _error(exception:method_error(_temp1058, 'deq'))
+      end
+    
+if _type(_temp1055) == 'number' then
+      _temp1055 = number:new(_temp1055)
+    elseif object._is_callable(_temp1055) then
+      _temp1055 = brat_function:new(_temp1055)
+    end
+    
+      local _m = _temp1055._less_less
+      if object._is_callable(_m) then
+        _temp1057 =  _m(_temp1055, _temp1056)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1055.no_undermethod then
+        _temp1057 =  _temp1055:no_undermethod(string:new('<<'), _temp1056)
+      else
+        _error(exception:method_error(_temp1055, '_less_less'))
+      end
+    
+
+    if object._is_callable(_temp1059) then
+      _temp1055 =  _temp1059(_self)
+
+    elseif _temp1059 then
+      _temp1055 =  _temp1059
+    else
+      _error(exception:name_error("index_underargs"))
+    end
+    
+    if object._is_callable(_temp1054) then
+      _temp1058 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1058 =  _temp1054
     else
       _error(exception:name_error("list"))
     end
     
 
-local _temp1007 = string:new('simple_index_set')
+local _temp1068 = _lifted[67]
 
-    if _type(_temp1006) == 'table' then
-      _temp1006['name'] = _temp1007
-    else
-      _error('Cannot set method on ' .. _temp1006)
+if _type(_temp1055) == 'number' then
+      _temp1055 = number:new(_temp1055)
+    elseif object._is_callable(_temp1055) then
+      _temp1055 = brat_function:new(_temp1055)
     end
     
-_temp1001 =  _temp1007
+      local _m = _temp1055.reduce
+      if object._is_callable(_m) then
+        _temp1056 =  _m(_temp1055, _temp1058, _temp1068)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp1055.no_undermethod then
+        _temp1056 =  _temp1055:no_undermethod(string:new('reduce'), _temp1058, _temp1068)
+      else
+        _error(exception:method_error(_temp1055, 'reduce'))
+      end
+    
+_temp1054 = _temp1056
+
+local _temp1069
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1068 = _m(_self)
+   elseif _m then
+     _temp1068 = _m
+   elseif _self.no_undermethod then
+     _temp1068 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1068) == 'number' then
+      _temp1068 = number:new(_temp1068)
+    elseif object._is_callable(_temp1068) then
+      _temp1068 = brat_function:new(_temp1068)
+    end
+    
+      local _m = _temp1068.iargs
+      if object._is_callable(_m) then
+        _temp1058 =  _m(_temp1068)
+      elseif _m ~= nil then
+        _temp1058 =  _m
+      elseif _temp1068.no_undermethod then
+        _temp1058 =  _temp1068:no_undermethod(string:new('iargs'))
+      else
+        _error(exception:method_error(_temp1068, 'iargs'))
+      end
+    
+
+_temp1068 = array:new()
+
+_temp1055 =  _temp47(_self, _temp1058, _temp1068)
+
+if _type(_temp1055) == 'number' then
+      _temp1055 = number:new(_temp1055)
+    elseif object._is_callable(_temp1055) then
+      _temp1055 = brat_function:new(_temp1055)
+    end
+    
+      local _m = _temp1055.first
+      if object._is_callable(_m) then
+        _temp1069 =  _m(_temp1055)
+      elseif _m ~= nil then
+        _temp1069 =  _m
+      elseif _temp1055.no_undermethod then
+        _temp1069 =  _temp1055:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1055, 'first'))
+      end
+    
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp1055
+     
+local _temp1070
+
+    if object._is_callable(_temp1054) then
+      _temp1058 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1058 =  _temp1054
+    else
+      _error(exception:name_error("list"))
+    end
+    
+if _type(_temp1058) == 'number' then
+      _temp1058 = number:new(_temp1058)
+    elseif object._is_callable(_temp1058) then
+      _temp1058 = brat_function:new(_temp1058)
+    end
+    
+      local _m = _temp1058.args
+      if object._is_callable(_m) then
+        _temp1070 =  _m(_temp1058)
+      elseif _m ~= nil then
+        _temp1070 =  _m
+      elseif _temp1058.no_undermethod then
+        _temp1070 =  _temp1058:no_undermethod(string:new('args'))
+      else
+        _error(exception:method_error(_temp1058, 'args'))
+      end
+    
+if _type(_temp1070) == 'number' then
+      _temp1070 = number:new(_temp1070)
+    elseif object._is_callable(_temp1070) then
+      _temp1070 = brat_function:new(_temp1070)
+    end
+    
+      local _m = _temp1070.length
+      if object._is_callable(_m) then
+        _temp1058 =  _m(_temp1070)
+      elseif _m ~= nil then
+        _temp1058 =  _m
+      elseif _temp1070.no_undermethod then
+        _temp1058 =  _temp1070:no_undermethod(string:new('length'))
+      else
+        _error(exception:method_error(_temp1070, 'length'))
+      end
+    
+
+  if _type(_temp1058) == 'number' then
+    
+      if number._unchanged('_equal_equal') then
+        if _temp1058 == 1 then
+          _temp1068 =  object.__true
+        else
+          _temp1068 =  object.__false
+        end
+      else
+        if _type(_temp1058) == 'number' then
+      _temp1058 = number:new(_temp1058)
+    elseif object._is_callable(_temp1058) then
+      _temp1058 = brat_function:new(_temp1058)
+    end
+    
+      local _m = _temp1058._equal_equal
+      if object._is_callable(_m) then
+        _temp1068 =  _m(_temp1058, 1)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1058.no_undermethod then
+        _temp1068 =  _temp1058:no_undermethod(string:new('=='), 1)
+      else
+        _error(exception:method_error(_temp1058, '_equal_equal'))
+      end
+    
+      end
+      
+  else
+    if _type(_temp1058) == 'number' then
+      _temp1058 = number:new(_temp1058)
+    elseif object._is_callable(_temp1058) then
+      _temp1058 = brat_function:new(_temp1058)
+    end
+    
+      local _m = _temp1058._equal_equal
+      if object._is_callable(_m) then
+        _temp1068 =  _m(_temp1058, 1)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1058.no_undermethod then
+        _temp1068 =  _temp1058:no_undermethod(string:new('=='), 1)
+      else
+        _error(exception:method_error(_temp1058, '_equal_equal'))
+      end
+    
+  end
+  
+local _temp1074 = _lifted_call(_lifted[68], {})
+_temp1074.arg_table['_temp1054'] = _temp1054
+if _type(_temp1068) == 'number' then
+      _temp1068 = number:new(_temp1068)
+    elseif object._is_callable(_temp1068) then
+      _temp1068 = brat_function:new(_temp1068)
+    end
+    
+      local _m = _temp1068._and_and
+      if object._is_callable(_m) then
+        _temp1070 =  _m(_temp1068, _temp1074)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1068.no_undermethod then
+        _temp1070 =  _temp1068:no_undermethod(string:new('&&'), _temp1074)
+      else
+        _error(exception:method_error(_temp1068, '_and_and'))
+      end
+    
+     if object._is_callable(_temp1070) then
+                    _temp1070 = _temp1070(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp1070) then
+      do
+
+local _temp1075
+
+    if object._is_callable(_temp1054) then
+      _temp1075 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1075 =  _temp1054
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1076 = string:new('simple_index_get')
+
+    if _type(_temp1075) == 'table' then
+      _temp1075['name'] = _temp1076
+    else
+      _error('Cannot set method on ' .. _temp1075)
+    end
+    
+_temp1055 =  _temp1076
 
 end
 
-      _temp1001 =  _temp1001
+      _temp1055 =  _temp1055
      else
       
-_temp1001 = object.__false
+_temp1055 = object.__false
 
-      _temp1001 =  _temp1001
+      _temp1055 =  _temp1055
      end
      -- end yay if
    else
+     -- fallback if
      
-    if object._is_callable(_temp1000) then
-      _temp1004 =  _temp1000(_self)
+local _temp1077
 
-    elseif _temp1000 then
-      _temp1004 =  _temp1000
-    else
-      _error(exception:name_error("args"))
-    end
-    
-if _type(_temp1004) == 'number' then
-      _temp1004 = number:new(_temp1004)
-    elseif object._is_callable(_temp1004) then
-      _temp1004 = brat_function:new(_temp1004)
-    end
-    
-      local _m = _temp1004.first
-      if object._is_callable(_m) then
-        _temp1005 =  _m(_temp1004)
-      elseif _m ~= nil then
-        _temp1005 =  _m
-      elseif _temp1004.no_undermethod then
-        _temp1005 =  _temp1004:no_undermethod(string:new('first'))
-      else
-        _error(exception:method_error(_temp1004, 'first'))
-      end
-    
-if _type(_temp1005) == 'number' then
-      _temp1005 = number:new(_temp1005)
-    elseif object._is_callable(_temp1005) then
-      _temp1005 = brat_function:new(_temp1005)
-    end
-    
-      local _m = _temp1005.name
-      if object._is_callable(_m) then
-        _temp1004 =  _m(_temp1005)
-      elseif _m ~= nil then
-        _temp1004 =  _m
-      elseif _temp1005.no_undermethod then
-        _temp1004 =  _temp1005:no_undermethod(string:new('name'))
-      else
-        _error(exception:method_error(_temp1005, 'name'))
-      end
-    
-local _temp1008 = string:new('simple_string')
+    if object._is_callable(_temp1054) then
+      _temp1074 =  _temp1054(_self)
 
-if _type(_temp1004) == 'number' then
-      _temp1004 = number:new(_temp1004)
-    elseif object._is_callable(_temp1004) then
-      _temp1004 = brat_function:new(_temp1004)
-    end
-    
-      local _m = _temp1004._equal_equal
-      if object._is_callable(_m) then
-        _temp1005 =  _m(_temp1004, _temp1008)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp1004.no_undermethod then
-        _temp1005 =  _temp1004:no_undermethod(string:new('=='), _temp1008)
-      else
-        _error(exception:method_error(_temp1004, '_equal_equal'))
-      end
-    
-
-_temp1004 = _lifted_call(_lifted[68], {})
-_temp1004.arg_table['_temp934'] = _temp934
-
-  if true_question then
-    _temp1001 =  true_question(_self, _temp1005, _temp1004)
-
-  else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
-    
-      local _m = _self.true_question
-      if object._is_callable(_m) then
-        _temp1001 =  _m(_self, _temp1005, _temp1004)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _self.no_undermethod then
-        _temp1001 =  _self:no_undermethod(string:new('true?'), _temp1005, _temp1004)
-      else
-        _error(exception:method_error(_self, 'true_question'))
-      end
-    
-  end
-  
-     _temp1001 =  _temp1001
-   end
-   
-    if object._is_callable(_temp934) then
-      _temp1004 =  _temp934(_self)
-
-    elseif _temp934 then
-      _temp1004 =  _temp934
+    elseif _temp1054 then
+      _temp1074 =  _temp1054
     else
       _error(exception:name_error("list"))
     end
     
-_temp1008 = string:new('set')
-
-if _type(_temp1004) == 'number' then
-      _temp1004 = number:new(_temp1004)
-    elseif object._is_callable(_temp1004) then
-      _temp1004 = brat_function:new(_temp1004)
+if _type(_temp1074) == 'number' then
+      _temp1074 = number:new(_temp1074)
+    elseif object._is_callable(_temp1074) then
+      _temp1074 = brat_function:new(_temp1074)
     end
     
-      local _m = _temp1004._less_less
+      local _m = _temp1074.args
       if object._is_callable(_m) then
-        _temp1005 =  _m(_temp1004, _temp1008)
+        _temp1077 =  _m(_temp1074)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp1004.no_undermethod then
-        _temp1005 =  _temp1004:no_undermethod(string:new('<<'), _temp1008)
+        _temp1077 =  _m
+      elseif _temp1074.no_undermethod then
+        _temp1077 =  _temp1074:no_undermethod(string:new('args'))
       else
-        _error(exception:method_error(_temp1004, '_less_less'))
+        _error(exception:method_error(_temp1074, 'args'))
       end
     
-    if object._is_callable(_temp1000) then
-      _temp1008 =  _temp1000(_self)
-
-    elseif _temp1000 then
-      _temp1008 =  _temp1000
-    else
-      _error(exception:name_error("args"))
+if _type(_temp1077) == 'number' then
+      _temp1077 = number:new(_temp1077)
+    elseif object._is_callable(_temp1077) then
+      _temp1077 = brat_function:new(_temp1077)
     end
     
-if _type(_temp1005) == 'number' then
-      _temp1005 = number:new(_temp1005)
-    elseif object._is_callable(_temp1005) then
-      _temp1005 = brat_function:new(_temp1005)
-    end
-    
-      local _m = _temp1005._less_less
+      local _m = _temp1077.length
       if object._is_callable(_m) then
-        _temp1004 =  _m(_temp1005, _temp1008)
+        _temp1074 =  _m(_temp1077)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _temp1005.no_undermethod then
-        _temp1004 =  _temp1005:no_undermethod(string:new('<<'), _temp1008)
+        _temp1074 =  _m
+      elseif _temp1077.no_undermethod then
+        _temp1074 =  _temp1077:no_undermethod(string:new('length'))
       else
-        _error(exception:method_error(_temp1005, '_less_less'))
+        _error(exception:method_error(_temp1077, 'length'))
       end
     
-return _temp1004
 
-end
+  if _type(_temp1074) == 'number' then
+    
+      if number._unchanged('_equal_equal') then
+        if _temp1074 == 1 then
+          _temp1068 =  object.__true
+        else
+          _temp1068 =  object.__false
+        end
+      else
+        if _type(_temp1074) == 'number' then
+      _temp1074 = number:new(_temp1074)
+    elseif object._is_callable(_temp1074) then
+      _temp1074 = brat_function:new(_temp1074)
+    end
+    
+      local _m = _temp1074._equal_equal
+      if object._is_callable(_m) then
+        _temp1068 =  _m(_temp1074, 1)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1074.no_undermethod then
+        _temp1068 =  _temp1074:no_undermethod(string:new('=='), 1)
+      else
+        _error(exception:method_error(_temp1074, '_equal_equal'))
+      end
+    
+      end
+      
+  else
+    if _type(_temp1074) == 'number' then
+      _temp1074 = number:new(_temp1074)
+    elseif object._is_callable(_temp1074) then
+      _temp1074 = brat_function:new(_temp1074)
+    end
+    
+      local _m = _temp1074._equal_equal
+      if object._is_callable(_m) then
+        _temp1068 =  _m(_temp1074, 1)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1074.no_undermethod then
+        _temp1068 =  _temp1074:no_undermethod(string:new('=='), 1)
+      else
+        _error(exception:method_error(_temp1074, '_equal_equal'))
+      end
+    
+  end
+  
+local _temp1081 = _lifted_call(_lifted[69], {})
+_temp1081.arg_table['_temp1054'] = _temp1054
+if _type(_temp1068) == 'number' then
+      _temp1068 = number:new(_temp1068)
+    elseif object._is_callable(_temp1068) then
+      _temp1068 = brat_function:new(_temp1068)
+    end
+    
+      local _m = _temp1068._and_and
+      if object._is_callable(_m) then
+        _temp1077 =  _m(_temp1068, _temp1081)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1068.no_undermethod then
+        _temp1077 =  _temp1068:no_undermethod(string:new('&&'), _temp1081)
+      else
+        _error(exception:method_error(_temp1068, '_and_and'))
+      end
+    
 
+_temp1068 = _lifted_call(_lifted[70], {})
+_temp1068.arg_table['_temp1054'] = _temp1054
 
   if true_question then
-    _temp935 =  true_question(_self, _temp936, _temp975, _temp999)
+    _temp1055 =  true_question(_self, _temp1077, _temp1068)
 
   else
     if _type(_self) == 'number' then
@@ -22244,25 +24788,2117 @@ end
     
       local _m = _self.true_question
       if object._is_callable(_m) then
-        _temp935 =  _m(_self, _temp936, _temp975, _temp999)
+        _temp1055 =  _m(_self, _temp1077, _temp1068)
       elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 2))
+          _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp935 =  _self:no_undermethod(string:new('true?'), _temp936, _temp975, _temp999)
+        _temp1055 =  _self:no_undermethod(string:new('true?'), _temp1077, _temp1068)
       else
         _error(exception:method_error(_self, 'true_question'))
       end
     
   end
   
-     _temp935 =  _temp935
+     _temp1055 =  _temp1055
+     -- end fallback if
    end
    
-return _temp935
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
+     -- yay if my var is _temp1068
+     
+    if object._is_callable(_temp1069) then
+      _temp1077 =  _temp1069(_self)
+
+    elseif _temp1069 then
+      _temp1077 =  _temp1069
+    else
+      _error(exception:name_error("args"))
+    end
+    
+     if object._is_callable(_temp1077) then
+                    _temp1077 = _temp1077(_self)
+                   end
+     -- end condition
+
+     if _temp1077 == object.__null or _temp1077 == nil then
+      do
+
+local _temp1084
+
+    if object._is_callable(_temp1054) then
+      _temp1084 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1084 =  _temp1054
+    else
+      _error(exception:name_error("list"))
+    end
+    
+_temp1068 =  _temp1084
 
 end
 
-_temp895 =  _temp63(_self, _temp11, _temp933)
+      _temp1068 =  _temp1068
+     else
+      do
+
+local _temp1086
+
+local _temp1085
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1085 = _m(_self)
+   elseif _m then
+     _temp1085 = _m
+   elseif _self.no_undermethod then
+     _temp1085 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp1087 = string:new('invoke_index_get')
+
+
+local _temp1088
+
+    if object._is_callable(_temp1054) then
+      _temp1088 =  _temp1054(_self)
+
+    elseif _temp1054 then
+      _temp1088 =  _temp1054
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1089
+
+    if object._is_callable(_temp1069) then
+      _temp1089 =  _temp1069(_self)
+
+    elseif _temp1069 then
+      _temp1089 =  _temp1069
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp1085) == 'number' then
+      _temp1085 = number:new(_temp1085)
+    elseif object._is_callable(_temp1085) then
+      _temp1085 = brat_function:new(_temp1085)
+    end
+    
+      local _m = _temp1085.get
+      if object._is_callable(_m) then
+        _temp1086 =  _m(_temp1085, _temp1087, _temp1088, _temp1089)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _temp1085.no_undermethod then
+        _temp1086 =  _temp1085:no_undermethod(string:new('get'), _temp1087, _temp1088, _temp1089)
+      else
+        _error(exception:method_error(_temp1085, 'get'))
+      end
+    
+_temp1068 =  _temp1086
+
+end
+
+      _temp1068 =  _temp1068
+     end
+     -- end yay if
+   else
+     -- fallback null?
+     
+    if object._is_callable(_temp1069) then
+      _temp1081 =  _temp1069(_self)
+
+    elseif _temp1069 then
+      _temp1081 =  _temp1069
+    else
+      _error(exception:name_error("args"))
+    end
+    
+
+local _temp1091 = _lifted_call(_lifted[71], {})
+_temp1091.arg_table['_temp1054'] = _temp1054
+
+local _temp1097 = _lifted_call(_lifted[72], {})
+_temp1097.arg_table['_temp1054'] = _temp1054
+_temp1097.arg_table['_temp1069'] = _temp1069
+
+  if null_question then
+    _temp1068 =  null_question(_self, _temp1081, _temp1091, _temp1097)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.null_question
+      if object._is_callable(_m) then
+        _temp1068 =  _m(_self, _temp1081, _temp1091, _temp1097)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp1068 =  _self:no_undermethod(string:new('null?'), _temp1081, _temp1091, _temp1097)
+      else
+        _error(exception:method_error(_self, 'null_question'))
+      end
+    
+  end
+  
+     _temp1068 =  _temp1068
+     -- end fallback null?
+   end
+   
+return _temp1068
+
+end
+
+_temp1045 =  _temp63(_self, _temp11, _temp1053)
+
+
+_temp11 = string:new('index_set')
+
+
+local _temp1098 = function(_self)
+local _temp1099
+
+local _temp1100
+
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1100 = _m(_self)
+   elseif _m then
+     _temp1100 = _m
+   elseif _self.no_undermethod then
+     _temp1100 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+local _temp1101 = string:new('call')
+
+
+local _temp1103
+
+local _temp1102
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1102 = _m(_self)
+   elseif _m then
+     _temp1102 = _m
+   elseif _self.no_undermethod then
+     _temp1102 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1102) == 'number' then
+      _temp1102 = number:new(_temp1102)
+    elseif object._is_callable(_temp1102) then
+      _temp1102 = brat_function:new(_temp1102)
+    end
+    
+      local _m = _temp1102.elements
+      if object._is_callable(_m) then
+        _temp1103 =  _m(_temp1102)
+      elseif _m ~= nil then
+        _temp1103 =  _m
+      elseif _temp1102.no_undermethod then
+        _temp1103 =  _temp1102:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1102, 'elements'))
+      end
+    
+if _type(_temp1103) == 'number' then
+      _temp1103 = number:new(_temp1103)
+    elseif object._is_callable(_temp1103) then
+      _temp1103 = brat_function:new(_temp1103)
+    end
+    
+      local _m = _temp1103.first
+      if object._is_callable(_m) then
+        _temp1102 =  _m(_temp1103)
+      elseif _m ~= nil then
+        _temp1102 =  _m
+      elseif _temp1103.no_undermethod then
+        _temp1102 =  _temp1103:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1103, 'first'))
+      end
+    
+if _type(_temp1102) == 'number' then
+      _temp1102 = number:new(_temp1102)
+    elseif object._is_callable(_temp1102) then
+      _temp1102 = brat_function:new(_temp1102)
+    end
+    
+      local _m = _temp1102.ast
+      if object._is_callable(_m) then
+        _temp1103 =  _m(_temp1102)
+      elseif _m ~= nil then
+        _temp1103 =  _m
+      elseif _temp1102.no_undermethod then
+        _temp1103 =  _temp1102:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp1102, 'ast'))
+      end
+    
+if _type(_temp1100) == 'number' then
+      _temp1100 = number:new(_temp1100)
+    elseif object._is_callable(_temp1100) then
+      _temp1100 = brat_function:new(_temp1100)
+    end
+    
+      local _m = _temp1100.get
+      if object._is_callable(_m) then
+        _temp1099 =  _m(_temp1100, _temp1101, _temp1103)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp1100.no_undermethod then
+        _temp1099 =  _temp1100:no_undermethod(string:new('get'), _temp1101, _temp1103)
+      else
+        _error(exception:method_error(_temp1100, 'get'))
+      end
+    
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp1100
+     
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1101 = _m(_self)
+   elseif _m then
+     _temp1101 = _m
+   elseif _self.no_undermethod then
+     _temp1101 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1101) == 'number' then
+      _temp1101 = number:new(_temp1101)
+    elseif object._is_callable(_temp1101) then
+      _temp1101 = brat_function:new(_temp1101)
+    end
+    
+      local _m = _temp1101.sindexes
+      if object._is_callable(_m) then
+        _temp1102 =  _m(_temp1101)
+      elseif _m ~= nil then
+        _temp1102 =  _m
+      elseif _temp1101.no_undermethod then
+        _temp1102 =  _temp1101:no_undermethod(string:new('sindexes'))
+      else
+        _error(exception:method_error(_temp1101, 'sindexes'))
+      end
+    
+if _type(_temp1102) == 'number' then
+      _temp1102 = number:new(_temp1102)
+    elseif object._is_callable(_temp1102) then
+      _temp1102 = brat_function:new(_temp1102)
+    end
+    
+      local _m = _temp1102.elements
+      if object._is_callable(_m) then
+        _temp1101 =  _m(_temp1102)
+      elseif _m ~= nil then
+        _temp1101 =  _m
+      elseif _temp1102.no_undermethod then
+        _temp1101 =  _temp1102:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1102, 'elements'))
+      end
+    
+if _type(_temp1101) == 'number' then
+      _temp1101 = number:new(_temp1101)
+    elseif object._is_callable(_temp1101) then
+      _temp1101 = brat_function:new(_temp1101)
+    end
+    
+      local _m = _temp1101.length
+      if object._is_callable(_m) then
+        _temp1102 =  _m(_temp1101)
+      elseif _m ~= nil then
+        _temp1102 =  _m
+      elseif _temp1101.no_undermethod then
+        _temp1102 =  _temp1101:no_undermethod(string:new('length'))
+      else
+        _error(exception:method_error(_temp1101, 'length'))
+      end
+    
+
+  if _type(_temp1102) == 'number' then
+    
+      if number._unchanged('_greater') then
+        if _temp1102 > 1 then
+          _temp1103 =  object.__true
+        else
+          _temp1103 =  object.__false
+        end
+      else
+        if _type(_temp1102) == 'number' then
+      _temp1102 = number:new(_temp1102)
+    elseif object._is_callable(_temp1102) then
+      _temp1102 = brat_function:new(_temp1102)
+    end
+    
+      local _m = _temp1102._greater
+      if object._is_callable(_m) then
+        _temp1103 =  _m(_temp1102, 1)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1102.no_undermethod then
+        _temp1103 =  _temp1102:no_undermethod(string:new('>'), 1)
+      else
+        _error(exception:method_error(_temp1102, '_greater'))
+      end
+    
+      end
+      
+  else
+    if _type(_temp1102) == 'number' then
+      _temp1102 = number:new(_temp1102)
+    elseif object._is_callable(_temp1102) then
+      _temp1102 = brat_function:new(_temp1102)
+    end
+    
+      local _m = _temp1102._greater
+      if object._is_callable(_m) then
+        _temp1103 =  _m(_temp1102, 1)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1102.no_undermethod then
+        _temp1103 =  _temp1102:no_undermethod(string:new('>'), 1)
+      else
+        _error(exception:method_error(_temp1102, '_greater'))
+      end
+    
+  end
+  
+     if object._is_callable(_temp1103) then
+                    _temp1103 = _temp1103(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp1103) then
+      do
+
+local _temp1105
+
+local _temp1104
+
+    if object._is_callable(_temp1099) then
+      _temp1104 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1104 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+local _temp1106 = string:new('get')
+
+if _type(_temp1104) == 'number' then
+      _temp1104 = number:new(_temp1104)
+    elseif object._is_callable(_temp1104) then
+      _temp1104 = brat_function:new(_temp1104)
+    end
+    
+      local _m = _temp1104._less_less
+      if object._is_callable(_m) then
+        _temp1105 =  _m(_temp1104, _temp1106)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1104.no_undermethod then
+        _temp1105 =  _temp1104:no_undermethod(string:new('<<'), _temp1106)
+      else
+        _error(exception:method_error(_temp1104, '_less_less'))
+      end
+    
+local _temp1107
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1104 = _m(_self)
+   elseif _m then
+     _temp1104 = _m
+   elseif _self.no_undermethod then
+     _temp1104 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1104) == 'number' then
+      _temp1104 = number:new(_temp1104)
+    elseif object._is_callable(_temp1104) then
+      _temp1104 = brat_function:new(_temp1104)
+    end
+    
+      local _m = _temp1104.sindexes
+      if object._is_callable(_m) then
+        _temp1106 =  _m(_temp1104)
+      elseif _m ~= nil then
+        _temp1106 =  _m
+      elseif _temp1104.no_undermethod then
+        _temp1106 =  _temp1104:no_undermethod(string:new('sindexes'))
+      else
+        _error(exception:method_error(_temp1104, 'sindexes'))
+      end
+    
+
+_temp1104 = array:new()
+
+_temp1107 =  _temp47(_self, _temp1106, _temp1104)
+
+
+    if object._is_callable(_temp1099) then
+      _temp1104 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1104 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+local _temp1108
+
+do
+local _temp1109
+_temp1108 = {}
+
+local _temp1110
+
+    if object._is_callable(_temp1107) then
+      _temp1110 =  _temp1107(_self)
+
+    elseif _temp1107 then
+      _temp1110 =  _temp1107
+    else
+      _error(exception:name_error("index_underargs"))
+    end
+    
+if _type(_temp1110) == 'number' then
+      _temp1110 = number:new(_temp1110)
+    elseif object._is_callable(_temp1110) then
+      _temp1110 = brat_function:new(_temp1110)
+    end
+    
+      local _m = _temp1110.deq
+      if object._is_callable(_m) then
+        _temp1109 =  _m(_temp1110)
+      elseif _m ~= nil then
+        _temp1109 =  _m
+      elseif _temp1110.no_undermethod then
+        _temp1109 =  _temp1110:no_undermethod(string:new('deq'))
+      else
+        _error(exception:method_error(_temp1110, 'deq'))
+      end
+    
+_temp1108[1] = _temp1109
+_temp1108 = array:new(_temp1108)
+end
+
+if _type(_temp1104) == 'number' then
+      _temp1104 = number:new(_temp1104)
+    elseif object._is_callable(_temp1104) then
+      _temp1104 = brat_function:new(_temp1104)
+    end
+    
+      local _m = _temp1104._less_less
+      if object._is_callable(_m) then
+        _temp1106 =  _m(_temp1104, _temp1108)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1104.no_undermethod then
+        _temp1106 =  _temp1104:no_undermethod(string:new('<<'), _temp1108)
+      else
+        _error(exception:method_error(_temp1104, '_less_less'))
+      end
+    
+local _temp1111
+
+    if object._is_callable(_temp1107) then
+      _temp1104 =  _temp1107(_self)
+
+    elseif _temp1107 then
+      _temp1104 =  _temp1107
+    else
+      _error(exception:name_error("index_underargs"))
+    end
+    
+if _type(_temp1104) == 'number' then
+      _temp1104 = number:new(_temp1104)
+    elseif object._is_callable(_temp1104) then
+      _temp1104 = brat_function:new(_temp1104)
+    end
+    
+      local _m = _temp1104.pop
+      if object._is_callable(_m) then
+        _temp1111 =  _m(_temp1104)
+      elseif _m ~= nil then
+        _temp1111 =  _m
+      elseif _temp1104.no_undermethod then
+        _temp1111 =  _temp1104:no_undermethod(string:new('pop'))
+      else
+        _error(exception:method_error(_temp1104, 'pop'))
+      end
+    
+
+    if object._is_callable(_temp1107) then
+      _temp1104 =  _temp1107(_self)
+
+    elseif _temp1107 then
+      _temp1104 =  _temp1107
+    else
+      _error(exception:name_error("index_underargs"))
+    end
+    
+    if object._is_callable(_temp1099) then
+      _temp1110 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1110 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1121 = _lifted[73]
+
+if _type(_temp1104) == 'number' then
+      _temp1104 = number:new(_temp1104)
+    elseif object._is_callable(_temp1104) then
+      _temp1104 = brat_function:new(_temp1104)
+    end
+    
+      local _m = _temp1104.reduce
+      if object._is_callable(_m) then
+        _temp1108 =  _m(_temp1104, _temp1110, _temp1121)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp1104.no_undermethod then
+        _temp1108 =  _temp1104:no_undermethod(string:new('reduce'), _temp1110, _temp1121)
+      else
+        _error(exception:method_error(_temp1104, 'reduce'))
+      end
+    
+_temp1099 = _temp1108
+
+local _temp1122
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1104 = _m(_self)
+   elseif _m then
+     _temp1104 = _m
+   elseif _self.no_undermethod then
+     _temp1104 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1104) == 'number' then
+      _temp1104 = number:new(_temp1104)
+    elseif object._is_callable(_temp1104) then
+      _temp1104 = brat_function:new(_temp1104)
+    end
+    
+      local _m = _temp1104.elements
+      if object._is_callable(_m) then
+        _temp1121 =  _m(_temp1104)
+      elseif _m ~= nil then
+        _temp1121 =  _m
+      elseif _temp1104.no_undermethod then
+        _temp1121 =  _temp1104:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1104, 'elements'))
+      end
+    
+if _type(_temp1121) == 'number' then
+      _temp1121 = number:new(_temp1121)
+    elseif object._is_callable(_temp1121) then
+      _temp1121 = brat_function:new(_temp1121)
+    end
+    
+      local _m = _temp1121.last
+      if object._is_callable(_m) then
+        _temp1104 =  _m(_temp1121)
+      elseif _m ~= nil then
+        _temp1104 =  _m
+      elseif _temp1121.no_undermethod then
+        _temp1104 =  _temp1121:no_undermethod(string:new('last'))
+      else
+        _error(exception:method_error(_temp1121, 'last'))
+      end
+    
+if _type(_temp1104) == 'number' then
+      _temp1104 = number:new(_temp1104)
+    elseif object._is_callable(_temp1104) then
+      _temp1104 = brat_function:new(_temp1104)
+    end
+    
+      local _m = _temp1104.ast
+      if object._is_callable(_m) then
+        _temp1122 =  _m(_temp1104)
+      elseif _m ~= nil then
+        _temp1122 =  _m
+      elseif _temp1104.no_undermethod then
+        _temp1122 =  _temp1104:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp1104, 'ast'))
+      end
+    
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1104 = _m(_self)
+   elseif _m then
+     _temp1104 = _m
+   elseif _self.no_undermethod then
+     _temp1104 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+_temp1110 = string:new('call')
+
+
+local _temp1123
+
+    if object._is_callable(_temp1099) then
+      _temp1123 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1123 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1124 = string:new('set')
+
+
+local _temp1125
+
+do
+local _temp1126
+_temp1125 = {}
+
+    if object._is_callable(_temp1111) then
+      _temp1126 =  _temp1111(_self)
+
+    elseif _temp1111 then
+      _temp1126 =  _temp1111
+    else
+      _error(exception:name_error("final_underarg"))
+    end
+    
+_temp1125[1] = _temp1126
+
+    if object._is_callable(_temp1122) then
+      _temp1126 =  _temp1122(_self)
+
+    elseif _temp1122 then
+      _temp1126 =  _temp1122
+    else
+      _error(exception:name_error("value"))
+    end
+    
+_temp1125[2] = _temp1126
+_temp1125 = array:new(_temp1125)
+end
+
+if _type(_temp1104) == 'number' then
+      _temp1104 = number:new(_temp1104)
+    elseif object._is_callable(_temp1104) then
+      _temp1104 = brat_function:new(_temp1104)
+    end
+    
+      local _m = _temp1104.get
+      if object._is_callable(_m) then
+        _temp1121 =  _m(_temp1104, _temp1110, _temp1123, _temp1124, _temp1125)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 3))
+      elseif _temp1104.no_undermethod then
+        _temp1121 =  _temp1104:no_undermethod(string:new('get'), _temp1110, _temp1123, _temp1124, _temp1125)
+      else
+        _error(exception:method_error(_temp1104, 'get'))
+      end
+    
+_temp1100 =  _temp1121
+
+end
+
+      _temp1100 =  _temp1100
+     else
+      do
+local _temp1127
+
+local _temp1129
+
+local _temp1128
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1128 = _m(_self)
+   elseif _m then
+     _temp1128 = _m
+   elseif _self.no_undermethod then
+     _temp1128 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1128) == 'number' then
+      _temp1128 = number:new(_temp1128)
+    elseif object._is_callable(_temp1128) then
+      _temp1128 = brat_function:new(_temp1128)
+    end
+    
+      local _m = _temp1128.sindexes
+      if object._is_callable(_m) then
+        _temp1129 =  _m(_temp1128)
+      elseif _m ~= nil then
+        _temp1129 =  _m
+      elseif _temp1128.no_undermethod then
+        _temp1129 =  _temp1128:no_undermethod(string:new('sindexes'))
+      else
+        _error(exception:method_error(_temp1128, 'sindexes'))
+      end
+    
+
+_temp1128 = array:new()
+
+_temp1127 =  _temp47(_self, _temp1129, _temp1128)
+
+
+    if object._is_callable(_temp1127) then
+      _temp1128 =  _temp1127(_self)
+
+    elseif _temp1127 then
+      _temp1128 =  _temp1127
+    else
+      _error(exception:name_error("args"))
+    end
+    
+local _temp1131
+
+local _temp1130
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1130 = _m(_self)
+   elseif _m then
+     _temp1130 = _m
+   elseif _self.no_undermethod then
+     _temp1130 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1130) == 'number' then
+      _temp1130 = number:new(_temp1130)
+    elseif object._is_callable(_temp1130) then
+      _temp1130 = brat_function:new(_temp1130)
+    end
+    
+      local _m = _temp1130.elements
+      if object._is_callable(_m) then
+        _temp1131 =  _m(_temp1130)
+      elseif _m ~= nil then
+        _temp1131 =  _m
+      elseif _temp1130.no_undermethod then
+        _temp1131 =  _temp1130:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1130, 'elements'))
+      end
+    
+if _type(_temp1131) == 'number' then
+      _temp1131 = number:new(_temp1131)
+    elseif object._is_callable(_temp1131) then
+      _temp1131 = brat_function:new(_temp1131)
+    end
+    
+      local _m = _temp1131.last
+      if object._is_callable(_m) then
+        _temp1130 =  _m(_temp1131)
+      elseif _m ~= nil then
+        _temp1130 =  _m
+      elseif _temp1131.no_undermethod then
+        _temp1130 =  _temp1131:no_undermethod(string:new('last'))
+      else
+        _error(exception:method_error(_temp1131, 'last'))
+      end
+    
+if _type(_temp1130) == 'number' then
+      _temp1130 = number:new(_temp1130)
+    elseif object._is_callable(_temp1130) then
+      _temp1130 = brat_function:new(_temp1130)
+    end
+    
+      local _m = _temp1130.ast
+      if object._is_callable(_m) then
+        _temp1131 =  _m(_temp1130)
+      elseif _m ~= nil then
+        _temp1131 =  _m
+      elseif _temp1130.no_undermethod then
+        _temp1131 =  _temp1130:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp1130, 'ast'))
+      end
+    
+if _type(_temp1128) == 'number' then
+      _temp1128 = number:new(_temp1128)
+    elseif object._is_callable(_temp1128) then
+      _temp1128 = brat_function:new(_temp1128)
+    end
+    
+      local _m = _temp1128._less_less
+      if object._is_callable(_m) then
+        _temp1129 =  _m(_temp1128, _temp1131)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1128.no_undermethod then
+        _temp1129 =  _temp1128:no_undermethod(string:new('<<'), _temp1131)
+      else
+        _error(exception:method_error(_temp1128, '_less_less'))
+      end
+    
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp1128
+     
+    if object._is_callable(_temp1127) then
+      _temp1131 =  _temp1127(_self)
+
+    elseif _temp1127 then
+      _temp1131 =  _temp1127
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp1131) == 'number' then
+      _temp1131 = number:new(_temp1131)
+    elseif object._is_callable(_temp1131) then
+      _temp1131 = brat_function:new(_temp1131)
+    end
+    
+      local _m = _temp1131.first
+      if object._is_callable(_m) then
+        _temp1130 =  _m(_temp1131)
+      elseif _m ~= nil then
+        _temp1130 =  _m
+      elseif _temp1131.no_undermethod then
+        _temp1130 =  _temp1131:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1131, 'first'))
+      end
+    
+if _type(_temp1130) == 'number' then
+      _temp1130 = number:new(_temp1130)
+    elseif object._is_callable(_temp1130) then
+      _temp1130 = brat_function:new(_temp1130)
+    end
+    
+      local _m = _temp1130.name
+      if object._is_callable(_m) then
+        _temp1131 =  _m(_temp1130)
+      elseif _m ~= nil then
+        _temp1131 =  _m
+      elseif _temp1130.no_undermethod then
+        _temp1131 =  _temp1130:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp1130, 'name'))
+      end
+    
+local _temp1132 = string:new('simple_string')
+
+if _type(_temp1131) == 'number' then
+      _temp1131 = number:new(_temp1131)
+    elseif object._is_callable(_temp1131) then
+      _temp1131 = brat_function:new(_temp1131)
+    end
+    
+      local _m = _temp1131._equal_equal
+      if object._is_callable(_m) then
+        _temp1130 =  _m(_temp1131, _temp1132)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1131.no_undermethod then
+        _temp1130 =  _temp1131:no_undermethod(string:new('=='), _temp1132)
+      else
+        _error(exception:method_error(_temp1131, '_equal_equal'))
+      end
+    
+     if object._is_callable(_temp1130) then
+                    _temp1130 = _temp1130(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp1130) then
+      do
+
+local _temp1133
+
+    if object._is_callable(_temp1099) then
+      _temp1133 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1133 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1134 = string:new('simple_index_set')
+
+    if _type(_temp1133) == 'table' then
+      _temp1133['name'] = _temp1134
+    else
+      _error('Cannot set method on ' .. _temp1133)
+    end
+    
+_temp1128 =  _temp1134
+
+end
+
+      _temp1128 =  _temp1128
+     else
+      
+_temp1128 = object.__false
+
+      _temp1128 =  _temp1128
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp1127) then
+      _temp1131 =  _temp1127(_self)
+
+    elseif _temp1127 then
+      _temp1131 =  _temp1127
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp1131) == 'number' then
+      _temp1131 = number:new(_temp1131)
+    elseif object._is_callable(_temp1131) then
+      _temp1131 = brat_function:new(_temp1131)
+    end
+    
+      local _m = _temp1131.first
+      if object._is_callable(_m) then
+        _temp1132 =  _m(_temp1131)
+      elseif _m ~= nil then
+        _temp1132 =  _m
+      elseif _temp1131.no_undermethod then
+        _temp1132 =  _temp1131:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1131, 'first'))
+      end
+    
+if _type(_temp1132) == 'number' then
+      _temp1132 = number:new(_temp1132)
+    elseif object._is_callable(_temp1132) then
+      _temp1132 = brat_function:new(_temp1132)
+    end
+    
+      local _m = _temp1132.name
+      if object._is_callable(_m) then
+        _temp1131 =  _m(_temp1132)
+      elseif _m ~= nil then
+        _temp1131 =  _m
+      elseif _temp1132.no_undermethod then
+        _temp1131 =  _temp1132:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp1132, 'name'))
+      end
+    
+local _temp1135 = string:new('simple_string')
+
+if _type(_temp1131) == 'number' then
+      _temp1131 = number:new(_temp1131)
+    elseif object._is_callable(_temp1131) then
+      _temp1131 = brat_function:new(_temp1131)
+    end
+    
+      local _m = _temp1131._equal_equal
+      if object._is_callable(_m) then
+        _temp1132 =  _m(_temp1131, _temp1135)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1131.no_undermethod then
+        _temp1132 =  _temp1131:no_undermethod(string:new('=='), _temp1135)
+      else
+        _error(exception:method_error(_temp1131, '_equal_equal'))
+      end
+    
+
+_temp1131 = _lifted_call(_lifted[74], {})
+_temp1131.arg_table['_temp1099'] = _temp1099
+
+  if true_question then
+    _temp1128 =  true_question(_self, _temp1132, _temp1131)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp1128 =  _m(_self, _temp1132, _temp1131)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _self.no_undermethod then
+        _temp1128 =  _self:no_undermethod(string:new('true?'), _temp1132, _temp1131)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp1128 =  _temp1128
+     -- end fallback if
+   end
+   
+    if object._is_callable(_temp1099) then
+      _temp1131 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1131 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+_temp1135 = string:new('set')
+
+if _type(_temp1131) == 'number' then
+      _temp1131 = number:new(_temp1131)
+    elseif object._is_callable(_temp1131) then
+      _temp1131 = brat_function:new(_temp1131)
+    end
+    
+      local _m = _temp1131._less_less
+      if object._is_callable(_m) then
+        _temp1132 =  _m(_temp1131, _temp1135)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1131.no_undermethod then
+        _temp1132 =  _temp1131:no_undermethod(string:new('<<'), _temp1135)
+      else
+        _error(exception:method_error(_temp1131, '_less_less'))
+      end
+    
+    if object._is_callable(_temp1127) then
+      _temp1135 =  _temp1127(_self)
+
+    elseif _temp1127 then
+      _temp1135 =  _temp1127
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp1132) == 'number' then
+      _temp1132 = number:new(_temp1132)
+    elseif object._is_callable(_temp1132) then
+      _temp1132 = brat_function:new(_temp1132)
+    end
+    
+      local _m = _temp1132._less_less
+      if object._is_callable(_m) then
+        _temp1131 =  _m(_temp1132, _temp1135)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1132.no_undermethod then
+        _temp1131 =  _temp1132:no_undermethod(string:new('<<'), _temp1135)
+      else
+        _error(exception:method_error(_temp1132, '_less_less'))
+      end
+    
+_temp1100 =  _temp1131
+
+end
+
+      _temp1100 =  _temp1100
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+local _temp1139
+
+local _temp1138
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1138 = _m(_self)
+   elseif _m then
+     _temp1138 = _m
+   elseif _self.no_undermethod then
+     _temp1138 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1138) == 'number' then
+      _temp1138 = number:new(_temp1138)
+    elseif object._is_callable(_temp1138) then
+      _temp1138 = brat_function:new(_temp1138)
+    end
+    
+      local _m = _temp1138.sindexes
+      if object._is_callable(_m) then
+        _temp1139 =  _m(_temp1138)
+      elseif _m ~= nil then
+        _temp1139 =  _m
+      elseif _temp1138.no_undermethod then
+        _temp1139 =  _temp1138:no_undermethod(string:new('sindexes'))
+      else
+        _error(exception:method_error(_temp1138, 'sindexes'))
+      end
+    
+if _type(_temp1139) == 'number' then
+      _temp1139 = number:new(_temp1139)
+    elseif object._is_callable(_temp1139) then
+      _temp1139 = brat_function:new(_temp1139)
+    end
+    
+      local _m = _temp1139.elements
+      if object._is_callable(_m) then
+        _temp1138 =  _m(_temp1139)
+      elseif _m ~= nil then
+        _temp1138 =  _m
+      elseif _temp1139.no_undermethod then
+        _temp1138 =  _temp1139:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1139, 'elements'))
+      end
+    
+if _type(_temp1138) == 'number' then
+      _temp1138 = number:new(_temp1138)
+    elseif object._is_callable(_temp1138) then
+      _temp1138 = brat_function:new(_temp1138)
+    end
+    
+      local _m = _temp1138.length
+      if object._is_callable(_m) then
+        _temp1139 =  _m(_temp1138)
+      elseif _m ~= nil then
+        _temp1139 =  _m
+      elseif _temp1138.no_undermethod then
+        _temp1139 =  _temp1138:no_undermethod(string:new('length'))
+      else
+        _error(exception:method_error(_temp1138, 'length'))
+      end
+    
+
+  if _type(_temp1139) == 'number' then
+    
+      if number._unchanged('_greater') then
+        if _temp1139 > 1 then
+          _temp1101 =  object.__true
+        else
+          _temp1101 =  object.__false
+        end
+      else
+        if _type(_temp1139) == 'number' then
+      _temp1139 = number:new(_temp1139)
+    elseif object._is_callable(_temp1139) then
+      _temp1139 = brat_function:new(_temp1139)
+    end
+    
+      local _m = _temp1139._greater
+      if object._is_callable(_m) then
+        _temp1101 =  _m(_temp1139, 1)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1139.no_undermethod then
+        _temp1101 =  _temp1139:no_undermethod(string:new('>'), 1)
+      else
+        _error(exception:method_error(_temp1139, '_greater'))
+      end
+    
+      end
+      
+  else
+    if _type(_temp1139) == 'number' then
+      _temp1139 = number:new(_temp1139)
+    elseif object._is_callable(_temp1139) then
+      _temp1139 = brat_function:new(_temp1139)
+    end
+    
+      local _m = _temp1139._greater
+      if object._is_callable(_m) then
+        _temp1101 =  _m(_temp1139, 1)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1139.no_undermethod then
+        _temp1101 =  _temp1139:no_undermethod(string:new('>'), 1)
+      else
+        _error(exception:method_error(_temp1139, '_greater'))
+      end
+    
+  end
+  
+
+local _temp1140 = function(_self)
+
+local _temp1142
+
+local _temp1141
+
+    if object._is_callable(_temp1099) then
+      _temp1141 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1141 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+local _temp1143 = string:new('get')
+
+if _type(_temp1141) == 'number' then
+      _temp1141 = number:new(_temp1141)
+    elseif object._is_callable(_temp1141) then
+      _temp1141 = brat_function:new(_temp1141)
+    end
+    
+      local _m = _temp1141._less_less
+      if object._is_callable(_m) then
+        _temp1142 =  _m(_temp1141, _temp1143)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1141.no_undermethod then
+        _temp1142 =  _temp1141:no_undermethod(string:new('<<'), _temp1143)
+      else
+        _error(exception:method_error(_temp1141, '_less_less'))
+      end
+    
+local _temp1144
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1141 = _m(_self)
+   elseif _m then
+     _temp1141 = _m
+   elseif _self.no_undermethod then
+     _temp1141 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1141) == 'number' then
+      _temp1141 = number:new(_temp1141)
+    elseif object._is_callable(_temp1141) then
+      _temp1141 = brat_function:new(_temp1141)
+    end
+    
+      local _m = _temp1141.sindexes
+      if object._is_callable(_m) then
+        _temp1143 =  _m(_temp1141)
+      elseif _m ~= nil then
+        _temp1143 =  _m
+      elseif _temp1141.no_undermethod then
+        _temp1143 =  _temp1141:no_undermethod(string:new('sindexes'))
+      else
+        _error(exception:method_error(_temp1141, 'sindexes'))
+      end
+    
+
+_temp1141 = array:new()
+
+_temp1144 =  _temp47(_self, _temp1143, _temp1141)
+
+
+    if object._is_callable(_temp1099) then
+      _temp1141 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1141 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+local _temp1145
+
+do
+local _temp1146
+_temp1145 = {}
+
+local _temp1147
+
+    if object._is_callable(_temp1144) then
+      _temp1147 =  _temp1144(_self)
+
+    elseif _temp1144 then
+      _temp1147 =  _temp1144
+    else
+      _error(exception:name_error("index_underargs"))
+    end
+    
+if _type(_temp1147) == 'number' then
+      _temp1147 = number:new(_temp1147)
+    elseif object._is_callable(_temp1147) then
+      _temp1147 = brat_function:new(_temp1147)
+    end
+    
+      local _m = _temp1147.deq
+      if object._is_callable(_m) then
+        _temp1146 =  _m(_temp1147)
+      elseif _m ~= nil then
+        _temp1146 =  _m
+      elseif _temp1147.no_undermethod then
+        _temp1146 =  _temp1147:no_undermethod(string:new('deq'))
+      else
+        _error(exception:method_error(_temp1147, 'deq'))
+      end
+    
+_temp1145[1] = _temp1146
+_temp1145 = array:new(_temp1145)
+end
+
+if _type(_temp1141) == 'number' then
+      _temp1141 = number:new(_temp1141)
+    elseif object._is_callable(_temp1141) then
+      _temp1141 = brat_function:new(_temp1141)
+    end
+    
+      local _m = _temp1141._less_less
+      if object._is_callable(_m) then
+        _temp1143 =  _m(_temp1141, _temp1145)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1141.no_undermethod then
+        _temp1143 =  _temp1141:no_undermethod(string:new('<<'), _temp1145)
+      else
+        _error(exception:method_error(_temp1141, '_less_less'))
+      end
+    
+local _temp1148
+
+    if object._is_callable(_temp1144) then
+      _temp1141 =  _temp1144(_self)
+
+    elseif _temp1144 then
+      _temp1141 =  _temp1144
+    else
+      _error(exception:name_error("index_underargs"))
+    end
+    
+if _type(_temp1141) == 'number' then
+      _temp1141 = number:new(_temp1141)
+    elseif object._is_callable(_temp1141) then
+      _temp1141 = brat_function:new(_temp1141)
+    end
+    
+      local _m = _temp1141.pop
+      if object._is_callable(_m) then
+        _temp1148 =  _m(_temp1141)
+      elseif _m ~= nil then
+        _temp1148 =  _m
+      elseif _temp1141.no_undermethod then
+        _temp1148 =  _temp1141:no_undermethod(string:new('pop'))
+      else
+        _error(exception:method_error(_temp1141, 'pop'))
+      end
+    
+
+    if object._is_callable(_temp1144) then
+      _temp1141 =  _temp1144(_self)
+
+    elseif _temp1144 then
+      _temp1141 =  _temp1144
+    else
+      _error(exception:name_error("index_underargs"))
+    end
+    
+    if object._is_callable(_temp1099) then
+      _temp1147 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1147 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1158 = _lifted[75]
+
+if _type(_temp1141) == 'number' then
+      _temp1141 = number:new(_temp1141)
+    elseif object._is_callable(_temp1141) then
+      _temp1141 = brat_function:new(_temp1141)
+    end
+    
+      local _m = _temp1141.reduce
+      if object._is_callable(_m) then
+        _temp1145 =  _m(_temp1141, _temp1147, _temp1158)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _temp1141.no_undermethod then
+        _temp1145 =  _temp1141:no_undermethod(string:new('reduce'), _temp1147, _temp1158)
+      else
+        _error(exception:method_error(_temp1141, 'reduce'))
+      end
+    
+_temp1099 = _temp1145
+
+local _temp1159
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1141 = _m(_self)
+   elseif _m then
+     _temp1141 = _m
+   elseif _self.no_undermethod then
+     _temp1141 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1141) == 'number' then
+      _temp1141 = number:new(_temp1141)
+    elseif object._is_callable(_temp1141) then
+      _temp1141 = brat_function:new(_temp1141)
+    end
+    
+      local _m = _temp1141.elements
+      if object._is_callable(_m) then
+        _temp1158 =  _m(_temp1141)
+      elseif _m ~= nil then
+        _temp1158 =  _m
+      elseif _temp1141.no_undermethod then
+        _temp1158 =  _temp1141:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1141, 'elements'))
+      end
+    
+if _type(_temp1158) == 'number' then
+      _temp1158 = number:new(_temp1158)
+    elseif object._is_callable(_temp1158) then
+      _temp1158 = brat_function:new(_temp1158)
+    end
+    
+      local _m = _temp1158.last
+      if object._is_callable(_m) then
+        _temp1141 =  _m(_temp1158)
+      elseif _m ~= nil then
+        _temp1141 =  _m
+      elseif _temp1158.no_undermethod then
+        _temp1141 =  _temp1158:no_undermethod(string:new('last'))
+      else
+        _error(exception:method_error(_temp1158, 'last'))
+      end
+    
+if _type(_temp1141) == 'number' then
+      _temp1141 = number:new(_temp1141)
+    elseif object._is_callable(_temp1141) then
+      _temp1141 = brat_function:new(_temp1141)
+    end
+    
+      local _m = _temp1141.ast
+      if object._is_callable(_m) then
+        _temp1159 =  _m(_temp1141)
+      elseif _m ~= nil then
+        _temp1159 =  _m
+      elseif _temp1141.no_undermethod then
+        _temp1159 =  _temp1141:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp1141, 'ast'))
+      end
+    
+   local _m
+   if s then
+     _m = s
+   else
+     _m = _self["s"]
+   end
+   if object._is_callable(_m) then
+     _temp1141 = _m(_self)
+   elseif _m then
+     _temp1141 = _m
+   elseif _self.no_undermethod then
+     _temp1141 = _self:no_undermethod(string:new('s'))
+   else
+     _error(exception:name_error("s"))
+   end
+  
+_temp1147 = string:new('call')
+
+
+local _temp1160
+
+    if object._is_callable(_temp1099) then
+      _temp1160 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1160 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1161 = string:new('set')
+
+
+local _temp1162
+
+do
+local _temp1163
+_temp1162 = {}
+
+    if object._is_callable(_temp1148) then
+      _temp1163 =  _temp1148(_self)
+
+    elseif _temp1148 then
+      _temp1163 =  _temp1148
+    else
+      _error(exception:name_error("final_underarg"))
+    end
+    
+_temp1162[1] = _temp1163
+
+    if object._is_callable(_temp1159) then
+      _temp1163 =  _temp1159(_self)
+
+    elseif _temp1159 then
+      _temp1163 =  _temp1159
+    else
+      _error(exception:name_error("value"))
+    end
+    
+_temp1162[2] = _temp1163
+_temp1162 = array:new(_temp1162)
+end
+
+if _type(_temp1141) == 'number' then
+      _temp1141 = number:new(_temp1141)
+    elseif object._is_callable(_temp1141) then
+      _temp1141 = brat_function:new(_temp1141)
+    end
+    
+      local _m = _temp1141.get
+      if object._is_callable(_m) then
+        _temp1158 =  _m(_temp1141, _temp1147, _temp1160, _temp1161, _temp1162)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 3))
+      elseif _temp1141.no_undermethod then
+        _temp1158 =  _temp1141:no_undermethod(string:new('get'), _temp1147, _temp1160, _temp1161, _temp1162)
+      else
+        _error(exception:method_error(_temp1141, 'get'))
+      end
+    
+return _temp1158
+
+end
+
+
+local _temp1164 = function(_self)
+local _temp1165
+
+local _temp1167
+
+local _temp1166
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1166 = _m(_self)
+   elseif _m then
+     _temp1166 = _m
+   elseif _self.no_undermethod then
+     _temp1166 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1166) == 'number' then
+      _temp1166 = number:new(_temp1166)
+    elseif object._is_callable(_temp1166) then
+      _temp1166 = brat_function:new(_temp1166)
+    end
+    
+      local _m = _temp1166.sindexes
+      if object._is_callable(_m) then
+        _temp1167 =  _m(_temp1166)
+      elseif _m ~= nil then
+        _temp1167 =  _m
+      elseif _temp1166.no_undermethod then
+        _temp1167 =  _temp1166:no_undermethod(string:new('sindexes'))
+      else
+        _error(exception:method_error(_temp1166, 'sindexes'))
+      end
+    
+
+_temp1166 = array:new()
+
+_temp1165 =  _temp47(_self, _temp1167, _temp1166)
+
+
+    if object._is_callable(_temp1165) then
+      _temp1166 =  _temp1165(_self)
+
+    elseif _temp1165 then
+      _temp1166 =  _temp1165
+    else
+      _error(exception:name_error("args"))
+    end
+    
+local _temp1169
+
+local _temp1168
+
+   local _m
+   if my then
+     _m = my
+   else
+     _m = _self["my"]
+   end
+   if object._is_callable(_m) then
+     _temp1168 = _m(_self)
+   elseif _m then
+     _temp1168 = _m
+   elseif _self.no_undermethod then
+     _temp1168 = _self:no_undermethod(string:new('my'))
+   else
+     _error(exception:name_error("my"))
+   end
+  
+if _type(_temp1168) == 'number' then
+      _temp1168 = number:new(_temp1168)
+    elseif object._is_callable(_temp1168) then
+      _temp1168 = brat_function:new(_temp1168)
+    end
+    
+      local _m = _temp1168.elements
+      if object._is_callable(_m) then
+        _temp1169 =  _m(_temp1168)
+      elseif _m ~= nil then
+        _temp1169 =  _m
+      elseif _temp1168.no_undermethod then
+        _temp1169 =  _temp1168:no_undermethod(string:new('elements'))
+      else
+        _error(exception:method_error(_temp1168, 'elements'))
+      end
+    
+if _type(_temp1169) == 'number' then
+      _temp1169 = number:new(_temp1169)
+    elseif object._is_callable(_temp1169) then
+      _temp1169 = brat_function:new(_temp1169)
+    end
+    
+      local _m = _temp1169.last
+      if object._is_callable(_m) then
+        _temp1168 =  _m(_temp1169)
+      elseif _m ~= nil then
+        _temp1168 =  _m
+      elseif _temp1169.no_undermethod then
+        _temp1168 =  _temp1169:no_undermethod(string:new('last'))
+      else
+        _error(exception:method_error(_temp1169, 'last'))
+      end
+    
+if _type(_temp1168) == 'number' then
+      _temp1168 = number:new(_temp1168)
+    elseif object._is_callable(_temp1168) then
+      _temp1168 = brat_function:new(_temp1168)
+    end
+    
+      local _m = _temp1168.ast
+      if object._is_callable(_m) then
+        _temp1169 =  _m(_temp1168)
+      elseif _m ~= nil then
+        _temp1169 =  _m
+      elseif _temp1168.no_undermethod then
+        _temp1169 =  _temp1168:no_undermethod(string:new('ast'))
+      else
+        _error(exception:method_error(_temp1168, 'ast'))
+      end
+    
+if _type(_temp1166) == 'number' then
+      _temp1166 = number:new(_temp1166)
+    elseif object._is_callable(_temp1166) then
+      _temp1166 = brat_function:new(_temp1166)
+    end
+    
+      local _m = _temp1166._less_less
+      if object._is_callable(_m) then
+        _temp1167 =  _m(_temp1166, _temp1169)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1166.no_undermethod then
+        _temp1167 =  _temp1166:no_undermethod(string:new('<<'), _temp1169)
+      else
+        _error(exception:method_error(_temp1166, '_less_less'))
+      end
+    
+
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
+     -- yay if my var is _temp1166
+     
+    if object._is_callable(_temp1165) then
+      _temp1169 =  _temp1165(_self)
+
+    elseif _temp1165 then
+      _temp1169 =  _temp1165
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp1169) == 'number' then
+      _temp1169 = number:new(_temp1169)
+    elseif object._is_callable(_temp1169) then
+      _temp1169 = brat_function:new(_temp1169)
+    end
+    
+      local _m = _temp1169.first
+      if object._is_callable(_m) then
+        _temp1168 =  _m(_temp1169)
+      elseif _m ~= nil then
+        _temp1168 =  _m
+      elseif _temp1169.no_undermethod then
+        _temp1168 =  _temp1169:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1169, 'first'))
+      end
+    
+if _type(_temp1168) == 'number' then
+      _temp1168 = number:new(_temp1168)
+    elseif object._is_callable(_temp1168) then
+      _temp1168 = brat_function:new(_temp1168)
+    end
+    
+      local _m = _temp1168.name
+      if object._is_callable(_m) then
+        _temp1169 =  _m(_temp1168)
+      elseif _m ~= nil then
+        _temp1169 =  _m
+      elseif _temp1168.no_undermethod then
+        _temp1169 =  _temp1168:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp1168, 'name'))
+      end
+    
+local _temp1170 = string:new('simple_string')
+
+if _type(_temp1169) == 'number' then
+      _temp1169 = number:new(_temp1169)
+    elseif object._is_callable(_temp1169) then
+      _temp1169 = brat_function:new(_temp1169)
+    end
+    
+      local _m = _temp1169._equal_equal
+      if object._is_callable(_m) then
+        _temp1168 =  _m(_temp1169, _temp1170)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1169.no_undermethod then
+        _temp1168 =  _temp1169:no_undermethod(string:new('=='), _temp1170)
+      else
+        _error(exception:method_error(_temp1169, '_equal_equal'))
+      end
+    
+     if object._is_callable(_temp1168) then
+                    _temp1168 = _temp1168(_self)
+                   end
+     -- end condition
+
+     if object._is_true(_temp1168) then
+      do
+
+local _temp1171
+
+    if object._is_callable(_temp1099) then
+      _temp1171 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1171 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+
+local _temp1172 = string:new('simple_index_set')
+
+    if _type(_temp1171) == 'table' then
+      _temp1171['name'] = _temp1172
+    else
+      _error('Cannot set method on ' .. _temp1171)
+    end
+    
+_temp1166 =  _temp1172
+
+end
+
+      _temp1166 =  _temp1166
+     else
+      
+_temp1166 = object.__false
+
+      _temp1166 =  _temp1166
+     end
+     -- end yay if
+   else
+     -- fallback if
+     
+    if object._is_callable(_temp1165) then
+      _temp1169 =  _temp1165(_self)
+
+    elseif _temp1165 then
+      _temp1169 =  _temp1165
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp1169) == 'number' then
+      _temp1169 = number:new(_temp1169)
+    elseif object._is_callable(_temp1169) then
+      _temp1169 = brat_function:new(_temp1169)
+    end
+    
+      local _m = _temp1169.first
+      if object._is_callable(_m) then
+        _temp1170 =  _m(_temp1169)
+      elseif _m ~= nil then
+        _temp1170 =  _m
+      elseif _temp1169.no_undermethod then
+        _temp1170 =  _temp1169:no_undermethod(string:new('first'))
+      else
+        _error(exception:method_error(_temp1169, 'first'))
+      end
+    
+if _type(_temp1170) == 'number' then
+      _temp1170 = number:new(_temp1170)
+    elseif object._is_callable(_temp1170) then
+      _temp1170 = brat_function:new(_temp1170)
+    end
+    
+      local _m = _temp1170.name
+      if object._is_callable(_m) then
+        _temp1169 =  _m(_temp1170)
+      elseif _m ~= nil then
+        _temp1169 =  _m
+      elseif _temp1170.no_undermethod then
+        _temp1169 =  _temp1170:no_undermethod(string:new('name'))
+      else
+        _error(exception:method_error(_temp1170, 'name'))
+      end
+    
+local _temp1173 = string:new('simple_string')
+
+if _type(_temp1169) == 'number' then
+      _temp1169 = number:new(_temp1169)
+    elseif object._is_callable(_temp1169) then
+      _temp1169 = brat_function:new(_temp1169)
+    end
+    
+      local _m = _temp1169._equal_equal
+      if object._is_callable(_m) then
+        _temp1170 =  _m(_temp1169, _temp1173)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1169.no_undermethod then
+        _temp1170 =  _temp1169:no_undermethod(string:new('=='), _temp1173)
+      else
+        _error(exception:method_error(_temp1169, '_equal_equal'))
+      end
+    
+
+_temp1169 = _lifted_call(_lifted[76], {})
+_temp1169.arg_table['_temp1099'] = _temp1099
+
+  if true_question then
+    _temp1166 =  true_question(_self, _temp1170, _temp1169)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp1166 =  _m(_self, _temp1170, _temp1169)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 1))
+      elseif _self.no_undermethod then
+        _temp1166 =  _self:no_undermethod(string:new('true?'), _temp1170, _temp1169)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp1166 =  _temp1166
+     -- end fallback if
+   end
+   
+    if object._is_callable(_temp1099) then
+      _temp1169 =  _temp1099(_self)
+
+    elseif _temp1099 then
+      _temp1169 =  _temp1099
+    else
+      _error(exception:name_error("list"))
+    end
+    
+_temp1173 = string:new('set')
+
+if _type(_temp1169) == 'number' then
+      _temp1169 = number:new(_temp1169)
+    elseif object._is_callable(_temp1169) then
+      _temp1169 = brat_function:new(_temp1169)
+    end
+    
+      local _m = _temp1169._less_less
+      if object._is_callable(_m) then
+        _temp1170 =  _m(_temp1169, _temp1173)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1169.no_undermethod then
+        _temp1170 =  _temp1169:no_undermethod(string:new('<<'), _temp1173)
+      else
+        _error(exception:method_error(_temp1169, '_less_less'))
+      end
+    
+    if object._is_callable(_temp1165) then
+      _temp1173 =  _temp1165(_self)
+
+    elseif _temp1165 then
+      _temp1173 =  _temp1165
+    else
+      _error(exception:name_error("args"))
+    end
+    
+if _type(_temp1170) == 'number' then
+      _temp1170 = number:new(_temp1170)
+    elseif object._is_callable(_temp1170) then
+      _temp1170 = brat_function:new(_temp1170)
+    end
+    
+      local _m = _temp1170._less_less
+      if object._is_callable(_m) then
+        _temp1169 =  _m(_temp1170, _temp1173)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _temp1170.no_undermethod then
+        _temp1169 =  _temp1170:no_undermethod(string:new('<<'), _temp1173)
+      else
+        _error(exception:method_error(_temp1170, '_less_less'))
+      end
+    
+return _temp1169
+
+end
+
+
+  if true_question then
+    _temp1100 =  true_question(_self, _temp1101, _temp1140, _temp1164)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.true_question
+      if object._is_callable(_m) then
+        _temp1100 =  _m(_self, _temp1101, _temp1140, _temp1164)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 2))
+      elseif _self.no_undermethod then
+        _temp1100 =  _self:no_undermethod(string:new('true?'), _temp1101, _temp1140, _temp1164)
+      else
+        _error(exception:method_error(_self, 'true_question'))
+      end
+    
+  end
+  
+     _temp1100 =  _temp1100
+     -- end fallback if
+   end
+   
+return _temp1100
+
+end
+
+_temp1053 =  _temp63(_self, _temp11, _temp1098)
 
   end
 

@@ -309,8 +309,8 @@ end
 
 
 _lifted[9] = function(_argtable, _self)
-local _temp33 = _argtable['_temp33']
 local _temp34 = _argtable['_temp34']
+local _temp33 = _argtable['_temp33']
 local _temp47
 
    local _m
@@ -660,7 +660,7 @@ if _type(_temp36) == 'number' then
         _error(exception:method_error(_temp36, 'get'))
       end
     
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp36
      
     if object._is_callable(_temp34) then
@@ -837,6 +837,7 @@ _temp36 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp34) then
       _temp35 =  _temp34(_self)
@@ -875,8 +876,8 @@ if _type(_temp35) == 'number' then
     
 
 _temp35 = _lifted_call(_lifted[9], {})
-_temp35.arg_table['_temp33'] = _temp33
 _temp35.arg_table['_temp34'] = _temp34
+_temp35.arg_table['_temp33'] = _temp33
 
   if true_question then
     _temp36 =  true_question(_self, _temp38, _temp35)
@@ -902,6 +903,7 @@ _temp35.arg_table['_temp34'] = _temp34
   end
   
      _temp36 =  _temp36
+     -- end fallback if
    end
    
 return _temp36
@@ -910,8 +912,8 @@ end
 
 
 _lifted[11] = function(_argtable, _self)
-local _temp57 = _argtable['_temp57']
 local _temp55 = _argtable['_temp55']
+local _temp57 = _argtable['_temp57']
 local _temp61
 
 local _temp60
@@ -978,8 +980,8 @@ end
 
 
 _lifted[12] = function(_argtable, _self)
-local _temp55 = _argtable['_temp55']
 local _temp57 = _argtable['_temp57']
+local _temp55 = _argtable['_temp55']
 local _temp70
 
 local _temp69
@@ -1280,7 +1282,7 @@ if _type(_temp58) == 'number' then
         _error(exception:method_error(_temp58, 'match'))
       end
     
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp58
      
     if object._is_callable(_temp57) then
@@ -1293,8 +1295,8 @@ if _type(_temp58) == 'number' then
     end
     
 local _temp64 = _lifted_call(_lifted[11], {})
-_temp64.arg_table['_temp55'] = _temp55
 _temp64.arg_table['_temp57'] = _temp57
+_temp64.arg_table['_temp55'] = _temp55
 if _type(_temp59) == 'number' then
       _temp59 = number:new(_temp59)
     elseif object._is_callable(_temp59) then
@@ -1444,6 +1446,7 @@ _temp58 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
     if object._is_callable(_temp57) then
       _temp59 =  _temp57(_self)
@@ -1455,8 +1458,8 @@ _temp58 = object.__false
     end
     
 local _temp73 = _lifted_call(_lifted[12], {})
-_temp73.arg_table['_temp57'] = _temp57
 _temp73.arg_table['_temp55'] = _temp55
+_temp73.arg_table['_temp57'] = _temp57
 if _type(_temp59) == 'number' then
       _temp59 = number:new(_temp59)
     elseif object._is_callable(_temp59) then
@@ -1502,6 +1505,7 @@ _temp59.arg_table['_temp57'] = _temp57
   end
   
      _temp58 =  _temp58
+     -- end fallback if
    end
    
 return _temp58

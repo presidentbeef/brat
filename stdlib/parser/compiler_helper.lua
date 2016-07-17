@@ -112,8 +112,8 @@ end
 
 
 _lifted[2] = function(_argtable, _self)
-local _temp59 = _argtable['_temp59']
 local _temp56 = _argtable['_temp56']
+local _temp59 = _argtable['_temp59']
 local _temp83
 
 do
@@ -214,8 +214,8 @@ end
 
 
 _lifted[4] = function(_argtable, _self)
-local _temp56 = _argtable['_temp56']
 local _temp59 = _argtable['_temp59']
+local _temp56 = _argtable['_temp56']
 local _temp98
 
     if object._is_callable(_temp59) then
@@ -289,8 +289,8 @@ end
 
 
 _lifted[6] = function(_argtable, _self)
-local _temp59 = _argtable['_temp59']
 local _temp56 = _argtable['_temp56']
+local _temp59 = _argtable['_temp59']
 local _temp116
 
 do
@@ -477,7 +477,7 @@ if _type(_temp106) == 'number' then
 
 local _temp107
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp107
      
 local _temp108
@@ -602,6 +602,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp115
 
@@ -646,6 +647,7 @@ _temp123.arg_table['_temp59'] = _temp59
   end
   
      _temp107 =  _temp107
+     -- end fallback if
    end
    
     if _type(_temp106) == 'table' then
@@ -660,8 +662,8 @@ end
 
 
 _lifted[9] = function(_argtable, _self)
-local _temp56 = _argtable['_temp56']
 local _temp59 = _argtable['_temp59']
+local _temp56 = _argtable['_temp56']
 local _temp131
 
     if object._is_callable(_temp59) then
@@ -739,7 +741,7 @@ local _temp56 = _argtable['_temp56']
 local _temp59 = _argtable['_temp59']
 local _temp124
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp124
      
 local _temp125
@@ -841,6 +843,7 @@ _temp124 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp130
 
@@ -855,8 +858,8 @@ local _temp130
     
 
 local _temp135 = _lifted_call(_lifted[9], {})
-_temp135.arg_table['_temp59'] = _temp59
 _temp135.arg_table['_temp56'] = _temp56
+_temp135.arg_table['_temp59'] = _temp59
 
   if true_question then
     _temp124 =  true_question(_self, _temp130, _temp135)
@@ -882,6 +885,7 @@ _temp135.arg_table['_temp56'] = _temp56
   end
   
      _temp124 =  _temp124
+     -- end fallback if
    end
    
 return _temp124
@@ -1314,7 +1318,10 @@ local _temp16 = {}
      _error(exception:name_error("file_underheader"))
    end
   _temp16[1] = _tostring(_temp16[1])
-_temp16[2] = "\n  _exports = {}\n  local _main = function()\n    "
+_temp16[2] = "\
+  _exports = {}\
+  local _main = function()\
+    "
 
    local _m
    if method_underheader then
@@ -1332,7 +1339,11 @@ _temp16[2] = "\n  _exports = {}\n  local _main = function()\n    "
      _error(exception:name_error("method_underheader"))
    end
   _temp16[3] = _tostring(_temp16[3])
-_temp16[4] = "\n\n    setfenv(1, {})\n\n    "
+_temp16[4] = "\
+\
+    setfenv(1, {})\
+\
+    "
 
    local _m
    if inner_underbrat then
@@ -1350,7 +1361,18 @@ _temp16[4] = "\n\n    setfenv(1, {})\n\n    "
      _error(exception:name_error("inner_underbrat"))
    end
   _temp16[5] = _tostring(_temp16[5])
-_temp16[6] = "\n  end\n\n  local _result = coxpcall(_main, exception._handler)\n  if not _lib then\n    if not _result then\n      os.exit(-1)\n    else\n      os.exit(0)\n    end\n  end\n  "
+_temp16[6] = "\
+  end\
+\
+  local _result = coxpcall(_main, exception._handler)\
+  if not _lib then\
+    if not _result then\
+      os.exit(-1)\
+    else\
+      os.exit(0)\
+    end\
+  end\
+  "
 _temp15 = string:new(_table.concat(_temp16))
 end
 
@@ -1375,7 +1397,16 @@ end
     end
     
 
-local _temp17 = string:new("\n  require \"coxpcall\"\n  local _lib\n  if package.loaded.core then\n    _lib = true\n  else\n    _lib = false\n    require \"core\"\n  end\n  ")
+local _temp17 = string:new("\
+  require \"coxpcall\"\
+  local _lib\
+  if package.loaded.core then\
+    _lib = true\
+  else\
+    _lib = false\
+    require \"core\"\
+  end\
+  ")
 
     if _type(_temp13) == 'table' then
       _temp13['file_underheader'] = _temp17
@@ -1396,7 +1427,24 @@ local _temp18
     end
     
 
-local _temp19 = string:new("\n  local object = object\n  local array = array\n  local number = number\n  local string = base_string\n  local exception = exception\n  local hash = hash\n  local regex = regex\n  local _self = object\n  local _type = type\n  local _error = error\n  local _tostring = tostring\n  local brat_function = brat_function\n  local _lifted_call = _lifted_call\n  local _rawget = rawget\n  local _table = table\n  local _lifted = {}\n  ")
+local _temp19 = string:new("\
+  local object = object\
+  local array = array\
+  local number = number\
+  local string = base_string\
+  local exception = exception\
+  local hash = hash\
+  local regex = regex\
+  local _self = object\
+  local _type = type\
+  local _error = error\
+  local _tostring = tostring\
+  local brat_function = brat_function\
+  local _lifted_call = _lifted_call\
+  local _rawget = rawget\
+  local _table = table\
+  local _lifted = {}\
+  ")
 
     if _type(_temp18) == 'table' then
       _temp18['method_underheader'] = _temp19
@@ -2087,7 +2135,7 @@ if _type(_temp60) == 'number' then
       end
     
 
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('null_question') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp60
      
     if object._is_callable(_temp59) then
@@ -2209,6 +2257,7 @@ _temp60 = object.__false
      end
      -- end yay if
    else
+     -- fallback null?
      
 local _temp66
 
@@ -2266,10 +2315,11 @@ _temp62.arg_table['_temp59'] = _temp59
   end
   
      _temp60 =  _temp60
+     -- end fallback null?
    end
    
 
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('null_question') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is _temp62
      
 local _temp70
@@ -2392,7 +2442,7 @@ if _type(_temp73) == 'number' then
 
 local _temp74
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp74
      
 local _temp75
@@ -2517,6 +2567,7 @@ end
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp82
 
@@ -2561,6 +2612,7 @@ _temp90.arg_table['_temp59'] = _temp59
   end
   
      _temp74 =  _temp74
+     -- end fallback if
    end
    
     if _type(_temp73) == 'table' then
@@ -2579,7 +2631,7 @@ end
 
 local _temp91
 
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('true_question') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('true_question') then
      -- yay if my var is _temp91
      
 local _temp92
@@ -2681,6 +2733,7 @@ _temp91 = object.__false
      end
      -- end yay if
    else
+     -- fallback if
      
 local _temp97
 
@@ -2722,6 +2775,7 @@ _temp102.arg_table['_temp59'] = _temp59
   end
   
      _temp91 =  _temp91
+     -- end fallback if
    end
    
 _temp62 =  _temp91
@@ -2732,6 +2786,7 @@ end
      end
      -- end yay if
    else
+     -- fallback null?
      
 local _temp103
 
@@ -2763,12 +2818,12 @@ if _type(_temp66) == 'number' then
     
 
 _temp66 = _lifted_call(_lifted[5], {})
-_temp66.arg_table['_temp59'] = _temp59
 _temp66.arg_table['_temp56'] = _temp56
+_temp66.arg_table['_temp59'] = _temp59
 
 local _temp136 = _lifted_call(_lifted[8], {})
-_temp136.arg_table['_temp56'] = _temp56
 _temp136.arg_table['_temp59'] = _temp59
+_temp136.arg_table['_temp56'] = _temp56
 
   if null_question then
     _temp62 =  null_question(_self, _temp103, _temp66, _temp136)
@@ -2794,6 +2849,7 @@ _temp136.arg_table['_temp59'] = _temp59
   end
   
      _temp62 =  _temp62
+     -- end fallback null?
    end
    
     if object._is_callable(_temp59) then

@@ -845,7 +845,7 @@ local _temp62
 local _temp64 = string:new("\n")
 
 
-local _temp65 = string:new('\\n')
+local _temp65 = string:new('\\\n')
 
 if _type(_temp62) == 'number' then
       _temp62 = number:new(_temp62)
