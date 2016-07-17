@@ -255,10 +255,12 @@ add_results setup name: "array tests" {
 
   test "array_each_while" {
     assert_equal 2 { x = 0; [1, 2, 3].each_while { e | x = e; e < 2 }; x }
+    assert_equal null, { [1, 2, null, 3].each_while { e | e }}
   }
 
   test "array.each_until" {
     assert_equal 3 { x = 0; [1 2 3 4].each_until { e | x = e; e > 2 }; x }
+    assert_equal 3 { [null, null, 3].each_until { e | e }}
   }
 
   test "array_find" {

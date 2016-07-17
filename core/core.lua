@@ -2368,43 +2368,49 @@ end
 
 -- Object: array instance
 -- Call: array.each_while block
+-- Returns: last value from block
 --
 -- Invokes block for each item. Stops when block returns false or null.
 function array_instance:each_underwhile (block)
   local k = 1
   local len = self._length
   local a = self._lua_array
+  local res = object.__true
 
   while k <= len do
-    if is_true(block(self, a[k])) then
+    res = block(self, a[k])
+    if is_true(res) then
       k = k + 1
     else
       break
     end
   end
 
-  return self
+  return res
 end
 
 -- Object: array instance
 -- Call: array.each_until block
--- Returns: self
+-- Returns: last value from block
 --
 -- Invokes block for each item. Stops when block returns true.
 function array_instance:each_underuntil (block)
   local k = 1
   local len = self._length
   local a = self._lua_array
+  local res = object.__false
 
   while k <= len do
-    if not is_true(block(self, a[k])) then
+    res = block(self, a[k])
+
+    if not is_true(res) then
       k = k + 1
     else
       break
     end
   end
 
-  return self
+  return res
 end
 
 -- Object: array instance
