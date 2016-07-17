@@ -439,7 +439,7 @@ h.true_if = { node, ignored |
    regular = invoke(node, null, ->invoke_self, res.var)
  
    res.out << "
-   if _rawget(_self, 'true_question') == nil and true_question == nil and object._unchanged('#{node.method}') then
+   if (_self == object or _rawget(_self, 'true_question') == nil) and true_question == nil and object._unchanged('#{node.method}') then
      -- yay if my var is #{res.var}
      #{condition.out}
      #{call_cond}
@@ -454,8 +454,10 @@ h.true_if = { node, ignored |
      end
      -- end yay if
    else
+     -- fallback if
      #{regular.out}
      #{action} #{regular.var}
+     -- end fallback if
    end
    "
    res
@@ -485,7 +487,7 @@ h.false_if = { node, ignored |
    regular = invoke(node, null, ->invoke_self, res.var)
  
    res.out << "
-   if _rawget(_self, 'false_question') == nil and false_question == nil and object._unchanged('#{node.method}') then
+   if (_self == object or _rawget(_self, 'false_question') == nil) and false_question == nil and object._unchanged('false_question') then
      -- yay if my var is #{res.var}
      #{condition.out}
      #{call_cond}
@@ -500,8 +502,10 @@ h.false_if = { node, ignored |
      end
      -- end yay if
    else
+     -- fallback false?
      #{regular.out}
      #{action} #{regular.var}
+     -- end fallback false?
    end
    "
    res
@@ -531,7 +535,7 @@ h.null_if = { node, ignored |
    regular = invoke(node, null, ->invoke_self, res.var)
  
    res.out << "
-   if _rawget(_self, 'null_question') == nil and null_question == nil and object._unchanged('#{node.method}') then
+   if (_self == object or _rawget(_self, 'null_question') == nil) and null_question == nil and object._unchanged('null_question') then
      -- yay if my var is #{res.var}
      #{condition.out}
      #{call_cond}
@@ -546,8 +550,10 @@ h.null_if = { node, ignored |
      end
      -- end yay if
    else
+     -- fallback null?
      #{regular.out}
      #{action} #{regular.var}
+     -- end fallback null?
    end
    "
    res
