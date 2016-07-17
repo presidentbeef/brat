@@ -116,17 +116,13 @@ peg.prototype.parse = { str, start_rule = null, fully = false |
 }
 
 seq_matcher = { x, rules |
-  matched = false
-  matches = []
   start = x.pos
 
-  rules.each_while { rule |
-    matched = rule x
-    matches << matched
-    matched
+  matches = rules.map_while { rule |
+    rule x
   }
 
-  false? matched
+  false? matches.length == rules.length
     { x.pos = start; false }
     { peg.make_result start, x.pos, matches }
 }
