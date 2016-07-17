@@ -24,6 +24,10 @@ local meta_parent = function (table)
   return table._parent_object
 end
 
+local brat_meta_table = {}
+brat_meta_table["__index"] = meta_index
+brat_meta_table["__tostring"] = meta_string
+
 new_brat = function (parent_object)
   local nb = { }
   nb._parent_object = parent_object
@@ -32,11 +36,11 @@ new_brat = function (parent_object)
   local mt = getmetatable(nb)
 
   if mt == nil then
-    mt = {}
+    mt = brat_meta_table
+  else
+    mt["__index"] = meta_index
+    mt["__tostring"] = meta_string
   end
-
-  mt["__index"] = meta_index
-  mt["__tostring"] = meta_string
 
   setmetatable(nb, mt)
 
