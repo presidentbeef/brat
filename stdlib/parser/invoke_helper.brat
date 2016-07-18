@@ -29,7 +29,8 @@ h.invoke = { node, target, invoke_meth, var |
   res.out << args.map({ a | a.out }).join("\n") << "\n"
   res.out << invoke_meth target_var, node.method, avars, res.var
   avars.each { v | w.env.unset v }
-  env.unset target_var
+  false? node.name == :invoke_function || { node.name == :invoke_self } 
+    { env.unset target_var }
   res
 }
 
