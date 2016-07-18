@@ -89,6 +89,7 @@ local interactive = function ()
   local protect_options = hash:new({ [base_string:new("rescue")] = rescue })
 
   print("# Interactive Brat")
+  print("# NOTICE: Interactive Brat is a little broken right now. Sorry for the inconvenience.")
 
   while true do
     input = get_line("brat:" .. line .. "> ")
