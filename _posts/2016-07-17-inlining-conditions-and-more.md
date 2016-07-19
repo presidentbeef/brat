@@ -10,7 +10,8 @@ In this post, we continue the quest to make Brat faster (which essentially equat
 [Previously](http://brat-lang.org/2015/09/07/faking-closures.html) we removed inner function creation by lifting functions out into the
 global scope and faking closures when needed.
 
-One place where a lot of functions show up is in conditionals. In the [Tak benchmark](https://github.com/presidentbeef/brat/blob/8448fabd7a2970a8d7715e52bc47a279750676a9/examples/tak.brat), you can see the branches are wrapped in functions:
+One place where a lot of functions show up is in conditionals. `true?`/`false?`/`null?` are all just functions that take a condition and two branches.
+In the [Tak benchmark](https://github.com/presidentbeef/brat/blob/8448fabd7a2970a8d7715e52bc47a279750676a9/examples/tak.brat), you can see the branches are wrapped in functions:
 
 <pre id='vimCodeElement'>
 tak = <span class="Special">{</span> x, y, z |
@@ -25,13 +26,15 @@ This is standard Brat style to delay execution of the branches.
 Before the lifting of functions, these functions would be created everytime the `tak` function was called. That's pretty bad!
 Now the functions will be lifted and fake closures will be used instead.
 
-However, what's better than lifting a function? Not calling a function at all! Since the conditionals (`true?`/`false?`/`null?`) are used *all* the time
+However, what's better than lifting a function? Not calling a function at all! Since the conditionals are used *all* the time
 and are core functions in the language, it makes sense to optimize them to just be regular Lua `if` statements.
 
 When can we do this? Any time the branch is a liftable function. That's convenient, since we already have the logic to figure that out.
 
 To inline the branches, they are treated almost exactly like functions. A new scope is created and what would have been the body of the method
 is output in a `do...end` block. Instead of a return value, the result is just passed back in a variable.
+The condition and the branches are then put into a reguar `if` statement with guards just in case someone decides to override `true?`/`false?`/`null?`
+(which is possible but unlikely. If it happens, the original code without inlining is used.)
 
 What are the results?
 
@@ -56,7 +59,8 @@ It was a simple change to always use the same one, and the change had no ill sid
 
 Tak benchmark after metatable change: `0.225 seconds`. Another 48% improvement! These two changes together reduced the runtime for the Tak benchmark by 70%.
 
-Similarly, the Kaprekar benchmark went from 86 seconds in our last blog post to just 21 seconds - another 70% improvement.
+Similarly, the Kaprekar benchmark went from 86 seconds in our last blog post to just 21 seconds - another 70% improvement. Fibonacci (king of microbenchmarks) runs in just 0.043 seconds.
 
 For more real-world use, these two optimizations reduced parsing time of [peg.brat](https://github.com/presidentbeef/brat/blob/8448fabd7a2970a8d7715e52bc47a279750676a9/stdlib/peg.brat) (ironically the current largest Brat file) by 42%.
 
+While Brat is still not (nor will ever be) particularly fast in general, it is fun to continue pushing it.
