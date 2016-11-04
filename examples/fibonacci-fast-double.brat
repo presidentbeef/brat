@@ -1,0 +1,22 @@
+# Copied from https://www.nayuki.io/res/fast-fibonacci-algorithms/fastfibonacci.py
+
+fib_helper = { n |
+  true? n == 0
+    { [0, 1] }
+    {
+      res = fib_helper((n / 2).to_i)
+      a = res.first
+      b = res.last
+      c = a * ((b * 2) - a)
+      d = (a * a) + (b * b)
+      true? n % 2 == 0
+        { [c, d] }
+        { [d, c + d] }
+    }
+}
+
+fib = { n |
+  fib_helper(n).first
+}
+
+p fib(1300)
