@@ -1810,6 +1810,10 @@ function number_instance:to_underrad ()
   return math.rad(self._lua_number)
 end
 
+function number_instance:abs ()
+  return math.abs(self._lua_number)
+end
+
 -- Object: number instance
 -- Call: lhs * rhs
 -- Returns: number
