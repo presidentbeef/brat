@@ -103,6 +103,7 @@ function turbo_app._prototype:start (port)
 
   -- Start the server
   self._turbo:listen(port)
+  print("Listening on " .. tostring(port))
   turbo.ioloop.instance():start()
 end
 
