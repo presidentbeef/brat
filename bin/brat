@@ -87,9 +87,9 @@ local interactive = function ()
   end
 
   local protect_options = hash:new({ [base_string:new("rescue")] = rescue })
+  local compiler = brat2lua:start_underinteractive()
 
   print("# Interactive Brat")
-  print("# NOTICE: Interactive Brat is a little broken right now. Sorry for the inconvenience.")
 
   while true do
     input = get_line("brat:" .. line .. "> ")
@@ -104,8 +104,7 @@ local interactive = function ()
       line = line + 1
       add_line(input)
 
-      lua_code = brat2lua:interactive(base_string:new(input))._lua_string
-
+      lua_code = compiler:run(base_string:new(input))._lua_string
 
       parsed_function = assert(loadstring(lua_code, "interactive"))
 

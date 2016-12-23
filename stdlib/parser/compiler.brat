@@ -28,6 +28,13 @@ c.walk :local_var_assign { node |
   { r temp, "#{rhs.out}\nlocal #{temp} = #{rhs.var}" }
 }
 
+c.walk :local_var_assign_interactive { node |
+  temp = my.env.new_var node.lhs
+  rhs = process node.rhs, temp
+  my.env.set_type temp, rhs[:type]
+  r temp, "#{rhs.out}\n#{temp} = #{rhs.var}"
+}
+
 c.walk :local_var_reassign, c->var_reassign
 c.walk :upvar_assign, c->var_reassign
 

@@ -2,11 +2,12 @@ includes 'parser/walker' 'parser/sexp' 'parser/env' :set
 
 a = walker.new
 
-a.init = { ast |
+a.init = { ast, interactive = false |
   my.ast = ast
   my.functions = []
   my.inner_functions = [[]]
   my.env = env.new
+  my.interactive? = interactive
 }
 
 a.prototype.assign = {
@@ -78,8 +79,10 @@ a.walk :var_assign { node |
           set_upvar_assign
         }
         {
-          node.name = "local_var_assign"
-          my.env[var] = true
+          true? (my.functions.empty? && my.interactive?)
+            { node.name = "local_var_assign_interactive" }
+            { node.name = "local_var_assign" }
+            my.env[var] = true
         }
     }
 
@@ -87,12 +90,15 @@ a.walk :var_assign { node |
 }
 
 a.prototype.check_potentials = {
-  ps = my.inner_functions.pop
-  false? my.functions.empty?
+  false? my.interactive?
     {
-      true? ps.any?({ f | f.upvar_assign? })
-      { ps.each { f | false? (f.upvar_access? || { f.upvar_assign? }) { f.name = :liftable_function }}}
-      { ps.each { f | false? f.upvar_assign?, { f.name = :liftable_function }}}
+      ps = my.inner_functions.pop
+      false? my.functions.empty?
+        {
+          true? ps.any?({ f | f.upvar_assign? })
+            { ps.each { f | false? (f.upvar_access? || { f.upvar_assign? }) { f.name = :liftable_function }}}
+            { ps.each { f | false? f.upvar_assign?, { f.name = :liftable_function }}}
+        }
     }
 }
 

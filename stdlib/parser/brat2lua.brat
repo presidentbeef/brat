@@ -1,8 +1,22 @@
+include 'parser/parser'
+include 'parser/compiler'
+include 'parser/var_assigner'
+
+interactive = object.new
+interactive.init = {
+  my.assigner = var_assigner.new([:program], :interactive)
+  my.c = compiler.new([:program])
+}
+
+interactive.prototype.run = { str |
+  parsed = brat_parser.parse(str, "program", true)
+  my.assigner.ast = parsed.ast
+  my.c.ast = assigner.assign
+  my.c.interactive
+}
+
 brat2lua = object.new
 brat2lua.compile_string = { str |
-  include 'parser/parser'
-  include 'parser/compiler'
-  include 'parser/var_assigner'
   parsed = brat_parser.parse(str, "program", true)
   ast = parsed.ast
   ast = var_assigner.new(ast).assign
@@ -16,14 +30,8 @@ brat2lua.compile_file = { file_name |
   file.open "#{file_name}.lua", :w, { f | f.write out }
 }
 
-brat2lua.interactive = { str |
-  include 'parser/parser'
-  include 'parser/compiler'
-  include 'parser/var_assigner'
-  parsed = brat_parser.parse(str, "program", true)
-  ast = parsed.ast
-  ast = var_assigner.new(ast).assign
-  compiler.new(ast).interactive
+brat2lua.start_interactive = {
+  interactive.new
 }
 
 export brat2lua, :brat2lua
