@@ -1,8 +1,8 @@
 #!/bin/sh
 LUA=lua
 ONIG=onig-5.9.2
-LREX=lrexlib-2.4.0
-LPTY=lpty-0.9-1
+LREX=lrexlib-2.6.0
+LPTY=lpty-1.2.1-1
 
 set -e
 
@@ -75,7 +75,7 @@ cd $SRC/$LREX
 make
 
 #Copy lrexlib to lib/
-cp -f src/oniguruma/rex_onig.so.2.4 $LIB
+cp -f src/oniguruma/rex_onig.so.2.6 $LIB
 #cp -f src/onigurum/librex_onig.a $LIB
 cd $LIB
 ln -s -f rex_onig.so.2.4 rex_onig.so
@@ -120,13 +120,6 @@ cd $SRC/$LPTY
 make
 cp -f lpty.so $LIB
 
-echo Building Lua Socket
-cd $SRC/luasocket-2.0.2/
-make
-mkdir -p $LIB/mime
-cp src/mime.so.1.0.2 $LIB/mime/core.so
-cp src/socket.so.2.0.2 $LIB/socket/core.so
-
 echo Cleaning up...
 
 cd $COMMON/$LUA
@@ -149,9 +142,6 @@ cd $SRC/md5
 make clean
 
 cd $SRC/$LPTY
-make clean
-
-cd $SRC/luasocket-2.0.2
 make clean
 
 cd $BRATPATH
