@@ -189,7 +189,7 @@ c.walk :string { node, var = null |
 }
 
 c.walk :simple_string { node, var = null |
-  escaped = node.value.sub("\\[^\\']", "\\\\%1").sub("\n", '\n')
+  escaped = node.value.sub("\\[0a-z\"]", "\\%1").sub("\n", '\n')
   set_result var, "string:new('#{escaped}')", type: :string
 }
 
