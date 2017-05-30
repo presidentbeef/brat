@@ -83,14 +83,15 @@ return _temp48
 
 end
 
-
 local _temp1
+
+_temp1 = function(_self)
 
 local _temp2 = string:new('parser/parser')
 
 
   if include then
-    _temp1 =  include(_self, _temp2)
+    _dummy =  include(_self, _temp2)
 
   else
     if _type(_self) == 'number' then
@@ -101,11 +102,11 @@ local _temp2 = string:new('parser/parser')
     
       local _m = _self.include
       if object._is_callable(_m) then
-        _temp1 =  _m(_self, _temp2)
+        _dummy =  _m(_self, _temp2)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp1 =  _self:no_undermethod(string:new('include'), _temp2)
+        _dummy =  _self:no_undermethod(string:new('include'), _temp2)
       else
         _error(exception:method_error(_self, 'include'))
       end
@@ -113,7 +114,33 @@ local _temp2 = string:new('parser/parser')
   end
   
 
-local _temp3 = string:new('parser/compiler')
+_temp2 = string:new('parser/compiler')
+
+
+  if include then
+    _dummy =  include(_self, _temp2)
+
+  else
+    if _type(_self) == 'number' then
+      _self = number:new(_self)
+    elseif object._is_callable(_self) then
+      _self = brat_function:new(_self)
+    end
+    
+      local _m = _self.include
+      if object._is_callable(_m) then
+        _dummy =  _m(_self, _temp2)
+      elseif _m ~= nil then
+          _error(exception:argument_error('function', 0, 0))
+      elseif _self.no_undermethod then
+        _dummy =  _self:no_undermethod(string:new('include'), _temp2)
+      else
+        _error(exception:method_error(_self, 'include'))
+      end
+    
+  end
+  
+local _temp3 = string:new('parser/var_assigner')
 
 
   if include then
@@ -139,73 +166,54 @@ local _temp3 = string:new('parser/compiler')
     
   end
   
+return _temp2
 
-local _temp4 = string:new('parser/var_assigner')
+end
 
+local _temp4
 
-  if include then
-    _temp3 =  include(_self, _temp4)
-
-  else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
-    
-      local _m = _self.include
-      if object._is_callable(_m) then
-        _temp3 =  _m(_self, _temp4)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _self.no_undermethod then
-        _temp3 =  _self:no_undermethod(string:new('include'), _temp4)
-      else
-        _error(exception:method_error(_self, 'include'))
-      end
-    
-  end
-  
 local _temp5
 
     if object._is_callable(object) then
-      _temp4 =  object(_self)
+      _temp5 =  object(_self)
 
     elseif object then
-      _temp4 =  object
+      _temp5 =  object
     else
       _error(exception:name_error("object"))
     end
     
-if _type(_temp4) == 'number' then
-      _temp4 = number:new(_temp4)
-    elseif object._is_callable(_temp4) then
-      _temp4 = brat_function:new(_temp4)
+if _type(_temp5) == 'number' then
+      _temp5 = number:new(_temp5)
+    elseif object._is_callable(_temp5) then
+      _temp5 = brat_function:new(_temp5)
     end
     
-      local _m = _temp4.new
+      local _m = _temp5.new
       if object._is_callable(_m) then
-        _temp5 =  _m(_temp4)
+        _temp4 =  _m(_temp5)
       elseif _m ~= nil then
-        _temp5 =  _m
-      elseif _temp4.no_undermethod then
-        _temp5 =  _temp4:no_undermethod(string:new('new'))
+        _temp4 =  _m
+      elseif _temp5.no_undermethod then
+        _temp4 =  _temp5:no_undermethod(string:new('new'))
       else
-        _error(exception:method_error(_temp4, 'new'))
+        _error(exception:method_error(_temp5, 'new'))
       end
     
 
-    if object._is_callable(_temp5) then
-      _temp4 =  _temp5(_self)
+    if object._is_callable(_temp4) then
+      _temp5 =  _temp4(_self)
 
-    elseif _temp5 then
-      _temp4 =  _temp5
+    elseif _temp4 then
+      _temp5 =  _temp4
     else
       _error(exception:name_error("interactive"))
     end
     
 
 local _temp6 = function(_self)
+_dummy =  _temp1(_self)
+
 
 local _temp7
 
@@ -356,10 +364,10 @@ return _temp10
 
 end
 
-    if _type(_temp4) == 'table' then
-      _temp4['init'] = _temp6
+    if _type(_temp5) == 'table' then
+      _temp5['init'] = _temp6
     else
-      _error('Cannot set method on ' .. _temp4)
+      _error('Cannot set method on ' .. _temp5)
     end
     
 
@@ -367,11 +375,11 @@ local _temp16
 
 local _temp15
 
-    if object._is_callable(_temp5) then
-      _temp15 =  _temp5(_self)
+    if object._is_callable(_temp4) then
+      _temp15 =  _temp4(_self)
 
-    elseif _temp5 then
-      _temp15 =  _temp5
+    elseif _temp4 then
+      _temp15 =  _temp4
     else
       _error(exception:name_error("interactive"))
     end
@@ -718,7 +726,9 @@ local _temp28 = function(_self, _temp27)
       if _temp27 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
-    local _temp29
+    _dummy =  _temp1(_self)
+
+local _temp29
 
 local _temp30
 
@@ -965,7 +975,9 @@ local _temp37 = function(_self, _temp36)
       if _temp36 == nil then
         _error(exception:argument_error('function', 1, 0))
       end
-    
+    _dummy =  _temp1(_self)
+
+
 local _temp38 = string:new('file')
 
 
@@ -1168,11 +1180,11 @@ local _temp54
 
 local _temp53
 
-    if object._is_callable(_temp5) then
-      _temp53 =  _temp5(_self)
+    if object._is_callable(_temp4) then
+      _temp53 =  _temp4(_self)
 
-    elseif _temp5 then
-      _temp53 =  _temp5
+    elseif _temp4 then
+      _temp53 =  _temp4
     else
       _error(exception:name_error("interactive"))
     end
