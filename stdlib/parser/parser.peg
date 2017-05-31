@@ -16,7 +16,7 @@ expression = regex | binary_operation
 
 paren_exp  = "(" opt_space exp:expression opt_space ")" <simple_exp>
 
-assignment = field_access space "=" spaceorbreak (function_definition | method_access) <field_assign>
+assignment = field_access space "=" spaceorbreak (function_definition !"(" | method_access) <field_assign>
            | field_access space "=" spaceorbreak expression <field_assign>
            | var:identifier space "=" spaceorbreak expression <var_assign>
 
