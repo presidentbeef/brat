@@ -28,7 +28,7 @@ index_get = indexed_expression gindexes:("[" index_inner_arg_list "]")+ !"." iar
 
 indexed_expression = array | hash | paren_exp | method_invocation | string | unary_operation
 
-method_access = "->" meth:(identifier | operator) !"." <simple_meth_access>
+method_access = "->" meth:(identifier) !"." <simple_meth_access>
               | target:method_invocation "->" meth:(identifier | operator) <meth_access>
               | paren_exp "->" meth:(identifier | operator) <paren_meth_access>
               | "->" paren_exp <simple_paren_meth_access>

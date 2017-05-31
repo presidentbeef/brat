@@ -6819,11 +6819,11 @@ _temp24 = string:new("->")
 _temp9 = string:new('meth')
 
 
-_temp25 = string:new('identifier')
+_temp18 = string:new('identifier')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp25)
+    _temp33 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -6834,64 +6834,13 @@ _temp25 = string:new('identifier')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp25)
+        _temp33 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp33 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
-      end
-    
-  end
-  
-
-_temp20 = string:new('operator')
-
-
-  if ref then
-    _temp25 =  ref(_self, _temp20)
-
-  else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
-    
-      local _m = _self.ref
-      if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp20)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 0))
-      elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp20)
-      else
-        _error(exception:method_error(_self, 'ref'))
-      end
-    
-  end
-  
-
-  if any then
-    _temp33 =  any(_self, _temp18, _temp25)
-
-  else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
-    
-      local _m = _self.any
-      if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp18, _temp25)
-      elseif _m ~= nil then
-          _error(exception:argument_error('function', 0, 1))
-      elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('any'), _temp18, _temp25)
-      else
-        _error(exception:method_error(_self, 'any'))
       end
     
   end
@@ -6921,11 +6870,11 @@ _temp20 = string:new('operator')
   end
   
 
-_temp25 = string:new(".")
+_temp18 = string:new(".")
 
 
   if str then
-    _temp9 =  str(_self, _temp25)
+    _temp9 =  str(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -6936,11 +6885,11 @@ _temp25 = string:new(".")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp25)
+        _temp9 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('str'), _temp25)
+        _temp9 =  _self:no_undermethod(string:new('str'), _temp18)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -7026,11 +6975,11 @@ _temp33 = _lifted[12]
 _temp32 = string:new('target')
 
 
-_temp25 = string:new('method_invocation')
+_temp18 = string:new('method_invocation')
 
 
   if ref then
-    _temp9 =  ref(_self, _temp25)
+    _temp9 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -7041,11 +6990,11 @@ _temp25 = string:new('method_invocation')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp25)
+        _temp9 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp9 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -7104,7 +7053,7 @@ _temp32 = string:new("->")
   end
   
 
-_temp25 = string:new('meth')
+_temp18 = string:new('meth')
 
 
 _temp19 = string:new('identifier')
@@ -7162,7 +7111,7 @@ _temp11 = string:new('operator')
   
 
   if any then
-    _temp18 =  any(_self, _temp20, _temp19)
+    _temp25 =  any(_self, _temp20, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -7173,11 +7122,11 @@ _temp11 = string:new('operator')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp20, _temp19)
+        _temp25 =  _m(_self, _temp20, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('any'), _temp20, _temp19)
+        _temp25 =  _self:no_undermethod(string:new('any'), _temp20, _temp19)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -7186,7 +7135,7 @@ _temp11 = string:new('operator')
   
 
   if label then
-    _temp32 =  label(_self, _temp25, _temp18)
+    _temp32 =  label(_self, _temp18, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -7197,11 +7146,11 @@ _temp11 = string:new('operator')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp25, _temp18)
+        _temp32 =  _m(_self, _temp18, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('label'), _temp25, _temp18)
+        _temp32 =  _self:no_undermethod(string:new('label'), _temp18, _temp25)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -7287,11 +7236,11 @@ _temp24 = string:new('paren_exp')
   end
   
 
-_temp18 = string:new("->")
+_temp25 = string:new("->")
 
 
   if str then
-    _temp24 =  str(_self, _temp18)
+    _temp24 =  str(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -7302,11 +7251,11 @@ _temp18 = string:new("->")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp24 =  _m(_self, _temp18)
+        _temp24 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp24 =  _self:no_undermethod(string:new('str'), _temp18)
+        _temp24 =  _self:no_undermethod(string:new('str'), _temp25)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -7314,7 +7263,7 @@ _temp18 = string:new("->")
   end
   
 
-_temp25 = string:new('meth')
+_temp18 = string:new('meth')
 
 
 _temp11 = string:new('identifier')
@@ -7396,7 +7345,7 @@ _temp10 = string:new('operator')
   
 
   if label then
-    _temp18 =  label(_self, _temp25, _temp19)
+    _temp25 =  label(_self, _temp18, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -7407,11 +7356,11 @@ _temp10 = string:new('operator')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp25, _temp19)
+        _temp25 =  _m(_self, _temp18, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('label'), _temp25, _temp19)
+        _temp25 =  _self:no_undermethod(string:new('label'), _temp18, _temp19)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -7420,7 +7369,7 @@ _temp10 = string:new('operator')
   
 
   if seq then
-    _temp23 =  seq(_self, _temp9, _temp24, _temp18)
+    _temp23 =  seq(_self, _temp9, _temp24, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -7431,11 +7380,11 @@ _temp10 = string:new('operator')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp23 =  _m(_self, _temp9, _temp24, _temp18)
+        _temp23 =  _m(_self, _temp9, _temp24, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp23 =  _self:no_undermethod(string:new('seq'), _temp9, _temp24, _temp18)
+        _temp23 =  _self:no_undermethod(string:new('seq'), _temp9, _temp24, _temp25)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -7443,11 +7392,11 @@ _temp10 = string:new('operator')
   end
   
 
-_temp18 = _lifted[14]
+_temp25 = _lifted[14]
 
 
   if action then
-    _temp32 =  action(_self, _temp23, _temp18)
+    _temp32 =  action(_self, _temp23, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -7458,11 +7407,11 @@ _temp18 = _lifted[14]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp23, _temp18)
+        _temp32 =  _m(_self, _temp23, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('action'), _temp23, _temp18)
+        _temp32 =  _self:no_undermethod(string:new('action'), _temp23, _temp25)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -7552,7 +7501,7 @@ _temp9 = _lifted[15]
 
 
   if action then
-    _temp18 =  action(_self, _temp23, _temp9)
+    _temp25 =  action(_self, _temp23, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -7563,11 +7512,11 @@ _temp9 = _lifted[15]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp23, _temp9)
+        _temp25 =  _m(_self, _temp23, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('action'), _temp23, _temp9)
+        _temp25 =  _self:no_undermethod(string:new('action'), _temp23, _temp9)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -7576,7 +7525,7 @@ _temp9 = _lifted[15]
   
 
   if any then
-    _temp7 =  any(_self, _temp22, _temp33, _temp32, _temp18)
+    _temp7 =  any(_self, _temp22, _temp33, _temp32, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -7587,11 +7536,11 @@ _temp9 = _lifted[15]
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp22, _temp33, _temp32, _temp18)
+        _temp7 =  _m(_self, _temp22, _temp33, _temp32, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('any'), _temp22, _temp33, _temp32, _temp18)
+        _temp7 =  _self:no_undermethod(string:new('any'), _temp22, _temp33, _temp32, _temp25)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -7630,7 +7579,7 @@ _temp32 = regex:new("\\G-?[0-9]+(\\.[0-9]+)?", "")
 
 
   if reg then
-    _temp18 =  reg(_self, _temp32)
+    _temp25 =  reg(_self, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -7641,11 +7590,11 @@ _temp32 = regex:new("\\G-?[0-9]+(\\.[0-9]+)?", "")
     
       local _m = _self.reg
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp32)
+        _temp25 =  _m(_self, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('reg'), _temp32)
+        _temp25 =  _self:no_undermethod(string:new('reg'), _temp32)
       else
         _error(exception:method_error(_self, 'reg'))
       end
@@ -7657,7 +7606,7 @@ _temp32 = _lifted[16]
 
 
   if action then
-    _temp6 =  action(_self, _temp18, _temp32)
+    _temp6 =  action(_self, _temp25, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -7668,11 +7617,11 @@ _temp32 = _lifted[16]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp18, _temp32)
+        _temp6 =  _m(_self, _temp25, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('action'), _temp18, _temp32)
+        _temp6 =  _self:no_undermethod(string:new('action'), _temp25, _temp32)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -7870,7 +7819,7 @@ _temp19 = string:new("]")
   
 
   if seq then
-    _temp18 =  seq(_self, _temp33, _temp22, _temp9, _temp24, _temp23)
+    _temp25 =  seq(_self, _temp33, _temp22, _temp9, _temp24, _temp23)
 
   else
     if _type(_self) == 'number' then
@@ -7881,11 +7830,11 @@ _temp19 = string:new("]")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33, _temp22, _temp9, _temp24, _temp23)
+        _temp25 =  _m(_self, _temp33, _temp22, _temp9, _temp24, _temp23)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('seq'), _temp33, _temp22, _temp9, _temp24, _temp23)
+        _temp25 =  _self:no_undermethod(string:new('seq'), _temp33, _temp22, _temp9, _temp24, _temp23)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -7897,7 +7846,7 @@ _temp23 = _lifted[17]
 
 
   if action then
-    _temp32 =  action(_self, _temp18, _temp23)
+    _temp32 =  action(_self, _temp25, _temp23)
 
   else
     if _type(_self) == 'number' then
@@ -7908,11 +7857,11 @@ _temp23 = _lifted[17]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp18, _temp23)
+        _temp32 =  _m(_self, _temp25, _temp23)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('action'), _temp18, _temp23)
+        _temp32 =  _self:no_undermethod(string:new('action'), _temp25, _temp23)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -8002,7 +7951,7 @@ _temp33 = string:new("]")
   
 
   if seq then
-    _temp18 =  seq(_self, _temp24, _temp9, _temp22)
+    _temp25 =  seq(_self, _temp24, _temp9, _temp22)
 
   else
     if _type(_self) == 'number' then
@@ -8013,11 +7962,11 @@ _temp33 = string:new("]")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp24, _temp9, _temp22)
+        _temp25 =  _m(_self, _temp24, _temp9, _temp22)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('seq'), _temp24, _temp9, _temp22)
+        _temp25 =  _self:no_undermethod(string:new('seq'), _temp24, _temp9, _temp22)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -8029,7 +7978,7 @@ _temp22 = _lifted[18]
 
 
   if action then
-    _temp23 =  action(_self, _temp18, _temp22)
+    _temp23 =  action(_self, _temp25, _temp22)
 
   else
     if _type(_self) == 'number' then
@@ -8040,11 +7989,11 @@ _temp22 = _lifted[18]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp23 =  _m(_self, _temp18, _temp22)
+        _temp23 =  _m(_self, _temp25, _temp22)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp23 =  _self:no_undermethod(string:new('action'), _temp18, _temp22)
+        _temp23 =  _self:no_undermethod(string:new('action'), _temp25, _temp22)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -8110,7 +8059,7 @@ _temp9 = string:new('expression')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp9)
+    _temp25 =  ref(_self, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -8121,11 +8070,11 @@ _temp9 = string:new('expression')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp9)
+        _temp25 =  _m(_self, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp9)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp9)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -8134,7 +8083,7 @@ _temp9 = string:new('expression')
   
 
   if label then
-    _temp32 =  label(_self, _temp22, _temp18)
+    _temp32 =  label(_self, _temp22, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -8145,11 +8094,11 @@ _temp9 = string:new('expression')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp22, _temp18)
+        _temp32 =  _m(_self, _temp22, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('label'), _temp22, _temp18)
+        _temp32 =  _self:no_undermethod(string:new('label'), _temp22, _temp25)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -8164,7 +8113,7 @@ _temp11 = string:new('spaceorbreak')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp11)
+    _temp18 =  ref(_self, _temp11)
 
   else
     if _type(_self) == 'number' then
@@ -8175,11 +8124,11 @@ _temp11 = string:new('spaceorbreak')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp11)
+        _temp18 =  _m(_self, _temp11)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp11)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp11)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -8242,7 +8191,7 @@ _temp10 = string:new('spaceorbreak')
   
 
   if seq then
-    _temp19 =  seq(_self, _temp25, _temp11, _temp20)
+    _temp19 =  seq(_self, _temp18, _temp11, _temp20)
 
   else
     if _type(_self) == 'number' then
@@ -8253,11 +8202,11 @@ _temp10 = string:new('spaceorbreak')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp25, _temp11, _temp20)
+        _temp19 =  _m(_self, _temp18, _temp11, _temp20)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('seq'), _temp25, _temp11, _temp20)
+        _temp19 =  _self:no_undermethod(string:new('seq'), _temp18, _temp11, _temp20)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -8269,7 +8218,7 @@ _temp10 = string:new('space')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp10)
+    _temp18 =  ref(_self, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -8280,11 +8229,11 @@ _temp10 = string:new('space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp10)
+        _temp18 =  _m(_self, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp10)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp10)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -8347,7 +8296,7 @@ _temp8 = string:new('comment')
   
 
   if any then
-    _temp11 =  any(_self, _temp25, _temp10, _temp21)
+    _temp11 =  any(_self, _temp18, _temp10, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -8358,11 +8307,11 @@ _temp8 = string:new('comment')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp11 =  _m(_self, _temp25, _temp10, _temp21)
+        _temp11 =  _m(_self, _temp18, _temp10, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp11 =  _self:no_undermethod(string:new('any'), _temp25, _temp10, _temp21)
+        _temp11 =  _self:no_undermethod(string:new('any'), _temp18, _temp10, _temp21)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -8494,7 +8443,7 @@ _temp19 = string:new('expression')
   
 
   if label then
-    _temp18 =  label(_self, _temp22, _temp9)
+    _temp25 =  label(_self, _temp22, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -8505,11 +8454,11 @@ _temp19 = string:new('expression')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp22, _temp9)
+        _temp25 =  _m(_self, _temp22, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('label'), _temp22, _temp9)
+        _temp25 =  _self:no_undermethod(string:new('label'), _temp22, _temp9)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -8518,7 +8467,7 @@ _temp19 = string:new('expression')
   
 
   if seq then
-    _temp23 =  seq(_self, _temp32, _temp18)
+    _temp23 =  seq(_self, _temp32, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -8529,11 +8478,11 @@ _temp19 = string:new('expression')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp23 =  _m(_self, _temp32, _temp18)
+        _temp23 =  _m(_self, _temp32, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp23 =  _self:no_undermethod(string:new('seq'), _temp32, _temp18)
+        _temp23 =  _self:no_undermethod(string:new('seq'), _temp32, _temp25)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -8541,11 +8490,11 @@ _temp19 = string:new('expression')
   end
   
 
-_temp18 = _lifted[19]
+_temp25 = _lifted[19]
 
 
   if action then
-    _temp6 =  action(_self, _temp23, _temp18)
+    _temp6 =  action(_self, _temp23, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -8556,11 +8505,11 @@ _temp18 = _lifted[19]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp23, _temp18)
+        _temp6 =  _m(_self, _temp23, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('action'), _temp23, _temp18)
+        _temp6 =  _self:no_undermethod(string:new('action'), _temp23, _temp25)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -8758,7 +8707,7 @@ _temp20 = _lifted[20]
 
 
   if action then
-    _temp18 =  action(_self, _temp23, _temp20)
+    _temp25 =  action(_self, _temp23, _temp20)
 
   else
     if _type(_self) == 'number' then
@@ -8769,11 +8718,11 @@ _temp20 = _lifted[20]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp23, _temp20)
+        _temp25 =  _m(_self, _temp23, _temp20)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('action'), _temp23, _temp20)
+        _temp25 =  _self:no_undermethod(string:new('action'), _temp23, _temp20)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -8995,7 +8944,7 @@ _temp32 = _lifted[21]
   
 
   if any then
-    _temp7 =  any(_self, _temp18, _temp20)
+    _temp7 =  any(_self, _temp25, _temp20)
 
   else
     if _type(_self) == 'number' then
@@ -9006,11 +8955,11 @@ _temp32 = _lifted[21]
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp18, _temp20)
+        _temp7 =  _m(_self, _temp25, _temp20)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('any'), _temp18, _temp20)
+        _temp7 =  _self:no_undermethod(string:new('any'), _temp25, _temp20)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -9076,7 +9025,7 @@ _temp33 = string:new('hash_argument')
   
 
   if label then
-    _temp18 =  label(_self, _temp32, _temp23)
+    _temp25 =  label(_self, _temp32, _temp23)
 
   else
     if _type(_self) == 'number' then
@@ -9087,11 +9036,11 @@ _temp33 = string:new('hash_argument')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp32, _temp23)
+        _temp25 =  _m(_self, _temp32, _temp23)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('label'), _temp32, _temp23)
+        _temp25 =  _self:no_undermethod(string:new('label'), _temp32, _temp23)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -9234,11 +9183,11 @@ _temp10 = string:new('space')
   end
   
 
-_temp25 = string:new('eol')
+_temp18 = string:new('eol')
 
 
   if ref then
-    _temp10 =  ref(_self, _temp25)
+    _temp10 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -9249,11 +9198,11 @@ _temp25 = string:new('eol')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp25)
+        _temp10 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp10 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -9265,7 +9214,7 @@ _temp8 = string:new('comment')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp8)
+    _temp18 =  ref(_self, _temp8)
 
   else
     if _type(_self) == 'number' then
@@ -9276,11 +9225,11 @@ _temp8 = string:new('comment')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp8)
+        _temp18 =  _m(_self, _temp8)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp8)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp8)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -9289,7 +9238,7 @@ _temp8 = string:new('comment')
   
 
   if any then
-    _temp11 =  any(_self, _temp19, _temp10, _temp25)
+    _temp11 =  any(_self, _temp19, _temp10, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -9300,11 +9249,11 @@ _temp8 = string:new('comment')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp11 =  _m(_self, _temp19, _temp10, _temp25)
+        _temp11 =  _m(_self, _temp19, _temp10, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp11 =  _self:no_undermethod(string:new('any'), _temp19, _temp10, _temp25)
+        _temp11 =  _self:no_undermethod(string:new('any'), _temp19, _temp10, _temp18)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -9460,7 +9409,7 @@ _temp24 = string:new('hash_argument')
   
 
   if seq then
-    _temp20 =  seq(_self, _temp18, _temp23)
+    _temp20 =  seq(_self, _temp25, _temp23)
 
   else
     if _type(_self) == 'number' then
@@ -9471,11 +9420,11 @@ _temp24 = string:new('hash_argument')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp20 =  _m(_self, _temp18, _temp23)
+        _temp20 =  _m(_self, _temp25, _temp23)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp20 =  _self:no_undermethod(string:new('seq'), _temp18, _temp23)
+        _temp20 =  _self:no_undermethod(string:new('seq'), _temp25, _temp23)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -9645,11 +9594,11 @@ _temp11 = string:new('identifier')
   end
   
 
-_temp25 = string:new('operator')
+_temp18 = string:new('operator')
 
 
   if ref then
-    _temp11 =  ref(_self, _temp25)
+    _temp11 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -9660,11 +9609,11 @@ _temp25 = string:new('operator')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp11 =  _m(_self, _temp25)
+        _temp11 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp11 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp11 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -9676,7 +9625,7 @@ _temp10 = string:new('number')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp10)
+    _temp18 =  ref(_self, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -9687,11 +9636,11 @@ _temp10 = string:new('number')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp10)
+        _temp18 =  _m(_self, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp10)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp10)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -9700,7 +9649,7 @@ _temp10 = string:new('number')
   
 
   if any then
-    _temp21 =  any(_self, _temp24, _temp11, _temp25)
+    _temp21 =  any(_self, _temp24, _temp11, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -9711,11 +9660,11 @@ _temp10 = string:new('number')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp24, _temp11, _temp25)
+        _temp21 =  _m(_self, _temp24, _temp11, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('any'), _temp24, _temp11, _temp25)
+        _temp21 =  _self:no_undermethod(string:new('any'), _temp24, _temp11, _temp18)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -9772,7 +9721,7 @@ _temp10 = string:new('number')
   
 
   if label then
-    _temp18 =  label(_self, _temp33, _temp32)
+    _temp25 =  label(_self, _temp33, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -9783,11 +9732,11 @@ _temp10 = string:new('number')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33, _temp32)
+        _temp25 =  _m(_self, _temp33, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('label'), _temp33, _temp32)
+        _temp25 =  _self:no_undermethod(string:new('label'), _temp33, _temp32)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -9852,11 +9801,11 @@ _temp22 = string:new('spaceorbreak')
 _temp9 = string:new('value')
 
 
-_temp25 = string:new('expression')
+_temp18 = string:new('expression')
 
 
   if ref then
-    _temp21 =  ref(_self, _temp25)
+    _temp21 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -9867,11 +9816,11 @@ _temp25 = string:new('expression')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp25)
+        _temp21 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp21 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -9904,7 +9853,7 @@ _temp25 = string:new('expression')
   
 
   if seq then
-    _temp20 =  seq(_self, _temp18, _temp32, _temp33, _temp22)
+    _temp20 =  seq(_self, _temp25, _temp32, _temp33, _temp22)
 
   else
     if _type(_self) == 'number' then
@@ -9915,11 +9864,11 @@ _temp25 = string:new('expression')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp20 =  _m(_self, _temp18, _temp32, _temp33, _temp22)
+        _temp20 =  _m(_self, _temp25, _temp32, _temp33, _temp22)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp20 =  _self:no_undermethod(string:new('seq'), _temp18, _temp32, _temp33, _temp22)
+        _temp20 =  _self:no_undermethod(string:new('seq'), _temp25, _temp32, _temp33, _temp22)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -9961,7 +9910,7 @@ _temp21 = string:new('expression')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp21)
+    _temp25 =  ref(_self, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -9972,11 +9921,11 @@ _temp21 = string:new('expression')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp21)
+        _temp25 =  _m(_self, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp21)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp21)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -9985,7 +9934,7 @@ _temp21 = string:new('expression')
   
 
   if label then
-    _temp33 =  label(_self, _temp32, _temp18)
+    _temp33 =  label(_self, _temp32, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -9996,11 +9945,11 @@ _temp21 = string:new('expression')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp32, _temp18)
+        _temp33 =  _m(_self, _temp32, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('label'), _temp32, _temp18)
+        _temp33 =  _self:no_undermethod(string:new('label'), _temp32, _temp25)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -10012,7 +9961,7 @@ _temp32 = string:new('spaceorbreak')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp32)
+    _temp25 =  ref(_self, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -10023,11 +9972,11 @@ _temp32 = string:new('spaceorbreak')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp32)
+        _temp25 =  _m(_self, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp32)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp32)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -10089,7 +10038,7 @@ _temp9 = string:new('spaceorbreak')
   end
   
 
-_temp25 = string:new('value')
+_temp18 = string:new('value')
 
 
 _temp24 = string:new('expression')
@@ -10120,7 +10069,7 @@ _temp24 = string:new('expression')
   
 
   if label then
-    _temp9 =  label(_self, _temp25, _temp11)
+    _temp9 =  label(_self, _temp18, _temp11)
 
   else
     if _type(_self) == 'number' then
@@ -10131,11 +10080,11 @@ _temp24 = string:new('expression')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp25, _temp11)
+        _temp9 =  _m(_self, _temp18, _temp11)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('label'), _temp25, _temp11)
+        _temp9 =  _self:no_undermethod(string:new('label'), _temp18, _temp11)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -10144,7 +10093,7 @@ _temp24 = string:new('expression')
   
 
   if seq then
-    _temp20 =  seq(_self, _temp33, _temp18, _temp32, _temp21, _temp9)
+    _temp20 =  seq(_self, _temp33, _temp25, _temp32, _temp21, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -10155,11 +10104,11 @@ _temp24 = string:new('expression')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp20 =  _m(_self, _temp33, _temp18, _temp32, _temp21, _temp9)
+        _temp20 =  _m(_self, _temp33, _temp25, _temp32, _temp21, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp20 =  _self:no_undermethod(string:new('seq'), _temp33, _temp18, _temp32, _temp21, _temp9)
+        _temp20 =  _self:no_undermethod(string:new('seq'), _temp33, _temp25, _temp32, _temp21, _temp9)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -10279,7 +10228,7 @@ _temp33 = string:new("\\/")
 
 
   if str then
-    _temp18 =  str(_self, _temp33)
+    _temp25 =  str(_self, _temp33)
 
   else
     if _type(_self) == 'number' then
@@ -10290,11 +10239,11 @@ _temp33 = string:new("\\/")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33)
+        _temp25 =  _m(_self, _temp33)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('str'), _temp33)
+        _temp25 =  _self:no_undermethod(string:new('str'), _temp33)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -10306,7 +10255,7 @@ _temp24 = string:new("/")
 
 
   if str then
-    _temp25 =  str(_self, _temp24)
+    _temp18 =  str(_self, _temp24)
 
   else
     if _type(_self) == 'number' then
@@ -10317,11 +10266,11 @@ _temp24 = string:new("/")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp24)
+        _temp18 =  _m(_self, _temp24)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('str'), _temp24)
+        _temp18 =  _self:no_undermethod(string:new('str'), _temp24)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -10330,7 +10279,7 @@ _temp24 = string:new("/")
   
 
   if no then
-    _temp11 =  no(_self, _temp25)
+    _temp11 =  no(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -10341,11 +10290,11 @@ _temp24 = string:new("/")
     
       local _m = _self.no
       if object._is_callable(_m) then
-        _temp11 =  _m(_self, _temp25)
+        _temp11 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp11 =  _self:no_undermethod(string:new('no'), _temp25)
+        _temp11 =  _self:no_undermethod(string:new('no'), _temp18)
       else
         _error(exception:method_error(_self, 'no'))
       end
@@ -10355,7 +10304,7 @@ _temp24 = string:new("/")
 
 
   if anything then
-    _temp25 =  anything(_self)
+    _temp18 =  anything(_self)
 
   else
     if _type(_self) == 'number' then
@@ -10366,11 +10315,11 @@ _temp24 = string:new("/")
     
       local _m = _self.anything
       if object._is_callable(_m) then
-        _temp25 =  _m(_self)
+        _temp18 =  _m(_self)
       elseif _m ~= nil then
-        _temp25 =  _m
+        _temp18 =  _m
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('anything'))
+        _temp18 =  _self:no_undermethod(string:new('anything'))
       else
         _error(exception:method_error(_self, 'anything'))
       end
@@ -10379,7 +10328,7 @@ _temp24 = string:new("/")
   
 
   if seq then
-    _temp33 =  seq(_self, _temp11, _temp25)
+    _temp33 =  seq(_self, _temp11, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -10390,11 +10339,11 @@ _temp24 = string:new("/")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp11, _temp25)
+        _temp33 =  _m(_self, _temp11, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('seq'), _temp11, _temp25)
+        _temp33 =  _self:no_undermethod(string:new('seq'), _temp11, _temp18)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -10403,7 +10352,7 @@ _temp24 = string:new("/")
   
 
   if any then
-    _temp32 =  any(_self, _temp18, _temp33)
+    _temp32 =  any(_self, _temp25, _temp33)
 
   else
     if _type(_self) == 'number' then
@@ -10414,11 +10363,11 @@ _temp24 = string:new("/")
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp18, _temp33)
+        _temp32 =  _m(_self, _temp25, _temp33)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('any'), _temp18, _temp33)
+        _temp32 =  _self:no_undermethod(string:new('any'), _temp25, _temp33)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -10504,11 +10453,11 @@ _temp20 = string:new("/")
 _temp32 = string:new('opts')
 
 
-_temp18 = regex:new("\\G[mix]*", "")
+_temp25 = regex:new("\\G[mix]*", "")
 
 
   if reg then
-    _temp33 =  reg(_self, _temp18)
+    _temp33 =  reg(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -10519,11 +10468,11 @@ _temp18 = regex:new("\\G[mix]*", "")
     
       local _m = _self.reg
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp18)
+        _temp33 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('reg'), _temp18)
+        _temp33 =  _self:no_undermethod(string:new('reg'), _temp25)
       else
         _error(exception:method_error(_self, 'reg'))
       end
@@ -10772,7 +10721,7 @@ _temp11 = regex:new("\\G[^#\"\\\\]+", "")
 
 
   if reg then
-    _temp25 =  reg(_self, _temp11)
+    _temp18 =  reg(_self, _temp11)
 
   else
     if _type(_self) == 'number' then
@@ -10783,11 +10732,11 @@ _temp11 = regex:new("\\G[^#\"\\\\]+", "")
     
       local _m = _self.reg
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp11)
+        _temp18 =  _m(_self, _temp11)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('reg'), _temp11)
+        _temp18 =  _self:no_undermethod(string:new('reg'), _temp11)
       else
         _error(exception:method_error(_self, 'reg'))
       end
@@ -10977,7 +10926,7 @@ local _temp101 = string:new("\"")
   
 
   if any then
-    _temp18 =  any(_self, _temp25, _temp11, _temp24, _temp10, _temp19)
+    _temp25 =  any(_self, _temp18, _temp11, _temp24, _temp10, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -10988,11 +10937,11 @@ local _temp101 = string:new("\"")
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp25, _temp11, _temp24, _temp10, _temp19)
+        _temp25 =  _m(_self, _temp18, _temp11, _temp24, _temp10, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('any'), _temp25, _temp11, _temp24, _temp10, _temp19)
+        _temp25 =  _self:no_undermethod(string:new('any'), _temp18, _temp11, _temp24, _temp10, _temp19)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -11001,7 +10950,7 @@ local _temp101 = string:new("\"")
   
 
   if kleene then
-    _temp32 =  kleene(_self, _temp18)
+    _temp32 =  kleene(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -11012,11 +10961,11 @@ local _temp101 = string:new("\"")
     
       local _m = _self.kleene
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp18)
+        _temp32 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('kleene'), _temp18)
+        _temp32 =  _self:no_undermethod(string:new('kleene'), _temp25)
       else
         _error(exception:method_error(_self, 'kleene'))
       end
@@ -11238,7 +11187,7 @@ _temp8 = string:new("'")
   
 
   if no then
-    _temp25 =  no(_self, _temp34)
+    _temp18 =  no(_self, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -11249,11 +11198,11 @@ _temp8 = string:new("'")
     
       local _m = _self.no
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp34)
+        _temp18 =  _m(_self, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('no'), _temp34)
+        _temp18 =  _self:no_undermethod(string:new('no'), _temp34)
       else
         _error(exception:method_error(_self, 'no'))
       end
@@ -11287,7 +11236,7 @@ _temp8 = string:new("'")
   
 
   if seq then
-    _temp11 =  seq(_self, _temp25, _temp34)
+    _temp11 =  seq(_self, _temp18, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -11298,11 +11247,11 @@ _temp8 = string:new("'")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp11 =  _m(_self, _temp25, _temp34)
+        _temp11 =  _m(_self, _temp18, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp11 =  _self:no_undermethod(string:new('seq'), _temp25, _temp34)
+        _temp11 =  _self:no_undermethod(string:new('seq'), _temp18, _temp34)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -11335,7 +11284,7 @@ _temp8 = string:new("'")
   
 
   if many then
-    _temp18 =  many(_self, _temp19)
+    _temp25 =  many(_self, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -11346,11 +11295,11 @@ _temp8 = string:new("'")
     
       local _m = _self.many
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp19)
+        _temp25 =  _m(_self, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('many'), _temp19)
+        _temp25 =  _self:no_undermethod(string:new('many'), _temp19)
       else
         _error(exception:method_error(_self, 'many'))
       end
@@ -11359,7 +11308,7 @@ _temp8 = string:new("'")
   
 
   if label then
-    _temp21 =  label(_self, _temp33, _temp18)
+    _temp21 =  label(_self, _temp33, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -11370,11 +11319,11 @@ _temp8 = string:new("'")
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp33, _temp18)
+        _temp21 =  _m(_self, _temp33, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('label'), _temp33, _temp18)
+        _temp21 =  _self:no_undermethod(string:new('label'), _temp33, _temp25)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -11386,7 +11335,7 @@ _temp33 = string:new("'")
 
 
   if str then
-    _temp18 =  str(_self, _temp33)
+    _temp25 =  str(_self, _temp33)
 
   else
     if _type(_self) == 'number' then
@@ -11397,11 +11346,11 @@ _temp33 = string:new("'")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33)
+        _temp25 =  _m(_self, _temp33)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('str'), _temp33)
+        _temp25 =  _self:no_undermethod(string:new('str'), _temp33)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -11410,7 +11359,7 @@ _temp33 = string:new("'")
   
 
   if seq then
-    _temp22 =  seq(_self, _temp23, _temp21, _temp18)
+    _temp22 =  seq(_self, _temp23, _temp21, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -11421,11 +11370,11 @@ _temp33 = string:new("'")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp22 =  _m(_self, _temp23, _temp21, _temp18)
+        _temp22 =  _m(_self, _temp23, _temp21, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp22 =  _self:no_undermethod(string:new('seq'), _temp23, _temp21, _temp18)
+        _temp22 =  _self:no_undermethod(string:new('seq'), _temp23, _temp21, _temp25)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -11433,11 +11382,11 @@ _temp33 = string:new("'")
   end
   
 
-_temp18 = _lifted[28]
+_temp25 = _lifted[28]
 
 
   if action then
-    _temp32 =  action(_self, _temp22, _temp18)
+    _temp32 =  action(_self, _temp22, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -11448,11 +11397,11 @@ _temp18 = _lifted[28]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp22, _temp18)
+        _temp32 =  _m(_self, _temp22, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('action'), _temp22, _temp18)
+        _temp32 =  _self:no_undermethod(string:new('action'), _temp22, _temp25)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -11544,11 +11493,11 @@ _temp34 = string:new('operator')
   end
   
 
-_temp25 = string:new('number')
+_temp18 = string:new('number')
 
 
   if ref then
-    _temp34 =  ref(_self, _temp25)
+    _temp34 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -11559,11 +11508,11 @@ _temp25 = string:new('number')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp34 =  _m(_self, _temp25)
+        _temp34 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp34 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp34 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -11671,7 +11620,7 @@ _temp23 = _lifted[29]
 
 
   if action then
-    _temp18 =  action(_self, _temp22, _temp23)
+    _temp25 =  action(_self, _temp22, _temp23)
 
   else
     if _type(_self) == 'number' then
@@ -11682,11 +11631,11 @@ _temp23 = _lifted[29]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp22, _temp23)
+        _temp25 =  _m(_self, _temp22, _temp23)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('action'), _temp22, _temp23)
+        _temp25 =  _self:no_undermethod(string:new('action'), _temp22, _temp23)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -11695,7 +11644,7 @@ _temp23 = _lifted[29]
   
 
   if any then
-    _temp7 =  any(_self, _temp20, _temp9, _temp32, _temp18)
+    _temp7 =  any(_self, _temp20, _temp9, _temp32, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -11706,11 +11655,11 @@ _temp23 = _lifted[29]
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp20, _temp9, _temp32, _temp18)
+        _temp7 =  _m(_self, _temp20, _temp9, _temp32, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('any'), _temp20, _temp9, _temp32, _temp18)
+        _temp7 =  _self:no_undermethod(string:new('any'), _temp20, _temp9, _temp32, _temp25)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -11988,11 +11937,11 @@ _temp24 = string:new('opt_space')
   end
   
 
-_temp25 = string:new('expression')
+_temp18 = string:new('expression')
 
 
   if ref then
-    _temp24 =  ref(_self, _temp25)
+    _temp24 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -12003,11 +11952,11 @@ _temp25 = string:new('expression')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp24 =  _m(_self, _temp25)
+        _temp24 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp24 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp24 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -12043,7 +11992,7 @@ _temp101 = string:new('space')
   
 
   if maybe then
-    _temp25 =  maybe(_self, _temp8)
+    _temp18 =  maybe(_self, _temp8)
 
   else
     if _type(_self) == 'number' then
@@ -12054,11 +12003,11 @@ _temp101 = string:new('space')
     
       local _m = _self.maybe
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp8)
+        _temp18 =  _m(_self, _temp8)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('maybe'), _temp8)
+        _temp18 =  _self:no_undermethod(string:new('maybe'), _temp8)
       else
         _error(exception:method_error(_self, 'maybe'))
       end
@@ -12067,7 +12016,7 @@ _temp101 = string:new('space')
   
 
   if seq then
-    _temp11 =  seq(_self, _temp34, _temp10, _temp24, _temp25)
+    _temp11 =  seq(_self, _temp34, _temp10, _temp24, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -12078,11 +12027,11 @@ _temp101 = string:new('space')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp11 =  _m(_self, _temp34, _temp10, _temp24, _temp25)
+        _temp11 =  _m(_self, _temp34, _temp10, _temp24, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp11 =  _self:no_undermethod(string:new('seq'), _temp34, _temp10, _temp24, _temp25)
+        _temp11 =  _self:no_undermethod(string:new('seq'), _temp34, _temp10, _temp24, _temp18)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -12193,7 +12142,7 @@ _temp11 = string:new("}")
   
 
   if seq then
-    _temp18 =  seq(_self, _temp32, _temp9, _temp20, _temp23, _temp21, _temp22, _temp33, _temp19)
+    _temp25 =  seq(_self, _temp32, _temp9, _temp20, _temp23, _temp21, _temp22, _temp33, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -12204,11 +12153,11 @@ _temp11 = string:new("}")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp32, _temp9, _temp20, _temp23, _temp21, _temp22, _temp33, _temp19)
+        _temp25 =  _m(_self, _temp32, _temp9, _temp20, _temp23, _temp21, _temp22, _temp33, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 7))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('seq'), _temp32, _temp9, _temp20, _temp23, _temp21, _temp22, _temp33, _temp19)
+        _temp25 =  _self:no_undermethod(string:new('seq'), _temp32, _temp9, _temp20, _temp23, _temp21, _temp22, _temp33, _temp19)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -12220,7 +12169,7 @@ _temp19 = _lifted[30]
 
 
   if action then
-    _temp6 =  action(_self, _temp18, _temp19)
+    _temp6 =  action(_self, _temp25, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -12231,11 +12180,11 @@ _temp19 = _lifted[30]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp18, _temp19)
+        _temp6 =  _m(_self, _temp25, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('action'), _temp18, _temp19)
+        _temp6 =  _self:no_undermethod(string:new('action'), _temp25, _temp19)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -12274,7 +12223,7 @@ _temp33 = string:new('opt_space')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp33)
+    _temp25 =  ref(_self, _temp33)
 
   else
     if _type(_self) == 'number' then
@@ -12285,11 +12234,11 @@ _temp33 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33)
+        _temp25 =  _m(_self, _temp33)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp33)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp33)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -12578,7 +12527,7 @@ _temp32 = string:new('eof')
   
 
   if seq then
-    _temp19 =  seq(_self, _temp18, _temp33, _temp22, _temp21)
+    _temp19 =  seq(_self, _temp25, _temp33, _temp22, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -12589,11 +12538,11 @@ _temp32 = string:new('eof')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp18, _temp33, _temp22, _temp21)
+        _temp19 =  _m(_self, _temp25, _temp33, _temp22, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('seq'), _temp18, _temp33, _temp22, _temp21)
+        _temp19 =  _self:no_undermethod(string:new('seq'), _temp25, _temp33, _temp22, _temp21)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -12628,11 +12577,11 @@ _temp33 = string:new('opt_space')
   end
   
 
-_temp18 = string:new("#")
+_temp25 = string:new("#")
 
 
   if str then
-    _temp33 =  str(_self, _temp18)
+    _temp33 =  str(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -12643,11 +12592,11 @@ _temp18 = string:new("#")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp18)
+        _temp33 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('str'), _temp18)
+        _temp33 =  _self:no_undermethod(string:new('str'), _temp25)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -12682,11 +12631,11 @@ _temp11 = string:new('eol')
   end
   
 
-_temp25 = string:new('eof')
+_temp18 = string:new('eof')
 
 
   if ref then
-    _temp11 =  ref(_self, _temp25)
+    _temp11 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -12697,11 +12646,11 @@ _temp25 = string:new('eof')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp11 =  _m(_self, _temp25)
+        _temp11 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp11 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp11 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -12807,7 +12756,7 @@ _temp25 = string:new('eof')
   
 
   if kleene then
-    _temp18 =  kleene(_self, _temp23)
+    _temp25 =  kleene(_self, _temp23)
 
   else
     if _type(_self) == 'number' then
@@ -12818,11 +12767,11 @@ _temp25 = string:new('eof')
     
       local _m = _self.kleene
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp23)
+        _temp25 =  _m(_self, _temp23)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('kleene'), _temp23)
+        _temp25 =  _self:no_undermethod(string:new('kleene'), _temp23)
       else
         _error(exception:method_error(_self, 'kleene'))
       end
@@ -12831,7 +12780,7 @@ _temp25 = string:new('eof')
   
 
   if seq then
-    _temp21 =  seq(_self, _temp22, _temp33, _temp18)
+    _temp21 =  seq(_self, _temp22, _temp33, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -12842,11 +12791,11 @@ _temp25 = string:new('eof')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp22, _temp33, _temp18)
+        _temp21 =  _m(_self, _temp22, _temp33, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('seq'), _temp22, _temp33, _temp18)
+        _temp21 =  _self:no_undermethod(string:new('seq'), _temp22, _temp33, _temp25)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -12905,11 +12854,11 @@ _temp25 = string:new('eof')
 _temp7 = string:new('function_definition')
 
 
-_temp18 = string:new("{")
+_temp25 = string:new("{")
 
 
   if str then
-    _temp19 =  str(_self, _temp18)
+    _temp19 =  str(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -12920,11 +12869,11 @@ _temp18 = string:new("{")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp18)
+        _temp19 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('str'), _temp18)
+        _temp19 =  _self:no_undermethod(string:new('str'), _temp25)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -12936,7 +12885,7 @@ _temp33 = string:new('opt_space')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp33)
+    _temp25 =  ref(_self, _temp33)
 
   else
     if _type(_self) == 'number' then
@@ -12947,11 +12896,11 @@ _temp33 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33)
+        _temp25 =  _m(_self, _temp33)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp33)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp33)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -13197,7 +13146,7 @@ _temp11 = string:new("}")
   
 
   if seq then
-    _temp21 =  seq(_self, _temp19, _temp18, _temp33, _temp23, _temp22, _temp20, _temp32)
+    _temp21 =  seq(_self, _temp19, _temp25, _temp33, _temp23, _temp22, _temp20, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -13208,11 +13157,11 @@ _temp11 = string:new("}")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp19, _temp18, _temp33, _temp23, _temp22, _temp20, _temp32)
+        _temp21 =  _m(_self, _temp19, _temp25, _temp33, _temp23, _temp22, _temp20, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 6))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('seq'), _temp19, _temp18, _temp33, _temp23, _temp22, _temp20, _temp32)
+        _temp21 =  _self:no_undermethod(string:new('seq'), _temp19, _temp25, _temp33, _temp23, _temp22, _temp20, _temp32)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -13386,7 +13335,7 @@ _temp19 = string:new("|")
 
 
   if str then
-    _temp18 =  str(_self, _temp19)
+    _temp25 =  str(_self, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -13397,11 +13346,11 @@ _temp19 = string:new("|")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp19)
+        _temp25 =  _m(_self, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('str'), _temp19)
+        _temp25 =  _self:no_undermethod(string:new('str'), _temp19)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -13410,7 +13359,7 @@ _temp19 = string:new("|")
   
 
   if no then
-    _temp33 =  no(_self, _temp18)
+    _temp33 =  no(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -13421,11 +13370,11 @@ _temp19 = string:new("|")
     
       local _m = _self.no
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp18)
+        _temp33 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('no'), _temp18)
+        _temp33 =  _self:no_undermethod(string:new('no'), _temp25)
       else
         _error(exception:method_error(_self, 'no'))
       end
@@ -13538,11 +13487,11 @@ _temp21 = string:new('opt_space')
   end
   
 
-_temp18 = string:new("|")
+_temp25 = string:new("|")
 
 
   if str then
-    _temp21 =  str(_self, _temp18)
+    _temp21 =  str(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -13553,11 +13502,11 @@ _temp18 = string:new("|")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp18)
+        _temp21 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('str'), _temp18)
+        _temp21 =  _self:no_undermethod(string:new('str'), _temp25)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -13593,7 +13542,7 @@ _temp11 = string:new("|")
   
 
   if no then
-    _temp18 =  no(_self, _temp19)
+    _temp25 =  no(_self, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -13604,11 +13553,11 @@ _temp11 = string:new("|")
     
       local _m = _self.no
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp19)
+        _temp25 =  _m(_self, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('no'), _temp19)
+        _temp25 =  _self:no_undermethod(string:new('no'), _temp19)
       else
         _error(exception:method_error(_self, 'no'))
       end
@@ -13617,7 +13566,7 @@ _temp11 = string:new("|")
   
 
   if seq then
-    _temp33 =  seq(_self, _temp23, _temp22, _temp20, _temp21, _temp18)
+    _temp33 =  seq(_self, _temp23, _temp22, _temp20, _temp21, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -13628,11 +13577,11 @@ _temp11 = string:new("|")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp23, _temp22, _temp20, _temp21, _temp18)
+        _temp33 =  _m(_self, _temp23, _temp22, _temp20, _temp21, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('seq'), _temp23, _temp22, _temp20, _temp21, _temp18)
+        _temp33 =  _self:no_undermethod(string:new('seq'), _temp23, _temp22, _temp20, _temp21, _temp25)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -13800,7 +13749,7 @@ _temp9 = string:new("|")
   
 
   if seq then
-    _temp18 =  seq(_self, _temp21, _temp20, _temp22, _temp23, _temp19)
+    _temp25 =  seq(_self, _temp21, _temp20, _temp22, _temp23, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -13811,11 +13760,11 @@ _temp9 = string:new("|")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp21, _temp20, _temp22, _temp23, _temp19)
+        _temp25 =  _m(_self, _temp21, _temp20, _temp22, _temp23, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('seq'), _temp21, _temp20, _temp22, _temp23, _temp19)
+        _temp25 =  _self:no_undermethod(string:new('seq'), _temp21, _temp20, _temp22, _temp23, _temp19)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -13958,11 +13907,11 @@ _temp9 = string:new('opt_space')
   end
   
 
-_temp25 = string:new('variable_args')
+_temp18 = string:new('variable_args')
 
 
   if ref then
-    _temp9 =  ref(_self, _temp25)
+    _temp9 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -13973,11 +13922,11 @@ _temp25 = string:new('variable_args')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp25)
+        _temp9 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp9 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -13989,7 +13938,7 @@ _temp24 = string:new('opt_space')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp24)
+    _temp18 =  ref(_self, _temp24)
 
   else
     if _type(_self) == 'number' then
@@ -14000,11 +13949,11 @@ _temp24 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp24)
+        _temp18 =  _m(_self, _temp24)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp24)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp24)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -14091,7 +14040,7 @@ _temp8 = string:new("|")
   
 
   if seq then
-    _temp19 =  seq(_self, _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp25, _temp24, _temp10)
+    _temp19 =  seq(_self, _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp18, _temp24, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -14102,11 +14051,11 @@ _temp8 = string:new("|")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp25, _temp24, _temp10)
+        _temp19 =  _m(_self, _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp18, _temp24, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 8))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('seq'), _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp25, _temp24, _temp10)
+        _temp19 =  _self:no_undermethod(string:new('seq'), _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp18, _temp24, _temp10)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -14114,11 +14063,11 @@ _temp8 = string:new("|")
   end
   
 
-_temp25 = string:new('opt_space')
+_temp18 = string:new('opt_space')
 
 
   if ref then
-    _temp24 =  ref(_self, _temp25)
+    _temp24 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -14129,11 +14078,11 @@ _temp25 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp24 =  _m(_self, _temp25)
+        _temp24 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp24 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp24 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -14145,7 +14094,7 @@ _temp9 = string:new('default_args')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp9)
+    _temp18 =  ref(_self, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -14156,11 +14105,11 @@ _temp9 = string:new('default_args')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp9)
+        _temp18 =  _m(_self, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp9)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp9)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -14382,7 +14331,7 @@ _temp101 = string:new("|")
   
 
   if seq then
-    _temp10 =  seq(_self, _temp24, _temp25, _temp9, _temp11, _temp21, _temp20, _temp22, _temp23, _temp34)
+    _temp10 =  seq(_self, _temp24, _temp18, _temp9, _temp11, _temp21, _temp20, _temp22, _temp23, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -14393,11 +14342,11 @@ _temp101 = string:new("|")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp24, _temp25, _temp9, _temp11, _temp21, _temp20, _temp22, _temp23, _temp34)
+        _temp10 =  _m(_self, _temp24, _temp18, _temp9, _temp11, _temp21, _temp20, _temp22, _temp23, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 8))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('seq'), _temp24, _temp25, _temp9, _temp11, _temp21, _temp20, _temp22, _temp23, _temp34)
+        _temp10 =  _self:no_undermethod(string:new('seq'), _temp24, _temp18, _temp9, _temp11, _temp21, _temp20, _temp22, _temp23, _temp34)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -14540,11 +14489,11 @@ _temp9 = string:new('opt_space')
   end
   
 
-_temp25 = string:new('default_args')
+_temp18 = string:new('default_args')
 
 
   if ref then
-    _temp9 =  ref(_self, _temp25)
+    _temp9 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -14555,11 +14504,11 @@ _temp25 = string:new('default_args')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp25)
+        _temp9 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp9 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -14571,7 +14520,7 @@ _temp24 = string:new('opt_space')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp24)
+    _temp18 =  ref(_self, _temp24)
 
   else
     if _type(_self) == 'number' then
@@ -14582,11 +14531,11 @@ _temp24 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp24)
+        _temp18 =  _m(_self, _temp24)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp24)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp24)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -14783,7 +14732,7 @@ local _temp121 = string:new("|")
   
 
   if seq then
-    _temp34 =  seq(_self, _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp25, _temp24, _temp8, _temp101, _temp117, _temp118, _temp119)
+    _temp34 =  seq(_self, _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp18, _temp24, _temp8, _temp101, _temp117, _temp118, _temp119)
 
   else
     if _type(_self) == 'number' then
@@ -14794,11 +14743,11 @@ local _temp121 = string:new("|")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp34 =  _m(_self, _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp25, _temp24, _temp8, _temp101, _temp117, _temp118, _temp119)
+        _temp34 =  _m(_self, _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp18, _temp24, _temp8, _temp101, _temp117, _temp118, _temp119)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 12))
       elseif _self.no_undermethod then
-        _temp34 =  _self:no_undermethod(string:new('seq'), _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp25, _temp24, _temp8, _temp101, _temp117, _temp118, _temp119)
+        _temp34 =  _self:no_undermethod(string:new('seq'), _temp23, _temp22, _temp20, _temp21, _temp11, _temp9, _temp18, _temp24, _temp8, _temp101, _temp117, _temp118, _temp119)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -14914,11 +14863,11 @@ _temp24 = string:new(",")
   end
   
 
-_temp25 = string:new('opt_space')
+_temp18 = string:new('opt_space')
 
 
   if ref then
-    _temp24 =  ref(_self, _temp25)
+    _temp24 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -14929,11 +14878,11 @@ _temp25 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp24 =  _m(_self, _temp25)
+        _temp24 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp24 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp24 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -14945,7 +14894,7 @@ _temp9 = string:new('default_args')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp9)
+    _temp18 =  ref(_self, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -14956,11 +14905,11 @@ _temp9 = string:new('default_args')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp9)
+        _temp18 =  _m(_self, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp9)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp9)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -15074,7 +15023,7 @@ _temp22 = string:new("|")
   
 
   if seq then
-    _temp119 =  seq(_self, _temp118, _temp117, _temp101, _temp8, _temp24, _temp25, _temp9, _temp11, _temp21)
+    _temp119 =  seq(_self, _temp118, _temp117, _temp101, _temp8, _temp24, _temp18, _temp9, _temp11, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -15085,11 +15034,11 @@ _temp22 = string:new("|")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp119 =  _m(_self, _temp118, _temp117, _temp101, _temp8, _temp24, _temp25, _temp9, _temp11, _temp21)
+        _temp119 =  _m(_self, _temp118, _temp117, _temp101, _temp8, _temp24, _temp18, _temp9, _temp11, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 8))
       elseif _self.no_undermethod then
-        _temp119 =  _self:no_undermethod(string:new('seq'), _temp118, _temp117, _temp101, _temp8, _temp24, _temp25, _temp9, _temp11, _temp21)
+        _temp119 =  _self:no_undermethod(string:new('seq'), _temp118, _temp117, _temp101, _temp8, _temp24, _temp18, _temp9, _temp11, _temp21)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -15125,7 +15074,7 @@ _temp11 = string:new("|")
   
 
   if any then
-    _temp7 =  any(_self, _temp32, _temp33, _temp18, _temp19, _temp10, _temp34, _temp119, _temp21)
+    _temp7 =  any(_self, _temp32, _temp33, _temp25, _temp19, _temp10, _temp34, _temp119, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -15136,11 +15085,11 @@ _temp11 = string:new("|")
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp32, _temp33, _temp18, _temp19, _temp10, _temp34, _temp119, _temp21)
+        _temp7 =  _m(_self, _temp32, _temp33, _temp25, _temp19, _temp10, _temp34, _temp119, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 7))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('any'), _temp32, _temp33, _temp18, _temp19, _temp10, _temp34, _temp119, _temp21)
+        _temp7 =  _self:no_undermethod(string:new('any'), _temp32, _temp33, _temp25, _temp19, _temp10, _temp34, _temp119, _temp21)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -15412,11 +15361,11 @@ _temp19 = string:new('opt_space')
   end
   
 
-_temp18 = string:new('plain_arg')
+_temp25 = string:new('plain_arg')
 
 
   if ref then
-    _temp19 =  ref(_self, _temp18)
+    _temp19 =  ref(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -15427,11 +15376,11 @@ _temp18 = string:new('plain_arg')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp18)
+        _temp19 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('ref'), _temp18)
+        _temp19 =  _self:no_undermethod(string:new('ref'), _temp25)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -15518,7 +15467,7 @@ _temp9 = string:new("=")
   
 
   if no then
-    _temp18 =  no(_self, _temp33)
+    _temp25 =  no(_self, _temp33)
 
   else
     if _type(_self) == 'number' then
@@ -15529,11 +15478,11 @@ _temp9 = string:new("=")
     
       local _m = _self.no
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33)
+        _temp25 =  _m(_self, _temp33)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('no'), _temp33)
+        _temp25 =  _self:no_undermethod(string:new('no'), _temp33)
       else
         _error(exception:method_error(_self, 'no'))
       end
@@ -15542,7 +15491,7 @@ _temp9 = string:new("=")
   
 
   if seq then
-    _temp119 =  seq(_self, _temp21, _temp10, _temp34, _temp19, _temp18)
+    _temp119 =  seq(_self, _temp21, _temp10, _temp34, _temp19, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -15553,11 +15502,11 @@ _temp9 = string:new("=")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp119 =  _m(_self, _temp21, _temp10, _temp34, _temp19, _temp18)
+        _temp119 =  _m(_self, _temp21, _temp10, _temp34, _temp19, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp119 =  _self:no_undermethod(string:new('seq'), _temp21, _temp10, _temp34, _temp19, _temp18)
+        _temp119 =  _self:no_undermethod(string:new('seq'), _temp21, _temp10, _temp34, _temp19, _temp25)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -15616,11 +15565,11 @@ _temp9 = string:new("=")
 _temp7 = string:new('plain_arg')
 
 
-_temp18 = string:new('identifier')
+_temp25 = string:new('identifier')
 
 
   if ref then
-    _temp119 =  ref(_self, _temp18)
+    _temp119 =  ref(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -15631,11 +15580,11 @@ _temp18 = string:new('identifier')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp119 =  _m(_self, _temp18)
+        _temp119 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp119 =  _self:no_undermethod(string:new('ref'), _temp18)
+        _temp119 =  _self:no_undermethod(string:new('ref'), _temp25)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -15643,11 +15592,11 @@ _temp18 = string:new('identifier')
   end
   
 
-_temp18 = _lifted[32]
+_temp25 = _lifted[32]
 
 
   if action then
-    _temp6 =  action(_self, _temp119, _temp18)
+    _temp6 =  action(_self, _temp119, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -15658,11 +15607,11 @@ _temp18 = _lifted[32]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp119, _temp18)
+        _temp6 =  _m(_self, _temp119, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('action'), _temp119, _temp18)
+        _temp6 =  _self:no_undermethod(string:new('action'), _temp119, _temp25)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -15701,7 +15650,7 @@ _temp119 = string:new('default_arg')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp119)
+    _temp25 =  ref(_self, _temp119)
 
   else
     if _type(_self) == 'number' then
@@ -15712,11 +15661,11 @@ _temp119 = string:new('default_arg')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp119)
+        _temp25 =  _m(_self, _temp119)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp119)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp119)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -15905,7 +15854,7 @@ _temp11 = string:new('default_args')
   
 
   if seq then
-    _temp7 =  seq(_self, _temp18, _temp119)
+    _temp7 =  seq(_self, _temp25, _temp119)
 
   else
     if _type(_self) == 'number' then
@@ -15916,11 +15865,11 @@ _temp11 = string:new('default_args')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp18, _temp119)
+        _temp7 =  _m(_self, _temp25, _temp119)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('seq'), _temp18, _temp119)
+        _temp7 =  _self:no_undermethod(string:new('seq'), _temp25, _temp119)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -15986,7 +15935,7 @@ _temp21 = string:new('identifier')
   
 
   if label then
-    _temp18 =  label(_self, _temp19, _temp33)
+    _temp25 =  label(_self, _temp19, _temp33)
 
   else
     if _type(_self) == 'number' then
@@ -15997,11 +15946,11 @@ _temp21 = string:new('identifier')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp19, _temp33)
+        _temp25 =  _m(_self, _temp19, _temp33)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('label'), _temp19, _temp33)
+        _temp25 =  _self:no_undermethod(string:new('label'), _temp19, _temp33)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -16145,7 +16094,7 @@ _temp32 = string:new('default_arg_rhs_expression')
   
 
   if seq then
-    _temp119 =  seq(_self, _temp18, _temp33, _temp19, _temp21, _temp10)
+    _temp119 =  seq(_self, _temp25, _temp33, _temp19, _temp21, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -16156,11 +16105,11 @@ _temp32 = string:new('default_arg_rhs_expression')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp119 =  _m(_self, _temp18, _temp33, _temp19, _temp21, _temp10)
+        _temp119 =  _m(_self, _temp25, _temp33, _temp19, _temp21, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp119 =  _self:no_undermethod(string:new('seq'), _temp18, _temp33, _temp19, _temp21, _temp10)
+        _temp119 =  _self:no_undermethod(string:new('seq'), _temp25, _temp33, _temp19, _temp21, _temp10)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -16330,11 +16279,11 @@ _temp33 = string:new('number')
   end
   
 
-_temp18 = string:new('string')
+_temp25 = string:new('string')
 
 
   if ref then
-    _temp33 =  ref(_self, _temp18)
+    _temp33 =  ref(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -16345,11 +16294,11 @@ _temp18 = string:new('string')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp18)
+        _temp33 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('ref'), _temp18)
+        _temp33 =  _self:no_undermethod(string:new('ref'), _temp25)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -16361,7 +16310,7 @@ _temp11 = string:new('function_definition')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp11)
+    _temp25 =  ref(_self, _temp11)
 
   else
     if _type(_self) == 'number' then
@@ -16372,11 +16321,11 @@ _temp11 = string:new('function_definition')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp11)
+        _temp25 =  _m(_self, _temp11)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp11)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp11)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -16439,7 +16388,7 @@ _temp32 = string:new('hash')
   
 
   if any then
-    _temp7 =  any(_self, _temp10, _temp119, _temp21, _temp19, _temp33, _temp18, _temp11, _temp34)
+    _temp7 =  any(_self, _temp10, _temp119, _temp21, _temp19, _temp33, _temp25, _temp11, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -16450,11 +16399,11 @@ _temp32 = string:new('hash')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp10, _temp119, _temp21, _temp19, _temp33, _temp18, _temp11, _temp34)
+        _temp7 =  _m(_self, _temp10, _temp119, _temp21, _temp19, _temp33, _temp25, _temp11, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 7))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('any'), _temp10, _temp119, _temp21, _temp19, _temp33, _temp18, _temp11, _temp34)
+        _temp7 =  _self:no_undermethod(string:new('any'), _temp10, _temp119, _temp21, _temp19, _temp33, _temp25, _temp11, _temp34)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -16489,11 +16438,11 @@ _temp32 = string:new('hash')
 _temp7 = string:new('variable_args')
 
 
-_temp18 = string:new("*")
+_temp25 = string:new("*")
 
 
   if str then
-    _temp11 =  str(_self, _temp18)
+    _temp11 =  str(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -16504,11 +16453,11 @@ _temp18 = string:new("*")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp11 =  _m(_self, _temp18)
+        _temp11 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp11 =  _self:no_undermethod(string:new('str'), _temp18)
+        _temp11 =  _self:no_undermethod(string:new('str'), _temp25)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -16547,7 +16496,7 @@ _temp21 = string:new('identifier')
   
 
   if label then
-    _temp18 =  label(_self, _temp33, _temp19)
+    _temp25 =  label(_self, _temp33, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -16558,11 +16507,11 @@ _temp21 = string:new('identifier')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33, _temp19)
+        _temp25 =  _m(_self, _temp33, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('label'), _temp33, _temp19)
+        _temp25 =  _self:no_undermethod(string:new('label'), _temp33, _temp19)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -16571,7 +16520,7 @@ _temp21 = string:new('identifier')
   
 
   if seq then
-    _temp34 =  seq(_self, _temp11, _temp18)
+    _temp34 =  seq(_self, _temp11, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -16582,11 +16531,11 @@ _temp21 = string:new('identifier')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp34 =  _m(_self, _temp11, _temp18)
+        _temp34 =  _m(_self, _temp11, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp34 =  _self:no_undermethod(string:new('seq'), _temp11, _temp18)
+        _temp34 =  _self:no_undermethod(string:new('seq'), _temp11, _temp25)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -16594,11 +16543,11 @@ _temp21 = string:new('identifier')
   end
   
 
-_temp18 = _lifted[34]
+_temp25 = _lifted[34]
 
 
   if action then
-    _temp6 =  action(_self, _temp34, _temp18)
+    _temp6 =  action(_self, _temp34, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -16609,11 +16558,11 @@ _temp18 = _lifted[34]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp34, _temp18)
+        _temp6 =  _m(_self, _temp34, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('action'), _temp34, _temp18)
+        _temp6 =  _self:no_undermethod(string:new('action'), _temp34, _temp25)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -16856,7 +16805,7 @@ _temp21 = string:new('unary_rhs_expression')
   
 
   if seq then
-    _temp18 =  seq(_self, _temp34, _temp11, _temp33, _temp19)
+    _temp25 =  seq(_self, _temp34, _temp11, _temp33, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -16867,11 +16816,11 @@ _temp21 = string:new('unary_rhs_expression')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp34, _temp11, _temp33, _temp19)
+        _temp25 =  _m(_self, _temp34, _temp11, _temp33, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('seq'), _temp34, _temp11, _temp33, _temp19)
+        _temp25 =  _self:no_undermethod(string:new('seq'), _temp34, _temp11, _temp33, _temp19)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -16883,7 +16832,7 @@ _temp19 = _lifted[35]
 
 
   if action then
-    _temp7 =  action(_self, _temp18, _temp19)
+    _temp7 =  action(_self, _temp25, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -16894,11 +16843,11 @@ _temp19 = _lifted[35]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp18, _temp19)
+        _temp7 =  _m(_self, _temp25, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('action'), _temp18, _temp19)
+        _temp7 =  _self:no_undermethod(string:new('action'), _temp25, _temp19)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -16933,11 +16882,11 @@ _temp19 = _lifted[35]
 _temp7 = string:new('unary_rhs_expression')
 
 
-_temp18 = string:new('index_get')
+_temp25 = string:new('index_get')
 
 
   if ref then
-    _temp19 =  ref(_self, _temp18)
+    _temp19 =  ref(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -16948,11 +16897,11 @@ _temp18 = string:new('index_get')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp18)
+        _temp19 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('ref'), _temp18)
+        _temp19 =  _self:no_undermethod(string:new('ref'), _temp25)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -16964,7 +16913,7 @@ _temp33 = string:new('paren_exp')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp33)
+    _temp25 =  ref(_self, _temp33)
 
   else
     if _type(_self) == 'number' then
@@ -16975,11 +16924,11 @@ _temp33 = string:new('paren_exp')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33)
+        _temp25 =  _m(_self, _temp33)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp33)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp33)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -17150,7 +17099,7 @@ _temp32 = string:new('regex')
   
 
   if any then
-    _temp6 =  any(_self, _temp19, _temp18, _temp33, _temp11, _temp34, _temp21, _temp119, _temp10)
+    _temp6 =  any(_self, _temp19, _temp25, _temp33, _temp11, _temp34, _temp21, _temp119, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -17161,11 +17110,11 @@ _temp32 = string:new('regex')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp19, _temp18, _temp33, _temp11, _temp34, _temp21, _temp119, _temp10)
+        _temp6 =  _m(_self, _temp19, _temp25, _temp33, _temp11, _temp34, _temp21, _temp119, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 7))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('any'), _temp19, _temp18, _temp33, _temp11, _temp34, _temp21, _temp119, _temp10)
+        _temp6 =  _self:no_undermethod(string:new('any'), _temp19, _temp25, _temp33, _temp11, _temp34, _temp21, _temp119, _temp10)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -17495,7 +17444,7 @@ _temp24 = string:new('space')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp24)
+    _temp18 =  ref(_self, _temp24)
 
   else
     if _type(_self) == 'number' then
@@ -17506,11 +17455,11 @@ _temp24 = string:new('space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp24)
+        _temp18 =  _m(_self, _temp24)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp24)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp24)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -17519,7 +17468,7 @@ _temp24 = string:new('space')
   
 
   if maybe then
-    _temp9 =  maybe(_self, _temp25)
+    _temp9 =  maybe(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -17530,11 +17479,11 @@ _temp24 = string:new('space')
     
       local _m = _self.maybe
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp25)
+        _temp9 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('maybe'), _temp25)
+        _temp9 =  _self:no_undermethod(string:new('maybe'), _temp18)
       else
         _error(exception:method_error(_self, 'maybe'))
       end
@@ -17543,7 +17492,7 @@ _temp24 = string:new('space')
   
 
   if seq then
-    _temp18 =  seq(_self, _temp19, _temp32, _temp9)
+    _temp25 =  seq(_self, _temp19, _temp32, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -17554,11 +17503,11 @@ _temp24 = string:new('space')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp19, _temp32, _temp9)
+        _temp25 =  _m(_self, _temp19, _temp32, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('seq'), _temp19, _temp32, _temp9)
+        _temp25 =  _self:no_undermethod(string:new('seq'), _temp19, _temp32, _temp9)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -17594,7 +17543,7 @@ _temp32 = string:new('space')
   
 
   if any then
-    _temp33 =  any(_self, _temp18, _temp9)
+    _temp33 =  any(_self, _temp25, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -17605,11 +17554,11 @@ _temp32 = string:new('space')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp18, _temp9)
+        _temp33 =  _m(_self, _temp25, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('any'), _temp18, _temp9)
+        _temp33 =  _self:no_undermethod(string:new('any'), _temp25, _temp9)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -17881,11 +17830,11 @@ _temp9 = string:new('hash')
   end
   
 
-_temp18 = string:new('regex')
+_temp25 = string:new('regex')
 
 
   if ref then
-    _temp9 =  ref(_self, _temp18)
+    _temp9 =  ref(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -17896,11 +17845,11 @@ _temp18 = string:new('regex')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp18)
+        _temp9 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('ref'), _temp18)
+        _temp9 =  _self:no_undermethod(string:new('ref'), _temp25)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -17912,7 +17861,7 @@ _temp32 = string:new('number')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp32)
+    _temp25 =  ref(_self, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -17923,11 +17872,11 @@ _temp32 = string:new('number')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp32)
+        _temp25 =  _m(_self, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp32)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp32)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -17962,11 +17911,11 @@ _temp19 = string:new('method_invocation')
   end
   
 
-_temp25 = string:new('unary_operation')
+_temp18 = string:new('unary_operation')
 
 
   if ref then
-    _temp19 =  ref(_self, _temp25)
+    _temp19 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -17977,11 +17926,11 @@ _temp25 = string:new('unary_operation')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp25)
+        _temp19 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp19 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -17990,7 +17939,7 @@ _temp25 = string:new('unary_operation')
   
 
   if any then
-    _temp7 =  any(_self, _temp10, _temp21, _temp33, _temp11, _temp34, _temp119, _temp9, _temp18, _temp32, _temp19)
+    _temp7 =  any(_self, _temp10, _temp21, _temp33, _temp11, _temp34, _temp119, _temp9, _temp25, _temp32, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -18001,11 +17950,11 @@ _temp25 = string:new('unary_operation')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp10, _temp21, _temp33, _temp11, _temp34, _temp119, _temp9, _temp18, _temp32, _temp19)
+        _temp7 =  _m(_self, _temp10, _temp21, _temp33, _temp11, _temp34, _temp119, _temp9, _temp25, _temp32, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 9))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('any'), _temp10, _temp21, _temp33, _temp11, _temp34, _temp119, _temp9, _temp18, _temp32, _temp19)
+        _temp7 =  _self:no_undermethod(string:new('any'), _temp10, _temp21, _temp33, _temp11, _temp34, _temp119, _temp9, _temp25, _temp32, _temp19)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -18098,7 +18047,7 @@ _temp9 = string:new("->")
 
 
   if str then
-    _temp18 =  str(_self, _temp9)
+    _temp25 =  str(_self, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -18109,11 +18058,11 @@ _temp9 = string:new("->")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp9)
+        _temp25 =  _m(_self, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('str'), _temp9)
+        _temp25 =  _self:no_undermethod(string:new('str'), _temp9)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -18173,7 +18122,7 @@ _temp34 = string:new('operator')
   
 
   if seq then
-    _temp32 =  seq(_self, _temp18, _temp9)
+    _temp32 =  seq(_self, _temp25, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -18184,11 +18133,11 @@ _temp34 = string:new('operator')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp18, _temp9)
+        _temp32 =  _m(_self, _temp25, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('seq'), _temp18, _temp9)
+        _temp32 =  _self:no_undermethod(string:new('seq'), _temp25, _temp9)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -18224,7 +18173,7 @@ _temp119 = string:new("=")
 
 
   if str then
-    _temp18 =  str(_self, _temp119)
+    _temp25 =  str(_self, _temp119)
 
   else
     if _type(_self) == 'number' then
@@ -18235,11 +18184,11 @@ _temp119 = string:new("=")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp119)
+        _temp25 =  _m(_self, _temp119)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('str'), _temp119)
+        _temp25 =  _self:no_undermethod(string:new('str'), _temp119)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -18350,7 +18299,7 @@ _temp21 = string:new("=")
   
 
   if seq then
-    _temp9 =  seq(_self, _temp18, _temp119)
+    _temp9 =  seq(_self, _temp25, _temp119)
 
   else
     if _type(_self) == 'number' then
@@ -18361,11 +18310,11 @@ _temp21 = string:new("=")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp18, _temp119)
+        _temp9 =  _m(_self, _temp25, _temp119)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('seq'), _temp18, _temp119)
+        _temp9 =  _self:no_undermethod(string:new('seq'), _temp25, _temp119)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -18401,7 +18350,7 @@ _temp34 = string:new("!=")
 
 
   if str then
-    _temp18 =  str(_self, _temp34)
+    _temp25 =  str(_self, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -18412,11 +18361,11 @@ _temp34 = string:new("!=")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp34)
+        _temp25 =  _m(_self, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('str'), _temp34)
+        _temp25 =  _self:no_undermethod(string:new('str'), _temp34)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -18532,11 +18481,11 @@ _temp10 = string:new("||")
   end
   
 
-_temp25 = string:new("|")
+_temp18 = string:new("|")
 
 
   if str then
-    _temp10 =  str(_self, _temp25)
+    _temp10 =  str(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -18547,11 +18496,11 @@ _temp25 = string:new("|")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp25)
+        _temp10 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('str'), _temp25)
+        _temp10 =  _self:no_undermethod(string:new('str'), _temp18)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -18563,7 +18512,7 @@ _temp24 = string:new("&&")
 
 
   if str then
-    _temp25 =  str(_self, _temp24)
+    _temp18 =  str(_self, _temp24)
 
   else
     if _type(_self) == 'number' then
@@ -18574,11 +18523,11 @@ _temp24 = string:new("&&")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp24)
+        _temp18 =  _m(_self, _temp24)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('str'), _temp24)
+        _temp18 =  _self:no_undermethod(string:new('str'), _temp24)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -18614,7 +18563,7 @@ _temp8 = string:new("&")
   
 
   if any then
-    _temp119 =  any(_self, _temp18, _temp34, _temp33, _temp11, _temp21, _temp10, _temp25, _temp24)
+    _temp119 =  any(_self, _temp25, _temp34, _temp33, _temp11, _temp21, _temp10, _temp18, _temp24)
 
   else
     if _type(_self) == 'number' then
@@ -18625,11 +18574,11 @@ _temp8 = string:new("&")
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp119 =  _m(_self, _temp18, _temp34, _temp33, _temp11, _temp21, _temp10, _temp25, _temp24)
+        _temp119 =  _m(_self, _temp25, _temp34, _temp33, _temp11, _temp21, _temp10, _temp18, _temp24)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 7))
       elseif _self.no_undermethod then
-        _temp119 =  _self:no_undermethod(string:new('any'), _temp18, _temp34, _temp33, _temp11, _temp21, _temp10, _temp25, _temp24)
+        _temp119 =  _self:no_undermethod(string:new('any'), _temp25, _temp34, _temp33, _temp11, _temp21, _temp10, _temp18, _temp24)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -18739,11 +18688,11 @@ _temp119 = string:new('method_chain')
   end
   
 
-_temp25 = string:new('identifier')
+_temp18 = string:new('identifier')
 
 
   if ref then
-    _temp24 =  ref(_self, _temp25)
+    _temp24 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -18754,11 +18703,11 @@ _temp25 = string:new('identifier')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp24 =  _m(_self, _temp25)
+        _temp24 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp24 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp24 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -18770,7 +18719,7 @@ _temp10 = string:new('operator')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp10)
+    _temp18 =  ref(_self, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -18781,11 +18730,11 @@ _temp10 = string:new('operator')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp10)
+        _temp18 =  _m(_self, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp10)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp10)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -18794,7 +18743,7 @@ _temp10 = string:new('operator')
   
 
   if any then
-    _temp119 =  any(_self, _temp24, _temp25)
+    _temp119 =  any(_self, _temp24, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -18805,11 +18754,11 @@ _temp10 = string:new('operator')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp119 =  _m(_self, _temp24, _temp25)
+        _temp119 =  _m(_self, _temp24, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp119 =  _self:no_undermethod(string:new('any'), _temp24, _temp25)
+        _temp119 =  _self:no_undermethod(string:new('any'), _temp24, _temp18)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -18821,7 +18770,7 @@ _temp24 = string:new('arg_list')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp24)
+    _temp18 =  ref(_self, _temp24)
 
   else
     if _type(_self) == 'number' then
@@ -18832,11 +18781,11 @@ _temp24 = string:new('arg_list')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp24)
+        _temp18 =  _m(_self, _temp24)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp24)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp24)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -18845,7 +18794,7 @@ _temp24 = string:new('arg_list')
   
 
   if seq then
-    _temp32 =  seq(_self, _temp19, _temp119, _temp25)
+    _temp32 =  seq(_self, _temp19, _temp119, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -18856,11 +18805,11 @@ _temp24 = string:new('arg_list')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp19, _temp119, _temp25)
+        _temp32 =  _m(_self, _temp19, _temp119, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('seq'), _temp19, _temp119, _temp25)
+        _temp32 =  _self:no_undermethod(string:new('seq'), _temp19, _temp119, _temp18)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -18868,11 +18817,11 @@ _temp24 = string:new('arg_list')
   end
   
 
-_temp25 = _lifted[38]
+_temp18 = _lifted[38]
 
 
   if action then
-    _temp9 =  action(_self, _temp32, _temp25)
+    _temp9 =  action(_self, _temp32, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -18883,11 +18832,11 @@ _temp25 = _lifted[38]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp32, _temp25)
+        _temp9 =  _m(_self, _temp32, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('action'), _temp32, _temp25)
+        _temp9 =  _self:no_undermethod(string:new('action'), _temp32, _temp18)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -18899,7 +18848,7 @@ _temp32 = string:new('simple_method_invocation')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp32)
+    _temp18 =  ref(_self, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -18910,11 +18859,11 @@ _temp32 = string:new('simple_method_invocation')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp32)
+        _temp18 =  _m(_self, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp32)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp32)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -19214,7 +19163,7 @@ _temp119 = string:new('function_literal_invocation')
   
 
   if any then
-    _temp6 =  any(_self, _temp9, _temp25, _temp32, _temp10, _temp21)
+    _temp6 =  any(_self, _temp9, _temp18, _temp32, _temp10, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -19225,11 +19174,11 @@ _temp119 = string:new('function_literal_invocation')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp9, _temp25, _temp32, _temp10, _temp21)
+        _temp6 =  _m(_self, _temp9, _temp18, _temp32, _temp10, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('any'), _temp9, _temp25, _temp32, _temp10, _temp21)
+        _temp6 =  _self:no_undermethod(string:new('any'), _temp9, _temp18, _temp32, _temp10, _temp21)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -19271,7 +19220,7 @@ _temp9 = string:new('identifier')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp9)
+    _temp18 =  ref(_self, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -19282,11 +19231,11 @@ _temp9 = string:new('identifier')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp9)
+        _temp18 =  _m(_self, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp9)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp9)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -19295,7 +19244,7 @@ _temp9 = string:new('identifier')
   
 
   if label then
-    _temp10 =  label(_self, _temp32, _temp25)
+    _temp10 =  label(_self, _temp32, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -19306,11 +19255,11 @@ _temp9 = string:new('identifier')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp32, _temp25)
+        _temp10 =  _m(_self, _temp32, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('label'), _temp32, _temp25)
+        _temp10 =  _self:no_undermethod(string:new('label'), _temp32, _temp18)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -19349,7 +19298,7 @@ _temp119 = string:new('simple_arg_list')
   
 
   if label then
-    _temp25 =  label(_self, _temp32, _temp9)
+    _temp18 =  label(_self, _temp32, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -19360,11 +19309,11 @@ _temp119 = string:new('simple_arg_list')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp32, _temp9)
+        _temp18 =  _m(_self, _temp32, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('label'), _temp32, _temp9)
+        _temp18 =  _self:no_undermethod(string:new('label'), _temp32, _temp9)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -19373,7 +19322,7 @@ _temp119 = string:new('simple_arg_list')
   
 
   if seq then
-    _temp21 =  seq(_self, _temp10, _temp25)
+    _temp21 =  seq(_self, _temp10, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -19384,11 +19333,11 @@ _temp119 = string:new('simple_arg_list')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp10, _temp25)
+        _temp21 =  _m(_self, _temp10, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('seq'), _temp10, _temp25)
+        _temp21 =  _self:no_undermethod(string:new('seq'), _temp10, _temp18)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -19396,11 +19345,11 @@ _temp119 = string:new('simple_arg_list')
   end
   
 
-_temp25 = _lifted[41]
+_temp18 = _lifted[41]
 
 
   if action then
-    _temp7 =  action(_self, _temp21, _temp25)
+    _temp7 =  action(_self, _temp21, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -19411,11 +19360,11 @@ _temp25 = _lifted[41]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp21, _temp25)
+        _temp7 =  _m(_self, _temp21, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('action'), _temp21, _temp25)
+        _temp7 =  _self:no_undermethod(string:new('action'), _temp21, _temp18)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -19610,7 +19559,7 @@ _temp119 = _lifted[42]
 
 
   if action then
-    _temp25 =  action(_self, _temp21, _temp119)
+    _temp18 =  action(_self, _temp21, _temp119)
 
   else
     if _type(_self) == 'number' then
@@ -19621,11 +19570,11 @@ _temp119 = _lifted[42]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp21, _temp119)
+        _temp18 =  _m(_self, _temp21, _temp119)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('action'), _temp21, _temp119)
+        _temp18 =  _self:no_undermethod(string:new('action'), _temp21, _temp119)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -19997,7 +19946,7 @@ _temp32 = _lifted[44]
   
 
   if any then
-    _temp6 =  any(_self, _temp25, _temp119, _temp19, _temp21)
+    _temp6 =  any(_self, _temp18, _temp119, _temp19, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -20008,11 +19957,11 @@ _temp32 = _lifted[44]
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp25, _temp119, _temp19, _temp21)
+        _temp6 =  _m(_self, _temp18, _temp119, _temp19, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('any'), _temp25, _temp119, _temp19, _temp21)
+        _temp6 =  _self:no_undermethod(string:new('any'), _temp18, _temp119, _temp19, _temp21)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -20054,7 +20003,7 @@ _temp32 = string:new('function_definition')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp32)
+    _temp18 =  ref(_self, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -20065,11 +20014,11 @@ _temp32 = string:new('function_definition')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp32)
+        _temp18 =  _m(_self, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp32)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp32)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -20078,7 +20027,7 @@ _temp32 = string:new('function_definition')
   
 
   if label then
-    _temp19 =  label(_self, _temp119, _temp25)
+    _temp19 =  label(_self, _temp119, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -20089,11 +20038,11 @@ _temp32 = string:new('function_definition')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp119, _temp25)
+        _temp19 =  _m(_self, _temp119, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('label'), _temp119, _temp25)
+        _temp19 =  _self:no_undermethod(string:new('label'), _temp119, _temp18)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -20132,7 +20081,7 @@ _temp10 = string:new('simple_arg_list')
   
 
   if label then
-    _temp25 =  label(_self, _temp119, _temp32)
+    _temp18 =  label(_self, _temp119, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -20143,11 +20092,11 @@ _temp10 = string:new('simple_arg_list')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp119, _temp32)
+        _temp18 =  _m(_self, _temp119, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('label'), _temp119, _temp32)
+        _temp18 =  _self:no_undermethod(string:new('label'), _temp119, _temp32)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -20156,7 +20105,7 @@ _temp10 = string:new('simple_arg_list')
   
 
   if seq then
-    _temp21 =  seq(_self, _temp19, _temp25)
+    _temp21 =  seq(_self, _temp19, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -20167,11 +20116,11 @@ _temp10 = string:new('simple_arg_list')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp19, _temp25)
+        _temp21 =  _m(_self, _temp19, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('seq'), _temp19, _temp25)
+        _temp21 =  _self:no_undermethod(string:new('seq'), _temp19, _temp18)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -20179,11 +20128,11 @@ _temp10 = string:new('simple_arg_list')
   end
   
 
-_temp25 = _lifted[45]
+_temp18 = _lifted[45]
 
 
   if action then
-    _temp7 =  action(_self, _temp21, _temp25)
+    _temp7 =  action(_self, _temp21, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -20194,11 +20143,11 @@ _temp25 = _lifted[45]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp21, _temp25)
+        _temp7 =  _m(_self, _temp21, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('action'), _temp21, _temp25)
+        _temp7 =  _self:no_undermethod(string:new('action'), _temp21, _temp18)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -20312,7 +20261,7 @@ _temp119 = string:new(".")
   
 
   if many then
-    _temp25 =  many(_self, _temp21)
+    _temp18 =  many(_self, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -20323,11 +20272,11 @@ _temp119 = string:new(".")
     
       local _m = _self.many
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp21)
+        _temp18 =  _m(_self, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('many'), _temp21)
+        _temp18 =  _self:no_undermethod(string:new('many'), _temp21)
       else
         _error(exception:method_error(_self, 'many'))
       end
@@ -20339,7 +20288,7 @@ _temp21 = _lifted[46]
 
 
   if action then
-    _temp6 =  action(_self, _temp25, _temp21)
+    _temp6 =  action(_self, _temp18, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -20350,11 +20299,11 @@ _temp21 = _lifted[46]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp25, _temp21)
+        _temp6 =  _m(_self, _temp18, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('action'), _temp25, _temp21)
+        _temp6 =  _self:no_undermethod(string:new('action'), _temp18, _temp21)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -20609,7 +20558,7 @@ _temp8 = string:new('inner_arg_list')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp8)
+    _temp25 =  ref(_self, _temp8)
 
   else
     if _type(_self) == 'number' then
@@ -20620,11 +20569,11 @@ _temp8 = string:new('inner_arg_list')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp8)
+        _temp25 =  _m(_self, _temp8)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp8)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp8)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -20633,7 +20582,7 @@ _temp8 = string:new('inner_arg_list')
   
 
   if label then
-    _temp33 =  label(_self, _temp34, _temp18)
+    _temp33 =  label(_self, _temp34, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -20644,11 +20593,11 @@ _temp8 = string:new('inner_arg_list')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp34, _temp18)
+        _temp33 =  _m(_self, _temp34, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('label'), _temp34, _temp18)
+        _temp33 =  _self:no_undermethod(string:new('label'), _temp34, _temp25)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -20660,7 +20609,7 @@ _temp34 = string:new('opt_space')
 
 
   if ref then
-    _temp18 =  ref(_self, _temp34)
+    _temp25 =  ref(_self, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -20671,11 +20620,11 @@ _temp34 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp34)
+        _temp25 =  _m(_self, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('ref'), _temp34)
+        _temp25 =  _self:no_undermethod(string:new('ref'), _temp34)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -20711,7 +20660,7 @@ _temp8 = string:new("]")
   
 
   if seq then
-    _temp10 =  seq(_self, _temp24, _temp11, _temp33, _temp18, _temp34)
+    _temp10 =  seq(_self, _temp24, _temp11, _temp33, _temp25, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -20722,11 +20671,11 @@ _temp8 = string:new("]")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp24, _temp11, _temp33, _temp18, _temp34)
+        _temp10 =  _m(_self, _temp24, _temp11, _temp33, _temp25, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('seq'), _temp24, _temp11, _temp33, _temp18, _temp34)
+        _temp10 =  _self:no_undermethod(string:new('seq'), _temp24, _temp11, _temp33, _temp25, _temp34)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -20759,7 +20708,7 @@ _temp8 = string:new("]")
   
 
   if seq then
-    _temp25 =  seq(_self, _temp32, _temp119, _temp19, _temp9)
+    _temp18 =  seq(_self, _temp32, _temp119, _temp19, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -20770,11 +20719,11 @@ _temp8 = string:new("]")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp32, _temp119, _temp19, _temp9)
+        _temp18 =  _m(_self, _temp32, _temp119, _temp19, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('seq'), _temp32, _temp119, _temp19, _temp9)
+        _temp18 =  _self:no_undermethod(string:new('seq'), _temp32, _temp119, _temp19, _temp9)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -20786,7 +20735,7 @@ _temp9 = _lifted[47]
 
 
   if action then
-    _temp21 =  action(_self, _temp25, _temp9)
+    _temp21 =  action(_self, _temp18, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -20797,11 +20746,11 @@ _temp9 = _lifted[47]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp25, _temp9)
+        _temp21 =  _m(_self, _temp18, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('action'), _temp25, _temp9)
+        _temp21 =  _self:no_undermethod(string:new('action'), _temp18, _temp9)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -20870,7 +20819,7 @@ _temp33 = string:new("[")
 
 
   if str then
-    _temp18 =  str(_self, _temp33)
+    _temp25 =  str(_self, _temp33)
 
   else
     if _type(_self) == 'number' then
@@ -20881,11 +20830,11 @@ _temp33 = string:new("[")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp18 =  _m(_self, _temp33)
+        _temp25 =  _m(_self, _temp33)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp18 =  _self:no_undermethod(string:new('str'), _temp33)
+        _temp25 =  _self:no_undermethod(string:new('str'), _temp33)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -21029,7 +20978,7 @@ _temp101 = string:new("]")
   
 
   if seq then
-    _temp34 =  seq(_self, _temp18, _temp33, _temp11, _temp8, _temp24)
+    _temp34 =  seq(_self, _temp25, _temp33, _temp11, _temp8, _temp24)
 
   else
     if _type(_self) == 'number' then
@@ -21040,11 +20989,11 @@ _temp101 = string:new("]")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp34 =  _m(_self, _temp18, _temp33, _temp11, _temp8, _temp24)
+        _temp34 =  _m(_self, _temp25, _temp33, _temp11, _temp8, _temp24)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp34 =  _self:no_undermethod(string:new('seq'), _temp18, _temp33, _temp11, _temp8, _temp24)
+        _temp34 =  _self:no_undermethod(string:new('seq'), _temp25, _temp33, _temp11, _temp8, _temp24)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -21101,7 +21050,7 @@ _temp101 = string:new("]")
   
 
   if seq then
-    _temp25 =  seq(_self, _temp19, _temp32)
+    _temp18 =  seq(_self, _temp19, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -21112,11 +21061,11 @@ _temp101 = string:new("]")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp19, _temp32)
+        _temp18 =  _m(_self, _temp19, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('seq'), _temp19, _temp32)
+        _temp18 =  _self:no_undermethod(string:new('seq'), _temp19, _temp32)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -21128,7 +21077,7 @@ _temp32 = _lifted[48]
 
 
   if action then
-    _temp9 =  action(_self, _temp25, _temp32)
+    _temp9 =  action(_self, _temp18, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -21139,11 +21088,11 @@ _temp32 = _lifted[48]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp25, _temp32)
+        _temp9 =  _m(_self, _temp18, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('action'), _temp25, _temp32)
+        _temp9 =  _self:no_undermethod(string:new('action'), _temp18, _temp32)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -21155,7 +21104,7 @@ _temp19 = string:new('function_definition')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp19)
+    _temp18 =  ref(_self, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -21166,11 +21115,11 @@ _temp19 = string:new('function_definition')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp19)
+        _temp18 =  _m(_self, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp19)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp19)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -21257,7 +21206,7 @@ _temp119 = string:new('simple_arg_list')
   
 
   if seq then
-    _temp32 =  seq(_self, _temp25, _temp19, _temp10)
+    _temp32 =  seq(_self, _temp18, _temp19, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -21268,11 +21217,11 @@ _temp119 = string:new('simple_arg_list')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp25, _temp19, _temp10)
+        _temp32 =  _m(_self, _temp18, _temp19, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('seq'), _temp25, _temp19, _temp10)
+        _temp32 =  _self:no_undermethod(string:new('seq'), _temp18, _temp19, _temp10)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -21280,11 +21229,11 @@ _temp119 = string:new('simple_arg_list')
   end
   
 
-_temp25 = string:new('function_definition')
+_temp18 = string:new('function_definition')
 
 
   if ref then
-    _temp19 =  ref(_self, _temp25)
+    _temp19 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -21295,11 +21244,11 @@ _temp25 = string:new('function_definition')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp25)
+        _temp19 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp19 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -21335,7 +21284,7 @@ _temp34 = string:new(".")
   
 
   if _and then
-    _temp25 =  _and(_self, _temp119)
+    _temp18 =  _and(_self, _temp119)
 
   else
     if _type(_self) == 'number' then
@@ -21346,11 +21295,11 @@ _temp34 = string:new(".")
     
       local _m = _self._and
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp119)
+        _temp18 =  _m(_self, _temp119)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('&'), _temp119)
+        _temp18 =  _self:no_undermethod(string:new('&'), _temp119)
       else
         _error(exception:method_error(_self, '_and'))
       end
@@ -21359,7 +21308,7 @@ _temp34 = string:new(".")
   
 
   if seq then
-    _temp10 =  seq(_self, _temp19, _temp25)
+    _temp10 =  seq(_self, _temp19, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -21370,11 +21319,11 @@ _temp34 = string:new(".")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp19, _temp25)
+        _temp10 =  _m(_self, _temp19, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('seq'), _temp19, _temp25)
+        _temp10 =  _self:no_undermethod(string:new('seq'), _temp19, _temp18)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -21491,7 +21440,7 @@ _temp34 = _lifted[49]
 
 
   if action then
-    _temp25 =  action(_self, _temp19, _temp34)
+    _temp18 =  action(_self, _temp19, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -21502,11 +21451,11 @@ _temp34 = _lifted[49]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp19, _temp34)
+        _temp18 =  _m(_self, _temp19, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('action'), _temp19, _temp34)
+        _temp18 =  _self:no_undermethod(string:new('action'), _temp19, _temp34)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -21542,7 +21491,7 @@ _temp19 = string:new('method_target_expression')
   
 
   if any then
-    _temp7 =  any(_self, _temp21, _temp9, _temp32, _temp10, _temp25, _temp34)
+    _temp7 =  any(_self, _temp21, _temp9, _temp32, _temp10, _temp18, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -21553,11 +21502,11 @@ _temp19 = string:new('method_target_expression')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp21, _temp9, _temp32, _temp10, _temp25, _temp34)
+        _temp7 =  _m(_self, _temp21, _temp9, _temp32, _temp10, _temp18, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 5))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('any'), _temp21, _temp9, _temp32, _temp10, _temp25, _temp34)
+        _temp7 =  _self:no_undermethod(string:new('any'), _temp21, _temp9, _temp32, _temp10, _temp18, _temp34)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -21592,11 +21541,11 @@ _temp19 = string:new('method_target_expression')
 _temp7 = string:new('method_target_expression')
 
 
-_temp25 = string:new('array')
+_temp18 = string:new('array')
 
 
   if ref then
-    _temp34 =  ref(_self, _temp25)
+    _temp34 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -21607,11 +21556,11 @@ _temp25 = string:new('array')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp34 =  _m(_self, _temp25)
+        _temp34 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp34 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp34 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -21623,7 +21572,7 @@ _temp10 = string:new('hash')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp10)
+    _temp18 =  ref(_self, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -21634,11 +21583,11 @@ _temp10 = string:new('hash')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp10)
+        _temp18 =  _m(_self, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp10)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp10)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -21782,7 +21731,7 @@ _temp119 = string:new('unary_operation')
   
 
   if any then
-    _temp6 =  any(_self, _temp34, _temp25, _temp10, _temp32, _temp9, _temp21, _temp19)
+    _temp6 =  any(_self, _temp34, _temp18, _temp10, _temp32, _temp9, _temp21, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -21793,11 +21742,11 @@ _temp119 = string:new('unary_operation')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp34, _temp25, _temp10, _temp32, _temp9, _temp21, _temp19)
+        _temp6 =  _m(_self, _temp34, _temp18, _temp10, _temp32, _temp9, _temp21, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 6))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('any'), _temp34, _temp25, _temp10, _temp32, _temp9, _temp21, _temp19)
+        _temp6 =  _self:no_undermethod(string:new('any'), _temp34, _temp18, _temp10, _temp32, _temp9, _temp21, _temp19)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -21913,11 +21862,11 @@ _temp10 = string:new('inner_arg_list')
   end
   
 
-_temp25 = string:new('opt_space')
+_temp18 = string:new('opt_space')
 
 
   if ref then
-    _temp10 =  ref(_self, _temp25)
+    _temp10 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -21928,11 +21877,11 @@ _temp25 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp25)
+        _temp10 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp10 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -21944,7 +21893,7 @@ _temp34 = string:new(")")
 
 
   if str then
-    _temp25 =  str(_self, _temp34)
+    _temp18 =  str(_self, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -21955,11 +21904,11 @@ _temp34 = string:new(")")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp34)
+        _temp18 =  _m(_self, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('str'), _temp34)
+        _temp18 =  _self:no_undermethod(string:new('str'), _temp34)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -21968,7 +21917,7 @@ _temp34 = string:new(")")
   
 
   if seq then
-    _temp19 =  seq(_self, _temp21, _temp9, _temp32, _temp10, _temp25)
+    _temp19 =  seq(_self, _temp21, _temp9, _temp32, _temp10, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -21979,11 +21928,11 @@ _temp34 = string:new(")")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp21, _temp9, _temp32, _temp10, _temp25)
+        _temp19 =  _m(_self, _temp21, _temp9, _temp32, _temp10, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('seq'), _temp21, _temp9, _temp32, _temp10, _temp25)
+        _temp19 =  _self:no_undermethod(string:new('seq'), _temp21, _temp9, _temp32, _temp10, _temp18)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -22073,7 +22022,7 @@ _temp21 = string:new(")")
   
 
   if seq then
-    _temp25 =  seq(_self, _temp10, _temp32, _temp9)
+    _temp18 =  seq(_self, _temp10, _temp32, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -22084,11 +22033,11 @@ _temp21 = string:new(")")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp10, _temp32, _temp9)
+        _temp18 =  _m(_self, _temp10, _temp32, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('seq'), _temp10, _temp32, _temp9)
+        _temp18 =  _self:no_undermethod(string:new('seq'), _temp10, _temp32, _temp9)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -22325,7 +22274,7 @@ _temp8 = string:new('space')
   
 
   if any then
-    _temp7 =  any(_self, _temp19, _temp25, _temp9, _temp10)
+    _temp7 =  any(_self, _temp19, _temp18, _temp9, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -22336,11 +22285,11 @@ _temp8 = string:new('space')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp19, _temp25, _temp9, _temp10)
+        _temp7 =  _m(_self, _temp19, _temp18, _temp9, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('any'), _temp19, _temp25, _temp9, _temp10)
+        _temp7 =  _self:no_undermethod(string:new('any'), _temp19, _temp18, _temp9, _temp10)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -22375,11 +22324,11 @@ _temp8 = string:new('space')
 _temp7 = string:new('simple_arg_list')
 
 
-_temp25 = string:new("(")
+_temp18 = string:new("(")
 
 
   if str then
-    _temp9 =  str(_self, _temp25)
+    _temp9 =  str(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -22390,11 +22339,11 @@ _temp25 = string:new("(")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp25)
+        _temp9 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('str'), _temp25)
+        _temp9 =  _self:no_undermethod(string:new('str'), _temp18)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -22406,7 +22355,7 @@ _temp19 = string:new('opt_space')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp19)
+    _temp18 =  ref(_self, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -22417,11 +22366,11 @@ _temp19 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp19)
+        _temp18 =  _m(_self, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp19)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp19)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -22511,7 +22460,7 @@ _temp34 = string:new(")")
   
 
   if seq then
-    _temp10 =  seq(_self, _temp9, _temp25, _temp19, _temp21, _temp32)
+    _temp10 =  seq(_self, _temp9, _temp18, _temp19, _temp21, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -22522,11 +22471,11 @@ _temp34 = string:new(")")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp9, _temp25, _temp19, _temp21, _temp32)
+        _temp10 =  _m(_self, _temp9, _temp18, _temp19, _temp21, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 4))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('seq'), _temp9, _temp25, _temp19, _temp21, _temp32)
+        _temp10 =  _self:no_undermethod(string:new('seq'), _temp9, _temp18, _temp19, _temp21, _temp32)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -22561,11 +22510,11 @@ _temp19 = string:new("(")
   end
   
 
-_temp25 = string:new('opt_space')
+_temp18 = string:new('opt_space')
 
 
   if ref then
-    _temp19 =  ref(_self, _temp25)
+    _temp19 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -22576,11 +22525,11 @@ _temp25 = string:new('opt_space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp19 =  _m(_self, _temp25)
+        _temp19 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp19 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp19 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -22592,7 +22541,7 @@ _temp9 = string:new(")")
 
 
   if str then
-    _temp25 =  str(_self, _temp9)
+    _temp18 =  str(_self, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -22603,11 +22552,11 @@ _temp9 = string:new(")")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp9)
+        _temp18 =  _m(_self, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('str'), _temp9)
+        _temp18 =  _self:no_undermethod(string:new('str'), _temp9)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -22616,7 +22565,7 @@ _temp9 = string:new(")")
   
 
   if seq then
-    _temp32 =  seq(_self, _temp21, _temp19, _temp25)
+    _temp32 =  seq(_self, _temp21, _temp19, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -22627,11 +22576,11 @@ _temp9 = string:new(")")
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp21, _temp19, _temp25)
+        _temp32 =  _m(_self, _temp21, _temp19, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 2))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('seq'), _temp21, _temp19, _temp25)
+        _temp32 =  _self:no_undermethod(string:new('seq'), _temp21, _temp19, _temp18)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -22690,11 +22639,11 @@ _temp9 = string:new(")")
 _temp6 = string:new('inner_arg_list')
 
 
-_temp25 = string:new('arg_first')
+_temp18 = string:new('arg_first')
 
 
   if ref then
-    _temp10 =  ref(_self, _temp25)
+    _temp10 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -22705,11 +22654,11 @@ _temp25 = string:new('arg_first')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp25)
+        _temp10 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp10 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -22745,7 +22694,7 @@ _temp21 = string:new('arg_next')
   
 
   if kleene then
-    _temp25 =  kleene(_self, _temp19)
+    _temp18 =  kleene(_self, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -22756,11 +22705,11 @@ _temp21 = string:new('arg_next')
     
       local _m = _self.kleene
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp19)
+        _temp18 =  _m(_self, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('kleene'), _temp19)
+        _temp18 =  _self:no_undermethod(string:new('kleene'), _temp19)
       else
         _error(exception:method_error(_self, 'kleene'))
       end
@@ -22769,7 +22718,7 @@ _temp21 = string:new('arg_next')
   
 
   if seq then
-    _temp32 =  seq(_self, _temp10, _temp25)
+    _temp32 =  seq(_self, _temp10, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -22780,11 +22729,11 @@ _temp21 = string:new('arg_next')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp10, _temp25)
+        _temp32 =  _m(_self, _temp10, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('seq'), _temp10, _temp25)
+        _temp32 =  _self:no_undermethod(string:new('seq'), _temp10, _temp18)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -22792,11 +22741,11 @@ _temp21 = string:new('arg_next')
   end
   
 
-_temp25 = _lifted[50]
+_temp18 = _lifted[50]
 
 
   if action then
-    _temp7 =  action(_self, _temp32, _temp25)
+    _temp7 =  action(_self, _temp32, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -22807,11 +22756,11 @@ _temp25 = _lifted[50]
     
       local _m = _self.action
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp32, _temp25)
+        _temp7 =  _m(_self, _temp32, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('action'), _temp32, _temp25)
+        _temp7 =  _self:no_undermethod(string:new('action'), _temp32, _temp18)
       else
         _error(exception:method_error(_self, 'action'))
       end
@@ -22850,7 +22799,7 @@ _temp32 = string:new('named_argument')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp32)
+    _temp18 =  ref(_self, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -22861,11 +22810,11 @@ _temp32 = string:new('named_argument')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp32)
+        _temp18 =  _m(_self, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp32)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp32)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -22901,7 +22850,7 @@ _temp10 = string:new('expression')
   
 
   if any then
-    _temp6 =  any(_self, _temp25, _temp32)
+    _temp6 =  any(_self, _temp18, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -22912,11 +22861,11 @@ _temp10 = string:new('expression')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp25, _temp32)
+        _temp6 =  _m(_self, _temp18, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('any'), _temp25, _temp32)
+        _temp6 =  _self:no_undermethod(string:new('any'), _temp18, _temp32)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -22951,11 +22900,11 @@ _temp10 = string:new('expression')
 _temp6 = string:new('arg_space')
 
 
-_temp25 = string:new('space')
+_temp18 = string:new('space')
 
 
   if ref then
-    _temp32 =  ref(_self, _temp25)
+    _temp32 =  ref(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -22966,11 +22915,11 @@ _temp25 = string:new('space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp32 =  _m(_self, _temp25)
+        _temp32 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp32 =  _self:no_undermethod(string:new('ref'), _temp25)
+        _temp32 =  _self:no_undermethod(string:new('ref'), _temp18)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -22982,7 +22931,7 @@ _temp10 = string:new('eol_not_semicolon')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp10)
+    _temp18 =  ref(_self, _temp10)
 
   else
     if _type(_self) == 'number' then
@@ -22993,11 +22942,11 @@ _temp10 = string:new('eol_not_semicolon')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp10)
+        _temp18 =  _m(_self, _temp10)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp10)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp10)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -23006,7 +22955,7 @@ _temp10 = string:new('eol_not_semicolon')
   
 
   if any then
-    _temp7 =  any(_self, _temp32, _temp25)
+    _temp7 =  any(_self, _temp32, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -23017,11 +22966,11 @@ _temp10 = string:new('eol_not_semicolon')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp7 =  _m(_self, _temp32, _temp25)
+        _temp7 =  _m(_self, _temp32, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp7 =  _self:no_undermethod(string:new('any'), _temp32, _temp25)
+        _temp7 =  _self:no_undermethod(string:new('any'), _temp32, _temp18)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -23213,7 +23162,7 @@ _temp9 = string:new('arg_first')
   
 
   if seq then
-    _temp25 =  seq(_self, _temp32, _temp10, _temp19, _temp21)
+    _temp18 =  seq(_self, _temp32, _temp10, _temp19, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -23224,11 +23173,11 @@ _temp9 = string:new('arg_first')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp32, _temp10, _temp19, _temp21)
+        _temp18 =  _m(_self, _temp32, _temp10, _temp19, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('seq'), _temp32, _temp10, _temp19, _temp21)
+        _temp18 =  _self:no_undermethod(string:new('seq'), _temp32, _temp10, _temp19, _temp21)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -23519,7 +23468,7 @@ _temp34 = string:new('expression')
   
 
   if any then
-    _temp6 =  any(_self, _temp25, _temp21, _temp10, _temp32)
+    _temp6 =  any(_self, _temp18, _temp21, _temp10, _temp32)
 
   else
     if _type(_self) == 'number' then
@@ -23530,11 +23479,11 @@ _temp34 = string:new('expression')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp6 =  _m(_self, _temp25, _temp21, _temp10, _temp32)
+        _temp6 =  _m(_self, _temp18, _temp21, _temp10, _temp32)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp6 =  _self:no_undermethod(string:new('any'), _temp25, _temp21, _temp10, _temp32)
+        _temp6 =  _self:no_undermethod(string:new('any'), _temp18, _temp21, _temp10, _temp32)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -23569,7 +23518,7 @@ _temp34 = string:new('expression')
 _temp6 = string:new('named_argument')
 
 
-_temp25 = string:new('key')
+_temp18 = string:new('key')
 
 
 _temp19 = string:new('identifier')
@@ -23600,7 +23549,7 @@ _temp19 = string:new('identifier')
   
 
   if label then
-    _temp21 =  label(_self, _temp25, _temp9)
+    _temp21 =  label(_self, _temp18, _temp9)
 
   else
     if _type(_self) == 'number' then
@@ -23611,11 +23560,11 @@ _temp19 = string:new('identifier')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp21 =  _m(_self, _temp25, _temp9)
+        _temp21 =  _m(_self, _temp18, _temp9)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp21 =  _self:no_undermethod(string:new('label'), _temp25, _temp9)
+        _temp21 =  _self:no_undermethod(string:new('label'), _temp18, _temp9)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -23623,11 +23572,11 @@ _temp19 = string:new('identifier')
   end
   
 
-_temp25 = string:new(":")
+_temp18 = string:new(":")
 
 
   if str then
-    _temp9 =  str(_self, _temp25)
+    _temp9 =  str(_self, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -23638,11 +23587,11 @@ _temp25 = string:new(":")
     
       local _m = _self.str
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp25)
+        _temp9 =  _m(_self, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('str'), _temp25)
+        _temp9 =  _self:no_undermethod(string:new('str'), _temp18)
       else
         _error(exception:method_error(_self, 'str'))
       end
@@ -23654,7 +23603,7 @@ _temp19 = string:new('spaceorbreak')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp19)
+    _temp18 =  ref(_self, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -23665,11 +23614,11 @@ _temp19 = string:new('spaceorbreak')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp19)
+        _temp18 =  _m(_self, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp19)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp19)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -23732,7 +23681,7 @@ _temp8 = string:new('expression')
   
 
   if seq then
-    _temp10 =  seq(_self, _temp21, _temp9, _temp25, _temp19)
+    _temp10 =  seq(_self, _temp21, _temp9, _temp18, _temp19)
 
   else
     if _type(_self) == 'number' then
@@ -23743,11 +23692,11 @@ _temp8 = string:new('expression')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp21, _temp9, _temp25, _temp19)
+        _temp10 =  _m(_self, _temp21, _temp9, _temp18, _temp19)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('seq'), _temp21, _temp9, _temp25, _temp19)
+        _temp10 =  _self:no_undermethod(string:new('seq'), _temp21, _temp9, _temp18, _temp19)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -23813,7 +23762,7 @@ _temp119 = string:new('string')
   
 
   if label then
-    _temp25 =  label(_self, _temp9, _temp21)
+    _temp18 =  label(_self, _temp9, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -23824,11 +23773,11 @@ _temp119 = string:new('string')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp9, _temp21)
+        _temp18 =  _m(_self, _temp9, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('label'), _temp9, _temp21)
+        _temp18 =  _self:no_undermethod(string:new('label'), _temp9, _temp21)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -23945,7 +23894,7 @@ _temp24 = string:new('expression')
   
 
   if seq then
-    _temp10 =  seq(_self, _temp25, _temp21, _temp9, _temp119)
+    _temp10 =  seq(_self, _temp18, _temp21, _temp9, _temp119)
 
   else
     if _type(_self) == 'number' then
@@ -23956,11 +23905,11 @@ _temp24 = string:new('expression')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp25, _temp21, _temp9, _temp119)
+        _temp10 =  _m(_self, _temp18, _temp21, _temp9, _temp119)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 3))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('seq'), _temp25, _temp21, _temp9, _temp119)
+        _temp10 =  _self:no_undermethod(string:new('seq'), _temp18, _temp21, _temp9, _temp119)
       else
         _error(exception:method_error(_self, 'seq'))
       end
@@ -24053,7 +24002,7 @@ _temp24 = string:new('simple_method_invocation')
   
 
   if any then
-    _temp25 =  any(_self, _temp8, _temp34)
+    _temp18 =  any(_self, _temp8, _temp34)
 
   else
     if _type(_self) == 'number' then
@@ -24064,11 +24013,11 @@ _temp24 = string:new('simple_method_invocation')
     
       local _m = _self.any
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp8, _temp34)
+        _temp18 =  _m(_self, _temp8, _temp34)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('any'), _temp8, _temp34)
+        _temp18 =  _self:no_undermethod(string:new('any'), _temp8, _temp34)
       else
         _error(exception:method_error(_self, 'any'))
       end
@@ -24077,7 +24026,7 @@ _temp24 = string:new('simple_method_invocation')
   
 
   if label then
-    _temp9 =  label(_self, _temp21, _temp25)
+    _temp9 =  label(_self, _temp21, _temp18)
 
   else
     if _type(_self) == 'number' then
@@ -24088,11 +24037,11 @@ _temp24 = string:new('simple_method_invocation')
     
       local _m = _self.label
       if object._is_callable(_m) then
-        _temp9 =  _m(_self, _temp21, _temp25)
+        _temp9 =  _m(_self, _temp21, _temp18)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 1))
       elseif _self.no_undermethod then
-        _temp9 =  _self:no_undermethod(string:new('label'), _temp21, _temp25)
+        _temp9 =  _self:no_undermethod(string:new('label'), _temp21, _temp18)
       else
         _error(exception:method_error(_self, 'label'))
       end
@@ -24104,7 +24053,7 @@ _temp21 = string:new('space')
 
 
   if ref then
-    _temp25 =  ref(_self, _temp21)
+    _temp18 =  ref(_self, _temp21)
 
   else
     if _type(_self) == 'number' then
@@ -24115,11 +24064,11 @@ _temp21 = string:new('space')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp25 =  _m(_self, _temp21)
+        _temp18 =  _m(_self, _temp21)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp25 =  _self:no_undermethod(string:new('ref'), _temp21)
+        _temp18 =  _self:no_undermethod(string:new('ref'), _temp21)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -24211,11 +24160,11 @@ _temp24 = string:new('spaceorbreak')
 _temp11 = string:new('value')
 
 
-_temp18 = string:new('expression')
+_temp25 = string:new('expression')
 
 
   if ref then
-    _temp33 =  ref(_self, _temp18)
+    _temp33 =  ref(_self, _temp25)
 
   else
     if _type(_self) == 'number' then
@@ -24226,11 +24175,11 @@ _temp18 = string:new('expression')
     
       local _m = _self.ref
       if object._is_callable(_m) then
-        _temp33 =  _m(_self, _temp18)
+        _temp33 =  _m(_self, _temp25)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 0))
       elseif _self.no_undermethod then
-        _temp33 =  _self:no_undermethod(string:new('ref'), _temp18)
+        _temp33 =  _self:no_undermethod(string:new('ref'), _temp25)
       else
         _error(exception:method_error(_self, 'ref'))
       end
@@ -24263,7 +24212,7 @@ _temp18 = string:new('expression')
   
 
   if seq then
-    _temp10 =  seq(_self, _temp9, _temp25, _temp21, _temp34, _temp8, _temp24)
+    _temp10 =  seq(_self, _temp9, _temp18, _temp21, _temp34, _temp8, _temp24)
 
   else
     if _type(_self) == 'number' then
@@ -24274,11 +24223,11 @@ _temp18 = string:new('expression')
     
       local _m = _self.seq
       if object._is_callable(_m) then
-        _temp10 =  _m(_self, _temp9, _temp25, _temp21, _temp34, _temp8, _temp24)
+        _temp10 =  _m(_self, _temp9, _temp18, _temp21, _temp34, _temp8, _temp24)
       elseif _m ~= nil then
           _error(exception:argument_error('function', 0, 5))
       elseif _self.no_undermethod then
-        _temp10 =  _self:no_undermethod(string:new('seq'), _temp9, _temp25, _temp21, _temp34, _temp8, _temp24)
+        _temp10 =  _self:no_undermethod(string:new('seq'), _temp9, _temp18, _temp21, _temp34, _temp8, _temp24)
       else
         _error(exception:method_error(_self, 'seq'))
       end
