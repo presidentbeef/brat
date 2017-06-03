@@ -2,6 +2,9 @@ h = object.new
 
 eb = { s | s.sub("\\", "\\\\") }
 
+native_ops = ["_percent", "_plus", "_minus", "_forward", "_star", "_up"]
+compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"]
+
 h.callable? = { name |
   "object._is_callable(#{name})"
 }
@@ -86,18 +89,33 @@ h.invoke_number_method = { target, name, args, res_var |
     #{invoke_method_helper '_n', name, args, res_var}"
 }
 
-h.invoke_method = { target, name, args, res_var |
-  true? (target.number? || { h.number? target })
-  { invoke_number_method target, name, args, res_var }
-  {
-    "if _type(#{target}) == 'number' then
+standard_invoke = { target, name, args, res_var |
+  "if _type(#{target}) == 'number' then
       #{target} = number:new(#{target})
     elseif #{callable? target} then
       #{target} = brat_function:new(#{target})
     end
     #{invoke_method_helper target, name, args, res_var}"
-  }
+}
 
+h.invoke_method = { target, name, args, res_var |
+  true? (target.number? || { h.number? target })
+  { invoke_number_method target, name, args, res_var }
+  {
+    true? args.length == 1 && { native_ops.include?(name) || { compare_ops.include? name }}
+      {
+        rhs = args[0]
+        "if _type(#{target}) == 'number' and _type(#{rhs}) == 'number' and number._unchanged('#{name}') then
+          #{op_helper target, name, rhs, res_var}
+         else
+          #{standard_invoke target, name, args, res_var}
+         end
+         "
+      }
+      {
+        standard_invoke target, name, args, res_var
+      }
+  }
 }
 
 h.invoke_index_get = { target, n_, args, res_var |
@@ -221,42 +239,37 @@ h.invoke_method_helper = { target, name, args, res_var |
   }
 }
 
-native_ops = ["_percent", "_plus", "_minus", "_forward", "_star", "_up"]
-compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"]
-
-h.invoke_numbers = { lhs, op, rhs, res_var |
+h.op_helper = { lhs, op, rhs, res_var |
   action = get_action res_var
-
-  invoked = invoke_method lhs, op, [rhs], res_var
 
   true? native_ops.include?(op)
   {
-    "
-    if number._unchanged('#{op}') then
-      #{action} #{lhs} #{unescape_op op} #{rhs}
+   "#{action} #{lhs} #{unescape_op op} #{rhs}"
+  }
+  {
+    "if #{lhs} #{unescape_op op} #{rhs} then
+       #{action} object.__true
+     else
+       #{action} object.__false
+     end"
+  }
+}
+
+h.invoke_numbers = { lhs, op, rhs, res_var |
+
+  invoked = invoke_method lhs, op, [rhs], res_var
+
+  true? native_ops.include?(op) || { compare_ops.include?(op) }
+  {
+    "if number._unchanged('#{op}') then
+      #{op_helper lhs, op, rhs, res_var}
     else
       #{invoked}
     end
     "
   }
   {
-    true? compare_ops.include?(op)
-    {
-      "
-      if number._unchanged('#{op}') then
-        if #{lhs} #{unescape_op op} #{rhs} then
-          #{action} object.__true
-        else
-          #{action} object.__false
-        end
-      else
-        #{invoked}
-      end
-      "
-    }
-    {
-      invoked
-    }
+    invoked
   }
 }
 
