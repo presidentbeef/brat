@@ -341,9 +341,15 @@ add_results setup name: "Brat AST tests" {
     ast "a->b" s[:meth_access, s[:get_value, :a], :b]
   }
 
+
+#*
+# Since operators can't be defined without a target,
+# I think it's okay to not allow them to be referenced
+# without a target.
   test "simple method access with operator" {
     ast "->!" s[:meth_access, null, :_bang]
   }
+*#
 
   test "simple paren method access" {
     ast "->(x)" s[:meth_access
