@@ -78,7 +78,7 @@ make
 cp -f src/oniguruma/rex_onig.so.2.6 $LIB
 #cp -f src/onigurum/librex_onig.a $LIB
 cd $LIB
-ln -s -f rex_onig.so.2.4 rex_onig.so
+ln -s -f rex_onig.so.2.6 rex_onig.so
 
 echo Building luafilesystem
 cd $SRC/luafilesystem

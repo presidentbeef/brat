@@ -85,9 +85,7 @@ end
 
 --Functions for identifier conversion
 
-require "rex_onig"
-local orex = rex_onig
-rex_onig = nil
+local orex = require "rex_onig"
 
 local escape_ops = { ["!"] = "_bang",
 ["*"] = "_star",
