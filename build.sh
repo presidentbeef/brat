@@ -27,6 +27,7 @@ STDLIB=$BRATPATH/stdlib
 export LUA_SRC_PATH=$BRATPATH/bin/lua/
 export LUA_INC_PATH=$BRATPATH/bin/lua/include/luajit-2.1
 export BRAT_LIB_PATH=$LIB
+export PATH=$LUA_SRC_PATH/bin:$PATH
 
 cd $SRC
 
