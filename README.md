@@ -35,7 +35,7 @@ If you would rather have your conditions be separated out, you could define it t
 * Everything is object, except functions
 * And functions are closures, which can be attached to objects to make methods
 * Objects use a prototyping system and are completely open
-* Built in hash tables and dynamic arrays
+* Built-in hash tables and dynamic arrays
 * Very flexible unary and binary operators
 * Tail calls are optimized to make infinite loops faster (and more infinite)
 
@@ -45,7 +45,6 @@ Please have on hand:
 
 * Linux or OS X
 * The usual development tools (like `make` and `gcc`)
-* OpenSSL headers (`sudo urpmi libssl-devel` or similar)
 * Git if you want to check it out of the repository directly - `sudo urpmi git-core` (or the equivalent for your platform)
 
 # Installation

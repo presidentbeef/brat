@@ -2,25 +2,7 @@
 
 To build and run Brat, you will need:
 
-+ Ruby
-
-To install Ruby, use your package manager or go to http://ruby-lang.org to download and install.
-
-+ RubyGems
-
-Gems comes with Ruby 1.9. Otherwise, use your package manager or head over to http://rubygems.org/ to download and install.
-
-+ Treetop
-
-Install Treetop via Ruby Gems:
-
-  sudo gem install treetop
-
-+ libopenssl (and development headers)
-
-Install via your package manager. For example, in Mandriva:
-
-  sudo urpmi libopenssl libopenssl-devel
++ A C compiler
 
 ### INSTALLATION
 
