@@ -1,6 +1,6 @@
 includes :file :assert :subprocess
 
-overall_results = [tests: 0 assertions: 0 failures: 0]
+overall_results = [tests: 0 assertions: 0 failures: 0 skips: 0]
 
 object.add_results = { r |
   r.each { k, v |
@@ -27,7 +27,7 @@ object.add_results = { r |
 file.delete "test/test.lua"
 
 date = subprocess.run('date "+%b %d, %Y"').strip!
-p "Test results: #{overall_results[:tests]} tests, #{overall_results[:assertions]} assertions, #{overall_results[:failures]} failures on #{date}."
+p "Test results: #{overall_results[:tests]} tests, #{overall_results[:assertions]} assertions, #{overall_results[:skips]} tests skipped, #{overall_results[:failures]} failures on #{date}."
 
 true? overall_results[:failures] == 0
   { exit 0 }
