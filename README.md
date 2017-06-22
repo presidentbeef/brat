@@ -1,5 +1,7 @@
 # Brat
 
+[![Build Status](https://travis-ci.org/presidentbeef/brat.svg?branch=master)](https://travis-ci.org/presidentbeef/brat)
+
 Brat is a simple and flexible little toy language.
 
 Brat uses a [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) parser to compile to [Lua](http://www.lua.org/) and executes using [LuaJIT](http://luajit.org/).
