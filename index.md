@@ -15,6 +15,8 @@ layout: default
 
 [{{ site.posts.first.title }}]({{ site.posts.first.url }}) - {{ site.posts.first.date | date_to_string }}
 
+[![Build Status](https://travis-ci.org/presidentbeef/brat.svg?branch=master)](https://travis-ci.org/presidentbeef/brat)
+
 <div id="ghtwtr">
 <table>
   <tr>
@@ -46,7 +48,7 @@ layout: default
 </div>
 
 <div style="clear:both">&nbsp;</div>
-<img src="http://try.brat-lang.org/images/status.png" style="margin-right: 5px;top: 10px;height: 13px;" /><span id="statusmessage"></span>
+
 
 ## What It Is
 
