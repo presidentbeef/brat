@@ -151,8 +151,19 @@ set +e
 
 echo Building Brat libraries
 
-for f in stdlib/*.brat
-do
+for f in stdlib/parser/*.brat; do
+  ./minibrat $f
+done
+
+for f in stdlib/*.brat; do
+  ./minibrat $f
+done
+
+for f in stdlib/parser/*.brat; do
+  ./brat $f
+done
+
+for f in stdlib/*.brat; do
   ./brat $f
 done
 
