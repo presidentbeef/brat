@@ -18,6 +18,8 @@ export LUA_LIB_PATH=`pwd`/bin/lua/lib/
 rm -rf tmp
 mkdir tmp
 
+# Copy all of the Lua and compiled Brat files to tmp/
+
 cp stdlib/parser/ast.lua tmp/parser_ast.lua
 cp stdlib/parser/binop_helper.lua tmp/parser_binop_helper.lua
 cp stdlib/parser/brat2lua.lua tmp/parser_brat2lua.lua
@@ -37,11 +39,13 @@ cp stdlib/peg.lua tmp/peg.lua
 cp stdlib/scanner.lua tmp/scanner.lua
 cp stdlib/set.lua tmp/set.lua
 
-#cp bin/brat tmp/brat_compile.lua
+# And the core Brat file
 
 cp core/core.lua tmp/core.lua
 
 cd tmp
+
+# Create program to compile Brat files to Lua
 
 cat <<BRAT > brat_compile.lua
 #!/usr/bin/env lua
@@ -89,14 +93,18 @@ compile_it = function(last_arg)
 end
 BRAT
 
-
-
+# Compile all parser files to object files
 
 for f in *.lua; do
     sed -i 's/parser\//parser_/g' $f
     lua -b $f `basename $f .lua`.o
 done
+
+# Wrap up in one file
+
 ar rcus liballbrat.a *.o
+
+# Tiny C program to run Brat compiler
 
 cat <<BRAT > minibrat.c
 #include <stdlib.h>
@@ -140,10 +148,10 @@ main(int argc, char *argv[])
 }
 BRAT
 
+# Compile Brat compiler with parser and required libraries to a single binary
+
 gcc -o minibrat minibrat.c -I$LUA_INC_PATH -L$LUA_LIB_PATH -lm -lluajit-5.1 -Wl,--whole-archive liballbrat.a -Wl,--no-whole-archive -Wl,-E -ldl
 
+# Move that single binary to bin/
+
 cp minibrat ../bin/
-
-cd ..
-
-
