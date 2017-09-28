@@ -221,6 +221,7 @@ c.walk :function { node, var = null |
   my.env.pop_scope
   res.out << "\nend\n"
   res[:type] = :function
+  my.env.set_type res.var, :function
   res
 }
 
@@ -272,6 +273,9 @@ c.walk :liftable_function { node, var = null |
     }
 
   lifted = set_result var, lifted_call
+  my.env.set_type lifted.var, :function
+  lifted[:type] = :function
+
   true? node.upvars
     {
       e = my.env
@@ -338,7 +342,7 @@ c.walk :meth_access { node, var = null |
 c.walk :regex { node, var = null |
   body = node.body.sub("\\", "\\\\").sub(/"/, "\\\"")
   opts = node.opts.dice.unique.join.sub(/m/, 's')
-  set_result var, "regex:new(\"#{body}\", \"#{opts}\")"
+  set_result var, "regex:new(\"#{body}\", \"#{opts}\")", type: :regex
 }
 
 c.walk :string_interp { node, var = null |
@@ -356,6 +360,9 @@ c.walk :string_interp { node, var = null |
       }
   }
   res.out << "#{res.var} = string:new(_table.concat(#{temp}))\nend\n"
+  my.env.unset temp
+  my.env.set_type res.var, :string
+  res[:type] = :string
   res
 }
 
