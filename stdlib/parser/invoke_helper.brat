@@ -6,7 +6,27 @@ native_ops = ["_percent", "_plus", "_minus", "_forward", "_star", "_up"]
 compare_ops = ["_less", "_greater", "_equal_equal", "_less_equal", "_greater_equal"]
 
 h.callable? = { name |
-  "object._is_callable(#{name})"
+  true? my.env.get_type(name)
+  {
+    true? my.env.get_type(name) == :function
+      { "true" }
+      { "false" }
+  }
+  {
+    "object._is_callable(#{name})"
+  }
+}
+
+h.is_number? = { name |
+  true? my.env.get_type(name)
+  {
+    true? my.env.get_type(name) == :number
+      { "true" }
+      { "false" }
+  }
+  {
+    "_type(#{name}) == 'number'"
+  }
 }
 
 h.get_action = { res_var |
@@ -90,7 +110,7 @@ h.invoke_number_method = { target, name, args, res_var |
 }
 
 standard_invoke = { target, name, args, res_var |
-  "if _type(#{target}) == 'number' then
+  "if #{is_number? target} then
       #{target} = number:new(#{target})
     elseif #{callable? target} then
       #{target} = brat_function:new(#{target})
@@ -105,7 +125,7 @@ h.invoke_method = { target, name, args, res_var |
     true? args.length == 1 && { native_ops.include?(name) || { compare_ops.include? name }}
       {
         rhs = args[0]
-        "if _type(#{target}) == 'number' and _type(#{rhs}) == 'number' and number._unchanged('#{name}') then
+        "if #{is_number? target} and #{is_number? rhs} and number._unchanged('#{name}') then
           #{op_helper target, name, rhs, res_var}
          else
           #{standard_invoke target, name, args, res_var}
@@ -276,7 +296,7 @@ h.invoke_numbers = { lhs, op, rhs, res_var |
 # When LHS is number literal
 h.invoke_number_lhs = { lhs, op, rhs, res_var |
   "
-  if _type(#{rhs}) == 'number' then
+  if #{is_number? rhs} then
     #{invoke_numbers lhs, op, rhs, res_var}
   else
     #{invoke_method lhs, op, [rhs], res_var}
@@ -286,7 +306,7 @@ h.invoke_number_lhs = { lhs, op, rhs, res_var |
 
 h.invoke_number_rhs = { lhs, op, rhs, res_var |
   "
-  if _type(#{lhs}) == 'number' then
+  if #{is_number? lhs} then
     #{invoke_numbers lhs, op, rhs, res_var}
   else
     #{invoke_method lhs, op, [rhs], res_var}
