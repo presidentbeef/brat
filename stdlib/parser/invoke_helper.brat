@@ -229,32 +229,34 @@ h.invoke_method_helper = { target, name, args, res_var |
   true? args.empty?
   {
      "
-      local _m = #{target}.#{name}
-      if #{callable? '_m'} then
-        #{action} _m(#{target})
-      elseif _m ~= nil then
-        #{action} _m
+      local _m_#{target}_#{name} = #{target}.#{name}
+      if #{callable? "_m_#{target}_#{name}"} then
+        #{action} _m_#{target}_#{name}(#{target})
+      elseif _m_#{target}_#{name} ~= nil then
+        #{action} _m_#{target}_#{name}
       elseif #{target}.no_undermethod then
         #{action} #{target}:no_undermethod(string:new('#{eb unescape_identifier name}'))
       else
         _error(exception:method_error(#{target}, '#{name}'))
       end
+      _m_#{target}_#{name} = nil
     "
   }
   {
     arg_list = ([target] + args).join(', ')
 
     "
-      local _m = #{target}.#{name}
-      if #{callable? '_m'} then
-        #{action} _m(#{arg_list})
-      elseif _m ~= nil then
+      local _m_#{target}_#{name} = #{target}.#{name}
+      if #{callable? "_m_#{target}_#{name}"} then
+        #{action} _m_#{target}_#{name}(#{arg_list})
+      elseif _m_#{target}_#{name} ~= nil then
           _error(exception:argument_error('function', 0, #{args.length - 1 }))
       elseif #{target}.no_undermethod then
         #{action} #{target}:no_undermethod(string:new('#{eb unescape_identifier name}'), #{args.join(', ')})
       else
         _error(exception:method_error(#{target}, '#{name}'))
       end
+      _m_#{target}_#{name} = nil
     "
   }
 }
@@ -365,21 +367,22 @@ h.get_value = { name, res_var |
   call_it = "#{action} #{name}(_self)\n"
 
   "
-   local _m
+   local _m_#{name}
    if #{name} then
-     _m = #{name}
+     _m_#{name} = #{name}
    else
-     _m = _self[\"#{name}\"]
+     _m_#{name} = _self[\"#{name}\"]
    end
-   if #{callable? '_m'} then
-     #{action} _m(_self)
-   elseif _m then
-     #{action} _m
+   if #{callable? "_m_#{name}"} then
+     #{action} _m_#{name}(_self)
+   elseif _m_#{name} then
+     #{action} _m_#{name}
    elseif _self.no_undermethod then
      #{action} _self:no_undermethod(string:new('#{eb unescape_identifier name}'))
    else
      _error(exception:name_error(\"#{name}\"))
    end
+   _m_#{name} = nil
   "
 }
 
