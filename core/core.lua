@@ -8,9 +8,18 @@ unsigned int sleep(unsigned int seconds);
 
 --Helper functions
 local meta_index = function(table, key)
+  if key == "_prototype" then
+    table._prototype = new_brat(object)
+    return table._prototype
+  end
+
   local parent = table:parent()
   if parent then
-    return (rawget(parent._prototype, key) or parent[key])
+    if rawget(parent, "_prototype") then
+      return (rawget(parent._prototype, key) or parent[key])
+    else
+      return parent[key]
+    end
   else
     return nil
   end
@@ -263,7 +272,6 @@ function object:new (...)
     
   nb = new_brat(self)
 
-  nb._prototype = new_brat(object)
 
   if nb.init then
     nb:init(...)
@@ -1676,7 +1684,6 @@ number._prototype = number_instance
 -- Create a new number object. No real reason to use this directly.
 function number:new (num)
   local n = new_brat(self)
-  n._prototype = new_brat(object)
 
   n._lua_number = num
   return n
@@ -2273,7 +2280,6 @@ array._prototype = array_instance
 -- array.new 1 2 3 # Returns [1, 2, 3]
 function array:new (first, ...)
   local na = new_brat(self)
-  na._prototype = new_brat(object)
 
   -- Create empty array
   if first == nil then
@@ -3778,7 +3784,6 @@ hash._prototype = hash_instance
 -- Returns a new hash table.
 function hash:new (arg)
   local nh = new_brat(self)
-  nh._prototype = new_brat(object)
   nh._length = nil
 
   if type(arg) == "table" and arg._lua_hash then
@@ -4208,7 +4213,6 @@ function base_string:new (s)
   end
 
   local ns = new_brat(self)
-  ns._prototype = new_brat(object)
 
   ns._lua_string = s
 
@@ -5059,7 +5063,6 @@ function regex:new (string, options)
   end
 
   local nr = new_brat(self)
-  nr._prototype = new_brat(object)
 
   nr._lua_regex = orex.new(string, options)
   nr._regex_string = string
@@ -5138,7 +5141,6 @@ function exception:new (message, error_type)
   error_type = base_string:new(error_type)
 
   local e = new_brat(self)
-  e._prototype = new_brat(object)
 
   e.error_undermessage = function () return msg end
   e.stack_undertrace = function()
@@ -5197,7 +5199,6 @@ brat_function._prototype = brat_function_instance
 
 function brat_function:new (func)
   local nb  = new_brat(self)
-  nb._prototype = new_brat(object)
   nb._func = func
 
   return nb

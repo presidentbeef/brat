@@ -11,7 +11,6 @@ function set:new (...)
   end
 
   local new_set = new_brat(self)
-  new_set._prototype = new_brat(object)
   new_set._internal_hash = hash:new()
 
   for k,v in pairs(args) do
