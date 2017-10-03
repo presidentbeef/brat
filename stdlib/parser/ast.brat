@@ -91,7 +91,7 @@ ast :empty_symbol {
   s[:symbol]
 }
 
-ast :symbol {
+ast :double_symbol {
   s[:symbol my.svalue.text]
 }
 
