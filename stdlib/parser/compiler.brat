@@ -205,7 +205,7 @@ c.walk :symbol { node, var = null |
       lift_string '', var
     }
     {
-      lift_string escape_string(node.value), var
+      lift_string escape_string(node.value), var, :double
     }
 }
 
