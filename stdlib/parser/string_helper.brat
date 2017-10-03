@@ -75,4 +75,27 @@ h.escape_string = { str |
   str.sub("\n", '\n')
 }
 
+h.lift_string = { str, var |
+  lifted_id = my.liftable_strings[str]
+  false? lifted_id
+    {
+      lifted_id = my.liftable_strings.length
+      my.liftable_strings[str] = my.liftable_strings.length
+    }
+
+  set_result var, "_lifted_strings[#{lifted_id}]", type: :string
+}
+
+h.lifted_strings = {
+  list = []
+  list << r(null, "local _lifted_strings = {}")
+  o = my
+
+  my.liftable_strings.each { str, id |
+    list << o.r(null, "_lifted_strings[#{id}] = symbol:new(\"#{str}\")")
+  }
+
+  list
+}
+
 export h, :string_helper

@@ -5025,6 +5025,46 @@ function string_instance:to_underbyte ()
   end
 end
 
+--Symbols
+
+symbol = object:new()
+
+local si = object:new()
+si:squish(string_instance)
+si.chomp_bang = nil
+si.strip_bang = nil
+si.downcase_bang = nil
+si.upcase_bang = nil
+si.sub_bang = nil
+si.sub_underfirst_bang = nil
+si.set = nil
+si.less_less = nil
+si.reverse_bang = nil
+
+symbol._prototype = si
+si = nil
+
+function symbol:new (s)
+  if s == nil then
+    s = ""
+  end
+
+  local ns = new_brat(self)
+  ns._lua_string = s
+
+  if type(s) == "string" then
+    ns._lua_string = s
+  elseif type(s) == "table" then
+    if s._lua_string == nil then
+      error("error")
+    else
+      ns._lua_string = s._lua_string
+    end
+  end
+
+  return ns
+end
+
 --Regular expressions
 
 local regex_instance = object:new()

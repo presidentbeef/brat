@@ -77,6 +77,10 @@ make :string_interp
 
 make :simple_string
 
+make :symbol
+
+make :simple_symbol
+
 make :function, :args, :body
 
 make :arg, :id

@@ -55,7 +55,12 @@ regex   = "/" body:("\\/" | !"/" . )* "/" opts:/[mix]*/ <bregex>
 string  = ("''" | "\"\"") <empty_string>
         | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | "\\\\" | !"\"" .)* "\"" <string_interp>
         | "'" svalue:("\\'" | "\\\\" | !"'" .)+ "'" <simple_string>
-        | ":" svalue:(identifier | operator | number)+ <simple_string>
+        | symbol
+
+symbol = ":" svalue:(identifier | operator | number)+ <simple_symbol>
+       | (":''" | ":\"\"") <empty_symbol>
+       | ":'" svalue:("\\'" | "\\\\" | !"'" .)+ "'" <simple_symbol>
+       | ":\"" svalue:("\\\"" | "\\\\" | !"\"" .)+ "\"" <symbol>
 
 string_interpolation = "#" "{" opt_space first:expression? opt_space rest:(eol opt_space expression space?)* spaceorbreak "}" <interp_value>
 

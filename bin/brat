@@ -74,6 +74,7 @@ local interactive = function ()
     exception = exception;
     hash = hash;
     regex = regex;
+    symbol = symbol;
     _self = object;
     _type = type;
     _error = error;

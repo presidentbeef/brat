@@ -49,6 +49,7 @@ h.method_header = "
   local array = array
   local number = number
   local string = base_string
+  local symbol = symbol
   local exception = exception
   local hash = hash
   local regex = regex

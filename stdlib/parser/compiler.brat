@@ -7,6 +7,7 @@ c.init = { ast |
   my.ast = ast
   my.env = env.new
   my.liftable_functions = []
+  my.liftable_strings = [:]
   x = 0
   my.next_liftable = { x = x + 1 }
 }
@@ -16,7 +17,7 @@ c.walk :program { node |
   my.results = node.nodes.map({ n |
     c.process(n)
   })
-  my.results = my.liftable_functions + my.results
+  my.results = my.lifted_strings + my.liftable_functions + my.results
 }
 
 c.walk :local_var_assign { node |
@@ -191,6 +192,21 @@ c.walk :string { node, var = null |
 c.walk :simple_string { node, var = null |
   escaped = node.value.sub("\\[0a-z\"]", "\\%1").sub("\n", '\n')
   set_result var, "string:new('#{escaped}')", type: :string
+}
+
+c.walk :simple_symbol { node, var = null |
+  escaped = node.value.sub("\\[0a-z\"]", "\\%1").sub("\n", '\n')
+  lift_string escaped, var
+}
+
+c.walk :symbol { node, var = null |
+  true? node.nodes.empty?
+    {
+      lift_string '', var
+    }
+    {
+      lift_string escape_string(node.value), var
+    }
 }
 
 c.walk :function { node, var = null |

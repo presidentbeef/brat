@@ -83,6 +83,18 @@ ast :bregex {
   s[:regex my.body.text, my.opts.text]
 }
 
+ast :simple_symbol {
+  s[:simple_symbol my.svalue.text]
+}
+
+ast :empty_symbol {
+  s[:symbol]
+}
+
+ast :symbol {
+  s[:symbol my.svalue.text]
+}
+
 ast :simple_string {
   s[:simple_string my.svalue.text]
 }
@@ -94,7 +106,7 @@ ast :empty_string {
 ast :string_interp {
   list = []
   values.matched.each { e |
-    true? e.has_method?(:node_name) && { e.node_name == "interp_value" }
+    true? e.has_method?(:node_name) && { e.node_name == :interp_value }
       { list << e.ast }
       {
         # Combine consecutive strings into one string
@@ -250,7 +262,7 @@ ast :simple_meth_lhs {
 
   false? index_args.empty?
   {
-    lhs_call = s[:call, lhs_call, "get", index_args]
+    lhs_call = s[:call, lhs_call, :get, index_args]
   }
 
   lhs_call
