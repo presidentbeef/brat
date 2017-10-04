@@ -76,31 +76,30 @@ h.escape_string = { str |
 }
 
 h.lift_string = { str, var, type = :simple |
-  lifted = my.liftable_strings[str]
-  lifted_id = null
-  false? lifted
-    {
-      lifted_id = my.liftable_strings.length
+  lifted_id = my.lifted_string_index[str]
 
-      true? type == :simple
-       { my.liftable_strings[str] = [lifted_id, "symbol:new('#{str}')"] }
-       { my.liftable_strings[str] = [lifted_id, "symbol:new(\"#{str}\")"] }
-    }
+  null? lifted_id
     {
-      lifted_id = lifted.first
+      true? type == :simple
+       { my.liftable_strings << "symbol:new('#{str}')" }
+       { my.liftable_strings << "symbol:new(\"#{str}\")" }
+
+      lifted_id = my.liftable_strings.length
+      my.lifted_string_index[str] = lifted_id
     }
 
   set_result var, "_lifted_strings[#{lifted_id}]", type: :string
 }
 
 h.lifted_strings = {
-  list = []
-  list << r(null, "local _lifted_strings = {}")
+  list = [r(null, "local _lifted_strings = {")]
   o = my
 
-  my.liftable_strings.each { str, lifted |
-    list << o.r(null, "_lifted_strings[#{lifted.first}] = #{lifted.last}" )
+  my.liftable_strings.each { str |
+    list << o.r(null, "#{str}," )
   }
+
+  list << r(null, "}")
 
   list
 }

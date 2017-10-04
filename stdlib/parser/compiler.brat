@@ -7,7 +7,8 @@ c.init = { ast |
   my.ast = ast
   my.env = env.new
   my.liftable_functions = []
-  my.liftable_strings = [:]
+  my.liftable_strings = []
+  my.lifted_string_index = [:]
   x = 0
   my.next_liftable = { x = x + 1 }
 }
