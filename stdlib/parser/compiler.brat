@@ -135,14 +135,31 @@ c.walk :array { node, var = null |
       res = set_result var
       ares_var = res.var
       temp_var = my.env.next_temp
-      out = "#{res.out}\ndo\nlocal #{temp_var}\n#{ares_var} = {}\n"
-      comp = my
+      out = null
 
-      node.nodes.each_with_index { n, i |
-        elem = comp.process n, temp_var
-        out << elem.out << "\n" <<
-          "#{ares_var}[#{i + 1}] = #{elem.var}\n"
-      }
+      true? node.nodes.length > 100
+        {
+          out = "#{res.out}\ndo\nlocal #{temp_var}\n#{ares_var} = {}\n"
+          comp = my
+
+          node.nodes.each_with_index { n, i |
+            elem = comp.process n, temp_var
+            out << elem.out << "\n" <<
+              "#{ares_var}[#{i + 1}] = #{elem.var}\n"
+          }
+        }
+        {
+          out = "#{res.out}\ndo\n"
+          vals = []
+          comp = my
+          node.nodes.each { n |
+            elem = comp.process n
+            out << elem.out << "\n"
+            vals << elem.var
+          }
+
+          out << "#{ares_var} = {" << vals.join(",\n") << "}\n"
+        }
 
       out << "#{ares_var} = array:new(#{ares_var})\nend\n"
 
