@@ -3,13 +3,15 @@ PREFIX=${1:-/usr}
 
 BRATLIB=$PREFIX/lib/brat/
 
+if [ ! -e "stdlib/parser/compiler.lua" ]
+then
+  echo "Run ./build.sh first!"
+  exit -1
+fi
+
 mkdir $BRATLIB
 
 set -e
-
-echo "Building fresh parser..."
-
-tt parser/brat.treetop
 
 echo "Installing..."
 
@@ -17,7 +19,6 @@ cp -fv brat $BRATLIB
 cp -Rfv bin $BRATLIB
 cp -Rfv core $BRATLIB
 cp -Rfv lib $BRATLIB
-cp -Rfv parser $BRATLIB
 cp -Rfv stdlib $BRATLIB
 
 echo "#!/bin/sh
