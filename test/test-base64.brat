@@ -1,0 +1,24 @@
+includes :assert :base64
+
+add_results setup name: "Base64 tests" {
+  test "empty encode string" {
+    assert_equal "", base64.encode("")
+  }
+
+  test "empty decode string" {
+    assert_equal "", base64.decode("")
+  }
+
+  test "encode" {
+    assert_equal "Zm9vYmE=", base64.encode("fooba")
+  }
+
+  test "decode" {
+    assert_equal "fooba", base64.decode("Zm9vYmE=")
+  }
+
+
+  test "encode decode" {
+    assert_equal "AsD 1239 asd (*@+![]/.<>^#*)_ SIODF-+=", base64.decode(base64.encode("AsD 1239 asd (*@+![]/.<>^#*)_ SIODF-+="))
+  }
+}
