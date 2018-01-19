@@ -113,7 +113,11 @@ add_results setup name: "parser tests" {
           x = 6 
             *# 
             x }
+    { #* # *#
+    }
     { # 
+    }
+    { #;+
     }
     { #
       "hi" }

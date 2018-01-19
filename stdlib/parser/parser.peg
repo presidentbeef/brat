@@ -64,8 +64,10 @@ symbol = ":" svalue:(identifier | operator | number)+ <simple_symbol>
 
 string_interpolation = "#" "{" opt_space first:expression? opt_space rest:(eol opt_space expression space?)* spaceorbreak "}" <interp_value>
 
-comment = opt_space "#*" (!"*#" (comment | .))* ("*#" | eof)
-        | opt_space "#" (!(eol | eof) .)*
+block_comment = opt_space "#*" (!"*#" (block_comment | .))* ("*#" | eof)
+
+comment = block_comment
+        | opt_space "#" (!("\n" | eof) .)*
 
 #-- Function definitions
 
