@@ -74,8 +74,9 @@ c.walk :invoke_up { node, var = null |
 }
 
 conds = [:true_question, :false_question, :null_question]
+inlineable_types = [:function, :liftable_function, :string, :simple_string, :symbol, :number, :array, :hash]
 inlineable? = { n |
-  n.null? || { n.name == 'function' || { n.name == 'liftable_function' }}
+  n.null? || { inlineable_types.include? n.name }
 }
 
 c.walk :invoke_self { node, var = null |
