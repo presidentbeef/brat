@@ -1,0 +1,5 @@
+# https://github.com/MakeNowJust/quine/blob/eda9ee316a8a1edacc58677dcb554808fb5fd47b/quine.brat
+
+f = { c, s | p s + c + s + c }
+f 34.to_char, "f = { c, s | p s + c + s + c }
+f 34.to_char, "
