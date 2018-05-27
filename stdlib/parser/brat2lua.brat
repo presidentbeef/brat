@@ -39,4 +39,11 @@ brat2lua.start_interactive = {
   interactive.new
 }
 
+brat2lua.ast_from_string = { str |
+  load_compiler
+  parsed = brat_parser.parse(str, "program", true)
+  ast = parsed.ast
+  ast = var_assigner.new(ast).assign
+}
+
 export brat2lua, :brat2lua
