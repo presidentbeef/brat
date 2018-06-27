@@ -423,8 +423,8 @@ h.get_method = { target, name, res_var |
   "
 }
 
-# Converts function to do/end for if branches
-process_if_branch_func = { node, var |
+# Converts function to do/end
+convert_func_to_do_end = { node, var |
   w = my
   my.env.new_scope
 
@@ -455,7 +455,7 @@ process_if_branch_func = { node, var |
 
 process_if_branch = { node, var |
   true? (node.name == :function || {node.name == :liftable_function})
-    { process_if_branch_func node, var}
+    { convert_func_to_do_end node, var}
     { process node, var }
 }
 
