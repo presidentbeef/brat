@@ -7,8 +7,8 @@ bin/lua
 stdlib/*.lua
 examples/*.lua
 examples/rosetta_code/*.lua
-parser/*.lua
-parser/parser.brat
+stdlib/parser/*.lua
+stdlib/parser/parser.brat
 test/*.lua
 lib/*.so*
 lib/*.dylib
