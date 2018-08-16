@@ -5,9 +5,9 @@ peg_syntax = peg.new {
   #A grammar is a list of rules
   set :grammar action many(ref :line) {
     my.output = { name |
-      "include :peg\n#{name} = peg.new {\n" <<
+      "include :peg\n#{name} = peg.new\n" <<
       matched.map({ e | e.output }).join("\n  ") <<
-      "\n}\n" <<
+      "\n\n" <<
       "export #{name}, \"#{name}_parser\""
     }
   }
@@ -32,7 +32,7 @@ peg_syntax = peg.new {
   #A rule looks like:
   #  name = list of rule items
   set :rule action seq(ref(:rule_name) ref(:opt_spaces) str("=") ref(:opt_spaces) ref(:rule_list) reg(/( )*/)) {
-    my.output = { "set(:#{matched.first.text}, #{matched[-2].output})" }
+    my.output = { "brat.with_this { set(:#{matched.first.text}, #{matched[-2].output}) }" }
   }
 
   #A rule name can only contain word characters

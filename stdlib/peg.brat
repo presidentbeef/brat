@@ -13,7 +13,7 @@ result_match.prototype.to_s = {
 
 peg = object.new
 
-peg.init = { gramma |
+peg.init = { gramma = null |
   my.named_rules = [:]
   my.rule_names = [:]
   my.first = null
