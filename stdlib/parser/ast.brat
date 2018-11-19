@@ -400,7 +400,7 @@ ast :index_get {
   args = add_ast(my.iargs, []).first
 
 
-  true? list.args.length == 1 && { list.args.first.name == :simple_string }
+  true? list.args.length == 1 && { list.args.first.name == :simple_symbol || { list.args.first.name == :simple_string } }
     { list.name = :simple_index_get }
 
   null? args
