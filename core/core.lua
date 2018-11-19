@@ -1253,7 +1253,7 @@ function object:protect (block, options)
 
     if rescue then
       handler = function(err)
-        if type(err) ~= "table" then
+        if type(err) ~= "table" or err._lua_string then
           err = exception:new(tostring(err))
         end
 
