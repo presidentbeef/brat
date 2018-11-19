@@ -85,7 +85,7 @@ if platform.__LINUX__ and not _G.__TURBO_USE_LUASOCKET__ then
             if rc == 0 then
                 error(string.format("[sockutil.lua] Invalid address %s",
                     address))
-            elseif r == -1 then
+            elseif rc == -1 then
                 errno = ffi.errno()
                 error(string.format(
                     "[sockutil.lua Errno %d] Could not parse address. %s",
@@ -109,25 +109,21 @@ if platform.__LINUX__ and not _G.__TURBO_USE_LUASOCKET__ then
     -- an error message on failure.
     -- @param sock A socket descriptor
     -- @param ai a struct addrinfo
-    function sockutils.connect_addrinfo(sock, ai)
-        local p = ffi.new("struct addrinfo *[1]")
+    function sockutils.connect_addrinfo(sock, p)
         local r = 0
         local errno = 0
-        p = ai
-        while 1 do
-            if p == nil then
-                return nil, "Could not connect"
+        if p == nil then
+            return nil, "Could not connect, addrinfo is NULL."
+        end
+        r = C.connect(sock, p.ai_addr, p.ai_addrlen)
+        if r ~= 0 then
+            errno = ffi.errno()
+            if errno == EINPROGRESS then
+                return p
             end
-            r = C.connect(sock, p[0].ai_addr, p[0].ai_addrlen)
-            if r ~= 0 then
-                errno = ffi.errno()
-                if errno == EINPROGRESS then
-                    break
-                end
-            else
-                break
-            end
-            p = p[0].ai_next
+            return nil,
+                string.format("Could not connect. Errno %d: %s",
+                    errno, socket.strerror(errno) or "")
         end
         return p
     end
@@ -176,7 +172,7 @@ if platform.__LINUX__ and not _G.__TURBO_USE_LUASOCKET__ then
         end
         rc, msg = socket.set_nonblock_flag(fd)
         if rc ~= 0 then
-           error("[iostream.lua] " .. msg)
+           error("[tcpserver.lua] " .. msg)
         end
         rc, msg = socket.set_reuseaddr_opt(fd)
         if rc ~= 0 then
@@ -280,7 +276,7 @@ end
 --- Add accept handler for socket with given callback.
 -- Either supply a IOLoop object, or the global instance will be used...
 -- @param sock (Number) Socket file descriptor to add handler for.
--- @param callback (Function) Callback to handle connects. Function recieves
+-- @param callback (Function) Callback to handle connects. Function receives
 -- socket fd (Number) and address (String) of client as parameters.
 -- @param io_loop (IOLoop instance) If not set the global is used.
 -- @param arg Optional argument for callback.

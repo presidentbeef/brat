@@ -297,6 +297,10 @@ function httputil.HTTPParser:get(key, caseinsensitive)
     local value
     local c = 0
     local hdr_sz = tonumber(self.tpw.hkv_sz)
+    -- If caseinsensitive is nil then default to true.
+    if caseinsensitive == nil then
+        caseinsensitive = true
+    end
 
     if hdr_sz <= 0 then
         return nil
@@ -482,7 +486,7 @@ function httputil.parse_multipart_data(data, boundary)
                 local name, ctype
                 local argument = { }
                 for fname, fvalue, content_kvs in
-                   boundary_headers:gmatch("([^%c%s:]+):%s*([^;]*);?([^\n\r]*)") do
+                   boundary_headers:gmatch("([^%c%s:]+):%s*([^\r\n;]*);?([^\n\r]*)") do
                     if fvalue == "form-data" and fname=="content-disposition" then
                         argument[fname] = {}
                         local p = 1

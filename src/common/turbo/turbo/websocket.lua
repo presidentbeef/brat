@@ -86,7 +86,7 @@ if platform.__WINDOWS__ then
                   Catastrophic failure.")
         end
         data = ffi.cast("char*", data)
-        mask = ffi.cast("char*", mask32)
+        local mask = ffi.cast("char*", mask32)
         while i < sz do
             buf[i] = bit.bxor(data[i],  mask[i % 4])
             i = i + 1
@@ -182,8 +182,10 @@ end
 --- Close the connection.
 function websocket.WebSocketStream:close()
     self._closed = true
-    self:_send_frame(true, websocket.opcode.CLOSE, "")
-    self.stream:close()
+    local _self = self
+    self:_send_frame(true, websocket.opcode.CLOSE, "", function()
+        _self.stream:close()
+    end)
 end
 
 --- Is the WebSocketStream closed?
@@ -205,7 +207,7 @@ function websocket.WebSocketStream:_accept_frame(header)
     if self._opcode == websocket.opcode.CLOSE and payload_len >= 126 then
         self:_error(
             "WebSocket protocol error: \
-            Recieved CLOSE opcode with greater than 126 payload.")
+            Received CLOSE opcode with greater than 126 payload.")
         return
     end
     if payload_len < 126 then
@@ -244,9 +246,9 @@ if le then
 
     local _tmp_convert_64 = ffi.new("uint64_t[1]")
     function websocket.WebSocketStream:_frame_len_64(data)
-        ffi.copy(_tmp_convert_64, data, 2)
+        ffi.copy(_tmp_convert_64, data, 8)
         self._payload_len = tonumber(
-            ENDIAN_SWAP_U64(_tmp_convert_64))
+            ENDIAN_SWAP_U64(_tmp_convert_64[0]))
         if self._mask_bit then
             self.stream:read_bytes(4, self._frame_mask_key, self)
         else
@@ -272,7 +274,8 @@ end
 if le then
     -- Multi-byte lengths must be sent in network byte order, aka
     -- big-endian. Ugh...
-    function websocket.WebSocketStream:_send_frame(finflag, opcode, data)
+    function websocket.WebSocketStream:_send_frame(finflag, opcode, data,
+        callback, callback_arg)
         if self.stream:closed() then
             return
         end
@@ -303,17 +306,18 @@ if le then
 
         if self.mask_outgoing == true then
             -- Create a random mask.
-            ws_mask = ffi.new("unsigned char[4]")
+            local ws_mask = ffi.new("unsigned char[4]")
             ws_mask[0] = math.random(0x0, 0xff)
             ws_mask[1] = math.random(0x0, 0xff)
             ws_mask[2] = math.random(0x0, 0xff)
             ws_mask[3] = math.random(0x0, 0xff)
             self.stream:write(ffi.string(ws_mask, 4))
-            self.stream:write(_unmask_payload(ws_mask, data))
+            self.stream:write(_unmask_payload(ws_mask, data), callback, callback_arg)
             return
         end
 
-        self.stream:write(data)
+        -- Do not return until write is flushed to iostream :).
+        self.stream:write(data, callback, callback_arg)
     end
 elseif be then
     -- TODO: create websocket.WebSocketStream:_send_frame for BE.
@@ -336,8 +340,8 @@ end
 --- Called when a new websocket request is opened.
 function websocket.WebSocketHandler:open() end
 
---- Called when a message is recieved.
--- @param msg (String) The recieved message.
+--- Called when a message is receive.
+-- @param msg (String) The receive message.
 function websocket.WebSocketHandler:on_message(msg) end
 
 --- Called when the connection is closed.
@@ -352,7 +356,7 @@ function websocket.WebSocketHandler:on_error(msg) end
 function websocket.WebSocketHandler:prepare() end
 
 --- Called if the client have included a Sec-WebSocket-Protocol field
--- in header. This method will then recieve a table of protocols that
+-- in header. This method will then receive a table of protocols that
 -- the clients wants to use. If this field is not set, this method will
 -- never be called. The return value of this method should be a string
 -- which matches one of the suggested protcols in its parameter.
@@ -398,7 +402,7 @@ function websocket.WebSocketHandler:_execute()
     end
     local prot = self.request.headers:get("Sec-WebSocket-Protocol")
     if prot then
-        prot = prot:split(",")
+        prot = util.strsplit(prot, ",")
         for i=1, #prot do
             prot[i] = escape.trim(prot[i])
         end
@@ -577,6 +581,7 @@ websocket.WebSocketClient = class("WebSocketClient")
 websocket.WebSocketClient:include(websocket.WebSocketStream)
 
 function websocket.WebSocketClient:initialize(address, kwargs)
+    self.mask_outgoing = true
     self.address = address
     self.kwargs = kwargs or {}
     self._connect_time = util.gettimemonotonic()
@@ -597,6 +602,7 @@ function websocket.WebSocketClient:initialize(address, kwargs)
         max_redirects = self.kwargs.max_redirects,
         on_headers = function(http_header)
             http_header:add("Upgrade", "Websocket")
+            http_header:add("Connection", "Upgrade")
             http_header:add("Sec-WebSocket-Key", websocket_key)
             http_header:add("Sec-WebSocket-Version", "13")
             -- WebSocket Sub-Protocol handling...

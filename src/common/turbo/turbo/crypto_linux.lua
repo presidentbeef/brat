@@ -152,12 +152,14 @@ end
 --- Create a server type SSL context.
 -- @param cert_file Certificate file (public key)
 -- @param prv_file Key file (private key)
+-- @param ca_cert_path (optional) Path to CA certificates, or the system
+-- wide in /etc/ssl/certs/ca-certificates.crt will be used.
 -- @param sslv (optional) SSL version to use.
 -- @return Return code. 0 if successfull, else a OpenSSL error
 -- code and a SSL
 -- error string, or -1 and a error string.
 -- @return Allocated SSL_CTX *. Must not be freed. It is garbage collected.
-function crypto.ssl_create_server_context(cert_file, prv_file, sslv)
+function crypto.ssl_create_server_context(cert_file, prv_file, ca_cert_path, sslv)
     local meth
     local ctx
     local err = 0
@@ -183,6 +185,11 @@ function crypto.ssl_create_server_context(cert_file, prv_file, sslv)
     end
     if lssl.SSL_CTX_use_certificate_file(ctx, cert_file,
         crypto.SSL_FILETYPE_PEM) <= 0 then
+        err = lssl.ERR_peek_error()
+        lssl.ERR_clear_error()
+        return err, crypto.ERR_error_string(err)
+    end
+    if lssl.SSL_CTX_use_certificate_chain_file(ctx, cert_file) <= 0 then
         err = lssl.ERR_peek_error()
         lssl.ERR_clear_error()
         return err, crypto.ERR_error_string(err)

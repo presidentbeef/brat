@@ -60,13 +60,18 @@ end
 --- Create or get the global IOLoop instance.
 -- Multiple calls to this function returns the same IOLoop.
 -- @return IOLoop class instance.
-function ioloop.instance()
+function ioloop.instance(func)
+    local iol
     if _G.io_loop_instance then
-        return _G.io_loop_instance
+        iol =  _G.io_loop_instance
     else
-        _G.io_loop_instance = ioloop.IOLoop:new()
-        return _G.io_loop_instance
+        iol = ioloop.IOLoop()
+        _G.io_loop_instance = iol 
     end
+    if func then
+        iol:add_callback(func, iol)
+    end
+    return iol
 end
 
 --- IOLoop is a level triggered I/O loop, with additional support for timeout
@@ -84,6 +89,8 @@ function ioloop.IOLoop:initialize()
     self._intervals = {}
     self._callbacks = {}
     self._signalfds = {}
+    self._timeouts_sz = 0
+    self._intervals_sz = 0
     self._running = false
     self._stopped = false
     -- Set the most fitting poll implementation. The API's are all unified.
@@ -188,17 +195,15 @@ end
 -- @param func (Function)
 -- @param Optional argument for func.
 -- @return (Number) Reference to timeout.
-function ioloop.IOLoop:add_timeout(timestamp, func, arg)
+function ioloop.IOLoop:add_timeout(timestamp, func, arg) 
     local i = 1
 
-    while true do
-        if self._timeouts[i] == nil then
-            break
-        else
-            i = i + 1
-        end
+    while self._timeouts[i] ~= nil do
+        -- Find hole in Lua table...
+        i = i + 1
     end
-    self._timeouts[i] = _Timeout:new(timestamp, func, arg)
+    self._timeouts_sz = self._timeouts_sz + 1
+    self._timeouts[i] = _Timeout(timestamp, func, arg)
     return i
 end
 
@@ -208,6 +213,7 @@ end
 function ioloop.IOLoop:remove_timeout(ref)
     if self._timeouts[ref] then
         self._timeouts[ref] = nil
+        self._timeouts_sz = self._timeouts_sz - 1
         return true
     else
         return false
@@ -223,9 +229,11 @@ function ioloop.IOLoop:set_interval(msec, func, arg)
     local i = 1
 
     while self._intervals[i] ~= nil do
+        -- Find hole in Lua table...
         i = i + 1
     end
-    self._intervals[i] = _Interval:new(msec, func, arg)
+    self._intervals[i] = _Interval(msec, func, arg)
+    self._intervals_sz = self._intervals_sz + 1
     return i
 end
 
@@ -235,6 +243,7 @@ end
 function ioloop.IOLoop:clear_interval(ref)
     if self._intervals[ref] then
         self._intervals[ref] = nil
+        self._intervals_sz = self._intervals_sz - 1
         return true
     else
         return false
@@ -357,15 +366,20 @@ function ioloop.IOLoop:start()
                 poll_timeout = 0
             end
         end
-        local timeout_sz = #self._timeouts
+        local timeout_sz = self._timeouts_sz
         if timeout_sz ~= 0 then
             local current_time = util.gettimemonotonic()
-            for i = 1, timeout_sz do
+            local timeouts_run = 0
+            local i = 0
+            while timeouts_run ~= timeout_sz do
                 if self._timeouts[i] ~= nil then
-                    local time_until_timeout = self._timeouts[i]:timed_out(current_time)
+                    timeouts_run = timeouts_run + 1
+                    local time_until_timeout = 
+                        self._timeouts[i]:timed_out(current_time)
                     if time_until_timeout == 0 then
                         self:_run_callback({self._timeouts[i]:callback()})
                         self._timeouts[i] = nil
+                        self._timeouts_sz = self._timeouts_sz - 1
                         -- Function may have scheduled work for next iteration
                         -- must Drop timeout, without this, yielding from a request
                         -- handler that adds a timeout couroutine task will not wake
@@ -379,24 +393,29 @@ function ioloop.IOLoop:start()
                         end
                     end
                 end
+                i = i + 1
             end
         end
-        local intervals_sz = #self._intervals
+        local intervals_sz = self._intervals_sz
         if intervals_sz ~= 0 then
             local time_now = util.gettimemonotonic()
-            for i = 1, intervals_sz do
-                if self._intervals[i] ~= nil then
-                    local timed_out = self._intervals[i]:timed_out(time_now)
+            local intervals_run = 0
+            local i = 0
+            while intervals_run ~= intervals_sz do
+                local interval = self._intervals[i]
+                if interval ~= nil then
+                    intervals_run = intervals_run + 1
+                    local timed_out = interval:timed_out(time_now)
                     if timed_out == 0 then
                         self:_run_callback({
-                            self._intervals[i].callback,
-                            self._intervals[i].arg
+                            interval.callback,
+                            interval.arg
                             })
                         -- Get current time to protect against building
                         -- diminishing interval time on heavy functions.
                         -- It is debatable wether this feature is wanted or not.
                         time_now = util.gettimemonotonic()
-                        local next_call = self._intervals[i]:set_last_call(
+                        local next_call = interval:set_last_call(
                             time_now)
                         if next_call < poll_timeout then
                             poll_timeout = next_call
@@ -408,6 +427,7 @@ function ioloop.IOLoop:start()
                         end
                     end
                 end
+                i = i + 1
             end
         end
         if self._stopped == true then
@@ -480,16 +500,18 @@ end
 function ioloop.IOLoop:wait(timeout)
     assert(self:running() == false, "Can not wait, already started")
     local timedout
+    local ref
     if timeout then
-        local io = self
-        self:add_timeout(util.gettimemonotonic() + (timeout*1000), function()
+        local _ioloop = self
+        ref = self:add_timeout(util.gettimemonotonic() + (timeout*1000), function()
             timedout = true
-            io:close()
+            _ioloop:close()
         end)
     end
     self:start()
     assert(self:running() == false, "IO Loop stopped unexpectedly")
     assert(not timedout, "Sync wait operation timed out.")
+    self:remove_timeout(ref)
     return true
 end
 
@@ -509,20 +531,27 @@ end
 function ioloop.IOLoop:_run_handler(fd, events)
     local ok
     local handler = self._handlers[fd]
+    if not handler then
+        log.error(string.format("Critical error, no handler for fd: %d.", fd))
+        return
+    end
     -- handler[1] = function.
     -- handler[2] = optional first argument for function.
     -- If there is no optional argument, do not add it as parameter to the
     -- function as that creates a big nuisance for consumers of the API.
-    if handler[2] then
+    local func = handler[1]
+    local arg = handler[2]
+
+    if arg then
         ok = xpcall(
-            handler[1],
+            func,
             _run_handler_error_handler,
-            handler[2],
+            arg,
             fd,
             events)
     else
         ok = xpcall(
-            handler[1],
+            func,
             _run_handler_error_handler,
             fd,
             events)
@@ -553,7 +582,10 @@ function ioloop.IOLoop:_run_callback(callback)
     local co = coroutine.create(_run_callback_protected)
     -- callback index 1 = function
     -- callback index 2 = arg
-    local rc = self:_resume_coroutine(co, {callback[1], callback[2]})
+    local func = callback[1]
+    local arg = callback[2]
+
+    local rc = self:_resume_coroutine(co, {func, arg})
     return rc
 end
 

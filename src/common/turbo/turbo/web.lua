@@ -65,7 +65,7 @@ web.RequestHandler = class("RequestHandler")
 
 --- Initialize a new RequestHandler class instance.
 -- Normally a user is not the one to initialize this, but rather a Application
--- class instance which has recieved a HTTP request. Normal there should not be
+-- class instance which has receive a HTTP request. Normal there should not be
 -- a need for you to redefine this initializer,  instead look at the different
 -- entry points given longer down.
 -- @param application (Application instance) The calling application should
@@ -108,7 +108,7 @@ function web.RequestHandler:prepare() end
 
 --- Redefine this method if you want to do something straight after the class
 -- has been initialized. This is called after a request has been
--- recieved, and before the HTTP method has been verified against supported
+-- receive, and before the HTTP method has been verified against supported
 -- methods. So if a not supported method is requested, this method is still
 -- called.
 function web.RequestHandler:on_create(kwargs) end
@@ -118,7 +118,7 @@ function web.RequestHandler:on_create(kwargs) end
 function web.RequestHandler:on_finish() end
 
 --- Redefine this method to set HTTP headers at the beginning of all the
--- request recieved by the RequestHandler. For example setting some kind
+-- request receive by the RequestHandler. For example setting some kind
 -- of cookie or adjusting the Server key in the headers would be sensible
 -- to do in this method.
 function web.RequestHandler:set_default_headers() end
@@ -127,7 +127,7 @@ function web.RequestHandler:set_default_headers() end
 -- Subclass RequestHandler and implement any of the following methods to handle
 -- the corresponding HTTP request.
 -- If not implemented they will provide a 405 (Method Not Allowed).
--- These methods recieve variable arguments, depending on what the Application
+-- These methods receive variable arguments, depending on what the Application
 -- instance calling them has captured from the pattern matching of the request
 -- URL. The methods are run protected, so they are error safe. When a error
 -- occurs in the execution of these methods the request is given a
@@ -302,7 +302,7 @@ function web.RequestHandler:redirect(url, permanent)
     if self._headers_written then
         error("Cannot redirect after headers have been written")
     end
-    local status = permanent and 302 or 301
+    local status = permanent and 301 or 302
     self:set_status(status)
     self:add_header("Location", url)
     self:finish()
@@ -322,6 +322,13 @@ function web.RequestHandler:send_error(status_code, msg)
         error(web.HTTPError(status_code))
     end
 end
+
+--- Check status of request being handled. If finished the response is sent.
+-- @return (Boolean) true or false.
+function web.RequestHandler:finished()
+    return self._finished == true
+end
+
 
 --- Get cookie value from incoming request.
 -- @param name The name of the cookie to get.
@@ -361,7 +368,7 @@ function web.RequestHandler:get_secure_cookie(name, default, max_age)
     if max_age then
         max_age = max_age * 1000 -- Get milliseconds.
         local cookietime = tonumber(timestamp)
-        assert(util.getimeofday() - timestamp < max_age, "Cookie has expired.")
+        assert(util.gettimeofday() - timestamp < max_age, "Cookie has expired.")
     end
     local hmac_cmp = hash.HMAC(self.application.kwargs.cookie_secret,
                                string.format("%d|%s|%s",
@@ -543,15 +550,17 @@ function web.RequestHandler:flush(callback, arg)
 end
 
 function web.RequestHandler:_gen_headers()
-    if not self:get_header("Content-Type") then
-        -- No content type is set, assume that it is text/html.
-        -- This might not be preferable in all cases.
-        self:add_header("Content-Type", "text/html; charset=UTF-8")
-    end
-    if not self:get_header("Content-Length") and not self.chunked then
-        -- No length is set, add current write buffer size.
-        self:add_header("Content-Length",
-            tonumber(self._write_buffer:len()))
+    if self:get_status() ~= 204 then
+        if not self:get_header("Content-Type") then
+            -- No content type is set, assume that it is text/html.
+            -- This might not be preferable in all cases.
+            self:add_header("Content-Type", "text/html; charset=UTF-8")
+        end
+        if not self:get_header("Content-Length") and not self.chunked then
+            -- No length is set, add current write buffer size.
+            self:add_header("Content-Length",
+                tonumber(self._write_buffer:len()))
+        end
     end
     self.headers:set_status_code(self._status_code)
     self.headers:set_version("HTTP/1.1")
@@ -720,6 +729,25 @@ end
 --- Called in asynchronous handlers when the connection is closed.
 function web.RequestHandler:on_connection_close() end
 
+function web.RequestHandler:_execute_func_table_unpack(func)
+    if type(func) == "table" then
+        for i = 1, #func, 1 do
+            func[i](self, unpack(self._url_args))
+        end
+    else
+        func(self, unpack(self._url_args))
+    end
+end
+
+function web.RequestHandler:_execute_func_table(func)
+    if type(func) == "table" then
+        for i = 1, #func, 1 do
+            func[i](self)
+        end
+    else
+        func(self)
+    end
+end
 
 --- Main entry point for the Application class.
 function web.RequestHandler:_execute()
@@ -732,10 +760,38 @@ function web.RequestHandler:_execute()
     if not self._finished then
         -- If there is no URL args then do not unpack as this has a significant
         -- cost.
+        local method = self[self.request.method:lower()]
         if self._url_args and #self._url_args > 0 then
-            self[self.request.method:lower()](self, unpack(self._url_args))
-        else
-            self[self.request.method:lower()](self)
+            if type(method) == "table" then
+                -- Table based request method.
+                if method.pre then
+                    self:_execute_func_table_unpack(method.pre)
+                end
+                if method.main then
+                    self:_execute_func_table_unpack(method.main)
+                end
+                if method.post then
+                    self:_execute_func_table_unpack(method.post)
+                end
+            else
+                method(self, unpack(self._url_args))
+            end
+        else    
+            if type(method) == "table" then
+                -- Table based request method.
+                if method.pre then
+                    self:_execute_func_table(method.pre)
+                end
+                if method.main then
+                    self:_execute_func_table(method.main)
+                end
+                if method.post then
+                    self:_execute_func_table(method.post)
+                end
+            else
+                -- Is function based method.
+                method(self)
+            end
         end
         if self._auto_finish and not self._finished then
             self:finish()
@@ -789,7 +845,7 @@ function web._StaticWebCache:get_file(path)
     local cf = self.files[path]
 
     -- Full path hash lookup.
-    if cf then
+    if cf and STATICWEBCACHE_MAX ~= -1 then
         -- index 1 = type
         -- index 2 = stat_t
         -- index 3 = buf or file
@@ -878,7 +934,7 @@ function web._StaticWebCache:get_mime(path)
     if not path then
         error("No filename suplied to get_mime()")
     end
-    local parts = path:split(".")
+    local parts = util.strsplit(path, ".")
     if #parts == 0 then
         return -1
     end
@@ -1117,7 +1173,7 @@ function web.Application:initialize(handlers, kwargs)
     self.kwargs = kwargs or {}
     self.settings = self.kwargs.settings
     self.default_host = self.kwargs.default_host
-    self.application_name = self.kwargs.application_name or "Turbo.lua v1.1"
+    self.application_name = self.kwargs.application_name or "Turbo.lua v2"
 end
 
 --- Sets the server name.
@@ -1180,7 +1236,7 @@ end
 
 local _str_borders_down = string.rep("▼", 80)
 local _str_borders_up = string.rep("▲", 80)
---- Entry point for requests recieved by HTTPServer.
+--- Entry point for requests receive by HTTPServer.
 -- @param request (HTTPRequest instance)
 function web.Application:__call(request)
     local handler = nil

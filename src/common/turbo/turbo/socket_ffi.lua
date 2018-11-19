@@ -16,6 +16,7 @@
 
 local log = require "turbo.log"
 local util = require "turbo.util"
+local bit = jit and require "bit" or require "bit32"
 local ffi = require "ffi"
 local platform = require "turbo.platform"
 require "turbo.cdef"
@@ -288,7 +289,8 @@ E = {
     EWOULDBLOCK =       11,
     EINPROGRESS =       150,
     ECONNRESET =        131,
-    EPIPE =             32
+    EPIPE =             32,
+    EAI_AGAIN =         3
 }
 else
 E = {
@@ -296,7 +298,8 @@ E = {
     EWOULDBLOCK =       11,
     EINPROGRESS =       115,
     ECONNRESET =        104,
-    EPIPE =             32
+    EPIPE =             32,
+    EAI_AGAIN =         3
 }
 end
 
@@ -338,7 +341,7 @@ if platform.__LINUX__ and not _G.__TURBO_USE_LUASOCKET__ then
            return 0
         end
         flags = bit.bor(flags, O.O_NONBLOCK)
-        rc = ffi.C.fcntl(fd, F.F_SETFL, flags)
+        local rc = ffi.C.fcntl(fd, F.F_SETFL, flags)
         if rc == -1 then
            return -1, "fcntl set O_NONBLOCK failed."
         end

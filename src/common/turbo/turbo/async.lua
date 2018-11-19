@@ -83,7 +83,7 @@ end
 -- muliple :fetch()'s with the same class instance. If the instance is already
 -- in use then it will return a error.
 --
--- Note: Do not throw errors in this class. The caller will not recieve them as
+-- Note: Do not throw errors in this class. The caller will not receive them as
 -- all the code is done outside the yielding coroutines call stack, except for
 -- calls to fetch(). But for the sake of continuity, there are no raw errors
 -- thrown from this method either.
@@ -99,7 +99,7 @@ end
 -- self.request = (HTTPHeaders class instance) The request header sent to
 --  the server.
 -- self.code = (Number) The response code
--- self.headers = (HTTPHeader class instance) Response headers recieved from
+-- self.headers = (HTTPHeader class instance) Response headers receive from
 --  the server.
 -- self.body = (String) Body of response
 -- self.error = (Table) Table with code and message members. Possible codes is
@@ -161,6 +161,7 @@ async.errors = errors
 -- ** Available options **
 -- ``method`` = The HTTP method to use. Default is ``GET``
 -- ``params`` = Provide parameters as table.
+-- ``keep_alive`` = Reuse connection if the scenario supports it.
 -- ``cookie`` = (Table) The cookie(s) to use.
 -- ``http_version`` = Set HTTP version. Default is HTTP1.1
 -- ``use_gzip`` = Use gzip compression. Default is true.
@@ -195,33 +196,67 @@ function async.HTTPClient:fetch(url, kwargs)
     self.kwargs.user_agent = self.kwargs.user_agent or "Turbo Client v2.0.0"
     self.kwargs.connect_timeout = self.kwargs.connect_timeout or 30
     self.kwargs.request_timeout = self.kwargs.request_timeout or 60
+    -- Store away old hostname and port if keep-alive and this is a
+    -- 2nd run.
+    local re_use_connection = false
+    local kept_alive = self:_is_kept_alive()
+    if kept_alive and self.hostname and self.port then
+        self.prev_hostname = self.hostname
+        self.prev_port = self.port
+        self.prev_schema = self.schema
+    end
     if self:_set_url(url) == -1 then
         return self.coctx
     end
-    local sock, msg = socket.new_nonblock_socket(self.family,
-        socket.SOCK_STREAM,
-        0)
-    if sock == -1 then
-        -- Could not create a new socket. Highly unlikely case.
-        self:_throw_error(errors.SOCKET_ERROR, msg)
-        return self.coctx
+    if kept_alive and self.prev_hostname == self.hostname and
+        (self.port ~= nil and self.prev_port == self.port) and
+        self.prev_schema == self.schema then
+        re_use_connection = true
+
+    else
+        if self.iostream then self.iostream:close() end
+
+        local sock, msg = socket.new_nonblock_socket(self.family,
+            socket.SOCK_STREAM,
+            0)
+        if sock == -1 then
+            -- Could not create a new socket. Highly unlikely case.
+            self:_throw_error(errors.SOCKET_ERROR, msg)
+            return self.coctx
+        end
+        self.sock = sock
     end
-    self.sock = sock
     -- Reset states from previous fetch.
     self.redirect = 0
     self.s_connecting = false
     self.s_error = false
     self.error_str = ""
     self.error_code = 0
-    self:_connect() -- No point to check return, as this is the last thing to happen.
-    -- Assuming the method is yielded the returned context is placed in the
-    -- IOLoop, awaiting further work, or returning error being set.
-    self.coctx:set_state(coctx.states.WAIT_COND)
+    if not re_use_connection then
+        self:_connect() -- No point to check return, as this is the last thing to happen.
+        -- Assuming the method is yielded the returned context is placed in the
+        -- IOLoop, awaiting further work, or returning error being set.
+        self.coctx:set_state(coctx.states.WAIT_COND)
+    else
+        -- Reusing connection
+        self.headers = httputil.HTTPHeaders()
+        self.req = nil
+        self:_handle_connect()
+    end
     return self.coctx
 end
 
 local function _parse_url_error_handler(err)
     log.error(string.format("Could not parse URL. %s", err))
+end
+
+function async.HTTPClient:_is_kept_alive()
+    if self.kwargs.keep_alive and self.iostream and 
+        not self.iostream:closed() then
+        return true
+    else
+        return false
+    end
 end
 
 function async.HTTPClient:_set_url(url)
@@ -241,10 +276,21 @@ function async.HTTPClient:_set_url(url)
         return -1
     end
     self.hostname = parser:get_url_field(httputil.UF.HOST)
+    self.schema = parser:get_url_field(httputil.UF.SCHEMA)
     self.port = tonumber(parser:get_url_field(httputil.UF.PORT))
+    if not self.port then
+        if self.schema == "http" then
+            self.port = 80
+        elseif self.schema == "https" then
+            self.port = 443
+        elseif self.schema == "ws" then
+            self.port = 80
+        elseif self.schema == "wss" then
+            self.port = 443
+        end
+    end
     self.path = parser:get_url_field(httputil.UF.PATH)
     self.query = parser:get_url_field(httputil.UF.QUERY)
-    self.schema = parser:get_url_field(httputil.UF.SCHEMA)
     self.req = self:_prepare_http_request()
     if self.req == -1 then
         return -1
@@ -256,27 +302,18 @@ end
 function async.HTTPClient:_connect()
     if self.schema == "http" then
         -- Standard HTTP connect.
-        if not self.port then
-            -- Default to port 80 if not specified in URL.
-            self.port = 80
-        end
         self.iostream = iostream.IOStream(
             self.sock,
             self.io_loop,
-            self.max_buffer_size)
-        local rc, msg = self.iostream:connect(
+            self.max_buffer_size,
+            {dns_timeout = self.kwargs.connect_timeout-1})
+        self.iostream:connect(
             self.hostname,
             self.port,
             self.family,
             self._handle_connect,
             self._handle_connect_fail,
             self)
-        if rc ~= 0 then
-            -- If connect fails without blocking the hostname is most probably
-            -- not resolvable.
-            self:_throw_error(errors.COULD_NOT_CONNECT, msg)
-            return -1
-        end
     elseif self.schema == "https" then
         -- HTTPS connect.
         -- Create context if not already done.
@@ -302,16 +339,13 @@ function async.HTTPClient:_connect()
             self.ssl_options._ssl_ctx = ctx_or_err
             self.ssl_options._type = 1  -- set type as client...
         end
-        if not self.port then
-            -- Default to port 443 if not specified in URL.
-            self.port = 443
-        end
         self.iostream = iostream.SSLIOStream(
             self.sock,
             self.ssl_options,
             self.io_loop,
-            self.max_buffer_size)
-        local rc, msg = self.iostream:connect(
+            self.max_buffer_size,
+            {dns_timeout = self.kwargs.connect_timeout-1})
+        self.iostream:connect(
             self.hostname,
             self.port,
             self.family,
@@ -319,31 +353,21 @@ function async.HTTPClient:_connect()
             self._handle_connect,
             self._handle_connect_fail,
             self)
-        if rc ~= 0 then
-            self:_throw_error(errors.COULD_NOT_CONNECT, msg)
-            return -1
-        end
     elseif self.kwargs.allow_websocket_connect == true then
         -- Allow a user to use the client to connect with WebSocket schema.
         -- HTTPClient will not do the actual WebSocket upgrade protocol though.
         if self.schema == "ws" then
-            if not self.port then
-                self.port = 80
-            end
             self.iostream = iostream.IOStream(
                 self.sock,
                 self.io_loop,
-                self.max_buffer_size)
+                self.max_buffer_size,
+                {dns_timeout = self.kwargs.connect_timeout-1})
             local rc, msg = self.iostream:connect(self.hostname,
                 self.port,
                 self.family,
                 self._handle_connect,
                 self._handle_connect_fail,
                 self)
-            if rc ~= 0 then
-                self:_throw_error(errors.COULD_NOT_CONNECT, msg)
-                return -1
-            end
         elseif self.schema == "wss" then
             if not self.ssl_options or not self.ssl_options._ssl_ctx then
                 self.ssl_options = self.ssl_options or {}
@@ -362,15 +386,13 @@ function async.HTTPClient:_connect()
                 self.ssl_options._ssl_ctx = ctx_or_err
                 self.ssl_options._type = 1
             end
-            if not self.port then
-                self.port = 443
-            end
             self.iostream = iostream.SSLIOStream(
                 self.sock,
                 self.ssl_options,
                 self.io_loop,
-                self.max_buffer_size)
-            local rc, msg = self.iostream:connect(
+                self.max_buffer_size,
+                {dns_timeout = self.kwargs.connect_timeout-1})
+            self.iostream:connect(
                 self.hostname,
                 self.port,
                 self.family,
@@ -378,10 +400,6 @@ function async.HTTPClient:_connect()
                 self._handle_connect,
                 self._handle_connect_fail,
                 self)
-            if rc ~= 0 then
-                self:_throw_error(errors.COULD_NOT_CONNECT, msg)
-                return -1
-            end
         end
     else
         -- Some other strange schema that not is HTTP or supported at all.
@@ -410,9 +428,13 @@ function async.HTTPClient:_handle_connect_timeout()
         self.kwargs.connect_timeout))
 end
 
-function async.HTTPClient:_handle_connect_fail(err, strerr)
+function async.HTTPClient:_handle_connect_fail(strerr)
+    if self.connect_timeout_ref then
+        self.io_loop:remove_timeout(self.connect_timeout_ref)
+        self.connect_timeout_ref = nil
+    end
     self:_throw_error(errors.COULD_NOT_CONNECT,
-        "Could not connect: " .. strerr or "")
+        "Could not connect: " .. (strerr or ""))
 end
 
 function async.HTTPClient:_prepare_http_request()
@@ -545,7 +567,7 @@ end
 function async.HTTPClient:_handle_headers(data)
     if not data then
         self:_throw_error(errors.NO_HEADERS,
-            "No data recieved after connect. Expected HTTP headers.")
+            "No data receive after connect. Expected HTTP headers.")
         return
     end
     local status, headers = xpcall(httputil.HTTPParser,
@@ -620,9 +642,18 @@ function async.HTTPClient:_handle_redirect(location)
     local old_schema = self.schema
     local old_host = self.hostname
     self:_set_url(location)
+    -- Port may not be set by _set_url if there is none defined in redirect
+    -- URL. Use defaults for known schemas.
+    if not self.port then
+        if self.schema == "http" then 
+            self.port = 80
+        elseif self.schema == "https" then
+            self.port = 443
+        end
+    end
     if self.response_headers:get("Connection") == "close" or
-        self.iostream:closed() or old_host ~= self.hostname then
-        -- Call close to be sure that it really is closed...
+        self.iostream:closed() or old_host ~= self.hostname or
+        old_schema ~= self.schema then
         self.iostream:close()
         local sock, msg = socket.new_nonblock_socket(self.family,
             socket.SOCK_STREAM,
@@ -648,6 +679,7 @@ function async.HTTPClient:_throw_error(code, msg)
 end
 
 function async.HTTPClient:_finalize_request()
+    self.in_progress = false
     if self.request_timeout_ref then
         self.io_loop:remove_timeout(self.request_timeout_ref)
     end

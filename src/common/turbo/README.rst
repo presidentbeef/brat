@@ -50,7 +50,7 @@ If installation fails make sure that you have these required pacakages:
 ``apt-get install luajit luarocks git build-essential libssl-dev``
 
 For Windows run the included install.bat file.
-This will install all dependencies: Visual Studio, git, mingw, gnuwin, openssl using Chocolatey. LuaJIT, the LuaRocks package manager and Turbo will be installed at C:\turbo.lua. It will also install LuaSocket and LuaFileSystem with LuaRocks. The Windows environment will be ready to use upon success.
+This will install all dependencies: Visual Studio, git, mingw, gnuwin, openssl using Chocolatey. LuaJIT, the LuaRocks package manager and Turbo will be installed at C:\\turbo.lua. It will also install LuaSocket and LuaFileSystem with LuaRocks. The Windows environment will be ready to use upon success.
 
 Try: ``luajit C:\turbo.lua\src\turbo\examples\helloworld.lua``
 
@@ -95,7 +95,7 @@ OpenSSL is required for SSL support. It is possible to run without this feature,
 
 License
 -------
-Copyright 2011 - 2015 John Abrahamsen
+Copyright 2011 - 2016 John Abrahamsen
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
