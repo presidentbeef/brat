@@ -155,7 +155,7 @@ add_results setup name: "miscellaneous tests" {
   }
 
   test "rescue" {
-    assert_equal "eep" { protect { throw 'eep' } rescue: { e | e } }
+    assert_equal "eep" { protect { throw 'eep' } rescue: { e | e.error_message } }
     assert_equal "hello" { protect { throw 'eep' } rescue: { 'hello' } }
   }
 
