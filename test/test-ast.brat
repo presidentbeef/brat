@@ -452,6 +452,14 @@ add_results setup name: "Brat AST tests" {
                         s[:simple_symbol :a]]]
   }
 
+  test "simple symbol index set" {
+    ast "x[:a] = 1" s[:call
+                      s[:get_value :x]
+                      :set
+                      [s[:simple_symbol :a]
+                        s[:number 1]]]
+  }
+
   test "nested index set" {
     ast "x[1][2] = :a" s[:call
                         s[:call
