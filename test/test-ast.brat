@@ -82,7 +82,7 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "simple symbol" {
-    ast ':x' s[:simple_string 'x']
+    ast ':x' s[:simple_symbol 'x']
   }
 
   test "double quotes" {
@@ -90,13 +90,13 @@ add_results setup name: "Brat AST tests" {
   }
 
   test "string interp" {
-    ast '"#{:x}"' s[:string_interp s[:string_eval s[:simple_string :x]]]
+    ast '"#{:x}"' s[:string_interp s[:string_eval s[:simple_symbol :x]]]
   }
 
   test "string multiple line interp" {
     ast '"#{:x; 1}"' s[:string_interp
                       s[:string_eval
-                        s[:simple_string :x]
+                        s[:simple_symbol :x]
                         s[:number 1]]]
   }
 
@@ -106,10 +106,10 @@ add_results setup name: "Brat AST tests" {
       s[:string_interp
         s[:string "hi "]
         s[:string_eval
-          s[:simple_string :name]]
+          s[:simple_symbol :name]]
         s[:string "! What is "]
         s[:string_eval
-          s[:simple_string :up]]
+          s[:simple_symbol :up]]
         s[:string "?"]]
   }
 
@@ -377,7 +377,7 @@ add_results setup name: "Brat AST tests" {
                       :get
                       [s[:number 1]]]
                     :get
-                    [s[:simple_string :a]]]
+                    [s[:simple_symbol :a]]]
   }
 
   test "simple index get invoke" {
@@ -398,7 +398,7 @@ add_results setup name: "Brat AST tests" {
                             [s[:number 1]]]
                           :get
                           [s[:number 2]]]
-                        [s[:simple_string :a]]]
+                        [s[:simple_symbol :a]]]
   }
 
   test "index get with multiple indexes" {
@@ -449,7 +449,15 @@ add_results setup name: "Brat AST tests" {
                       s[:get_value :x]
                       :set
                       [s[:number 1]
-                        s[:simple_string :a]]]
+                        s[:simple_symbol :a]]]
+  }
+
+  test "simple symbol index set" {
+    ast "x[:a] = 1" s[:simple_index_set
+                      s[:get_value :x]
+                      :set
+                      [s[:simple_symbol :a]
+                        s[:number 1]]]
   }
 
   test "nested index set" {
@@ -460,12 +468,12 @@ add_results setup name: "Brat AST tests" {
                           [s[:number 1]]]
                         :set
                         [s[:number 2]
-                          s[:simple_string :a]]]
+                          s[:simple_symbol :a]]]
   }
 
   test "string hash value" {
     ast "[:! : 1]" s[:hash
-                    [s[:simple_string, "!"], s[:number, 1]]]
+                    [s[:simple_symbol, "!"], s[:number, 1]]]
   }
 
   test "parenthesized expression" {
