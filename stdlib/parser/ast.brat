@@ -432,7 +432,7 @@ ast :index_set {
       args = add_ast my.sindexes, []
       args << my.elements.last.ast
 
-      true? args.first.name == :simple_string
+      true? args.first.name == :simple_symbol || { args.first.name == :simple_string }
         { list.name = :simple_index_set }
 
       list << :set << args
