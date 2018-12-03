@@ -5038,7 +5038,7 @@ si.upcase_bang = nil
 si.sub_bang = nil
 si.sub_underfirst_bang = nil
 si.set = nil
-si.less_less = nil
+si._less_less = nil
 si.reverse_bang = nil
 
 symbol._prototype = si
