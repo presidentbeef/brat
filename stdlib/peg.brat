@@ -27,33 +27,31 @@ peg.prototype.next_id = {
   my.rule_id = my.rule_id + 1
 }
 
-peg.make_memo = { result, pos |
-  true? result
-    {
-      m = object.new
-      m.result = result
-      m.pos = pos
-      m
-    }
-}
-
 memo_rule = { x |
   m = memo[x.pos]
+
   null? m
   {
     current = x.pos
     res = rule x
-    memo[current] = peg.make_memo res, x.pos
-    true? res && { null? res.rule_name }
-      { res.rule_name = rules[->real] }
+    true? res
+    {
+      null? res.rule_name
+        { res.rule_name = rules[->real] }
+
+      memo[current] = [res, x.pos]
+    }
+    {
+      memo[current] = false
+    }
 
     res
   }
   {
     true? m
     {
-      x.pos = m.pos
-        m.result
+      x.pos = m[1]
+      m[0]
     }
   }
 }
