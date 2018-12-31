@@ -15,30 +15,23 @@ peg = object.new
 
 peg.init = { gramma = null |
   my.named_rules = [:]
-  my.rule_names = [:]
   my.first = null
   my.rule_id = 0
-  my.memo = [:]
+  my.memo = []
 
   gramma #Actually set up parser
 }
 
-peg.prototype.next_id = {
-  my.rule_id = my.rule_id + 1
-}
-
-memo_rule = { x |
+memo_rule = { x, rule, memo |
   m = memo[x.pos]
 
   null? m
   {
     current = x.pos
     res = rule x
+
     true? res
     {
-      null? res.rule_name
-        { res.rule_name = rules[->real] }
-
       memo[current] = [res, x.pos]
     }
     {
@@ -57,14 +50,10 @@ memo_rule = { x |
 }
 
 peg.prototype.make_rule = { rule |
-  r = object.new
-  r.memo = [:]
-  memo[next_id] = r.memo
-  r.rule = ->rule
-  r.rules = my.rule_names
-  r.memo_rule = ->memo_rule
+  rule_memo = [:]
+  memo << rule_memo
 
-  r.real = { x | r.memo_rule x }
+  { x | memo_rule x, ->rule, rule_memo }
 }
 
 peg.make_result = { match_pos, end_pos, matched, rule_name = null |
@@ -96,7 +85,7 @@ peg.prototype.parse = { str, start_rule = null, fully = false |
   null? start_rule
     { start_rule = my.first }
 
-  my.memo.each_value { v | v.clear }
+  my.memo.each { v | v.clear }
 
   s = scanner.new str
   rule = my.named_rules[start_rule]
@@ -311,13 +300,25 @@ peg.prototype.and = { rule |
   make_rule { x | and_matcher x, ->rule }
 }
 
+set_namer = { x, rule, name |
+  res = rule x
+
+  true? res
+  {
+    res.rule_name = name
+  }
+
+  res
+}
+
 #Set a named rule
 peg.prototype.set = { name, rule |
   null? my.first
     { my.first = name }
 
-  my.rule_names[->rule] = name
-  my.named_rules[name] = ->rule
+
+  r = make_rule { x | set_namer x, ->rule, name }
+  my.named_rules[name] = ->r
 }
 
 anything_matcher = { x |
