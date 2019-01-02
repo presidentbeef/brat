@@ -65,11 +65,22 @@ peg.make_result = { match_pos, end_pos, matched, rule_name = null |
   result.labels = null
   result.rule_name = rule_name
 
-  when { matched.string? } { result.text = matched }
-       { matched.has_method? :full_match } { result.text = matched.full_match }
-       { matched.array? } { result.text = { matched.map(:text).join } }
-       { matched.has_method? :text } { result.text = matched->text }
-       { true } { result.text = "" }
+  true? matched.string?
+    { result.text = matched }
+    {
+       true? matched.has_method?(:full_match)
+         { result.text = matched.full_match }
+         {
+           true? matched.array?
+           { result.text = { matched.map(:text).join } }
+          { true? matched.has_method?(:text)
+            { result.text = matched->text }
+            { result.text = "" }
+          }
+        }
+    }
+
+
 
   true? matched.array?
     { result.elements = matched }
