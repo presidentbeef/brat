@@ -41,7 +41,7 @@
         this.each(function() {
           returning.push(this.replace(regexp,
                                       function(match) {
-                                        var url = (/^[a-z]+:/i).test(match) ? match : "http://"+match;
+                                        var url = (/^[a-z]+:/i).test(match) ? match : "https://"+match;
                                         return "<a href=\""+url+"\">"+match+"</a>";
                                       }));
         });
@@ -51,14 +51,14 @@
         var returning = [];
         var regexp = /[\@]+([A-Za-z0-9-_]+)/gi;
         this.each(function() {
-          returning.push(this.replace(regexp,"<a href=\"http://"+s.twitter_url+"/$1\">@$1</a>"));        });
+          returning.push(this.replace(regexp,"<a href=\"https://"+s.twitter_url+"/$1\">@$1</a>"));        });
         return $(returning);
       },
       linkHash: function() {
         var returning = [];
         var regexp = /(?:^| )[\#]+([A-Za-z0-9-_]+)/gi;
         this.each(function() {
-          returning.push(this.replace(regexp, ' <a href="http://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a>'));
+          returning.push(this.replace(regexp, ' <a href="https://'+s.twitter_search_url+'/search?q=&tag=$1&lang=all&from='+s.username.join("%2BOR%2B")+'">#$1</a>'));
         });
         return $(returning);
       },
@@ -168,10 +168,10 @@
             // Basic building blocks for constructing tweet <li> using a template
             var screen_name = item.from_user || item.user.screen_name;
             var source = item.source;
-            var user_url = "http://"+s.twitter_url+"/"+screen_name;
+            var user_url = "https://"+s.twitter_url+"/"+screen_name;
             var avatar_size = s.avatar_size;
             var avatar_url = item.profile_image_url || item.user.profile_image_url;
-            var tweet_url = "http://"+s.twitter_url+"/"+screen_name+"/statuses/"+item.id_str;
+            var tweet_url = "https://"+s.twitter_url+"/"+screen_name+"/statuses/"+item.id_str;
             var tweet_time = item.created_at;
             var tweet_relative_time = relative_time(tweet_time);
             var tweet_raw_text = item.text;

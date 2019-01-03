@@ -2,7 +2,7 @@
 title: The Brat Language
 layout: default
 ---
-<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript"> </script>
+<script language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript"> </script>
 <script src="js/jquery.github_badge.js"> </script>
 <script src="js/index_github.js" type="text/javascript"> </script>
 <link href="style/tweet.css" media="all" rel="stylesheet" type="text/css" />
@@ -11,7 +11,7 @@ layout: default
 ## Recent Activity
 
 
-<a href="http://brat-lang.org/blog"><b>Blog</b></a>
+<a href="https://brat-lang.org/blog"><b>Blog</b></a>
 
 [{{ site.posts.first.title }}]({{ site.posts.first.url }}) - {{ site.posts.first.date | date_to_string }}
 
@@ -22,7 +22,7 @@ layout: default
   <tr>
     <td>
       <p style="margin-left: -4px">
-        <a href="http://github.com/presidentbeef/brat"><b>GitHub</b></a>
+        <a href="https://github.com/presidentbeef/brat"><b>GitHub</b></a>
       </p>
     </td>
     <td>
@@ -58,9 +58,9 @@ Brat is a little toy language that _just doesn't care_. It is dynamically typed 
 
 Brat may be obtained using any of the following methods:
 
-* Clone with [Git](http://git-scm.com):  `git clone git://github.com/presidentbeef/brat`
+* Clone with [Git](https://git-scm.com):  `git clone git://github.com/presidentbeef/brat`
 * Download it as a [zip](https://github.com/presidentbeef/brat/archive/master.zip) file
-* [Browse](http://github.com/presidentbeef/brat/tree/master) around the source
+* [Browse](https://github.com/presidentbeef/brat/tree/master) around the source
 
 or, [try it](http://try.brat-lang.org/) in your browser!
 
@@ -90,14 +90,14 @@ your_name = g
 world.greet your_name
 {% endhighlight %}
 
-A growing number of examples are also available on [Rosetta Code](http://rosettacode.org/wiki/Brat).
+A growing number of examples are also available on [Rosetta Code](https://rosettacode.org/wiki/Brat).
 
 ## Why You Should Use Brat
 
 An arbitrary number of reasons to use Brat:
   
-1. Plenty of [sharp knives](http://groups.google.com/group/comp.lang.ruby/msg/f005724cd8961f4b)
-2. [No rigid class hierarchies](http://java.sun.com/javase/6/docs/api/)
+1. Plenty of [sharp knives](https://groups.google.com/group/comp.lang.ruby/msg/f005724cd8961f4b)
+2. [No rigid class hierarchies](https://java.sun.com/javase/6/docs/api/)
 3. No classes at all
 4. No pointless restrictions, only pointful ones
 5. [No keywords to learn](http://www.cppreference.com/wiki/keywords/start "C++ Keywords")
