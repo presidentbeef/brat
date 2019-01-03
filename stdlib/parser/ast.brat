@@ -13,8 +13,8 @@ node.prototype [
 
 each_ast = { elements, block |
   elements.each { e |
-    when { e.has_method?(:ast)} { block e.ast }
-         { e.has_method?(:elements) } { each_ast e.elements, ->block }
+    true? { e.has_method?(:ast)} { block e.ast }
+          { true? e.has_method?(:elements) { each_ast e.elements, ->block } }
   }
 }
 
