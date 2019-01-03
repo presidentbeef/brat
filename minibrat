@@ -14,4 +14,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$path/lib
 export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$path/lib
 export PATH=$path/bin/lua/bin:$PATH
 
-$path/bin/minibrat $@
+if [ `uname` = "Darwin" ]
+then
+  $path/bin/minibrat-osx $@
+else
+  $path/bin/minibrat $@
+fi
