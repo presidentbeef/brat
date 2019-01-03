@@ -39,7 +39,7 @@ layout: default
     </td>
     <td>
       <div id="twitter">
-        <a class="twitter-timeline" href="https://twitter.com/bratlang" data-widget-id="440415274223677440">Tweets</a>
+        <a class="twitter-timeline" href="https://twitter.com/bratlang" data-widget-id="440415274223677440" data-height="325">Tweets</a>
         <script src="js/twitter.js"> </script>
       </div>
     </td>
