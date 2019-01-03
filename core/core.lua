@@ -143,11 +143,34 @@ local underscore = function (word)
   return "__" .. word
 end
 
-local escape_identifier = function (name)
-  name = orex.gsub(name, esc_symbols, escape_ops)
-  name = orex.gsub(name, esc_keywords, underscore)
+local id_cache = {}
+local id_cache_size = 0
 
-  return name
+local escape_identifier = function (id_name)
+  if id_cache[id_name] then
+    return id_cache[id_name]
+  end
+
+  -- Avoid DoS by clearing cache if it's too big
+  if id_cache_size > 500 then
+    id_cache = {}
+    id_cache_size = 0
+  end
+
+  if string.match(id_name, "^%w+$") then
+    id_cache[id_name] = id_name
+    id_cache_size = id_cache_size + 1
+
+    return id_name
+  else
+    local name = orex.gsub(id_name, esc_symbols, escape_ops)
+    name = orex.gsub(name, esc_keywords, underscore)
+
+    id_cache[id_name] = name
+    id_cache_size = id_cache_size + 1
+
+    return name
+  end
 end
 
 local unesc_symbols = orex.new("_(bang|star|minus|plus|or|and|at|tilde|up|forward|back|question|less|greater|equal|percent|under|dollar)")
