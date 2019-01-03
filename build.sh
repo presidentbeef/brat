@@ -149,22 +149,28 @@ cd $BRATPATH
 
 set +e
 
-echo Building Brat libraries
+echo Building Brat libraries with minibrat
 
 for f in stdlib/parser/*.brat; do
+  echo - $f
   ./minibrat $f
 done
 
 for f in stdlib/*.brat; do
+  echo - $f
   ./minibrat $f
 done
 
+echo Building Brat libraries with fresh Brat
+
 for f in stdlib/parser/*.brat; do
-  ./brat $f
+  echo - $f
+  ./brat -f $f
 done
 
 for f in stdlib/*.brat; do
-  ./brat $f
+  echo - $f
+  ./brat -f $f
 done
 
 set -e
