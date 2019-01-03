@@ -4,12 +4,13 @@ LUA= $(LUA_SRC_PATH)
 LUAINC= $(LUA_INC_PATH)/
 LUALIB= $(LUA)/lib
 LUABIN= $(LUA)/bin
+OPENSSL_INC=/usr/local/opt/openssl/include/
 
 # probably no need to change anything below here
 CC= gcc
 CFLAGS= $(INCS) $(DEFS) $(WARN) -O2 -fPIC $G
 WARN= -ansi -pedantic -Wall
-INCS= -I$(LUAINC)
+INCS= -I$(LUAINC) -I$(OPENSSL_INC)
 #MAKESO= $(CC) -shared
 MAKESO= env MACOSX_DEPLOYMENT_TARGET=10.3 $(CC) -bundle -undefined dynamic_lookup
 

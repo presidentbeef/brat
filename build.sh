@@ -72,7 +72,7 @@ then
 fi
 
 echo Building lrexlib
-cd $SRC/$LREX
+cd $COMMON/$LREX
 make
 
 #Copy lrexlib to lib/
@@ -133,7 +133,7 @@ rm -rf $SRC/$ONIG/.deps
 cd $COMMON/turbo
 make clean
 
-cd $SRC/$LREX
+cd $COMMON/$LREX
 make clean
 
 cd $SRC/luafilesystem

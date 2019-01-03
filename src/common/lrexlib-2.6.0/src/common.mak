@@ -6,9 +6,15 @@ CFLAGS = $(MYCFLAGS) $(DEFS) $(INC)
 TRG_AR = lib$(TRG).a
 TRG_SO = $(TRG).so
 LD     = $(CC)
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
 LDFLAGS= -shared
-# For Darwin:
-#LDFLAGS= -bundle -undefined dynamic_lookup
+endif
+
+ifeq ($(UNAME_S),Darwin)
+LDFLAGS= -bundle -undefined dynamic_lookup
+endif
 
 all: $(TRG_AR) $(TRG_SO)
 
