@@ -3836,11 +3836,6 @@ local _temp2 = string:new('parser/ast')
     _temp1 =  includes(_self, _temp2)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_includes = _self.includes
       if object._is_callable(_m__self_includes) then
@@ -3864,11 +3859,6 @@ local _temp3 = _lifted_strings[1]
     _temp2 =  include(_self, _temp3)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_include = _self.include
       if object._is_callable(_m__self_include) then
@@ -3955,11 +3945,6 @@ local _temp13 = _lifted_strings[3]
     _temp12 =  ref(_self, _temp13)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -3980,11 +3965,6 @@ local _temp13 = _lifted_strings[3]
     _temp11 =  many(_self, _temp12)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -4008,11 +3988,6 @@ _temp12 = _lifted[1]
     _temp10 =  action(_self, _temp11, _temp12)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -4036,11 +4011,6 @@ _temp13 = _lifted_strings[4]
     _temp11 =  ref(_self, _temp13)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4064,11 +4034,6 @@ _temp13 = _lifted[2]
     _temp12 =  action(_self, _temp11, _temp13)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -4089,11 +4054,6 @@ _temp13 = _lifted[2]
     _temp9 =  any(_self, _temp10, _temp12)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -4114,11 +4074,6 @@ _temp13 = _lifted[2]
     _temp7 =  set(_self, _temp8, _temp9)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -4184,11 +4139,6 @@ local _temp25 = _lifted_strings[5]
     _temp24 =  ref(_self, _temp25)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4216,11 +4166,6 @@ local _temp28 = _lifted_strings[6]
     _temp27 =  ref(_self, _temp28)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4249,11 +4194,6 @@ local _temp31 = _lifted_strings[8]
     _temp30 =  ref(_self, _temp31)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4274,11 +4214,6 @@ local _temp31 = _lifted_strings[8]
     _temp28 =  label(_self, _temp29, _temp30)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -4302,11 +4237,6 @@ _temp29 = _lifted_strings[6]
     _temp30 =  ref(_self, _temp29)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4330,11 +4260,6 @@ local _temp32 = _lifted_strings[5]
     _temp31 =  ref(_self, _temp32)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4355,11 +4280,6 @@ local _temp32 = _lifted_strings[5]
     _temp29 =  maybe(_self, _temp31)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -4383,11 +4303,6 @@ local _temp33 = _lifted_strings[4]
     _temp32 =  ref(_self, _temp33)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4411,11 +4326,6 @@ local _temp34 = _lifted_strings[9]
     _temp33 =  ref(_self, _temp34)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4439,11 +4349,6 @@ local _temp35 = _lifted_strings[10]
     _temp34 =  ref(_self, _temp35)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4464,11 +4369,6 @@ local _temp35 = _lifted_strings[10]
     _temp31 =  any(_self, _temp32, _temp33, _temp34)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -4489,11 +4389,6 @@ local _temp35 = _lifted_strings[10]
     _temp26 =  seq(_self, _temp27, _temp28, _temp30, _temp29, _temp31)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -4517,11 +4412,6 @@ _temp31 = _lifted[3]
     _temp25 =  action(_self, _temp26, _temp31)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -4545,11 +4435,6 @@ _temp26 = _lifted_strings[11]
     _temp31 =  ref(_self, _temp26)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4570,11 +4455,6 @@ _temp26 = _lifted_strings[11]
     _temp23 =  any(_self, _temp24, _temp25, _temp31)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -4595,11 +4475,6 @@ _temp26 = _lifted_strings[11]
     _temp21 =  set(_self, _temp22, _temp23)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -4665,11 +4540,6 @@ local _temp44 = _lifted_strings[6]
     _temp43 =  ref(_self, _temp44)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4693,11 +4563,6 @@ local _temp45 = _lifted_strings[9]
     _temp44 =  ref(_self, _temp45)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4718,11 +4583,6 @@ local _temp45 = _lifted_strings[9]
     _temp42 =  seq(_self, _temp43, _temp44)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -4743,11 +4603,6 @@ local _temp45 = _lifted_strings[9]
     _temp40 =  set(_self, _temp41, _temp42)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -4813,11 +4668,6 @@ local _temp51 = _lifted_strings[12]
     _temp50 =  ref(_self, _temp51)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4841,11 +4691,6 @@ local _temp52 = _lifted_strings[13]
     _temp51 =  ref(_self, _temp52)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4869,11 +4714,6 @@ local _temp53 = _lifted_strings[14]
     _temp52 =  ref(_self, _temp53)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4897,11 +4737,6 @@ local _temp54 = _lifted_strings[15]
     _temp53 =  ref(_self, _temp54)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4925,11 +4760,6 @@ local _temp55 = _lifted_strings[16]
     _temp54 =  ref(_self, _temp55)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4957,11 +4787,6 @@ local _temp58 = _lifted_strings[17]
     _temp57 =  ref(_self, _temp58)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -4987,11 +4812,6 @@ local _temp60 = regex:new("\\G\\.|\\(|->", "")
     _temp59 =  reg(_self, _temp60)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_reg = _self.reg
       if object._is_callable(_m__self_reg) then
@@ -5012,11 +4832,6 @@ local _temp60 = regex:new("\\G\\.|\\(|->", "")
     _temp58 =  no(_self, _temp59)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -5037,11 +4852,6 @@ local _temp60 = regex:new("\\G\\.|\\(|->", "")
     _temp56 =  seq(_self, _temp57, _temp58)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -5065,11 +4875,6 @@ _temp58 = _lifted[4]
     _temp55 =  action(_self, _temp56, _temp58)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -5093,11 +4898,6 @@ _temp56 = _lifted_strings[18]
     _temp58 =  ref(_self, _temp56)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5121,11 +4921,6 @@ _temp57 = _lifted_strings[19]
     _temp56 =  ref(_self, _temp57)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5149,11 +4944,6 @@ _temp59 = _lifted_strings[20]
     _temp57 =  ref(_self, _temp59)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5177,11 +4967,6 @@ _temp60 = _lifted_strings[21]
     _temp59 =  ref(_self, _temp60)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5205,11 +4990,6 @@ local _temp64 = _lifted_strings[22]
     _temp60 =  ref(_self, _temp64)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5233,11 +5013,6 @@ local _temp65 = _lifted_strings[23]
     _temp64 =  ref(_self, _temp65)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5261,11 +5036,6 @@ local _temp66 = _lifted_strings[24]
     _temp65 =  ref(_self, _temp66)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5289,11 +5059,6 @@ local _temp67 = _lifted_strings[25]
     _temp66 =  ref(_self, _temp67)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5314,11 +5079,6 @@ local _temp67 = _lifted_strings[25]
     _temp49 =  any(_self, _temp50, _temp51, _temp52, _temp53, _temp54, _temp55, _temp58, _temp56, _temp57, _temp59, _temp60, _temp64, _temp65, _temp66)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -5339,11 +5099,6 @@ local _temp67 = _lifted_strings[25]
     _temp47 =  set(_self, _temp48, _temp49)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -5411,11 +5166,6 @@ local _temp74 = string:new("(")
     _temp73 =  str(_self, _temp74)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -5439,11 +5189,6 @@ local _temp75 = _lifted_strings[6]
     _temp74 =  ref(_self, _temp75)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5472,11 +5217,6 @@ local _temp78 = _lifted_strings[8]
     _temp77 =  ref(_self, _temp78)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5497,11 +5237,6 @@ local _temp78 = _lifted_strings[8]
     _temp75 =  label(_self, _temp76, _temp77)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -5525,11 +5260,6 @@ _temp76 = _lifted_strings[6]
     _temp77 =  ref(_self, _temp76)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5553,11 +5283,6 @@ _temp78 = string:new(")")
     _temp76 =  str(_self, _temp78)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -5578,11 +5303,6 @@ _temp78 = string:new(")")
     _temp72 =  seq(_self, _temp73, _temp74, _temp75, _temp77, _temp76)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -5606,11 +5326,6 @@ _temp76 = _lifted[5]
     _temp71 =  action(_self, _temp72, _temp76)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -5631,11 +5346,6 @@ _temp76 = _lifted[5]
     _temp69 =  set(_self, _temp70, _temp71)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -5705,11 +5415,6 @@ local _temp89 = _lifted_strings[26]
     _temp88 =  ref(_self, _temp89)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5733,11 +5438,6 @@ local _temp90 = _lifted_strings[27]
     _temp89 =  ref(_self, _temp90)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5761,11 +5461,6 @@ local _temp91 = string:new("=")
     _temp90 =  str(_self, _temp91)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -5789,11 +5484,6 @@ local _temp92 = _lifted_strings[28]
     _temp91 =  ref(_self, _temp92)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5821,11 +5511,6 @@ local _temp95 = _lifted_strings[22]
     _temp94 =  ref(_self, _temp95)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5851,11 +5536,6 @@ local _temp97 = string:new("(")
     _temp96 =  str(_self, _temp97)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -5876,11 +5556,6 @@ local _temp97 = string:new("(")
     _temp95 =  no(_self, _temp96)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -5901,11 +5576,6 @@ local _temp97 = string:new("(")
     _temp93 =  seq(_self, _temp94, _temp95)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -5929,11 +5599,6 @@ _temp94 = _lifted_strings[18]
     _temp95 =  ref(_self, _temp94)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -5954,11 +5619,6 @@ _temp94 = _lifted_strings[18]
     _temp92 =  any(_self, _temp93, _temp95)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -5979,11 +5639,6 @@ _temp94 = _lifted_strings[18]
     _temp87 =  seq(_self, _temp88, _temp89, _temp90, _temp91, _temp92)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -6007,11 +5662,6 @@ _temp92 = _lifted[6]
     _temp86 =  action(_self, _temp87, _temp92)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -6035,11 +5685,6 @@ _temp90 = _lifted_strings[26]
     _temp91 =  ref(_self, _temp90)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6063,11 +5708,6 @@ _temp89 = _lifted_strings[27]
     _temp90 =  ref(_self, _temp89)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6091,11 +5731,6 @@ _temp88 = string:new("=")
     _temp89 =  str(_self, _temp88)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -6119,11 +5754,6 @@ _temp95 = _lifted_strings[28]
     _temp88 =  ref(_self, _temp95)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6147,11 +5777,6 @@ _temp93 = _lifted_strings[8]
     _temp95 =  ref(_self, _temp93)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6172,11 +5797,6 @@ _temp93 = _lifted_strings[8]
     _temp87 =  seq(_self, _temp91, _temp90, _temp89, _temp88, _temp95)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -6200,11 +5820,6 @@ _temp95 = _lifted[7]
     _temp92 =  action(_self, _temp87, _temp95)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -6231,11 +5846,6 @@ _temp91 = _lifted_strings[30]
     _temp90 =  ref(_self, _temp91)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6256,11 +5866,6 @@ _temp91 = _lifted_strings[30]
     _temp88 =  label(_self, _temp89, _temp90)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -6284,11 +5889,6 @@ _temp89 = _lifted_strings[27]
     _temp90 =  ref(_self, _temp89)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6312,11 +5912,6 @@ _temp91 = string:new("=")
     _temp89 =  str(_self, _temp91)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -6340,11 +5935,6 @@ _temp93 = _lifted_strings[28]
     _temp91 =  ref(_self, _temp93)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6368,11 +5958,6 @@ _temp94 = _lifted_strings[8]
     _temp93 =  ref(_self, _temp94)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6393,11 +5978,6 @@ _temp94 = _lifted_strings[8]
     _temp87 =  seq(_self, _temp88, _temp90, _temp89, _temp91, _temp93)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -6421,11 +6001,6 @@ _temp93 = _lifted[8]
     _temp95 =  action(_self, _temp87, _temp93)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -6446,11 +6021,6 @@ _temp93 = _lifted[8]
     _temp85 =  any(_self, _temp86, _temp92, _temp95)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -6471,11 +6041,6 @@ _temp93 = _lifted[8]
     _temp83 =  set(_self, _temp84, _temp85)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -6543,11 +6108,6 @@ local _temp113 = _lifted_strings[31]
     _temp112 =  ref(_self, _temp113)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6573,11 +6133,6 @@ local _temp115 = _lifted_strings[30]
     _temp114 =  ref(_self, _temp115)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6601,11 +6156,6 @@ local _temp116 = _lifted_strings[32]
     _temp115 =  ref(_self, _temp116)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6626,11 +6176,6 @@ local _temp116 = _lifted_strings[32]
     _temp113 =  any(_self, _temp114, _temp115)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -6651,11 +6196,6 @@ local _temp116 = _lifted_strings[32]
     _temp111 =  seq(_self, _temp112, _temp113)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -6679,11 +6219,6 @@ _temp113 = _lifted[9]
     _temp110 =  action(_self, _temp111, _temp113)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -6704,11 +6239,6 @@ _temp113 = _lifted[9]
     _temp108 =  set(_self, _temp109, _temp110)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -6776,11 +6306,6 @@ local _temp126 = _lifted_strings[33]
     _temp125 =  ref(_self, _temp126)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6813,11 +6338,6 @@ local _temp131 = string:new("[")
     _temp130 =  str(_self, _temp131)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -6841,11 +6361,6 @@ local _temp132 = _lifted_strings[8]
     _temp131 =  ref(_self, _temp132)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -6869,11 +6384,6 @@ local _temp133 = string:new("]")
     _temp132 =  str(_self, _temp133)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -6894,11 +6404,6 @@ local _temp133 = string:new("]")
     _temp129 =  seq(_self, _temp130, _temp131, _temp132)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -6919,11 +6424,6 @@ local _temp133 = string:new("]")
     _temp128 =  many(_self, _temp129)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -6944,11 +6444,6 @@ local _temp133 = string:new("]")
     _temp126 =  label(_self, _temp127, _temp128)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -6972,11 +6467,6 @@ _temp127 = _lifted_strings[6]
     _temp128 =  ref(_self, _temp127)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7000,11 +6490,6 @@ _temp129 = string:new("=")
     _temp127 =  str(_self, _temp129)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -7028,11 +6513,6 @@ _temp132 = _lifted_strings[28]
     _temp129 =  ref(_self, _temp132)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7056,11 +6536,6 @@ _temp131 = _lifted_strings[8]
     _temp132 =  ref(_self, _temp131)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7081,11 +6556,6 @@ _temp131 = _lifted_strings[8]
     _temp124 =  seq(_self, _temp125, _temp126, _temp128, _temp127, _temp129, _temp132)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -7109,11 +6579,6 @@ _temp132 = _lifted[10]
     _temp123 =  action(_self, _temp124, _temp132)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -7134,11 +6599,6 @@ _temp132 = _lifted[10]
     _temp121 =  set(_self, _temp122, _temp123)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -7206,11 +6666,6 @@ local _temp143 = _lifted_strings[33]
     _temp142 =  ref(_self, _temp143)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7243,11 +6698,6 @@ local _temp148 = string:new("[")
     _temp147 =  str(_self, _temp148)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -7271,11 +6721,6 @@ local _temp149 = _lifted_strings[36]
     _temp148 =  ref(_self, _temp149)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7299,11 +6744,6 @@ local _temp150 = string:new("]")
     _temp149 =  str(_self, _temp150)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -7324,11 +6764,6 @@ local _temp150 = string:new("]")
     _temp146 =  seq(_self, _temp147, _temp148, _temp149)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -7349,11 +6784,6 @@ local _temp150 = string:new("]")
     _temp145 =  many(_self, _temp146)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -7374,11 +6804,6 @@ local _temp150 = string:new("]")
     _temp143 =  label(_self, _temp144, _temp145)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -7402,11 +6827,6 @@ _temp146 = string:new(".")
     _temp144 =  str(_self, _temp146)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -7427,11 +6847,6 @@ _temp146 = string:new(".")
     _temp145 =  no(_self, _temp144)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -7458,11 +6873,6 @@ _temp147 = _lifted_strings[38]
     _temp148 =  ref(_self, _temp147)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7483,11 +6893,6 @@ _temp147 = _lifted_strings[38]
     _temp149 =  maybe(_self, _temp148)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -7508,11 +6913,6 @@ _temp147 = _lifted_strings[38]
     _temp144 =  label(_self, _temp146, _temp149)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -7533,11 +6933,6 @@ _temp147 = _lifted_strings[38]
     _temp141 =  seq(_self, _temp142, _temp143, _temp145, _temp144)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -7561,11 +6956,6 @@ _temp144 = _lifted[11]
     _temp140 =  action(_self, _temp141, _temp144)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -7586,11 +6976,6 @@ _temp144 = _lifted[11]
     _temp138 =  set(_self, _temp139, _temp140)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -7656,11 +7041,6 @@ local _temp159 = _lifted_strings[23]
     _temp158 =  ref(_self, _temp159)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7684,11 +7064,6 @@ local _temp160 = _lifted_strings[24]
     _temp159 =  ref(_self, _temp160)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7712,11 +7087,6 @@ local _temp161 = _lifted_strings[17]
     _temp160 =  ref(_self, _temp161)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7740,11 +7110,6 @@ local _temp162 = _lifted_strings[19]
     _temp161 =  ref(_self, _temp162)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7768,11 +7133,6 @@ local _temp163 = _lifted_strings[21]
     _temp162 =  ref(_self, _temp163)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7796,11 +7156,6 @@ local _temp164 = _lifted_strings[25]
     _temp163 =  ref(_self, _temp164)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7821,11 +7176,6 @@ local _temp164 = _lifted_strings[25]
     _temp157 =  any(_self, _temp158, _temp159, _temp160, _temp161, _temp162, _temp163)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -7846,11 +7196,6 @@ local _temp164 = _lifted_strings[25]
     _temp155 =  set(_self, _temp156, _temp157)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -7920,11 +7265,6 @@ local _temp172 = string:new("->")
     _temp171 =  str(_self, _temp172)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -7953,11 +7293,6 @@ local _temp175 = _lifted_strings[30]
     _temp174 =  ref(_self, _temp175)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -7978,11 +7313,6 @@ local _temp175 = _lifted_strings[30]
     _temp172 =  label(_self, _temp173, _temp174)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -8006,11 +7336,6 @@ _temp175 = string:new(".")
     _temp173 =  str(_self, _temp175)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -8031,11 +7356,6 @@ _temp175 = string:new(".")
     _temp174 =  no(_self, _temp173)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -8056,11 +7376,6 @@ _temp175 = string:new(".")
     _temp170 =  seq(_self, _temp171, _temp172, _temp174)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -8084,11 +7399,6 @@ _temp174 = _lifted[12]
     _temp169 =  action(_self, _temp170, _temp174)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -8115,11 +7425,6 @@ _temp175 = _lifted_strings[19]
     _temp173 =  ref(_self, _temp175)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -8140,11 +7445,6 @@ _temp175 = _lifted_strings[19]
     _temp172 =  label(_self, _temp171, _temp173)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -8168,11 +7468,6 @@ _temp171 = string:new("->")
     _temp173 =  str(_self, _temp171)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -8203,11 +7498,6 @@ local _temp181 = _lifted_strings[30]
     _temp180 =  ref(_self, _temp181)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -8231,11 +7521,6 @@ local _temp182 = _lifted_strings[32]
     _temp181 =  ref(_self, _temp182)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -8256,11 +7541,6 @@ local _temp182 = _lifted_strings[32]
     _temp179 =  any(_self, _temp180, _temp181)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -8281,11 +7561,6 @@ local _temp182 = _lifted_strings[32]
     _temp171 =  label(_self, _temp175, _temp179)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -8306,11 +7581,6 @@ local _temp182 = _lifted_strings[32]
     _temp170 =  seq(_self, _temp172, _temp173, _temp171)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -8334,11 +7604,6 @@ _temp171 = _lifted[13]
     _temp174 =  action(_self, _temp170, _temp171)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -8362,11 +7627,6 @@ _temp172 = _lifted_strings[17]
     _temp173 =  ref(_self, _temp172)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -8390,11 +7650,6 @@ _temp179 = string:new("->")
     _temp172 =  str(_self, _temp179)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -8421,11 +7676,6 @@ _temp182 = _lifted_strings[30]
     _temp180 =  ref(_self, _temp182)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -8449,11 +7699,6 @@ local _temp186 = _lifted_strings[32]
     _temp182 =  ref(_self, _temp186)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -8474,11 +7719,6 @@ local _temp186 = _lifted_strings[32]
     _temp181 =  any(_self, _temp180, _temp182)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -8499,11 +7739,6 @@ local _temp186 = _lifted_strings[32]
     _temp179 =  label(_self, _temp175, _temp181)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -8524,11 +7759,6 @@ local _temp186 = _lifted_strings[32]
     _temp170 =  seq(_self, _temp173, _temp172, _temp179)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -8552,11 +7782,6 @@ _temp179 = _lifted[14]
     _temp171 =  action(_self, _temp170, _temp179)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -8580,11 +7805,6 @@ _temp173 = string:new("->")
     _temp172 =  str(_self, _temp173)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -8608,11 +7828,6 @@ _temp181 = _lifted_strings[17]
     _temp173 =  ref(_self, _temp181)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -8633,11 +7848,6 @@ _temp181 = _lifted_strings[17]
     _temp170 =  seq(_self, _temp172, _temp173)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -8661,11 +7871,6 @@ _temp173 = _lifted[15]
     _temp179 =  action(_self, _temp170, _temp173)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -8686,11 +7891,6 @@ _temp173 = _lifted[15]
     _temp168 =  any(_self, _temp169, _temp174, _temp171, _temp179)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -8711,11 +7911,6 @@ _temp173 = _lifted[15]
     _temp166 =  set(_self, _temp167, _temp168)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -8781,11 +7976,6 @@ local _temp198 = regex:new("\\G-?[0-9]+(\\.[0-9]+)?", "")
     _temp197 =  reg(_self, _temp198)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_reg = _self.reg
       if object._is_callable(_m__self_reg) then
@@ -8809,11 +7999,6 @@ _temp198 = _lifted[16]
     _temp196 =  action(_self, _temp197, _temp198)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -8834,11 +8019,6 @@ _temp198 = _lifted[16]
     _temp194 =  set(_self, _temp195, _temp196)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -8908,11 +8088,6 @@ local _temp209 = string:new("[")
     _temp208 =  str(_self, _temp209)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -8936,11 +8111,6 @@ local _temp210 = _lifted_strings[28]
     _temp209 =  ref(_self, _temp210)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -8969,11 +8139,6 @@ local _temp213 = _lifted_strings[42]
     _temp212 =  ref(_self, _temp213)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -8994,11 +8159,6 @@ local _temp213 = _lifted_strings[42]
     _temp210 =  label(_self, _temp211, _temp212)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -9022,11 +8182,6 @@ _temp211 = _lifted_strings[28]
     _temp212 =  ref(_self, _temp211)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9050,11 +8205,6 @@ _temp213 = string:new("]")
     _temp211 =  str(_self, _temp213)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -9075,11 +8225,6 @@ _temp213 = string:new("]")
     _temp207 =  seq(_self, _temp208, _temp209, _temp210, _temp212, _temp211)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -9103,11 +8248,6 @@ _temp211 = _lifted[17]
     _temp206 =  action(_self, _temp207, _temp211)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -9131,11 +8271,6 @@ _temp210 = string:new("[")
     _temp212 =  str(_self, _temp210)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -9159,11 +8294,6 @@ _temp209 = _lifted_strings[28]
     _temp210 =  ref(_self, _temp209)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9187,11 +8317,6 @@ _temp208 = string:new("]")
     _temp209 =  str(_self, _temp208)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -9212,11 +8337,6 @@ _temp208 = string:new("]")
     _temp207 =  seq(_self, _temp212, _temp210, _temp209)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -9240,11 +8360,6 @@ _temp209 = _lifted[18]
     _temp211 =  action(_self, _temp207, _temp209)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -9265,11 +8380,6 @@ _temp209 = _lifted[18]
     _temp205 =  any(_self, _temp206, _temp211)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -9290,11 +8400,6 @@ _temp209 = _lifted[18]
     _temp203 =  set(_self, _temp204, _temp205)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -9367,11 +8472,6 @@ local _temp228 = _lifted_strings[8]
     _temp227 =  ref(_self, _temp228)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9392,11 +8492,6 @@ local _temp228 = _lifted_strings[8]
     _temp225 =  label(_self, _temp226, _temp227)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -9431,11 +8526,6 @@ local _temp233 = _lifted_strings[28]
     _temp232 =  ref(_self, _temp233)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9459,11 +8549,6 @@ local _temp234 = string:new(",")
     _temp233 =  str(_self, _temp234)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -9487,11 +8572,6 @@ local _temp235 = _lifted_strings[28]
     _temp234 =  ref(_self, _temp235)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9512,11 +8592,6 @@ local _temp235 = _lifted_strings[28]
     _temp231 =  seq(_self, _temp232, _temp233, _temp234)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -9540,11 +8615,6 @@ _temp235 = _lifted_strings[27]
     _temp232 =  ref(_self, _temp235)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9568,11 +8638,6 @@ local _temp236 = _lifted_strings[9]
     _temp235 =  ref(_self, _temp236)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9596,11 +8661,6 @@ local _temp237 = _lifted_strings[5]
     _temp236 =  ref(_self, _temp237)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9621,11 +8681,6 @@ local _temp237 = _lifted_strings[5]
     _temp233 =  any(_self, _temp232, _temp235, _temp236)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -9646,11 +8701,6 @@ local _temp237 = _lifted_strings[5]
     _temp234 =  many(_self, _temp233)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -9671,11 +8721,6 @@ local _temp237 = _lifted_strings[5]
     _temp230 =  any(_self, _temp231, _temp234)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -9699,11 +8744,6 @@ _temp231 = _lifted_strings[8]
     _temp234 =  ref(_self, _temp231)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9724,11 +8764,6 @@ _temp231 = _lifted_strings[8]
     _temp229 =  seq(_self, _temp230, _temp234)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -9749,11 +8784,6 @@ _temp231 = _lifted_strings[8]
     _temp228 =  kleene(_self, _temp229)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -9774,11 +8804,6 @@ _temp231 = _lifted_strings[8]
     _temp227 =  label(_self, _temp226, _temp228)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -9799,11 +8824,6 @@ _temp231 = _lifted_strings[8]
     _temp224 =  seq(_self, _temp225, _temp227)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -9827,11 +8847,6 @@ _temp227 = _lifted[19]
     _temp223 =  action(_self, _temp224, _temp227)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -9852,11 +8867,6 @@ _temp227 = _lifted[19]
     _temp221 =  set(_self, _temp222, _temp223)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -9926,11 +8936,6 @@ local _temp248 = string:new("[")
     _temp247 =  str(_self, _temp248)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -9954,11 +8959,6 @@ local _temp249 = _lifted_strings[6]
     _temp248 =  ref(_self, _temp249)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -9982,11 +8982,6 @@ local _temp250 = string:new(":")
     _temp249 =  str(_self, _temp250)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -10010,11 +9005,6 @@ local _temp251 = _lifted_strings[6]
     _temp250 =  ref(_self, _temp251)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10038,11 +9028,6 @@ local _temp252 = string:new("]")
     _temp251 =  str(_self, _temp252)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -10063,11 +9048,6 @@ local _temp252 = string:new("]")
     _temp246 =  seq(_self, _temp247, _temp248, _temp249, _temp250, _temp251)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -10091,11 +9071,6 @@ _temp251 = _lifted[20]
     _temp245 =  action(_self, _temp246, _temp251)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -10119,11 +9094,6 @@ _temp249 = string:new("[")
     _temp250 =  str(_self, _temp249)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -10147,11 +9117,6 @@ _temp248 = _lifted_strings[28]
     _temp249 =  ref(_self, _temp248)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10178,11 +9143,6 @@ local _temp256 = _lifted_strings[45]
     _temp252 =  ref(_self, _temp256)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10203,11 +9163,6 @@ local _temp256 = _lifted_strings[45]
     _temp248 =  label(_self, _temp247, _temp252)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -10231,11 +9186,6 @@ _temp247 = _lifted_strings[28]
     _temp252 =  ref(_self, _temp247)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10259,11 +9209,6 @@ _temp256 = string:new("]")
     _temp247 =  str(_self, _temp256)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -10284,11 +9229,6 @@ _temp256 = string:new("]")
     _temp246 =  seq(_self, _temp250, _temp249, _temp248, _temp252, _temp247)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -10312,11 +9252,6 @@ _temp247 = _lifted[21]
     _temp251 =  action(_self, _temp246, _temp247)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -10337,11 +9272,6 @@ _temp247 = _lifted[21]
     _temp244 =  any(_self, _temp245, _temp251)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -10362,11 +9292,6 @@ _temp247 = _lifted[21]
     _temp242 =  set(_self, _temp243, _temp244)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -10439,11 +9364,6 @@ local _temp268 = _lifted_strings[46]
     _temp267 =  ref(_self, _temp268)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10464,11 +9384,6 @@ local _temp268 = _lifted_strings[46]
     _temp265 =  label(_self, _temp266, _temp267)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -10503,11 +9418,6 @@ local _temp273 = _lifted_strings[28]
     _temp272 =  ref(_self, _temp273)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10531,11 +9441,6 @@ local _temp274 = string:new(",")
     _temp273 =  str(_self, _temp274)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -10559,11 +9464,6 @@ local _temp275 = _lifted_strings[28]
     _temp274 =  ref(_self, _temp275)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10584,11 +9484,6 @@ local _temp275 = _lifted_strings[28]
     _temp271 =  seq(_self, _temp272, _temp273, _temp274)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -10612,11 +9507,6 @@ _temp275 = _lifted_strings[27]
     _temp272 =  ref(_self, _temp275)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10640,11 +9530,6 @@ local _temp276 = _lifted_strings[9]
     _temp275 =  ref(_self, _temp276)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10668,11 +9553,6 @@ local _temp277 = _lifted_strings[5]
     _temp276 =  ref(_self, _temp277)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10693,11 +9573,6 @@ local _temp277 = _lifted_strings[5]
     _temp273 =  any(_self, _temp272, _temp275, _temp276)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -10718,11 +9593,6 @@ local _temp277 = _lifted_strings[5]
     _temp274 =  many(_self, _temp273)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -10743,11 +9613,6 @@ local _temp277 = _lifted_strings[5]
     _temp270 =  any(_self, _temp271, _temp274)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -10771,11 +9636,6 @@ _temp271 = _lifted_strings[46]
     _temp274 =  ref(_self, _temp271)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -10796,11 +9656,6 @@ _temp271 = _lifted_strings[46]
     _temp269 =  seq(_self, _temp270, _temp274)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -10821,11 +9676,6 @@ _temp271 = _lifted_strings[46]
     _temp268 =  kleene(_self, _temp269)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -10846,11 +9696,6 @@ _temp271 = _lifted_strings[46]
     _temp267 =  label(_self, _temp266, _temp268)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -10871,11 +9716,6 @@ _temp271 = _lifted_strings[46]
     _temp264 =  seq(_self, _temp265, _temp267)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -10899,11 +9739,6 @@ _temp267 = _lifted[22]
     _temp263 =  action(_self, _temp264, _temp267)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -10924,11 +9759,6 @@ _temp267 = _lifted[22]
     _temp261 =  set(_self, _temp262, _temp263)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -11007,11 +9837,6 @@ local _temp292 = _lifted_strings[30]
     _temp291 =  ref(_self, _temp292)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11035,11 +9860,6 @@ local _temp293 = _lifted_strings[32]
     _temp292 =  ref(_self, _temp293)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11060,11 +9880,6 @@ local _temp293 = _lifted_strings[32]
     _temp290 =  any(_self, _temp291, _temp292)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -11088,11 +9903,6 @@ local _temp294 = _lifted_strings[30]
     _temp293 =  ref(_self, _temp294)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11116,11 +9926,6 @@ local _temp295 = _lifted_strings[32]
     _temp294 =  ref(_self, _temp295)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11144,11 +9949,6 @@ local _temp296 = _lifted_strings[20]
     _temp295 =  ref(_self, _temp296)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11169,11 +9969,6 @@ local _temp296 = _lifted_strings[20]
     _temp291 =  any(_self, _temp293, _temp294, _temp295)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -11194,11 +9989,6 @@ local _temp296 = _lifted_strings[20]
     _temp292 =  kleene(_self, _temp291)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -11219,11 +10009,6 @@ local _temp296 = _lifted_strings[20]
     _temp289 =  seq(_self, _temp290, _temp292)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -11244,11 +10029,6 @@ local _temp296 = _lifted_strings[20]
     _temp287 =  label(_self, _temp288, _temp289)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -11272,11 +10052,6 @@ _temp288 = string:new(":")
     _temp289 =  str(_self, _temp288)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -11300,11 +10075,6 @@ _temp292 = _lifted_strings[28]
     _temp288 =  ref(_self, _temp292)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11331,11 +10101,6 @@ _temp295 = _lifted_strings[8]
     _temp291 =  ref(_self, _temp295)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11356,11 +10121,6 @@ _temp295 = _lifted_strings[8]
     _temp292 =  label(_self, _temp290, _temp291)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -11381,11 +10141,6 @@ _temp295 = _lifted_strings[8]
     _temp286 =  seq(_self, _temp287, _temp289, _temp288, _temp292)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -11409,11 +10164,6 @@ _temp292 = _lifted[23]
     _temp285 =  action(_self, _temp286, _temp292)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -11440,11 +10190,6 @@ _temp291 = _lifted_strings[8]
     _temp287 =  ref(_self, _temp291)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11465,11 +10210,6 @@ _temp291 = _lifted_strings[8]
     _temp288 =  label(_self, _temp289, _temp287)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -11493,11 +10233,6 @@ _temp289 = _lifted_strings[28]
     _temp287 =  ref(_self, _temp289)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11521,11 +10256,6 @@ _temp291 = string:new(":")
     _temp289 =  str(_self, _temp291)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -11549,11 +10279,6 @@ _temp290 = _lifted_strings[28]
     _temp291 =  ref(_self, _temp290)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11580,11 +10305,6 @@ _temp293 = _lifted_strings[8]
     _temp294 =  ref(_self, _temp293)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -11605,11 +10325,6 @@ _temp293 = _lifted_strings[8]
     _temp290 =  label(_self, _temp295, _temp294)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -11630,11 +10345,6 @@ _temp293 = _lifted_strings[8]
     _temp286 =  seq(_self, _temp288, _temp287, _temp289, _temp291, _temp290)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -11658,11 +10368,6 @@ _temp290 = _lifted[24]
     _temp292 =  action(_self, _temp286, _temp290)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -11683,11 +10388,6 @@ _temp290 = _lifted[24]
     _temp284 =  any(_self, _temp285, _temp292)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -11708,11 +10408,6 @@ _temp290 = _lifted[24]
     _temp282 =  set(_self, _temp283, _temp284)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -11780,11 +10475,6 @@ local _temp309 = string:new("/")
     _temp308 =  str(_self, _temp309)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -11817,11 +10507,6 @@ local _temp314 = string:new("\\/")
     _temp313 =  str(_self, _temp314)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -11849,11 +10534,6 @@ local _temp317 = string:new("/")
     _temp316 =  str(_self, _temp317)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -11874,11 +10554,6 @@ local _temp317 = string:new("/")
     _temp315 =  no(_self, _temp316)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -11900,11 +10575,6 @@ local _temp317 = string:new("/")
     _temp316 =  anything(_self)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_anything = _self.anything
       if object._is_callable(_m__self_anything) then
@@ -11925,11 +10595,6 @@ local _temp317 = string:new("/")
     _temp314 =  seq(_self, _temp315, _temp316)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -11950,11 +10615,6 @@ local _temp317 = string:new("/")
     _temp312 =  any(_self, _temp313, _temp314)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -11975,11 +10635,6 @@ local _temp317 = string:new("/")
     _temp311 =  kleene(_self, _temp312)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -12000,11 +10655,6 @@ local _temp317 = string:new("/")
     _temp309 =  label(_self, _temp310, _temp311)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -12028,11 +10678,6 @@ _temp310 = string:new("/")
     _temp311 =  str(_self, _temp310)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12059,11 +10704,6 @@ _temp313 = regex:new("\\G[mix]*", "")
     _temp314 =  reg(_self, _temp313)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_reg = _self.reg
       if object._is_callable(_m__self_reg) then
@@ -12084,11 +10724,6 @@ _temp313 = regex:new("\\G[mix]*", "")
     _temp310 =  label(_self, _temp312, _temp314)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -12109,11 +10744,6 @@ _temp313 = regex:new("\\G[mix]*", "")
     _temp307 =  seq(_self, _temp308, _temp309, _temp311, _temp310)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -12137,11 +10767,6 @@ _temp310 = _lifted[25]
     _temp306 =  action(_self, _temp307, _temp310)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -12162,11 +10787,6 @@ _temp310 = _lifted[25]
     _temp304 =  set(_self, _temp305, _temp306)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -12236,11 +10856,6 @@ local _temp328 = string:new("''")
     _temp327 =  str(_self, _temp328)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12264,11 +10879,6 @@ local _temp329 = string:new("\"\"")
     _temp328 =  str(_self, _temp329)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12289,11 +10899,6 @@ local _temp329 = string:new("\"\"")
     _temp326 =  any(_self, _temp327, _temp328)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -12317,11 +10922,6 @@ _temp328 = _lifted[26]
     _temp325 =  action(_self, _temp326, _temp328)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -12345,11 +10945,6 @@ _temp329 = string:new("\"")
     _temp327 =  str(_self, _temp329)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12382,11 +10977,6 @@ local _temp337 = regex:new("\\G[^#\"\\\\]+", "")
     _temp336 =  reg(_self, _temp337)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_reg = _self.reg
       if object._is_callable(_m__self_reg) then
@@ -12410,11 +11000,6 @@ local _temp338 = _lifted_strings[52]
     _temp337 =  ref(_self, _temp338)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -12438,11 +11023,6 @@ local _temp339 = string:new("\\\"")
     _temp338 =  str(_self, _temp339)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12466,11 +11046,6 @@ local _temp340 = string:new("\\\\")
     _temp339 =  str(_self, _temp340)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12498,11 +11073,6 @@ local _temp343 = string:new("\"")
     _temp342 =  str(_self, _temp343)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12523,11 +11093,6 @@ local _temp343 = string:new("\"")
     _temp341 =  no(_self, _temp342)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -12549,11 +11114,6 @@ local _temp343 = string:new("\"")
     _temp342 =  anything(_self)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_anything = _self.anything
       if object._is_callable(_m__self_anything) then
@@ -12574,11 +11134,6 @@ local _temp343 = string:new("\"")
     _temp340 =  seq(_self, _temp341, _temp342)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -12599,11 +11154,6 @@ local _temp343 = string:new("\"")
     _temp335 =  any(_self, _temp336, _temp337, _temp338, _temp339, _temp340)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -12624,11 +11174,6 @@ local _temp343 = string:new("\"")
     _temp334 =  kleene(_self, _temp335)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -12649,11 +11194,6 @@ local _temp343 = string:new("\"")
     _temp329 =  label(_self, _temp333, _temp334)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -12677,11 +11217,6 @@ _temp333 = string:new("\"")
     _temp334 =  str(_self, _temp333)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12702,11 +11237,6 @@ _temp333 = string:new("\"")
     _temp326 =  seq(_self, _temp327, _temp329, _temp334)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -12730,11 +11260,6 @@ _temp334 = _lifted[27]
     _temp328 =  action(_self, _temp326, _temp334)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -12758,11 +11283,6 @@ _temp327 = string:new("'")
     _temp329 =  str(_self, _temp327)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12789,11 +11309,6 @@ _temp338 = string:new("\\'")
     _temp339 =  str(_self, _temp338)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12817,11 +11332,6 @@ _temp337 = string:new("\\\\")
     _temp338 =  str(_self, _temp337)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12845,11 +11355,6 @@ _temp341 = string:new("'")
     _temp342 =  str(_self, _temp341)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -12870,11 +11375,6 @@ _temp341 = string:new("'")
     _temp336 =  no(_self, _temp342)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -12896,11 +11396,6 @@ _temp341 = string:new("'")
     _temp342 =  anything(_self)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_anything = _self.anything
       if object._is_callable(_m__self_anything) then
@@ -12921,11 +11416,6 @@ _temp341 = string:new("'")
     _temp337 =  seq(_self, _temp336, _temp342)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -12946,11 +11436,6 @@ _temp341 = string:new("'")
     _temp340 =  any(_self, _temp339, _temp338, _temp337)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -12971,11 +11456,6 @@ _temp341 = string:new("'")
     _temp335 =  many(_self, _temp340)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -12996,11 +11476,6 @@ _temp341 = string:new("'")
     _temp327 =  label(_self, _temp333, _temp335)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -13024,11 +11499,6 @@ _temp333 = string:new("'")
     _temp335 =  str(_self, _temp333)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13049,11 +11519,6 @@ _temp333 = string:new("'")
     _temp326 =  seq(_self, _temp329, _temp327, _temp335)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -13077,11 +11542,6 @@ _temp335 = _lifted[28]
     _temp334 =  action(_self, _temp326, _temp335)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -13105,11 +11565,6 @@ _temp326 = _lifted_strings[54]
     _temp335 =  ref(_self, _temp326)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -13130,11 +11585,6 @@ _temp326 = _lifted_strings[54]
     _temp324 =  any(_self, _temp325, _temp328, _temp334, _temp335)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -13155,11 +11605,6 @@ _temp326 = _lifted_strings[54]
     _temp322 =  set(_self, _temp323, _temp324)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -13229,11 +11674,6 @@ local _temp357 = string:new(":")
     _temp356 =  str(_self, _temp357)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13266,11 +11706,6 @@ local _temp362 = _lifted_strings[30]
     _temp361 =  ref(_self, _temp362)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -13294,11 +11729,6 @@ local _temp363 = _lifted_strings[32]
     _temp362 =  ref(_self, _temp363)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -13322,11 +11752,6 @@ local _temp364 = _lifted_strings[20]
     _temp363 =  ref(_self, _temp364)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -13347,11 +11772,6 @@ local _temp364 = _lifted_strings[20]
     _temp360 =  any(_self, _temp361, _temp362, _temp363)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -13372,11 +11792,6 @@ local _temp364 = _lifted_strings[20]
     _temp359 =  many(_self, _temp360)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -13397,11 +11812,6 @@ local _temp364 = _lifted_strings[20]
     _temp357 =  label(_self, _temp358, _temp359)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -13422,11 +11832,6 @@ local _temp364 = _lifted_strings[20]
     _temp355 =  seq(_self, _temp356, _temp357)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -13450,11 +11855,6 @@ _temp357 = _lifted[29]
     _temp354 =  action(_self, _temp355, _temp357)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -13478,11 +11878,6 @@ _temp359 = string:new(":''")
     _temp356 =  str(_self, _temp359)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13506,11 +11901,6 @@ _temp358 = string:new(":\"\"")
     _temp359 =  str(_self, _temp358)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13531,11 +11921,6 @@ _temp358 = string:new(":\"\"")
     _temp355 =  any(_self, _temp356, _temp359)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -13559,11 +11944,6 @@ _temp359 = _lifted[30]
     _temp357 =  action(_self, _temp355, _temp359)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -13587,11 +11967,6 @@ _temp358 = string:new(":'")
     _temp356 =  str(_self, _temp358)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13618,11 +11993,6 @@ _temp364 = string:new("\\'")
     _temp361 =  str(_self, _temp364)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13646,11 +12016,6 @@ local _temp371 = string:new("\\\\")
     _temp364 =  str(_self, _temp371)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13678,11 +12043,6 @@ local _temp374 = string:new("'")
     _temp373 =  str(_self, _temp374)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13703,11 +12063,6 @@ local _temp374 = string:new("'")
     _temp372 =  no(_self, _temp373)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -13729,11 +12084,6 @@ local _temp374 = string:new("'")
     _temp373 =  anything(_self)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_anything = _self.anything
       if object._is_callable(_m__self_anything) then
@@ -13754,11 +12104,6 @@ local _temp374 = string:new("'")
     _temp371 =  seq(_self, _temp372, _temp373)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -13779,11 +12124,6 @@ local _temp374 = string:new("'")
     _temp362 =  any(_self, _temp361, _temp364, _temp371)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -13804,11 +12144,6 @@ local _temp374 = string:new("'")
     _temp363 =  many(_self, _temp362)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -13829,11 +12164,6 @@ local _temp374 = string:new("'")
     _temp358 =  label(_self, _temp360, _temp363)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -13857,11 +12187,6 @@ _temp360 = string:new("'")
     _temp363 =  str(_self, _temp360)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13882,11 +12207,6 @@ _temp360 = string:new("'")
     _temp355 =  seq(_self, _temp356, _temp358, _temp363)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -13910,11 +12230,6 @@ _temp363 = _lifted[31]
     _temp359 =  action(_self, _temp355, _temp363)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -13938,11 +12253,6 @@ _temp356 = string:new(":\"")
     _temp358 =  str(_self, _temp356)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13969,11 +12279,6 @@ _temp361 = string:new("\\\"")
     _temp364 =  str(_self, _temp361)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -13997,11 +12302,6 @@ _temp373 = string:new("\\\\")
     _temp361 =  str(_self, _temp373)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -14025,11 +12325,6 @@ local _temp378 = string:new("\"")
     _temp374 =  str(_self, _temp378)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -14050,11 +12345,6 @@ local _temp378 = string:new("\"")
     _temp372 =  no(_self, _temp374)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -14076,11 +12366,6 @@ local _temp378 = string:new("\"")
     _temp374 =  anything(_self)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_anything = _self.anything
       if object._is_callable(_m__self_anything) then
@@ -14101,11 +12386,6 @@ local _temp378 = string:new("\"")
     _temp373 =  seq(_self, _temp372, _temp374)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -14126,11 +12406,6 @@ local _temp378 = string:new("\"")
     _temp371 =  any(_self, _temp364, _temp361, _temp373)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -14151,11 +12426,6 @@ local _temp378 = string:new("\"")
     _temp362 =  many(_self, _temp371)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -14176,11 +12446,6 @@ local _temp378 = string:new("\"")
     _temp356 =  label(_self, _temp360, _temp362)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -14204,11 +12469,6 @@ _temp360 = string:new("\"")
     _temp362 =  str(_self, _temp360)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -14229,11 +12489,6 @@ _temp360 = string:new("\"")
     _temp355 =  seq(_self, _temp358, _temp356, _temp362)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -14257,11 +12512,6 @@ _temp362 = _lifted[32]
     _temp363 =  action(_self, _temp355, _temp362)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -14282,11 +12532,6 @@ _temp362 = _lifted[32]
     _temp353 =  any(_self, _temp354, _temp357, _temp359, _temp363)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -14307,11 +12552,6 @@ _temp362 = _lifted[32]
     _temp351 =  set(_self, _temp352, _temp353)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -14379,11 +12619,6 @@ local _temp388 = string:new("#")
     _temp387 =  str(_self, _temp388)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -14407,11 +12642,6 @@ local _temp389 = string:new("{")
     _temp388 =  str(_self, _temp389)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -14435,11 +12665,6 @@ local _temp390 = _lifted_strings[6]
     _temp389 =  ref(_self, _temp390)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -14470,11 +12695,6 @@ local _temp394 = _lifted_strings[8]
     _temp393 =  ref(_self, _temp394)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -14495,11 +12715,6 @@ local _temp394 = _lifted_strings[8]
     _temp392 =  maybe(_self, _temp393)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -14520,11 +12735,6 @@ local _temp394 = _lifted_strings[8]
     _temp390 =  label(_self, _temp391, _temp392)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -14548,11 +12758,6 @@ _temp391 = _lifted_strings[6]
     _temp392 =  ref(_self, _temp391)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -14583,11 +12788,6 @@ local _temp397 = _lifted_strings[9]
     _temp396 =  ref(_self, _temp397)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -14611,11 +12811,6 @@ local _temp398 = _lifted_strings[6]
     _temp397 =  ref(_self, _temp398)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -14639,11 +12834,6 @@ local _temp399 = _lifted_strings[8]
     _temp398 =  ref(_self, _temp399)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -14669,11 +12859,6 @@ local _temp401 = _lifted_strings[27]
     _temp400 =  ref(_self, _temp401)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -14694,11 +12879,6 @@ local _temp401 = _lifted_strings[27]
     _temp399 =  maybe(_self, _temp400)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -14719,11 +12899,6 @@ local _temp401 = _lifted_strings[27]
     _temp395 =  seq(_self, _temp396, _temp397, _temp398, _temp399)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -14744,11 +12919,6 @@ local _temp401 = _lifted_strings[27]
     _temp394 =  kleene(_self, _temp395)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -14769,11 +12939,6 @@ local _temp401 = _lifted_strings[27]
     _temp391 =  label(_self, _temp393, _temp394)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -14797,11 +12962,6 @@ _temp393 = _lifted_strings[28]
     _temp394 =  ref(_self, _temp393)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -14825,11 +12985,6 @@ _temp395 = string:new("}")
     _temp393 =  str(_self, _temp395)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -14850,11 +13005,6 @@ _temp395 = string:new("}")
     _temp386 =  seq(_self, _temp387, _temp388, _temp389, _temp390, _temp392, _temp391, _temp394, _temp393)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -14878,11 +13028,6 @@ _temp393 = _lifted[33]
     _temp385 =  action(_self, _temp386, _temp393)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -14903,11 +13048,6 @@ _temp393 = _lifted[33]
     _temp383 =  set(_self, _temp384, _temp385)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -14973,11 +13113,6 @@ local _temp410 = _lifted_strings[6]
     _temp409 =  ref(_self, _temp410)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15001,11 +13136,6 @@ local _temp411 = string:new("#*")
     _temp410 =  str(_self, _temp411)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -15035,11 +13165,6 @@ local _temp415 = string:new("*#")
     _temp414 =  str(_self, _temp415)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -15060,11 +13185,6 @@ local _temp415 = string:new("*#")
     _temp413 =  no(_self, _temp414)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -15088,11 +13208,6 @@ local _temp416 = _lifted_strings[55]
     _temp415 =  ref(_self, _temp416)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15114,11 +13229,6 @@ local _temp416 = _lifted_strings[55]
     _temp416 =  anything(_self)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_anything = _self.anything
       if object._is_callable(_m__self_anything) then
@@ -15139,11 +13249,6 @@ local _temp416 = _lifted_strings[55]
     _temp414 =  any(_self, _temp415, _temp416)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -15164,11 +13269,6 @@ local _temp416 = _lifted_strings[55]
     _temp412 =  seq(_self, _temp413, _temp414)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -15189,11 +13289,6 @@ local _temp416 = _lifted_strings[55]
     _temp411 =  kleene(_self, _temp412)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -15217,11 +13312,6 @@ _temp413 = string:new("*#")
     _temp414 =  str(_self, _temp413)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -15245,11 +13335,6 @@ _temp416 = _lifted_strings[4]
     _temp413 =  ref(_self, _temp416)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15270,11 +13355,6 @@ _temp416 = _lifted_strings[4]
     _temp412 =  any(_self, _temp414, _temp413)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -15295,11 +13375,6 @@ _temp416 = _lifted_strings[4]
     _temp408 =  seq(_self, _temp409, _temp410, _temp411, _temp412)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -15320,11 +13395,6 @@ _temp416 = _lifted_strings[4]
     _temp406 =  set(_self, _temp407, _temp408)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -15390,11 +13460,6 @@ local _temp422 = _lifted_strings[55]
     _temp421 =  ref(_self, _temp422)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15420,11 +13485,6 @@ local _temp424 = _lifted_strings[6]
     _temp423 =  ref(_self, _temp424)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15448,11 +13508,6 @@ local _temp425 = string:new("#")
     _temp424 =  str(_self, _temp425)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -15484,11 +13539,6 @@ local _temp430 = string:new("\n")
     _temp429 =  str(_self, _temp430)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -15512,11 +13562,6 @@ local _temp431 = _lifted_strings[4]
     _temp430 =  ref(_self, _temp431)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15537,11 +13582,6 @@ local _temp431 = _lifted_strings[4]
     _temp428 =  any(_self, _temp429, _temp430)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -15562,11 +13602,6 @@ local _temp431 = _lifted_strings[4]
     _temp427 =  no(_self, _temp428)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -15588,11 +13623,6 @@ local _temp431 = _lifted_strings[4]
     _temp428 =  anything(_self)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_anything = _self.anything
       if object._is_callable(_m__self_anything) then
@@ -15613,11 +13643,6 @@ local _temp431 = _lifted_strings[4]
     _temp426 =  seq(_self, _temp427, _temp428)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -15638,11 +13663,6 @@ local _temp431 = _lifted_strings[4]
     _temp425 =  kleene(_self, _temp426)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -15663,11 +13683,6 @@ local _temp431 = _lifted_strings[4]
     _temp422 =  seq(_self, _temp423, _temp424, _temp425)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -15688,11 +13703,6 @@ local _temp431 = _lifted_strings[4]
     _temp420 =  any(_self, _temp421, _temp422)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -15713,11 +13723,6 @@ local _temp431 = _lifted_strings[4]
     _temp418 =  set(_self, _temp419, _temp420)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -15785,11 +13790,6 @@ local _temp438 = string:new("{")
     _temp437 =  str(_self, _temp438)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -15813,11 +13813,6 @@ local _temp439 = _lifted_strings[6]
     _temp438 =  ref(_self, _temp439)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15848,11 +13843,6 @@ local _temp443 = _lifted_strings[57]
     _temp442 =  ref(_self, _temp443)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15873,11 +13863,6 @@ local _temp443 = _lifted_strings[57]
     _temp441 =  maybe(_self, _temp442)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -15898,11 +13883,6 @@ local _temp443 = _lifted_strings[57]
     _temp439 =  label(_self, _temp440, _temp441)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -15926,11 +13906,6 @@ _temp440 = _lifted_strings[6]
     _temp441 =  ref(_self, _temp440)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15959,11 +13934,6 @@ local _temp445 = _lifted_strings[3]
     _temp444 =  ref(_self, _temp445)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -15984,11 +13954,6 @@ local _temp445 = _lifted_strings[3]
     _temp443 =  kleene(_self, _temp444)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -16009,11 +13974,6 @@ local _temp445 = _lifted_strings[3]
     _temp440 =  label(_self, _temp442, _temp443)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -16037,11 +13997,6 @@ _temp442 = _lifted_strings[6]
     _temp443 =  ref(_self, _temp442)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16065,11 +14020,6 @@ _temp444 = string:new("}")
     _temp442 =  str(_self, _temp444)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -16090,11 +14040,6 @@ _temp444 = string:new("}")
     _temp436 =  seq(_self, _temp437, _temp438, _temp439, _temp441, _temp440, _temp443, _temp442)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -16118,11 +14063,6 @@ _temp442 = _lifted[34]
     _temp435 =  action(_self, _temp436, _temp442)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -16143,11 +14083,6 @@ _temp442 = _lifted[34]
     _temp433 =  set(_self, _temp434, _temp435)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -16215,11 +14150,6 @@ local _temp455 = _lifted_strings[6]
     _temp454 =  ref(_self, _temp455)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16243,11 +14173,6 @@ local _temp456 = _lifted_strings[58]
     _temp455 =  ref(_self, _temp456)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16271,11 +14196,6 @@ local _temp457 = _lifted_strings[6]
     _temp456 =  ref(_self, _temp457)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16299,11 +14219,6 @@ local _temp458 = string:new("|")
     _temp457 =  str(_self, _temp458)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -16329,11 +14244,6 @@ local _temp460 = string:new("|")
     _temp459 =  str(_self, _temp460)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -16354,11 +14264,6 @@ local _temp460 = string:new("|")
     _temp458 =  no(_self, _temp459)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -16379,11 +14284,6 @@ local _temp460 = string:new("|")
     _temp453 =  seq(_self, _temp454, _temp455, _temp456, _temp457, _temp458)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -16407,11 +14307,6 @@ _temp456 = _lifted_strings[6]
     _temp457 =  ref(_self, _temp456)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16435,11 +14330,6 @@ _temp455 = _lifted_strings[59]
     _temp456 =  ref(_self, _temp455)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16463,11 +14353,6 @@ _temp454 = _lifted_strings[6]
     _temp455 =  ref(_self, _temp454)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16491,11 +14376,6 @@ _temp459 = string:new("|")
     _temp454 =  str(_self, _temp459)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -16519,11 +14399,6 @@ local _temp461 = string:new("|")
     _temp460 =  str(_self, _temp461)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -16544,11 +14419,6 @@ local _temp461 = string:new("|")
     _temp459 =  no(_self, _temp460)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -16569,11 +14439,6 @@ local _temp461 = string:new("|")
     _temp458 =  seq(_self, _temp457, _temp456, _temp455, _temp454, _temp459)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -16597,11 +14462,6 @@ _temp455 = _lifted_strings[6]
     _temp454 =  ref(_self, _temp455)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16625,11 +14485,6 @@ _temp456 = _lifted_strings[60]
     _temp455 =  ref(_self, _temp456)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16653,11 +14508,6 @@ _temp457 = _lifted_strings[6]
     _temp456 =  ref(_self, _temp457)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16681,11 +14531,6 @@ _temp460 = string:new("|")
     _temp457 =  str(_self, _temp460)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -16709,11 +14554,6 @@ local _temp462 = string:new("|")
     _temp461 =  str(_self, _temp462)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -16734,11 +14574,6 @@ local _temp462 = string:new("|")
     _temp460 =  no(_self, _temp461)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -16759,11 +14594,6 @@ local _temp462 = string:new("|")
     _temp459 =  seq(_self, _temp454, _temp455, _temp456, _temp457, _temp460)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -16787,11 +14617,6 @@ _temp456 = _lifted_strings[6]
     _temp457 =  ref(_self, _temp456)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16815,11 +14640,6 @@ _temp455 = _lifted_strings[58]
     _temp456 =  ref(_self, _temp455)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16843,11 +14663,6 @@ _temp454 = _lifted_strings[6]
     _temp455 =  ref(_self, _temp454)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16871,11 +14686,6 @@ _temp461 = string:new(",")
     _temp454 =  str(_self, _temp461)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -16899,11 +14709,6 @@ _temp462 = _lifted_strings[6]
     _temp461 =  ref(_self, _temp462)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16927,11 +14732,6 @@ local _temp463 = _lifted_strings[60]
     _temp462 =  ref(_self, _temp463)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16955,11 +14755,6 @@ local _temp464 = _lifted_strings[6]
     _temp463 =  ref(_self, _temp464)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -16983,11 +14778,6 @@ local _temp465 = string:new("|")
     _temp464 =  str(_self, _temp465)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17013,11 +14803,6 @@ local _temp467 = string:new("|")
     _temp466 =  str(_self, _temp467)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17038,11 +14823,6 @@ local _temp467 = string:new("|")
     _temp465 =  no(_self, _temp466)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -17063,11 +14843,6 @@ local _temp467 = string:new("|")
     _temp460 =  seq(_self, _temp457, _temp456, _temp455, _temp454, _temp461, _temp462, _temp463, _temp464, _temp465)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -17091,11 +14866,6 @@ _temp463 = _lifted_strings[6]
     _temp464 =  ref(_self, _temp463)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17119,11 +14889,6 @@ _temp462 = _lifted_strings[59]
     _temp463 =  ref(_self, _temp462)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17147,11 +14912,6 @@ _temp461 = _lifted_strings[6]
     _temp462 =  ref(_self, _temp461)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17175,11 +14935,6 @@ _temp454 = string:new(",")
     _temp461 =  str(_self, _temp454)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17203,11 +14958,6 @@ _temp455 = _lifted_strings[6]
     _temp454 =  ref(_self, _temp455)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17231,11 +14981,6 @@ _temp456 = _lifted_strings[60]
     _temp455 =  ref(_self, _temp456)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17259,11 +15004,6 @@ _temp457 = _lifted_strings[6]
     _temp456 =  ref(_self, _temp457)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17287,11 +15027,6 @@ _temp466 = string:new("|")
     _temp457 =  str(_self, _temp466)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17315,11 +15050,6 @@ local _temp468 = string:new("|")
     _temp467 =  str(_self, _temp468)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17340,11 +15070,6 @@ local _temp468 = string:new("|")
     _temp466 =  no(_self, _temp467)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -17365,11 +15090,6 @@ local _temp468 = string:new("|")
     _temp465 =  seq(_self, _temp464, _temp463, _temp462, _temp461, _temp454, _temp455, _temp456, _temp457, _temp466)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -17393,11 +15113,6 @@ _temp456 = _lifted_strings[6]
     _temp457 =  ref(_self, _temp456)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17421,11 +15136,6 @@ _temp455 = _lifted_strings[58]
     _temp456 =  ref(_self, _temp455)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17449,11 +15159,6 @@ _temp454 = _lifted_strings[6]
     _temp455 =  ref(_self, _temp454)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17477,11 +15182,6 @@ _temp461 = string:new(",")
     _temp454 =  str(_self, _temp461)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17505,11 +15205,6 @@ _temp462 = _lifted_strings[6]
     _temp461 =  ref(_self, _temp462)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17533,11 +15228,6 @@ _temp463 = _lifted_strings[59]
     _temp462 =  ref(_self, _temp463)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17561,11 +15251,6 @@ _temp464 = _lifted_strings[6]
     _temp463 =  ref(_self, _temp464)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17589,11 +15274,6 @@ _temp467 = string:new(",")
     _temp464 =  str(_self, _temp467)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17617,11 +15297,6 @@ _temp468 = _lifted_strings[6]
     _temp467 =  ref(_self, _temp468)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17645,11 +15320,6 @@ local _temp469 = _lifted_strings[60]
     _temp468 =  ref(_self, _temp469)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17673,11 +15343,6 @@ local _temp470 = _lifted_strings[6]
     _temp469 =  ref(_self, _temp470)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17701,11 +15366,6 @@ local _temp471 = string:new("|")
     _temp470 =  str(_self, _temp471)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17731,11 +15391,6 @@ local _temp473 = string:new("|")
     _temp472 =  str(_self, _temp473)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17756,11 +15411,6 @@ local _temp473 = string:new("|")
     _temp471 =  no(_self, _temp472)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -17781,11 +15431,6 @@ local _temp473 = string:new("|")
     _temp466 =  seq(_self, _temp457, _temp456, _temp455, _temp454, _temp461, _temp462, _temp463, _temp464, _temp467, _temp468, _temp469, _temp470, _temp471)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -17809,11 +15454,6 @@ _temp469 = _lifted_strings[6]
     _temp470 =  ref(_self, _temp469)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17837,11 +15477,6 @@ _temp468 = _lifted_strings[58]
     _temp469 =  ref(_self, _temp468)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17865,11 +15500,6 @@ _temp467 = _lifted_strings[6]
     _temp468 =  ref(_self, _temp467)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17893,11 +15523,6 @@ _temp464 = string:new(",")
     _temp467 =  str(_self, _temp464)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -17921,11 +15546,6 @@ _temp463 = _lifted_strings[6]
     _temp464 =  ref(_self, _temp463)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17949,11 +15569,6 @@ _temp462 = _lifted_strings[59]
     _temp463 =  ref(_self, _temp462)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -17977,11 +15592,6 @@ _temp461 = _lifted_strings[6]
     _temp462 =  ref(_self, _temp461)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18005,11 +15615,6 @@ _temp454 = string:new("|")
     _temp461 =  str(_self, _temp454)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -18033,11 +15638,6 @@ _temp456 = string:new("|")
     _temp455 =  str(_self, _temp456)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -18058,11 +15658,6 @@ _temp456 = string:new("|")
     _temp454 =  no(_self, _temp455)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -18083,11 +15678,6 @@ _temp456 = string:new("|")
     _temp471 =  seq(_self, _temp470, _temp469, _temp468, _temp467, _temp464, _temp463, _temp462, _temp461, _temp454)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -18111,11 +15701,6 @@ _temp461 = string:new("|")
     _temp454 =  str(_self, _temp461)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -18136,11 +15721,6 @@ _temp461 = string:new("|")
     _temp452 =  any(_self, _temp453, _temp458, _temp459, _temp460, _temp465, _temp466, _temp471, _temp454)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -18161,11 +15741,6 @@ _temp461 = string:new("|")
     _temp450 =  set(_self, _temp451, _temp452)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -18231,11 +15806,6 @@ local _temp479 = _lifted_strings[61]
     _temp478 =  ref(_self, _temp479)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18264,11 +15834,6 @@ local _temp482 = _lifted_strings[62]
     _temp481 =  ref(_self, _temp482)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18289,11 +15854,6 @@ local _temp482 = _lifted_strings[62]
     _temp479 =  label(_self, _temp480, _temp481)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -18314,11 +15874,6 @@ local _temp482 = _lifted_strings[62]
     _temp477 =  seq(_self, _temp478, _temp479)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -18339,11 +15894,6 @@ local _temp482 = _lifted_strings[62]
     _temp475 =  set(_self, _temp476, _temp477)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -18413,11 +15963,6 @@ local _temp490 = _lifted_strings[27]
     _temp489 =  ref(_self, _temp490)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18438,11 +15983,6 @@ local _temp490 = _lifted_strings[27]
     _temp488 =  maybe(_self, _temp489)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -18466,11 +16006,6 @@ _temp490 = string:new(",")
     _temp489 =  str(_self, _temp490)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -18494,11 +16029,6 @@ local _temp491 = _lifted_strings[6]
     _temp490 =  ref(_self, _temp491)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18522,11 +16052,6 @@ local _temp492 = _lifted_strings[61]
     _temp491 =  ref(_self, _temp492)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18554,11 +16079,6 @@ local _temp495 = _lifted_strings[27]
     _temp494 =  ref(_self, _temp495)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18582,11 +16102,6 @@ local _temp496 = string:new("=")
     _temp495 =  str(_self, _temp496)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -18607,11 +16122,6 @@ local _temp496 = string:new("=")
     _temp493 =  seq(_self, _temp494, _temp495)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -18632,11 +16142,6 @@ local _temp496 = string:new("=")
     _temp492 =  no(_self, _temp493)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -18657,11 +16162,6 @@ local _temp496 = string:new("=")
     _temp487 =  seq(_self, _temp488, _temp489, _temp490, _temp491, _temp492)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -18682,11 +16182,6 @@ local _temp496 = string:new("=")
     _temp486 =  kleene(_self, _temp487)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -18707,11 +16202,6 @@ local _temp496 = string:new("=")
     _temp484 =  set(_self, _temp485, _temp486)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -18777,11 +16267,6 @@ local _temp502 = _lifted_strings[30]
     _temp501 =  ref(_self, _temp502)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18805,11 +16290,6 @@ _temp502 = _lifted[35]
     _temp500 =  action(_self, _temp501, _temp502)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -18830,11 +16310,6 @@ _temp502 = _lifted[35]
     _temp498 =  set(_self, _temp499, _temp500)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -18900,11 +16375,6 @@ local _temp511 = _lifted_strings[63]
     _temp510 =  ref(_self, _temp511)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18934,11 +16404,6 @@ local _temp515 = _lifted_strings[27]
     _temp514 =  ref(_self, _temp515)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -18959,11 +16424,6 @@ local _temp515 = _lifted_strings[27]
     _temp513 =  maybe(_self, _temp514)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -18987,11 +16447,6 @@ _temp515 = string:new(",")
     _temp514 =  str(_self, _temp515)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -19015,11 +16470,6 @@ local _temp516 = _lifted_strings[6]
     _temp515 =  ref(_self, _temp516)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19043,11 +16493,6 @@ local _temp517 = _lifted_strings[59]
     _temp516 =  ref(_self, _temp517)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19068,11 +16513,6 @@ local _temp517 = _lifted_strings[59]
     _temp512 =  seq(_self, _temp513, _temp514, _temp515, _temp516)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -19093,11 +16533,6 @@ local _temp517 = _lifted_strings[59]
     _temp511 =  kleene(_self, _temp512)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -19118,11 +16553,6 @@ local _temp517 = _lifted_strings[59]
     _temp509 =  seq(_self, _temp510, _temp511)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -19143,11 +16573,6 @@ local _temp517 = _lifted_strings[59]
     _temp507 =  set(_self, _temp508, _temp509)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -19220,11 +16645,6 @@ local _temp526 = _lifted_strings[30]
     _temp525 =  ref(_self, _temp526)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19245,11 +16665,6 @@ local _temp526 = _lifted_strings[30]
     _temp523 =  label(_self, _temp524, _temp525)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -19273,11 +16688,6 @@ _temp524 = _lifted_strings[27]
     _temp525 =  ref(_self, _temp524)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19301,11 +16711,6 @@ _temp526 = string:new("=")
     _temp524 =  str(_self, _temp526)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -19329,11 +16734,6 @@ local _temp527 = _lifted_strings[27]
     _temp526 =  ref(_self, _temp527)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19362,11 +16762,6 @@ local _temp530 = _lifted_strings[66]
     _temp529 =  ref(_self, _temp530)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19387,11 +16782,6 @@ local _temp530 = _lifted_strings[66]
     _temp527 =  label(_self, _temp528, _temp529)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -19412,11 +16802,6 @@ local _temp530 = _lifted_strings[66]
     _temp522 =  seq(_self, _temp523, _temp525, _temp524, _temp526, _temp527)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -19440,11 +16825,6 @@ _temp527 = _lifted[36]
     _temp521 =  action(_self, _temp522, _temp527)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -19465,11 +16845,6 @@ _temp527 = _lifted[36]
     _temp519 =  set(_self, _temp520, _temp521)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -19535,11 +16910,6 @@ local _temp539 = _lifted_strings[15]
     _temp538 =  ref(_self, _temp539)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19563,11 +16933,6 @@ local _temp540 = _lifted_strings[17]
     _temp539 =  ref(_self, _temp540)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19591,11 +16956,6 @@ local _temp541 = _lifted_strings[19]
     _temp540 =  ref(_self, _temp541)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19619,11 +16979,6 @@ local _temp542 = _lifted_strings[20]
     _temp541 =  ref(_self, _temp542)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19647,11 +17002,6 @@ local _temp543 = _lifted_strings[21]
     _temp542 =  ref(_self, _temp543)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19675,11 +17025,6 @@ local _temp544 = _lifted_strings[22]
     _temp543 =  ref(_self, _temp544)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19703,11 +17048,6 @@ local _temp545 = _lifted_strings[23]
     _temp544 =  ref(_self, _temp545)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19731,11 +17071,6 @@ local _temp546 = _lifted_strings[24]
     _temp545 =  ref(_self, _temp546)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19756,11 +17091,6 @@ local _temp546 = _lifted_strings[24]
     _temp537 =  any(_self, _temp538, _temp539, _temp540, _temp541, _temp542, _temp543, _temp544, _temp545)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -19781,11 +17111,6 @@ local _temp546 = _lifted_strings[24]
     _temp535 =  set(_self, _temp536, _temp537)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -19853,11 +17178,6 @@ local _temp553 = string:new("*")
     _temp552 =  str(_self, _temp553)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -19886,11 +17206,6 @@ local _temp556 = _lifted_strings[30]
     _temp555 =  ref(_self, _temp556)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -19911,11 +17226,6 @@ local _temp556 = _lifted_strings[30]
     _temp553 =  label(_self, _temp554, _temp555)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -19936,11 +17246,6 @@ local _temp556 = _lifted_strings[30]
     _temp551 =  seq(_self, _temp552, _temp553)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -19964,11 +17269,6 @@ _temp553 = _lifted[37]
     _temp550 =  action(_self, _temp551, _temp553)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -19989,11 +17289,6 @@ _temp553 = _lifted[37]
     _temp548 =  set(_self, _temp549, _temp550)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -20065,11 +17360,6 @@ local _temp568 = string:new("-")
     _temp567 =  str(_self, _temp568)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -20093,11 +17383,6 @@ local _temp569 = _lifted_strings[20]
     _temp568 =  ref(_self, _temp569)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20118,11 +17403,6 @@ local _temp569 = _lifted_strings[20]
     _temp566 =  seq(_self, _temp567, _temp568)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -20143,11 +17423,6 @@ local _temp569 = _lifted_strings[20]
     _temp565 =  no(_self, _temp566)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -20171,11 +17446,6 @@ _temp568 = _lifted_strings[32]
     _temp566 =  ref(_self, _temp568)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20199,11 +17469,6 @@ _temp569 = _lifted_strings[27]
     _temp567 =  ref(_self, _temp569)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20224,11 +17489,6 @@ _temp569 = _lifted_strings[27]
     _temp568 =  no(_self, _temp567)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -20252,11 +17512,6 @@ _temp569 = _lifted_strings[67]
     _temp567 =  ref(_self, _temp569)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20277,11 +17532,6 @@ _temp569 = _lifted_strings[67]
     _temp564 =  seq(_self, _temp565, _temp566, _temp568, _temp567)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -20305,11 +17555,6 @@ _temp567 = _lifted[38]
     _temp563 =  action(_self, _temp564, _temp567)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -20330,11 +17575,6 @@ _temp567 = _lifted[38]
     _temp561 =  set(_self, _temp562, _temp563)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -20400,11 +17640,6 @@ local _temp578 = _lifted_strings[15]
     _temp577 =  ref(_self, _temp578)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20428,11 +17663,6 @@ local _temp579 = _lifted_strings[17]
     _temp578 =  ref(_self, _temp579)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20456,11 +17686,6 @@ local _temp580 = _lifted_strings[20]
     _temp579 =  ref(_self, _temp580)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20484,11 +17709,6 @@ local _temp581 = _lifted_strings[21]
     _temp580 =  ref(_self, _temp581)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20512,11 +17732,6 @@ local _temp582 = _lifted_strings[23]
     _temp581 =  ref(_self, _temp582)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20540,11 +17755,6 @@ local _temp583 = _lifted_strings[24]
     _temp582 =  ref(_self, _temp583)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20568,11 +17778,6 @@ local _temp584 = _lifted_strings[19]
     _temp583 =  ref(_self, _temp584)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20596,11 +17801,6 @@ local _temp585 = _lifted_strings[12]
     _temp584 =  ref(_self, _temp585)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20621,11 +17821,6 @@ local _temp585 = _lifted_strings[12]
     _temp576 =  any(_self, _temp577, _temp578, _temp579, _temp580, _temp581, _temp582, _temp583, _temp584)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -20646,11 +17841,6 @@ local _temp585 = _lifted_strings[12]
     _temp574 =  set(_self, _temp575, _temp576)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -20718,11 +17908,6 @@ local _temp592 = _lifted_strings[68]
     _temp591 =  ref(_self, _temp592)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20746,11 +17931,6 @@ local _temp593 = _lifted_strings[8]
     _temp592 =  ref(_self, _temp593)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20771,11 +17951,6 @@ local _temp593 = _lifted_strings[8]
     _temp590 =  seq(_self, _temp591, _temp592)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -20799,11 +17974,6 @@ _temp592 = _lifted[39]
     _temp589 =  action(_self, _temp590, _temp592)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -20824,11 +17994,6 @@ _temp592 = _lifted[39]
     _temp587 =  set(_self, _temp588, _temp589)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -20898,11 +18063,6 @@ local _temp604 = _lifted_strings[69]
     _temp603 =  ref(_self, _temp604)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20926,11 +18086,6 @@ local _temp605 = _lifted_strings[27]
     _temp604 =  ref(_self, _temp605)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20954,11 +18109,6 @@ local _temp606 = _lifted_strings[32]
     _temp605 =  ref(_self, _temp606)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -20988,11 +18138,6 @@ local _temp610 = _lifted_strings[27]
     _temp609 =  ref(_self, _temp610)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21013,11 +18158,6 @@ local _temp610 = _lifted_strings[27]
     _temp608 =  maybe(_self, _temp609)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -21041,11 +18181,6 @@ _temp610 = _lifted_strings[9]
     _temp609 =  ref(_self, _temp610)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21071,11 +18206,6 @@ local _temp612 = _lifted_strings[27]
     _temp611 =  ref(_self, _temp612)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21096,11 +18226,6 @@ local _temp612 = _lifted_strings[27]
     _temp610 =  maybe(_self, _temp611)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -21121,11 +18246,6 @@ local _temp612 = _lifted_strings[27]
     _temp607 =  seq(_self, _temp608, _temp609, _temp610)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -21149,11 +18269,6 @@ _temp609 = _lifted_strings[27]
     _temp610 =  ref(_self, _temp609)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21174,11 +18289,6 @@ _temp609 = _lifted_strings[27]
     _temp606 =  any(_self, _temp607, _temp610)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -21199,11 +18309,6 @@ _temp609 = _lifted_strings[27]
     _temp602 =  seq(_self, _temp603, _temp604, _temp605, _temp606)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -21224,11 +18329,6 @@ _temp609 = _lifted_strings[27]
     _temp601 =  many(_self, _temp602)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -21252,11 +18352,6 @@ _temp602 = _lifted[40]
     _temp600 =  action(_self, _temp601, _temp602)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -21277,11 +18372,6 @@ _temp602 = _lifted[40]
     _temp598 =  set(_self, _temp599, _temp600)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -21347,11 +18437,6 @@ local _temp621 = _lifted_strings[70]
     _temp620 =  ref(_self, _temp621)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21375,11 +18460,6 @@ local _temp622 = _lifted_strings[15]
     _temp621 =  ref(_self, _temp622)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21403,11 +18483,6 @@ local _temp623 = _lifted_strings[17]
     _temp622 =  ref(_self, _temp623)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21431,11 +18506,6 @@ local _temp624 = _lifted_strings[21]
     _temp623 =  ref(_self, _temp624)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21459,11 +18529,6 @@ local _temp625 = _lifted_strings[23]
     _temp624 =  ref(_self, _temp625)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21487,11 +18552,6 @@ local _temp626 = _lifted_strings[24]
     _temp625 =  ref(_self, _temp626)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21515,11 +18575,6 @@ local _temp627 = _lifted_strings[12]
     _temp626 =  ref(_self, _temp627)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21543,11 +18598,6 @@ local _temp628 = _lifted_strings[20]
     _temp627 =  ref(_self, _temp628)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21571,11 +18621,6 @@ local _temp629 = _lifted_strings[19]
     _temp628 =  ref(_self, _temp629)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21599,11 +18644,6 @@ local _temp630 = _lifted_strings[25]
     _temp629 =  ref(_self, _temp630)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21624,11 +18664,6 @@ local _temp630 = _lifted_strings[25]
     _temp619 =  any(_self, _temp620, _temp621, _temp622, _temp623, _temp624, _temp625, _temp626, _temp627, _temp628, _temp629)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -21649,11 +18684,6 @@ local _temp630 = _lifted_strings[25]
     _temp617 =  set(_self, _temp618, _temp619)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -21717,11 +18747,6 @@ local _temp635 = regex:new("\\G[a-zA-Z](?:(?!->)[a-zA-Z0-9_!?\\-*+^&@~\\/\\\\><$
     _temp634 =  reg(_self, _temp635)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_reg = _self.reg
       if object._is_callable(_m__self_reg) then
@@ -21742,11 +18767,6 @@ local _temp635 = regex:new("\\G[a-zA-Z](?:(?!->)[a-zA-Z0-9_!?\\-*+^&@~\\/\\\\><$
     _temp632 =  set(_self, _temp633, _temp634)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -21816,11 +18836,6 @@ local _temp643 = string:new("->")
     _temp642 =  str(_self, _temp643)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -21846,11 +18861,6 @@ local _temp645 = _lifted_strings[32]
     _temp644 =  ref(_self, _temp645)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -21871,11 +18881,6 @@ local _temp645 = _lifted_strings[32]
     _temp643 =  no(_self, _temp644)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -21896,11 +18901,6 @@ local _temp645 = _lifted_strings[32]
     _temp641 =  seq(_self, _temp642, _temp643)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -21921,11 +18921,6 @@ local _temp645 = _lifted_strings[32]
     _temp640 =  no(_self, _temp641)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -21949,11 +18944,6 @@ _temp644 = string:new("=")
     _temp642 =  str(_self, _temp644)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -21979,11 +18969,6 @@ local _temp647 = _lifted_strings[32]
     _temp646 =  ref(_self, _temp647)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22007,11 +18992,6 @@ local _temp648 = string:new("=")
     _temp647 =  str(_self, _temp648)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -22032,11 +19012,6 @@ local _temp648 = string:new("=")
     _temp645 =  any(_self, _temp646, _temp647)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -22057,11 +19032,6 @@ local _temp648 = string:new("=")
     _temp644 =  no(_self, _temp645)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -22082,11 +19052,6 @@ local _temp648 = string:new("=")
     _temp643 =  seq(_self, _temp642, _temp644)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -22107,11 +19072,6 @@ local _temp648 = string:new("=")
     _temp641 =  no(_self, _temp643)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -22135,11 +19095,6 @@ _temp645 = string:new("!=")
     _temp642 =  str(_self, _temp645)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -22163,11 +19118,6 @@ _temp647 = string:new(">=")
     _temp645 =  str(_self, _temp647)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -22191,11 +19141,6 @@ _temp646 = string:new("<=")
     _temp647 =  str(_self, _temp646)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -22219,11 +19164,6 @@ _temp648 = regex:new("\\G[!?\\-*+^@~\\/\\\\><$_%\\=]", "")
     _temp646 =  reg(_self, _temp648)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_reg = _self.reg
       if object._is_callable(_m__self_reg) then
@@ -22247,11 +19187,6 @@ local _temp649 = string:new("||")
     _temp648 =  str(_self, _temp649)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -22275,11 +19210,6 @@ local _temp650 = string:new("|")
     _temp649 =  str(_self, _temp650)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -22303,11 +19233,6 @@ local _temp651 = string:new("&&")
     _temp650 =  str(_self, _temp651)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -22331,11 +19256,6 @@ local _temp652 = string:new("&")
     _temp651 =  str(_self, _temp652)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -22356,11 +19276,6 @@ local _temp652 = string:new("&")
     _temp644 =  any(_self, _temp642, _temp645, _temp647, _temp646, _temp648, _temp649, _temp650, _temp651)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -22381,11 +19296,6 @@ local _temp652 = string:new("&")
     _temp643 =  many(_self, _temp644)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -22406,11 +19316,6 @@ local _temp652 = string:new("&")
     _temp639 =  seq(_self, _temp640, _temp641, _temp643)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -22431,11 +19336,6 @@ local _temp652 = string:new("&")
     _temp637 =  set(_self, _temp638, _temp639)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -22505,11 +19405,6 @@ local _temp660 = _lifted_strings[31]
     _temp659 =  ref(_self, _temp660)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22535,11 +19430,6 @@ local _temp662 = _lifted_strings[30]
     _temp661 =  ref(_self, _temp662)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22563,11 +19453,6 @@ local _temp663 = _lifted_strings[32]
     _temp662 =  ref(_self, _temp663)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22588,11 +19473,6 @@ local _temp663 = _lifted_strings[32]
     _temp660 =  any(_self, _temp661, _temp662)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -22616,11 +19496,6 @@ _temp661 = _lifted_strings[71]
     _temp662 =  ref(_self, _temp661)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22641,11 +19516,6 @@ _temp661 = _lifted_strings[71]
     _temp658 =  seq(_self, _temp659, _temp660, _temp662)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -22669,11 +19539,6 @@ _temp662 = _lifted[41]
     _temp657 =  action(_self, _temp658, _temp662)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -22697,11 +19562,6 @@ _temp658 = _lifted_strings[72]
     _temp662 =  ref(_self, _temp658)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22728,11 +19588,6 @@ local _temp667 = _lifted_strings[30]
     _temp663 =  ref(_self, _temp667)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22753,11 +19608,6 @@ local _temp667 = _lifted_strings[30]
     _temp659 =  label(_self, _temp661, _temp663)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -22784,11 +19634,6 @@ local _temp668 = _lifted_strings[71]
     _temp667 =  ref(_self, _temp668)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22809,11 +19654,6 @@ local _temp668 = _lifted_strings[71]
     _temp663 =  label(_self, _temp661, _temp667)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -22834,11 +19674,6 @@ local _temp668 = _lifted_strings[71]
     _temp660 =  seq(_self, _temp659, _temp663)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -22862,11 +19697,6 @@ _temp663 = _lifted[42]
     _temp658 =  action(_self, _temp660, _temp663)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -22890,11 +19720,6 @@ _temp667 = _lifted_strings[17]
     _temp659 =  ref(_self, _temp667)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22918,11 +19743,6 @@ _temp661 = _lifted_strings[38]
     _temp667 =  ref(_self, _temp661)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -22943,11 +19763,6 @@ _temp661 = _lifted_strings[38]
     _temp660 =  seq(_self, _temp659, _temp667)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -22971,11 +19786,6 @@ _temp667 = _lifted[43]
     _temp663 =  action(_self, _temp660, _temp667)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -22999,11 +19809,6 @@ _temp660 = _lifted_strings[75]
     _temp667 =  ref(_self, _temp660)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23024,11 +19829,6 @@ _temp660 = _lifted_strings[75]
     _temp656 =  any(_self, _temp657, _temp662, _temp658, _temp663, _temp667)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -23049,11 +19849,6 @@ _temp660 = _lifted_strings[75]
     _temp654 =  set(_self, _temp655, _temp656)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -23126,11 +19921,6 @@ local _temp683 = _lifted_strings[30]
     _temp682 =  ref(_self, _temp683)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23151,11 +19941,6 @@ local _temp683 = _lifted_strings[30]
     _temp680 =  label(_self, _temp681, _temp682)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -23182,11 +19967,6 @@ local _temp684 = _lifted_strings[38]
     _temp683 =  ref(_self, _temp684)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23207,11 +19987,6 @@ local _temp684 = _lifted_strings[38]
     _temp682 =  label(_self, _temp681, _temp683)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -23232,11 +20007,6 @@ local _temp684 = _lifted_strings[38]
     _temp679 =  seq(_self, _temp680, _temp682)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -23260,11 +20030,6 @@ _temp682 = _lifted[44]
     _temp678 =  action(_self, _temp679, _temp682)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -23285,11 +20050,6 @@ _temp682 = _lifted[44]
     _temp676 =  set(_self, _temp677, _temp678)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -23359,11 +20119,6 @@ local _temp695 = _lifted_strings[31]
     _temp694 =  ref(_self, _temp695)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23389,11 +20144,6 @@ local _temp697 = _lifted_strings[30]
     _temp696 =  ref(_self, _temp697)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23417,11 +20167,6 @@ local _temp698 = _lifted_strings[32]
     _temp697 =  ref(_self, _temp698)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23442,11 +20187,6 @@ local _temp698 = _lifted_strings[32]
     _temp695 =  any(_self, _temp696, _temp697)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -23470,11 +20210,6 @@ _temp696 = _lifted_strings[38]
     _temp697 =  ref(_self, _temp696)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23495,11 +20230,6 @@ _temp696 = _lifted_strings[38]
     _temp693 =  seq(_self, _temp694, _temp695, _temp697)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -23523,11 +20253,6 @@ _temp697 = _lifted[45]
     _temp692 =  action(_self, _temp693, _temp697)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -23551,11 +20276,6 @@ _temp694 = _lifted_strings[31]
     _temp695 =  ref(_self, _temp694)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23579,11 +20299,6 @@ _temp698 = _lifted_strings[30]
     _temp696 =  ref(_self, _temp698)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23607,11 +20322,6 @@ local _temp702 = _lifted_strings[32]
     _temp698 =  ref(_self, _temp702)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23632,11 +20342,6 @@ local _temp702 = _lifted_strings[32]
     _temp694 =  any(_self, _temp696, _temp698)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -23660,11 +20365,6 @@ _temp702 = _lifted_strings[27]
     _temp696 =  ref(_self, _temp702)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23685,11 +20385,6 @@ _temp702 = _lifted_strings[27]
     _temp698 =  _and(_self, _temp696)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self__and = _self._and
       if object._is_callable(_m__self__and) then
@@ -23710,11 +20405,6 @@ _temp702 = _lifted_strings[27]
     _temp693 =  seq(_self, _temp695, _temp694, _temp698)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -23738,11 +20428,6 @@ _temp698 = _lifted[46]
     _temp697 =  action(_self, _temp693, _temp698)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -23766,11 +20451,6 @@ _temp693 = _lifted_strings[72]
     _temp698 =  ref(_self, _temp693)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23794,11 +20474,6 @@ _temp696 = _lifted_strings[30]
     _temp695 =  ref(_self, _temp696)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23822,11 +20497,6 @@ local _temp706 = _lifted_strings[27]
     _temp702 =  ref(_self, _temp706)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -23847,11 +20517,6 @@ local _temp706 = _lifted_strings[27]
     _temp696 =  _and(_self, _temp702)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self__and = _self._and
       if object._is_callable(_m__self__and) then
@@ -23872,11 +20537,6 @@ local _temp706 = _lifted_strings[27]
     _temp694 =  seq(_self, _temp695, _temp696)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -23900,11 +20560,6 @@ _temp696 = _lifted[47]
     _temp693 =  action(_self, _temp694, _temp696)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -23925,11 +20580,6 @@ _temp696 = _lifted[47]
     _temp691 =  any(_self, _temp692, _temp697, _temp698, _temp693)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -23950,11 +20600,6 @@ _temp696 = _lifted[47]
     _temp689 =  set(_self, _temp690, _temp691)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -24027,11 +20672,6 @@ local _temp718 = _lifted_strings[22]
     _temp717 =  ref(_self, _temp718)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24052,11 +20692,6 @@ local _temp718 = _lifted_strings[22]
     _temp715 =  label(_self, _temp716, _temp717)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -24083,11 +20718,6 @@ local _temp719 = _lifted_strings[38]
     _temp718 =  ref(_self, _temp719)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24108,11 +20738,6 @@ local _temp719 = _lifted_strings[38]
     _temp717 =  label(_self, _temp716, _temp718)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -24133,11 +20758,6 @@ local _temp719 = _lifted_strings[38]
     _temp714 =  seq(_self, _temp715, _temp717)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -24161,11 +20781,6 @@ _temp717 = _lifted[48]
     _temp713 =  action(_self, _temp714, _temp717)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -24186,11 +20801,6 @@ _temp717 = _lifted[48]
     _temp711 =  set(_self, _temp712, _temp713)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -24260,11 +20870,6 @@ local _temp730 = _lifted_strings[77]
     _temp729 =  ref(_self, _temp730)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24288,11 +20893,6 @@ local _temp731 = string:new(".")
     _temp730 =  str(_self, _temp731)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -24313,11 +20913,6 @@ local _temp731 = string:new(".")
     _temp728 =  seq(_self, _temp729, _temp730)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -24338,11 +20933,6 @@ local _temp731 = string:new(".")
     _temp727 =  many(_self, _temp728)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -24366,11 +20956,6 @@ _temp728 = _lifted[49]
     _temp726 =  action(_self, _temp727, _temp728)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -24391,11 +20976,6 @@ _temp728 = _lifted[49]
     _temp724 =  set(_self, _temp725, _temp726)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -24470,11 +21050,6 @@ local _temp744 = _lifted_strings[30]
     _temp743 =  ref(_self, _temp744)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24495,11 +21070,6 @@ local _temp744 = _lifted_strings[30]
     _temp741 =  label(_self, _temp742, _temp743)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -24523,11 +21093,6 @@ _temp744 = _lifted_strings[27]
     _temp742 =  ref(_self, _temp744)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24548,11 +21113,6 @@ _temp744 = _lifted_strings[27]
     _temp743 =  no(_self, _temp742)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -24581,11 +21141,6 @@ local _temp746 = _lifted_strings[71]
     _temp745 =  ref(_self, _temp746)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24606,11 +21161,6 @@ local _temp746 = _lifted_strings[71]
     _temp742 =  label(_self, _temp744, _temp745)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -24634,11 +21184,6 @@ local _temp747 = string:new("[")
     _temp746 =  str(_self, _temp747)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -24662,11 +21207,6 @@ local _temp748 = _lifted_strings[6]
     _temp747 =  ref(_self, _temp748)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24695,11 +21235,6 @@ local _temp751 = _lifted_strings[79]
     _temp750 =  ref(_self, _temp751)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24720,11 +21255,6 @@ local _temp751 = _lifted_strings[79]
     _temp748 =  label(_self, _temp749, _temp750)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -24748,11 +21278,6 @@ _temp749 = _lifted_strings[6]
     _temp750 =  ref(_self, _temp749)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24776,11 +21301,6 @@ _temp751 = string:new("]")
     _temp749 =  str(_self, _temp751)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -24801,11 +21321,6 @@ _temp751 = string:new("]")
     _temp744 =  seq(_self, _temp746, _temp747, _temp748, _temp750, _temp749)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -24826,11 +21341,6 @@ _temp751 = string:new("]")
     _temp745 =  kleene(_self, _temp744)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -24851,11 +21361,6 @@ _temp751 = string:new("]")
     _temp740 =  seq(_self, _temp741, _temp743, _temp742, _temp745)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -24879,11 +21384,6 @@ _temp745 = _lifted[50]
     _temp739 =  action(_self, _temp740, _temp745)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -24910,11 +21410,6 @@ _temp744 = _lifted_strings[23]
     _temp741 =  ref(_self, _temp744)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -24935,11 +21430,6 @@ _temp744 = _lifted_strings[23]
     _temp742 =  label(_self, _temp743, _temp741)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -24966,11 +21456,6 @@ _temp748 = string:new("[")
     _temp750 =  str(_self, _temp748)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -24994,11 +21479,6 @@ _temp747 = _lifted_strings[6]
     _temp748 =  ref(_self, _temp747)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25025,11 +21505,6 @@ local _temp755 = _lifted_strings[79]
     _temp751 =  ref(_self, _temp755)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25050,11 +21525,6 @@ local _temp755 = _lifted_strings[79]
     _temp747 =  label(_self, _temp746, _temp751)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -25078,11 +21548,6 @@ _temp746 = _lifted_strings[6]
     _temp751 =  ref(_self, _temp746)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25106,11 +21571,6 @@ _temp755 = string:new("]")
     _temp746 =  str(_self, _temp755)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -25131,11 +21591,6 @@ _temp755 = string:new("]")
     _temp749 =  seq(_self, _temp750, _temp748, _temp747, _temp751, _temp746)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -25156,11 +21611,6 @@ _temp755 = string:new("]")
     _temp744 =  many(_self, _temp749)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -25181,11 +21631,6 @@ _temp755 = string:new("]")
     _temp741 =  label(_self, _temp743, _temp744)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -25206,11 +21651,6 @@ _temp755 = string:new("]")
     _temp740 =  seq(_self, _temp742, _temp741)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -25234,11 +21674,6 @@ _temp741 = _lifted[51]
     _temp745 =  action(_self, _temp740, _temp741)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -25262,11 +21697,6 @@ _temp742 = _lifted_strings[22]
     _temp740 =  ref(_self, _temp742)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25290,11 +21720,6 @@ _temp743 = _lifted_strings[27]
     _temp744 =  ref(_self, _temp743)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25315,11 +21740,6 @@ _temp743 = _lifted_strings[27]
     _temp742 =  no(_self, _temp744)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -25343,11 +21763,6 @@ _temp743 = _lifted_strings[38]
     _temp744 =  ref(_self, _temp743)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25368,11 +21783,6 @@ _temp743 = _lifted_strings[38]
     _temp741 =  seq(_self, _temp740, _temp742, _temp744)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -25396,11 +21806,6 @@ _temp740 = _lifted_strings[22]
     _temp742 =  ref(_self, _temp740)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25424,11 +21829,6 @@ _temp749 = string:new(".")
     _temp743 =  str(_self, _temp749)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -25449,11 +21849,6 @@ _temp749 = string:new(".")
     _temp740 =  _and(_self, _temp743)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self__and = _self._and
       if object._is_callable(_m__self__and) then
@@ -25474,11 +21869,6 @@ _temp749 = string:new(".")
     _temp744 =  seq(_self, _temp742, _temp740)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -25502,11 +21892,6 @@ _temp749 = string:new("->")
     _temp743 =  str(_self, _temp749)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -25533,11 +21918,6 @@ _temp747 = _lifted_strings[30]
     _temp751 =  ref(_self, _temp747)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25558,11 +21938,6 @@ _temp747 = _lifted_strings[30]
     _temp749 =  label(_self, _temp746, _temp751)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -25583,11 +21958,6 @@ _temp747 = _lifted_strings[30]
     _temp742 =  seq(_self, _temp743, _temp749)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -25611,11 +21981,6 @@ _temp749 = _lifted[52]
     _temp740 =  action(_self, _temp742, _temp749)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -25639,11 +22004,6 @@ _temp742 = _lifted_strings[81]
     _temp749 =  ref(_self, _temp742)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25664,11 +22024,6 @@ _temp742 = _lifted_strings[81]
     _temp738 =  any(_self, _temp739, _temp745, _temp741, _temp744, _temp740, _temp749)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -25689,11 +22044,6 @@ _temp742 = _lifted_strings[81]
     _temp736 =  set(_self, _temp737, _temp738)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -25759,11 +22109,6 @@ local _temp767 = _lifted_strings[23]
     _temp766 =  ref(_self, _temp767)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25787,11 +22132,6 @@ local _temp768 = _lifted_strings[24]
     _temp767 =  ref(_self, _temp768)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25815,11 +22155,6 @@ local _temp769 = _lifted_strings[17]
     _temp768 =  ref(_self, _temp769)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25843,11 +22178,6 @@ local _temp770 = _lifted_strings[20]
     _temp769 =  ref(_self, _temp770)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25871,11 +22201,6 @@ local _temp771 = _lifted_strings[21]
     _temp770 =  ref(_self, _temp771)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25899,11 +22224,6 @@ local _temp772 = _lifted_strings[12]
     _temp771 =  ref(_self, _temp772)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25927,11 +22247,6 @@ local _temp773 = _lifted_strings[25]
     _temp772 =  ref(_self, _temp773)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -25952,11 +22267,6 @@ local _temp773 = _lifted_strings[25]
     _temp765 =  any(_self, _temp766, _temp767, _temp768, _temp769, _temp770, _temp771, _temp772)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -25977,11 +22287,6 @@ local _temp773 = _lifted_strings[25]
     _temp763 =  set(_self, _temp764, _temp765)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -26049,11 +22354,6 @@ local _temp780 = string:new("(")
     _temp779 =  str(_self, _temp780)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -26077,11 +22377,6 @@ local _temp781 = _lifted_strings[6]
     _temp780 =  ref(_self, _temp781)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26105,11 +22400,6 @@ local _temp782 = _lifted_strings[79]
     _temp781 =  ref(_self, _temp782)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26133,11 +22423,6 @@ local _temp783 = _lifted_strings[6]
     _temp782 =  ref(_self, _temp783)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26161,11 +22446,6 @@ local _temp784 = string:new(")")
     _temp783 =  str(_self, _temp784)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -26186,11 +22466,6 @@ local _temp784 = string:new(")")
     _temp778 =  seq(_self, _temp779, _temp780, _temp781, _temp782, _temp783)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -26214,11 +22489,6 @@ _temp781 = string:new("(")
     _temp782 =  str(_self, _temp781)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -26242,11 +22512,6 @@ _temp780 = _lifted_strings[6]
     _temp781 =  ref(_self, _temp780)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26270,11 +22535,6 @@ _temp779 = string:new(")")
     _temp780 =  str(_self, _temp779)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -26295,11 +22555,6 @@ _temp779 = string:new(")")
     _temp783 =  seq(_self, _temp782, _temp781, _temp780)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -26323,11 +22578,6 @@ _temp782 = _lifted_strings[27]
     _temp781 =  ref(_self, _temp782)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26351,11 +22601,6 @@ _temp779 = _lifted_strings[79]
     _temp782 =  ref(_self, _temp779)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26376,11 +22621,6 @@ _temp779 = _lifted_strings[79]
     _temp780 =  seq(_self, _temp781, _temp782)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -26404,11 +22644,6 @@ _temp784 = string:new("(")
     _temp779 =  str(_self, _temp784)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -26429,11 +22664,6 @@ _temp784 = string:new("(")
     _temp781 =  no(_self, _temp779)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -26459,11 +22689,6 @@ local _temp786 = _lifted_strings[27]
     _temp785 =  ref(_self, _temp786)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26484,11 +22709,6 @@ local _temp786 = _lifted_strings[27]
     _temp784 =  maybe(_self, _temp785)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -26509,11 +22729,6 @@ local _temp786 = _lifted_strings[27]
     _temp779 =  _and(_self, _temp784)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self__and = _self._and
       if object._is_callable(_m__self__and) then
@@ -26534,11 +22749,6 @@ local _temp786 = _lifted_strings[27]
     _temp782 =  seq(_self, _temp781, _temp779)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -26559,11 +22769,6 @@ local _temp786 = _lifted_strings[27]
     _temp777 =  any(_self, _temp778, _temp783, _temp780, _temp782)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -26584,11 +22789,6 @@ local _temp786 = _lifted_strings[27]
     _temp775 =  set(_self, _temp776, _temp777)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -26656,11 +22856,6 @@ local _temp793 = string:new("(")
     _temp792 =  str(_self, _temp793)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -26684,11 +22879,6 @@ local _temp794 = _lifted_strings[6]
     _temp793 =  ref(_self, _temp794)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26712,11 +22902,6 @@ local _temp795 = _lifted_strings[79]
     _temp794 =  ref(_self, _temp795)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26740,11 +22925,6 @@ local _temp796 = _lifted_strings[6]
     _temp795 =  ref(_self, _temp796)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26768,11 +22948,6 @@ local _temp797 = string:new(")")
     _temp796 =  str(_self, _temp797)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -26793,11 +22968,6 @@ local _temp797 = string:new(")")
     _temp791 =  seq(_self, _temp792, _temp793, _temp794, _temp795, _temp796)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -26821,11 +22991,6 @@ _temp794 = string:new("(")
     _temp795 =  str(_self, _temp794)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -26849,11 +23014,6 @@ _temp793 = _lifted_strings[6]
     _temp794 =  ref(_self, _temp793)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -26877,11 +23037,6 @@ _temp792 = string:new(")")
     _temp793 =  str(_self, _temp792)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -26902,11 +23057,6 @@ _temp792 = string:new(")")
     _temp796 =  seq(_self, _temp795, _temp794, _temp793)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -26927,11 +23077,6 @@ _temp792 = string:new(")")
     _temp790 =  any(_self, _temp791, _temp796)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -26952,11 +23097,6 @@ _temp792 = string:new(")")
     _temp788 =  set(_self, _temp789, _temp790)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -27024,11 +23164,6 @@ local _temp804 = _lifted_strings[82]
     _temp803 =  ref(_self, _temp804)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27054,11 +23189,6 @@ local _temp806 = _lifted_strings[83]
     _temp805 =  ref(_self, _temp806)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27079,11 +23209,6 @@ local _temp806 = _lifted_strings[83]
     _temp804 =  kleene(_self, _temp805)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -27104,11 +23229,6 @@ local _temp806 = _lifted_strings[83]
     _temp802 =  seq(_self, _temp803, _temp804)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -27132,11 +23252,6 @@ _temp804 = _lifted[53]
     _temp801 =  action(_self, _temp802, _temp804)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -27157,11 +23272,6 @@ _temp804 = _lifted[53]
     _temp799 =  set(_self, _temp800, _temp801)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -27227,11 +23337,6 @@ local _temp815 = _lifted_strings[84]
     _temp814 =  ref(_self, _temp815)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27255,11 +23360,6 @@ local _temp816 = _lifted_strings[8]
     _temp815 =  ref(_self, _temp816)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27280,11 +23380,6 @@ local _temp816 = _lifted_strings[8]
     _temp813 =  any(_self, _temp814, _temp815)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -27305,11 +23400,6 @@ local _temp816 = _lifted_strings[8]
     _temp811 =  set(_self, _temp812, _temp813)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -27375,11 +23465,6 @@ local _temp822 = _lifted_strings[27]
     _temp821 =  ref(_self, _temp822)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27403,11 +23488,6 @@ local _temp823 = _lifted_strings[86]
     _temp822 =  ref(_self, _temp823)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27428,11 +23508,6 @@ local _temp823 = _lifted_strings[86]
     _temp820 =  any(_self, _temp821, _temp822)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -27453,11 +23528,6 @@ local _temp823 = _lifted_strings[86]
     _temp818 =  set(_self, _temp819, _temp820)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -27527,11 +23597,6 @@ local _temp831 = _lifted_strings[85]
     _temp830 =  ref(_self, _temp831)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27552,11 +23617,6 @@ local _temp831 = _lifted_strings[85]
     _temp829 =  kleene(_self, _temp830)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -27580,11 +23640,6 @@ _temp831 = string:new(",")
     _temp830 =  str(_self, _temp831)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -27610,11 +23665,6 @@ local _temp833 = _lifted_strings[85]
     _temp832 =  ref(_self, _temp833)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27635,11 +23685,6 @@ local _temp833 = _lifted_strings[85]
     _temp831 =  kleene(_self, _temp832)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -27663,11 +23708,6 @@ _temp833 = _lifted_strings[82]
     _temp832 =  ref(_self, _temp833)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27688,11 +23728,6 @@ _temp833 = _lifted_strings[82]
     _temp828 =  seq(_self, _temp829, _temp830, _temp831, _temp832)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -27716,11 +23751,6 @@ _temp829 = _lifted_strings[85]
     _temp830 =  ref(_self, _temp829)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27741,11 +23771,6 @@ _temp829 = _lifted_strings[85]
     _temp831 =  many(_self, _temp830)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -27769,11 +23794,6 @@ _temp829 = _lifted_strings[22]
     _temp830 =  ref(_self, _temp829)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27794,11 +23814,6 @@ _temp829 = _lifted_strings[22]
     _temp832 =  seq(_self, _temp831, _temp830)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -27822,11 +23837,6 @@ _temp833 = _lifted_strings[85]
     _temp829 =  ref(_self, _temp833)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27847,11 +23857,6 @@ _temp833 = _lifted_strings[85]
     _temp831 =  many(_self, _temp829)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -27875,11 +23880,6 @@ _temp833 = _lifted_strings[84]
     _temp829 =  ref(_self, _temp833)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27900,11 +23900,6 @@ _temp833 = _lifted_strings[84]
     _temp830 =  seq(_self, _temp831, _temp829)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -27928,11 +23923,6 @@ _temp833 = _lifted_strings[6]
     _temp831 =  ref(_self, _temp833)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27956,11 +23946,6 @@ local _temp834 = _lifted_strings[8]
     _temp833 =  ref(_self, _temp834)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -27981,11 +23966,6 @@ local _temp834 = _lifted_strings[8]
     _temp829 =  seq(_self, _temp831, _temp833)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -28006,11 +23986,6 @@ local _temp834 = _lifted_strings[8]
     _temp827 =  any(_self, _temp828, _temp832, _temp830, _temp829)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -28031,11 +24006,6 @@ local _temp834 = _lifted_strings[8]
     _temp825 =  set(_self, _temp826, _temp827)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -28110,11 +24080,6 @@ local _temp844 = _lifted_strings[30]
     _temp843 =  ref(_self, _temp844)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28135,11 +24100,6 @@ local _temp844 = _lifted_strings[30]
     _temp841 =  label(_self, _temp842, _temp843)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -28163,11 +24123,6 @@ _temp842 = string:new(":")
     _temp843 =  str(_self, _temp842)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -28191,11 +24146,6 @@ _temp844 = _lifted_strings[28]
     _temp842 =  ref(_self, _temp844)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28224,11 +24174,6 @@ local _temp847 = _lifted_strings[8]
     _temp846 =  ref(_self, _temp847)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28249,11 +24194,6 @@ local _temp847 = _lifted_strings[8]
     _temp844 =  label(_self, _temp845, _temp846)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -28274,11 +24214,6 @@ local _temp847 = _lifted_strings[8]
     _temp840 =  seq(_self, _temp841, _temp843, _temp842, _temp844)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -28302,11 +24237,6 @@ _temp844 = _lifted[54]
     _temp839 =  action(_self, _temp840, _temp844)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -28333,11 +24263,6 @@ _temp846 = _lifted_strings[21]
     _temp841 =  ref(_self, _temp846)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28358,11 +24283,6 @@ _temp846 = _lifted_strings[21]
     _temp842 =  label(_self, _temp843, _temp841)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -28386,11 +24306,6 @@ _temp843 = string:new(":")
     _temp841 =  str(_self, _temp843)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -28414,11 +24329,6 @@ _temp846 = _lifted_strings[28]
     _temp843 =  ref(_self, _temp846)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28445,11 +24355,6 @@ local _temp851 = _lifted_strings[8]
     _temp847 =  ref(_self, _temp851)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28470,11 +24375,6 @@ local _temp851 = _lifted_strings[8]
     _temp846 =  label(_self, _temp845, _temp847)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -28495,11 +24395,6 @@ local _temp851 = _lifted_strings[8]
     _temp840 =  seq(_self, _temp842, _temp841, _temp843, _temp846)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -28523,11 +24418,6 @@ _temp846 = _lifted[55]
     _temp844 =  action(_self, _temp840, _temp846)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -28554,11 +24444,6 @@ _temp845 = _lifted_strings[81]
     _temp847 =  ref(_self, _temp845)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28582,11 +24467,6 @@ _temp851 = _lifted_strings[72]
     _temp845 =  ref(_self, _temp851)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28607,11 +24487,6 @@ _temp851 = _lifted_strings[72]
     _temp842 =  any(_self, _temp847, _temp845)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -28632,11 +24507,6 @@ _temp851 = _lifted_strings[72]
     _temp843 =  label(_self, _temp841, _temp842)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -28660,11 +24530,6 @@ _temp841 = _lifted_strings[27]
     _temp842 =  ref(_self, _temp841)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28688,11 +24553,6 @@ _temp845 = string:new(":")
     _temp841 =  str(_self, _temp845)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -28716,11 +24576,6 @@ _temp847 = _lifted_strings[27]
     _temp845 =  ref(_self, _temp847)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28744,11 +24599,6 @@ _temp851 = _lifted_strings[28]
     _temp847 =  ref(_self, _temp851)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28777,11 +24627,6 @@ local _temp857 = _lifted_strings[8]
     _temp856 =  ref(_self, _temp857)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -28802,11 +24647,6 @@ local _temp857 = _lifted_strings[8]
     _temp851 =  label(_self, _temp855, _temp856)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_label = _self.label
       if object._is_callable(_m__self_label) then
@@ -28827,11 +24667,6 @@ local _temp857 = _lifted_strings[8]
     _temp840 =  seq(_self, _temp843, _temp842, _temp841, _temp845, _temp847, _temp851)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -28855,11 +24690,6 @@ _temp851 = _lifted[56]
     _temp846 =  action(_self, _temp840, _temp851)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -28880,11 +24710,6 @@ _temp851 = _lifted[56]
     _temp838 =  any(_self, _temp839, _temp844, _temp846)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -28905,11 +24730,6 @@ _temp851 = _lifted[56]
     _temp836 =  set(_self, _temp837, _temp838)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -28977,11 +24797,6 @@ local _temp867 = _lifted_strings[82]
     _temp866 =  ref(_self, _temp867)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29007,11 +24822,6 @@ local _temp869 = _lifted_strings[87]
     _temp868 =  ref(_self, _temp869)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29032,11 +24842,6 @@ local _temp869 = _lifted_strings[87]
     _temp867 =  kleene(_self, _temp868)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -29057,11 +24862,6 @@ local _temp869 = _lifted_strings[87]
     _temp865 =  seq(_self, _temp866, _temp867)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -29085,11 +24885,6 @@ _temp867 = _lifted[57]
     _temp864 =  action(_self, _temp865, _temp867)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_action = _self.action
       if object._is_callable(_m__self_action) then
@@ -29110,11 +24905,6 @@ _temp867 = _lifted[57]
     _temp862 =  set(_self, _temp863, _temp864)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -29180,11 +24970,6 @@ local _temp878 = _lifted_strings[83]
     _temp877 =  ref(_self, _temp878)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29212,11 +24997,6 @@ local _temp881 = _lifted_strings[85]
     _temp880 =  ref(_self, _temp881)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29237,11 +25017,6 @@ local _temp881 = _lifted_strings[85]
     _temp879 =  many(_self, _temp880)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -29265,11 +25040,6 @@ _temp881 = _lifted_strings[82]
     _temp880 =  ref(_self, _temp881)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29290,11 +25060,6 @@ _temp881 = _lifted_strings[82]
     _temp878 =  seq(_self, _temp879, _temp880)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -29315,11 +25080,6 @@ _temp881 = _lifted_strings[82]
     _temp876 =  any(_self, _temp877, _temp878)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -29340,11 +25100,6 @@ _temp881 = _lifted_strings[82]
     _temp874 =  set(_self, _temp875, _temp876)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -29410,11 +25165,6 @@ local _temp887 = _lifted_strings[6]
     _temp886 =  ref(_self, _temp887)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29440,11 +25190,6 @@ local _temp889 = _lifted_strings[9]
     _temp888 =  ref(_self, _temp889)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29465,11 +25210,6 @@ local _temp889 = _lifted_strings[9]
     _temp887 =  maybe(_self, _temp888)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -29495,11 +25235,6 @@ local _temp891 = _lifted_strings[5]
     _temp890 =  ref(_self, _temp891)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29523,11 +25258,6 @@ local _temp892 = _lifted_strings[9]
     _temp891 =  ref(_self, _temp892)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29548,11 +25278,6 @@ local _temp892 = _lifted_strings[9]
     _temp889 =  seq(_self, _temp890, _temp891)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -29573,11 +25298,6 @@ local _temp892 = _lifted_strings[9]
     _temp888 =  kleene(_self, _temp889)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_kleene = _self.kleene
       if object._is_callable(_m__self_kleene) then
@@ -29601,11 +25321,6 @@ _temp890 = _lifted_strings[27]
     _temp891 =  ref(_self, _temp890)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29626,11 +25341,6 @@ _temp890 = _lifted_strings[27]
     _temp889 =  maybe(_self, _temp891)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -29651,11 +25361,6 @@ _temp890 = _lifted_strings[27]
     _temp885 =  seq(_self, _temp886, _temp887, _temp888, _temp889)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -29676,11 +25381,6 @@ _temp890 = _lifted_strings[27]
     _temp883 =  set(_self, _temp884, _temp885)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -29750,11 +25450,6 @@ local _temp900 = string:new("\n")
     _temp899 =  str(_self, _temp900)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -29778,11 +25473,6 @@ local _temp901 = string:new("\r\n")
     _temp900 =  str(_self, _temp901)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -29803,11 +25493,6 @@ local _temp901 = string:new("\r\n")
     _temp898 =  any(_self, _temp899, _temp900)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -29828,11 +25513,6 @@ local _temp901 = string:new("\r\n")
     _temp897 =  many(_self, _temp898)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_many = _self.many
       if object._is_callable(_m__self_many) then
@@ -29856,11 +25536,6 @@ _temp900 = _lifted_strings[5]
     _temp898 =  ref(_self, _temp900)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -29881,11 +25556,6 @@ _temp900 = _lifted_strings[5]
     _temp896 =  any(_self, _temp897, _temp898)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -29906,11 +25576,6 @@ _temp900 = _lifted_strings[5]
     _temp894 =  set(_self, _temp895, _temp896)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -29974,11 +25639,6 @@ local _temp906 = regex:new("\\G(?: |\\t)*", "")
     _temp905 =  reg(_self, _temp906)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_reg = _self.reg
       if object._is_callable(_m__self_reg) then
@@ -29999,11 +25659,6 @@ local _temp906 = regex:new("\\G(?: |\\t)*", "")
     _temp903 =  set(_self, _temp904, _temp905)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -30067,11 +25722,6 @@ local _temp911 = regex:new("\\G(?: |\\t)+", "")
     _temp910 =  reg(_self, _temp911)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_reg = _self.reg
       if object._is_callable(_m__self_reg) then
@@ -30092,11 +25742,6 @@ local _temp911 = regex:new("\\G(?: |\\t)+", "")
     _temp908 =  set(_self, _temp909, _temp910)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -30160,11 +25805,6 @@ local _temp916 = regex:new("\\G(?:\\n|;|\\r\\n)+", "")
     _temp915 =  reg(_self, _temp916)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_reg = _self.reg
       if object._is_callable(_m__self_reg) then
@@ -30185,11 +25825,6 @@ local _temp916 = regex:new("\\G(?:\\n|;|\\r\\n)+", "")
     _temp913 =  set(_self, _temp914, _temp915)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -30255,11 +25890,6 @@ local _temp922 = _lifted_strings[6]
     _temp921 =  ref(_self, _temp922)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -30285,11 +25915,6 @@ local _temp924 = string:new("}")
     _temp923 =  str(_self, _temp924)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_str = _self.str
       if object._is_callable(_m__self_str) then
@@ -30310,11 +25935,6 @@ local _temp924 = string:new("}")
     _temp922 =  _and(_self, _temp923)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self__and = _self._and
       if object._is_callable(_m__self__and) then
@@ -30338,11 +25958,6 @@ local _temp925 = _lifted_strings[27]
     _temp924 =  ref(_self, _temp925)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -30363,11 +25978,6 @@ local _temp925 = _lifted_strings[27]
     _temp923 =  maybe(_self, _temp924)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -30388,11 +25998,6 @@ local _temp925 = _lifted_strings[27]
     _temp920 =  seq(_self, _temp921, _temp922, _temp923)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -30413,11 +26018,6 @@ local _temp925 = _lifted_strings[27]
     _temp918 =  set(_self, _temp919, _temp920)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -30487,11 +26087,6 @@ local _temp933 = _lifted_strings[9]
     _temp932 =  ref(_self, _temp933)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -30515,11 +26110,6 @@ local _temp934 = _lifted_strings[27]
     _temp933 =  ref(_self, _temp934)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_ref = _self.ref
       if object._is_callable(_m__self_ref) then
@@ -30540,11 +26130,6 @@ local _temp934 = _lifted_strings[27]
     _temp931 =  any(_self, _temp932, _temp933)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_any = _self.any
       if object._is_callable(_m__self_any) then
@@ -30565,11 +26150,6 @@ local _temp934 = _lifted_strings[27]
     _temp930 =  maybe(_self, _temp931)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_maybe = _self.maybe
       if object._is_callable(_m__self_maybe) then
@@ -30591,11 +26171,6 @@ local _temp934 = _lifted_strings[27]
     _temp933 =  anything(_self)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_anything = _self.anything
       if object._is_callable(_m__self_anything) then
@@ -30616,11 +26191,6 @@ local _temp934 = _lifted_strings[27]
     _temp931 =  no(_self, _temp933)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_no = _self.no
       if object._is_callable(_m__self_no) then
@@ -30641,11 +26211,6 @@ local _temp934 = _lifted_strings[27]
     _temp929 =  seq(_self, _temp930, _temp931)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_seq = _self.seq
       if object._is_callable(_m__self_seq) then
@@ -30666,11 +26231,6 @@ local _temp934 = _lifted_strings[27]
     _temp927 =  set(_self, _temp928, _temp929)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_set = _self.set
       if object._is_callable(_m__self_set) then
@@ -30726,11 +26286,6 @@ local _temp935 = string:new("brat_parser")
     _temp3 =  export(_self, _temp926, _temp935)
 
   else
-    if _type(_self) == 'number' then
-      _self = number:new(_self)
-    elseif object._is_callable(_self) then
-      _self = brat_function:new(_self)
-    end
     
       local _m__self_export = _self.export
       if object._is_callable(_m__self_export) then

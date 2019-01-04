@@ -98,7 +98,7 @@ h.invoke_self = { t_, name, args, res_var |
   if #{name} then
     #{call_it}
   else
-    #{invoke_method '_self', name, args, res_var}
+    #{invoke_method_helper '_self', name, args, res_var}
   end
   "
 }
