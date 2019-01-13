@@ -2,7 +2,7 @@
 LUA=lua
 ONIG=onig-5.9.2
 LREX=lrexlib-2.6.0
-LPTY=lpty-1.2.1-1
+LPTY=lpty-1.2.2-1
 
 set -e
 
@@ -25,26 +25,11 @@ COMMON=$BRATPATH/src/common
 LIB=$BRATPATH/lib
 STDLIB=$BRATPATH/stdlib
 export LUA_SRC_PATH=$BRATPATH/bin/lua/
-export LUA_INC_PATH=$BRATPATH/bin/lua/include/luajit-2.1
+export LUA_INC_PATH=$BRATPATH/bin/lua/include/raptorjit-1.0/
 export BRAT_LIB_PATH=$LIB
 export PATH=$LUA_SRC_PATH/bin:$PATH
 
 cd $SRC
-
-echo Building Lua
-
-#Clear out existing LuaJIT
-rm -rf $BRATPATH/bin/lua
-
-#Build Lua
-cd $COMMON/$LUA
-
-make PREFIX=$BRATPATH/bin/lua
-
-#Copy to bin/lua
-make install PREFIX=$BRATPATH/bin/lua
-
-mv -f $BRATPATH/bin/lua/bin/luajit $BRATPATH/bin/lua/bin/lua
 
 echo Building Oniguruma
 cd $COMMON/$ONIG
