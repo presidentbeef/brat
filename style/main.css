@@ -91,6 +91,7 @@ h3 {
 ol,ul, p {
   font-family: verdana, arial, sans-serif;
   font-size: 0.9em;
+  line-height: 1.75;
 }
 
 ol, p {
