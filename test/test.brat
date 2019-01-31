@@ -8,7 +8,7 @@ object.add_results = { r |
   }
 }
 
-[:array :ast :core :enumerable :examples :file :function :hash :json :misc
+[:array :ast :base64 :core :enumerable :examples :file :function :hash :json :misc
 :mustache :number :object :parser :peg :regex :seq :stdlib :string :var-assigner].shuffle!.each { name |
 
   #Force recompilation

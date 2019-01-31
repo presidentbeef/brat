@@ -1,0 +1,17 @@
+include :assert
+
+add_results setup name: "base64 tests" {
+  include :base64
+
+  test "encode" {
+    input = "aNASod asod\nasdoj112083@)-=!~%"
+
+    assert_not_equal input, { base64.encode(input) } 
+  }
+
+  test "encode decode" {
+    input = "aNASod asod\nasdoj112083@)-=!~%"
+
+    assert_equal input, { base64.decode(base64.encode(input)) } 
+  }
+}
