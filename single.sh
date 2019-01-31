@@ -152,7 +152,7 @@ BRAT
 
 if [ `uname` = "Darwin" ]
 then
-  gcc -o minibrat minibrat.c -I$LUA_INC_PATH -L$LUA_LIB_PATH -lm -lluajit-5.1 -Wl,-force_load liballbrat.a -pagezero_size 10000 -image_base 100000000
+  gcc -o minibrat minibrat.c -I$LUA_INC_PATH -L$LUA_LIB_PATH -lm -Wl,-force_load liballbrat.a -Wl,-force_load $PWD/../bin/lua/lib/libluajit-5.1.a -pagezero_size 10000 -image_base 100000000
   cp minibrat ../bin/minibrat-osx
 else
   gcc -o minibrat minibrat.c -I$LUA_INC_PATH -L$LUA_LIB_PATH -lm -lluajit-5.1 -Wl,--whole-archive liballbrat.a -Wl,--no-whole-archive -Wl,-E -ldl
