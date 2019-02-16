@@ -2,17 +2,18 @@
 
 [![Build Status](https://travis-ci.org/presidentbeef/brat.svg?branch=master)](https://travis-ci.org/presidentbeef/brat)
 
-Brat is a simple and flexible little toy language.
+[Try Brat online!](http://try.brat-lang.org/)
 
-Brat uses a [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) parser to compile to [Lua](http://www.lua.org/) and executes using [LuaJIT](http://luajit.org/).
+Brat is a simple little toy language that lets you do what you want. It is primarily object-oriented with first-class functions and very little syntax.
 
 Brat is flexible enough that you can get by with a very small core and write any functionality that most languages use keywords for. For example, you can write and use a while loop like so:
 
-    #Loops until the block returns false
+    # Loops until the block returns false
     while = { block |
         true? block, { while ->block }
     }
 
+    # Print 1 through 9
     n = 1
     while {
         p n
@@ -22,18 +23,19 @@ Brat is flexible enough that you can get by with a very small core and write any
 
 If you would rather have your conditions be separated out, you could define it this way instead:
 
-    #Loops until condition is false
+    # Loops until condition is false
     while = { condition, block |
         true? condition, { block; while ->condition, ->block }
-    }   
+    }
 
-    n = 1 
+    n = 1
     while { n < 10 } { p n; n = n + 1 }
 
+Brat compiles to Lua and runs on [LuaJit](http://luajit.org/).
 
 # Features
 
-* Typeless, and pretty much classless
+* Dynamically typed
 * Everything is object, except functions
 * And functions are closures, which can be attached to objects to make methods
 * Objects use a prototyping system and are completely open
@@ -65,7 +67,7 @@ Without Git:
 
    1. Download the [latest](https://github.com/presidentbeef/brat/archive/master.zip)
    2. Decompress the archive (`unzip brat-master.zip`)
-   3. Change to the new directory (`cd brat-master`) 
+   3. Change to the new directory (`cd brat-master`)
    3. Run `sh ./build.sh`
    4. Optionally, run `sudo sh ./install.sh`. This will install in `/usr` by default. Append a directory to change this.
 
@@ -80,7 +82,7 @@ Try out your newly discovered power thusly:
    5. Type `brat test.brat` (or `./brat test.brat` if you did not run the install script)
    6. Cross fingers
    7. Press enter
-   8. Marvel or weep, as appropriate 
+   8. Marvel or weep, as appropriate
 
 # More Testing
 
@@ -89,6 +91,11 @@ Run `brat test/test.brat` to run the test suite. SWEET.
 # More fun
 
 Running Brat without specifying a file will launch interactive mode.
+
+    $ ./brat
+    # Interactive Brat
+    brat:1> 1 + 1
+    #=> 2
 
 # Even more fun
 
@@ -102,7 +109,7 @@ Sometimes there are problems. Everyone has issues. Report Brat issues [here](htt
 
 The MIT License
 
-Copyright (c) 2010-2014, Justin Collins
+Copyright (c) 2009-2019, Justin Collins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
