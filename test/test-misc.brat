@@ -46,6 +46,23 @@ add_results setup name: "miscellaneous tests" {
     assert_null { when { false } { 'hello' } }
     assert_equal "goodbye" { when { false } { 'hello' } { true } { 'goodbye' } }
     assert_equal "goodbye" { when false, 'hello', true, 'goodbye' }
+
+    assert_equal :hello { when :hello { h | h } }
+    assert_false null { when false, { h | h } }
+    assert_equal :goodbye { when false, { h | h }, :goodbye, { h | h } }
+  }
+
+  test "when equal" {
+    assert_equal 2 { when_equal 2, 2, 2 }
+    assert_equal 2 { when_equal 2, 2, { 2 } }
+    assert_equal 2 { when_equal 2, { 2 }, { 2 } }
+    assert_equal 2 { when_equal { 2 }, { 2 }, { 2 } }
+    assert_equal 2 { when_equal { 2 }, 2, { 2 } }
+
+    assert_equal 2 { when_equal 2, 2, { v | v } }
+    assert_equal 2 { when_equal 2, { 2 }, { v | v } }
+    assert_equal 2 { when_equal { 2 }, { 2 }, { v | v } }
+    assert_equal 2 { when_equal { 2 }, 2, { v | v } }
   }
 
   test "random" {
@@ -75,6 +92,11 @@ add_results setup name: "miscellaneous tests" {
     assert_equal 0 { true? true.true?, 0, 1 }
     assert_equal 1 { true? false.true?, 0, 1 }
     assert_equal 1 { true? null.true?, 0, 1 }
+
+    assert_equal 4 { true? 4, { n | n } }
+    assert_equal 4 { true? 4, { n | n }, { n | n } }
+    assert_false 4 { true? false { 0 }, { n | n } }
+    assert_equal :null, { true? null, { 0 } { n | n.to_s } }
   }
 
   test "false" {
@@ -89,6 +111,9 @@ add_results setup name: "miscellaneous tests" {
     assert_equal 0 { false? true.false?, 0, 1 }
     assert_equal 0 { true? false.false?, 0, 1 }
     assert_equal 0 { true? null.false?, 0, 1 }
+
+    assert_equal :true  { false? true, { 0 } { v | p 'v: ', v; v.to_s } }
+    assert_equal :false { false? false, { v | v.to_s } { 1 } }
   }
 
   test "null" {
@@ -101,6 +126,9 @@ add_results setup name: "miscellaneous tests" {
     assert_false { null? {true? 1}, {0} }
     assert_equal 0 { false? null?, 0, 1 }
     assert_equal 0 { true? null.null?, 0, 1 }
+
+    assert_equal :null { null? null, { n | n.to_s } }
+    assert_equal 4 { null? 4 { 0 }, { n | n } }
   }
 
   test "variable_scope" {
@@ -123,25 +151,25 @@ add_results setup name: "miscellaneous tests" {
   }
 
   test "comments" {
-    assert_equal 1 { x = 1; #x = 6 
+    assert_equal 1 { x = 1; #x = 6
       x }
-    assert_equal 1 { x = 1; #* x = 6 *# 
+    assert_equal 1 { x = 1; #* x = 6 *#
       x }
-    assert_equal 1 { x = 1; #* 
-      x = 6 
-        *# 
+    assert_equal 1 { x = 1; #*
+      x = 6
+        *#
         x }
   }
 
   test "nested_comments" {
     assert_equal 1 { x = 1; #* x = 3 *# }
     assert_equal 1 { x = 1; #*
-      x = 3 
+      x = 3
         *# }
     assert_equal 1 { x = 1; #*
-#* 
-      x = 3 
-        *# 
+#*
+      x = 3
+        *#
         *# }
   }
 
@@ -207,4 +235,3 @@ add_results setup name: "miscellaneous tests" {
     assert_false { 1.hash? }
   }
 }
-

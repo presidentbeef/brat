@@ -113,28 +113,28 @@ local escape_ops = { ["!"] = "_bang",
 ["="] = "_equal",
 ["%"] = "_percent",
 ["_"] = "_under",
-["$"] = "_dollar" 
+["$"] = "_dollar"
 }
 
-local unescape_ops = { ["bang"] = "!", 
-["star"] = "*", 
-["minus"] = "-", 
-["plus"] = "+", 
-["or"] = "|" , 
-["and"] = "&", 
-["at"] = "@", 
-["tilde"] = "~", 
-["up"] = "^", 
-["forward"] = "/", 
-["back"] = "\\", 
-["question"] = "?", 
-["less"] = "<", 
-["greater"] = ">", 
-["notequal"] = "!=", 
-["equal"] = "=", 
-["percent"] = "%", 
-["under"] = "_", 
-["dollar"] = "$" 
+local unescape_ops = { ["bang"] = "!",
+["star"] = "*",
+["minus"] = "-",
+["plus"] = "+",
+["or"] = "|" ,
+["and"] = "&",
+["at"] = "@",
+["tilde"] = "~",
+["up"] = "^",
+["forward"] = "/",
+["back"] = "\\",
+["question"] = "?",
+["less"] = "<",
+["greater"] = ">",
+["notequal"] = "!=",
+["equal"] = "=",
+["percent"] = "%",
+["under"] = "_",
+["dollar"] = "$"
 }
 
 local esc_symbols = orex.new("!=|>=|<=|\\||[!?\\-*+^@~\\/\\\\><$_%|&=]")
@@ -292,7 +292,7 @@ end
 
 function object:new (...)
   local nb
-    
+
   nb = new_brat(self)
 
 
@@ -676,6 +676,9 @@ end
 -- true or the then_value if one is given. If the condition is false, returns
 -- false or the else_value if one is given.
 --
+-- If they are functions, they will be called with the original condition value
+-- (before it was converted to a boolean) as a first argument, but the argument can be ignored.
+--
 -- Typically, then_value and else_value should be functions, to allow for
 -- delayed evaluation.
 --
@@ -730,7 +733,7 @@ function object:_2_true_question (condition, true_branch)
 
   if is_true(condition) then
     if is_callable(true_branch) then
-      return true_branch(self)
+      return true_branch(self, condition)
     else
       return true_branch
     end
@@ -746,13 +749,13 @@ function object:_3_true_question (condition, true_branch, false_branch)
 
   if is_true(condition) then
     if is_callable(true_branch) then
-      return true_branch(self)
+      return true_branch(self, condition)
     else
       return true_branch
     end
   else
     if is_callable(false_branch) then
-      return false_branch(self)
+      return false_branch(self, condition)
     else
       return false_branch
     end
@@ -771,6 +774,9 @@ end
 --
 -- Typically, then_value and else_value should be functions, to allow for
 -- delayed evaluation.
+--
+-- If they are functions, they will be called with the original condition value
+-- (before it was converted to a boolean) as a first argument, but the argument can be ignored.
 --
 -- Example:
 --
@@ -823,7 +829,7 @@ function object:_2_false_question (condition, true_branch)
 
   if not is_true(condition) then
     if is_callable(true_branch) then
-      return true_branch(self)
+      return true_branch(self, condition)
     else
       return true_branch
     end
@@ -839,13 +845,13 @@ function object:_3_false_question (condition, true_branch, false_branch)
 
   if not is_true(condition) then
     if is_callable(true_branch) then
-      return true_branch(self)
+      return true_branch(self, condition)
     else
       return true_branch
     end
   else
     if is_callable(false_branch) then
-      return false_branch(self)
+      return false_branch(self, condition)
     else
       return false_branch
     end
@@ -864,6 +870,9 @@ end
 --
 -- Typically, then_value and else_value should be functions, to allow for
 -- delayed evaluation.
+--
+-- If they are functions, they will be called with the original condition value
+-- (before it was converted to a boolean) as a first argument, but the argument can be ignored.
 --
 -- Example:
 --
@@ -916,7 +925,7 @@ function object:_2_null_question (condition, true_branch)
 
   if condition == object.__null then
     if is_callable(true_branch) then
-      return true_branch(self)
+      return true_branch(self, condition)
     else
       return true_branch
     end
@@ -932,13 +941,13 @@ function object:_3_null_question (condition, true_branch, false_branch)
 
   if condition == object.__null then
     if is_callable(true_branch) then
-      return true_branch(self)
+      return true_branch(self, condition)
     else
       return true_branch
     end
   else
     if is_callable(false_branch) then
-      return false_branch(self)
+      return false_branch(self, condition)
     else
       return false_branch
     end
@@ -1548,7 +1557,8 @@ end
 -- Call: when condition, result
 --
 -- Takes any number of condition-result pairs. Checks each condition and when
--- one returns true, returns the result associated with that condition.
+-- one returns true, returns the result associated with that condition, calling
+-- it with the condition if it is callable.
 --
 -- Example:
 --
@@ -1576,7 +1586,7 @@ function object:when (...)
     if is_true(cond) then
       result = args[index + 1]
       if is_callable(result) then
-        result = result(self)
+        result = result(self, cond)
       end
       break
     end
@@ -1621,7 +1631,7 @@ function object:when_underequal (...)
       result = args[index + 1]
 
       if is_callable(result) then
-        result = result(self)
+        result = result(self, cond)
         break
       end
     end
@@ -2000,7 +2010,7 @@ end
 --
 -- Truncates number.
 function number_instance:to_underi ()
-  return math.floor(self._lua_number) 
+  return math.floor(self._lua_number)
 end
 
 -- Object: number instance
@@ -2023,6 +2033,33 @@ end
 -- Converts number to ASCII representation.
 function number_instance:to_underchar ()
   return base_string:new(string.char(self._lua_number))
+end
+
+-- Object: number instance
+-- Call: number.zero?
+-- Returns: boolean
+--
+-- Test whether number is zero.
+function number_instance:zero_question ()
+  return self._lua_number == 0
+end
+
+-- Object: number instance
+-- Call: number.one?
+-- Returns: boolean
+--
+-- Test whether number is one.
+function number_instance:one_question ()
+  return self._lua_number == 1
+end
+
+-- Object: number instance
+-- Call: number.negative?
+-- Returns: boolean
+--
+-- Test whether number is negative.
+function number_instance:negative_question ()
+  return self._lua_number < 0
 end
 
 -- This is to use native operations when possible.
@@ -2209,7 +2246,7 @@ function enumerable:select (block)
   if type(block) == "table" and block._lua_string then
     f = function (_self, item)
       local meth
-      
+
       if type(item) == "number" then
         meth = number:new(item):get_undermethod(block)
       else
@@ -2744,7 +2781,7 @@ end
 -- If start_index is specified, start searching from the given index.
 function array_instance:rindex_underof (item, start)
   local len = self._length
-  
+
   local k
   if start == nil then
     k = len
@@ -3504,7 +3541,7 @@ function array_instance:join (separator, final)
 
   while i <= len do
     obj = a[i]
-    
+
     if obj == nil then
       obj = object.__null
     end
@@ -3634,7 +3671,7 @@ function array_instance:_equal_equal (rhs)
         local tr = type(vr)
         local tl = type(vl)
 
-        if tr == "table" and 
+        if tr == "table" and
           tl == "table" and
           vl._is_an_object and
           vr._is_an_object and
@@ -4659,7 +4696,7 @@ end
 -- This method can be used to find substrings inside a string matching the
 -- given regular expression. An optional start index can be provided.
 --
--- If a match is found, an match object is 
+-- If a match is found, an match object is
 function string_instance:match (regx, start_index)
   if type(regx) ~= "table" or regx._lua_regex == nil then
     error(exception:argument_error("string.match", "regex", tostring(regx)))
@@ -4832,7 +4869,7 @@ function string_instance:get (start_index, end_index)
       start_index = len + start_index
     end
 
-    local val = string.sub(self._lua_string, start_index + 1, start_index + 1) 
+    local val = string.sub(self._lua_string, start_index + 1, start_index + 1)
     if val == nil then
       return object.__null
     else
@@ -5230,7 +5267,7 @@ function exception_instance:to_unders ()
   end
 end
 
-function exception:argument_undererror (method, expected, given) 
+function exception:argument_undererror (method, expected, given)
   return self:new("Argument error: " .. tostring(method) .. " expected " .. tostring(expected) .. " argument(s) but was given " .. tostring(given) .. ".", "argument error")
 end
 
