@@ -2,7 +2,7 @@ include :assert
 
 add_results setup name: "core" {
   test "simple when_equal" {
-    assert "3!" {
+    assert_equal "3!" {
       x = 3
       when_equal x,
         1, "1!",
@@ -13,11 +13,19 @@ add_results setup name: "core" {
   }
 
   test "when_equal with function results" {
-    assert "hello world" {
+    assert_equal "hello world" {
       x = "hello"
       when_equal x,
         "goodbye", { "everyone!" },
         "hello", { x << " world" }
     }
+  }
+
+  test "inlined conditional branches with parameter" {
+    f = { 2 }
+
+    assert_equal 2, { true? f, { x | x } }
+    assert_equal 2, { false? 1, {}, { x | x + 1 } }
+    assert_equal 4, { null? f, {}, { x | x * 2 } }
   }
 }
