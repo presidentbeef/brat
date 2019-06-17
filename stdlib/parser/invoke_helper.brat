@@ -424,13 +424,27 @@ h.get_method = { target, name, res_var |
 }
 
 # Converts function to do/end
-convert_func_to_do_end = { node, var |
+convert_func_to_do_end = { node, var, arg_values = null |
   w = my
   my.env.new_scope
 
   res = set_result var
   res.out << "do\n"
   action = get_action(res.var)
+
+  # Allow passing values to the function as arguments
+  true? arg_values && { node.args.any? }
+    {
+      false? arg_values.length == node.args.length
+        {
+          throw "Number of arguments and argument values in function do not match"
+        }
+
+      node.args.each_with_index { arg, index |
+        temp = w.env.new_var arg.id
+        res.out << "#{temp} = #{arg_values[index]}\n"
+      }
+    }
 
   body = node.body.copy
   last = body.pop
@@ -453,9 +467,9 @@ convert_func_to_do_end = { node, var |
   res
 }
 
-process_if_branch = { node, var |
+process_if_branch = { node, var, condition_var = null |
   true? (node.name == :function || {node.name == :liftable_function})
-    { convert_func_to_do_end node, var}
+    { convert_func_to_do_end node, var, condition_var }
     { process node, var }
 }
 
@@ -465,11 +479,11 @@ h.true_if = { node, ignored |
    action = get_action(res.var)
 
    true_branch = true? node.args[1]
-                   { process_if_branch(node.args[1], res.var) }
+                   { process_if_branch(node.args[1], res.var, [condition.var]) }
                    { set_result(res.var, "object.__true") }
 
    false_branch = true? node.args[2]
-                   { process_if_branch(node.args[2], res.var) }
+                   { process_if_branch(node.args[2], res.var, [condition.var]) }
                    { set_result(res.var, "object.__false") }
 
    #TODO: yeck
@@ -513,11 +527,11 @@ h.false_if = { node, ignored |
    action = get_action(res.var)
 
    false_branch = true? node.args[1]
-                   { process_if_branch(node.args[1], res.var) }
+                   { process_if_branch(node.args[1], res.var, [condition.var]) }
                    { set_result(res.var, "object.__true") }
 
    true_branch = true? node.args[2]
-                   { process_if_branch(node.args[2], res.var) }
+                   { process_if_branch(node.args[2], res.var, [condition.var]) }
                    { set_result(res.var, "object.__false") }
 
    #TODO: yeck
@@ -561,11 +575,11 @@ h.null_if = { node, ignored |
    action = get_action(res.var)
 
    true_branch = true? node.args[1]
-                   { process_if_branch(node.args[1], res.var) }
+                   { process_if_branch(node.args[1], res.var, [condition.var]) }
                    { set_result(res.var, "object.__true") }
 
    false_branch = true? node.args[2]
-                   { process_if_branch(node.args[2], res.var) }
+                   { process_if_branch(node.args[2], res.var, [condition.var]) }
                    { set_result(res.var, "object.__false") }
 
    #TODO: yeck
