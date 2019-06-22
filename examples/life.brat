@@ -1,10 +1,10 @@
 #* Conway's Game of Life
-  Works well with terminal size of 100x41, or adjust width/height to suite yourself.
   The universe is toroidal (the edges wrap).
 *#
 
-width = 100
-height = 40
+include :terminal
+width = terminal.width
+height = terminal.height - 1
 
 universe = height.of({width.of({random(0,1)})})
 next = height.of({width.of(0)})
