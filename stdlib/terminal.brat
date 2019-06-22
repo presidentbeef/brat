@@ -1,0 +1,48 @@
+include :subprocess
+
+terminal = object.new
+
+terminal.print = object->print
+
+terminal.height = {
+  subprocess.run("tput lines").to_i
+}
+
+terminal.lines = terminal->height
+
+terminal.width = {
+  subprocess.run("tput cols").to_i
+}
+
+terminal.cols = terminal->width
+
+terminal.up = { n = null |
+  print "\27[#{n}A"
+}
+
+terminal.down = { n = null |
+  print "\27[#{n}B"
+}
+
+terminal.right = { n = null |
+  print "\27[#{n}C"
+}
+
+terminal.left = { n = null |
+  print "\27[#{n}D"
+}
+
+terminal.to = { x, y |
+  print "\27[#{y + 1};#{x + 1}H"
+}
+
+terminal.at = { x, y, str |
+  terminal.to x, y
+  print str
+}
+
+terminal.clear = {
+  print "\27[2;J\27[H"
+}
+
+export terminal, :terminal
