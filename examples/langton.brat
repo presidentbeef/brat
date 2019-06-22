@@ -1,0 +1,52 @@
+#* Langton's Ant
+  https://en.wikipedia.org/wiki/Langton%27s_ant
+*#
+
+include :terminal
+
+width = terminal.width
+height = terminal.height
+
+universe = height.of({width.of(0)})
+
+ant = object.new
+ant.x = random(width)
+ant.y = random(height)
+ant.direction = random(4)
+ant.turn = { l_r |
+  true? l_r == :right
+    { my.direction = (direction + 1) % 4 }
+    { my.direction = (direction - 1) % 4 }
+}
+
+ant.update = { world |
+  true? world[my.y][my.x] == 0
+  {
+    terminal.at x, y, "\27[45m \27[0m"
+    world[y][x] = 1
+    turn :left
+  }
+  {
+    terminal.at x, y, ' '
+    world[y][x] = 0
+    turn :right
+  }
+}
+
+ant.step = {
+  d = my.direction
+  when { d == 0 } { ant.y = (ant.y - 1) % height }
+       { d == 1 } { ant.x = (ant.x + 1) % width }
+       { d == 2 } { ant.y = (ant.y + 1) % height }
+       { d == 3 } { ant.x = (ant.x - 1) % width }
+       { true } { throw "Ant doesn't know where it's going" }
+}
+
+ant.at? = { a, b | my.x == a && my.y == b }
+
+terminal.clear
+
+loop {
+  ant.update universe
+  ant.step
+}
