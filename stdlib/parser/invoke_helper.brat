@@ -641,6 +641,10 @@ h.inline_when = { node, var |
     "
   }
 
+  res.out << "
+    -- no branches matched
+    #{action} object.__null
+    "
   ends = (node.args.length / 2).of("end").join(";")
 
   res.out << ends
