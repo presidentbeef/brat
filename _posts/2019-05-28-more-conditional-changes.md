@@ -47,11 +47,11 @@ I modifed the programs slightly to actually exit and then calculated "frames per
 [Quicksort](https://github.com/presidentbeef/brat/blob/7a5e079e7a2194f8535d34e95d8e145165bbd3e5/examples/quicksort.brat) uses a random 10,000 element array, so results do vary a little bit.
 
 
-| Example     | Before | After 
+Example     | Before | After
 --------------------------------
-| Life        | 14fps    | 105 fps 
-| Langton     | 2174 fps | 2500 fps
-| Quicksort   | 0.775s   | 0.085 s
-| [Ackermann](https://github.com/presidentbeef/brat/blob/7a5e079e7a2194f8535d34e95d8e145165bbd3e5/examples/ackermann.brat)   | 0.247s   | 0.022 s
+Life        | 14fps    | 105 fps
+Langton     | 2174 fps | 2500 fps
+Quicksort   | 0.775s   | 0.085 s
+[Ackermann](https://github.com/presidentbeef/brat/blob/7a5e079e7a2194f8535d34e95d8e145165bbd3e5/examples/ackermann.brat)   | 0.247s   | 0.022 s
 
 Except for Langton's Ant, these improvements are huge. Quicksort and Ackermann are nearly 10 times faster!
