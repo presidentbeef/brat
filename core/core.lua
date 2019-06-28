@@ -2439,6 +2439,31 @@ function array_instance:each (block)
 end
 
 -- Object: array instance
+-- Call: array.each_slice num, block
+-- Returns: self
+--
+-- Invokes block for each _num_ items, passed in as single arguments.
+-- At the moment, this requires the size of the array to be an exact multiple of _num_.
+--
+-- Example:
+--
+-- [1 2 3 4].each_slice 2, { a, b |
+--   p "#{a} - #{b}" # prints "1 - 2" then "3 - 4"
+-- }
+function array_instance:each_underslice (num, block)
+  local k = 1
+  local len = self._length
+  local a = self._lua_array
+
+  while k <= len do
+    block(self, unpack(a, k, k + num - 1))
+    k = k + num
+  end
+
+  return self
+end
+
+-- Object: array instance
 -- Call: array.each_while block
 -- Returns: last value from block
 --

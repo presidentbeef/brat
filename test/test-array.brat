@@ -188,6 +188,10 @@ add_results setup name: "array tests" {
     assert_equal [] { b = []; [].reverse_each { i | b << i }; b  }
   }
 
+  test "array.each_slice" {
+    assert_equal [[1, 2], [3, 4]], { res = []; [1 2 3 4].each_slice 2, { a, b | res << [a, b] }; res }
+  }
+
   test "array_empty" {
     assert { [].empty? }
     assert_false { [1,2].empty? }
