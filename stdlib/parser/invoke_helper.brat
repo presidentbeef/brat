@@ -424,7 +424,7 @@ h.get_method = { target, name, res_var |
 }
 
 # Converts function to do/end
-convert_func_to_do_end = { node, var, arg_values = null |
+h.convert_func_to_do_end = { node, var, arg_values = null |
   w = my
   my.env.new_scope
 
@@ -467,7 +467,7 @@ convert_func_to_do_end = { node, var, arg_values = null |
   res
 }
 
-process_if_branch = { node, var, condition_var = null |
+h.process_if_branch = { node, var, condition_var = null |
   true? (node.name == :function || {node.name == :liftable_function})
     { convert_func_to_do_end node, var, condition_var }
     { process node, var }
@@ -615,6 +615,46 @@ h.null_if = { node, ignored |
    end
    "
    res
+}
+
+h.inline_when = { node, var |
+  res = set_result
+  action = get_action(res.var)
+
+  regular = invoke(node, null, ->invoke_self, res.var)
+
+  w = my
+
+  res.out << "--when\ndo\n" <<
+    "if (_self == object or _rawget(_self, 'when') == nil) and null_question == nil and object._unchanged('when') then"
+
+  node.args.each_slice 2, { cond, branch |
+    cond_res = w.process_if_branch(cond, null)
+    branch_res = w.process_if_branch(branch, null, [cond_res.var])
+
+    res.out << "
+    #{cond_res.out}
+    if object._is_true(#{cond_res.var}) then
+      #{branch_res.out}
+      #{action} #{branch_res.var}
+    else
+    "
+  }
+
+  ends = (node.args.length / 2).of("end").join(";")
+
+  res.out << ends
+
+  res.out << "
+  else
+  --when fallback
+  #{regular.out}
+  #{action} #{regular.var}
+  end
+  end
+  "
+
+  res
 }
 
 export h, :invoke_helper

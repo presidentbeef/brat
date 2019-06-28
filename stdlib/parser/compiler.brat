@@ -79,6 +79,11 @@ inlineable? = { n |
   n.null? || { inlineable_types.include? n.name }
 }
 
+inlineable_when? = { node |
+  node.method == :when &&
+    { node.args.all? ->inlineable? }
+}
+
 c.walk :invoke_self { node, var = null |
   meth = node.method
   true? conds.include?(meth) && { inlineable?(node.args[1]) && { inlineable?(node.args[2]) }}
@@ -91,7 +96,13 @@ c.walk :invoke_self { node, var = null |
         }
     }
     {
-      invoke node, null, ->invoke_self, var
+      true? inlineable_when?(node)
+      {
+        inline_when(node, var)
+      }
+      {
+        invoke node, null, ->invoke_self, var
+      }
     }
 }
 
