@@ -1531,10 +1531,17 @@ function object:program_underargs ()
     local arg_array = {}
     local len = #arg
     local i = 1
+    local j = 0
+
+    -- Skip -f and filename
+    if arg[1] == '-f' then
+      i = 2
+    end
 
     while i <= len do
-      arg_array[i - 1] = base_string:new(arg[i])
+      arg_array[j] = base_string:new(arg[i])
       i = i + 1
+      j = j + 1
     end
 
     self._program_args = array:new(arg_array)

@@ -122,7 +122,7 @@ local interactive = function ()
   end
 end
 
-run_string = function (string)
+local run_string = function (string)
   local parsed = brat2lua:compile_understring(base_string:new(string))._lua_string
 
   parsed_function = assert(loadstring(parsed, "string"))
@@ -138,25 +138,37 @@ run_string = function (string)
   return result
 end
 
+local get_filename = function (arg)
+  local file_name = arg:match("(.+).brat")
+
+  if file_name == nil then
+    abort("File to execute should end in .brat: " .. tostring(arg))
+  end
+
+  return file_name
+end
+
 if #arg == 0 then
   interactive()
   abort("Exiting")
 end
 
-last_arg = arg[#arg]
+local first_arg = arg[1]
 
-if last_arg == "-!" then
+if first_arg == "-!" then
   loadstring(io.read("*a"))()
-elseif last_arg == "-" then
+elseif first_arg == "-" then
   run_string(io.read("*a"))
 else
-  file_name = last_arg:match("(.+).brat")
+  local file_name
 
-  if file_name == nil then
-    abort("File to execute should end in .brat")
+  if first_arg == "-f" then
+    file_name = get_filename(arg[2])
+  else
+    file_name = get_filename(first_arg)
   end
 
-  if arg[1] == '-f' then
+  if first_arg == '-f' then
     compile_file(file_name, true)
   else
     compile_file(file_name)
@@ -167,6 +179,6 @@ else
   if lfs.attributes(lua_file, "access") then
     dofile(lua_file)
   else
-    print("----------\nCannot execute " .. arg[#arg])
+    print("----------\nCannot execute " .. file_name)
   end
 end
