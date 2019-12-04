@@ -18,12 +18,16 @@ scanner.prototype {
   #Attempt to match string against current position. Advances position
   #when there is a match.
   my.scan_string = { matcher |
-    patch = my.str[my.pos, my.pos + matcher.length - 1]
+      patch = my.str[my.pos, my.pos + matcher.length - 1]
 
-      true? patch == matcher
+      true? my.str.compare(my.pos, matcher)
       { 
+        false? patch == matcher
+        {
+        p "Matched '#{patch}' to '#{matcher}'"
+        }
         my.pos = my.pos + matcher.length
-        patch
+        my.str[my.pos, my.pos + matcher.length - 1]
       }
   }
 

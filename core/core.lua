@@ -4658,6 +4658,27 @@ function string_instance:_equal_equal (rhs)
   end
 end
 
+function string_instance:compare (start_pos, str)
+  local s = self._lua_string
+  local m = str._lua_string
+  local i = 1
+  local stop = m:len() 
+
+  if stop > s:len() then
+    return object.__false
+  end
+
+  while i <= stop do
+    if string.byte(m, i) ~= string.byte(s, i + start_pos) then
+      return object.__false 
+    end
+
+    i = i + 1
+  end
+
+  return object.__true
+end
+
 -- Object: string instance
 -- Call: lhs <=> rhs
 -- Returns: number
