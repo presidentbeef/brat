@@ -8,11 +8,11 @@ OPENSSL_INC=/usr/local/opt/openssl/include/
 
 # probably no need to change anything below here
 CC= gcc
+INCS= -I$(LUAINC) -I$(OPENSSL_INC)
 CFLAGS= $(INCS) $(DEFS) $(WARN) -O2 -fPIC $G
 WARN= -ansi -pedantic -Wall
-INCS= -I$(LUAINC) -I$(OPENSSL_INC)
 #MAKESO= $(CC) -shared
-MAKESO= env MACOSX_DEPLOYMENT_TARGET=10.3 $(CC) -bundle -undefined dynamic_lookup
+MAKESO= env $(CC) -bundle -undefined dynamic_lookup -L/usr/local/opt/openssl/lib/
 
 # default is md5
 MYNAME=md5
