@@ -1,7 +1,7 @@
 #!/usr/bin/env lua
 --Set up paths so we can access Brat runtime files
-program_path = debug.getinfo(1, "S").short_src
-program_path = program_path:match("(.+/)bin/brat$")
+program_path = debug.getinfo(1, "S").source
+program_path = program_path:match("([^@].+/)bin/brat$")
 
 if program_path == nil then
   program_path = "../"

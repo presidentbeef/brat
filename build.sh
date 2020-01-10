@@ -38,6 +38,8 @@ rm -rf $BRATPATH/bin/lua
 
 #Build Lua
 cd $COMMON/$LUA
+export MACOSX_DEPLOYMENT_TARGET=10.6
+export DEFAULT_CC=clang
 
 make PREFIX=$BRATPATH/bin/lua
 
