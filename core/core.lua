@@ -1594,6 +1594,24 @@ function object:when (...)
   return result
 end
 
+-- Object: object
+-- Call: when_equal input, value, result
+--
+-- Takes an _input_ value as the first argument,
+-- then any number of (_value_, _result_) pairs.
+--
+-- Each _value_ is matched against the _input_ in order.
+-- The first _value_ to equal the _input_ will cause the
+-- matching _result_ to be returned.
+--
+-- Example:
+--
+-- x = 3
+--
+-- when_equal x,
+--   1 { p "x is one" },
+--   2 { p "x is two" },
+--   3 { p "x is three" }
 function object:when_underequal (...)
   local args = {...}
   local len = #args
