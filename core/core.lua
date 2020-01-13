@@ -2905,6 +2905,14 @@ function array_instance:map (block)
   return array:new(new_array)
 end
 
+-- Object: array instance
+-- Call: array.map_while block
+--
+-- Like array.map, invokes the block for each element in the array and
+-- pushes the results to a new array.
+--
+-- However, if the _block_ returns false or nil, the mapping stops. The
+-- new array may therefore be shorter than the original array.
 function array_instance:map_underwhile (block)
   if type(block) == "table" and block._lua_string then
     local method = to_identifier(block._lua_string)
