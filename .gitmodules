@@ -1,0 +1,3 @@
+[submodule "src/common/moonjit"]
+	path = src/common/moonjit
+	url = https://github.com/moonjit/moonjit.git

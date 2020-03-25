@@ -1,5 +1,5 @@
 #!/bin/sh
-LUA=lua
+LUA=moonjit
 ONIG=onig-5.9.2
 LREX=lrexlib-2.6.0
 LPTY=lpty-1.2.1-1
@@ -25,7 +25,7 @@ COMMON=$BRATPATH/src/common
 LIB=$BRATPATH/lib
 STDLIB=$BRATPATH/stdlib
 export LUA_SRC_PATH=$BRATPATH/bin/lua/
-export LUA_INC_PATH=$BRATPATH/bin/lua/include/luajit-2.1
+export LUA_INC_PATH=$BRATPATH/bin/lua/include/moonjit-2.3
 export BRAT_LIB_PATH=$LIB
 export PATH=$LUA_SRC_PATH/bin:$PATH
 
@@ -40,6 +40,9 @@ rm -rf $BRATPATH/bin/lua
 cd $COMMON/$LUA
 export MACOSX_DEPLOYMENT_TARGET=10.6
 export DEFAULT_CC=clang
+
+git submodule init
+git submodule update
 
 make PREFIX=$BRATPATH/bin/lua
 
