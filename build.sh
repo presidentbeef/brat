@@ -14,6 +14,7 @@ then
 elif [ "$SYSTEM" = "Darwin" ]
 then
   SYSTEM="osx"
+  export MACOSX_DEPLOYMENT_TARGET="10.3"
 else
   echo Unsupported system: $SYSTEM
   exit -1
