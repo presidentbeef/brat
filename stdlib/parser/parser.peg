@@ -24,7 +24,7 @@ field_access = method_chain (identifier | operator) <field_access>
 
 index_set = indexed_expression sindexes:("[" expression "]")+ opt_space "=" spaceorbreak expression <index_set>
 
-index_get = indexed_expression gindexes:("[" index_inner_arg_list ("]" | missing_close_bracket))+ !"." iargs:simple_arg_list? <index_get>
+index_get = indexed_expression gindexes:("[" index_inner_arg_list "]")+ !"." iargs:simple_arg_list? <index_get>
 
 indexed_expression = array | hash | paren_exp | method_invocation | string | unary_operation
 
@@ -37,8 +37,8 @@ method_access = "->" meth:(identifier) !"." <simple_meth_access>
 
 number  = /-?[0-9]+(\.[0-9]+)?/ <bnumber>
 
-array   = "[" spaceorbreak inner:array_inner spaceorbreak ("]" | missing_close_bracket) <barray>
-        | "[" spaceorbreak ("]" | missing_close_bracket) <empty_array>
+array   = "[" spaceorbreak inner:array_inner spaceorbreak "]" <barray>
+        | "[" spaceorbreak "]" <empty_array>
 
 array_inner = first:expression rest:(((spaceorbreak "," spaceorbreak) | (space | eol | comment)+) expression)* <array_inner>
 
@@ -53,8 +53,8 @@ hash_argument = key:((identifier | operator) (identifier | operator | number)*) 
 regex   = "/" body:("\\/" | !"/" . )* "/" opts:/[mix]*/ <bregex>
 
 string  = ("''" | "\"\"") <empty_string>
-        | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | "\\\\" | !"\"" .)* ("\"" | %Missing end quote%) <string_interp>
-        | "'" svalue:("\\'" | "\\\\" | !"'" .)+ ("'" | %Missing end quote%) <simple_string>
+        | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | "\\\\" | !"\"" .)* "\"" <string_interp>
+        | "'" svalue:("\\'" | "\\\\" | !"'" .)+ "'" <simple_string>
         | symbol
 
 symbol = ":" svalue:(identifier | operator | number)+ <simple_symbol>
@@ -187,7 +187,3 @@ eol     = /(?:\n|;|\r\n)+/
 eob     = opt_space &"}" space?
 
 eof     = (eol | space)? !.
-
-#-- Errors
-
-missing_close_bracket = %Missing close bracket%
