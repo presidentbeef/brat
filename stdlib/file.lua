@@ -210,7 +210,7 @@ function file:read (path)
   local f = file:open(path)
 
   if f == object.__null then
-    return object.__null
+    error(exception:new("Unable to read file: " .. path .. '. Maybe it does not exist?'))
   end
 
   local res = f:read()
