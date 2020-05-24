@@ -20,6 +20,10 @@ peg_syntax = peg.new {
     my.output = ""
   }
 
+  set :error action seq(str("%") many(seq no(str("%")) anything) str("%")) {
+    my.output = { "parse_error(\"#{matched[1].text}\")" }
+  }
+
   #Optional spaces
   set :opt_spaces reg /\s*/
 
@@ -82,7 +86,7 @@ peg_syntax = peg.new {
   }
 
   #A rule expression is an actual matcher or grouping
-  set :rule_exp any_ref(:maybe :many :kleene :not :and :simple_rule_exp)
+  set :rule_exp any_ref(:maybe :many :kleene :not :and :simple_rule_exp :error)
 
   #Simple rules (i.e., not suffixed rules like + or *)
   set :simple_rule_exp any_ref(:label :str_literal :rule_ref :reg_literal :anything :paren_rule)

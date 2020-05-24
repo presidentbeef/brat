@@ -394,6 +394,10 @@ action_matcher = { x, rule, block |
     }
 }
 
+peg.prototype.parse_error = { msg |
+  { x | throw "\rBrat parser:\n\tA syntax error was encountered while parsing the code.\n\t#{msg} near position #{x.pos}." }
+}
+
 #Execute action upon match
 peg.prototype.action = { rule, block |
   make_rule { x | action_matcher x, ->rule, ->block }
