@@ -53,8 +53,8 @@ hash_argument = key:((identifier | operator) (identifier | operator | number)*) 
 regex   = "/" body:("\\/" | !"/" . )* "/" opts:/[mix]*/ <bregex>
 
 string  = ("''" | "\"\"") <empty_string>
-        | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | "\\\\" | !"\"" .)* "\"" <string_interp>
-        | "'" svalue:("\\'" | "\\\\" | !"'" .)+ "'" <simple_string>
+        | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | "\\\\" | !"\"" .)* ("\"" | missing_end_quote) <string_interp>
+        | "'" svalue:("\\'" | "\\\\" | !"'" .)+ ("'" | missing_end_quote) <simple_string>
         | symbol
 
 symbol = ":" svalue:(identifier | operator | number)+ <simple_symbol>
@@ -171,6 +171,10 @@ index_inner_arg_list = arg_first inner_arg_next* <inner_arg_list>
 
 inner_arg_next = arg_next
                | arg_space+ arg_first
+
+#-- Errors
+
+missing_end_quote = %Missing end quote mark for string%
 
 #-- Spaces
 
