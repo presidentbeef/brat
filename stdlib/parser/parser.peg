@@ -71,7 +71,7 @@ comment = block_comment
 
 #-- Function definitions
 
-function_definition = "{" opt_space args:formal_args? opt_space body:line* opt_space "}" <bfunction>
+function_definition = "{" opt_space args:formal_args? opt_space body:line* opt_space ("}" | missing_bracket_function) <bfunction>
 
 formal_args = opt_space plain_formals opt_space "|" !"|"
             | opt_space default_args opt_space "|" !"|"
@@ -177,6 +177,8 @@ inner_arg_next = arg_next
 missing_end_quote = %Missing end quote mark for string%
 
 missing_end_slash = %Regular expression missing end `/`%
+
+missing_bracket_function = %Missing end bracket for function definition%
 
 #-- Spaces
 
