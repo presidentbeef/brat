@@ -47,7 +47,7 @@ brat2lua.compile_file = { file_name |
 
   true? out
     { file.open "#{file_name}.lua", :w, { f | f.write out } }
-    { p "Syntax error in #{file_name}.brat" }
+    { throw "Syntax error in #{file_name}.brat" }
 }
 
 brat2lua.start_interactive = {
