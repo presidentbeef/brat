@@ -13,18 +13,30 @@ interactive.init = {
 
 interactive.prototype.run = { str |
   parsed = brat_parser.parse(str, "program", true)
-  my.assigner.ast = parsed.ast
-  my.c.ast = assigner.assign
-  my.c.interactive
+
+  false? parsed
+    { :"" }
+    {
+      my.assigner.ast = parsed.ast
+      my.c.ast = assigner.assign
+      my.c.interactive
+    }
 }
 
 brat2lua = object.new
 brat2lua.compile_string = { str |
   load_compiler
   parsed = brat_parser.parse(str, "program", true)
-  ast = parsed.ast
-  ast = var_assigner.new(ast).assign
-  compiler.new(ast).compile
+
+  false? parsed
+    {
+      false
+    }
+    {
+      ast = parsed.ast
+      ast = var_assigner.new(ast).assign
+      compiler.new(ast).compile
+    }
 }
 
 brat2lua.compile_file = { file_name |
@@ -32,7 +44,10 @@ brat2lua.compile_file = { file_name |
   include 'file'
   src = file.read "#{file_name}.brat"
   out = brat2lua.compile_string src
-  file.open "#{file_name}.lua", :w, { f | f.write out }
+
+  true? out
+    { file.open "#{file_name}.lua", :w, { f | f.write out } }
+    { throw "Syntax error in #{file_name}.brat" }
 }
 
 brat2lua.start_interactive = {
@@ -42,8 +57,15 @@ brat2lua.start_interactive = {
 brat2lua.ast_from_string = { str |
   load_compiler
   parsed = brat_parser.parse(str, "program", true)
-  ast = parsed.ast
-  ast = var_assigner.new(ast).assign
+
+  false? parsed
+    {
+      throw "Failed to parse."
+    }
+    {
+      ast = parsed.ast
+      ast = var_assigner.new(ast).assign
+    }
 }
 
 export brat2lua, :brat2lua

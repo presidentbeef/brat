@@ -53,14 +53,14 @@ hash_argument = key:((identifier | operator) (identifier | operator | number)*) 
 regex   = "/" body:("\\/" | !"/" . )* "/" opts:/[mix]*/ <bregex>
 
 string  = ("''" | "\"\"") <empty_string>
-        | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | "\\\\" | !"\"" .)* "\"" <string_interp>
-        | "'" svalue:("\\'" | "\\\\" | !"'" .)+ "'" <simple_string>
+        | "\"" values:(/[^#"\\]+/ | string_interpolation | "\\\"" | "\\\\" | !"\"" .)* ("\"" | missing_end_quote) <string_interp>
+        | "'" svalue:("\\'" | "\\\\" | !"'" .)+ ("'" | missing_end_quote) <simple_string>
         | symbol
 
 symbol = ":" svalue:(identifier | operator | number)+ <simple_symbol>
        | (":''" | ":\"\"") <empty_symbol>
-       | ":'" svalue:("\\'" | "\\\\" | !"'" .)+ "'" <simple_symbol>
-       | ":\"" svalue:("\\\"" | "\\\\" | !"\"" .)+ "\"" <double_symbol>
+       | ":'" svalue:("\\'" | "\\\\" | !"'" .)+ ("'" | missing_end_quote) <simple_symbol>
+       | ":\"" svalue:("\\\"" | "\\\\" | !"\"" .)+ ("\"" | missing_end_quote) <double_symbol>
 
 string_interpolation = "#" "{" opt_space first:expression? opt_space rest:(eol opt_space expression space?)* spaceorbreak "}" <interp_value>
 
@@ -71,7 +71,7 @@ comment = block_comment
 
 #-- Function definitions
 
-function_definition = "{" opt_space args:formal_args? opt_space body:line* opt_space "}" <bfunction>
+function_definition = "{" opt_space args:formal_args? opt_space body:line* opt_space ("}" | missing_bracket_function) <bfunction>
 
 formal_args = opt_space plain_formals opt_space "|" !"|"
             | opt_space default_args opt_space "|" !"|"
@@ -144,13 +144,13 @@ method_target_expression = array | hash | paren_exp | number | string | regex | 
 
 #-- Argument lists
 
-arg_list = "(" opt_space inner_arg_list opt_space ")"
-         | "(" opt_space ")"
+arg_list = "(" opt_space inner_arg_list opt_space  (")" | missing_end_parenthesis)
+         | "(" opt_space (")" | missing_end_parenthesis)
          | space inner_arg_list
          | !"(" &(space?)
 
-simple_arg_list = "(" opt_space inner_arg_list opt_space ")"
-                | "(" opt_space ")"
+simple_arg_list = "(" opt_space inner_arg_list opt_space (")" | missing_end_parenthesis)
+                | "(" opt_space (")" | missing_end_parenthesis)
 
 inner_arg_list = arg_first arg_next* <inner_arg_list>
 
@@ -171,6 +171,16 @@ index_inner_arg_list = arg_first inner_arg_next* <inner_arg_list>
 
 inner_arg_next = arg_next
                | arg_space+ arg_first
+
+#-- Errors
+
+missing_end_quote = %Missing end quote mark for string%
+
+missing_end_slash = %Regular expression missing end `/`%
+
+missing_bracket_function = %Missing end bracket for function definition%
+
+missing_end_parenthesis = %Missing closing parenthesis for function arguments%
 
 #-- Spaces
 

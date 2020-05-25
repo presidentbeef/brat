@@ -103,14 +103,22 @@ peg.prototype.parse = { str, start_rule = null, fully = false |
 
   null? { ->rule } { throw "No such rule: #{start_rule}" }
 
-  result = rule s
+   protect {
+    result = rule s
 
-  true? result
-    { result.matched_all? = s.pos == str.length }
+    true? result
+      { result.matched_all? = s.pos == str.length }
 
-  true? { result && { fully } }
-    { true? result.matched_all?, { result }, {p "Failed at #{s.pos}";false}  }
-    { result }
+    true? { result && { fully } }
+      { true? result.matched_all?, { result }, {p "Failed at #{s.pos}"; false}  }
+      { result }
+
+    }
+    from: "parse error"
+    rescue: { err |
+      p err
+      false
+    }
 }
 
 seq_matcher = { x, rules |
@@ -395,7 +403,7 @@ action_matcher = { x, rule, block |
 }
 
 peg.prototype.parse_error = { msg |
-  { x | throw "\rBrat parser:\n\tA syntax error was encountered while parsing the code.\n\t#{msg} near position #{x.pos}." }
+  { x | throw exception.new("\rBrat parser:\n\tA syntax error was encountered while parsing the code.\n\t#{msg} near position #{x.pos}.", 'parse error') }
 }
 
 #Execute action upon match
