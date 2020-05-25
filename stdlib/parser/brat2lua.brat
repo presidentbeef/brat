@@ -30,7 +30,7 @@ brat2lua.compile_string = { str |
 
   false? parsed
     {
-      p "Failed to parse."
+      false
     }
     {
       ast = parsed.ast
