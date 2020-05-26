@@ -4904,6 +4904,33 @@ function string_instance:find_underfirst (str)
 end
 
 -- Object: string instance
+-- Call: string.find_all substring
+-- Returns: array
+--
+-- Returns an array of indexes for each match of the given substring
+-- inside the original string.
+--
+-- If no matches are found, returns an empty array.
+function string_instance:find_underall (str)
+  local search_string = str._lua_string
+  local current_index = 1
+  local finds = {}
+
+  while true do
+    local s_index, e_index = self._lua_string:find(search_string, current_index, true)
+
+    if s_index then
+      table.insert(finds, s_index - 1)
+      current_index = e_index + 1
+    else
+      break
+    end
+  end
+
+  return array:new(finds)
+end
+
+-- Object: string instance
 -- Call: string.get index
 -- Call: string.get start, end
 -- Returns: string
