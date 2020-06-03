@@ -150,7 +150,7 @@ peg.find_line = { pos, new_lines |
   unmatched = true
 
   true? { right == -1 }
-    { current = 1; unmatched = false }
+    { current = 0; unmatched = false }
 
   true? { unmatched && { pos > new_lines[right] }}
     { current = right + 1; unmatched = false }
@@ -177,7 +177,7 @@ peg.find_pos_info = { pos, new_lines |
     { pos_info.line_start = 0 }
 
   true? pos_info.line < new_lines.length
-    { pos_info.line_end = new_lines[pos_info.line] }
+    { pos_info.line_end = new_lines[pos_info.line - 1] }
     { pos_info.line_end = pos + 10 }
 
   pos_info.pos = pos
@@ -471,8 +471,11 @@ peg.prototype.parse_error = { msg |
   { x |
     pos_info = peg.find_pos_info(x.pos, x.new_lines)
 
-    snippet = x.str[pos_info.line_start + 1, pos_info.line_end].chomp
-    message = "\rBrat parser:\n\tA syntax error was encountered while parsing the code.\n\t#{msg} near character #{pos_info.line_pos} on line #{pos_info.line}:\n\n\t#{snippet}\n\t#{'-' * (pos_info.line_pos - 1)}^"
+    snippet = true? pos_info.line == 1
+              { x.str[0, pos_info.line_end].chomp }
+              { x.str[pos_info.line_start + 1, pos_info.line_end].chomp }
+
+    message = "\rBrat parser:\n\tA syntax error was encountered while parsing the code.\n\t#{msg} on line #{pos_info.line}:\n\n\t#{snippet}\n\t\27[33m#{'-' * (pos_info.line_pos - 1)}^\27[0m"
 
     throw exception.new(message, :'parse error')
   }
