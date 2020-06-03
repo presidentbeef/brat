@@ -99,26 +99,91 @@ peg.prototype.parse = { str, start_rule = null, fully = false |
   my.memo.each { v | v.clear }
 
   s = scanner.new str
+
   rule = my.named_rules[start_rule]
 
   null? { ->rule } { throw "No such rule: #{start_rule}" }
 
-   protect {
+  new_lines = str.find_all("\n")
+  s.new_lines = new_lines
+
+  protect {
     result = rule s
 
     true? result
-      { result.matched_all? = s.pos == str.length }
+      {
+        result.matched_all? = s.pos == str.length
+        assign_lines result, new_lines
+      }
+      {
+        x = parse_error("Failed to parse")
+        x(s)
+      }
 
     true? { result && { fully } }
-      { true? result.matched_all?, { result }, {p "Failed at #{s.pos}"; false}  }
+      { true? result.matched_all?, { result }, { x = parse_error("Failed to parse");x(s) }}
       { result }
-
     }
     from: "parse error"
     rescue: { err |
       p err
       false
     }
+}
+
+peg.assign_lines = { result, new_lines |
+  true? result.has_method?(:elements)
+  {
+      result.start_line = peg.find_line(result.start_pos, new_lines)
+      result.end_line = peg.find_line(result.end_pos, new_lines)
+
+      result.elements.each { r | peg.assign_lines(r, new_lines) }
+  }
+}
+
+peg.find_line = { pos, new_lines |
+  # This is basically wikipedia binary search
+  # Except we don't care about getting an exact match
+  left = 0
+  right = new_lines.length - 1
+  current = 0
+  unmatched = true
+
+  true? { right == -1 }
+    { current = 0; unmatched = false }
+
+  true? { unmatched && { pos > new_lines[right] }}
+    { current = right + 1; unmatched = false }
+
+  while { unmatched && { left <= right }}
+    {
+      current = ((left + right) / 2).to_i
+
+      when { new_lines[current] < pos } { left = current + 1 }
+           { new_lines[current] > pos } { right = current - 1 }
+           { true } { unmatched = false } # end it!
+    }
+
+  current + 1
+}
+
+peg.find_pos_info = { pos, new_lines |
+  pos_info = object.new
+
+  pos_info.line = find_line(pos, new_lines)
+
+  true? pos_info.line > 1
+    { pos_info.line_start = new_lines[pos_info.line - 2] }
+    { pos_info.line_start = 0 }
+
+  true? pos_info.line < new_lines.length
+    { pos_info.line_end = new_lines[pos_info.line - 1] }
+    { pos_info.line_end = pos + 10 }
+
+  pos_info.pos = pos
+  pos_info.line_pos = pos - pos_info.line_start
+
+  pos_info
 }
 
 seq_matcher = { x, rules |
@@ -403,7 +468,17 @@ action_matcher = { x, rule, block |
 }
 
 peg.prototype.parse_error = { msg |
-  { x | throw exception.new("\rBrat parser:\n\tA syntax error was encountered while parsing the code.\n\t#{msg} near position #{x.pos}.", 'parse error') }
+  { x |
+    pos_info = peg.find_pos_info(x.pos, x.new_lines)
+
+    snippet = true? pos_info.line == 1
+              { x.str[0, pos_info.line_end].chomp }
+              { x.str[pos_info.line_start + 1, pos_info.line_end].chomp }
+
+    message = "\rBrat parser:\n\tA syntax error was encountered while parsing the code.\n\t#{msg} on line #{pos_info.line}:\n\n\t#{snippet}\n\t\27[33m#{'-' * (pos_info.line_pos - 1)}^\27[0m"
+
+    throw exception.new(message, :'parse error')
+  }
 }
 
 #Execute action upon match
