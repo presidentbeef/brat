@@ -14,7 +14,7 @@ then
 elif [ "$SYSTEM" = "Darwin" ]
 then
   SYSTEM="osx"
-  export MACOSX_DEPLOYMENT_TARGET="10.3"
+  export MACOSX_DEPLOYMENT_TARGET="10.7"
 else
   echo Unsupported system: $SYSTEM
   exit -1
@@ -39,7 +39,6 @@ rm -rf $BRATPATH/bin/lua
 
 #Build Lua
 cd $COMMON/$LUA
-export MACOSX_DEPLOYMENT_TARGET=10.6
 export DEFAULT_CC=clang
 
 git submodule init
