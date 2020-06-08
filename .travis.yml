@@ -5,5 +5,9 @@ os:
   - osx
 osx_image:
   xcode11.3
+addons:
+  homebrew:
+    packages:
+    - gcc
 script:
   - ./build.sh
