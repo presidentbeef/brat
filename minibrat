@@ -10,7 +10,7 @@ else
 	path=$base
 fi ;
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$path/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$path/lib:$path/bin/lua/lib/
 export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$path/lib
 export PATH=$path/bin/lua/bin:$PATH
 
