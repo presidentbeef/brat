@@ -11,9 +11,8 @@ fi ;
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$path/lib
 export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$path/lib
 export PATH=$path/bin/lua/bin:$PATH
-export LUA_INC_PATH=`pwd`/bin/lua/include/luajit-2.1
+export LUA_INC_PATH=`pwd`/bin/lua/include/moonjit-2.3/
 export LUA_LIB_PATH=`pwd`/bin/lua/lib/
-
 
 rm -rf tmp
 mkdir tmp

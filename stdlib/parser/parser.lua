@@ -3833,7 +3833,7 @@ end
 
 local _temp1
 
-local _temp2 = string:new('stdlib/parser/ast')
+local _temp2 = string:new('parser/ast')
 
 
   if includes then
