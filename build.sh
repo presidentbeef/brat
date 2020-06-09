@@ -51,6 +51,9 @@ make install PREFIX=$BRATPATH/bin/lua
 
 mv -f $BRATPATH/bin/lua/bin/luajit $BRATPATH/bin/lua/bin/lua
 
+#Dev versions of moonjit get this wrong
+ln -s $BRATPATH/bin/lua/share/moonjit-2.3.0-dev/ $BRATPATH/bin/lua/share/moonjit-2.2.0
+
 echo Building Oniguruma
 cd $COMMON/$ONIG
 ./configure && make
