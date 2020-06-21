@@ -227,6 +227,10 @@ object._is_an_object = true
 
 object._is_callable = is_callable
 
+function object:_lua_value()
+  return self
+end
+
 -- Object: object instance
 -- Call: object.parent
 --
@@ -1737,6 +1741,10 @@ number_instance:squish(comparable)
 number = object:new()
 number._prototype = number_instance
 
+function number_instance:_lua_value()
+  return self._lua_number
+end
+
 -- Object: number
 -- Call: number.new num
 -- Returns: number
@@ -2355,6 +2363,10 @@ array_instance:squish(enumerable)
 
 array = object:new()
 array._prototype = array_instance
+
+function array_instance:_lua_value()
+  return self._lua_array
+end
 
 -- Object: array
 -- Call: array.new items
@@ -3897,6 +3909,10 @@ local hash_instance = object:new()
 hash = object:new()
 hash._prototype = hash_instance
 
+function hash_instance:_lua_value()
+  return self._lua_hash
+end
+
 -- Object: hash
 -- Call: hash.new
 -- Returns: hash
@@ -4321,6 +4337,10 @@ string_instance:squish(enumerable)
 base_string = object:new()
 
 base_string._prototype = string_instance
+
+function string_instance:_lua_value()
+  return self._lua_string
+end
 
 -- Object: string
 -- Call: string.new

@@ -1,4 +1,7 @@
 local file_instance = object:new()
+function file_instance:_lua_value()
+  return self._lua_io
+end
 
 local file = object:new()
 
