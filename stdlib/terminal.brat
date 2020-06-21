@@ -1,8 +1,15 @@
 include :subprocess
+include :cffi
+
+cffi.cdef "int isatty(int fd);"
 
 terminal = object.new
 
 terminal.print = object->print
+
+terminal.tty? = {
+  cffi[:isatty, 1] == 1
+}
 
 terminal.height = {
   subprocess.run("tput lines").to_i
