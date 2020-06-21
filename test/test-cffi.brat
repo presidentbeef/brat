@@ -1,0 +1,12 @@
+include :assert
+
+add_results setup name: "cffi tests" {
+  test "cffi basics" {
+    include :cffi
+
+    cffi.cdef("int abs(int number);")
+    result = cffi[:abs, -1]
+
+    assert_equal 1, result
+  }
+}
