@@ -113,17 +113,6 @@ then
   mv -f liblinenoise.dylib $LIB/
 fi
 
-if [ "$SYSTEM" = "linux" ]
-then
-  echo Building Turbo
-  cd $COMMON/turbo
-  make
-  cp -f libtffi_wrap.so $LIB
-  mkdir -p $STDLIB/turbo
-  cp -f turbo.lua $STDLIB/turbo/
-  cp -rf turbo/ $STDLIB/turbo/
-fi
-
 echo Building lpty
 cd $SRC/$LPTY
 make
@@ -137,9 +126,6 @@ make clean
 cd $COMMON/$ONIG
 make clean
 rm -rf $SRC/$ONIG/.deps
-
-cd $COMMON/turbo
-make clean
 
 cd $COMMON/$LREX
 make clean
