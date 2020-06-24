@@ -9,7 +9,7 @@ object.add_results = { r |
 }
 
 [:array :ast :base64 :core :enumerable :examples :file :function :hash :json :misc
-:mustache :number :object :parser :peg :regex :seq :stdlib :string :var-assigner].shuffle!.each { name |
+:number :object :parser :peg :regex :seq :stdlib :string :var-assigner].shuffle!.each { name |
 
   #Force recompilation
   true? file.exists?("test/test-#{name}.lua")
