@@ -4,6 +4,7 @@
 *#
 
 include 'scanner'
+include 'terminal'
 
 result_match = object.new
 result_match.prototype.to_s = {
@@ -475,7 +476,11 @@ peg.prototype.parse_error = { msg |
               { x.str[0, pos_info.line_end].chomp }
               { x.str[pos_info.line_start + 1, pos_info.line_end].chomp }
 
-    message = "\rBrat parser:\n\tA syntax error was encountered while parsing the code.\n\t#{msg} on line #{pos_info.line}:\n\n\t#{snippet}\n\t\27[33m#{'-' * (pos_info.line_pos - 1)}^\27[0m"
+    line_highlight = true? terminal.tty?
+                       { "\27[33m#{'-' * (pos_info.line_pos - 1)}^\27[0m" }
+                       { "#{'-' * (pos_info.line_pos - 1)}^" }
+
+    message = "\rBrat parser:\n\tA syntax error was encountered while parsing the code.\n\t#{msg} on line #{pos_info.line}:\n\n\t#{snippet}\n\t#{line_highlight}"
 
     throw exception.new(message, :'parse error')
   }
