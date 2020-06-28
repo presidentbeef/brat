@@ -34,4 +34,3 @@ layout: default
 * [scanner](docs/scanner.html)
 * [set](docs/set.html)
 * [subprocess](docs/subprocess.html)
-* [zeromq](docs/zeromq.html)
