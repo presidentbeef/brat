@@ -32,13 +32,14 @@ Wat. Does. That. Even. Mean?
 
 Now check out the current syntax error message:
 
-    Brat parser:
-      A syntax error was encountered while parsing the code.
-      Missing closing parenthesis for function arguments on line 1:
+<pre>Brat parser:
+	A syntax error was encountered while parsing the code.
+	Missing closing parenthesis for function arguments on line 1:
 
-      some_call(
-      ---------^
-    lua: Syntax error in a.brat
+	some_call(
+	<font color="#DA85FF">---------^</font>
+lua: Syntax error in a.brat
+</pre>
 
 Wow! A specific error message! A file name! A line number! A code snippet! An arrow pointing at the relevant code! The words "Syntax error"!
 
